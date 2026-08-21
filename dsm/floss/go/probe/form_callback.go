@@ -70,6 +70,102 @@ func (compareanalysisFormCallback *CompareAnalysisFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(compareanalysis_.FromSystem), compareanalysisFormCallback.probe.stageOfInterest, formDiv)
 		case "ToSystem":
 			FormDivSelectFieldToField(&(compareanalysis_.ToSystem), compareanalysisFormCallback.probe.stageOfInterest, formDiv)
+		case "Alpha":
+			FormDivBasicFieldToField(&(compareanalysis_.Alpha), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(compareanalysis_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(compareanalysis_.IsExpanded), formDiv)
+		case "Library:RootCompareAnalysis":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](compareanalysisFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootCompareAnalysis slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](compareanalysisFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(compareanalysisFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure compareanalysis_ is in _library.RootCompareAnalysis
+					found := false
+					for _, _b := range _library.RootCompareAnalysis {
+						if _b == compareanalysis_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootCompareAnalysis = append(_library.RootCompareAnalysis, compareanalysis_)
+						compareanalysisFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootCompareAnalysis", &_library.RootCompareAnalysis)
+					}
+				} else {
+					// ensure compareanalysis_ is NOT in _library.RootCompareAnalysis
+					idx := slices.Index(_library.RootCompareAnalysis, compareanalysis_)
+					if idx != -1 {
+						_library.RootCompareAnalysis = slices.Delete(_library.RootCompareAnalysis, idx, idx+1)
+						compareanalysisFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootCompareAnalysis", &_library.RootCompareAnalysis)
+					}
+				}
+			}
+		case "Library:CompareAnalysisWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](compareanalysisFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their CompareAnalysisWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](compareanalysisFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(compareanalysisFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure compareanalysis_ is in _library.CompareAnalysisWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _library.CompareAnalysisWhoseNodeIsExpanded {
+						if _b == compareanalysis_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.CompareAnalysisWhoseNodeIsExpanded = append(_library.CompareAnalysisWhoseNodeIsExpanded, compareanalysis_)
+						compareanalysisFormCallback.probe.UpdateSliceOfPointersCallback(_library, "CompareAnalysisWhoseNodeIsExpanded", &_library.CompareAnalysisWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure compareanalysis_ is NOT in _library.CompareAnalysisWhoseNodeIsExpanded
+					idx := slices.Index(_library.CompareAnalysisWhoseNodeIsExpanded, compareanalysis_)
+					if idx != -1 {
+						_library.CompareAnalysisWhoseNodeIsExpanded = slices.Delete(_library.CompareAnalysisWhoseNodeIsExpanded, idx, idx+1)
+						compareanalysisFormCallback.probe.UpdateSliceOfPointersCallback(_library, "CompareAnalysisWhoseNodeIsExpanded", &_library.CompareAnalysisWhoseNodeIsExpanded)
+					}
+				}
+			}
 		}
 	}
 
@@ -1658,6 +1754,38 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			library_.RootEfforts = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootEfforts", &library_.RootEfforts)
 
+		case "RootCompareAnalysis":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CompareAnalysis](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.CompareAnalysis, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.CompareAnalysis)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.CompareAnalysis](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootCompareAnalysis = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootCompareAnalysis", &library_.RootCompareAnalysis)
+
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "IsSubLibrariesNodeExpanded":
@@ -1833,6 +1961,40 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 			library_.EffortsWhoseNodeIsExpanded = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "EffortsWhoseNodeIsExpanded", &library_.EffortsWhoseNodeIsExpanded)
+
+		case "IsCompareAnalysisNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsCompareAnalysisNodeExpanded), formDiv)
+		case "CompareAnalysisWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CompareAnalysis](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.CompareAnalysis, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.CompareAnalysis)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.CompareAnalysis](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.CompareAnalysisWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "CompareAnalysisWhoseNodeIsExpanded", &library_.CompareAnalysisWhoseNodeIsExpanded)
 
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)

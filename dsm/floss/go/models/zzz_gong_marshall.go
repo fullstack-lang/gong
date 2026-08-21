@@ -310,6 +310,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	complexityOrdered := []*Complexity{}
@@ -516,6 +519,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootCompareAnalysis"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
@@ -529,6 +533,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "PerformancesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsCompareAnalysisNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "CompareAnalysisWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 
@@ -822,6 +828,21 @@ func (compareanalysis *CompareAnalysis) GongMarshallField(stage *Stage, fieldNam
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(compareanalysis.Name))
+	case "Alpha":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Alpha")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Alpha))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(compareanalysis.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", compareanalysis.IsExpanded))
 
 	case "FromSystem":
 		if compareanalysis.FromSystem != nil {
@@ -1259,6 +1280,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEffortsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsEffortsNodeExpanded))
+	case "IsCompareAnalysisNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsCompareAnalysisNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsCompareAnalysisNodeExpanded))
 	case "IsExpandedTmp":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -1315,6 +1341,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "RootCompareAnalysis":
+		var sb strings.Builder
+		for _, _compareanalysis := range library.RootCompareAnalysis {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootCompareAnalysis")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _compareanalysis.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "SubLibrariesWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
@@ -1362,6 +1398,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "EffortsWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _effort.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "CompareAnalysisWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _compareanalysis := range library.CompareAnalysisWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "CompareAnalysisWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _compareanalysis.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1676,6 +1722,9 @@ func (compareanalysis *CompareAnalysis) GongMarshallAllFields(stage *Stage) (ini
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "IsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1792,6 +1841,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootCompareAnalysis"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
@@ -1805,6 +1855,8 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "PerformancesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsCompareAnalysisNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "CompareAnalysisWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 	initRes = initializerStatements.String()

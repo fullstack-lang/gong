@@ -25,6 +25,9 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__CompareAnalysis__00000000_ := (&models.CompareAnalysis{Name: `SysML V1 to V2`}).Stage(stage)
+	__CompareAnalysis__00000001_ := (&models.CompareAnalysis{Name: `SysML V1 to Go SysML`}).Stage(stage)
+
 	__Complexity__00000000_ := (&models.Complexity{Name: `Learning KerML`}).Stage(stage)
 	__Complexity__00000001_ := (&models.Complexity{Name: `Learning SysML V2`}).Stage(stage)
 	__Complexity__00000002_ := (&models.Complexity{Name: `Learning SysML (Partical Guide)`}).Stage(stage)
@@ -87,6 +90,16 @@ func _(stage *models.Stage) {
 	__SystemShape__00000002_ := (&models.SystemShape{Name: `SystemShape`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__CompareAnalysis__00000000_.Name = `SysML V1 to V2`
+	__CompareAnalysis__00000000_.Alpha = 0.000000
+	__CompareAnalysis__00000000_.ComputedPrefix = ``
+	__CompareAnalysis__00000000_.IsExpanded = false
+
+	__CompareAnalysis__00000001_.Name = `SysML V1 to Go SysML`
+	__CompareAnalysis__00000001_.Alpha = 0.000000
+	__CompareAnalysis__00000001_.ComputedPrefix = ``
+	__CompareAnalysis__00000001_.IsExpanded = false
 
 	__Complexity__00000000_.Name = `Learning KerML`
 	__Complexity__00000000_.Strength = 0.000000
@@ -328,6 +341,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsComplexitysNodeExpanded = false
 	__Library__00000000_.IsPerformancesNodeExpanded = false
 	__Library__00000000_.IsEffortsNodeExpanded = false
+	__Library__00000000_.IsCompareAnalysisNodeExpanded = true
 	__Library__00000000_.IsExpandedTmp = true
 
 	__Performance__00000000_.Name = `Parametric Models`
@@ -485,6 +499,10 @@ func _(stage *models.Stage) {
 	__SystemShape__00000002_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__CompareAnalysis__00000000_.FromSystem = __System__00000000_
+	__CompareAnalysis__00000000_.ToSystem = __System__00000001_
+	__CompareAnalysis__00000001_.FromSystem = __System__00000000_
+	__CompareAnalysis__00000001_.ToSystem = __System__00000002_
 	__ComplexityShape__00000000_.Complexity = __Complexity__00000000_
 	__ComplexityShape__00000001_.Complexity = __Complexity__00000000_
 	__ComplexityShape__00000003_.Complexity = __Complexity__00000001_
@@ -547,8 +565,8 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000003_)
 	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000004_)
 	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000005_)
-	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
-	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000001_)
+	__Library__00000000_.RootCompareAnalysis = append(__Library__00000000_.RootCompareAnalysis, __CompareAnalysis__00000000_)
+	__Library__00000000_.RootCompareAnalysis = append(__Library__00000000_.RootCompareAnalysis, __CompareAnalysis__00000001_)
 	__PerformanceShape__00000000_.Performance = __Performance__00000000_
 	__PerformanceShape__00000001_.Performance = __Performance__00000001_
 	__PerformanceShape__00000002_.Performance = __Performance__00000003_

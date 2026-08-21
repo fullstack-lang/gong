@@ -13,11 +13,20 @@ type CompareAnalysis_WOP struct {
 	// insertion point
 
 	Name string
+
+	Alpha float64
+
+	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *CompareAnalysis) CopyBasicFields(to *CompareAnalysis) {
 	// insertion point
 	to.Name = from.Name
+	to.Alpha = from.Alpha
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 type Complexity_WOP struct {
@@ -198,6 +207,8 @@ type Library_WOP struct {
 
 	IsEffortsNodeExpanded bool
 
+	IsCompareAnalysisNodeExpanded bool
+
 	IsExpandedTmp bool
 }
 
@@ -215,6 +226,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
 	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
 	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
+	to.IsCompareAnalysisNodeExpanded = from.IsCompareAnalysisNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
 

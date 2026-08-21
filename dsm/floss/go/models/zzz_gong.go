@@ -257,6 +257,8 @@ type Stage struct {
 
 	Library_RootEfforts_reverseMap map[*Effort]*Library
 
+	Library_RootCompareAnalysis_reverseMap map[*CompareAnalysis]*Library
+
 	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
 
 	Library_SystemsWhoseNodeIsExpanded_reverseMap map[*System]*Library
@@ -266,6 +268,8 @@ type Stage struct {
 	Library_PerformancesWhoseNodeIsExpanded_reverseMap map[*Performance]*Library
 
 	Library_EffortsWhoseNodeIsExpanded_reverseMap map[*Effort]*Library
+
+	Library_CompareAnalysisWhoseNodeIsExpanded_reverseMap map[*CompareAnalysis]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -2962,6 +2966,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootPerformances: []*Performance{{Name: "RootPerformances"}},
 			// field is initialized with an instance of Effort with the name of the field
 			RootEfforts: []*Effort{{Name: "RootEfforts"}},
+			// field is initialized with an instance of CompareAnalysis with the name of the field
+			RootCompareAnalysis: []*CompareAnalysis{{Name: "RootCompareAnalysis"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of System with the name of the field
@@ -2972,6 +2978,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Effort with the name of the field
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of CompareAnalysis with the name of the field
+			CompareAnalysisWhoseNodeIsExpanded: []*CompareAnalysis{{Name: "CompareAnalysisWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Performance:
 		return any(&Performance{
@@ -3338,6 +3346,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootCompareAnalysis":
+			res := make(map[*CompareAnalysis][]*Library)
+			for library := range stage.Librarys {
+				for _, compareanalysis_ := range library.RootCompareAnalysis {
+					res[compareanalysis_] = append(res[compareanalysis_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "SubLibrariesWhoseNodeIsExpanded":
 			res := make(map[*Library][]*Library)
 			for library := range stage.Librarys {
@@ -3375,6 +3391,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for library := range stage.Librarys {
 				for _, effort_ := range library.EffortsWhoseNodeIsExpanded {
 					res[effort_] = append(res[effort_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "CompareAnalysisWhoseNodeIsExpanded":
+			res := make(map[*CompareAnalysis][]*Library)
+			for library := range stage.Librarys {
+				for _, compareanalysis_ := range library.CompareAnalysisWhoseNodeIsExpanded {
+					res[compareanalysis_] = append(res[compareanalysis_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3524,6 +3548,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *CompareAnalysis:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootCompareAnalysis"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "CompareAnalysisWhoseNodeIsExpanded"
+		res = append(res, rf)
 	case *Complexity:
 		var rf ReverseField
 		_ = rf
@@ -3656,6 +3686,18 @@ func (compareanalysis *CompareAnalysis) GongGetFieldHeaders() (res []GongFieldHe
 			Name:                 "ToSystem",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "System",
+		},
+		{
+			Name:               "Alpha",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -3939,6 +3981,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Effort",
 		},
 		{
+			Name:                 "RootCompareAnalysis",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "CompareAnalysis",
+		},
+		{
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3994,6 +4041,15 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "EffortsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Effort",
+		},
+		{
+			Name:               "IsCompareAnalysisNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "CompareAnalysisWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "CompareAnalysis",
 		},
 		{
 			Name:               "IsExpandedTmp",
@@ -4270,6 +4326,16 @@ func (compareanalysis *CompareAnalysis) GongGetFieldValue(fieldName string, stag
 			res.valueString = compareanalysis.ToSystem.Name
 			res.ids = compareanalysis.ToSystem.GongGetUUID(stage)
 		}
+	case "Alpha":
+		res.valueString = fmt.Sprintf("%f", compareanalysis.Alpha)
+		res.valueFloat = compareanalysis.Alpha
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ComputedPrefix":
+		res.valueString = compareanalysis.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", compareanalysis.IsExpanded)
+		res.valueBool = compareanalysis.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4594,6 +4660,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RootCompareAnalysis":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootCompareAnalysis {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -4667,6 +4743,20 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "EffortsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.EffortsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsCompareAnalysisNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsCompareAnalysisNodeExpanded)
+		res.valueBool = library.IsCompareAnalysisNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "CompareAnalysisWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.CompareAnalysisWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4941,6 +5031,12 @@ func (compareanalysis *CompareAnalysis) GongSetFieldValue(fieldName string, valu
 				}
 			}
 		}
+	case "Alpha":
+		compareanalysis.Alpha = value.GetValueFloat()
+	case "ComputedPrefix":
+		compareanalysis.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		compareanalysis.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5281,6 +5377,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootCompareAnalysis":
+		library.RootCompareAnalysis = make([]*CompareAnalysis, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.CompareAnalysiss {
+					if stage.CompareAnalysis_stagedOrder[__instance__] == uint(id) {
+						library.RootCompareAnalysis = append(library.RootCompareAnalysis, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "IsSubLibrariesNodeExpanded":
@@ -5362,6 +5472,22 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Efforts {
 					if stage.Effort_stagedOrder[__instance__] == uint(id) {
 						library.EffortsWhoseNodeIsExpanded = append(library.EffortsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsCompareAnalysisNodeExpanded":
+		library.IsCompareAnalysisNodeExpanded = value.GetValueBool()
+	case "CompareAnalysisWhoseNodeIsExpanded":
+		library.CompareAnalysisWhoseNodeIsExpanded = make([]*CompareAnalysis, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.CompareAnalysiss {
+					if stage.CompareAnalysis_stagedOrder[__instance__] == uint(id) {
+						library.CompareAnalysisWhoseNodeIsExpanded = append(library.CompareAnalysisWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}

@@ -51,6 +51,36 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 
 	//
+	// CompareAnalysis
+	//
+	compareAnalysisNode := &tree.Node{
+		Name:            "Compare Analyses",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsCompareAnalysisNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, compareAnalysisNode)
+	compareAnalysisNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsCompareAnalysisNodeExpanded)
+	compareAnalysisNode.OnClick = onNodeClicked(stager, library)
+
+	confCompareAnalysis := ItemButtonConfiguration[
+		CompareAnalysis, *CompareAnalysis,
+		Library, *Library,
+	]{
+		parentNode:                         compareAnalysisNode,
+		sliceForNewAddedItem:               &library.RootCompareAnalysis,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsCompareAnalysisNodeExpanded,
+	}
+	addCreateItemButton(stager, confCompareAnalysis)
+
+	for _, compareAnalysis := range library.RootCompareAnalysis {
+		stager.treeCompareAnalysisWithinLibrary(library, compareAnalysis, compareAnalysisNode)
+	}
+
+
+	//
 	// SubLibraries
 	//
 	subLibrariesNode := &tree.Node{

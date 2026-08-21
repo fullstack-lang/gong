@@ -131,6 +131,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_RootEfforts_reverseMap[_effort] = library
 		}
 	}
+	stage.Library_RootCompareAnalysis_reverseMap = make(map[*CompareAnalysis]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _compareanalysis := range library.RootCompareAnalysis {
+			stage.Library_RootCompareAnalysis_reverseMap[_compareanalysis] = library
+		}
+	}
 	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -164,6 +171,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _effort := range library.EffortsWhoseNodeIsExpanded {
 			stage.Library_EffortsWhoseNodeIsExpanded_reverseMap[_effort] = library
+		}
+	}
+	stage.Library_CompareAnalysisWhoseNodeIsExpanded_reverseMap = make(map[*CompareAnalysis]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _compareanalysis := range library.CompareAnalysisWhoseNodeIsExpanded {
+			stage.Library_CompareAnalysisWhoseNodeIsExpanded_reverseMap[_compareanalysis] = library
 		}
 	}
 
