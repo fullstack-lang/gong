@@ -52,7 +52,7 @@
         {
             "label": "gong generate --dsm go/models in all dsm projects but project",
             "type": "shell",
-            "command": "for p in barrgraph capture phylla process scenario statemachines structure; do cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
+            "command": "for p in barrgraph capture floss phylla process scenario statemachines structure; do cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
             "windows": {
                 "options": {
                     "shell": {
@@ -189,6 +189,44 @@
                 ".",
                 "edit"
             ],
+            "group": "build"
+        },
+        {
+            "label": "dsm - floss: gong generate --dsm",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/dsm/floss/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--dsm"
+            ]
+        },
+        {
+            "label": "dsm - floss: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/floss/go/cmd/floss"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "dsm - floss: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/dsm/floss"
+            },
+            "command": "gong portable go/cmd/floss",
             "group": "build"
         },
         {
