@@ -917,22 +917,22 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
+	case "Complexities":
+		GongUnmarshallSliceOfPointers(&instance.Complexities, valueExpr, identifierMap)
+	case "Performances":
+		GongUnmarshallSliceOfPointers(&instance.Performances, valueExpr, identifierMap)
+	case "Efforts":
+		GongUnmarshallSliceOfPointers(&instance.Efforts, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsComplexitysNodeExpanded":
 		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
-	case "Complexities":
-		GongUnmarshallSliceOfPointers(&instance.Complexities, valueExpr, identifierMap)
 	case "IsPerformancesNodeExpanded":
 		instance.IsPerformancesNodeExpanded = GongExtractBool(valueExpr)
-	case "Performances":
-		GongUnmarshallSliceOfPointers(&instance.Performances, valueExpr, identifierMap)
 	case "IsEffortsNodeExpanded":
 		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
-	case "Efforts":
-		GongUnmarshallSliceOfPointers(&instance.Efforts, valueExpr, identifierMap)
 	}
 	return nil
 }

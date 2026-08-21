@@ -6,17 +6,18 @@ type Note struct {
 	//gong:text width:300 height:300
 	Description string
 
+	Complexities []*Complexity
+	Performances []*Performance
+	Efforts      []*Effort
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
 	IsComplexitysNodeExpanded bool
-	Complexities              []*Complexity
 
 	IsPerformancesNodeExpanded bool
-	Performances               []*Performance
 
 	IsEffortsNodeExpanded bool
-	Efforts               []*Effort
 }
 
 var _ AbstractType = (*Note)(nil)

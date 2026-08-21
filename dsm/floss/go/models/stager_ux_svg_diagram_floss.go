@@ -35,6 +35,7 @@ func (stager *Stager) svg() {
 		svgObject := stager.generateSvgObjectFlossEquation(diagramFlossEquation)
 		svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
 		stager.svgObjectDiagramFloss = svgObject
+		stager.svgObjectDiagramFloss.OnUpdate = stager.onUpdateSVG
 	}
 
 	stager.systemDiagramSvgStage.Commit()
@@ -111,13 +112,14 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 
 
-		if systemShape.System != nil {
+		root := stager.getRootLibrary()
+		nbPixPerChar := root.NbPixPerCharacter
+		if nbPixPerChar <= 0 {
+			nbPixPerChar = 8.0
+		}
+
+		{
 			content := systemShape.System.Name
-			root := stager.getRootLibrary()
-			nbPixPerChar := root.NbPixPerCharacter
-			if nbPixPerChar <= 0 {
-				nbPixPerChar = 8.0
-			}
 			if diagramFloss.IsShowPrefix {
 				content = systemShape.System.ComputedPrefix + " " + content
 			}
@@ -126,6 +128,7 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 			}
 			title.Content = content
 		}
+
 
 		rect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
@@ -138,6 +141,7 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 
 func (stager *Stager) drawComplexityShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
 	diagramFloss.map_Complexity_Rect = make(map[*Complexity]*svg.Rect)
+	diagramFloss.map_SvgRect_ComplexityShape = make(map[*svg.Rect]*ComplexityShape)
 	for _, complexityShape := range diagramFloss.Complexity_Shapes {
 		if complexityShape.IsHidden {
 			continue
@@ -146,6 +150,7 @@ func (stager *Stager) drawComplexityShapes(diagramFloss *DiagramFloss, layer *sv
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagramFloss.map_Complexity_Rect[complexityShape.Complexity] = rect
+		diagramFloss.map_SvgRect_ComplexityShape[rect] = complexityShape
 
 		if diagramFloss.owningSystem != nil {
 			if systemRect, ok := diagramFloss.map_System_Rect[diagramFloss.owningSystem]; ok {
@@ -213,6 +218,7 @@ func (stager *Stager) drawComplexityShapes(diagramFloss *DiagramFloss, layer *sv
 
 func (stager *Stager) drawPerformanceShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
 	diagramFloss.map_Performance_Rect = make(map[*Performance]*svg.Rect)
+	diagramFloss.map_SvgRect_PerformanceShape = make(map[*svg.Rect]*PerformanceShape)
 	for _, performanceShape := range diagramFloss.Performance_Shapes {
 		if performanceShape.IsHidden {
 			continue
@@ -221,6 +227,7 @@ func (stager *Stager) drawPerformanceShapes(diagramFloss *DiagramFloss, layer *s
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagramFloss.map_Performance_Rect[performanceShape.Performance] = rect
+		diagramFloss.map_SvgRect_PerformanceShape[rect] = performanceShape
 
 		if diagramFloss.owningSystem != nil {
 			if systemRect, ok := diagramFloss.map_System_Rect[diagramFloss.owningSystem]; ok {
@@ -288,6 +295,7 @@ func (stager *Stager) drawPerformanceShapes(diagramFloss *DiagramFloss, layer *s
 
 func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
 	diagramFloss.map_Effort_Rect = make(map[*Effort]*svg.Rect)
+	diagramFloss.map_SvgRect_EffortShape = make(map[*svg.Rect]*EffortShape)
 	for _, effortShape := range diagramFloss.Effort_Shapes {
 		if effortShape.IsHidden {
 			continue
@@ -296,6 +304,7 @@ func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.La
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagramFloss.map_Effort_Rect[effortShape.Effort] = rect
+		diagramFloss.map_SvgRect_EffortShape[rect] = effortShape
 
 		if diagramFloss.owningSystem != nil {
 			if systemRect, ok := diagramFloss.map_System_Rect[diagramFloss.owningSystem]; ok {
@@ -363,6 +372,7 @@ func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.La
 
 func (stager *Stager) drawNoteShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
 	diagramFloss.map_Note_Rect = make(map[*Note]*svg.Rect)
+	diagramFloss.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	for _, noteShape := range diagramFloss.Note_Shapes {
 		if noteShape.IsHidden || noteShape.Note == nil {
 			continue
@@ -371,6 +381,8 @@ func (stager *Stager) drawNoteShapes(diagramFloss *DiagramFloss, layer *svg.Laye
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagramFloss.map_Note_Rect[noteShape.Note] = rect
+		diagramFloss.map_SvgRect_NoteShape[rect] = noteShape
+
 
 		rect.Name = noteShape.GetName()
 		rect.X = noteShape.GetX()
@@ -441,15 +453,53 @@ func (stager *Stager) drawNoteComplexityShapes(diagramFloss *DiagramFloss, layer
 		if startRect == nil || endRect == nil {
 			continue
 		}
+
+		startOrientation := shape.GetStartOrientation()
+		if startOrientation == "" {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
+		endOrientation := shape.GetEndOrientation()
+		if endOrientation == "" {
+			endOrientation = ORIENTATION_HORIZONTAL
+		}
+		startRatio := shape.GetStartRatio()
+		if startRatio == 0 {
+			startRatio = 0.5
+		}
+		endRatio := shape.GetEndRatio()
+		if endRatio == 0 {
+			endRatio = 0.5
+		}
+		cornerOffsetRatio := shape.GetCornerOffsetRatio()
+		if cornerOffsetRatio == 0 {
+			cornerOffsetRatio = 1.5
+		}
+
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
+		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
+		link.StartOrientation = svg.OrientationType(startOrientation)
+		link.StartRatio = startRatio
 		link.End = endRect
+		link.EndOrientation = svg.OrientationType(endOrientation)
+		link.EndRatio = endRatio
+		link.CornerOffsetRatio = cornerOffsetRatio
+		link.CornerRadius = 5
 		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
-		link.Stroke = "#FBC02D"
+		link.Stroke = "#FFA000"
 		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "4,4"
-		link.StrokeOpacity = 0.9
+		link.StrokeDashArray = "5 5"
+		link.StrokeOpacity = 1.0
+
+		link.OnChange = func(updatedLink *svg.Link) {
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+			stager.stage.Commit()
+		}
 	}
 }
 
@@ -463,15 +513,53 @@ func (stager *Stager) drawNotePerformanceShapes(diagramFloss *DiagramFloss, laye
 		if startRect == nil || endRect == nil {
 			continue
 		}
+
+		startOrientation := shape.GetStartOrientation()
+		if startOrientation == "" {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
+		endOrientation := shape.GetEndOrientation()
+		if endOrientation == "" {
+			endOrientation = ORIENTATION_HORIZONTAL
+		}
+		startRatio := shape.GetStartRatio()
+		if startRatio == 0 {
+			startRatio = 0.5
+		}
+		endRatio := shape.GetEndRatio()
+		if endRatio == 0 {
+			endRatio = 0.5
+		}
+		cornerOffsetRatio := shape.GetCornerOffsetRatio()
+		if cornerOffsetRatio == 0 {
+			cornerOffsetRatio = 1.5
+		}
+
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
+		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
+		link.StartOrientation = svg.OrientationType(startOrientation)
+		link.StartRatio = startRatio
 		link.End = endRect
+		link.EndOrientation = svg.OrientationType(endOrientation)
+		link.EndRatio = endRatio
+		link.CornerOffsetRatio = cornerOffsetRatio
+		link.CornerRadius = 5
 		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
 		link.Stroke = "#2E7D32"
 		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "4,4"
-		link.StrokeOpacity = 0.9
+		link.StrokeDashArray = "5 5"
+		link.StrokeOpacity = 1.0
+
+		link.OnChange = func(updatedLink *svg.Link) {
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+			stager.stage.Commit()
+		}
 	}
 }
 
@@ -485,15 +573,54 @@ func (stager *Stager) drawNoteEffortShapes(diagramFloss *DiagramFloss, layer *sv
 		if startRect == nil || endRect == nil {
 			continue
 		}
+
+		startOrientation := shape.GetStartOrientation()
+		if startOrientation == "" {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
+		endOrientation := shape.GetEndOrientation()
+		if endOrientation == "" {
+			endOrientation = ORIENTATION_HORIZONTAL
+		}
+		startRatio := shape.GetStartRatio()
+		if startRatio == 0 {
+			startRatio = 0.5
+		}
+		endRatio := shape.GetEndRatio()
+		if endRatio == 0 {
+			endRatio = 0.5
+		}
+		cornerOffsetRatio := shape.GetCornerOffsetRatio()
+		if cornerOffsetRatio == 0 {
+			cornerOffsetRatio = 1.5
+		}
+
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
+		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
+		link.StartOrientation = svg.OrientationType(startOrientation)
+		link.StartRatio = startRatio
 		link.End = endRect
+		link.EndOrientation = svg.OrientationType(endOrientation)
+		link.EndRatio = endRatio
+		link.CornerOffsetRatio = cornerOffsetRatio
+		link.CornerRadius = 5
 		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
 		link.Stroke = "#1976D2"
 		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "4,4"
-		link.StrokeOpacity = 0.9
+		link.StrokeDashArray = "5 5"
+		link.StrokeOpacity = 1.0
+
+		link.OnChange = func(updatedLink *svg.Link) {
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+			stager.stage.Commit()
+		}
 	}
 }
+
 

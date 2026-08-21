@@ -76,18 +76,18 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 			if alpha == 0 {
 				alpha = 1.0
 			}
-			beta := 0.0
-			if deltaE != 0 {
-				beta = (alpha*deltaP - deltaC) / deltaE
-			}
+			beta := compareAnalysis.Beta
+			_ = deltaE
+			_ = beta
 
-			maxVal = math.Max(math.Abs(alpha*deltaP), math.Abs(deltaC)+math.Abs(beta*deltaE))
+			maxVal = math.Max(math.Abs(alpha*deltaP), math.Abs(deltaC))
 		}
 
-		neededHeight := 180.0 + maxVal*scale + 120.0
+		neededHeight := 180.0 + maxVal*scale + 140.0
 		if neededHeight < 750.0 {
 			neededHeight = 750.0
 		}
+
 
 		neededWidth := 1050.0
 		updateDiagramSize(diagramEq.Note_Shapes, &neededWidth, &neededHeight)

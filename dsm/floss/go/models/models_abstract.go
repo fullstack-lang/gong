@@ -89,7 +89,8 @@ type CompareAnalysis struct {
 	ToSystem   *System
 
 	Alpha float64
-	Beta  *float64
+	Beta  float64
+
 
 	DiagramFlossEquations                  []*DiagramFlossEquation
 	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation

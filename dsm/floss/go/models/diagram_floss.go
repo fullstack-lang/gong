@@ -71,8 +71,14 @@ type DiagramFloss struct {
 	IsNotesNodeExpanded           bool
 	NotesWhoseNodeIsExpanded      []*Note
 
+	map_SvgRect_NoteShape        map[*svg.Rect]*NoteShape
+	map_SvgRect_ComplexityShape  map[*svg.Rect]*ComplexityShape
+	map_SvgRect_PerformanceShape map[*svg.Rect]*PerformanceShape
+	map_SvgRect_EffortShape      map[*svg.Rect]*EffortShape
+
 	owningSystem *System
 }
+
 
 
 

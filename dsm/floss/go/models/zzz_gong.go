@@ -5786,6 +5786,21 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "Complexities",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:                 "Performances",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:                 "Efforts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -5798,27 +5813,12 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Complexities",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Complexity",
-		},
-		{
 			Name:               "IsPerformancesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Performances",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Performance",
-		},
-		{
 			Name:               "IsEffortsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "Efforts",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Effort",
 		},
 	}
 	return
@@ -6918,16 +6918,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = note.Name
 	case "Description":
 		res.valueString = note.Description
-	case "ComputedPrefix":
-		res.valueString = note.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
-		res.valueBool = note.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsComplexitysNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", note.IsComplexitysNodeExpanded)
-		res.valueBool = note.IsComplexitysNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Complexities":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Complexities {
@@ -6938,10 +6928,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsPerformancesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", note.IsPerformancesNodeExpanded)
-		res.valueBool = note.IsPerformancesNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Performances":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Performances {
@@ -6952,10 +6938,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsEffortsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", note.IsEffortsNodeExpanded)
-		res.valueBool = note.IsEffortsNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Efforts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Efforts {
@@ -6966,6 +6948,24 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ComputedPrefix":
+		res.valueString = note.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
+		res.valueBool = note.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsComplexitysNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsComplexitysNodeExpanded)
+		res.valueBool = note.IsComplexitysNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPerformancesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsPerformancesNodeExpanded)
+		res.valueBool = note.IsPerformancesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsEffortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsEffortsNodeExpanded)
+		res.valueBool = note.IsEffortsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -8103,12 +8103,6 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.Name = value.GetValueString()
 	case "Description":
 		note.Description = value.GetValueString()
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "IsComplexitysNodeExpanded":
-		note.IsComplexitysNodeExpanded = value.GetValueBool()
 	case "Complexities":
 		note.Complexities = make([]*Complexity, 0)
 		ids := strings.Split(value.ids, ";")
@@ -8123,8 +8117,6 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
-	case "IsPerformancesNodeExpanded":
-		note.IsPerformancesNodeExpanded = value.GetValueBool()
 	case "Performances":
 		note.Performances = make([]*Performance, 0)
 		ids := strings.Split(value.ids, ";")
@@ -8139,8 +8131,6 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
-	case "IsEffortsNodeExpanded":
-		note.IsEffortsNodeExpanded = value.GetValueBool()
 	case "Efforts":
 		note.Efforts = make([]*Effort, 0)
 		ids := strings.Split(value.ids, ";")
@@ -8155,6 +8145,16 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "ComputedPrefix":
+		note.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		note.IsExpanded = value.GetValueBool()
+	case "IsComplexitysNodeExpanded":
+		note.IsComplexitysNodeExpanded = value.GetValueBool()
+	case "IsPerformancesNodeExpanded":
+		note.IsPerformancesNodeExpanded = value.GetValueBool()
+	case "IsEffortsNodeExpanded":
+		note.IsEffortsNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

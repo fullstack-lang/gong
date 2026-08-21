@@ -505,19 +505,19 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
+		AssociationSliceToForm("Complexities", instanceWithInferedType, &instanceWithInferedType.Complexities, formGroup, probe)
+		AssociationSliceToForm("Performances", instanceWithInferedType, &instanceWithInferedType.Performances, formGroup, probe)
+		AssociationSliceToForm("Efforts", instanceWithInferedType, &instanceWithInferedType.Efforts, formGroup, probe)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsComplexitysNodeExpanded", instanceWithInferedType.IsComplexitysNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Complexities", instanceWithInferedType, &instanceWithInferedType.Complexities, formGroup, probe)
 		BasicFieldtoForm("IsPerformancesNodeExpanded", instanceWithInferedType.IsPerformancesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Performances", instanceWithInferedType, &instanceWithInferedType.Performances, formGroup, probe)
 		BasicFieldtoForm("IsEffortsNodeExpanded", instanceWithInferedType.IsEffortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Efforts", instanceWithInferedType, &instanceWithInferedType.Efforts, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
