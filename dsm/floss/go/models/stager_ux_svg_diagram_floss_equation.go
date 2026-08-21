@@ -74,18 +74,19 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Rects = append(layer.Rects, infoRect)
 
-		infoText := &svg.Text{
-			Name:    "Info Text",
-			X:       150,
-			Y:       315,
-			Content: "Please select FromSystem and ToSystem in CompareAnalysis to render the FLOSS Equation diagram.",
-			Presentation: svg.Presentation{
-				Color:       "#424242",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, infoText)
+		infoTitle := new(svg.RectAnchoredText)
+		infoTitle.Name = "Info Text"
+		infoTitle.Content = "Please select FromSystem and ToSystem in CompareAnalysis to render the FLOSS Equation diagram."
+		infoTitle.FontSize = "14px"
+		infoTitle.FontWeight = "500"
+		infoTitle.Color = "#424242"
+		infoTitle.FillOpacity = 1.0
+		infoTitle.Stroke = "#424242"
+		infoTitle.StrokeWidth = 0
+		infoTitle.StrokeOpacity = 1.0
+		infoTitle.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		infoTitle.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		infoRect.RectAnchoredTexts = append(infoRect.RectAnchoredTexts, infoTitle)
 		return svgObject
 	}
 
@@ -121,7 +122,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	deltaE := eTo
 	_ = eFrom
 
-
 	beta := compareAnalysis.Beta
 
 	scale := diagram.Scale
@@ -148,7 +148,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		X:      40,
 		Y:      20,
 		Width:  980,
-		Height: 80,
+		Height: 90,
 		RX:     8,
 		Presentation: svg.Presentation{
 			Color:         "#FAFAFA",
@@ -160,32 +160,56 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Rects = append(layer.Rects, headerRect)
 
-	headerTitle := &svg.Text{
-		Name:    "Header Title",
-		X:       60,
-		Y:       50,
-		Content: fmt.Sprintf("FLOSS Equation: ΔC = α · ΔP - β · ΔE  ⟺  α · ΔP - β · ΔE = ΔC (%s → %s)", fromSys.Name, toSys.Name),
-		Presentation: svg.Presentation{
-			Color:       "#1A237E",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, headerTitle)
+	// Compare Analysis Title
+	headerTitle := new(svg.RectAnchoredText)
+	headerTitle.Name = "Compare Analysis Title"
+	headerTitle.Content = compareAnalysis.Name
+	headerTitle.FontSize = "17px"
+	headerTitle.FontWeight = "700"
+	headerTitle.Color = "#0D47A1"
+	headerTitle.FillOpacity = 1.0
+	headerTitle.Stroke = "#0D47A1"
+	headerTitle.StrokeWidth = 0
+	headerTitle.StrokeOpacity = 1.0
+	headerTitle.RectAnchorType = svg.RECT_TOP_LEFT
+	headerTitle.TextAnchorType = svg.TEXT_ANCHOR_START
+	headerTitle.X_Offset = 20
+	headerTitle.Y_Offset = 26
+	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerTitle)
+
+	// Formula line
+	headerFormula := new(svg.RectAnchoredText)
+	headerFormula.Name = "Header Formula"
+	headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α · ΔP - β · ΔE  ⟺  α · ΔP - β · ΔE = ΔC (%s → %s)", fromSys.Name, toSys.Name)
+	headerFormula.FontSize = "13px"
+	headerFormula.FontWeight = "600"
+	headerFormula.Color = "#37474F"
+	headerFormula.FillOpacity = 1.0
+	headerFormula.Stroke = "#37474F"
+	headerFormula.StrokeWidth = 0
+	headerFormula.StrokeOpacity = 1.0
+	headerFormula.RectAnchorType = svg.RECT_TOP_LEFT
+	headerFormula.TextAnchorType = svg.TEXT_ANCHOR_START
+	headerFormula.X_Offset = 20
+	headerFormula.Y_Offset = 50
+	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerFormula)
 
 	balanceDiff := (alpha*deltaP - beta*deltaE) - deltaC
-	headerCalc := &svg.Text{
-		Name:    "Header Calculation",
-		X:       60,
-		Y:       80,
-		Content: fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff),
-		Presentation: svg.Presentation{
-			Color:       "#37474F",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, headerCalc)
+	headerCalc := new(svg.RectAnchoredText)
+	headerCalc.Name = "Header Calculation"
+	headerCalc.Content = fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff)
+	headerCalc.FontSize = "12px"
+	headerCalc.FontWeight = "normal"
+	headerCalc.Color = "#546E7A"
+	headerCalc.FillOpacity = 1.0
+	headerCalc.Stroke = "#546E7A"
+	headerCalc.StrokeWidth = 0
+	headerCalc.StrokeOpacity = 1.0
+	headerCalc.RectAnchorType = svg.RECT_TOP_LEFT
+	headerCalc.TextAnchorType = svg.TEXT_ANCHOR_START
+	headerCalc.X_Offset = 20
+	headerCalc.Y_Offset = 72
+	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerCalc)
 
 	// Ground line (Abscissa)
 	groundLine := &svg.Line{
@@ -201,6 +225,8 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		},
 	}
 	layer.Lines = append(layer.Lines, groundLine)
+
+
 
 	groundLabel := &svg.Text{
 		Name:    "Ground Label",
