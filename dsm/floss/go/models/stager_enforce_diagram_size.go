@@ -82,7 +82,16 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 			neededHeight = 750.0
 		}
 
-		neededWidth := 1050.0
+		boxWidth := diagramEq.GetDefaultBoxWidth()
+		if boxWidth <= 0 {
+			boxWidth = 250.0
+		}
+		colSpacing := 40.0
+		xMargin := 80.0
+		columnsRight := xMargin + 3*boxWidth + 2*colSpacing
+		rightIndicatorsMargin := 220.0
+		neededWidth := columnsRight + rightIndicatorsMargin + 40.0
+
 		updateDiagramSize(diagramEq.Note_Shapes, &neededWidth, &neededHeight)
 
 		if diagramEq.Width != neededWidth {
