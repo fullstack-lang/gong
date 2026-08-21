@@ -491,6 +491,8 @@ func (u *CompareAnalysisUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 		GongUnmarshallPointer(&instance.ToSystem, valueExpr, identifierMap)
 	case "Alpha":
 		instance.Alpha = GongExtractFloat(valueExpr)
+	case "Beta":
+		instance.Beta = GongExtractFloat(valueExpr)
 	case "DiagramFlossEquations":
 		GongUnmarshallSliceOfPointers(&instance.DiagramFlossEquations, valueExpr, identifierMap)
 	case "DiagramFlossEquationsWhoseNodeIsExpanded":

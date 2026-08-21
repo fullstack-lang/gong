@@ -5274,6 +5274,10 @@ func (compareanalysis *CompareAnalysis) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "Beta",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:                 "DiagramFlossEquations",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DiagramFlossEquation",
@@ -6271,6 +6275,10 @@ func (compareanalysis *CompareAnalysis) GongGetFieldValue(fieldName string, stag
 	case "Alpha":
 		res.valueString = fmt.Sprintf("%f", compareanalysis.Alpha)
 		res.valueFloat = compareanalysis.Alpha
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Beta":
+		res.valueString = fmt.Sprintf("%f", compareanalysis.Beta)
+		res.valueFloat = compareanalysis.Beta
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DiagramFlossEquations":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7395,6 +7403,8 @@ func (compareanalysis *CompareAnalysis) GongSetFieldValue(fieldName string, valu
 		}
 	case "Alpha":
 		compareanalysis.Alpha = value.GetValueFloat()
+	case "Beta":
+		compareanalysis.Beta = value.GetValueFloat()
 	case "DiagramFlossEquations":
 		compareanalysis.DiagramFlossEquations = make([]*DiagramFlossEquation, 0)
 		ids := strings.Split(value.ids, ";")

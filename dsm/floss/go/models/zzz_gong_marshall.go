@@ -311,6 +311,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Beta"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquations"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
@@ -1103,6 +1104,11 @@ func (compareanalysis *CompareAnalysis) GongMarshallField(stage *Stage, fieldNam
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Alpha")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Alpha))
+	case "Beta":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beta")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Beta))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
@@ -2602,6 +2608,7 @@ func (compareanalysis *CompareAnalysis) GongMarshallAllFields(stage *Stage) (ini
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Beta"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquations"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
