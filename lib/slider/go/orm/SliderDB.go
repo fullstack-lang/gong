@@ -98,6 +98,10 @@ type SliderDB struct {
 	// Declation for basic field sliderDB.ValueFloat64
 	ValueFloat64_Data sql.NullFloat64
 
+	// Declation for basic field sliderDB.IsDisabled
+	// provide the sql storage for the boolan
+	IsDisabled_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SliderPointersEncoding
@@ -141,6 +145,8 @@ type SliderWOP struct {
 	StepFloat64 float64 `xlsx:"10"`
 
 	ValueFloat64 float64 `xlsx:"11"`
+
+	IsDisabled bool `xlsx:"12"`
 	// insertion for WOP pointer fields
 }
 
@@ -158,6 +164,7 @@ var Slider_Fields = []string{
 	"MaxFloat64",
 	"StepFloat64",
 	"ValueFloat64",
+	"IsDisabled",
 }
 
 type BackRepoSliderStruct struct {
@@ -465,6 +472,9 @@ func (sliderDB *SliderDB) CopyBasicFieldsFromSlider(slider *models.Slider) {
 
 	sliderDB.ValueFloat64_Data.Float64 = slider.ValueFloat64
 	sliderDB.ValueFloat64_Data.Valid = true
+
+	sliderDB.IsDisabled_Data.Bool = slider.IsDisabled
+	sliderDB.IsDisabled_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSlider_WOP
@@ -503,6 +513,9 @@ func (sliderDB *SliderDB) CopyBasicFieldsFromSlider_WOP(slider *models.Slider_WO
 
 	sliderDB.ValueFloat64_Data.Float64 = slider.ValueFloat64
 	sliderDB.ValueFloat64_Data.Valid = true
+
+	sliderDB.IsDisabled_Data.Bool = slider.IsDisabled
+	sliderDB.IsDisabled_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSliderWOP
@@ -541,6 +554,9 @@ func (sliderDB *SliderDB) CopyBasicFieldsFromSliderWOP(slider *SliderWOP) {
 
 	sliderDB.ValueFloat64_Data.Float64 = slider.ValueFloat64
 	sliderDB.ValueFloat64_Data.Valid = true
+
+	sliderDB.IsDisabled_Data.Bool = slider.IsDisabled
+	sliderDB.IsDisabled_Data.Valid = true
 }
 
 // CopyBasicFieldsToSlider
@@ -557,6 +573,7 @@ func (sliderDB *SliderDB) CopyBasicFieldsToSlider(slider *models.Slider) {
 	slider.MaxFloat64 = sliderDB.MaxFloat64_Data.Float64
 	slider.StepFloat64 = sliderDB.StepFloat64_Data.Float64
 	slider.ValueFloat64 = sliderDB.ValueFloat64_Data.Float64
+	slider.IsDisabled = sliderDB.IsDisabled_Data.Bool
 }
 
 // CopyBasicFieldsToSlider_WOP
@@ -573,6 +590,7 @@ func (sliderDB *SliderDB) CopyBasicFieldsToSlider_WOP(slider *models.Slider_WOP)
 	slider.MaxFloat64 = sliderDB.MaxFloat64_Data.Float64
 	slider.StepFloat64 = sliderDB.StepFloat64_Data.Float64
 	slider.ValueFloat64 = sliderDB.ValueFloat64_Data.Float64
+	slider.IsDisabled = sliderDB.IsDisabled_Data.Bool
 }
 
 // CopyBasicFieldsToSliderWOP
@@ -590,6 +608,7 @@ func (sliderDB *SliderDB) CopyBasicFieldsToSliderWOP(slider *SliderWOP) {
 	slider.MaxFloat64 = sliderDB.MaxFloat64_Data.Float64
 	slider.StepFloat64 = sliderDB.StepFloat64_Data.Float64
 	slider.ValueFloat64 = sliderDB.ValueFloat64_Data.Float64
+	slider.IsDisabled = sliderDB.IsDisabled_Data.Bool
 }
 
 // Backup generates a json file from a slice of all SliderDB instances in the backrepo

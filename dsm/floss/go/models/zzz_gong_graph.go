@@ -2063,6 +2063,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	if diagramflossequation.AreQuantitativeElementsVisible != diagramflossequationOther.AreQuantitativeElementsVisible {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 	}
+	if diagramflossequation.AreSubsystemsVisible != diagramflossequationOther.AreSubsystemsVisible {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
+	}
 	if diagramflossequation.Width != diagramflossequationOther.Width {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Width"))
 	}
@@ -2975,6 +2978,9 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 	if EffortsDifferent {
 		ops := Diff(stage, system, systemOther, "Efforts", systemOther.Efforts, system.Efforts)
 		diffs = append(diffs, ops)
+	}
+	if system.AreCPEsCompoundedFromSubSystems != systemOther.AreCPEsCompoundedFromSubSystems {
+		diffs = append(diffs, system.GongMarshallField(stage, "AreCPEsCompoundedFromSubSystems"))
 	}
 	if system.ComputedPrefix != systemOther.ComputedPrefix {
 		diffs = append(diffs, system.GongMarshallField(stage, "ComputedPrefix"))

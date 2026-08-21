@@ -69,6 +69,8 @@ type DiagramFlossEquation_WOP struct {
 
 	AreQuantitativeElementsVisible bool
 
+	AreSubsystemsVisible bool
+
 	Width float64
 
 	Height float64
@@ -97,6 +99,7 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.AreQuantitativeElementsVisible = from.AreQuantitativeElementsVisible
+	to.AreSubsystemsVisible = from.AreSubsystemsVisible
 	to.Width = from.Width
 	to.Height = from.Height
 	to.Scale = from.Scale
@@ -350,6 +353,8 @@ type System_WOP struct {
 
 	Description string
 
+	AreCPEsCompoundedFromSubSystems bool
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -371,6 +376,7 @@ func (from *System) CopyBasicFields(to *System) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
+	to.AreCPEsCompoundedFromSubSystems = from.AreCPEsCompoundedFromSubSystems
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.SVG_Path = from.SVG_Path

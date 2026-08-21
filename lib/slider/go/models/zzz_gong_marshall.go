@@ -405,6 +405,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxFloat64"))
 		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepFloat64"))
 		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsDisabled"))
 	}
 
 	// insertion initialization of objects to stage
@@ -657,6 +658,11 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueFloat64")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.ValueFloat64))
+	case "IsDisabled":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDisabled")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsDisabled))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slider", fieldName)
@@ -723,6 +729,7 @@ func (slider *Slider) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxFloat64"))
 		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepFloat64"))
 		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsDisabled"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

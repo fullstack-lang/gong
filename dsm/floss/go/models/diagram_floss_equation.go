@@ -15,6 +15,7 @@ type DiagramFlossEquation struct {
 	IsEditable_ bool
 
 	AreQuantitativeElementsVisible bool
+	AreSubsystemsVisible           bool
 
 	Width  float64
 

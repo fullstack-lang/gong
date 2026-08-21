@@ -612,6 +612,9 @@ func (slider *Slider) GongDiff(stage *Stage, sliderOther *Slider) (diffs []strin
 	if slider.ValueFloat64 != sliderOther.ValueFloat64 {
 		diffs = append(diffs, slider.GongMarshallField(stage, "ValueFloat64"))
 	}
+	if slider.IsDisabled != sliderOther.IsDisabled {
+		diffs = append(diffs, slider.GongMarshallField(stage, "IsDisabled"))
+	}
 
 	return
 }

@@ -377,6 +377,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
@@ -705,6 +706,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Complexities"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Performances"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Efforts"))
+		initializerStatements.WriteString(system.GongMarshallField(stage, "AreCPEsCompoundedFromSubSystems"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "SVG_Path"))
@@ -1021,6 +1023,11 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreQuantitativeElementsVisible")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.AreQuantitativeElementsVisible))
+	case "AreSubsystemsVisible":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreSubsystemsVisible")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.AreSubsystemsVisible))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
@@ -1840,6 +1847,11 @@ func (system *System) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(system.Description))
+	case "AreCPEsCompoundedFromSubSystems":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreCPEsCompoundedFromSubSystems")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", system.AreCPEsCompoundedFromSubSystems))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
@@ -2023,6 +2035,7 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
@@ -2216,6 +2229,7 @@ func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Complexities"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Performances"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Efforts"))
+		initializerStatements.WriteString(system.GongMarshallField(stage, "AreCPEsCompoundedFromSubSystems"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "SVG_Path"))

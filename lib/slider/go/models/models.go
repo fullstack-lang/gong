@@ -32,6 +32,8 @@ type Slider struct {
 	StepFloat64  float64
 	ValueFloat64 float64
 
+	IsDisabled bool
+
 	Proxy SliderProxyInterface
 }
 

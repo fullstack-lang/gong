@@ -610,6 +610,8 @@ func (u *SliderUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.StepFloat64 = GongExtractFloat(valueExpr)
 	case "ValueFloat64":
 		instance.ValueFloat64 = GongExtractFloat(valueExpr)
+	case "IsDisabled":
+		instance.IsDisabled = GongExtractBool(valueExpr)
 	}
 	return nil
 }

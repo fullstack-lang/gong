@@ -21,6 +21,27 @@ func (stager *Stager) treeSystemes(
 	parentNode.Children = append(parentNode.Children, systemNode)
 
 	addRenameButton(system, systemNode, stager)
+
+	// Button to toggle compounding of subsystem CPEs
+	{
+		compoundButton := &tree.Button{
+			Name:            system.GetName() + " Compound CPE",
+			Icon:            string(buttons.BUTTON_layers_clear),
+			ToolTipText:     "Enable Compounding Subsystem CPEs",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				system.AreCPEsCompoundedFromSubSystems = !system.AreCPEsCompoundedFromSubSystems
+				stager.stage.Commit()
+			},
+		}
+		if system.AreCPEsCompoundedFromSubSystems {
+			compoundButton.Icon = string(buttons.BUTTON_layers)
+			compoundButton.ToolTipText = "Disable Compounding Subsystem CPEs (Currently Active)"
+		}
+		systemNode.Buttons = append(systemNode.Buttons, compoundButton)
+	}
+
 	systemNode.OnNameChange = stager.onNameChange(system)
 	systemNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, system, systemsWhoseNodeIsExpanded)
 	systemNode.OnClick = onNodeClicked(stager, system)
@@ -140,6 +161,29 @@ func (stager *Stager) treeDiagramFlossEquationWithinSystem(
 			quantButton.ToolTipText = "Show quantitative values"
 		}
 		diagramNode.Buttons = append(diagramNode.Buttons, quantButton)
+	}
+
+	// Button for visibility management of subsystems breakdown
+	if system.AreCPEsCompoundedFromSubSystems {
+		subsysButton := &tree.Button{
+			Name:            diagram.GetName() + " Subsystems Breakdown Visibility",
+			Icon:            string(buttons.BUTTON_account_tree),
+			ToolTipText:     "Show Subsystems Breakdown",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagram.AreSubsystemsVisible = !diagram.AreSubsystemsVisible
+				stager.stage.Commit()
+			},
+		}
+		if diagram.AreSubsystemsVisible {
+			subsysButton.Icon = string(buttons.BUTTON_account_tree)
+			subsysButton.ToolTipText = "Hide Subsystems Breakdown (Display System Only)"
+		} else {
+			subsysButton.Icon = string(buttons.BUTTON_layers_clear)
+			subsysButton.ToolTipText = "Display Breakdown at Subsystem Level"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, subsysButton)
 	}
 
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {

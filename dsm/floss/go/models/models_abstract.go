@@ -10,6 +10,9 @@ type System struct {
 	Performances []*Performance
 	Efforts      []*Effort
 
+	// Option to compound CPEs from subsystems
+	AreCPEsCompoundedFromSubSystems bool
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -22,7 +25,7 @@ type System struct {
 
 	parentSystem *System
 
-	DiagramFlossEquations                  []*DiagramFlossEquation
+	DiagramFlossEquations                    []*DiagramFlossEquation
 	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation
 
 	IsSubSystemNodeExpanded bool
@@ -91,8 +94,7 @@ type CompareAnalysis struct {
 	Alpha float64
 	Beta  float64
 
-
-	DiagramFlossEquations                  []*DiagramFlossEquation
+	DiagramFlossEquations                    []*DiagramFlossEquation
 	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation
 
 	LibraryAbstractFields
@@ -100,5 +102,3 @@ type CompareAnalysis struct {
 }
 
 var _ AbstractType = (*CompareAnalysis)(nil)
-
-

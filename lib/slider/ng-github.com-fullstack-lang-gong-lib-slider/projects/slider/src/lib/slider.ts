@@ -26,6 +26,7 @@ export class Slider {
 	MaxFloat64: number = 0
 	StepFloat64: number = 0
 	ValueFloat64: number = 0
+	IsDisabled: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -51,6 +52,7 @@ export function CopySliderToSliderAPI(slider: Slider, sliderAPI: SliderAPI) {
 	sliderAPI.MaxFloat64 = slider.MaxFloat64
 	sliderAPI.StepFloat64 = slider.StepFloat64
 	sliderAPI.ValueFloat64 = slider.ValueFloat64
+	sliderAPI.IsDisabled = slider.IsDisabled
 
 	// insertion point for pointer fields encoding
 
@@ -79,6 +81,7 @@ export function CopySliderAPIToSlider(sliderAPI: SliderAPI, slider: Slider, fron
 	slider.MaxFloat64 = sliderAPI.MaxFloat64
 	slider.StepFloat64 = sliderAPI.StepFloat64
 	slider.ValueFloat64 = sliderAPI.ValueFloat64
+	slider.IsDisabled = sliderAPI.IsDisabled
 
 	// insertion point for pointer fields encoding
 

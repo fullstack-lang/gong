@@ -1892,6 +1892,10 @@ func (slider *Slider) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "ValueFloat64",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsDisabled",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2073,6 +2077,10 @@ func (slider *Slider) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%f", slider.ValueFloat64)
 		res.valueFloat = slider.ValueFloat64
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsDisabled":
+		res.valueString = fmt.Sprintf("%t", slider.IsDisabled)
+		res.valueBool = slider.IsDisabled
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2195,6 +2203,8 @@ func (slider *Slider) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		slider.StepFloat64 = value.GetValueFloat()
 	case "ValueFloat64":
 		slider.ValueFloat64 = value.GetValueFloat()
+	case "IsDisabled":
+		slider.IsDisabled = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

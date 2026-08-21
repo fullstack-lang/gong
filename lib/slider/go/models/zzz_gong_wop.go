@@ -84,6 +84,8 @@ type Slider_WOP struct {
 	StepFloat64 float64
 
 	ValueFloat64 float64
+
+	IsDisabled bool
 }
 
 func (from *Slider) CopyBasicFields(to *Slider) {
@@ -99,6 +101,7 @@ func (from *Slider) CopyBasicFields(to *Slider) {
 	to.MaxFloat64 = from.MaxFloat64
 	to.StepFloat64 = from.StepFloat64
 	to.ValueFloat64 = from.ValueFloat64
+	to.IsDisabled = from.IsDisabled
 }
 
 // end of insertion point
