@@ -77,6 +77,17 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
+			AssociationReverseSliceToForm[*models.DiagramFlossEquation, *models.Complexity](
+				"DiagramFlossEquation",
+				"ComplexitysWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DiagramFlossEquation) []*models.Complexity {
+					return owner.ComplexitysWhoseNodeIsExpanded
+				})
+		}
+		{
 			AssociationReverseSliceToForm[*models.Library, *models.Complexity](
 				"Library",
 				"RootComplexitys",
@@ -165,6 +176,15 @@ func FillUpForm(
 		BasicFieldtoForm("IsNotesNodeExpanded", instanceWithInferedType.IsNotesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("NotesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.NotesWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsComplexitysNodeExpanded", instanceWithInferedType.IsComplexitysNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("ComplexitysWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ComplexitysWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsPerformancesNodeExpanded", instanceWithInferedType.IsPerformancesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("PerformancesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PerformancesWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsEffortsNodeExpanded", instanceWithInferedType.IsEffortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("EffortsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.EffortsWhoseNodeIsExpanded, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -230,6 +250,17 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.DiagramFlossEquation, *models.Effort](
+				"DiagramFlossEquation",
+				"EffortsWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DiagramFlossEquation) []*models.Effort {
+					return owner.EffortsWhoseNodeIsExpanded
+				})
+		}
 		{
 			AssociationReverseSliceToForm[*models.Library, *models.Effort](
 				"Library",
@@ -564,6 +595,17 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.DiagramFlossEquation, *models.Performance](
+				"DiagramFlossEquation",
+				"PerformancesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DiagramFlossEquation) []*models.Performance {
+					return owner.PerformancesWhoseNodeIsExpanded
+				})
+		}
 		{
 			AssociationReverseSliceToForm[*models.Library, *models.Performance](
 				"Library",

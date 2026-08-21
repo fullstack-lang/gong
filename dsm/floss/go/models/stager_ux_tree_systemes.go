@@ -55,96 +55,6 @@ func (stager *Stager) treeSystemes(
 	}
 
 	//
-	// Complexities
-	//
-	complexitiesNode := &tree.Node{
-		Name:            "Complexities",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      system.IsComplexitysNodeExpanded,
-		IsNodeClickable: true,
-	}
-	systemNode.Children = append(systemNode.Children, complexitiesNode)
-	complexitiesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsComplexitysNodeExpanded)
-	complexitiesNode.OnClick = onNodeClicked(stager, system)
-
-	confComplexities := ItemButtonConfiguration[
-		Complexity, *Complexity,
-		System, *System,
-	]{
-		parentNode:                         complexitiesNode,
-		sliceForNewAddedItem:               &system.Complexities,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &system.IsComplexitysNodeExpanded,
-		parentElement:                      system,
-	}
-	addCreateItemButton(stager, confComplexities)
-
-	for _, complexity := range system.Complexities {
-		stager.treeComplexityWithinSystem(system, complexity, complexitiesNode)
-	}
-
-	//
-	// Performances
-	//
-	performancesNode := &tree.Node{
-		Name:            "Performances",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      system.IsPerformancesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	systemNode.Children = append(systemNode.Children, performancesNode)
-	performancesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsPerformancesNodeExpanded)
-	performancesNode.OnClick = onNodeClicked(stager, system)
-
-	confPerformances := ItemButtonConfiguration[
-		Performance, *Performance,
-		System, *System,
-	]{
-		parentNode:                         performancesNode,
-		sliceForNewAddedItem:               &system.Performances,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &system.IsPerformancesNodeExpanded,
-		parentElement:                      system,
-	}
-	addCreateItemButton(stager, confPerformances)
-
-	for _, performance := range system.Performances {
-		stager.treePerformanceWithinSystem(system, performance, performancesNode)
-	}
-
-	//
-	// Efforts
-	//
-	effortsNode := &tree.Node{
-		Name:            "Efforts",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      system.IsEffortsNodeExpanded,
-		IsNodeClickable: true,
-	}
-	systemNode.Children = append(systemNode.Children, effortsNode)
-	effortsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsEffortsNodeExpanded)
-	effortsNode.OnClick = onNodeClicked(stager, system)
-
-	confEfforts := ItemButtonConfiguration[
-		Effort, *Effort,
-		System, *System,
-	]{
-		parentNode:                         effortsNode,
-		sliceForNewAddedItem:               &system.Efforts,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &system.IsEffortsNodeExpanded,
-		parentElement:                      system,
-	}
-	addCreateItemButton(stager, confEfforts)
-
-	for _, effort := range system.Efforts {
-		stager.treeEffortWithinSystem(system, effort, effortsNode)
-	}
-
-	//
 	// SubSystemes
 	//
 	confSubSystemes := ItemButtonConfiguration[
@@ -247,6 +157,96 @@ func (stager *Stager) treeDiagramFlossEquationWithinSystem(
 	diagramNode.OnClick = onNodeClicked(stager, diagram)
 	diagramNode.OnNameChange = stager.onNameChange(diagram)
 	diagramNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, diagram, &system.DiagramFlossEquationsWhoseNodeIsExpanded)
+
+	//
+	// Complexities
+	//
+	complexitiesNode := &tree.Node{
+		Name:            "Complexities",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      diagram.IsComplexitysNodeExpanded,
+		IsNodeClickable: true,
+	}
+	diagramNode.Children = append(diagramNode.Children, complexitiesNode)
+	complexitiesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsComplexitysNodeExpanded)
+	complexitiesNode.OnClick = onNodeClicked(stager, diagram)
+
+	confComplexities := ItemButtonConfiguration[
+		Complexity, *Complexity,
+		System, *System,
+	]{
+		parentNode:                         complexitiesNode,
+		sliceForNewAddedItem:               &system.Complexities,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsComplexitysNodeExpanded,
+		parentElement:                      system,
+	}
+	addCreateItemButton(stager, confComplexities)
+
+	for _, complexity := range system.Complexities {
+		stager.treeComplexityWithinSystem(system, complexity, complexitiesNode)
+	}
+
+	//
+	// Performances
+	//
+	performancesNode := &tree.Node{
+		Name:            "Performances",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      diagram.IsPerformancesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	diagramNode.Children = append(diagramNode.Children, performancesNode)
+	performancesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsPerformancesNodeExpanded)
+	performancesNode.OnClick = onNodeClicked(stager, diagram)
+
+	confPerformances := ItemButtonConfiguration[
+		Performance, *Performance,
+		System, *System,
+	]{
+		parentNode:                         performancesNode,
+		sliceForNewAddedItem:               &system.Performances,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsPerformancesNodeExpanded,
+		parentElement:                      system,
+	}
+	addCreateItemButton(stager, confPerformances)
+
+	for _, performance := range system.Performances {
+		stager.treePerformanceWithinSystem(system, performance, performancesNode)
+	}
+
+	//
+	// Efforts
+	//
+	effortsNode := &tree.Node{
+		Name:            "Efforts",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      diagram.IsEffortsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	diagramNode.Children = append(diagramNode.Children, effortsNode)
+	effortsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsEffortsNodeExpanded)
+	effortsNode.OnClick = onNodeClicked(stager, diagram)
+
+	confEfforts := ItemButtonConfiguration[
+		Effort, *Effort,
+		System, *System,
+	]{
+		parentNode:                         effortsNode,
+		sliceForNewAddedItem:               &system.Efforts,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &diagram.IsEffortsNodeExpanded,
+		parentElement:                      system,
+	}
+	addCreateItemButton(stager, confEfforts)
+
+	for _, effort := range system.Efforts {
+		stager.treeEffortWithinSystem(system, effort, effortsNode)
+	}
 
 	//
 	// Notes

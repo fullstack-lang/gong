@@ -77,6 +77,27 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramFlossEquation_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagramflossequation
 		}
 	}
+	stage.DiagramFlossEquation_ComplexitysWhoseNodeIsExpanded_reverseMap = make(map[*Complexity]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _complexity := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+			stage.DiagramFlossEquation_ComplexitysWhoseNodeIsExpanded_reverseMap[_complexity] = diagramflossequation
+		}
+	}
+	stage.DiagramFlossEquation_PerformancesWhoseNodeIsExpanded_reverseMap = make(map[*Performance]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _performance := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+			stage.DiagramFlossEquation_PerformancesWhoseNodeIsExpanded_reverseMap[_performance] = diagramflossequation
+		}
+	}
+	stage.DiagramFlossEquation_EffortsWhoseNodeIsExpanded_reverseMap = make(map[*Effort]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _effort := range diagramflossequation.EffortsWhoseNodeIsExpanded {
+			stage.DiagramFlossEquation_EffortsWhoseNodeIsExpanded_reverseMap[_effort] = diagramflossequation
+		}
+	}
 
 	// Compute reverse map for named struct Effort
 	// insertion point per field
