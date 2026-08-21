@@ -87,6 +87,19 @@ func (stager *Stager) treeDiagramFloss(
 		for _, complexity := range system.Complexities {
 			stager.treeComplexityWithinDiagramFloss(diagramFloss, system, complexity, complexitiesNode)
 		}
+
+		confComplexity := ItemButtonConfiguration[
+			Complexity, *Complexity,
+			System, *System,
+		]{
+			parentNode:                         complexitiesNode,
+			sliceForNewAddedItem:               &system.Complexities,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagramFloss.IsComplexitysNodeExpanded,
+			parentElement:                      system,
+		}
+		addCreateItemButton(stager, confComplexity)
 	}
 
 	//
@@ -105,6 +118,19 @@ func (stager *Stager) treeDiagramFloss(
 		for _, performance := range system.Performances {
 			stager.treePerformanceWithinDiagramFloss(diagramFloss, system, performance, performancesNode)
 		}
+
+		confPerformance := ItemButtonConfiguration[
+			Performance, *Performance,
+			System, *System,
+		]{
+			parentNode:                         performancesNode,
+			sliceForNewAddedItem:               &system.Performances,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagramFloss.IsPerformancesNodeExpanded,
+			parentElement:                      system,
+		}
+		addCreateItemButton(stager, confPerformance)
 	}
 
 	//
@@ -123,6 +149,18 @@ func (stager *Stager) treeDiagramFloss(
 		for _, effort := range system.Efforts {
 			stager.treeEffortWithinDiagramFloss(diagramFloss, system, effort, effortsNode)
 		}
+
+		confEffort := ItemButtonConfiguration[
+			Effort, *Effort,
+			System, *System,
+		]{
+			parentNode:                         effortsNode,
+			sliceForNewAddedItem:               &system.Efforts,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagramFloss.IsEffortsNodeExpanded,
+			parentElement:                      system,
+		}
+		addCreateItemButton(stager, confEffort)
 	}
 }
-

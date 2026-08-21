@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *CompareAnalysis:
+		ok = stage.IsStagedCompareAnalysis(target)
+
 	case *Complexity:
 		ok = stage.IsStagedComplexity(target)
 
@@ -47,6 +50,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *CompareAnalysis:
+		ok = stage.IsStagedCompareAnalysis(target)
+
 	case *Complexity:
 		ok = stage.IsStagedComplexity(target)
 
@@ -84,6 +90,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedCompareAnalysis(compareanalysis *CompareAnalysis) (ok bool) {
+
+	_, ok = stage.CompareAnalysiss[compareanalysis]
+
+	return
+}
+
 func (stage *Stage) IsStagedComplexity(complexity *Complexity) (ok bool) {
 
 	_, ok = stage.Complexitys[complexity]
@@ -162,6 +175,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *CompareAnalysis:
+		stage.StageBranchCompareAnalysis(target)
+
 	case *Complexity:
 		stage.StageBranchComplexity(target)
 
@@ -198,6 +214,27 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchCompareAnalysis(compareanalysis *CompareAnalysis) {
+
+	// check if instance is already staged
+	if IsStaged(stage, compareanalysis) {
+		return
+	}
+
+	compareanalysis.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if compareanalysis.FromSystem != nil {
+		StageBranch(stage, compareanalysis.FromSystem)
+	}
+	if compareanalysis.ToSystem != nil {
+		StageBranch(stage, compareanalysis.ToSystem)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchComplexity(complexity *Complexity) {
 
 	// check if instance is already staged
@@ -452,6 +489,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *CompareAnalysis:
+		toT := CopyBranchCompareAnalysis(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Complexity:
 		toT := CopyBranchComplexity(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -499,6 +540,31 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchCompareAnalysis(mapOrigCopy map[any]any, compareanalysisFrom *CompareAnalysis) (compareanalysisTo *CompareAnalysis) {
+
+	// compareanalysisFrom has already been copied
+	if _compareanalysisTo, ok := mapOrigCopy[compareanalysisFrom]; ok {
+		compareanalysisTo = _compareanalysisTo.(*CompareAnalysis)
+		return
+	}
+
+	compareanalysisTo = new(CompareAnalysis)
+	mapOrigCopy[compareanalysisFrom] = compareanalysisTo
+	compareanalysisFrom.CopyBasicFields(compareanalysisTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if compareanalysisFrom.FromSystem != nil {
+		compareanalysisTo.FromSystem = CopyBranchSystem(mapOrigCopy, compareanalysisFrom.FromSystem)
+	}
+	if compareanalysisFrom.ToSystem != nil {
+		compareanalysisTo.ToSystem = CopyBranchSystem(mapOrigCopy, compareanalysisFrom.ToSystem)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchComplexity(mapOrigCopy map[any]any, complexityFrom *Complexity) (complexityTo *Complexity) {
 
 	// complexityFrom has already been copied
@@ -790,6 +856,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *CompareAnalysis:
+		stage.UnstageBranchCompareAnalysis(target)
+
 	case *Complexity:
 		stage.UnstageBranchComplexity(target)
 
@@ -826,6 +895,27 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchCompareAnalysis(compareanalysis *CompareAnalysis) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, compareanalysis) {
+		return
+	}
+
+	compareanalysis.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if compareanalysis.FromSystem != nil {
+		UnstageBranch(stage, compareanalysis.FromSystem)
+	}
+	if compareanalysis.ToSystem != nil {
+		UnstageBranch(stage, compareanalysis.ToSystem)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchComplexity(complexity *Complexity) {
 
 	// check if instance is already staged
@@ -1070,6 +1160,17 @@ func (stage *Stage) UnstageBranchSystemShape(systemshape *SystemShape) {
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *CompareAnalysis) GongReconstructPointersFromReferences(stage *Stage, instance *CompareAnalysis) {
+	// insertion point for pointers field
+	if instance.FromSystem != nil {
+		reference.FromSystem = stage.Systems_reference[instance.FromSystem]
+	}
+	if instance.ToSystem != nil {
+		reference.ToSystem = stage.Systems_reference[instance.ToSystem]
+	}
+	// insertion point for slice of pointers field
+}
+
 func (reference *Complexity) GongReconstructPointersFromReferences(stage *Stage, instance *Complexity) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -1241,6 +1342,23 @@ func (reference *SystemShape) GongReconstructPointersFromReferences(stage *Stage
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *CompareAnalysis) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.FromSystem; _reference != nil {
+		reference.FromSystem = nil
+		if _instance, ok := stage.Systems_instance[_reference]; ok {
+			reference.FromSystem = _instance
+		}
+	}
+	if _reference := reference.ToSystem; _reference != nil {
+		reference.ToSystem = nil
+		if _instance, ok := stage.Systems_instance[_reference]; ok {
+			reference.ToSystem = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Complexity) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -1505,6 +1623,31 @@ func (reference *SystemShape) GongReconstructPointersFromInstances(stage *Stage)
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (compareanalysis *CompareAnalysis) GongDiff(stage *Stage, compareanalysisOther *CompareAnalysis) (diffs []string) {
+	// insertion point for field diffs
+	if compareanalysis.Name != compareanalysisOther.Name {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Name"))
+	}
+	if (compareanalysis.FromSystem == nil) != (compareanalysisOther.FromSystem == nil) {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "FromSystem"))
+	} else if compareanalysis.FromSystem != nil && compareanalysisOther.FromSystem != nil {
+		if compareanalysis.FromSystem != compareanalysisOther.FromSystem {
+			diffs = append(diffs, compareanalysis.GongMarshallField(stage, "FromSystem"))
+		}
+	}
+	if (compareanalysis.ToSystem == nil) != (compareanalysisOther.ToSystem == nil) {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "ToSystem"))
+	} else if compareanalysis.ToSystem != nil && compareanalysisOther.ToSystem != nil {
+		if compareanalysis.ToSystem != compareanalysisOther.ToSystem {
+			diffs = append(diffs, compareanalysis.GongMarshallField(stage, "ToSystem"))
+		}
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (complexity *Complexity) GongDiff(stage *Stage, complexityOther *Complexity) (diffs []string) {
@@ -1854,9 +1997,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
 	}
-	if library.IsRootLibrary != libraryOther.IsRootLibrary {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
-	}
 	SubLibrariesDifferent := false
 	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
 		SubLibrariesDifferent = true
@@ -1961,6 +2101,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if RootEffortsDifferent {
 		ops := Diff(stage, library, libraryOther, "RootEfforts", libraryOther.RootEfforts, library.RootEfforts)
 		diffs = append(diffs, ops)
+	}
+	if library.IsRootLibrary != libraryOther.IsRootLibrary {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
 	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))

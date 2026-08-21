@@ -110,6 +110,27 @@ func (stager *Stager) treeComplexityWithinDiagramFloss(
 
 	addRenameButton(complexity, node, stager)
 
+	deleteButton := &tree.Button{
+		Name:            "Delete",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Delete",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			system.Complexities = slices.DeleteFunc(system.Complexities, func(c *Complexity) bool { return c == complexity })
+			complexity.Unstage(stager.stage)
+			if shape, ok := diagramFloss.map_Complexity_ComplexityShape[complexity]; ok {
+				shape.UnstageVoid(stager.stage)
+				diagramFloss.Complexity_Shapes = slices.DeleteFunc(diagramFloss.Complexity_Shapes, func(s *ComplexityShape) bool { return s == shape })
+			}
+			stager.stage.Commit()
+		},
+	}
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+	node.Menu.Buttons = append(node.Menu.Buttons, deleteButton)
+
 	if ok {
 		visibilityButton := &tree.Button{
 			Name:            diagramFloss.GetName(),

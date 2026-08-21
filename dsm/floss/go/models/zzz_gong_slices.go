@@ -20,6 +20,9 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct CompareAnalysis
+	// insertion point per field
+
 	// Compute reverse map for named struct Complexity
 	// insertion point per field
 
@@ -244,6 +247,10 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.CompareAnalysiss {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Complexitys {
 		res = append(res, instance)
 	}
@@ -288,6 +295,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (compareanalysis *CompareAnalysis) GongCopy() GongstructIF {
+	newInstance := new(CompareAnalysis)
+	compareanalysis.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (complexity *Complexity) GongCopy() GongstructIF {
 	newInstance := new(Complexity)
 	complexity.CopyBasicFields(newInstance)
@@ -349,6 +362,16 @@ func (systemshape *SystemShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
+func (compareanalysis *CompareAnalysis) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(compareanalysis).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(compareanalysis), uint64(GetOrderPointerGongstruct(stage, compareanalysis)))
+	return
+}
+
 func (complexity *Complexity) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(complexity).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -467,6 +490,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var compareanalysiss_newInstances []*CompareAnalysis
+	var compareanalysiss_deletedInstances []*CompareAnalysis
+
+	// parse all staged instances and check if they have a reference
+	for compareanalysis := range stage.CompareAnalysiss {
+		if ref, ok := stage.CompareAnalysiss_reference[compareanalysis]; !ok {
+			compareanalysiss_newInstances = append(compareanalysiss_newInstances, compareanalysis)
+			newInstancesSlice = append(newInstancesSlice, compareanalysis.GongMarshallIdentifier(stage))
+			if stage.CompareAnalysiss_referenceOrder == nil {
+				stage.CompareAnalysiss_referenceOrder = make(map[*CompareAnalysis]uint)
+			}
+			stage.CompareAnalysiss_referenceOrder[compareanalysis] = stage.CompareAnalysis_stagedOrder[compareanalysis]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, compareanalysis.GongMarshallUnstaging(stage))
+			// delete(stage.CompareAnalysiss_referenceOrder, compareanalysis)
+			fieldInitializers, pointersInitializations := compareanalysis.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.CompareAnalysis_stagedOrder[ref] = stage.CompareAnalysis_stagedOrder[compareanalysis]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := compareanalysis.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, compareanalysis)
+			// delete(stage.CompareAnalysis_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if compareanalysis.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", compareanalysis.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.CompareAnalysiss_reference {
+		instance := stage.CompareAnalysiss_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CompareAnalysiss[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			compareanalysiss_deletedInstances = append(compareanalysiss_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(compareanalysiss_newInstances)
+	lenDeletedInstances += len(compareanalysiss_deletedInstances)
 	var complexitys_newInstances []*Complexity
 	var complexitys_deletedInstances []*Complexity
 
@@ -1052,6 +1130,16 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.CompareAnalysiss_reference = make(map[*CompareAnalysis]*CompareAnalysis)
+	stage.CompareAnalysiss_referenceOrder = make(map[*CompareAnalysis]uint) // diff Unstage needs the reference order
+	stage.CompareAnalysiss_instance = make(map[*CompareAnalysis]*CompareAnalysis)
+	for instance := range stage.CompareAnalysiss {
+		_copy := instance.GongCopy().(*CompareAnalysis)
+		stage.CompareAnalysiss_reference[instance] = _copy
+		stage.CompareAnalysiss_instance[_copy] = instance
+		stage.CompareAnalysiss_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Complexitys_reference = make(map[*Complexity]*Complexity)
 	stage.Complexitys_referenceOrder = make(map[*Complexity]uint) // diff Unstage needs the reference order
 	stage.Complexitys_instance = make(map[*Complexity]*Complexity)
@@ -1153,6 +1241,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.CompareAnalysiss {
+		reference := stage.CompareAnalysiss_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Complexitys {
 		reference := stage.Complexitys_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1213,6 +1306,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (compareanalysis *CompareAnalysis) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.CompareAnalysis_stagedOrder[compareanalysis]; ok {
+		return order
+	}
+	if order, ok := stage.CompareAnalysiss_referenceOrder[compareanalysis]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type CompareAnalysis was not staged and does not have a reference order", compareanalysis)
+		return 0
+	}
+}
+
 func (complexity *Complexity) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Complexity_stagedOrder[complexity]; ok {
 		return order
@@ -1338,6 +1443,15 @@ func (systemshape *SystemShape) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (compareanalysis *CompareAnalysis) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", compareanalysis.GongGetGongstructName(), compareanalysis.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (compareanalysis *CompareAnalysis) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", compareanalysis.GongGetGongstructName(), compareanalysis.GongGetOrder(stage))
+}
+
 func (complexity *Complexity) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", complexity.GongGetGongstructName(), complexity.GongGetOrder(stage))
 }
@@ -1431,6 +1545,14 @@ func (systemshape *SystemShape) GongGetReferenceIdentifier(stage *Stage) string 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (compareanalysis *CompareAnalysis) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CompareAnalysis")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(compareanalysis.Name))
+	return
+}
+
 func (complexity *Complexity) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", complexity.GongGetIdentifier(stage))
@@ -1512,6 +1634,12 @@ func (systemshape *SystemShape) GongMarshallIdentifier(stage *Stage) (decl strin
 }
 
 // insertion point for unstaging
+func (compareanalysis *CompareAnalysis) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", compareanalysis.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (complexity *Complexity) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", complexity.GongGetReferenceIdentifier(stage))

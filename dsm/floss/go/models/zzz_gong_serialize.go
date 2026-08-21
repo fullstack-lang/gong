@@ -24,6 +24,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelizePointerToGongstruct2[*CompareAnalysis](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Complexity](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ComplexityShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DiagramFloss](stage, f, addIDs)

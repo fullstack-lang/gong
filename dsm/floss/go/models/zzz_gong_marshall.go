@@ -284,6 +284,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	compareanalysisOrdered := []*CompareAnalysis{}
+	for compareanalysis := range stage.CompareAnalysiss {
+		compareanalysisOrdered = append(compareanalysisOrdered, compareanalysis)
+	}
+	sort.Slice(compareanalysisOrdered[:], func(i, j int) bool {
+		compareanalysisi := compareanalysisOrdered[i]
+		compareanalysisj := compareanalysisOrdered[j]
+		compareanalysisi_order, oki := stage.CompareAnalysis_stagedOrder[compareanalysisi]
+		compareanalysisj_order, okj := stage.CompareAnalysis_stagedOrder[compareanalysisj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return compareanalysisi_order < compareanalysisj_order
+	})
+	if len(compareanalysisOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, compareanalysis := range compareanalysisOrdered {
+
+		identifiersDecl.WriteString(compareanalysis.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
+	}
+
 	complexityOrdered := []*Complexity{}
 	for complexity := range stage.Complexitys {
 		complexityOrdered = append(complexityOrdered, complexity)
@@ -483,12 +511,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootSystems"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
@@ -644,6 +672,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	for _, compareanalysis := range compareanalysisOrdered {
+		_ = compareanalysis
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, complexity := range complexityOrdered {
 		_ = complexity
 		var setPointerField string
@@ -778,6 +814,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
+func (compareanalysis *CompareAnalysis) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(compareanalysis.Name))
+
+	case "FromSystem":
+		if compareanalysis.FromSystem != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FromSystem")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", compareanalysis.FromSystem.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FromSystem")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "ToSystem":
+		if compareanalysis.ToSystem != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToSystem")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", compareanalysis.ToSystem.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToSystem")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CompareAnalysis", fieldName)
+	}
+	return
+}
+
 func (complexity *Complexity) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1591,6 +1668,19 @@ func (systemshape *SystemShape) GongMarshallField(stage *Stage, fieldName string
 }
 
 // insertion point for marshall all fields methods
+func (compareanalysis *CompareAnalysis) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (complexity *Complexity) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1697,12 +1787,12 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootSystems"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))

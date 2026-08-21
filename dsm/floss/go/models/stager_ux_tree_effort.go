@@ -110,6 +110,27 @@ func (stager *Stager) treeEffortWithinDiagramFloss(
 
 	addRenameButton(effort, node, stager)
 
+	deleteButton := &tree.Button{
+		Name:            "Delete",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Delete",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			system.Efforts = slices.DeleteFunc(system.Efforts, func(e *Effort) bool { return e == effort })
+			effort.Unstage(stager.stage)
+			if shape, ok := diagramFloss.map_Effort_EffortShape[effort]; ok {
+				shape.UnstageVoid(stager.stage)
+				diagramFloss.Effort_Shapes = slices.DeleteFunc(diagramFloss.Effort_Shapes, func(s *EffortShape) bool { return s == shape })
+			}
+			stager.stage.Commit()
+		},
+	}
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+	node.Menu.Buttons = append(node.Menu.Buttons, deleteButton)
+
 	if ok {
 		visibilityButton := &tree.Button{
 			Name:            diagramFloss.GetName(),

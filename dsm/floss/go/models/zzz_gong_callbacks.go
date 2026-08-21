@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		if stage.OnAfterCompareAnalysisCreateCallback != nil {
+			stage.OnAfterCompareAnalysisCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Complexity:
 		if stage.OnAfterComplexityCreateCallback != nil {
 			stage.OnAfterComplexityCreateCallback.OnAfterCreate(stage, target)
@@ -60,6 +64,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		newTarget := any(new).(*CompareAnalysis)
+		if stage.OnAfterCompareAnalysisUpdateCallback != nil {
+			stage.OnAfterCompareAnalysisUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Complexity:
 		newTarget := any(new).(*Complexity)
 		if stage.OnAfterComplexityUpdateCallback != nil {
@@ -120,6 +129,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		if stage.OnAfterCompareAnalysisDeleteCallback != nil {
+			staged := any(staged).(*CompareAnalysis)
+			stage.OnAfterCompareAnalysisDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Complexity:
 		if stage.OnAfterComplexityDeleteCallback != nil {
 			staged := any(staged).(*Complexity)
@@ -180,6 +194,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		if stage.OnAfterCompareAnalysisReadCallback != nil {
+			stage.OnAfterCompareAnalysisReadCallback.OnAfterRead(stage, target)
+		}
 	case *Complexity:
 		if stage.OnAfterComplexityReadCallback != nil {
 			stage.OnAfterComplexityReadCallback.OnAfterRead(stage, target)
@@ -231,6 +249,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		stage.OnAfterCompareAnalysisUpdateCallback = any(callback).(OnAfterUpdateInterface[CompareAnalysis])
 	case *Complexity:
 		stage.OnAfterComplexityUpdateCallback = any(callback).(OnAfterUpdateInterface[Complexity])
 	case *ComplexityShape:
@@ -258,6 +278,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		stage.OnAfterCompareAnalysisCreateCallback = any(callback).(OnAfterCreateInterface[CompareAnalysis])
 	case *Complexity:
 		stage.OnAfterComplexityCreateCallback = any(callback).(OnAfterCreateInterface[Complexity])
 	case *ComplexityShape:
@@ -285,6 +307,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		stage.OnAfterCompareAnalysisDeleteCallback = any(callback).(OnAfterDeleteInterface[CompareAnalysis])
 	case *Complexity:
 		stage.OnAfterComplexityDeleteCallback = any(callback).(OnAfterDeleteInterface[Complexity])
 	case *ComplexityShape:
@@ -312,6 +336,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *CompareAnalysis:
+		stage.OnAfterCompareAnalysisReadCallback = any(callback).(OnAfterReadInterface[CompareAnalysis])
 	case *Complexity:
 		stage.OnAfterComplexityReadCallback = any(callback).(OnAfterReadInterface[Complexity])
 	case *ComplexityShape:

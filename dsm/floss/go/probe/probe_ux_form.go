@@ -15,6 +15,12 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *CompareAnalysisFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CompareAnalysis", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.compareanalysis, probe)
+			}
 		case *ComplexityFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Complexity", true)
@@ -97,6 +103,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "CompareAnalysis":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CompareAnalysis Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CompareAnalysisFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		compareanalysis := new(models.CompareAnalysis)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(compareanalysis, formGroup, probe)
 	case "Complexity":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

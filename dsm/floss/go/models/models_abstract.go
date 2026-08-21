@@ -80,3 +80,14 @@ type Effort struct {
 }
 
 var _ AbstractType = (*Effort)(nil)
+
+// CompareAnalysis is the tool of tDe Weck's FLOSS
+type CompareAnalysis struct {
+	Name string
+
+	FromSystem *System
+	ToSystem   *System
+
+	Alpha float64
+	Beta  *float64
+}

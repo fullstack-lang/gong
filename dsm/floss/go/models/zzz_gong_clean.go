@@ -40,6 +40,15 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by CompareAnalysis
+func (compareanalysis *CompareAnalysis) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &compareanalysis.FromSystem) || modified
+	modified = GongCleanPointer(stage, &compareanalysis.ToSystem) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Complexity
 func (complexity *Complexity) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
