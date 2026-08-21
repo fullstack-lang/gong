@@ -47,11 +47,25 @@ func (complexity *Complexity) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ComplexityShape
+func (complexityshape *ComplexityShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &complexityshape.Complexity) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by DiagramFloss
 func (diagramfloss *DiagramFloss) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &diagramfloss.System_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramfloss.SystemsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.Complexity_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.ComplexitysWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.Performance_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.PerformancesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.Effort_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.EffortsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -63,12 +77,20 @@ func (effort *Effort) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by EffortShape
+func (effortshape *EffortShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &effortshape.Effort) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
 	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &library.RootSystemes) || modified
+	modified = GongCleanSlice(stage, &library.RootSystems) || modified
 	modified = GongCleanSlice(stage, &library.SystemsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootComplexitys) || modified
 	modified = GongCleanSlice(stage, &library.ComplexitysWhoseNodeIsExpanded) || modified
@@ -87,10 +109,18 @@ func (performance *Performance) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PerformanceShape
+func (performanceshape *PerformanceShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &performanceshape.Performance) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by System
 func (system *System) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &system.Complexitys) || modified
+	modified = GongCleanSlice(stage, &system.Complexities) || modified
 	modified = GongCleanSlice(stage, &system.Performances) || modified
 	modified = GongCleanSlice(stage, &system.Efforts) || modified
 	modified = GongCleanSlice(stage, &system.DiagramFlosses) || modified

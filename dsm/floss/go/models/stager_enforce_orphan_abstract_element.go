@@ -6,12 +6,12 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		func() []*System {
 			roots := make([]*System, 0)
 			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
-				roots = append(roots, library.RootSystemes...)
+				roots = append(roots, library.RootSystems...)
 			}
 			return roots
 		},
 		func(system *System) {
-			system.GetOwningLibrary().RootSystemes = append(system.GetOwningLibrary().RootSystemes, system)
+			system.GetOwningLibrary().RootSystems = append(system.GetOwningLibrary().RootSystems, system)
 		},
 		func(system *System) []*System {
 			return system.SubSystemes
@@ -74,7 +74,6 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	) {
 		needCommit = true
 	}
-
 
 	if reattachToLibraryRoots(
 		stager,

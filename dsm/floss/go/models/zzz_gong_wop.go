@@ -29,6 +29,35 @@ func (from *Complexity) CopyBasicFields(to *Complexity) {
 	to.IsExpanded = from.IsExpanded
 }
 
+type ComplexityShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *ComplexityShape) CopyBasicFields(to *ComplexityShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
 type DiagramFloss_WOP struct {
 	// insertion point
 
@@ -55,6 +84,12 @@ type DiagramFloss_WOP struct {
 	Height float64
 
 	IsSystemsNodeExpanded bool
+
+	IsComplexitysNodeExpanded bool
+
+	IsPerformancesNodeExpanded bool
+
+	IsEffortsNodeExpanded bool
 }
 
 func (from *DiagramFloss) CopyBasicFields(to *DiagramFloss) {
@@ -71,6 +106,9 @@ func (from *DiagramFloss) CopyBasicFields(to *DiagramFloss) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsSystemsNodeExpanded = from.IsSystemsNodeExpanded
+	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
+	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
+	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
 }
 
 type Effort_WOP struct {
@@ -93,6 +131,35 @@ func (from *Effort) CopyBasicFields(to *Effort) {
 	to.IsExpanded = from.IsExpanded
 }
 
+type EffortShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *EffortShape) CopyBasicFields(to *EffortShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
 type Library_WOP struct {
 	// insertion point
 
@@ -112,7 +179,7 @@ type Library_WOP struct {
 
 	LogoSVGFile string
 
-	IsSystemesNodeExpanded bool
+	IsSystemsNodeExpanded bool
 
 	IsComplexitysNodeExpanded bool
 
@@ -133,7 +200,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
-	to.IsSystemesNodeExpanded = from.IsSystemesNodeExpanded
+	to.IsSystemsNodeExpanded = from.IsSystemsNodeExpanded
 	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
 	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
 	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
@@ -158,6 +225,35 @@ func (from *Performance) CopyBasicFields(to *Performance) {
 	to.Strength = from.Strength
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+}
+
+type PerformanceShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *PerformanceShape) CopyBasicFields(to *PerformanceShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type System_WOP struct {

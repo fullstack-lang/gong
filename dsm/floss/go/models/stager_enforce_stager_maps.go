@@ -9,7 +9,11 @@ func (stager *Stager) enforceStagerMaps() {
 
 	for _, diagramFloss := range GetGongstrucsSorted[*DiagramFloss](stager.stage) {
 		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.System_Shapes, &diagramFloss.map_System_SystemShape)
+		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Complexity_Shapes, &diagramFloss.map_Complexity_ComplexityShape)
+		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Performance_Shapes, &diagramFloss.map_Performance_PerformanceShape)
+		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Effort_Shapes, &diagramFloss.map_Effort_EffortShape)
 	}
+
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

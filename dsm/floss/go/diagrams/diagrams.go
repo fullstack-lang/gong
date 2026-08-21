@@ -36,8 +36,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `Abstract-Performance`}).Stage(stage)
 	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `Abstract-System`}).Stage(stage)
 
-	__LinkShape__00000001_ := (&models.LinkShape{Name: `RootSystemes`}).Stage(stage)
-	__LinkShape__00000002_ := (&models.LinkShape{Name: `Complexitys`}).Stage(stage)
 	__LinkShape__00000003_ := (&models.LinkShape{Name: `Performances`}).Stage(stage)
 	__LinkShape__00000004_ := (&models.LinkShape{Name: `Efforts`}).Stage(stage)
 
@@ -103,44 +101,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.Height = 63.000000
 	__GongStructShape__00000006_.IsSelected = false
 
-	__LinkShape__00000001_.Name = `RootSystemes`
-	__LinkShape__00000001_.IdentifierMeta = ref_models.Library{}.RootSystemes
-	__LinkShape__00000001_.FieldTypeIdentifierMeta = ref_models.System{}
-	__LinkShape__00000001_.FieldOffsetX = 0.000000
-	__LinkShape__00000001_.FieldOffsetY = 0.000000
-	__LinkShape__00000001_.TargetMultiplicity = models.MANY
-	__LinkShape__00000001_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000001_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000001_.SourceMultiplicity = models.MANY
-	__LinkShape__00000001_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000001_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000001_.X = 565.000000
-	__LinkShape__00000001_.Y = 81.000000
-	__LinkShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000001_.StartRatio = 0.500000
-	__LinkShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000001_.EndRatio = 0.500000
-	__LinkShape__00000001_.CornerOffsetRatio = 1.380000
-
-	__LinkShape__00000002_.Name = `Complexitys`
-	__LinkShape__00000002_.IdentifierMeta = ref_models.System{}.Complexitys
-	__LinkShape__00000002_.FieldTypeIdentifierMeta = ref_models.Complexity{}
-	__LinkShape__00000002_.FieldOffsetX = 0.000000
-	__LinkShape__00000002_.FieldOffsetY = 0.000000
-	__LinkShape__00000002_.TargetMultiplicity = models.MANY
-	__LinkShape__00000002_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000002_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000002_.SourceMultiplicity = models.MANY
-	__LinkShape__00000002_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000002_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000002_.X = 1042.999985
-	__LinkShape__00000002_.Y = 77.000000
-	__LinkShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000002_.StartRatio = 0.500000
-	__LinkShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000002_.EndRatio = 0.500000
-	__LinkShape__00000002_.CornerOffsetRatio = 1.380000
-
 	__LinkShape__00000003_.Name = `Performances`
 	__LinkShape__00000003_.IdentifierMeta = ref_models.System{}.Performances
 	__LinkShape__00000003_.FieldTypeIdentifierMeta = ref_models.Performance{}
@@ -187,8 +147,6 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
-	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000001_)
-	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000002_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000003_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000004_)
 }

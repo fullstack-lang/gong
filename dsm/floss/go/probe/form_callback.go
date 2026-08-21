@@ -72,6 +72,51 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(complexity_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(complexity_.IsExpanded), formDiv)
+		case "DiagramFloss:ComplexitysWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFloss instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFloss](complexityFormCallback.probe.stageOfInterest)
+			targetDiagramFlossIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFloss instances and update their ComplexitysWhoseNodeIsExpanded slice
+			for _diagramfloss := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFloss](complexityFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _diagramfloss)
+				
+				// if DiagramFloss is selected
+				if targetDiagramFlossIDs[id] {
+					// ensure complexity_ is in _diagramfloss.ComplexitysWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagramfloss.ComplexitysWhoseNodeIsExpanded {
+						if _b == complexity_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramfloss.ComplexitysWhoseNodeIsExpanded = append(_diagramfloss.ComplexitysWhoseNodeIsExpanded, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "ComplexitysWhoseNodeIsExpanded", &_diagramfloss.ComplexitysWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure complexity_ is NOT in _diagramfloss.ComplexitysWhoseNodeIsExpanded
+					idx := slices.Index(_diagramfloss.ComplexitysWhoseNodeIsExpanded, complexity_)
+					if idx != -1 {
+						_diagramfloss.ComplexitysWhoseNodeIsExpanded = slices.Delete(_diagramfloss.ComplexitysWhoseNodeIsExpanded, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "ComplexitysWhoseNodeIsExpanded", &_diagramfloss.ComplexitysWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootComplexitys":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -162,7 +207,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 					}
 				}
 			}
-		case "System:Complexitys":
+		case "System:Complexities":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -180,30 +225,30 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all System instances and update their Complexitys slice
+			// 3. Iterate over all System instances and update their Complexities slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _system)
 				
 				// if System is selected
 				if targetSystemIDs[id] {
-					// ensure complexity_ is in _system.Complexitys
+					// ensure complexity_ is in _system.Complexities
 					found := false
-					for _, _b := range _system.Complexitys {
+					for _, _b := range _system.Complexities {
 						if _b == complexity_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_system.Complexitys = append(_system.Complexitys, complexity_)
-						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexitys", &_system.Complexitys)
+						_system.Complexities = append(_system.Complexities, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexities", &_system.Complexities)
 					}
 				} else {
-					// ensure complexity_ is NOT in _system.Complexitys
-					idx := slices.Index(_system.Complexitys, complexity_)
+					// ensure complexity_ is NOT in _system.Complexities
+					idx := slices.Index(_system.Complexities, complexity_)
 					if idx != -1 {
-						_system.Complexitys = slices.Delete(_system.Complexitys, idx, idx+1)
-						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexitys", &_system.Complexitys)
+						_system.Complexities = slices.Delete(_system.Complexities, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexities", &_system.Complexities)
 					}
 				}
 			}
@@ -282,6 +327,143 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 	}
 
 	complexityFormCallback.probe.ux_tree()
+}
+func __gong__New__ComplexityShapeFormCallback(
+	complexityshape *models.ComplexityShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (complexityshapeFormCallback *ComplexityShapeFormCallback) {
+	complexityshapeFormCallback = new(ComplexityShapeFormCallback)
+	complexityshapeFormCallback.probe = probe
+	complexityshapeFormCallback.complexityshape = complexityshape
+	complexityshapeFormCallback.formGroup = formGroup
+
+	complexityshapeFormCallback.CreationMode = (complexityshape == nil)
+
+	return
+}
+
+type ComplexityShapeFormCallback struct {
+	complexityshape *models.ComplexityShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (complexityshapeFormCallback *ComplexityShapeFormCallback) OnSave() {
+	complexityshapeFormCallback.probe.stageOfInterest.Lock()
+	defer complexityshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ComplexityShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	complexityshapeFormCallback.probe.formStage.Checkout()
+
+	if complexityshapeFormCallback.complexityshape == nil {
+		complexityshapeFormCallback.complexityshape = new(models.ComplexityShape).Stage(complexityshapeFormCallback.probe.stageOfInterest)
+	}
+	complexityshape_ := complexityshapeFormCallback.complexityshape
+	_ = complexityshape_
+
+	for _, formDiv := range complexityshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(complexityshape_.Name), formDiv)
+		case "Complexity":
+			FormDivSelectFieldToField(&(complexityshape_.Complexity), complexityshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(complexityshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(complexityshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(complexityshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(complexityshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(complexityshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(complexityshape_.IsHidden), formDiv)
+		case "DiagramFloss:Complexity_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFloss instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFloss](complexityshapeFormCallback.probe.stageOfInterest)
+			targetDiagramFlossIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFloss instances and update their Complexity_Shapes slice
+			for _diagramfloss := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFloss](complexityshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityshapeFormCallback.probe.stageOfInterest, _diagramfloss)
+				
+				// if DiagramFloss is selected
+				if targetDiagramFlossIDs[id] {
+					// ensure complexityshape_ is in _diagramfloss.Complexity_Shapes
+					found := false
+					for _, _b := range _diagramfloss.Complexity_Shapes {
+						if _b == complexityshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramfloss.Complexity_Shapes = append(_diagramfloss.Complexity_Shapes, complexityshape_)
+						complexityshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "Complexity_Shapes", &_diagramfloss.Complexity_Shapes)
+					}
+				} else {
+					// ensure complexityshape_ is NOT in _diagramfloss.Complexity_Shapes
+					idx := slices.Index(_diagramfloss.Complexity_Shapes, complexityshape_)
+					if idx != -1 {
+						_diagramfloss.Complexity_Shapes = slices.Delete(_diagramfloss.Complexity_Shapes, idx, idx+1)
+						complexityshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "Complexity_Shapes", &_diagramfloss.Complexity_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if complexityshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		complexityshape_.Unstage(complexityshapeFormCallback.probe.stageOfInterest)
+	}
+
+	complexityshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ComplexityShape](
+		complexityshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if complexityshapeFormCallback.CreationMode || complexityshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		complexityshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(complexityshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ComplexityShapeFormCallback(
+			nil,
+			complexityshapeFormCallback.probe,
+			newFormGroup,
+		)
+		complexityshape := new(models.ComplexityShape)
+		FillUpForm(complexityshape, newFormGroup, complexityshapeFormCallback.probe)
+		complexityshapeFormCallback.probe.formStage.Commit()
+	}
+
+	complexityshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__DiagramFlossFormCallback(
 	diagramfloss *models.DiagramFloss,
@@ -415,6 +597,204 @@ func (diagramflossFormCallback *DiagramFlossFormCallback) OnSave() {
 			}
 			diagramfloss_.SystemsWhoseNodeIsExpanded = instanceSlice
 			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "SystemsWhoseNodeIsExpanded", &diagramfloss_.SystemsWhoseNodeIsExpanded)
+
+		case "Complexity_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ComplexityShape](diagramflossFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ComplexityShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ComplexityShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ComplexityShape](diagramflossFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramfloss_.Complexity_Shapes = instanceSlice
+			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "Complexity_Shapes", &diagramfloss_.Complexity_Shapes)
+
+		case "IsComplexitysNodeExpanded":
+			FormDivBasicFieldToField(&(diagramfloss_.IsComplexitysNodeExpanded), formDiv)
+		case "ComplexitysWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](diagramflossFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Complexity, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Complexity)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Complexity](diagramflossFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramfloss_.ComplexitysWhoseNodeIsExpanded = instanceSlice
+			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "ComplexitysWhoseNodeIsExpanded", &diagramfloss_.ComplexitysWhoseNodeIsExpanded)
+
+		case "Performance_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerformanceShape](diagramflossFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PerformanceShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PerformanceShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PerformanceShape](diagramflossFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramfloss_.Performance_Shapes = instanceSlice
+			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "Performance_Shapes", &diagramfloss_.Performance_Shapes)
+
+		case "IsPerformancesNodeExpanded":
+			FormDivBasicFieldToField(&(diagramfloss_.IsPerformancesNodeExpanded), formDiv)
+		case "PerformancesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](diagramflossFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Performance, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Performance)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Performance](diagramflossFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramfloss_.PerformancesWhoseNodeIsExpanded = instanceSlice
+			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "PerformancesWhoseNodeIsExpanded", &diagramfloss_.PerformancesWhoseNodeIsExpanded)
+
+		case "Effort_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.EffortShape](diagramflossFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.EffortShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.EffortShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.EffortShape](diagramflossFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramfloss_.Effort_Shapes = instanceSlice
+			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "Effort_Shapes", &diagramfloss_.Effort_Shapes)
+
+		case "IsEffortsNodeExpanded":
+			FormDivBasicFieldToField(&(diagramfloss_.IsEffortsNodeExpanded), formDiv)
+		case "EffortsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](diagramflossFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Effort, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Effort)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Effort](diagramflossFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramfloss_.EffortsWhoseNodeIsExpanded = instanceSlice
+			diagramflossFormCallback.probe.UpdateSliceOfPointersCallback(diagramfloss_, "EffortsWhoseNodeIsExpanded", &diagramfloss_.EffortsWhoseNodeIsExpanded)
 
 		case "System:DiagramFlosses":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
@@ -590,6 +970,51 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(effort_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(effort_.IsExpanded), formDiv)
+		case "DiagramFloss:EffortsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFloss instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFloss](effortFormCallback.probe.stageOfInterest)
+			targetDiagramFlossIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFloss instances and update their EffortsWhoseNodeIsExpanded slice
+			for _diagramfloss := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFloss](effortFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _diagramfloss)
+				
+				// if DiagramFloss is selected
+				if targetDiagramFlossIDs[id] {
+					// ensure effort_ is in _diagramfloss.EffortsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagramfloss.EffortsWhoseNodeIsExpanded {
+						if _b == effort_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramfloss.EffortsWhoseNodeIsExpanded = append(_diagramfloss.EffortsWhoseNodeIsExpanded, effort_)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "EffortsWhoseNodeIsExpanded", &_diagramfloss.EffortsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure effort_ is NOT in _diagramfloss.EffortsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramfloss.EffortsWhoseNodeIsExpanded, effort_)
+					if idx != -1 {
+						_diagramfloss.EffortsWhoseNodeIsExpanded = slices.Delete(_diagramfloss.EffortsWhoseNodeIsExpanded, idx, idx+1)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "EffortsWhoseNodeIsExpanded", &_diagramfloss.EffortsWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootEfforts":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -801,6 +1226,143 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 
 	effortFormCallback.probe.ux_tree()
 }
+func __gong__New__EffortShapeFormCallback(
+	effortshape *models.EffortShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (effortshapeFormCallback *EffortShapeFormCallback) {
+	effortshapeFormCallback = new(EffortShapeFormCallback)
+	effortshapeFormCallback.probe = probe
+	effortshapeFormCallback.effortshape = effortshape
+	effortshapeFormCallback.formGroup = formGroup
+
+	effortshapeFormCallback.CreationMode = (effortshape == nil)
+
+	return
+}
+
+type EffortShapeFormCallback struct {
+	effortshape *models.EffortShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (effortshapeFormCallback *EffortShapeFormCallback) OnSave() {
+	effortshapeFormCallback.probe.stageOfInterest.Lock()
+	defer effortshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("EffortShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	effortshapeFormCallback.probe.formStage.Checkout()
+
+	if effortshapeFormCallback.effortshape == nil {
+		effortshapeFormCallback.effortshape = new(models.EffortShape).Stage(effortshapeFormCallback.probe.stageOfInterest)
+	}
+	effortshape_ := effortshapeFormCallback.effortshape
+	_ = effortshape_
+
+	for _, formDiv := range effortshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(effortshape_.Name), formDiv)
+		case "Effort":
+			FormDivSelectFieldToField(&(effortshape_.Effort), effortshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(effortshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(effortshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(effortshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(effortshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(effortshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(effortshape_.IsHidden), formDiv)
+		case "DiagramFloss:Effort_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFloss instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFloss](effortshapeFormCallback.probe.stageOfInterest)
+			targetDiagramFlossIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFloss instances and update their Effort_Shapes slice
+			for _diagramfloss := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFloss](effortshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortshapeFormCallback.probe.stageOfInterest, _diagramfloss)
+				
+				// if DiagramFloss is selected
+				if targetDiagramFlossIDs[id] {
+					// ensure effortshape_ is in _diagramfloss.Effort_Shapes
+					found := false
+					for _, _b := range _diagramfloss.Effort_Shapes {
+						if _b == effortshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramfloss.Effort_Shapes = append(_diagramfloss.Effort_Shapes, effortshape_)
+						effortshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "Effort_Shapes", &_diagramfloss.Effort_Shapes)
+					}
+				} else {
+					// ensure effortshape_ is NOT in _diagramfloss.Effort_Shapes
+					idx := slices.Index(_diagramfloss.Effort_Shapes, effortshape_)
+					if idx != -1 {
+						_diagramfloss.Effort_Shapes = slices.Delete(_diagramfloss.Effort_Shapes, idx, idx+1)
+						effortshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "Effort_Shapes", &_diagramfloss.Effort_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if effortshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		effortshape_.Unstage(effortshapeFormCallback.probe.stageOfInterest)
+	}
+
+	effortshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.EffortShape](
+		effortshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if effortshapeFormCallback.CreationMode || effortshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		effortshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(effortshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__EffortShapeFormCallback(
+			nil,
+			effortshapeFormCallback.probe,
+			newFormGroup,
+		)
+		effortshape := new(models.EffortShape)
+		FillUpForm(effortshape, newFormGroup, effortshapeFormCallback.probe)
+		effortshapeFormCallback.probe.formStage.Commit()
+	}
+
+	effortshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
 	probe *Probe,
@@ -926,7 +1488,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
 		case "LogoSVGFile":
 			FormDivBasicFieldToField(&(library_.LogoSVGFile), formDiv)
-		case "RootSystemes":
+		case "RootSystems":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.System, 0)
 
@@ -955,11 +1517,11 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			library_.RootSystemes = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootSystemes", &library_.RootSystemes)
+			library_.RootSystems = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootSystems", &library_.RootSystems)
 
-		case "IsSystemesNodeExpanded":
-			FormDivBasicFieldToField(&(library_.IsSystemesNodeExpanded), formDiv)
+		case "IsSystemsNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsSystemsNodeExpanded), formDiv)
 		case "SystemsWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.System, 0)
@@ -1366,6 +1928,51 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(performance_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(performance_.IsExpanded), formDiv)
+		case "DiagramFloss:PerformancesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFloss instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFloss](performanceFormCallback.probe.stageOfInterest)
+			targetDiagramFlossIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFloss instances and update their PerformancesWhoseNodeIsExpanded slice
+			for _diagramfloss := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFloss](performanceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _diagramfloss)
+				
+				// if DiagramFloss is selected
+				if targetDiagramFlossIDs[id] {
+					// ensure performance_ is in _diagramfloss.PerformancesWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagramfloss.PerformancesWhoseNodeIsExpanded {
+						if _b == performance_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramfloss.PerformancesWhoseNodeIsExpanded = append(_diagramfloss.PerformancesWhoseNodeIsExpanded, performance_)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "PerformancesWhoseNodeIsExpanded", &_diagramfloss.PerformancesWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure performance_ is NOT in _diagramfloss.PerformancesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramfloss.PerformancesWhoseNodeIsExpanded, performance_)
+					if idx != -1 {
+						_diagramfloss.PerformancesWhoseNodeIsExpanded = slices.Delete(_diagramfloss.PerformancesWhoseNodeIsExpanded, idx, idx+1)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "PerformancesWhoseNodeIsExpanded", &_diagramfloss.PerformancesWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootPerformances":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1577,6 +2184,143 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 
 	performanceFormCallback.probe.ux_tree()
 }
+func __gong__New__PerformanceShapeFormCallback(
+	performanceshape *models.PerformanceShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (performanceshapeFormCallback *PerformanceShapeFormCallback) {
+	performanceshapeFormCallback = new(PerformanceShapeFormCallback)
+	performanceshapeFormCallback.probe = probe
+	performanceshapeFormCallback.performanceshape = performanceshape
+	performanceshapeFormCallback.formGroup = formGroup
+
+	performanceshapeFormCallback.CreationMode = (performanceshape == nil)
+
+	return
+}
+
+type PerformanceShapeFormCallback struct {
+	performanceshape *models.PerformanceShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (performanceshapeFormCallback *PerformanceShapeFormCallback) OnSave() {
+	performanceshapeFormCallback.probe.stageOfInterest.Lock()
+	defer performanceshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PerformanceShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	performanceshapeFormCallback.probe.formStage.Checkout()
+
+	if performanceshapeFormCallback.performanceshape == nil {
+		performanceshapeFormCallback.performanceshape = new(models.PerformanceShape).Stage(performanceshapeFormCallback.probe.stageOfInterest)
+	}
+	performanceshape_ := performanceshapeFormCallback.performanceshape
+	_ = performanceshape_
+
+	for _, formDiv := range performanceshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(performanceshape_.Name), formDiv)
+		case "Performance":
+			FormDivSelectFieldToField(&(performanceshape_.Performance), performanceshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(performanceshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(performanceshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(performanceshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(performanceshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(performanceshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(performanceshape_.IsHidden), formDiv)
+		case "DiagramFloss:Performance_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFloss instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFloss](performanceshapeFormCallback.probe.stageOfInterest)
+			targetDiagramFlossIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFloss instances and update their Performance_Shapes slice
+			for _diagramfloss := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFloss](performanceshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceshapeFormCallback.probe.stageOfInterest, _diagramfloss)
+				
+				// if DiagramFloss is selected
+				if targetDiagramFlossIDs[id] {
+					// ensure performanceshape_ is in _diagramfloss.Performance_Shapes
+					found := false
+					for _, _b := range _diagramfloss.Performance_Shapes {
+						if _b == performanceshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramfloss.Performance_Shapes = append(_diagramfloss.Performance_Shapes, performanceshape_)
+						performanceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "Performance_Shapes", &_diagramfloss.Performance_Shapes)
+					}
+				} else {
+					// ensure performanceshape_ is NOT in _diagramfloss.Performance_Shapes
+					idx := slices.Index(_diagramfloss.Performance_Shapes, performanceshape_)
+					if idx != -1 {
+						_diagramfloss.Performance_Shapes = slices.Delete(_diagramfloss.Performance_Shapes, idx, idx+1)
+						performanceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramfloss, "Performance_Shapes", &_diagramfloss.Performance_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if performanceshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		performanceshape_.Unstage(performanceshapeFormCallback.probe.stageOfInterest)
+	}
+
+	performanceshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PerformanceShape](
+		performanceshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if performanceshapeFormCallback.CreationMode || performanceshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		performanceshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(performanceshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PerformanceShapeFormCallback(
+			nil,
+			performanceshapeFormCallback.probe,
+			newFormGroup,
+		)
+		performanceshape := new(models.PerformanceShape)
+		FillUpForm(performanceshape, newFormGroup, performanceshapeFormCallback.probe)
+		performanceshapeFormCallback.probe.formStage.Commit()
+	}
+
+	performanceshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__SystemFormCallback(
 	system *models.System,
 	probe *Probe,
@@ -1626,7 +2370,7 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(system_.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(system_.Description), formDiv)
-		case "Complexitys":
+		case "Complexities":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](systemFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Complexity, 0)
 
@@ -1655,8 +2399,8 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			system_.Complexitys = instanceSlice
-			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Complexitys", &system_.Complexitys)
+			system_.Complexities = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Complexities", &system_.Complexities)
 
 		case "Performances":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](systemFormCallback.probe.stageOfInterest)
@@ -1975,7 +2719,7 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Library:RootSystemes":
+		case "Library:RootSystems":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1993,30 +2737,30 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Library instances and update their RootSystemes slice
+			// 3. Iterate over all Library instances and update their RootSystems slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](systemFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
-					// ensure system_ is in _library.RootSystemes
+					// ensure system_ is in _library.RootSystems
 					found := false
-					for _, _b := range _library.RootSystemes {
+					for _, _b := range _library.RootSystems {
 						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.RootSystemes = append(_library.RootSystemes, system_)
-						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootSystemes", &_library.RootSystemes)
+						_library.RootSystems = append(_library.RootSystems, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootSystems", &_library.RootSystems)
 					}
 				} else {
-					// ensure system_ is NOT in _library.RootSystemes
-					idx := slices.Index(_library.RootSystemes, system_)
+					// ensure system_ is NOT in _library.RootSystems
+					idx := slices.Index(_library.RootSystems, system_)
 					if idx != -1 {
-						_library.RootSystemes = slices.Delete(_library.RootSystemes, idx, idx+1)
-						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootSystemes", &_library.RootSystemes)
+						_library.RootSystems = slices.Delete(_library.RootSystems, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootSystems", &_library.RootSystems)
 					}
 				}
 			}

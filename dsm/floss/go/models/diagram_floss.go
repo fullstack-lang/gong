@@ -37,8 +37,30 @@ type DiagramFloss struct {
 	IsSystemsNodeExpanded      bool
 	SystemsWhoseNodeIsExpanded []*System
 
+	// Complexity
+	Complexity_Shapes              []*ComplexityShape
+	map_Complexity_ComplexityShape map[*Complexity]*ComplexityShape
+	map_Complexity_Rect            map[*Complexity]*svg.Rect
+	IsComplexitysNodeExpanded      bool
+	ComplexitysWhoseNodeIsExpanded []*Complexity
+
+	// Performance
+	Performance_Shapes               []*PerformanceShape
+	map_Performance_PerformanceShape map[*Performance]*PerformanceShape
+	map_Performance_Rect             map[*Performance]*svg.Rect
+	IsPerformancesNodeExpanded       bool
+	PerformancesWhoseNodeIsExpanded  []*Performance
+
+	// Effort
+	Effort_Shapes              []*EffortShape
+	map_Effort_EffortShape     map[*Effort]*EffortShape
+	map_Effort_Rect            map[*Effort]*svg.Rect
+	IsEffortsNodeExpanded      bool
+	EffortsWhoseNodeIsExpanded []*Effort
+
 	owningSystem *System
 }
+
 
 func (d *DiagramFloss) IsEditable() bool {
 	return d.IsEditable_

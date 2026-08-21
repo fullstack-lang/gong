@@ -26,14 +26,20 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "Complexity":
 		updateProbeTable[*models.Complexity](probe)
+	case "ComplexityShape":
+		updateProbeTable[*models.ComplexityShape](probe)
 	case "DiagramFloss":
 		updateProbeTable[*models.DiagramFloss](probe)
 	case "Effort":
 		updateProbeTable[*models.Effort](probe)
+	case "EffortShape":
+		updateProbeTable[*models.EffortShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Performance":
 		updateProbeTable[*models.Performance](probe)
+	case "PerformanceShape":
+		updateProbeTable[*models.PerformanceShape](probe)
 	case "System":
 		updateProbeTable[*models.System](probe)
 	case "SystemShape":

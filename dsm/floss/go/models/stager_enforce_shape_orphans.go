@@ -8,13 +8,22 @@ import (
 func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
 	reachableSystemShapes := make(map[*SystemShape]struct{})
+	reachableComplexityShapes := make(map[*ComplexityShape]struct{})
+	reachablePerformanceShapes := make(map[*PerformanceShape]struct{})
+	reachableEffortShapes := make(map[*EffortShape]struct{})
 
 	for _, diagram := range GetGongstrucsSorted[*DiagramFloss](stager.stage) {
 		collectShapes(diagram.System_Shapes, reachableSystemShapes)
+		collectShapes(diagram.Complexity_Shapes, reachableComplexityShapes)
+		collectShapes(diagram.Performance_Shapes, reachablePerformanceShapes)
+		collectShapes(diagram.Effort_Shapes, reachableEffortShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
 	needCommit = unstageUnreachableOrphans(stager, reachableSystemShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableComplexityShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachablePerformanceShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableEffortShapes) || needCommit
 
 	return
 }
