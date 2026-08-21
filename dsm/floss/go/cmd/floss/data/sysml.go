@@ -27,22 +27,22 @@ func _(stage *models.Stage) {
 
 	__CompareAnalysis__00000000_ := (&models.CompareAnalysis{Name: `SysML v1 to v2 Semantic Performance Delta`}).Stage(stage)
 
-	__Complexity__00000000_ := (&models.Complexity{Name: `Cacc`}).Stage(stage)
-	__Complexity__00000001_ := (&models.Complexity{Name: `Cacc`}).Stage(stage)
+	__Complexity__00000000_ := (&models.Complexity{Name: `Metamodel AST Depth & Stereotype Indirection`}).Stage(stage)
+	__Complexity__00000001_ := (&models.Complexity{Name: `Direct Constraint Attachment & Minimal Indirection`}).Stage(stage)
 
 	__DiagramFlossEquation__00000000_ := (&models.DiagramFlossEquation{Name: `SysML v1 Equation Diagram`}).Stage(stage)
 	__DiagramFlossEquation__00000001_ := (&models.DiagramFlossEquation{Name: `SysML v2 Equation Diagram`}).Stage(stage)
 	__DiagramFlossEquation__00000002_ := (&models.DiagramFlossEquation{Name: `SysML v1 to v2 Semantic Delta Diagram`}).Stage(stage)
 
-	__Effort__00000000_ := (&models.Effort{Name: `Estd`}).Stage(stage)
-	__Effort__00000001_ := (&models.Effort{Name: `Erule`}).Stage(stage)
-	__Effort__00000002_ := (&models.Effort{Name: `Estd`}).Stage(stage)
-	__Effort__00000003_ := (&models.Effort{Name: `Erule`}).Stage(stage)
+	__Effort__00000000_ := (&models.Effort{Name: `OMG Standardization Effort (UML Profile Layering)`}).Stage(stage)
+	__Effort__00000001_ := (&models.Effort{Name: `Downstream User Effort (Rule Authoring & Multi-hop Traversal)`}).Stage(stage)
+	__Effort__00000002_ := (&models.Effort{Name: `OMG Standardization Effort (8-yr KerML Mathematical Foundation)`}).Stage(stage)
+	__Effort__00000003_ := (&models.Effort{Name: `Downstream User Effort (Direct Predicate Rules)`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `SysML Semantic Comparison`}).Stage(stage)
 
-	__Performance__00000000_ := (&models.Performance{Name: `Psemantic`}).Stage(stage)
-	__Performance__00000001_ := (&models.Performance{Name: `Psemantic`}).Stage(stage)
+	__Performance__00000000_ := (&models.Performance{Name: `Portable Semantic Expressiveness & Rigor`}).Stage(stage)
+	__Performance__00000001_ := (&models.Performance{Name: `KerML Native Logic & Standardized Portability`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `SysML v1 (UML + OCL)`}).Stage(stage)
 	__System__00000001_ := (&models.System{Name: `SysML v2 (KerML)`}).Stage(stage)
@@ -55,13 +55,15 @@ func _(stage *models.Stage) {
 	__CompareAnalysis__00000000_.ComputedPrefix = ``
 	__CompareAnalysis__00000000_.IsExpanded = true
 
-	__Complexity__00000000_.Name = `Cacc`
+	__Complexity__00000000_.Name = `Metamodel AST Depth & Stereotype Indirection`
 	__Complexity__00000000_.Strength = 0.200000
+	__Complexity__00000000_.Description = `High graph topological complexity and interface coupling. Property constraints require navigating: Stereotype Application -> Base UML Element -> TaggedValues -> UML Property -> AppliedStereotype.`
 	__Complexity__00000000_.ComputedPrefix = ``
 	__Complexity__00000000_.IsExpanded = false
 
-	__Complexity__00000001_.Name = `Cacc`
+	__Complexity__00000001_.Name = `Direct Constraint Attachment & Minimal Indirection`
 	__Complexity__00000001_.Strength = 0.100000
+	__Complexity__00000001_.Description = `Minimal graph indirection. The universal Feature / Type / Usage / Definition pattern allows direct constraint attachment (e.g., Usage -> assert constraint { x > 0 }).`
 	__Complexity__00000001_.ComputedPrefix = ``
 	__Complexity__00000001_.IsExpanded = false
 
@@ -119,23 +121,27 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000002_.IsPerformancesNodeExpanded = false
 	__DiagramFlossEquation__00000002_.IsEffortsNodeExpanded = false
 
-	__Effort__00000000_.Name = `Estd`
+	__Effort__00000000_.Name = `OMG Standardization Effort (UML Profile Layering)`
 	__Effort__00000000_.Strength = 0.050000
+	__Effort__00000000_.Description = `Low standardization effort by OMG specification working group: simply layered profiles over UML 2 without redesigning the core metamodel.`
 	__Effort__00000000_.ComputedPrefix = ``
 	__Effort__00000000_.IsExpanded = false
 
-	__Effort__00000001_.Name = `Erule`
+	__Effort__00000001_.Name = `Downstream User Effort (Rule Authoring & Multi-hop Traversal)`
 	__Effort__00000001_.Strength = 0.850000
+	__Effort__00000001_.Description = `High downstream rule-authoring effort offloaded to users/vendors: many lines of code and multi-hop AST traversal hops per written validation rule.`
 	__Effort__00000001_.ComputedPrefix = ``
 	__Effort__00000001_.IsExpanded = false
 
-	__Effort__00000002_.Name = `Estd`
+	__Effort__00000002_.Name = `OMG Standardization Effort (8-yr KerML Mathematical Foundation)`
 	__Effort__00000002_.Strength = 0.750000
+	__Effort__00000002_.Description = `Major upfront standardization investment (~8 years) by OMG working group building KerML from mathematical first principles, absorbing systemic complexity.`
 	__Effort__00000002_.ComputedPrefix = ``
 	__Effort__00000002_.IsExpanded = false
 
-	__Effort__00000003_.Name = `Erule`
+	__Effort__00000003_.Name = `Downstream User Effort (Direct Predicate Rules)`
 	__Effort__00000003_.Strength = 0.200000
+	__Effort__00000003_.Description = `Low downstream rule-authoring effort: concise direct predicate assertions with minimal AST navigation.`
 	__Effort__00000003_.ComputedPrefix = ``
 	__Effort__00000003_.IsExpanded = false
 
@@ -155,13 +161,15 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
-	__Performance__00000000_.Name = `Psemantic`
+	__Performance__00000000_.Name = `Portable Semantic Expressiveness & Rigor`
 	__Performance__00000000_.Strength = 0.250000
+	__Performance__00000000_.Description = `OCL is expressive but lacks standardized AST bindings to stereotypes across tools. Cross-vendor portable rule execution rate is near zero without proprietary scripts.`
 	__Performance__00000000_.ComputedPrefix = ``
 	__Performance__00000000_.IsExpanded = false
 
-	__Performance__00000001_.Name = `Psemantic`
+	__Performance__00000001_.Name = `KerML Native Logic & Standardized Portability`
 	__Performance__00000001_.Strength = 0.850000
+	__Performance__00000001_.Description = `KerML provides native first-order predicate logic, arithmetic evaluation, temporal constraints, and set operations directly in textual syntax, fully standardized and portable across compliant execution engines.`
 	__Performance__00000001_.ComputedPrefix = ``
 	__Performance__00000001_.IsExpanded = false
 
