@@ -616,14 +616,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Complexities"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Performances"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Efforts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Complexities"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Performances"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsEffortsNodeExpanded"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Efforts"))
 	}
 
 	notecomplexityshapeOrdered := []*NoteComplexityShape{}
@@ -2787,14 +2787,14 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Complexities"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Performances"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Efforts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Complexities"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Performances"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsEffortsNodeExpanded"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Efforts"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

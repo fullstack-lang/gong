@@ -137,13 +137,7 @@ func (stager *Stager) treeNoteWithinDiagramFloss(
 		}
 		nodeComplexity.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				noteComplexityShape := (&NoteComplexityShape{
-					Name:       complexity.GetName() + " shape",
-					Complexity: complexity,
-					Note:       note,
-					LinkShape:  LinkShape{},
-				}).Stage(stager.stage)
-				diagramFloss.NoteComplexityShapes = append(diagramFloss.NoteComplexityShapes, noteComplexityShape)
+				addAssociationShapeToDiagram(stager, note, complexity, &diagramFloss.NoteComplexityShapes)
 				stage.Commit()
 				return
 			}
@@ -206,13 +200,7 @@ func (stager *Stager) treeNoteWithinDiagramFloss(
 		}
 		nodePerformance.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				notePerformanceShape := (&NotePerformanceShape{
-					Name:        performance.GetName() + " shape",
-					Performance: performance,
-					Note:        note,
-					LinkShape:   LinkShape{},
-				}).Stage(stager.stage)
-				diagramFloss.NotePerformanceShapes = append(diagramFloss.NotePerformanceShapes, notePerformanceShape)
+				addAssociationShapeToDiagram(stager, note, performance, &diagramFloss.NotePerformanceShapes)
 				stage.Commit()
 				return
 			}
@@ -275,13 +263,7 @@ func (stager *Stager) treeNoteWithinDiagramFloss(
 		}
 		nodeEffort.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				noteEffortShape := (&NoteEffortShape{
-					Name:      effort.GetName() + " shape",
-					Effort:    effort,
-					Note:      note,
-					LinkShape: LinkShape{},
-				}).Stage(stager.stage)
-				diagramFloss.NoteEffortShapes = append(diagramFloss.NoteEffortShapes, noteEffortShape)
+				addAssociationShapeToDiagram(stager, note, effort, &diagramFloss.NoteEffortShapes)
 				stage.Commit()
 				return
 			}
@@ -291,6 +273,7 @@ func (stager *Stager) treeNoteWithinDiagramFloss(
 				return
 			}
 		}
+
 		if ok {
 			visibilityButton := &tree.Button{
 				Name:            diagramFloss.GetName(),

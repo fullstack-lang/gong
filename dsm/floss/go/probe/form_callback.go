@@ -2900,12 +2900,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(note_.Description), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
-		case "IsComplexitysNodeExpanded":
-			FormDivBasicFieldToField(&(note_.IsComplexitysNodeExpanded), formDiv)
 		case "Complexities":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Complexity, 0)
@@ -2938,8 +2932,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			note_.Complexities = instanceSlice
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Complexities", &note_.Complexities)
 
-		case "IsPerformancesNodeExpanded":
-			FormDivBasicFieldToField(&(note_.IsPerformancesNodeExpanded), formDiv)
 		case "Performances":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Performance, 0)
@@ -2972,8 +2964,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			note_.Performances = instanceSlice
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Performances", &note_.Performances)
 
-		case "IsEffortsNodeExpanded":
-			FormDivBasicFieldToField(&(note_.IsEffortsNodeExpanded), formDiv)
 		case "Efforts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Effort, 0)
@@ -3006,6 +2996,16 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			note_.Efforts = instanceSlice
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Efforts", &note_.Efforts)
 
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
+		case "IsComplexitysNodeExpanded":
+			FormDivBasicFieldToField(&(note_.IsComplexitysNodeExpanded), formDiv)
+		case "IsPerformancesNodeExpanded":
+			FormDivBasicFieldToField(&(note_.IsPerformancesNodeExpanded), formDiv)
+		case "IsEffortsNodeExpanded":
+			FormDivBasicFieldToField(&(note_.IsEffortsNodeExpanded), formDiv)
 		case "DiagramFloss:NotesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

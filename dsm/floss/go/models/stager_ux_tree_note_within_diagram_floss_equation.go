@@ -137,13 +137,7 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 		}
 		nodeComplexity.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				noteComplexityShape := (&NoteComplexityShape{
-					Name:       complexity.GetName() + " shape",
-					Complexity: complexity,
-					Note:       note,
-					LinkShape:  LinkShape{},
-				}).Stage(stager.stage)
-				diagramEquation.NoteComplexityShapes = append(diagramEquation.NoteComplexityShapes, noteComplexityShape)
+				addAssociationShapeToDiagram(stager, note, complexity, &diagramEquation.NoteComplexityShapes)
 				stage.Commit()
 				return
 			}
@@ -206,13 +200,7 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 		}
 		nodePerformance.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				notePerformanceShape := (&NotePerformanceShape{
-					Name:        performance.GetName() + " shape",
-					Performance: performance,
-					Note:        note,
-					LinkShape:   LinkShape{},
-				}).Stage(stager.stage)
-				diagramEquation.NotePerformanceShapes = append(diagramEquation.NotePerformanceShapes, notePerformanceShape)
+				addAssociationShapeToDiagram(stager, note, performance, &diagramEquation.NotePerformanceShapes)
 				stage.Commit()
 				return
 			}
@@ -275,13 +263,7 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 		}
 		nodeEffort.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				noteEffortShape := (&NoteEffortShape{
-					Name:      effort.GetName() + " shape",
-					Effort:    effort,
-					Note:      note,
-					LinkShape: LinkShape{},
-				}).Stage(stager.stage)
-				diagramEquation.NoteEffortShapes = append(diagramEquation.NoteEffortShapes, noteEffortShape)
+				addAssociationShapeToDiagram(stager, note, effort, &diagramEquation.NoteEffortShapes)
 				stage.Commit()
 				return
 			}
@@ -291,6 +273,7 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 				return
 			}
 		}
+
 		if ok {
 			visibilityButton := &tree.Button{
 				Name:            diagramEquation.GetName(),

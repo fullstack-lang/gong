@@ -216,6 +216,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	// Map to hold element to rect pointers for Note link connections
 	map_Element_Rect := make(map[any]*svg.Rect)
+	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
+	diagram.map_SvgRect_Complexity = make(map[*svg.Rect]*Complexity)
+	diagram.map_SvgRect_Performance = make(map[*svg.Rect]*Performance)
+	diagram.map_SvgRect_Effort = make(map[*svg.Rect]*Effort)
 
 	//
 	// Column 1: Delta C (Amber / Orange) - Bottom on ground
@@ -245,6 +249,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			}
 			layer.Rects = append(layer.Rects, itemRect)
 			map_Element_Rect[c] = itemRect
+			diagram.map_SvgRect_Complexity[itemRect] = c
+
+			itemRect.CanHaveBottomHandle = true
+			itemRect.CanHaveLeftHandle = true
+			itemRect.CanHaveRightHandle = true
+			itemRect.CanHaveTopHandle = true
+
 
 			content := fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
@@ -330,6 +341,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			}
 			layer.Rects = append(layer.Rects, itemRect)
 			map_Element_Rect[p] = itemRect
+			diagram.map_SvgRect_Performance[itemRect] = p
+
+			itemRect.CanHaveBottomHandle = true
+			itemRect.CanHaveLeftHandle = true
+			itemRect.CanHaveRightHandle = true
+			itemRect.CanHaveTopHandle = true
+
 
 			content := fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
@@ -415,6 +433,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			}
 			layer.Rects = append(layer.Rects, itemRect)
 			map_Element_Rect[e] = itemRect
+			diagram.map_SvgRect_Effort[itemRect] = e
+
+			itemRect.CanHaveBottomHandle = true
+			itemRect.CanHaveLeftHandle = true
+			itemRect.CanHaveRightHandle = true
+			itemRect.CanHaveTopHandle = true
+
 
 			content := fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
@@ -529,6 +554,8 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagram.map_Note_Rect[noteShape.Note] = rect
+		diagram.map_SvgRect_NoteShape[rect] = noteShape
+
 
 		rect.Name = noteShape.GetName()
 		rect.X = noteShape.GetX()
@@ -592,15 +619,53 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		if startRect == nil || endRect == nil {
 			continue
 		}
+
+		startOrientation := shape.GetStartOrientation()
+		if startOrientation == "" {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
+		endOrientation := shape.GetEndOrientation()
+		if endOrientation == "" {
+			endOrientation = ORIENTATION_HORIZONTAL
+		}
+		startRatio := shape.GetStartRatio()
+		if startRatio == 0 {
+			startRatio = 0.5
+		}
+		endRatio := shape.GetEndRatio()
+		if endRatio == 0 {
+			endRatio = 0.5
+		}
+		cornerOffsetRatio := shape.GetCornerOffsetRatio()
+		if cornerOffsetRatio == 0 {
+			cornerOffsetRatio = 1.5
+		}
+
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
+		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
+		link.StartOrientation = svg.OrientationType(startOrientation)
+		link.StartRatio = startRatio
 		link.End = endRect
+		link.EndOrientation = svg.OrientationType(endOrientation)
+		link.EndRatio = endRatio
+		link.CornerOffsetRatio = cornerOffsetRatio
+		link.CornerRadius = 5
 		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
-		link.Stroke = "#FBC02D"
+		link.Stroke = "#FFA000"
 		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "4,4"
-		link.StrokeOpacity = 0.9
+		link.StrokeDashArray = "5 5"
+		link.StrokeOpacity = 1.0
+
+		link.OnChange = func(updatedLink *svg.Link) {
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+			stager.stage.Commit()
+		}
 	}
 
 	for _, shape := range diagram.NotePerformanceShapes {
@@ -612,15 +677,53 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		if startRect == nil || endRect == nil {
 			continue
 		}
+
+		startOrientation := shape.GetStartOrientation()
+		if startOrientation == "" {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
+		endOrientation := shape.GetEndOrientation()
+		if endOrientation == "" {
+			endOrientation = ORIENTATION_HORIZONTAL
+		}
+		startRatio := shape.GetStartRatio()
+		if startRatio == 0 {
+			startRatio = 0.5
+		}
+		endRatio := shape.GetEndRatio()
+		if endRatio == 0 {
+			endRatio = 0.5
+		}
+		cornerOffsetRatio := shape.GetCornerOffsetRatio()
+		if cornerOffsetRatio == 0 {
+			cornerOffsetRatio = 1.5
+		}
+
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
+		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
+		link.StartOrientation = svg.OrientationType(startOrientation)
+		link.StartRatio = startRatio
 		link.End = endRect
+		link.EndOrientation = svg.OrientationType(endOrientation)
+		link.EndRatio = endRatio
+		link.CornerOffsetRatio = cornerOffsetRatio
+		link.CornerRadius = 5
 		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
 		link.Stroke = "#2E7D32"
 		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "4,4"
-		link.StrokeOpacity = 0.9
+		link.StrokeDashArray = "5 5"
+		link.StrokeOpacity = 1.0
+
+		link.OnChange = func(updatedLink *svg.Link) {
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+			stager.stage.Commit()
+		}
 	}
 
 	for _, shape := range diagram.NoteEffortShapes {
@@ -632,16 +735,55 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		if startRect == nil || endRect == nil {
 			continue
 		}
+
+		startOrientation := shape.GetStartOrientation()
+		if startOrientation == "" {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
+		endOrientation := shape.GetEndOrientation()
+		if endOrientation == "" {
+			endOrientation = ORIENTATION_HORIZONTAL
+		}
+		startRatio := shape.GetStartRatio()
+		if startRatio == 0 {
+			startRatio = 0.5
+		}
+		endRatio := shape.GetEndRatio()
+		if endRatio == 0 {
+			endRatio = 0.5
+		}
+		cornerOffsetRatio := shape.GetCornerOffsetRatio()
+		if cornerOffsetRatio == 0 {
+			cornerOffsetRatio = 1.5
+		}
+
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
+		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
+		link.StartOrientation = svg.OrientationType(startOrientation)
+		link.StartRatio = startRatio
 		link.End = endRect
+		link.EndOrientation = svg.OrientationType(endOrientation)
+		link.EndRatio = endRatio
+		link.CornerOffsetRatio = cornerOffsetRatio
+		link.CornerRadius = 5
 		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
 		link.Stroke = "#1976D2"
 		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "4,4"
-		link.StrokeOpacity = 0.9
+		link.StrokeDashArray = "5 5"
+		link.StrokeOpacity = 1.0
+
+		link.OnChange = func(updatedLink *svg.Link) {
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+			stager.stage.Commit()
+		}
 	}
+
 
 	return svgObject
 }

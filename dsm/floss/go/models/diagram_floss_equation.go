@@ -35,8 +35,14 @@ type DiagramFlossEquation struct {
 	IsNotesNodeExpanded           bool
 	NotesWhoseNodeIsExpanded      []*Note
 
+	map_SvgRect_NoteShape   map[*svg.Rect]*NoteShape
+	map_SvgRect_Complexity  map[*svg.Rect]*Complexity
+	map_SvgRect_Performance map[*svg.Rect]*Performance
+	map_SvgRect_Effort      map[*svg.Rect]*Effort
+
 	owningCompareAnalysis *CompareAnalysis
 }
+
 
 func (d *DiagramFlossEquation) IsEditable() bool {
 	return d.IsEditable_

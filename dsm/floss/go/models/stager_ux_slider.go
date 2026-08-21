@@ -42,7 +42,7 @@ func (stager *Stager) ux_slider() {
 		return
 	}
 
-	// 1. Alpha slider
+	// 1. Alpha & Beta sliders
 	group.Sliders = append(
 		group.Sliders,
 		m.NewSlider(
@@ -53,7 +53,16 @@ func (stager *Stager) ux_slider() {
 			0.1,
 			&activeCompareAnalysis.Alpha,
 		),
+		m.NewSlider(
+			stager,
+			"Beta (β)",
+			0.0,
+			5.0,
+			0.05,
+			&activeCompareAnalysis.Beta,
+		),
 	)
+
 
 	// Collect unique Complexities in the active diagram (from FromSystem and ToSystem)
 	complexityMap := make(map[*Complexity]struct{})

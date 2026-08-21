@@ -3644,15 +3644,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.Description != noteOther.Description {
 		diffs = append(diffs, note.GongMarshallField(stage, "Description"))
 	}
-	if note.ComputedPrefix != noteOther.ComputedPrefix {
-		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if note.IsExpanded != noteOther.IsExpanded {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
-	}
-	if note.IsComplexitysNodeExpanded != noteOther.IsComplexitysNodeExpanded {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
-	}
 	ComplexitiesDifferent := false
 	if len(note.Complexities) != len(noteOther.Complexities) {
 		ComplexitiesDifferent = true
@@ -3673,9 +3664,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if ComplexitiesDifferent {
 		ops := Diff(stage, note, noteOther, "Complexities", noteOther.Complexities, note.Complexities)
 		diffs = append(diffs, ops)
-	}
-	if note.IsPerformancesNodeExpanded != noteOther.IsPerformancesNodeExpanded {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
 	}
 	PerformancesDifferent := false
 	if len(note.Performances) != len(noteOther.Performances) {
@@ -3698,9 +3686,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		ops := Diff(stage, note, noteOther, "Performances", noteOther.Performances, note.Performances)
 		diffs = append(diffs, ops)
 	}
-	if note.IsEffortsNodeExpanded != noteOther.IsEffortsNodeExpanded {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsEffortsNodeExpanded"))
-	}
 	EffortsDifferent := false
 	if len(note.Efforts) != len(noteOther.Efforts) {
 		EffortsDifferent = true
@@ -3721,6 +3706,21 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if EffortsDifferent {
 		ops := Diff(stage, note, noteOther, "Efforts", noteOther.Efforts, note.Efforts)
 		diffs = append(diffs, ops)
+	}
+	if note.ComputedPrefix != noteOther.ComputedPrefix {
+		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if note.IsExpanded != noteOther.IsExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
+	}
+	if note.IsComplexitysNodeExpanded != noteOther.IsComplexitysNodeExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+	}
+	if note.IsPerformancesNodeExpanded != noteOther.IsPerformancesNodeExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+	}
+	if note.IsEffortsNodeExpanded != noteOther.IsEffortsNodeExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 	}
 
 	return
