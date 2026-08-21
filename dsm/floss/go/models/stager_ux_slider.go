@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"slices"
 
 	m "github.com/fullstack-lang/gong/lib/slider/go/models"
@@ -12,11 +11,21 @@ func (stager *Stager) ux_slider() {
 
 	layout := new(m.Layout).Stage(stager.sliderStage)
 
-	// Single unified panel for all sliders
-	group := new(m.Group).Stage(stager.sliderStage)
-	group.Name = "FLOSS Parameters & Element Weights"
-	group.Percentage = 100
-	layout.Groups = append(layout.Groups, group)
+	// 3 separate groups for the 3 categories
+	groupComplexities := new(m.Group).Stage(stager.sliderStage)
+	groupComplexities.Name = "Complexities"
+	groupComplexities.Percentage = 33.3
+	layout.Groups = append(layout.Groups, groupComplexities)
+
+	groupPerformances := new(m.Group).Stage(stager.sliderStage)
+	groupPerformances.Name = "Performances"
+	groupPerformances.Percentage = 33.3
+	layout.Groups = append(layout.Groups, groupPerformances)
+
+	groupEfforts := new(m.Group).Stage(stager.sliderStage)
+	groupEfforts.Name = "Efforts"
+	groupEfforts.Percentage = 33.4
+	layout.Groups = append(layout.Groups, groupEfforts)
 
 	// Find active DiagramFlossEquation & its CompareAnalysis
 	var activeCompareAnalysis *CompareAnalysis
@@ -42,29 +51,7 @@ func (stager *Stager) ux_slider() {
 		return
 	}
 
-	// 1. Alpha & Beta sliders
-	group.Sliders = append(
-		group.Sliders,
-		m.NewSlider(
-			stager,
-			"Alpha (α)",
-			0.1,
-			5.0,
-			0.1,
-			&activeCompareAnalysis.Alpha,
-		),
-		m.NewSlider(
-			stager,
-			"Beta (β)",
-			0.0,
-			5.0,
-			0.05,
-			&activeCompareAnalysis.Beta,
-		),
-	)
-
-
-	// Collect unique Complexities in the active diagram (from FromSystem and ToSystem)
+	// 1. Complexities category
 	complexityMap := make(map[*Complexity]struct{})
 	var complexities []*Complexity
 	if activeCompareAnalysis.FromSystem != nil {
@@ -93,11 +80,11 @@ func (stager *Stager) ux_slider() {
 	})
 
 	for _, c := range complexities {
-		group.Sliders = append(
-			group.Sliders,
+		groupComplexities.Sliders = append(
+			groupComplexities.Sliders,
 			m.NewSlider(
 				stager,
-				fmt.Sprintf("Complexity: %s", c.Name),
+				c.Name,
 				0.0,
 				100.0,
 				0.5,
@@ -106,7 +93,19 @@ func (stager *Stager) ux_slider() {
 		)
 	}
 
-	// Collect unique Performances in the active diagram (from FromSystem and ToSystem)
+	// 2. Performances category (Alpha + performance elements)
+	groupPerformances.Sliders = append(
+		groupPerformances.Sliders,
+		m.NewSlider(
+			stager,
+			"Alpha (α)",
+			0.1,
+			5.0,
+			0.1,
+			&activeCompareAnalysis.Alpha,
+		),
+	)
+
 	performanceMap := make(map[*Performance]struct{})
 	var performances []*Performance
 	if activeCompareAnalysis.FromSystem != nil {
@@ -135,11 +134,11 @@ func (stager *Stager) ux_slider() {
 	})
 
 	for _, p := range performances {
-		group.Sliders = append(
-			group.Sliders,
+		groupPerformances.Sliders = append(
+			groupPerformances.Sliders,
 			m.NewSlider(
 				stager,
-				fmt.Sprintf("Performance: %s", p.Name),
+				p.Name,
 				0.0,
 				100.0,
 				0.5,
@@ -148,7 +147,19 @@ func (stager *Stager) ux_slider() {
 		)
 	}
 
-	// Collect unique Efforts in the active diagram (from FromSystem and ToSystem)
+	// 3. Efforts category (Beta + effort elements)
+	groupEfforts.Sliders = append(
+		groupEfforts.Sliders,
+		m.NewSlider(
+			stager,
+			"Beta (β)",
+			0.0,
+			5.0,
+			0.05,
+			&activeCompareAnalysis.Beta,
+		),
+	)
+
 	effortMap := make(map[*Effort]struct{})
 	var efforts []*Effort
 	if activeCompareAnalysis.FromSystem != nil {
@@ -177,11 +188,11 @@ func (stager *Stager) ux_slider() {
 	})
 
 	for _, e := range efforts {
-		group.Sliders = append(
-			group.Sliders,
+		groupEfforts.Sliders = append(
+			groupEfforts.Sliders,
 			m.NewSlider(
 				stager,
-				fmt.Sprintf("Effort: %s", e.Name),
+				e.Name,
 				0.0,
 				100.0,
 				0.5,
