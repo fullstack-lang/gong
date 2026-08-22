@@ -484,7 +484,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.Description = ``
 	__DiagramFlossEquation__00000013_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000013_.IsExpanded = false
-	__DiagramFlossEquation__00000013_.IsChecked = false
+	__DiagramFlossEquation__00000013_.IsChecked = true
 	__DiagramFlossEquation__00000013_.IsEditable_ = true
 	__DiagramFlossEquation__00000013_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = false
@@ -541,7 +541,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000016_.Description = ``
 	__DiagramFlossEquation__00000016_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000016_.IsExpanded = false
-	__DiagramFlossEquation__00000016_.IsChecked = true
+	__DiagramFlossEquation__00000016_.IsChecked = false
 	__DiagramFlossEquation__00000016_.IsEditable_ = true
 	__DiagramFlossEquation__00000016_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000016_.AreQuantitativeElementsVisible = false

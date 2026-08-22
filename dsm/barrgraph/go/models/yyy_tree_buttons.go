@@ -1244,7 +1244,7 @@ func onIsExpandedChangeSlice[T comparable](stager *Stager, element T, expandedSl
 				*expandedSlice = slices.Delete(*expandedSlice, idx, idx+1)
 			}
 		}
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
 
