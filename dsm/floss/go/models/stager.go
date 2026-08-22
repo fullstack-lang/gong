@@ -73,6 +73,8 @@ func NewStager(
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.createViews()
+	stager.button()
+	stager.load()
 
 	// Setup your before commit sequence
 
@@ -83,11 +85,8 @@ func NewStager(
 		stager.ux_tree()
 		stager.svg()
 		stager.ux_slider()
-		stager.createViews()
-		stager.button()
-		stager.load()
-	}
 
+	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
 	stager.stage.RegisterAfterCommit(afterCommit)
@@ -109,8 +108,6 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.stage.CommitWithSuspendedCallbacks()
 }
 
-
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObjectDiagramFloss
 }
-

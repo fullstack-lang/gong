@@ -552,7 +552,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000016_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000016_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000016_.IsNotesNodeExpanded = false
-	__DiagramFlossEquation__00000016_.IsComplexitysNodeExpanded = true
+	__DiagramFlossEquation__00000016_.IsComplexitysNodeExpanded = false
 	__DiagramFlossEquation__00000016_.IsPerformancesNodeExpanded = true
 	__DiagramFlossEquation__00000016_.IsEffortsNodeExpanded = true
 
@@ -946,7 +946,6 @@ func _(stage *models.Stage) {
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000003_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000005_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000006_)
-	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000003_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__NoteShape__00000000_.Note = __Note__00000002_

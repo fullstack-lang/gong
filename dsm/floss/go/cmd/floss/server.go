@@ -20,6 +20,7 @@ func executeServer(args []string) {
 		marshallOnCommit = argument
 		unmarshallFromCode = argument
 	}
+	log.SetFlags(log.Lmicroseconds)
 
 	// setup
 	models.DataFS = &dataFS
