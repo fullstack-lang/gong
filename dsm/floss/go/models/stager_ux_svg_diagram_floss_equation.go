@@ -737,27 +737,27 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	} else if !diagram.IsInDelta3ColumnsMode {
 		// -------------------------------------------------------------
-		// 6 COLUMNS DELTA PAIR MODE (Visual closed loop (C2-C1) = (P2-P1) - (E2-E1))
+		// 6 COLUMNS DELTA PAIR MODE (C2 bottom on abscissa baseline, matching 3 columns alignment)
 		// -------------------------------------------------------------
 
 		// Column 1: Complexity Pair
-		heightC_V1 := math.Max(cFrom*scale, 24.0)
-		yTipC_V1 := yGround - heightC_V1 // V1 bottom sits on abscissa baseline (yGround)
-
 		heightC_V2 := math.Max(cTo*scale, 24.0)
-		yTipC_V2 := yTipC_V1 // Top tips aligned!
-		yBottomC_V2 := yTipC_V2 + heightC_V2
+		yTipC_V2 := yGround - heightC_V2 // C2 bottom sits on abscissa baseline (yGround)
 
-		renderColumnStack(xCol1_V1, yTipC_V1, heightC_V1, cFrom, true, "C", fromCompItems, fromMapC, fromSys, 1.0)
+		heightC_V1 := math.Max(cFrom*scale, 24.0)
+		yTipC_V1 := yTipC_V2 // Top tips aligned!
+		yBottomC_V1 := yTipC_V1 + heightC_V1
+
 		renderColumnStack(xCol1_V2, yTipC_V2, heightC_V2, cTo, false, "C", toCompItems, toMapC, toSys, 1.0)
+		renderColumnStack(xCol1_V1, yTipC_V1, heightC_V1, cFrom, true, "C", fromCompItems, fromMapC, fromSys, 1.0)
 
 		// Dashed guide across tips of V2 and V1
 		tipCLine := &svg.Line{
 			Name: "C Tip Guide Line",
 			X1:   xCol1_V2,
-			Y1:   yTipC_V1,
+			Y1:   yTipC_V2,
 			X2:   xCol1_V1 + colWidth,
-			Y2:   yTipC_V1,
+			Y2:   yTipC_V2,
 			Presentation: svg.Presentation{
 				Stroke:          "#FFA000",
 				StrokeWidth:     1.5,
@@ -767,13 +767,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, tipCLine)
 
-		// Dashed guide starting from C2 bottom extending to P2 bottom
-		c2BottomLine := &svg.Line{
-			Name: "C2 Bottom Guide Line",
+		// Dashed guide at C1 bottom (Delta C level line)
+		c1BottomLine := &svg.Line{
+			Name: "C1 Bottom Guide Line",
 			X1:   xCol1_V2,
-			Y1:   yBottomC_V2,
-			X2:   xCol2_V2 + colWidth,
-			Y2:   yBottomC_V2,
+			Y1:   yBottomC_V1,
+			X2:   columnsRight,
+			Y2:   yBottomC_V1,
 			Presentation: svg.Presentation{
 				Stroke:          "#2196F3",
 				StrokeWidth:     1.5,
@@ -781,12 +781,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				StrokeDashArray: "4 3",
 			},
 		}
-		layer.Lines = append(layer.Lines, c2BottomLine)
+		layer.Lines = append(layer.Lines, c1BottomLine)
 
 		v2Label := &svg.Text{
 			Name:    "C V2 Sub-Label",
 			X:       xCol1_V2 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       math.Max(yBottomC_V1, yGround) + 20,
 			Content: fmt.Sprintf("V2 (C=%.2f)", cTo),
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
@@ -799,7 +799,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1Label := &svg.Text{
 			Name:    "C V1 Sub-Label",
 			X:       xCol1_V1 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       math.Max(yBottomC_V1, yGround) + 20,
 			Content: fmt.Sprintf("V1 (C=%.2f)", cFrom),
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
@@ -813,7 +813,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col1Label := &svg.Text{
 			Name:    "Col 1 Label",
 			X:       col1CenterX,
-			Y:       yGround + 40,
+			Y:       math.Max(yBottomC_V1, yGround) + 40,
 			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
@@ -823,12 +823,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col1Label)
 
-		// Column 2: Performance Pair
-		// "P2 bottom shall be at the dashed line."
-		// "P1 top shall be aligned with P2 top"
+		// Column 2: Performance Pair (P2 bottom on baseline, P1 top aligned with P2 top)
 		heightP_V2 := math.Max(alpha*pTo*scale, 24.0)
-		yBottomP_V2 := yBottomC_V2
-		yTopP_V2 := yBottomP_V2 - heightP_V2
+		yTopP_V2 := yGround - heightP_V2
 
 		heightP_V1 := math.Max(alpha*pFrom*scale, 24.0)
 		yTopP_V1 := yTopP_V2 // P1 top aligned with P2 top
@@ -853,12 +850,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
-		// "From P1 bottom should start a dashed line that will serve as E1 bottom"
+		// Guide line from P1 bottom to E2 top
 		p1BottomLine := &svg.Line{
 			Name: "P1 Bottom Guide Line",
 			X1:   xCol2_V1,
 			Y1:   yBottomP_V1,
-			X2:   xCol3_V1 + colWidth,
+			X2:   xCol3_V2 + colWidth,
 			Y2:   yBottomP_V1,
 			Presentation: svg.Presentation{
 				Stroke:          "#4CAF50",
@@ -909,27 +906,25 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col2Label)
 
-		// Column 3: Effort Pair
-		// "From P1 bottom should start a dashed line that will serve as E1 bottom"
-		// "E2 top is aligned with E1 top"
-		heightE_V1 := math.Max(beta*eFrom*scale, 24.0)
-		yBottomE_V1 := yBottomP_V1
-		yTopE_V1 := yBottomE_V1 - heightE_V1
-
+		// Column 3: Effort Pair (E2 top at P1 bottom, E1 bottom aligned with E2 bottom)
 		heightE_V2 := math.Max(beta*eTo*scale, 24.0)
-		yTopE_V2 := yTopE_V1 // E2 top is aligned with E1 top
+		yTopE_V2 := yBottomP_V1
 		yBottomE_V2 := yTopE_V2 + heightE_V2
 
-		renderColumnStack(xCol3_V1, yTopE_V1, heightE_V1, eFrom, true, "E", fromEffItems, fromMapE, fromSys, beta)
-		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, beta)
+		heightE_V1 := math.Max(beta*eFrom*scale, 24.0)
+		yBottomE_V1 := yBottomE_V2 // E1 bottom aligned with E2 bottom
+		yTopE_V1 := yBottomE_V1 - heightE_V1
 
-		// Dashed guide across tops of E2 and E1
-		tipELine := &svg.Line{
-			Name: "E Tip Guide Line",
+		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, beta)
+		renderColumnStack(xCol3_V1, yTopE_V1, heightE_V1, eFrom, true, "E", fromEffItems, fromMapE, fromSys, beta)
+
+		// Dashed guide across bottoms of E2 and E1
+		bottomELine := &svg.Line{
+			Name: "E Bottom Guide Line",
 			X1:   xCol3_V2,
-			Y1:   yTopE_V2,
+			Y1:   yBottomE_V2,
 			X2:   xCol3_V1 + colWidth,
-			Y2:   yTopE_V2,
+			Y2:   yBottomE_V2,
 			Presentation: svg.Presentation{
 				Stroke:          "#1976D2",
 				StrokeWidth:     1.5,
@@ -937,12 +932,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				StrokeDashArray: "4 3",
 			},
 		}
-		layer.Lines = append(layer.Lines, tipELine)
+		layer.Lines = append(layer.Lines, bottomELine)
 
 		v2ELabel := &svg.Text{
 			Name:    "E V2 Sub-Label",
 			X:       xCol3_V2 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       math.Max(yBottomE_V2, yGround) + 20,
 			Content: fmt.Sprintf("V2 (β·E=%.2f)", beta*eTo),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -955,7 +950,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1ELabel := &svg.Text{
 			Name:    "E V1 Sub-Label",
 			X:       xCol3_V1 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       math.Max(yBottomE_V2, yGround) + 20,
 			Content: fmt.Sprintf("V1 (β·E=%.2f)", beta*eFrom),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -969,7 +964,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col3Label := &svg.Text{
 			Name:    "Col 3 Label",
 			X:       col3CenterX,
-			Y:       yGround + 40,
+			Y:       math.Max(yBottomE_V2, yGround) + 40,
 			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -979,13 +974,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col3Label)
 
-		// Level line at E2 bottom
+		// Level line at E1 top / C1 bottom
 		rhsLine := &svg.Line{
-			Name: "E2 Bottom Level Line",
-			X1:   xCol3_V2,
-			Y1:   yBottomE_V2,
+			Name: "RHS Level Line",
+			X1:   xCol1_V2,
+			Y1:   yTopE_V1,
 			X2:   columnsRight,
-			Y2:   yBottomE_V2,
+			Y2:   yTopE_V1,
 			Presentation: svg.Presentation{
 				Stroke:          "#1565C0",
 				StrokeWidth:     1.5,
@@ -996,10 +991,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Lines = append(layer.Lines, rhsLine)
 
 		rhsText := &svg.Text{
-			Name:    "E2 Bottom Label",
+			Name:    "RHS Label",
 			X:       columnsRight + 10,
-			Y:       yBottomE_V2 + 4,
-			Content: fmt.Sprintf("E2 bottom (diff = %.2f)", diff),
+			Y:       yTopE_V1 + 4,
+			Content: fmt.Sprintf("α·ΔP - β·ΔE level (%.2f)", rhs),
 			Presentation: svg.Presentation{
 				Color:       "#1565C0",
 				FillOpacity: 1.0,
@@ -1008,9 +1003,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, rhsText)
 
-		yTipC_Indicator = yBottomE_V2
-		yRHS_Indicator = yGround
-		indicatorX = xCol3_V2 + colWidth/2
+		yTipC_Indicator = yBottomC_V1
+		yRHS_Indicator = yTopE_V1
+		indicatorX = xCol1_V1 + colWidth/2
 
 	} else {
 		// -------------------------------------------------------------
