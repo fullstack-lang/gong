@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"math"
 
 	m "github.com/fullstack-lang/gong/lib/slider/go/models"
 )
@@ -136,10 +137,11 @@ func (stager *Stager) ux_slider() {
 	}
 
 	getSliderBounds := func(val float64) (min, max, step float64) {
-		if val <= 2.0 {
-			return 0.0, 2.0, 0.01
+		max = 100.0
+		if val > 100.0 {
+			max = math.Ceil(val/50.0) * 50.0
 		}
-		return 0.0, 100.0, 0.5
+		return 0.0, max, 0.01
 	}
 
 	for _, c := range complexities {
