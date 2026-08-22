@@ -111,10 +111,10 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000002_.IsExpanded = true
 	__DiagramFlossEquation__00000002_.IsChecked = true
 	__DiagramFlossEquation__00000002_.IsEditable_ = true
-	__DiagramFlossEquation__00000002_.IsInDelta3ColumnsMode = false
+	__DiagramFlossEquation__00000002_.IsInDelta3ColumnsMode = true
 	__DiagramFlossEquation__00000002_.AreQuantitativeElementsVisible = true
 	__DiagramFlossEquation__00000002_.AreSubsystemsVisible = false
-	__DiagramFlossEquation__00000002_.Width = 2045.000000
+	__DiagramFlossEquation__00000002_.Width = 1200.000000
 	__DiagramFlossEquation__00000002_.Height = 800.000000
 	__DiagramFlossEquation__00000002_.Scale = 500.000000
 	__DiagramFlossEquation__00000002_.DefaultBoxWidth = 260.000000

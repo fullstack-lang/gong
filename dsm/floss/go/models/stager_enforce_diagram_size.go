@@ -122,9 +122,13 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		xMargin := 80.0
 		var columnsRight float64
 		if compareAnalysis != nil && compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil && !diagramEq.IsInDelta3ColumnsMode {
-			pairGap := 15.0
-			colSpacing := 50.0
-			columnsRight = xMargin + 6*boxWidth + 3*pairGap + 2*colSpacing
+			cWidth := math.Round(boxWidth * 0.65)
+			if cWidth < 150.0 {
+				cWidth = 150.0
+			}
+			pairGap := 10.0
+			colSpacing := 35.0
+			columnsRight = xMargin + 6*cWidth + 3*pairGap + 2*colSpacing
 		} else {
 			colSpacing := 40.0
 			columnsRight = xMargin + 3*boxWidth + 2*colSpacing
