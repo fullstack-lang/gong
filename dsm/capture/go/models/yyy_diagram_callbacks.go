@@ -275,7 +275,7 @@ func setCallbacksElementInDiagramWithoutLink[
 				*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
 			}
 		}
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 
 	node.OnNameChange = func(newName string) {
@@ -287,7 +287,7 @@ func setCallbacksElementInDiagramWithoutLink[
 
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
 
@@ -313,12 +313,12 @@ func setCallbacksExpandableNode[
 				*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
 			}
 		}
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
 
