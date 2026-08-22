@@ -159,6 +159,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsInDelta3ColumnsMode", instanceWithInferedType.IsInDelta3ColumnsMode, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("AreQuantitativeElementsVisible", instanceWithInferedType.AreQuantitativeElementsVisible, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("AreSubsystemsVisible", instanceWithInferedType.AreSubsystemsVisible, instanceWithInferedType, probe.formStage, formGroup,

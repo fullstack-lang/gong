@@ -577,6 +577,8 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
+	case "IsInDelta3ColumnsMode":
+		instance.IsInDelta3ColumnsMode = GongExtractBool(valueExpr)
 	case "AreQuantitativeElementsVisible":
 		instance.AreQuantitativeElementsVisible = GongExtractBool(valueExpr)
 	case "AreSubsystemsVisible":

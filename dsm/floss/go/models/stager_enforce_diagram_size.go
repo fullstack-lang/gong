@@ -78,18 +78,17 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 				eTo += e.Strength
 			}
 
-			deltaC := cTo - cFrom
-			deltaP := pTo - pFrom
-			deltaE := eTo
-			_ = eFrom
-			_ = deltaE
-
 			alpha := compareAnalysis.Alpha
 			if alpha == 0 {
 				alpha = 1.0
 			}
+			beta := compareAnalysis.Beta
+			if beta == 0 {
+				beta = 1.0
+			}
 
-			maxVal = math.Max(math.Abs(alpha*deltaP), math.Abs(deltaC))
+			maxVal = math.Max(math.Max(math.Max(cTo, cFrom), math.Max(alpha*pTo, alpha*pFrom)), math.Max(beta*eTo, beta*eFrom))
+			maxVal = math.Max(maxVal, math.Abs(cFrom-cTo))
 		} else if owningSystem != nil {
 			var cTo, pTo float64
 			var toComplexities []*Complexity
@@ -111,17 +110,25 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		}
 
 		neededHeight := 180.0 + maxVal*scale + 140.0
-		if neededHeight < 750.0 {
-			neededHeight = 750.0
+		if neededHeight < 800.0 {
+			neededHeight = 800.0
 		}
 
 		boxWidth := diagramEq.GetDefaultBoxWidth()
 		if boxWidth <= 0 {
 			boxWidth = 250.0
 		}
-		colSpacing := 40.0
+
 		xMargin := 80.0
-		columnsRight := xMargin + 3*boxWidth + 2*colSpacing
+		var columnsRight float64
+		if compareAnalysis != nil && compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil && !diagramEq.IsInDelta3ColumnsMode {
+			pairGap := 15.0
+			colSpacing := 50.0
+			columnsRight = xMargin + 6*boxWidth + 3*pairGap + 2*colSpacing
+		} else {
+			colSpacing := 40.0
+			columnsRight = xMargin + 3*boxWidth + 2*colSpacing
+		}
 		rightIndicatorsMargin := 220.0
 		neededWidth := columnsRight + rightIndicatorsMargin + 40.0
 

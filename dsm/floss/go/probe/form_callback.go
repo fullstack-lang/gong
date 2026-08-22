@@ -676,6 +676,8 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.IsChecked), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagramflossequation_.IsEditable_), formDiv)
+		case "IsInDelta3ColumnsMode":
+			FormDivBasicFieldToField(&(diagramflossequation_.IsInDelta3ColumnsMode), formDiv)
 		case "AreQuantitativeElementsVisible":
 			FormDivBasicFieldToField(&(diagramflossequation_.AreQuantitativeElementsVisible), formDiv)
 		case "AreSubsystemsVisible":
