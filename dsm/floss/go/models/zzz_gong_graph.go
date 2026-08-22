@@ -2063,6 +2063,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	if diagramflossequation.IsEditable_ != diagramflossequationOther.IsEditable_ {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "IsEditable_"))
 	}
+	if diagramflossequation.IsInDelta3ColumnsMode != diagramflossequationOther.IsInDelta3ColumnsMode {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "IsInDelta3ColumnsMode"))
+	}
 	if diagramflossequation.AreQuantitativeElementsVisible != diagramflossequationOther.AreQuantitativeElementsVisible {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 	}

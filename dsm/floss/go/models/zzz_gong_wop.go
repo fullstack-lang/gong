@@ -70,6 +70,8 @@ type DiagramFlossEquation_WOP struct {
 
 	IsEditable_ bool
 
+	IsInDelta3ColumnsMode bool
+
 	AreQuantitativeElementsVisible bool
 
 	AreSubsystemsVisible bool
@@ -101,6 +103,7 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
+	to.IsInDelta3ColumnsMode = from.IsInDelta3ColumnsMode
 	to.AreQuantitativeElementsVisible = from.AreQuantitativeElementsVisible
 	to.AreSubsystemsVisible = from.AreSubsystemsVisible
 	to.Width = from.Width

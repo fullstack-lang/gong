@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"math"
+	"strings"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -163,15 +164,30 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	var fromComplexities []*Complexity
 	var fromPerformances []*Performance
 	var fromEfforts []*Effort
+	var fromComplexitiesSysMap map[*Complexity]*System
+	var fromPerformancesSysMap map[*Performance]*System
+	var fromEffortsSysMap map[*Effort]*System
 	if fromSys != nil {
 		if diagram.AreSubsystemsVisible && fromSys.AreCPEsCompoundedFromSubSystems {
-			fromComplexities, _ = fromSys.GetEffectiveComplexities()
-			fromPerformances, _ = fromSys.GetEffectivePerformances()
-			fromEfforts, _ = fromSys.GetEffectiveEfforts()
+			fromComplexities, fromComplexitiesSysMap = fromSys.GetEffectiveComplexities()
+			fromPerformances, fromPerformancesSysMap = fromSys.GetEffectivePerformances()
+			fromEfforts, fromEffortsSysMap = fromSys.GetEffectiveEfforts()
 		} else {
 			fromComplexities = fromSys.Complexities
+			fromComplexitiesSysMap = make(map[*Complexity]*System)
+			for _, c := range fromSys.Complexities {
+				fromComplexitiesSysMap[c] = fromSys
+			}
 			fromPerformances = fromSys.Performances
+			fromPerformancesSysMap = make(map[*Performance]*System)
+			for _, p := range fromSys.Performances {
+				fromPerformancesSysMap[p] = fromSys
+			}
 			fromEfforts = fromSys.Efforts
+			fromEffortsSysMap = make(map[*Effort]*System)
+			for _, e := range fromSys.Efforts {
+				fromEffortsSysMap[e] = fromSys
+			}
 		}
 	}
 
@@ -197,8 +213,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	deltaC := cTo - cFrom
 	deltaP := pTo - pFrom
-	deltaE := eTo
-	_ = eFrom
+	deltaE := eTo - eFrom
 
 	scale := diagram.Scale
 	if scale <= 0 {
@@ -208,18 +223,39 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	rhs := alpha*deltaP - beta*deltaE
 	diff := deltaC - rhs
 
+	isDelta := fromSys != nil
+
 	// Layout coordinates adapted to diagram dimensions and DefaultBoxWidth
 	yGround := diagHeight - 80.0
 	colWidth := diagram.GetDefaultBoxWidth()
 	if colWidth <= 0 {
 		colWidth = 250.0
 	}
+
+	pairGap := 15.0
 	colSpacing := 40.0
+	if isDelta {
+		colSpacing = 50.0
+	}
 	xMargin := 80.0
-	xCol1 := xMargin                              // Column 1: Delta C
-	xCol2 := xCol1 + colWidth + colSpacing        // Column 2: Alpha * Delta P
-	xCol3 := xCol2 + colWidth + colSpacing        // Column 3: Beta * Delta E
-	columnsRight := xCol3 + colWidth
+
+	var xCol1_V2, xCol1_V1, xCol2_V2, xCol2_V1, xCol3_V2, xCol3_V1 float64
+	var columnsRight float64
+
+	if isDelta && !diagram.IsInDelta3ColumnsMode {
+		xCol1_V2 = xMargin
+		xCol1_V1 = xCol1_V2 + colWidth + pairGap
+		xCol2_V2 = xCol1_V1 + colWidth + colSpacing
+		xCol2_V1 = xCol2_V2 + colWidth + pairGap
+		xCol3_V2 = xCol2_V1 + colWidth + colSpacing
+		xCol3_V1 = xCol3_V2 + colWidth + pairGap
+		columnsRight = xCol3_V1 + colWidth
+	} else {
+		xCol1_V2 = xMargin
+		xCol2_V2 = xCol1_V2 + colWidth + colSpacing
+		xCol3_V2 = xCol2_V2 + colWidth + colSpacing
+		columnsRight = xCol3_V2 + colWidth
+	}
 
 	root := stager.getRootLibrary()
 	nbPixPerChar := root.NbPixPerCharacter
@@ -278,14 +314,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// Formula line
 	headerFormula := new(svg.RectAnchoredText)
 	headerFormula.Name = "Header Formula"
-	if fromSys == nil {
+	if !isDelta {
 		if isCompoundedBreakdown {
 			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s [Subsystems Breakdown]", toSys.Name)
 		} else {
 			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s", toSys.Name)
 		}
 	} else {
-		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α·ΔP - β·ΔE   (From: %s  →  To: %s)", fromSys.Name, toSys.Name)
+		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α·ΔP - β·ΔE   (V1: %s  →  V2: %s)", fromSys.Name, toSys.Name)
 	}
 	headerFormula.FontSize = "14px"
 	headerFormula.FontWeight = "600"
@@ -303,12 +339,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// Values summary
 	headerValues := new(svg.RectAnchoredText)
 	headerValues.Name = "Header Values"
-	if fromSys == nil {
+	if !isDelta {
 		headerValues.Content = fmt.Sprintf("C=%.2f   P=%.2f (α=%.2f → α·P=%.2f)   E=%.2f (β=%.2f → β·E=%.2f)   [α·P - β·E = %.2f,  Diff = %.2f]",
-			deltaC, deltaP, alpha, alpha*deltaP, deltaE, beta, beta*deltaE, rhs, diff)
+			cTo, pTo, alpha, alpha*pTo, eTo, beta, beta*eTo, rhs, diff)
 	} else {
-		headerValues.Content = fmt.Sprintf("ΔC=%.2f   ΔP=%.2f (α=%.2f → α·ΔP=%.2f)   ΔE=%.2f (β=%.2f → β·ΔE=%.2f)   [RHS = %.2f,  Diff = %.2f]",
-			deltaC, deltaP, alpha, alpha*deltaP, deltaE, beta, beta*deltaE, rhs, diff)
+		headerValues.Content = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   α·ΔP=%.2f (V2:%.2f - V1:%.2f)   β·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
+			deltaC, cTo, cFrom, alpha*deltaP, alpha*pTo, alpha*pFrom, beta*deltaE, beta*eTo, beta*eFrom, rhs, diff)
 	}
 	headerValues.FontSize = "13px"
 	headerValues.FontWeight = "500"
@@ -361,430 +397,939 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	diagram.map_SvgRect_Performance = make(map[*svg.Rect]*Performance)
 	diagram.map_SvgRect_Effort = make(map[*svg.Rect]*Effort)
 
-	//
-	// Column 1: Delta C (Amber / Orange) - Bottom on ground
-	//
-	heightC := math.Max(math.Abs(deltaC)*scale, 24.0)
-
-	col1BaseY := yGround - heightC
-	if len(toComplexities) > 0 {
-		currY := col1BaseY
-		for idx, c := range toComplexities {
-			var itemH float64
-			if cTo > 0.000001 {
-				itemH = (c.Strength / cTo) * heightC
-			} else {
-				itemH = heightC / float64(len(toComplexities))
+	// Helper for rendering stack of rects inside a column
+	renderColumnStack := func(
+		xPos, baseY, totalH, totalVal float64,
+		isV1 bool,
+		category string, // "C", "P", "E"
+		items []any,
+		sysMap map[any]*System,
+		ownerSys *System,
+		multiplier float64, // 1.0 for C, alpha for P, beta for E
+	) {
+		fillColor := "#FFF8E1"
+		strokeColor := "#FFA000"
+		textColor := "#B78103"
+		if isV1 {
+			fillColor = "#FFFDE7"
+		}
+		if category == "P" {
+			fillColor = "#E8F5E9"
+			strokeColor = "#2E7D32"
+			textColor = "#1B5E20"
+			if isV1 {
+				fillColor = "#F1F8E9"
 			}
-			itemRect := &svg.Rect{
-				Name:   fmt.Sprintf("C_%d", idx),
-				X:      xCol1,
-				Y:      currY,
+		} else if category == "E" {
+			fillColor = "#E3F2FD"
+			strokeColor = "#1976D2"
+			textColor = "#0D47A1"
+			if isV1 {
+				fillColor = "#EBF5FB"
+			}
+		}
+
+		strokeDash := ""
+		if isV1 {
+			strokeDash = "4 2"
+		}
+
+		if len(items) > 0 {
+			currY := baseY
+			for idx, item := range items {
+				var strength float64
+				var name string
+				switch v := item.(type) {
+				case *Complexity:
+					strength = v.Strength
+					name = v.Name
+				case *Performance:
+					strength = v.Strength
+					name = v.Name
+				case *Effort:
+					strength = v.Strength
+					name = v.Name
+				}
+
+				var itemH float64
+				if totalVal > 0.000001 {
+					itemH = (strength / totalVal) * totalH
+				} else {
+					itemH = totalH / float64(len(items))
+				}
+
+				itemRect := &svg.Rect{
+					Name:   fmt.Sprintf("%s_%s_%d", category, ownerSys.Name, idx),
+					X:      xPos,
+					Y:      currY,
+					Width:  colWidth,
+					Height: itemH,
+					RX:     4,
+					Presentation: svg.Presentation{
+						Color:           fillColor,
+						FillOpacity:     0.95,
+						Stroke:          strokeColor,
+						StrokeWidth:     1.5,
+						StrokeOpacity:   1.0,
+						StrokeDashArray: strokeDash,
+					},
+				}
+				layer.Rects = append(layer.Rects, itemRect)
+				map_Element_Rect[item] = itemRect
+				switch v := item.(type) {
+				case *Complexity:
+					diagram.map_SvgRect_Complexity[itemRect] = v
+					itemRect.OnSelect = onSelectRectElement(stager, v)
+				case *Performance:
+					diagram.map_SvgRect_Performance[itemRect] = v
+					itemRect.OnSelect = onSelectRectElement(stager, v)
+				case *Effort:
+					diagram.map_SvgRect_Effort[itemRect] = v
+					itemRect.OnSelect = onSelectRectElement(stager, v)
+				}
+
+				itemRect.CanHaveBottomHandle = true
+				itemRect.CanHaveLeftHandle = true
+				itemRect.CanHaveRightHandle = true
+				itemRect.CanHaveTopHandle = true
+
+				content := name
+				if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
+					content = fmt.Sprintf("[%s] %s", sysOwner.Name, name)
+				}
+				if diagram.AreQuantitativeElementsVisible {
+					if multiplier != 1.0 {
+						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
+							content = fmt.Sprintf("[%s] %s (%.2f · factor=%.2f)", sysOwner.Name, name, strength, strength*multiplier)
+						} else {
+							content = fmt.Sprintf("%s (%.2f · factor=%.2f)", name, strength, strength*multiplier)
+						}
+					} else {
+						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
+							content = fmt.Sprintf("[%s] %s (%.2f)", sysOwner.Name, name, strength)
+						} else {
+							content = fmt.Sprintf("%s (%.2f)", name, strength)
+						}
+					}
+				}
+				content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
+
+				fontSize := "13px"
+				if itemH < 30 {
+					fontSize = "11px"
+				}
+
+				title := new(svg.RectAnchoredText)
+				title.Name = fmt.Sprintf("%s_text_%d", category, idx)
+				title.Content = content
+				title.FontSize = fontSize
+				title.FontWeight = "600"
+				title.Color = textColor
+				title.FillOpacity = 1.0
+				title.Stroke = textColor
+				title.StrokeWidth = 0
+				title.StrokeOpacity = 1.0
+				title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+				title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+				itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
+
+				currY += itemH
+			}
+		} else {
+			colRect := &svg.Rect{
+				Name:   fmt.Sprintf("%s Col Rect", category),
+				X:      xPos,
+				Y:      baseY,
 				Width:  colWidth,
-				Height: itemH,
+				Height: totalH,
 				RX:     4,
 				Presentation: svg.Presentation{
-					Color:         "#FFF8E1",
+					Color:           fillColor,
+					FillOpacity:     0.95,
+					Stroke:          strokeColor,
+					StrokeWidth:     1.5,
+					StrokeOpacity:   1.0,
+					StrokeDashArray: strokeDash,
+				},
+			}
+			layer.Rects = append(layer.Rects, colRect)
+		}
+	}
+
+	var toCompItems []any
+	toMapC := make(map[any]*System)
+	for _, c := range toComplexities {
+		toCompItems = append(toCompItems, c)
+		toMapC[c] = toComplexitiesSysMap[c]
+	}
+
+	var fromCompItems []any
+	fromMapC := make(map[any]*System)
+	for _, c := range fromComplexities {
+		fromCompItems = append(fromCompItems, c)
+		fromMapC[c] = fromComplexitiesSysMap[c]
+	}
+
+	var toPerfItems []any
+	toMapP := make(map[any]*System)
+	for _, p := range toPerformances {
+		toPerfItems = append(toPerfItems, p)
+		toMapP[p] = toPerformancesSysMap[p]
+	}
+
+	var fromPerfItems []any
+	fromMapP := make(map[any]*System)
+	for _, p := range fromPerformances {
+		fromPerfItems = append(fromPerfItems, p)
+		fromMapP[p] = fromPerformancesSysMap[p]
+	}
+
+	var toEffItems []any
+	toMapE := make(map[any]*System)
+	for _, e := range toEfforts {
+		toEffItems = append(toEffItems, e)
+		toMapE[e] = toEffortsSysMap[e]
+	}
+
+	var fromEffItems []any
+	fromMapE := make(map[any]*System)
+	for _, e := range fromEfforts {
+		fromEffItems = append(fromEffItems, e)
+		fromMapE[e] = fromEffortsSysMap[e]
+	}
+
+	var yTipC_Indicator, yRHS_Indicator float64
+	var indicatorX float64 = xCol1_V2 + colWidth/2
+
+	if !isDelta {
+		// -------------------------------------------------------------
+		// SINGLE SYSTEM MODE (3 Columns)
+		// -------------------------------------------------------------
+		heightC_V2 := math.Max(cTo*scale, 24.0)
+		yTipC_V2 := yGround - heightC_V2
+		renderColumnStack(xCol1_V2, yTipC_V2, heightC_V2, cTo, false, "C", toCompItems, toMapC, toSys, 1.0)
+
+		col1LabelText := "C"
+		if diagram.AreQuantitativeElementsVisible {
+			col1LabelText = fmt.Sprintf("C = %.2f", cTo)
+		}
+		col1Label := &svg.Text{
+			Name:    "Col 1 Label",
+			X:       xCol1_V2 + colWidth/2,
+			Y:       yGround + 40,
+			Content: col1LabelText,
+			Presentation: svg.Presentation{
+				Color:       "#E65100",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col1Label)
+
+		heightP_V2 := math.Max(alpha*pTo*scale, 24.0)
+		yTipP_V2 := yGround - heightP_V2
+		renderColumnStack(xCol2_V2, yTipP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, alpha)
+
+		col2LabelText := "α · P"
+		if diagram.AreQuantitativeElementsVisible {
+			col2LabelText = fmt.Sprintf("α · P = %.2f", alpha*pTo)
+		}
+		col2Label := &svg.Text{
+			Name:    "Col 2 Label",
+			X:       xCol2_V2 + colWidth/2,
+			Y:       yGround + 40,
+			Content: col2LabelText,
+			Presentation: svg.Presentation{
+				Color:       "#2E7D32",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col2Label)
+
+		heightE_V2 := math.Max(beta*eTo*scale, 24.0)
+		yTopE_V2 := yTipP_V2
+		yBottomE_V2 := yTopE_V2 + heightE_V2
+		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, beta)
+
+		col3LabelText := "β · E"
+		if diagram.AreQuantitativeElementsVisible {
+			col3LabelText = fmt.Sprintf("β · E = %.2f", beta*eTo)
+		}
+		col3Label := &svg.Text{
+			Name:    "Col 3 Label",
+			X:       xCol3_V2 + colWidth/2,
+			Y:       math.Max(yBottomE_V2, yGround) + 40,
+			Content: col3LabelText,
+			Presentation: svg.Presentation{
+				Color:       "#1976D2",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col3Label)
+
+		// Guides & Indicators
+		peakLine := &svg.Line{
+			Name: "Peak Indicator Line",
+			X1:   xCol2_V2,
+			Y1:   yTipP_V2,
+			X2:   columnsRight,
+			Y2:   yTipP_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#388E3C",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, peakLine)
+
+		peakText := &svg.Text{
+			Name:    "Peak Label",
+			X:       columnsRight + 10,
+			Y:       yTipP_V2 + 4,
+			Content: "α · P peak",
+			Presentation: svg.Presentation{
+				Color:       "#388E3C",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, peakText)
+
+		rhsLine := &svg.Line{
+			Name: "RHS Level Line",
+			X1:   xCol1_V2,
+			Y1:   yBottomE_V2,
+			X2:   columnsRight,
+			Y2:   yBottomE_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#1565C0",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, rhsLine)
+
+		rhsText := &svg.Text{
+			Name:    "RHS Label",
+			X:       columnsRight + 10,
+			Y:       yBottomE_V2 + 4,
+			Content: "α·P - β·E level",
+			Presentation: svg.Presentation{
+				Color:       "#1565C0",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, rhsText)
+
+		yTipC_Indicator = yTipC_V2
+		yRHS_Indicator = yBottomE_V2
+
+	} else if !diagram.IsInDelta3ColumnsMode {
+		// -------------------------------------------------------------
+		// 6 COLUMNS DELTA PAIR MODE (Visual closed loop (C2-C1) = (P2-P1) - (E2-E1))
+		// -------------------------------------------------------------
+
+		// Column 1: Complexity Pair
+		heightC_V1 := math.Max(cFrom*scale, 24.0)
+		yTipC_V1 := yGround - heightC_V1 // V1 bottom sits on abscissa baseline (yGround)
+
+		heightC_V2 := math.Max(cTo*scale, 24.0)
+		yTipC_V2 := yTipC_V1 // Top tips aligned!
+		yBottomC_V2 := yTipC_V2 + heightC_V2
+
+		renderColumnStack(xCol1_V1, yTipC_V1, heightC_V1, cFrom, true, "C", fromCompItems, fromMapC, fromSys, 1.0)
+		renderColumnStack(xCol1_V2, yTipC_V2, heightC_V2, cTo, false, "C", toCompItems, toMapC, toSys, 1.0)
+
+		// Dashed guide across tips of V2 and V1
+		tipCLine := &svg.Line{
+			Name: "C Tip Guide Line",
+			X1:   xCol1_V2,
+			Y1:   yTipC_V1,
+			X2:   xCol1_V1 + colWidth,
+			Y2:   yTipC_V1,
+			Presentation: svg.Presentation{
+				Stroke:          "#FFA000",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, tipCLine)
+
+		// Dashed guide starting from C2 bottom extending to P2 bottom
+		c2BottomLine := &svg.Line{
+			Name: "C2 Bottom Guide Line",
+			X1:   xCol1_V2,
+			Y1:   yBottomC_V2,
+			X2:   xCol2_V2 + colWidth,
+			Y2:   yBottomC_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#2196F3",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, c2BottomLine)
+
+		v2Label := &svg.Text{
+			Name:    "C V2 Sub-Label",
+			X:       xCol1_V2 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V2 (C=%.2f)", cTo),
+			Presentation: svg.Presentation{
+				Color:       "#B78103",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v2Label)
+
+		v1Label := &svg.Text{
+			Name:    "C V1 Sub-Label",
+			X:       xCol1_V1 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V1 (C=%.2f)", cFrom),
+			Presentation: svg.Presentation{
+				Color:       "#B78103",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v1Label)
+
+		col1CenterX := (xCol1_V2 + xCol1_V1 + colWidth) / 2
+		col1Label := &svg.Text{
+			Name:    "Col 1 Label",
+			X:       col1CenterX,
+			Y:       yGround + 40,
+			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
+			Presentation: svg.Presentation{
+				Color:       "#E65100",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col1Label)
+
+		// Column 2: Performance Pair
+		// "P2 bottom shall be at the dashed line."
+		// "P1 top shall be aligned with P2 top"
+		heightP_V2 := math.Max(alpha*pTo*scale, 24.0)
+		yBottomP_V2 := yBottomC_V2
+		yTopP_V2 := yBottomP_V2 - heightP_V2
+
+		heightP_V1 := math.Max(alpha*pFrom*scale, 24.0)
+		yTopP_V1 := yTopP_V2 // P1 top aligned with P2 top
+		yBottomP_V1 := yTopP_V1 + heightP_V1
+
+		renderColumnStack(xCol2_V2, yTopP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, alpha)
+		renderColumnStack(xCol2_V1, yTopP_V1, heightP_V1, pFrom, true, "P", fromPerfItems, fromMapP, fromSys, alpha)
+
+		// Top peak line across P2 and P1
+		peakLine := &svg.Line{
+			Name: "Peak Indicator Line",
+			X1:   xCol2_V2,
+			Y1:   yTopP_V2,
+			X2:   xCol2_V1 + colWidth,
+			Y2:   yTopP_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#388E3C",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, peakLine)
+
+		// "From P1 bottom should start a dashed line that will serve as E1 bottom"
+		p1BottomLine := &svg.Line{
+			Name: "P1 Bottom Guide Line",
+			X1:   xCol2_V1,
+			Y1:   yBottomP_V1,
+			X2:   xCol3_V1 + colWidth,
+			Y2:   yBottomP_V1,
+			Presentation: svg.Presentation{
+				Stroke:          "#4CAF50",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, p1BottomLine)
+
+		v2PLabel := &svg.Text{
+			Name:    "P V2 Sub-Label",
+			X:       xCol2_V2 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V2 (α·P=%.2f)", alpha*pTo),
+			Presentation: svg.Presentation{
+				Color:       "#2E7D32",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v2PLabel)
+
+		v1PLabel := &svg.Text{
+			Name:    "P V1 Sub-Label",
+			X:       xCol2_V1 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V1 (α·P=%.2f)", alpha*pFrom),
+			Presentation: svg.Presentation{
+				Color:       "#2E7D32",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v1PLabel)
+
+		col2CenterX := (xCol2_V2 + xCol2_V1 + colWidth) / 2
+		col2Label := &svg.Text{
+			Name:    "Col 2 Label",
+			X:       col2CenterX,
+			Y:       yGround + 40,
+			Content: fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP),
+			Presentation: svg.Presentation{
+				Color:       "#2E7D32",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col2Label)
+
+		// Column 3: Effort Pair
+		// "From P1 bottom should start a dashed line that will serve as E1 bottom"
+		// "E2 top is aligned with E1 top"
+		heightE_V1 := math.Max(beta*eFrom*scale, 24.0)
+		yBottomE_V1 := yBottomP_V1
+		yTopE_V1 := yBottomE_V1 - heightE_V1
+
+		heightE_V2 := math.Max(beta*eTo*scale, 24.0)
+		yTopE_V2 := yTopE_V1 // E2 top is aligned with E1 top
+		yBottomE_V2 := yTopE_V2 + heightE_V2
+
+		renderColumnStack(xCol3_V1, yTopE_V1, heightE_V1, eFrom, true, "E", fromEffItems, fromMapE, fromSys, beta)
+		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, beta)
+
+		// Dashed guide across tops of E2 and E1
+		tipELine := &svg.Line{
+			Name: "E Tip Guide Line",
+			X1:   xCol3_V2,
+			Y1:   yTopE_V2,
+			X2:   xCol3_V1 + colWidth,
+			Y2:   yTopE_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#1976D2",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, tipELine)
+
+		v2ELabel := &svg.Text{
+			Name:    "E V2 Sub-Label",
+			X:       xCol3_V2 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V2 (β·E=%.2f)", beta*eTo),
+			Presentation: svg.Presentation{
+				Color:       "#1976D2",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v2ELabel)
+
+		v1ELabel := &svg.Text{
+			Name:    "E V1 Sub-Label",
+			X:       xCol3_V1 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V1 (β·E=%.2f)", beta*eFrom),
+			Presentation: svg.Presentation{
+				Color:       "#1976D2",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v1ELabel)
+
+		col3CenterX := (xCol3_V2 + xCol3_V1 + colWidth) / 2
+		col3Label := &svg.Text{
+			Name:    "Col 3 Label",
+			X:       col3CenterX,
+			Y:       yGround + 40,
+			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
+			Presentation: svg.Presentation{
+				Color:       "#1976D2",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col3Label)
+
+		// Level line at E2 bottom
+		rhsLine := &svg.Line{
+			Name: "E2 Bottom Level Line",
+			X1:   xCol3_V2,
+			Y1:   yBottomE_V2,
+			X2:   columnsRight,
+			Y2:   yBottomE_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#1565C0",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, rhsLine)
+
+		rhsText := &svg.Text{
+			Name:    "E2 Bottom Label",
+			X:       columnsRight + 10,
+			Y:       yBottomE_V2 + 4,
+			Content: fmt.Sprintf("E2 bottom (diff = %.2f)", diff),
+			Presentation: svg.Presentation{
+				Color:       "#1565C0",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, rhsText)
+
+		yTipC_Indicator = yBottomE_V2
+		yRHS_Indicator = yGround
+		indicatorX = xCol3_V2 + colWidth/2
+
+	} else {
+		// -------------------------------------------------------------
+		// 3 COLUMNS DELTA MODE (V2 - V1 computation view)
+		// -------------------------------------------------------------
+
+		// Helper for single delta rect
+		renderDeltaRect := func(
+			xPos, yPos, height float64,
+			category string,
+			fillColor, strokeColor, textColor string,
+			lines []string,
+			items []any,
+		) *svg.Rect {
+			rect := &svg.Rect{
+				Name:   fmt.Sprintf("Delta %s Rect", category),
+				X:      xPos,
+				Y:      yPos,
+				Width:  colWidth,
+				Height: height,
+				RX:     4,
+				Presentation: svg.Presentation{
+					Color:         fillColor,
 					FillOpacity:   0.95,
-					Stroke:        "#FFA000",
+					Stroke:        strokeColor,
 					StrokeWidth:   1.5,
 					StrokeOpacity: 1.0,
 				},
 			}
-			layer.Rects = append(layer.Rects, itemRect)
-			map_Element_Rect[c] = itemRect
-			diagram.map_SvgRect_Complexity[itemRect] = c
-			itemRect.OnSelect = onSelectRectElement(stager, c)
-
-			itemRect.CanHaveBottomHandle = true
-			itemRect.CanHaveLeftHandle = true
-			itemRect.CanHaveRightHandle = true
-			itemRect.CanHaveTopHandle = true
-
-			content := c.Name
-			if sysOwner := toComplexitiesSysMap[c]; sysOwner != nil && sysOwner != toSys {
-				content = fmt.Sprintf("[%s] %s", sysOwner.Name, c.Name)
-			}
-			if diagram.AreQuantitativeElementsVisible {
-				if sysOwner := toComplexitiesSysMap[c]; sysOwner != nil && sysOwner != toSys {
-					content = fmt.Sprintf("[%s] %s (%.1f)", sysOwner.Name, c.Name, c.Strength)
-				} else {
-					content = fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
+			layer.Rects = append(layer.Rects, rect)
+			for _, item := range items {
+				map_Element_Rect[item] = rect
+				switch v := item.(type) {
+				case *Complexity:
+					diagram.map_SvgRect_Complexity[rect] = v
+				case *Performance:
+					diagram.map_SvgRect_Performance[rect] = v
+				case *Effort:
+					diagram.map_SvgRect_Effort[rect] = v
 				}
 			}
-			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
+			rect.CanHaveBottomHandle = true
+			rect.CanHaveLeftHandle = true
+			rect.CanHaveRightHandle = true
+			rect.CanHaveTopHandle = true
+
+			rawContent := strings.Join(lines, "\n")
+			content := strutils.WrapStringPreservingNewlinesScaled(rawContent, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
 			fontSize := "13px"
-			if itemH < 30 {
+			if height < 40 {
 				fontSize = "11px"
 			}
 
 			title := new(svg.RectAnchoredText)
-			title.Name = fmt.Sprintf("C_text_%d", idx)
+			title.Name = fmt.Sprintf("Delta_%s_text", category)
 			title.Content = content
 			title.FontSize = fontSize
 			title.FontWeight = "600"
-			title.Color = "#B78103"
+			title.Color = textColor
 			title.FillOpacity = 1.0
-			title.Stroke = "#B78103"
+			title.Stroke = textColor
 			title.StrokeWidth = 0
 			title.StrokeOpacity = 1.0
 			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-			itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
-
-			currY += itemH
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+			return rect
 		}
-	} else {
-		col1Rect := &svg.Rect{
-			Name:   "Col 1 Rect",
-			X:      xCol1,
-			Y:      yGround - heightC,
-			Width:  colWidth,
-			Height: heightC,
-			RX:     4,
-			Presentation: svg.Presentation{
-				Color:         "#FFF8E1",
-				FillOpacity:   0.95,
-				Stroke:        "#FFA000",
-				StrokeWidth:   1.5,
-				StrokeOpacity: 1.0,
-			},
-		}
-		layer.Rects = append(layer.Rects, col1Rect)
-	}
 
-	col1LabelText := "ΔC"
-	if fromSys == nil {
-		col1LabelText = "C"
-	}
-	if diagram.AreQuantitativeElementsVisible {
-		if fromSys == nil {
-			col1LabelText = fmt.Sprintf("C = %.2f", deltaC)
+		// Column 1: Net Complexity Change (ΔC)
+		heightDeltaC := math.Max(math.Abs(deltaC)*scale, 50.0)
+		var yTopDeltaC, yBottomDeltaC float64
+		if deltaC <= 0 {
+			yTopDeltaC = yGround
+			yBottomDeltaC = yGround + heightDeltaC
 		} else {
-			col1LabelText = fmt.Sprintf("ΔC = %.2f", deltaC)
+			yTopDeltaC = yGround - heightDeltaC
+			yBottomDeltaC = yGround
 		}
-	}
-	col1Label := &svg.Text{
-		Name:    "Col 1 Label",
-		X:       xCol1 + 45,
-		Y:       yGround + 30,
-		Content: col1LabelText,
-		Presentation: svg.Presentation{
-			Color:       "#E65100",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, col1Label)
 
-	//
-	// Column 2: alpha * Delta P (Emerald / Green) - Top-down from yTip2
-	//
-	heightP := math.Max(math.Abs(alpha*deltaP)*scale, 24.0)
-	yTip2 := yGround - heightP
-
-	col2BaseY := yTip2
-	if len(toPerformances) > 0 {
-		currY := col2BaseY
-		for idx, p := range toPerformances {
-			var itemH float64
-			if pTo > 0.000001 {
-				itemH = (p.Strength / pTo) * heightP
+		var linesC []string
+		for _, c := range toComplexities {
+			if diagram.AreQuantitativeElementsVisible {
+				linesC = append(linesC, fmt.Sprintf("V2: %s (%.2f)", c.Name, c.Strength))
 			} else {
-				itemH = heightP / float64(len(toPerformances))
+				linesC = append(linesC, fmt.Sprintf("V2: %s", c.Name))
 			}
-			itemRect := &svg.Rect{
-				Name:   fmt.Sprintf("P_%d", idx),
-				X:      xCol2,
-				Y:      currY,
-				Width:  colWidth,
-				Height: itemH,
-				RX:     4,
-				Presentation: svg.Presentation{
-					Color:         "#E8F5E9",
-					FillOpacity:   0.95,
-					Stroke:        "#2E7D32",
-					StrokeWidth:   1.5,
-					StrokeOpacity: 1.0,
-				},
-			}
-			layer.Rects = append(layer.Rects, itemRect)
-			map_Element_Rect[p] = itemRect
-			diagram.map_SvgRect_Performance[itemRect] = p
-			itemRect.OnSelect = onSelectRectElement(stager, p)
-
-			itemRect.CanHaveBottomHandle = true
-			itemRect.CanHaveLeftHandle = true
-			itemRect.CanHaveRightHandle = true
-			itemRect.CanHaveTopHandle = true
-
-			content := p.Name
-			if sysOwner := toPerformancesSysMap[p]; sysOwner != nil && sysOwner != toSys {
-				content = fmt.Sprintf("[%s] %s", sysOwner.Name, p.Name)
-			}
+		}
+		for _, c := range fromComplexities {
 			if diagram.AreQuantitativeElementsVisible {
-				if sysOwner := toPerformancesSysMap[p]; sysOwner != nil && sysOwner != toSys {
-					content = fmt.Sprintf("[%s] %s (%.1f · α=%.1f)", sysOwner.Name, p.Name, p.Strength, p.Strength*alpha)
-				} else {
-					content = fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
-				}
-			}
-			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
-
-			fontSize := "13px"
-			if itemH < 30 {
-				fontSize = "11px"
-			}
-
-			title := new(svg.RectAnchoredText)
-			title.Name = fmt.Sprintf("P_text_%d", idx)
-			title.Content = content
-			title.FontSize = fontSize
-			title.FontWeight = "600"
-			title.Color = "#1B5E20"
-			title.FillOpacity = 1.0
-			title.Stroke = "#1B5E20"
-			title.StrokeWidth = 0
-			title.StrokeOpacity = 1.0
-			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
-			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-			itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
-
-			currY += itemH
-		}
-	} else {
-		col2Rect := &svg.Rect{
-			Name:   "Col 2 Rect",
-			X:      xCol2,
-			Y:      yTip2,
-			Width:  colWidth,
-			Height: heightP,
-			RX:     4,
-			Presentation: svg.Presentation{
-				Color:         "#E8F5E9",
-				FillOpacity:   0.95,
-				Stroke:        "#2E7D32",
-				StrokeWidth:   1.5,
-				StrokeOpacity: 1.0,
-			},
-		}
-		layer.Rects = append(layer.Rects, col2Rect)
-	}
-
-	col2LabelText := "α · ΔP"
-	if fromSys == nil {
-		col2LabelText = "α · P"
-	}
-	if diagram.AreQuantitativeElementsVisible {
-		if fromSys == nil {
-			col2LabelText = fmt.Sprintf("α · P = %.2f", alpha*deltaP)
-		} else {
-			col2LabelText = fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP)
-		}
-	}
-	col2Label := &svg.Text{
-		Name:    "Col 2 Label",
-		X:       xCol2 + 45,
-		Y:       yGround + 30,
-		Content: col2LabelText,
-		Presentation: svg.Presentation{
-			Color:       "#2E7D32",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, col2Label)
-
-	//
-	// Column 3: beta * Delta E (Slate / Blue)
-	//
-	heightE := math.Max(math.Abs(beta*deltaE)*scale, 24.0)
-	yTop3 := yTip2
-	yBottom3 := yTop3 + heightE
-
-	if len(toEfforts) > 0 {
-		currY := yTop3
-		for idx, e := range toEfforts {
-			var itemH float64
-			if eTo > 0.000001 {
-				itemH = (e.Strength / eTo) * heightE
+				linesC = append(linesC, fmt.Sprintf("V1: %s (%.2f)", c.Name, c.Strength))
 			} else {
-				itemH = heightE / float64(len(toEfforts))
+				linesC = append(linesC, fmt.Sprintf("V1: %s", c.Name))
 			}
-			itemRect := &svg.Rect{
-				Name:   fmt.Sprintf("E_%d", idx),
-				X:      xCol3,
-				Y:      currY,
-				Width:  colWidth,
-				Height: itemH,
-				RX:     4,
-				Presentation: svg.Presentation{
-					Color:         "#E3F2FD",
-					FillOpacity:   0.95,
-					Stroke:        "#1976D2",
-					StrokeWidth:   1.5,
-					StrokeOpacity: 1.0,
-				},
-			}
-			layer.Rects = append(layer.Rects, itemRect)
-			map_Element_Rect[e] = itemRect
-			diagram.map_SvgRect_Effort[itemRect] = e
-			itemRect.OnSelect = onSelectRectElement(stager, e)
-
-			itemRect.CanHaveBottomHandle = true
-			itemRect.CanHaveLeftHandle = true
-			itemRect.CanHaveRightHandle = true
-			itemRect.CanHaveTopHandle = true
-
-			content := e.Name
-			if sysOwner := toEffortsSysMap[e]; sysOwner != nil && sysOwner != toSys {
-				content = fmt.Sprintf("[%s] %s", sysOwner.Name, e.Name)
-			}
-			if diagram.AreQuantitativeElementsVisible {
-				if sysOwner := toEffortsSysMap[e]; sysOwner != nil && sysOwner != toSys {
-					content = fmt.Sprintf("[%s] %s (%.1f · β=%.1f)", sysOwner.Name, e.Name, e.Strength, e.Strength*beta)
-				} else {
-					content = fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
-				}
-			}
-			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
-
-			fontSize := "13px"
-			if itemH < 30 {
-				fontSize = "11px"
-			}
-
-			title := new(svg.RectAnchoredText)
-			title.Name = fmt.Sprintf("E_text_%d", idx)
-			title.Content = content
-			title.FontSize = fontSize
-			title.FontWeight = "600"
-			title.Color = "#0D47A1"
-			title.FillOpacity = 1.0
-			title.Stroke = "#0D47A1"
-			title.StrokeWidth = 0
-			title.StrokeOpacity = 1.0
-			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
-			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-			itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
-
-			currY += itemH
 		}
-	} else {
-		col3Rect := &svg.Rect{
-			Name:   "Col 3 Rect",
-			X:      xCol3,
-			Y:      yTop3,
-			Width:  colWidth,
-			Height: heightE,
-			RX:     4,
+		var allCompItems []any
+		for _, c := range toComplexities {
+			allCompItems = append(allCompItems, c)
+		}
+		for _, c := range fromComplexities {
+			allCompItems = append(allCompItems, c)
+		}
+		renderDeltaRect(xCol1_V2, yTopDeltaC, heightDeltaC, "C", "#FFF8E1", "#FFA000", "#B78103", linesC, allCompItems)
+
+		v1v2SubC := &svg.Text{
+			Name:    "ΔC Sub-Label",
+			X:       xCol1_V2 + colWidth/2,
+			Y:       math.Max(yBottomDeltaC, yGround) + 20,
+			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", cTo, cFrom),
 			Presentation: svg.Presentation{
-				Color:         "#E3F2FD",
-				FillOpacity:   0.95,
-				Stroke:        "#1976D2",
-				StrokeWidth:   1.5,
-				StrokeOpacity: 1.0,
+				Color:       "#B78103",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
 			},
 		}
-		layer.Rects = append(layer.Rects, col3Rect)
-	}
+		layer.Texts = append(layer.Texts, v1v2SubC)
 
-	col3LabelY := math.Max(yBottom3, yGround) + 20
-	col3LabelText := "β · ΔE"
-	if fromSys == nil {
-		col3LabelText = "β · E"
-	}
-	if diagram.AreQuantitativeElementsVisible {
-		if fromSys == nil {
-			col3LabelText = fmt.Sprintf("β · E = %.2f", beta*deltaE)
-		} else {
-			col3LabelText = fmt.Sprintf("β · ΔE = %.2f", beta*deltaE)
+		col1Label := &svg.Text{
+			Name:    "Col 1 Label",
+			X:       xCol1_V2 + colWidth/2,
+			Y:       math.Max(yBottomDeltaC, yGround) + 40,
+			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
+			Presentation: svg.Presentation{
+				Color:       "#E65100",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
 		}
-	}
-	col3Label := &svg.Text{
-		Name:    "Col 3 Label",
-		X:       xCol3 + 45,
-		Y:       col3LabelY,
-		Content: col3LabelText,
-		Presentation: svg.Presentation{
-			Color:       "#1976D2",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, col3Label)
+		layer.Texts = append(layer.Texts, col1Label)
 
-	//
-	// Guides and Indicators
-	//
-	peakLine := &svg.Line{
-		Name: "Peak Indicator Line",
-		X1:   xCol2,
-		Y1:   yTip2,
-		X2:   xCol3 + colWidth,
-		Y2:   yTip2,
-		Presentation: svg.Presentation{
-			Stroke:           "#388E3C",
-			StrokeWidth:      1.5,
-			StrokeOpacity:    1.0,
-			StrokeDashArray: "4 3",
-		},
-	}
-	layer.Lines = append(layer.Lines, peakLine)
+		// Column 2: Net Performance Gain (α·ΔP)
+		heightDeltaP := math.Max(math.Abs(alpha*deltaP)*scale, 50.0)
+		yTopDeltaP := yGround - heightDeltaP // Top peak
 
-	peakLabelText := "α · ΔP peak"
-	if fromSys == nil {
-		peakLabelText = "α · P peak"
-	}
-	peakText := &svg.Text{
-		Name:    "Peak Label",
-		X:       xCol3 + colWidth + 10,
-		Y:       yTip2 + 4,
-		Content: peakLabelText,
-		Presentation: svg.Presentation{
-			Color:       "#388E3C",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, peakText)
+		var linesP []string
+		for _, p := range toPerformances {
+			if diagram.AreQuantitativeElementsVisible {
+				if alpha != 1.0 {
+					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*alpha))
+				} else {
+					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f)", p.Name, p.Strength))
+				}
+			} else {
+				linesP = append(linesP, fmt.Sprintf("V2: %s", p.Name))
+			}
+		}
+		for _, p := range fromPerformances {
+			if diagram.AreQuantitativeElementsVisible {
+				if alpha != 1.0 {
+					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*alpha))
+				} else {
+					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f)", p.Name, p.Strength))
+				}
+			} else {
+				linesP = append(linesP, fmt.Sprintf("V1: %s", p.Name))
+			}
+		}
+		var allPerfItems []any
+		for _, p := range toPerformances {
+			allPerfItems = append(allPerfItems, p)
+		}
+		for _, p := range fromPerformances {
+			allPerfItems = append(allPerfItems, p)
+		}
+		renderDeltaRect(xCol2_V2, yTopDeltaP, heightDeltaP, "P", "#E8F5E9", "#2E7D32", "#1B5E20", linesP, allPerfItems)
 
-	rhsLine := &svg.Line{
-		Name: "RHS Level Line",
-		X1:   xCol1,
-		Y1:   yBottom3,
-		X2:   xCol3 + colWidth,
-		Y2:   yBottom3,
-		Presentation: svg.Presentation{
-			Stroke:           "#1565C0",
-			StrokeWidth:      1.5,
-			StrokeOpacity:    1.0,
-			StrokeDashArray: "4 3",
-		},
-	}
-	layer.Lines = append(layer.Lines, rhsLine)
+		v1v2SubP := &svg.Text{
+			Name:    "α·ΔP Sub-Label",
+			X:       xCol2_V2 + colWidth/2,
+			Y:       yGround + 20,
+			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", alpha*pTo, alpha*pFrom),
+			Presentation: svg.Presentation{
+				Color:       "#2E7D32",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v1v2SubP)
 
-	rhsLabelText := "α·ΔP - β·ΔE"
-	if fromSys == nil {
-		rhsLabelText = "α·P - β·E"
+		col2Label := &svg.Text{
+			Name:    "Col 2 Label",
+			X:       xCol2_V2 + colWidth/2,
+			Y:       yGround + 40,
+			Content: fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP),
+			Presentation: svg.Presentation{
+				Color:       "#2E7D32",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col2Label)
+
+		// Column 3: Net Effort Investment (β·ΔE) dropping from peak
+		heightDeltaE := math.Max(math.Abs(beta*deltaE)*scale, 50.0)
+		yTopDeltaE := yTopDeltaP // drops from peak
+		yBottomDeltaE := yTopDeltaE + heightDeltaE
+
+		var linesE []string
+		for _, e := range toEfforts {
+			if diagram.AreQuantitativeElementsVisible {
+				if beta != 1.0 {
+					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*beta))
+				} else {
+					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f)", e.Name, e.Strength))
+				}
+			} else {
+				linesE = append(linesE, fmt.Sprintf("V2: %s", e.Name))
+			}
+		}
+		for _, e := range fromEfforts {
+			if diagram.AreQuantitativeElementsVisible {
+				if beta != 1.0 {
+					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*beta))
+				} else {
+					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f)", e.Name, e.Strength))
+				}
+			} else {
+				linesE = append(linesE, fmt.Sprintf("V1: %s", e.Name))
+			}
+		}
+		var allEffItems []any
+		for _, e := range toEfforts {
+			allEffItems = append(allEffItems, e)
+		}
+		for _, e := range fromEfforts {
+			allEffItems = append(allEffItems, e)
+		}
+		renderDeltaRect(xCol3_V2, yTopDeltaE, heightDeltaE, "E", "#E3F2FD", "#1976D2", "#0D47A1", linesE, allEffItems)
+
+		v1v2SubE := &svg.Text{
+			Name:    "β·ΔE Sub-Label",
+			X:       xCol3_V2 + colWidth/2,
+			Y:       math.Max(yBottomDeltaE, yGround) + 20,
+			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", beta*eTo, beta*eFrom),
+			Presentation: svg.Presentation{
+				Color:       "#1976D2",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, v1v2SubE)
+
+		col3Label := &svg.Text{
+			Name:    "Col 3 Label",
+			X:       xCol3_V2 + colWidth/2,
+			Y:       math.Max(yBottomDeltaE, yGround) + 40,
+			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
+			Presentation: svg.Presentation{
+				Color:       "#1976D2",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, col3Label)
+
+		// Guides and Indicators
+		peakLine := &svg.Line{
+			Name: "Peak Indicator Line",
+			X1:   xCol2_V2,
+			Y1:   yTopDeltaP,
+			X2:   columnsRight,
+			Y2:   yTopDeltaP,
+			Presentation: svg.Presentation{
+				Stroke:          "#388E3C",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, peakLine)
+
+		peakText := &svg.Text{
+			Name:    "Peak Label",
+			X:       columnsRight + 10,
+			Y:       yTopDeltaP + 4,
+			Content: "α · ΔP peak",
+			Presentation: svg.Presentation{
+				Color:       "#388E3C",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, peakText)
+
+		rhsLine := &svg.Line{
+			Name: "RHS Level Line",
+			X1:   xCol1_V2,
+			Y1:   yBottomDeltaE,
+			X2:   columnsRight,
+			Y2:   yBottomDeltaE,
+			Presentation: svg.Presentation{
+				Stroke:          "#1565C0",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1.0,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, rhsLine)
+
+		rhsText := &svg.Text{
+			Name:    "RHS Label",
+			X:       columnsRight + 10,
+			Y:       yBottomDeltaE + 4,
+			Content: fmt.Sprintf("α·ΔP - β·ΔE level (%.2f)", rhs),
+			Presentation: svg.Presentation{
+				Color:       "#1565C0",
+				FillOpacity: 1.0,
+				Stroke:      "transparent",
+			},
+		}
+		layer.Texts = append(layer.Texts, rhsText)
+
+		if deltaC <= 0 {
+			yTipC_Indicator = yBottomDeltaC
+		} else {
+			yTipC_Indicator = yTopDeltaC
+		}
+		yRHS_Indicator = yBottomDeltaE
+		indicatorX = xCol1_V2 + colWidth/2
 	}
-	rhsText := &svg.Text{
-		Name:    "RHS Label",
-		X:       xCol3 + colWidth + 10,
-		Y:       yBottom3 + 4,
-		Content: rhsLabelText,
-		Presentation: svg.Presentation{
-			Color:       "#1565C0",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, rhsText)
 
 	diffColor := "#43A047"
 	diffTextMsg := "Equilibrium (ΔC ≈ α·ΔP - β·ΔE)"
-	if fromSys == nil {
+	if !isDelta {
 		diffTextMsg = "Equilibrium (C ≈ α·P - β·E)"
 	}
 	if math.Abs(diff) > 2.0 {
@@ -799,10 +1344,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	diffLine := &svg.Line{
 		Name: "Delta Indicator Line",
-		X1:   xCol1 + colWidth/2,
-		Y1:   yGround - heightC,
-		X2:   xCol1 + colWidth/2,
-		Y2:   yBottom3,
+		X1:   indicatorX,
+		Y1:   yTipC_Indicator,
+		X2:   indicatorX,
+		Y2:   yRHS_Indicator,
 		Presentation: svg.Presentation{
 			Stroke:        diffColor,
 			StrokeWidth:   2.5,
@@ -811,10 +1356,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Lines = append(layer.Lines, diffLine)
 
+	maxBottom := math.Max(math.Max(yTipC_Indicator, yRHS_Indicator), yGround)
 	indicatorLabel := &svg.Text{
 		Name:    "Indicator Message",
 		X:       40,
-		Y:       yGround + 65,
+		Y:       maxBottom + 65,
 		Content: diffTextMsg,
 		Presentation: svg.Presentation{
 			Color:       diffColor,
@@ -966,4 +1512,3 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	return svgObject
 }
-

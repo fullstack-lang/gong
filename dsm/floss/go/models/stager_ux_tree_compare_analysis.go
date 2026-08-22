@@ -140,6 +140,26 @@ func (stager *Stager) treeDiagramFlossEquation(
 		}
 	}
 
+	// Button for toggle between 6 columns (pairs) and 3 columns (delta computation)
+	{
+		deltaColButton := &tree.Button{
+			Name:            diagram.GetName() + " Delta Columns Mode Toggle",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagram.IsInDelta3ColumnsMode = !diagram.IsInDelta3ColumnsMode
+				stager.stage.Commit()
+			},
+		}
+		if diagram.IsInDelta3ColumnsMode {
+			deltaColButton.Icon = string(buttons.BUTTON_view_week)
+			deltaColButton.ToolTipText = "Switch to 6 columns mode (V1 & V2 pairs)"
+		} else {
+			deltaColButton.Icon = string(buttons.BUTTON_view_column)
+			deltaColButton.ToolTipText = "Switch to 3 columns Delta mode (V2 - V1 computation)"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, deltaColButton)
+	}
 
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
@@ -207,5 +227,3 @@ func (stager *Stager) treeDiagramFlossEquation(
 		}
 	}
 }
-
-

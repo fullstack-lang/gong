@@ -14,10 +14,12 @@ type DiagramFlossEquation struct {
 	IsChecked   bool
 	IsEditable_ bool
 
+	IsInDelta3ColumnsMode bool
+
 	AreQuantitativeElementsVisible bool
 	AreSubsystemsVisible           bool
 
-	Width  float64
+	Width float64
 
 	Height float64
 
@@ -55,7 +57,6 @@ type DiagramFlossEquation struct {
 	owningCompareAnalysis *CompareAnalysis
 	owningSystem          *System
 }
-
 
 func (d *DiagramFlossEquation) IsEditable() bool {
 	return d.IsEditable_

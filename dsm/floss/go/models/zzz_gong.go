@@ -4133,6 +4133,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsInDelta3ColumnsMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "AreQuantitativeElementsVisible",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -4885,6 +4889,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "IsEditable_":
 		res.valueString = fmt.Sprintf("%t", diagramflossequation.IsEditable_)
 		res.valueBool = diagramflossequation.IsEditable_
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsInDelta3ColumnsMode":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.IsInDelta3ColumnsMode)
+		res.valueBool = diagramflossequation.IsInDelta3ColumnsMode
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "AreQuantitativeElementsVisible":
 		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreQuantitativeElementsVisible)
@@ -5720,6 +5728,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.IsChecked = value.GetValueBool()
 	case "IsEditable_":
 		diagramflossequation.IsEditable_ = value.GetValueBool()
+	case "IsInDelta3ColumnsMode":
+		diagramflossequation.IsInDelta3ColumnsMode = value.GetValueBool()
 	case "AreQuantitativeElementsVisible":
 		diagramflossequation.AreQuantitativeElementsVisible = value.GetValueBool()
 	case "AreSubsystemsVisible":
