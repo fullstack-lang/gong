@@ -32,86 +32,13 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 			scale = 5.0
 		}
 
-		maxVal := 50.0
-		if compareAnalysis != nil && compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil {
-			var cTo, cFrom, pTo, pFrom, eTo, eFrom float64
-			var fromComplexities, toComplexities []*Complexity
-			var fromPerformances, toPerformances []*Performance
-			var fromEfforts, toEfforts []*Effort
+		extentAboveBaseline, extentBelowBaseline := computeFlossDiagramVerticalExtents(diagramEq, compareAnalysis, owningSystem)
 
-			if diagramEq.AreSubsystemsVisible && compareAnalysis.FromSystem.AreCPEsCompoundedFromSubSystems {
-				fromComplexities, _ = compareAnalysis.FromSystem.GetEffectiveComplexities()
-				fromPerformances, _ = compareAnalysis.FromSystem.GetEffectivePerformances()
-				fromEfforts, _ = compareAnalysis.FromSystem.GetEffectiveEfforts()
-			} else {
-				fromComplexities = compareAnalysis.FromSystem.Complexities
-				fromPerformances = compareAnalysis.FromSystem.Performances
-				fromEfforts = compareAnalysis.FromSystem.Efforts
-			}
-
-			if diagramEq.AreSubsystemsVisible && compareAnalysis.ToSystem.AreCPEsCompoundedFromSubSystems {
-				toComplexities, _ = compareAnalysis.ToSystem.GetEffectiveComplexities()
-				toPerformances, _ = compareAnalysis.ToSystem.GetEffectivePerformances()
-				toEfforts, _ = compareAnalysis.ToSystem.GetEffectiveEfforts()
-			} else {
-				toComplexities = compareAnalysis.ToSystem.Complexities
-				toPerformances = compareAnalysis.ToSystem.Performances
-				toEfforts = compareAnalysis.ToSystem.Efforts
-			}
-
-			for _, c := range fromComplexities {
-				cFrom += c.Strength
-			}
-			for _, c := range toComplexities {
-				cTo += c.Strength
-			}
-			for _, p := range fromPerformances {
-				pFrom += p.Strength
-			}
-			for _, p := range toPerformances {
-				pTo += p.Strength
-			}
-			for _, e := range fromEfforts {
-				eFrom += e.Strength
-			}
-			for _, e := range toEfforts {
-				eTo += e.Strength
-			}
-
-			alpha := compareAnalysis.Alpha
-			if alpha == 0 {
-				alpha = 1.0
-			}
-			beta := compareAnalysis.Beta
-			if beta == 0 {
-				beta = 1.0
-			}
-
-			maxVal = math.Max(math.Max(math.Max(cTo, cFrom), math.Max(alpha*pTo, alpha*pFrom)), math.Max(beta*eTo, beta*eFrom))
-			maxVal = math.Max(maxVal, math.Abs(cFrom-cTo))
-		} else if owningSystem != nil {
-			var cTo, pTo float64
-			var toComplexities []*Complexity
-			var toPerformances []*Performance
-			if diagramEq.AreSubsystemsVisible && owningSystem.AreCPEsCompoundedFromSubSystems {
-				toComplexities, _ = owningSystem.GetEffectiveComplexities()
-				toPerformances, _ = owningSystem.GetEffectivePerformances()
-			} else {
-				toComplexities = owningSystem.Complexities
-				toPerformances = owningSystem.Performances
-			}
-			for _, c := range toComplexities {
-				cTo += c.Strength
-			}
-			for _, p := range toPerformances {
-				pTo += p.Strength
-			}
-			maxVal = math.Max(pTo, cTo)
-		}
-
-		neededHeight := 180.0 + maxVal*scale + 140.0
-		if neededHeight < 800.0 {
-			neededHeight = 800.0
+		topMargin := 150.0
+		bottomMargin := 120.0
+		neededHeight := topMargin + extentAboveBaseline*scale + extentBelowBaseline*scale + bottomMargin
+		if neededHeight < 750.0 {
+			neededHeight = 750.0
 		}
 
 		boxWidth := diagramEq.GetDefaultBoxWidth()
@@ -161,6 +88,120 @@ func updateDiagramSize[T RectShapeInterface](shapes []T, width, height *float64)
 			*height = shape.GetY() + shape.GetHeight()
 			needCommit = true
 		}
+	}
+	return
+}
+
+func computeFlossDiagramVerticalExtents(
+	diagram *DiagramFlossEquation,
+	compareAnalysis *CompareAnalysis,
+	owningSystem *System,
+) (extentAboveBaseline, extentBelowBaseline float64) {
+	if compareAnalysis != nil && compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil {
+		var cTo, cFrom, pTo, pFrom, eTo, eFrom float64
+		var fromComplexities, toComplexities []*Complexity
+		var fromPerformances, toPerformances []*Performance
+		var fromEfforts, toEfforts []*Effort
+
+		if diagram.AreSubsystemsVisible && compareAnalysis.FromSystem.AreCPEsCompoundedFromSubSystems {
+			fromComplexities, _ = compareAnalysis.FromSystem.GetEffectiveComplexities()
+			fromPerformances, _ = compareAnalysis.FromSystem.GetEffectivePerformances()
+			fromEfforts, _ = compareAnalysis.FromSystem.GetEffectiveEfforts()
+		} else {
+			fromComplexities = compareAnalysis.FromSystem.Complexities
+			fromPerformances = compareAnalysis.FromSystem.Performances
+			fromEfforts = compareAnalysis.FromSystem.Efforts
+		}
+
+		if diagram.AreSubsystemsVisible && compareAnalysis.ToSystem.AreCPEsCompoundedFromSubSystems {
+			toComplexities, _ = compareAnalysis.ToSystem.GetEffectiveComplexities()
+			toPerformances, _ = compareAnalysis.ToSystem.GetEffectivePerformances()
+			toEfforts, _ = compareAnalysis.ToSystem.GetEffectiveEfforts()
+		} else {
+			toComplexities = compareAnalysis.ToSystem.Complexities
+			toPerformances = compareAnalysis.ToSystem.Performances
+			toEfforts = compareAnalysis.ToSystem.Efforts
+		}
+
+		for _, c := range fromComplexities {
+			cFrom += c.Strength
+		}
+		for _, c := range toComplexities {
+			cTo += c.Strength
+		}
+		for _, p := range fromPerformances {
+			pFrom += p.Strength
+		}
+		for _, p := range toPerformances {
+			pTo += p.Strength
+		}
+		for _, e := range fromEfforts {
+			eFrom += e.Strength
+		}
+		for _, e := range toEfforts {
+			eTo += e.Strength
+		}
+
+		alpha := compareAnalysis.Alpha
+		if alpha == 0 {
+			alpha = 1.0
+		}
+		beta := compareAnalysis.Beta
+		if beta == 0 {
+			beta = 1.0
+		}
+
+		deltaC := cTo - cFrom
+		deltaP := pTo - pFrom
+		deltaE := eTo - eFrom
+		rhs := alpha*deltaP - beta*deltaE
+
+		extentAboveBaseline = math.Max(cTo, alpha*pTo)
+		if !diagram.IsInDelta3ColumnsMode {
+			extentAboveBaseline = math.Max(extentAboveBaseline, alpha*pFrom)
+		} else {
+			if deltaP > 0 {
+				extentAboveBaseline = math.Max(extentAboveBaseline, alpha*deltaP)
+			}
+			if deltaC > 0 {
+				extentAboveBaseline = math.Max(extentAboveBaseline, deltaC)
+			}
+		}
+
+		extentBelowBaseline = math.Max(0, -deltaC)
+		extentBelowBaseline = math.Max(extentBelowBaseline, -alpha*deltaP)
+		extentBelowBaseline = math.Max(extentBelowBaseline, -alpha*deltaP+beta*eTo)
+		extentBelowBaseline = math.Max(extentBelowBaseline, -rhs)
+		if diagram.IsInDelta3ColumnsMode {
+			if deltaE > 0 {
+				extentBelowBaseline = math.Max(extentBelowBaseline, -rhs)
+			}
+		}
+	} else if owningSystem != nil {
+		var cTo, pTo, eTo float64
+		var toComplexities []*Complexity
+		var toPerformances []*Performance
+		var toEfforts []*Effort
+		if diagram.AreSubsystemsVisible && owningSystem.AreCPEsCompoundedFromSubSystems {
+			toComplexities, _ = owningSystem.GetEffectiveComplexities()
+			toPerformances, _ = owningSystem.GetEffectivePerformances()
+			toEfforts, _ = owningSystem.GetEffectiveEfforts()
+		} else {
+			toComplexities = owningSystem.Complexities
+			toPerformances = owningSystem.Performances
+			toEfforts = owningSystem.Efforts
+		}
+		for _, c := range toComplexities {
+			cTo += c.Strength
+		}
+		for _, p := range toPerformances {
+			pTo += p.Strength
+		}
+		for _, e := range toEfforts {
+			eTo += e.Strength
+		}
+		extentAboveBaseline = math.Max(cTo, pTo)
+		extentBelowBaseline = math.Max(0, eTo-pTo)
 	}
 	return
 }

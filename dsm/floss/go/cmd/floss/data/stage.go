@@ -243,7 +243,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000000_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000000_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000000_.Width = 1170.000000
-	__DiagramFlossEquation__00000000_.Height = 800.000000
+	__DiagramFlossEquation__00000000_.Height = 750.000000
 	__DiagramFlossEquation__00000000_.Scale = 5.000000
 	__DiagramFlossEquation__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000000_.DefaultBoxHeigth = 70.000000
@@ -262,7 +262,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000001_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000001_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000001_.Width = 1170.000000
-	__DiagramFlossEquation__00000001_.Height = 800.000000
+	__DiagramFlossEquation__00000001_.Height = 750.000000
 	__DiagramFlossEquation__00000001_.Scale = 5.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxHeigth = 70.000000
@@ -281,7 +281,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000002_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000002_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000002_.Width = 1170.000000
-	__DiagramFlossEquation__00000002_.Height = 800.000000
+	__DiagramFlossEquation__00000002_.Height = 750.000000
 	__DiagramFlossEquation__00000002_.Scale = 5.000000
 	__DiagramFlossEquation__00000002_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000002_.DefaultBoxHeigth = 70.000000
@@ -300,7 +300,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000003_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000003_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000003_.Width = 1170.000000
-	__DiagramFlossEquation__00000003_.Height = 800.000000
+	__DiagramFlossEquation__00000003_.Height = 750.000000
 	__DiagramFlossEquation__00000003_.Scale = 5.000000
 	__DiagramFlossEquation__00000003_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000003_.DefaultBoxHeigth = 70.000000
@@ -319,7 +319,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000004_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000004_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000004_.Width = 1170.000000
-	__DiagramFlossEquation__00000004_.Height = 800.000000
+	__DiagramFlossEquation__00000004_.Height = 750.000000
 	__DiagramFlossEquation__00000004_.Scale = 5.000000
 	__DiagramFlossEquation__00000004_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000004_.DefaultBoxHeigth = 70.000000
@@ -338,7 +338,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000005_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000005_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000005_.Width = 1170.000000
-	__DiagramFlossEquation__00000005_.Height = 800.000000
+	__DiagramFlossEquation__00000005_.Height = 750.000000
 	__DiagramFlossEquation__00000005_.Scale = 5.000000
 	__DiagramFlossEquation__00000005_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000005_.DefaultBoxHeigth = 70.000000
@@ -357,7 +357,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000006_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000006_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000006_.Width = 1170.000000
-	__DiagramFlossEquation__00000006_.Height = 800.000000
+	__DiagramFlossEquation__00000006_.Height = 750.000000
 	__DiagramFlossEquation__00000006_.Scale = 5.000000
 	__DiagramFlossEquation__00000006_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000006_.DefaultBoxHeigth = 70.000000
@@ -376,7 +376,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000007_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000007_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000007_.Width = 1170.000000
-	__DiagramFlossEquation__00000007_.Height = 800.000000
+	__DiagramFlossEquation__00000007_.Height = 750.000000
 	__DiagramFlossEquation__00000007_.Scale = 5.000000
 	__DiagramFlossEquation__00000007_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000007_.DefaultBoxHeigth = 70.000000
@@ -395,7 +395,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000008_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000008_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000008_.Width = 1170.000000
-	__DiagramFlossEquation__00000008_.Height = 800.000000
+	__DiagramFlossEquation__00000008_.Height = 750.000000
 	__DiagramFlossEquation__00000008_.Scale = 5.000000
 	__DiagramFlossEquation__00000008_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000008_.DefaultBoxHeigth = 70.000000
@@ -414,7 +414,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000009_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000009_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000009_.Width = 1170.000000
-	__DiagramFlossEquation__00000009_.Height = 800.000000
+	__DiagramFlossEquation__00000009_.Height = 750.000000
 	__DiagramFlossEquation__00000009_.Scale = 5.000000
 	__DiagramFlossEquation__00000009_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000009_.DefaultBoxHeigth = 70.000000
@@ -433,7 +433,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000010_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000010_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000010_.Width = 1170.000000
-	__DiagramFlossEquation__00000010_.Height = 800.000000
+	__DiagramFlossEquation__00000010_.Height = 750.000000
 	__DiagramFlossEquation__00000010_.Scale = 5.000000
 	__DiagramFlossEquation__00000010_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000010_.DefaultBoxHeigth = 70.000000
@@ -452,7 +452,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000011_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000011_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000011_.Width = 1170.000000
-	__DiagramFlossEquation__00000011_.Height = 800.000000
+	__DiagramFlossEquation__00000011_.Height = 750.000000
 	__DiagramFlossEquation__00000011_.Scale = 5.000000
 	__DiagramFlossEquation__00000011_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000011_.DefaultBoxHeigth = 70.000000
@@ -471,7 +471,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000012_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000012_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000012_.Width = 1170.000000
-	__DiagramFlossEquation__00000012_.Height = 800.000000
+	__DiagramFlossEquation__00000012_.Height = 750.000000
 	__DiagramFlossEquation__00000012_.Scale = 5.000000
 	__DiagramFlossEquation__00000012_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000012_.DefaultBoxHeigth = 70.000000
@@ -490,7 +490,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000013_.AreSubsystemsVisible = true
 	__DiagramFlossEquation__00000013_.Width = 1170.000000
-	__DiagramFlossEquation__00000013_.Height = 800.000000
+	__DiagramFlossEquation__00000013_.Height = 750.000000
 	__DiagramFlossEquation__00000013_.Scale = 5.000000
 	__DiagramFlossEquation__00000013_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000013_.DefaultBoxHeigth = 70.000000
@@ -509,7 +509,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000014_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000014_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000014_.Width = 1170.000000
-	__DiagramFlossEquation__00000014_.Height = 800.000000
+	__DiagramFlossEquation__00000014_.Height = 750.000000
 	__DiagramFlossEquation__00000014_.Scale = 5.000000
 	__DiagramFlossEquation__00000014_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000014_.DefaultBoxHeigth = 70.000000
@@ -528,7 +528,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000015_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000015_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000015_.Width = 1170.000000
-	__DiagramFlossEquation__00000015_.Height = 800.000000
+	__DiagramFlossEquation__00000015_.Height = 750.000000
 	__DiagramFlossEquation__00000015_.Scale = 5.000000
 	__DiagramFlossEquation__00000015_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000015_.DefaultBoxHeigth = 70.000000
@@ -541,13 +541,13 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000016_.Description = ``
 	__DiagramFlossEquation__00000016_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000016_.IsExpanded = false
-	__DiagramFlossEquation__00000016_.IsChecked = false
+	__DiagramFlossEquation__00000016_.IsChecked = true
 	__DiagramFlossEquation__00000016_.IsEditable_ = true
 	__DiagramFlossEquation__00000016_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000016_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000016_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000016_.Width = 1170.000000
-	__DiagramFlossEquation__00000016_.Height = 800.000000
+	__DiagramFlossEquation__00000016_.Height = 750.000000
 	__DiagramFlossEquation__00000016_.Scale = 5.000000
 	__DiagramFlossEquation__00000016_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000016_.DefaultBoxHeigth = 70.000000
@@ -560,13 +560,13 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000017_.Description = ``
 	__DiagramFlossEquation__00000017_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000017_.IsExpanded = false
-	__DiagramFlossEquation__00000017_.IsChecked = true
+	__DiagramFlossEquation__00000017_.IsChecked = false
 	__DiagramFlossEquation__00000017_.IsEditable_ = true
 	__DiagramFlossEquation__00000017_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000017_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000017_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000017_.Width = 1418.000000
-	__DiagramFlossEquation__00000017_.Height = 800.000000
+	__DiagramFlossEquation__00000017_.Height = 1007.850000
 	__DiagramFlossEquation__00000017_.Scale = 5.000000
 	__DiagramFlossEquation__00000017_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000017_.DefaultBoxHeigth = 70.000000
@@ -940,6 +940,8 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000003_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000008_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000009_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000007_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000010_)
 	__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000000_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000003_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000005_)
@@ -972,7 +974,6 @@ func _(stage *models.Stage) {
 	__System__00000007_.Performances = append(__System__00000007_.Performances, __Performance__00000008_)
 	__System__00000007_.Efforts = append(__System__00000007_.Efforts, __Effort__00000010_)
 	__System__00000007_.DiagramFlossEquations = append(__System__00000007_.DiagramFlossEquations, __DiagramFlossEquation__00000013_)
-	__System__00000007_.DiagramFlossEquationsWhoseNodeIsExpanded = append(__System__00000007_.DiagramFlossEquationsWhoseNodeIsExpanded, __DiagramFlossEquation__00000013_)
 	__System__00000007_.SubSystemes = append(__System__00000007_.SubSystemes, __System__00000008_)
 	__System__00000007_.SubSystemes = append(__System__00000007_.SubSystemes, __System__00000009_)
 	__System__00000008_.Complexities = append(__System__00000008_.Complexities, __Complexity__00000016_)

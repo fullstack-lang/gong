@@ -225,8 +225,16 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	isDelta := fromSys != nil
 
-	// Layout coordinates adapted to diagram dimensions and DefaultBoxWidth
-	yGround := diagHeight - 80.0
+	extentAboveBaseline, extentBelowBaseline := computeFlossDiagramVerticalExtents(diagram, compareAnalysis, owningSystem)
+
+	topMargin := 150.0
+	bottomMargin := 120.0
+	yGround := topMargin + extentAboveBaseline*scale
+	maxBottom := yGround + extentBelowBaseline*scale
+	neededHeight := maxBottom + bottomMargin
+	diagHeight = math.Max(math.Max(diagram.Height, neededHeight), 750.0)
+	svgObject.OverriddenHeight = diagHeight
+
 	colWidth := diagram.GetDefaultBoxWidth()
 	if colWidth <= 0 {
 		colWidth = 250.0
@@ -622,7 +630,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col1Label := &svg.Text{
 			Name:    "Col 1 Label",
 			X:       xCol1_V2 + colWidth/2,
-			Y:       yGround + 40,
+			Y:       maxBottom + 40,
 			Content: col1LabelText,
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
@@ -643,7 +651,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col2Label := &svg.Text{
 			Name:    "Col 2 Label",
 			X:       xCol2_V2 + colWidth/2,
-			Y:       yGround + 40,
+			Y:       maxBottom + 40,
 			Content: col2LabelText,
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
@@ -665,7 +673,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col3Label := &svg.Text{
 			Name:    "Col 3 Label",
 			X:       xCol3_V2 + colWidth/2,
-			Y:       math.Max(yBottomE_V2, yGround) + 40,
+			Y:       maxBottom + 40,
 			Content: col3LabelText,
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -786,7 +794,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v2Label := &svg.Text{
 			Name:    "C V2 Sub-Label",
 			X:       xCol1_V2 + colWidth/2,
-			Y:       math.Max(yBottomC_V1, yGround) + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2 (C=%.2f)", cTo),
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
@@ -799,7 +807,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1Label := &svg.Text{
 			Name:    "C V1 Sub-Label",
 			X:       xCol1_V1 + colWidth/2,
-			Y:       math.Max(yBottomC_V1, yGround) + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V1 (C=%.2f)", cFrom),
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
@@ -813,7 +821,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col1Label := &svg.Text{
 			Name:    "Col 1 Label",
 			X:       col1CenterX,
-			Y:       math.Max(yBottomC_V1, yGround) + 40,
+			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
@@ -869,7 +877,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v2PLabel := &svg.Text{
 			Name:    "P V2 Sub-Label",
 			X:       xCol2_V2 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2 (α·P=%.2f)", alpha*pTo),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
@@ -882,7 +890,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1PLabel := &svg.Text{
 			Name:    "P V1 Sub-Label",
 			X:       xCol2_V1 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V1 (α·P=%.2f)", alpha*pFrom),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
@@ -896,7 +904,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col2Label := &svg.Text{
 			Name:    "Col 2 Label",
 			X:       col2CenterX,
-			Y:       yGround + 40,
+			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
@@ -937,7 +945,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v2ELabel := &svg.Text{
 			Name:    "E V2 Sub-Label",
 			X:       xCol3_V2 + colWidth/2,
-			Y:       math.Max(yBottomE_V2, yGround) + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2 (β·E=%.2f)", beta*eTo),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -950,7 +958,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1ELabel := &svg.Text{
 			Name:    "E V1 Sub-Label",
 			X:       xCol3_V1 + colWidth/2,
-			Y:       math.Max(yBottomE_V2, yGround) + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V1 (β·E=%.2f)", beta*eFrom),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -964,7 +972,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col3Label := &svg.Text{
 			Name:    "Col 3 Label",
 			X:       col3CenterX,
-			Y:       math.Max(yBottomE_V2, yGround) + 40,
+			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -1114,7 +1122,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1v2SubC := &svg.Text{
 			Name:    "ΔC Sub-Label",
 			X:       xCol1_V2 + colWidth/2,
-			Y:       math.Max(yBottomDeltaC, yGround) + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", cTo, cFrom),
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
@@ -1127,7 +1135,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col1Label := &svg.Text{
 			Name:    "Col 1 Label",
 			X:       xCol1_V2 + colWidth/2,
-			Y:       math.Max(yBottomDeltaC, yGround) + 40,
+			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
@@ -1176,7 +1184,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1v2SubP := &svg.Text{
 			Name:    "α·ΔP Sub-Label",
 			X:       xCol2_V2 + colWidth/2,
-			Y:       yGround + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", alpha*pTo, alpha*pFrom),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
@@ -1189,7 +1197,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col2Label := &svg.Text{
 			Name:    "Col 2 Label",
 			X:       xCol2_V2 + colWidth/2,
-			Y:       yGround + 40,
+			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
@@ -1239,7 +1247,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		v1v2SubE := &svg.Text{
 			Name:    "β·ΔE Sub-Label",
 			X:       xCol3_V2 + colWidth/2,
-			Y:       math.Max(yBottomDeltaE, yGround) + 20,
+			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", beta*eTo, beta*eFrom),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -1252,7 +1260,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col3Label := &svg.Text{
 			Name:    "Col 3 Label",
 			X:       xCol3_V2 + colWidth/2,
-			Y:       math.Max(yBottomDeltaE, yGround) + 40,
+			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
@@ -1357,7 +1365,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Lines = append(layer.Lines, diffLine)
 
-	maxBottom := math.Max(math.Max(yTipC_Indicator, yRHS_Indicator), yGround)
 	indicatorLabel := &svg.Text{
 		Name:    "Indicator Message",
 		X:       40,
