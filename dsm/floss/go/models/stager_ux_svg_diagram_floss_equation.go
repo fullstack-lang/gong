@@ -231,11 +231,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if colWidth <= 0 {
 		colWidth = 250.0
 	}
+	if isDelta && !diagram.IsInDelta3ColumnsMode {
+		colWidth = math.Round(colWidth * 0.65)
+		if colWidth < 150.0 {
+			colWidth = 150.0
+		}
+	}
 
-	pairGap := 15.0
-	colSpacing := 40.0
-	if isDelta {
-		colSpacing = 50.0
+	pairGap := 10.0
+	colSpacing := 35.0
+	if !isDelta || diagram.IsInDelta3ColumnsMode {
+		colSpacing = 40.0
 	}
 	xMargin := 80.0
 
