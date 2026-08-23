@@ -65,8 +65,22 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 25,
-				Form: &split.Form{
-					StackName: stager.probeForm.GetFormStage().GetName(),
+				AsSplit: &split.AsSplit{
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 55,
+							Slider: &split.Slider{
+								StackName: stager.sliderStage.GetName(),
+							},
+						},
+						{
+							Size: 45,
+							Form: &split.Form{
+								StackName: stager.probeForm.GetFormStage().GetName(),
+							},
+						},
+					},
 				},
 			},
 		},
