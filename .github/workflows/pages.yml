@@ -92,6 +92,13 @@ jobs:
           cp scenario-app-portable.html ../../../../../public-site/
           zip ../../../../../public-site/scenario-app-portable.zip scenario-app-portable.html
           
+      - name: Build floss portable app
+        run: |
+          cd dsm/floss/go/cmd/floss
+          gong portable
+          cp floss-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/floss-app-portable.zip floss-app-portable.html
+          
       - name: Build project portable app
         run: |
           cd dsm/project/go/cmd/project

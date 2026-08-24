@@ -17,6 +17,7 @@
 ## Prospective Analysis
 
 - [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip)): exploration of operational scenarios, actor state evolutions, timeline trajectories, and parameter trade-offs.
+- [Floss](https://fullstack-lang.github.io/gong/floss-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/floss-app-portable.zip)): analysis of system complexity, performance, and effort trade-offs (based on de Weck's FLOSS equations).
 
 ## Stage Inspection and Diagnostics
 
