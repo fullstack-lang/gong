@@ -391,18 +391,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Lines = append(layer.Lines, groundLine)
 
-	groundText := &svg.Text{
-		Name:    "Ground Text",
-		X:       40,
-		Y:       yGround - 8,
-		Content: "Baseline (0.0)",
-		Presentation: svg.Presentation{
-			Color:       "#90A4AE",
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, groundText)
+
 
 	// Map to hold element to rect pointers
 	map_Element_Rect := make(map[any]*svg.Rect)
@@ -699,18 +688,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
-		peakText := &svg.Text{
-			Name:    "Peak Label",
-			X:       columnsRight + 10,
-			Y:       yTipP_V2 + 4,
-			Content: "μ · P peak",
-			Presentation: svg.Presentation{
-				Color:       "#388E3C",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, peakText)
+
 
 		rhsLine := &svg.Line{
 			Name: "RHS Level Line",
@@ -727,18 +705,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, rhsLine)
 
-		rhsText := &svg.Text{
-			Name:    "RHS Label",
-			X:       columnsRight + 10,
-			Y:       yBottomE_V2 + 4,
-			Content: "μ·P - ε·E level",
-			Presentation: svg.Presentation{
-				Color:       "#1565C0",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, rhsText)
+
 
 		yTipC_Indicator = yTipC_V2
 		yRHS_Indicator = yBottomE_V2
@@ -998,18 +965,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, rhsLine)
 
-		rhsText := &svg.Text{
-			Name:    "RHS Label",
-			X:       columnsRight + 10,
-			Y:       yTopE_V1 + 4,
-			Content: fmt.Sprintf("μ·ΔP - ε·ΔE level (%.2f)", rhs),
-			Presentation: svg.Presentation{
-				Color:       "#1565C0",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, rhsText)
+
 
 		yTipC_Indicator = yBottomC_V1
 		yRHS_Indicator = yTopE_V1
@@ -1286,19 +1242,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
-		peakText := &svg.Text{
-			Name:    "Peak Label",
-			X:       columnsRight + 10,
-			Y:       yTopDeltaP + 4,
-			Content: "μ · ΔP peak",
-			Presentation: svg.Presentation{
-				Color:       "#388E3C",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, peakText)
-
 		rhsLine := &svg.Line{
 			Name: "RHS Level Line",
 			X1:   xCol1_V2,
@@ -1313,19 +1256,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			},
 		}
 		layer.Lines = append(layer.Lines, rhsLine)
-
-		rhsText := &svg.Text{
-			Name:    "RHS Label",
-			X:       columnsRight + 10,
-			Y:       yBottomDeltaE + 4,
-			Content: fmt.Sprintf("μ·ΔP - ε·ΔE level (%.2f)", rhs),
-			Presentation: svg.Presentation{
-				Color:       "#1565C0",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, rhsText)
 
 		if deltaC <= 0 {
 			yTipC_Indicator = yBottomDeltaC

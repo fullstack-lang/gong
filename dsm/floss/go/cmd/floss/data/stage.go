@@ -525,7 +525,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.Description = ``
 	__DiagramFlossEquation__00000013_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000013_.IsExpanded = false
-	__DiagramFlossEquation__00000013_.IsChecked = true
+	__DiagramFlossEquation__00000013_.IsChecked = false
 	__DiagramFlossEquation__00000013_.IsEditable_ = true
 	__DiagramFlossEquation__00000013_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = true
@@ -582,7 +582,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000016_.Description = ``
 	__DiagramFlossEquation__00000016_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000016_.IsExpanded = false
-	__DiagramFlossEquation__00000016_.IsChecked = false
+	__DiagramFlossEquation__00000016_.IsChecked = true
 	__DiagramFlossEquation__00000016_.IsEditable_ = true
 	__DiagramFlossEquation__00000016_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000016_.AreQuantitativeElementsVisible = true
@@ -793,10 +793,10 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
-	__Library__00000000_.IsSubLibrariesNodeExpanded = true
+	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsSystemsNodeExpanded = false
+	__Library__00000000_.IsSystemsNodeExpanded = true
 	__Library__00000000_.IsComplexitysNodeExpanded = false
 	__Library__00000000_.IsPerformancesNodeExpanded = false
 	__Library__00000000_.IsEffortsNodeExpanded = false
@@ -818,7 +818,7 @@ func _(stage *models.Stage) {
 	__Library__00000001_.IsEffortsNodeExpanded = false
 	__Library__00000001_.IsCompareAnalysisNodeExpanded = true
 	__Library__00000001_.IsNotesNodeExpanded = false
-	__Library__00000001_.IsExpandedTmp = false
+	__Library__00000001_.IsExpandedTmp = true
 
 	__Library__00000002_.Name = `Complexity buydow`
 	__Library__00000002_.Description = ``
@@ -834,7 +834,7 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsEffortsNodeExpanded = false
 	__Library__00000002_.IsCompareAnalysisNodeExpanded = true
 	__Library__00000002_.IsNotesNodeExpanded = false
-	__Library__00000002_.IsExpandedTmp = true
+	__Library__00000002_.IsExpandedTmp = false
 
 	__Note__00000000_.Name = `Hypthesis`
 	__Note__00000000_.Description = ``
