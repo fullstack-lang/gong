@@ -277,8 +277,43 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		nbPixPerChar = 8.0
 	}
 
+	// -------------------------------------------------------------
+	// Pre-calculate strings for header to size the box correctly
+	// -------------------------------------------------------------
+	isCompoundedBreakdown := diagram.AreSubsystemsVisible && toSys.AreCPEsCompoundedFromSubSystems
+	var titleStr, formulaStr, valuesStr string
+
+	if compareAnalysis != nil {
+		titleStr = compareAnalysis.Name
+	} else if isCompoundedBreakdown {
+		titleStr = fmt.Sprintf("%s (Subsystems Breakdown)", toSys.Name)
+	} else {
+		titleStr = toSys.Name
+	}
+
+	if !isDelta {
+		if isCompoundedBreakdown {
+			formulaStr = fmt.Sprintf("FLOSS Equation: C = μ·P - ε·E   |   System: %s [Subsystems Breakdown]", toSys.Name)
+		} else {
+			formulaStr = fmt.Sprintf("FLOSS Equation: C = μ·P - ε·E   |   System: %s", toSys.Name)
+		}
+	} else {
+		formulaStr = fmt.Sprintf("FLOSS Equation: ΔC = μ·ΔP - ε·ΔE   (V1: %s  →  V2: %s)", fromSys.Name, toSys.Name)
+	}
+
+	if !isDelta {
+		valuesStr = fmt.Sprintf("C=%.2f   P=%.2f (μ=%.2f → μ·P=%.2f)   E=%.2f (ε=%.2f → ε·E=%.2f)   [μ·P - ε·E = %.2f,  Diff = %.2f]",
+			cTo, pTo, mu, mu*pTo, eTo, epsilon, epsilon*eTo, rhs, diff)
+	} else {
+		valuesStr = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   μ·ΔP=%.2f (V2:%.2f - V1:%.2f)   ε·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
+			deltaC, cTo, cFrom, mu*deltaP, mu*pTo, mu*pFrom, epsilon*deltaE, epsilon*eTo, epsilon*eFrom, rhs, diff)
+	}
+
+	maxTextLen := math.Max(float64(len(titleStr)), math.Max(float64(len(formulaStr)), float64(len(valuesStr))))
+	textWidth := maxTextLen * nbPixPerChar
+
 	// Header banner
-	headerWidth := math.Max(columnsRight+220.0, diagWidth-80.0)
+	headerWidth := math.Max(columnsRight+40.0, textWidth+40.0) // 40.0 padding
 	headerRect := &svg.Rect{
 		Name:   "Header Card",
 		X:      40,
@@ -302,16 +337,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	layer.Rects = append(layer.Rects, headerRect)
 
 	// Compare Analysis or System Title
-	isCompoundedBreakdown := diagram.AreSubsystemsVisible && toSys.AreCPEsCompoundedFromSubSystems
 	headerTitle := new(svg.RectAnchoredText)
 	headerTitle.Name = "Header Title"
-	if compareAnalysis != nil {
-		headerTitle.Content = compareAnalysis.Name
-	} else if isCompoundedBreakdown {
-		headerTitle.Content = fmt.Sprintf("%s (Subsystems Breakdown)", toSys.Name)
-	} else {
-		headerTitle.Content = toSys.Name
-	}
+	headerTitle.Content = titleStr
 	headerTitle.FontSize = "17px"
 	headerTitle.FontWeight = "700"
 	headerTitle.Color = "#0D47A1"
@@ -328,15 +356,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// Formula line
 	headerFormula := new(svg.RectAnchoredText)
 	headerFormula.Name = "Header Formula"
-	if !isDelta {
-		if isCompoundedBreakdown {
-			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = μ·P - ε·E   |   System: %s [Subsystems Breakdown]", toSys.Name)
-		} else {
-			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = μ·P - ε·E   |   System: %s", toSys.Name)
-		}
-	} else {
-		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = μ·ΔP - ε·ΔE   (V1: %s  →  V2: %s)", fromSys.Name, toSys.Name)
-	}
+	headerFormula.Content = formulaStr
 	headerFormula.FontSize = "14px"
 	headerFormula.FontWeight = "600"
 	headerFormula.Color = "#37474F"
@@ -353,13 +373,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// Values summary
 	headerValues := new(svg.RectAnchoredText)
 	headerValues.Name = "Header Values"
-	if !isDelta {
-		headerValues.Content = fmt.Sprintf("C=%.2f   P=%.2f (μ=%.2f → μ·P=%.2f)   E=%.2f (ε=%.2f → ε·E=%.2f)   [μ·P - ε·E = %.2f,  Diff = %.2f]",
-			cTo, pTo, mu, mu*pTo, eTo, epsilon, epsilon*eTo, rhs, diff)
-	} else {
-		headerValues.Content = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   μ·ΔP=%.2f (V2:%.2f - V1:%.2f)   ε·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
-			deltaC, cTo, cFrom, mu*deltaP, mu*pTo, mu*pFrom, epsilon*deltaE, epsilon*eTo, epsilon*eFrom, rhs, diff)
-	}
+	headerValues.Content = valuesStr
 	headerValues.FontSize = "13px"
 	headerValues.FontWeight = "500"
 	headerValues.Color = "#616161"

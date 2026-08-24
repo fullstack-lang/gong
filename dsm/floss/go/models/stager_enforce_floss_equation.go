@@ -34,7 +34,7 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 	}
 
 	for system := range *GetGongstructInstancesSet[System](stager.stage) {
-		if system.AreCPEsCompoundedFromSubSystems && len(system.SubSystemes) > 0 {
+		if system.AreCPEsCompoundedFromSubSystems && len(system.SubSystems) > 0 {
 			// Enforce C1 = sum of subsystem complexities
 			if len(system.Complexities) == 1 {
 				effC, _ := system.GetEffectiveComplexities()

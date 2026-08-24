@@ -159,9 +159,9 @@ func (system *System) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &system.Complexities) || modified
 	modified = GongCleanSlice(stage, &system.Performances) || modified
 	modified = GongCleanSlice(stage, &system.Efforts) || modified
+	modified = GongCleanSlice(stage, &system.SubSystems) || modified
 	modified = GongCleanSlice(stage, &system.DiagramFlossEquations) || modified
 	modified = GongCleanSlice(stage, &system.DiagramFlossEquationsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &system.SubSystemes) || modified
 	modified = GongCleanSlice(stage, &system.ComplexitysWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &system.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &system.EffortsWhoseNodeIsExpanded) || modified

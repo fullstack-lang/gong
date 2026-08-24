@@ -681,6 +681,7 @@ func FillUpForm(
 		AssociationSliceToForm("Complexities", instanceWithInferedType, &instanceWithInferedType.Complexities, formGroup, probe)
 		AssociationSliceToForm("Performances", instanceWithInferedType, &instanceWithInferedType.Performances, formGroup, probe)
 		AssociationSliceToForm("Efforts", instanceWithInferedType, &instanceWithInferedType.Efforts, formGroup, probe)
+		AssociationSliceToForm("SubSystems", instanceWithInferedType, &instanceWithInferedType.SubSystems, formGroup, probe)
 		BasicFieldtoForm("AreCPEsCompoundedFromSubSystems", instanceWithInferedType.AreCPEsCompoundedFromSubSystems, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
@@ -695,7 +696,6 @@ func FillUpForm(
 		AssociationSliceToForm("DiagramFlossEquationsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DiagramFlossEquationsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsSubSystemNodeExpanded", instanceWithInferedType.IsSubSystemNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("SubSystemes", instanceWithInferedType, &instanceWithInferedType.SubSystemes, formGroup, probe)
 		BasicFieldtoForm("IsComplexitysNodeExpanded", instanceWithInferedType.IsComplexitysNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("ComplexitysWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ComplexitysWhoseNodeIsExpanded, formGroup, probe)
@@ -735,12 +735,12 @@ func FillUpForm(
 		{
 			AssociationReverseSliceToForm[*models.System, *models.System](
 				"System",
-				"SubSystemes",
+				"SubSystems",
 				instanceWithInferedType,
 				formGroup,
 				probe,
 				func(owner *models.System) []*models.System {
-					return owner.SubSystemes
+					return owner.SubSystems
 				})
 		}
 

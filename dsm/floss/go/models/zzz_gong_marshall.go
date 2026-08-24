@@ -710,6 +710,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Complexities"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Performances"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Efforts"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "SubSystems"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "AreCPEsCompoundedFromSubSystems"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
@@ -718,7 +719,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramFlossEquations"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsSubSystemNodeExpanded"))
-		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "SubSystemes"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "ComplexitysWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
@@ -1947,6 +1947,16 @@ func (system *System) GongMarshallField(stage *Stage, fieldName string) (res str
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "SubSystems":
+		var sb strings.Builder
+		for _, _system := range system.SubSystems {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", system.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubSystems")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _system.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "DiagramFlossEquations":
 		var sb strings.Builder
 		for _, _diagramflossequation := range system.DiagramFlossEquations {
@@ -1964,16 +1974,6 @@ func (system *System) GongMarshallField(stage *Stage, fieldName string) (res str
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", system.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramFlossEquationsWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramflossequation.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	case "SubSystemes":
-		var sb strings.Builder
-		for _, _system := range system.SubSystemes {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", system.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubSystemes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _system.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -2257,6 +2257,7 @@ func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Complexities"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Performances"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Efforts"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "SubSystems"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "AreCPEsCompoundedFromSubSystems"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
@@ -2265,7 +2266,6 @@ func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramFlossEquations"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsSubSystemNodeExpanded"))
-		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "SubSystemes"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "ComplexitysWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsPerformancesNodeExpanded"))

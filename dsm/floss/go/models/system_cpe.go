@@ -16,8 +16,8 @@ func (s *System) collectComplexities(list *[]*Complexity, sysMap map[*Complexity
 	}
 	visited[s] = true
 
-	if s.AreCPEsCompoundedFromSubSystems && len(s.SubSystemes) > 0 {
-		for _, sub := range s.SubSystemes {
+	if s.AreCPEsCompoundedFromSubSystems && len(s.SubSystems) > 0 {
+		for _, sub := range s.SubSystems {
 			sub.collectComplexities(list, sysMap, visited)
 		}
 	} else {
@@ -44,8 +44,8 @@ func (s *System) collectPerformances(list *[]*Performance, sysMap map[*Performan
 	}
 	visited[s] = true
 
-	if s.AreCPEsCompoundedFromSubSystems && len(s.SubSystemes) > 0 {
-		for _, sub := range s.SubSystemes {
+	if s.AreCPEsCompoundedFromSubSystems && len(s.SubSystems) > 0 {
+		for _, sub := range s.SubSystems {
 			sub.collectPerformances(list, sysMap, visited)
 		}
 	} else {
@@ -72,8 +72,8 @@ func (s *System) collectEfforts(list *[]*Effort, sysMap map[*Effort]*System, vis
 	}
 	visited[s] = true
 
-	if s.AreCPEsCompoundedFromSubSystems && len(s.SubSystemes) > 0 {
-		for _, sub := range s.SubSystemes {
+	if s.AreCPEsCompoundedFromSubSystems && len(s.SubSystems) > 0 {
+		for _, sub := range s.SubSystems {
 			sub.collectEfforts(list, sysMap, visited)
 		}
 	} else {

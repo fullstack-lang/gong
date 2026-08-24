@@ -317,8 +317,8 @@ func (inst *System) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 		}
 	case "System":
 		switch reverseField.Fieldname {
-		case "SubSystemes":
-			if _system, ok := stage.System_SubSystemes_reverseMap[inst]; ok {
+		case "SubSystems":
+			if _system, ok := stage.System_SubSystems_reverseMap[inst]; ok {
 				res = _system.Name
 			}
 		}
@@ -572,8 +572,8 @@ func (inst *System) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 		}
 	case "System":
 		switch reverseField.Fieldname {
-		case "SubSystemes":
-			res = stage.System_SubSystemes_reverseMap[inst]
+		case "SubSystems":
+			res = stage.System_SubSystems_reverseMap[inst]
 		}
 	}
 	return res

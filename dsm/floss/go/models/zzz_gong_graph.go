@@ -524,14 +524,14 @@ func (stage *Stage) StageBranchSystem(system *System) {
 	for _, _effort := range system.Efforts {
 		StageBranch(stage, _effort)
 	}
+	for _, _system := range system.SubSystems {
+		StageBranch(stage, _system)
+	}
 	for _, _diagramflossequation := range system.DiagramFlossEquations {
 		StageBranch(stage, _diagramflossequation)
 	}
 	for _, _diagramflossequation := range system.DiagramFlossEquationsWhoseNodeIsExpanded {
 		StageBranch(stage, _diagramflossequation)
-	}
-	for _, _system := range system.SubSystemes {
-		StageBranch(stage, _system)
 	}
 	for _, _complexity := range system.ComplexitysWhoseNodeIsExpanded {
 		StageBranch(stage, _complexity)
@@ -952,14 +952,14 @@ func CopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *Sy
 	for _, _effort := range systemFrom.Efforts {
 		systemTo.Efforts = append(systemTo.Efforts, CopyBranchEffort(mapOrigCopy, _effort))
 	}
+	for _, _system := range systemFrom.SubSystems {
+		systemTo.SubSystems = append(systemTo.SubSystems, CopyBranchSystem(mapOrigCopy, _system))
+	}
 	for _, _diagramflossequation := range systemFrom.DiagramFlossEquations {
 		systemTo.DiagramFlossEquations = append(systemTo.DiagramFlossEquations, CopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
 	}
 	for _, _diagramflossequation := range systemFrom.DiagramFlossEquationsWhoseNodeIsExpanded {
 		systemTo.DiagramFlossEquationsWhoseNodeIsExpanded = append(systemTo.DiagramFlossEquationsWhoseNodeIsExpanded, CopyBranchDiagramFlossEquation(mapOrigCopy, _diagramflossequation))
-	}
-	for _, _system := range systemFrom.SubSystemes {
-		systemTo.SubSystemes = append(systemTo.SubSystemes, CopyBranchSystem(mapOrigCopy, _system))
 	}
 	for _, _complexity := range systemFrom.ComplexitysWhoseNodeIsExpanded {
 		systemTo.ComplexitysWhoseNodeIsExpanded = append(systemTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
@@ -1318,14 +1318,14 @@ func (stage *Stage) UnstageBranchSystem(system *System) {
 	for _, _effort := range system.Efforts {
 		UnstageBranch(stage, _effort)
 	}
+	for _, _system := range system.SubSystems {
+		UnstageBranch(stage, _system)
+	}
 	for _, _diagramflossequation := range system.DiagramFlossEquations {
 		UnstageBranch(stage, _diagramflossequation)
 	}
 	for _, _diagramflossequation := range system.DiagramFlossEquationsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _diagramflossequation)
-	}
-	for _, _system := range system.SubSystemes {
-		UnstageBranch(stage, _system)
 	}
 	for _, _complexity := range system.ComplexitysWhoseNodeIsExpanded {
 		UnstageBranch(stage, _complexity)
@@ -1545,6 +1545,10 @@ func (reference *System) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Efforts {
 		reference.Efforts = append(reference.Efforts, stage.Efforts_reference[_b])
 	}
+	reference.SubSystems = reference.SubSystems[:0]
+	for _, _b := range instance.SubSystems {
+		reference.SubSystems = append(reference.SubSystems, stage.Systems_reference[_b])
+	}
 	reference.DiagramFlossEquations = reference.DiagramFlossEquations[:0]
 	for _, _b := range instance.DiagramFlossEquations {
 		reference.DiagramFlossEquations = append(reference.DiagramFlossEquations, stage.DiagramFlossEquations_reference[_b])
@@ -1552,10 +1556,6 @@ func (reference *System) GongReconstructPointersFromReferences(stage *Stage, ins
 	reference.DiagramFlossEquationsWhoseNodeIsExpanded = reference.DiagramFlossEquationsWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.DiagramFlossEquationsWhoseNodeIsExpanded {
 		reference.DiagramFlossEquationsWhoseNodeIsExpanded = append(reference.DiagramFlossEquationsWhoseNodeIsExpanded, stage.DiagramFlossEquations_reference[_b])
-	}
-	reference.SubSystemes = reference.SubSystemes[:0]
-	for _, _b := range instance.SubSystemes {
-		reference.SubSystemes = append(reference.SubSystemes, stage.Systems_reference[_b])
 	}
 	reference.ComplexitysWhoseNodeIsExpanded = reference.ComplexitysWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ComplexitysWhoseNodeIsExpanded {
@@ -1894,6 +1894,13 @@ func (reference *System) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Efforts = _Efforts
+	var _SubSystems []*System
+	for _, _reference := range reference.SubSystems {
+		if _instance, ok := stage.Systems_instance[_reference]; ok {
+			_SubSystems = append(_SubSystems, _instance)
+		}
+	}
+	reference.SubSystems = _SubSystems
 	var _DiagramFlossEquations []*DiagramFlossEquation
 	for _, _reference := range reference.DiagramFlossEquations {
 		if _instance, ok := stage.DiagramFlossEquations_instance[_reference]; ok {
@@ -1908,13 +1915,6 @@ func (reference *System) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.DiagramFlossEquationsWhoseNodeIsExpanded = _DiagramFlossEquationsWhoseNodeIsExpanded
-	var _SubSystemes []*System
-	for _, _reference := range reference.SubSystemes {
-		if _instance, ok := stage.Systems_instance[_reference]; ok {
-			_SubSystemes = append(_SubSystemes, _instance)
-		}
-	}
-	reference.SubSystemes = _SubSystemes
 	var _ComplexitysWhoseNodeIsExpanded []*Complexity
 	for _, _reference := range reference.ComplexitysWhoseNodeIsExpanded {
 		if _instance, ok := stage.Complexitys_instance[_reference]; ok {
@@ -2991,6 +2991,27 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 		ops := Diff(stage, system, systemOther, "Efforts", systemOther.Efforts, system.Efforts)
 		diffs = append(diffs, ops)
 	}
+	SubSystemsDifferent := false
+	if len(system.SubSystems) != len(systemOther.SubSystems) {
+		SubSystemsDifferent = true
+	} else {
+		for i := range system.SubSystems {
+			if (system.SubSystems[i] == nil) != (systemOther.SubSystems[i] == nil) {
+				SubSystemsDifferent = true
+				break
+			} else if system.SubSystems[i] != nil && systemOther.SubSystems[i] != nil {
+				// this is a pointer comparaison
+				if system.SubSystems[i] != systemOther.SubSystems[i] {
+					SubSystemsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubSystemsDifferent {
+		ops := Diff(stage, system, systemOther, "SubSystems", systemOther.SubSystems, system.SubSystems)
+		diffs = append(diffs, ops)
+	}
 	if system.AreCPEsCompoundedFromSubSystems != systemOther.AreCPEsCompoundedFromSubSystems {
 		diffs = append(diffs, system.GongMarshallField(stage, "AreCPEsCompoundedFromSubSystems"))
 	}
@@ -3050,27 +3071,6 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 	}
 	if system.IsSubSystemNodeExpanded != systemOther.IsSubSystemNodeExpanded {
 		diffs = append(diffs, system.GongMarshallField(stage, "IsSubSystemNodeExpanded"))
-	}
-	SubSystemesDifferent := false
-	if len(system.SubSystemes) != len(systemOther.SubSystemes) {
-		SubSystemesDifferent = true
-	} else {
-		for i := range system.SubSystemes {
-			if (system.SubSystemes[i] == nil) != (systemOther.SubSystemes[i] == nil) {
-				SubSystemesDifferent = true
-				break
-			} else if system.SubSystemes[i] != nil && systemOther.SubSystemes[i] != nil {
-				// this is a pointer comparaison
-				if system.SubSystemes[i] != systemOther.SubSystemes[i] {
-					SubSystemesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubSystemesDifferent {
-		ops := Diff(stage, system, systemOther, "SubSystemes", systemOther.SubSystemes, system.SubSystemes)
-		diffs = append(diffs, ops)
 	}
 	if system.IsComplexitysNodeExpanded != systemOther.IsComplexitysNodeExpanded {
 		diffs = append(diffs, system.GongMarshallField(stage, "IsComplexitysNodeExpanded"))

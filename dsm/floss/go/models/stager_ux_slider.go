@@ -130,7 +130,7 @@ func (stager *Stager) ux_slider() {
 		if showSubsystems {
 			return false
 		}
-		if sysOwner != nil && sysOwner.AreCPEsCompoundedFromSubSystems && len(sysOwner.SubSystemes) > 0 {
+		if sysOwner != nil && sysOwner.AreCPEsCompoundedFromSubSystems && len(sysOwner.SubSystems) > 0 {
 			return true
 		}
 		return false

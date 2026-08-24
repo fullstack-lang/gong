@@ -3541,6 +3541,38 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			system_.Efforts = instanceSlice
 			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Efforts", &system_.Efforts)
 
+		case "SubSystems":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.System)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.System](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.SubSystems = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "SubSystems", &system_.SubSystems)
+
 		case "AreCPEsCompoundedFromSubSystems":
 			FormDivBasicFieldToField(&(system_.AreCPEsCompoundedFromSubSystems), formDiv)
 		case "ComputedPrefix":
@@ -3617,38 +3649,6 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 
 		case "IsSubSystemNodeExpanded":
 			FormDivBasicFieldToField(&(system_.IsSubSystemNodeExpanded), formDiv)
-		case "SubSystemes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](systemFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.System, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.System)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					systemFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.System](systemFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			system_.SubSystemes = instanceSlice
-			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "SubSystemes", &system_.SubSystemes)
-
 		case "IsComplexitysNodeExpanded":
 			FormDivBasicFieldToField(&(system_.IsComplexitysNodeExpanded), formDiv)
 		case "ComplexitysWhoseNodeIsExpanded":
@@ -3841,7 +3841,7 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 					}
 				}
 			}
-		case "System:SubSystemes":
+		case "System:SubSystems":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3859,30 +3859,30 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all System instances and update their SubSystemes slice
+			// 3. Iterate over all System instances and update their SubSystems slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](systemFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _system)
 				
 				// if System is selected
 				if targetSystemIDs[id] {
-					// ensure system_ is in _system.SubSystemes
+					// ensure system_ is in _system.SubSystems
 					found := false
-					for _, _b := range _system.SubSystemes {
+					for _, _b := range _system.SubSystems {
 						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_system.SubSystemes = append(_system.SubSystemes, system_)
-						systemFormCallback.probe.UpdateSliceOfPointersCallback(_system, "SubSystemes", &_system.SubSystemes)
+						_system.SubSystems = append(_system.SubSystems, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_system, "SubSystems", &_system.SubSystems)
 					}
 				} else {
-					// ensure system_ is NOT in _system.SubSystemes
-					idx := slices.Index(_system.SubSystemes, system_)
+					// ensure system_ is NOT in _system.SubSystems
+					idx := slices.Index(_system.SubSystems, system_)
 					if idx != -1 {
-						_system.SubSystemes = slices.Delete(_system.SubSystemes, idx, idx+1)
-						systemFormCallback.probe.UpdateSliceOfPointersCallback(_system, "SubSystemes", &_system.SubSystemes)
+						_system.SubSystems = slices.Delete(_system.SubSystems, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_system, "SubSystems", &_system.SubSystems)
 					}
 				}
 			}

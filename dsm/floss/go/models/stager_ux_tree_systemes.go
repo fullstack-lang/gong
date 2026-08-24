@@ -83,7 +83,7 @@ func (stager *Stager) treeSystemes(
 		System, *System,
 	]{
 		parentNode:                         systemNode,
-		sliceForNewAddedItem:               &system.SubSystemes,
+		sliceForNewAddedItem:               &system.SubSystems,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
 		parentNodeExpansionSliceEncoding:   systemsWhoseNodeIsExpanded,
@@ -101,7 +101,7 @@ func (stager *Stager) treeSystemes(
 	subSystemesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsSubSystemNodeExpanded)
 	subSystemesNode.OnClick = onNodeClicked(stager, system)
 
-	for _, system_ := range system.SubSystemes {
+	for _, system_ := range system.SubSystems {
 		stager.treeSystemes(system_, subSystemesNode, systemsWhoseNodeIsExpanded)
 	}
 }

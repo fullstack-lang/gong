@@ -525,7 +525,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.Description = ``
 	__DiagramFlossEquation__00000013_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000013_.IsExpanded = false
-	__DiagramFlossEquation__00000013_.IsChecked = false
+	__DiagramFlossEquation__00000013_.IsChecked = true
 	__DiagramFlossEquation__00000013_.IsEditable_ = true
 	__DiagramFlossEquation__00000013_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = true
@@ -582,7 +582,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000016_.Description = ``
 	__DiagramFlossEquation__00000016_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000016_.IsExpanded = false
-	__DiagramFlossEquation__00000016_.IsChecked = true
+	__DiagramFlossEquation__00000016_.IsChecked = false
 	__DiagramFlossEquation__00000016_.IsEditable_ = true
 	__DiagramFlossEquation__00000016_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000016_.AreQuantitativeElementsVisible = true
@@ -603,11 +603,11 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000017_.IsExpanded = false
 	__DiagramFlossEquation__00000017_.IsChecked = false
 	__DiagramFlossEquation__00000017_.IsEditable_ = true
-	__DiagramFlossEquation__00000017_.IsInDelta3ColumnsMode = false
+	__DiagramFlossEquation__00000017_.IsInDelta3ColumnsMode = true
 	__DiagramFlossEquation__00000017_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000017_.AreSubsystemsVisible = false
-	__DiagramFlossEquation__00000017_.Width = 1418.000000
-	__DiagramFlossEquation__00000017_.Height = 1055.000000
+	__DiagramFlossEquation__00000017_.Width = 1170.000000
+	__DiagramFlossEquation__00000017_.Height = 1012.500000
 	__DiagramFlossEquation__00000017_.Scale = 5.000000
 	__DiagramFlossEquation__00000017_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000017_.DefaultBoxHeigth = 70.000000
@@ -793,14 +793,14 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
-	__Library__00000000_.IsSubLibrariesNodeExpanded = false
+	__Library__00000000_.IsSubLibrariesNodeExpanded = true
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsSystemsNodeExpanded = true
 	__Library__00000000_.IsComplexitysNodeExpanded = false
 	__Library__00000000_.IsPerformancesNodeExpanded = false
 	__Library__00000000_.IsEffortsNodeExpanded = false
-	__Library__00000000_.IsCompareAnalysisNodeExpanded = false
+	__Library__00000000_.IsCompareAnalysisNodeExpanded = true
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
@@ -1158,7 +1158,6 @@ func _(stage *models.Stage) {
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000005_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000006_)
 	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000006_)
-	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000003_)
 	__Library__00000002_.RootSystems = append(__Library__00000002_.RootSystems, __System__00000011_)
 	__Library__00000002_.RootSystems = append(__Library__00000002_.RootSystems, __System__00000012_)
 	__Library__00000002_.RootCompareAnalysis = append(__Library__00000002_.RootCompareAnalysis, __CompareAnalysis__00000001_)
@@ -1189,9 +1188,9 @@ func _(stage *models.Stage) {
 	__System__00000007_.Complexities = append(__System__00000007_.Complexities, __Complexity__00000015_)
 	__System__00000007_.Performances = append(__System__00000007_.Performances, __Performance__00000008_)
 	__System__00000007_.Efforts = append(__System__00000007_.Efforts, __Effort__00000010_)
+	__System__00000007_.SubSystems = append(__System__00000007_.SubSystems, __System__00000008_)
+	__System__00000007_.SubSystems = append(__System__00000007_.SubSystems, __System__00000009_)
 	__System__00000007_.DiagramFlossEquations = append(__System__00000007_.DiagramFlossEquations, __DiagramFlossEquation__00000013_)
-	__System__00000007_.SubSystemes = append(__System__00000007_.SubSystemes, __System__00000008_)
-	__System__00000007_.SubSystemes = append(__System__00000007_.SubSystemes, __System__00000009_)
 	__System__00000008_.Complexities = append(__System__00000008_.Complexities, __Complexity__00000016_)
 	__System__00000008_.Performances = append(__System__00000008_.Performances, __Performance__00000009_)
 	__System__00000008_.Efforts = append(__System__00000008_.Efforts, __Effort__00000011_)

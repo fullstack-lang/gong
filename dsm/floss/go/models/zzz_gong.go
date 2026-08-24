@@ -366,11 +366,11 @@ type Stage struct {
 
 	System_Efforts_reverseMap map[*Effort]*System
 
+	System_SubSystems_reverseMap map[*System]*System
+
 	System_DiagramFlossEquations_reverseMap map[*DiagramFlossEquation]*System
 
 	System_DiagramFlossEquationsWhoseNodeIsExpanded_reverseMap map[*DiagramFlossEquation]*System
-
-	System_SubSystemes_reverseMap map[*System]*System
 
 	System_ComplexitysWhoseNodeIsExpanded_reverseMap map[*Complexity]*System
 
@@ -3224,12 +3224,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Performances: []*Performance{{Name: "Performances"}},
 			// field is initialized with an instance of Effort with the name of the field
 			Efforts: []*Effort{{Name: "Efforts"}},
+			// field is initialized with an instance of System with the name of the field
+			SubSystems: []*System{{Name: "SubSystems"}},
 			// field is initialized with an instance of DiagramFlossEquation with the name of the field
 			DiagramFlossEquations: []*DiagramFlossEquation{{Name: "DiagramFlossEquations"}},
 			// field is initialized with an instance of DiagramFlossEquation with the name of the field
 			DiagramFlossEquationsWhoseNodeIsExpanded: []*DiagramFlossEquation{{Name: "DiagramFlossEquationsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of System with the name of the field
-			SubSystemes: []*System{{Name: "SubSystemes"}},
 			// field is initialized with an instance of Complexity with the name of the field
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Performance with the name of the field
@@ -3781,6 +3781,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "SubSystems":
+			res := make(map[*System][]*System)
+			for system := range stage.Systems {
+				for _, system_ := range system.SubSystems {
+					res[system_] = append(res[system_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "DiagramFlossEquations":
 			res := make(map[*DiagramFlossEquation][]*System)
 			for system := range stage.Systems {
@@ -3794,14 +3802,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for system := range stage.Systems {
 				for _, diagramflossequation_ := range system.DiagramFlossEquationsWhoseNodeIsExpanded {
 					res[diagramflossequation_] = append(res[diagramflossequation_], system)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "SubSystemes":
-			res := make(map[*System][]*System)
-			for system := range stage.Systems {
-				for _, system_ := range system.SubSystemes {
-					res[system_] = append(res[system_], system)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4024,7 +4024,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "System"
-		rf.Fieldname = "SubSystemes"
+		rf.Fieldname = "SubSystems"
 		res = append(res, rf)
 	}
 	return
@@ -4669,6 +4669,11 @@ func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Effort",
 		},
 		{
+			Name:                 "SubSystems",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "System",
+		},
+		{
 			Name:               "AreCPEsCompoundedFromSubSystems",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -4701,11 +4706,6 @@ func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsSubSystemNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "SubSystemes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "System",
 		},
 		{
 			Name:               "IsComplexitysNodeExpanded",
@@ -5523,6 +5523,16 @@ func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "SubSystems":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.SubSystems {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "AreCPEsCompoundedFromSubSystems":
 		res.valueString = fmt.Sprintf("%t", system.AreCPEsCompoundedFromSubSystems)
 		res.valueBool = system.AreCPEsCompoundedFromSubSystems
@@ -5563,16 +5573,6 @@ func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%t", system.IsSubSystemNodeExpanded)
 		res.valueBool = system.IsSubSystemNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SubSystemes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range system.SubSystemes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "IsComplexitysNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", system.IsComplexitysNodeExpanded)
 		res.valueBool = system.IsComplexitysNodeExpanded
@@ -6424,6 +6424,20 @@ func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, 
 				}
 			}
 		}
+	case "SubSystems":
+		system.SubSystems = make([]*System, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						system.SubSystems = append(system.SubSystems, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "AreCPEsCompoundedFromSubSystems":
 		system.AreCPEsCompoundedFromSubSystems = value.GetValueBool()
 	case "ComputedPrefix":
@@ -6464,20 +6478,6 @@ func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		}
 	case "IsSubSystemNodeExpanded":
 		system.IsSubSystemNodeExpanded = value.GetValueBool()
-	case "SubSystemes":
-		system.SubSystemes = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						system.SubSystemes = append(system.SubSystemes, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "IsComplexitysNodeExpanded":
 		system.IsComplexitysNodeExpanded = value.GetValueBool()
 	case "ComplexitysWhoseNodeIsExpanded":

@@ -1036,6 +1036,8 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallSliceOfPointers(&instance.Performances, valueExpr, identifierMap)
 	case "Efforts":
 		GongUnmarshallSliceOfPointers(&instance.Efforts, valueExpr, identifierMap)
+	case "SubSystems":
+		GongUnmarshallSliceOfPointers(&instance.SubSystems, valueExpr, identifierMap)
 	case "AreCPEsCompoundedFromSubSystems":
 		instance.AreCPEsCompoundedFromSubSystems = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -1052,8 +1054,6 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallSliceOfPointers(&instance.DiagramFlossEquationsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsSubSystemNodeExpanded":
 		instance.IsSubSystemNodeExpanded = GongExtractBool(valueExpr)
-	case "SubSystemes":
-		GongUnmarshallSliceOfPointers(&instance.SubSystemes, valueExpr, identifierMap)
 	case "IsComplexitysNodeExpanded":
 		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
 	case "ComplexitysWhoseNodeIsExpanded":

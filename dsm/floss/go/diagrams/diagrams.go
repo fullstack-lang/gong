@@ -52,7 +52,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
@@ -161,7 +161,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000005_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000006_.Name = `SubSystemes`
-	__LinkShape__00000006_.IdentifierMeta = ref_models.System{}.SubSystemes
+	__LinkShape__00000006_.IdentifierMeta = ref_models.System{}.SubSystems
 	__LinkShape__00000006_.FieldTypeIdentifierMeta = ref_models.System{}
 	__LinkShape__00000006_.FieldOffsetX = 0.000000
 	__LinkShape__00000006_.FieldOffsetY = 0.000000

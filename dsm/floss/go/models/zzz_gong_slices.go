@@ -265,6 +265,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.System_Efforts_reverseMap[_effort] = system
 		}
 	}
+	stage.System_SubSystems_reverseMap = make(map[*System]*System)
+	for system := range stage.Systems {
+		_ = system
+		for _, _system := range system.SubSystems {
+			stage.System_SubSystems_reverseMap[_system] = system
+		}
+	}
 	stage.System_DiagramFlossEquations_reverseMap = make(map[*DiagramFlossEquation]*System)
 	for system := range stage.Systems {
 		_ = system
@@ -277,13 +284,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = system
 		for _, _diagramflossequation := range system.DiagramFlossEquationsWhoseNodeIsExpanded {
 			stage.System_DiagramFlossEquationsWhoseNodeIsExpanded_reverseMap[_diagramflossequation] = system
-		}
-	}
-	stage.System_SubSystemes_reverseMap = make(map[*System]*System)
-	for system := range stage.Systems {
-		_ = system
-		for _, _system := range system.SubSystemes {
-			stage.System_SubSystemes_reverseMap[_system] = system
 		}
 	}
 	stage.System_ComplexitysWhoseNodeIsExpanded_reverseMap = make(map[*Complexity]*System)

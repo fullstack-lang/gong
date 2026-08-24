@@ -14,7 +14,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			system.GetOwningLibrary().RootSystems = append(system.GetOwningLibrary().RootSystems, system)
 		},
 		func(system *System) []*System {
-			return system.SubSystemes
+			return system.SubSystems
 		},
 	)
 
@@ -112,8 +112,6 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	) {
 		needCommit = true
 	}
-
-
 
 	if reattachToLibraryRoots(
 		stager,

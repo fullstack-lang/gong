@@ -9,6 +9,7 @@ type System struct {
 	Complexities []*Complexity
 	Performances []*Performance
 	Efforts      []*Effort
+	SubSystems   []*System
 
 	// Option to compound CPEs from subsystems
 	AreCPEsCompoundedFromSubSystems bool
@@ -29,7 +30,6 @@ type System struct {
 	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation
 
 	IsSubSystemNodeExpanded bool
-	SubSystemes             []*System
 
 	IsComplexitysNodeExpanded      bool
 	ComplexitysWhoseNodeIsExpanded []*Complexity
