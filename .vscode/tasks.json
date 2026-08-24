@@ -192,6 +192,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - capture: go run . edit data/capture_process.go",
+            "type": "shell",
+            "options": {
+                "cwd": "dsm/capture/go/cmd/capture"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/capture_process.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - floss: gong generate --dsm",
             "type": "shell",
             "options": {

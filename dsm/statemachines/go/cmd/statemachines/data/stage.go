@@ -55,10 +55,10 @@ func _(stage *models.Stage) {
 	__State__00000003_ := (&models.State{Name: `Yellow FR`}).Stage(stage)
 	__State__00000004_ := (&models.State{Name: `On FR`}).Stage(stage)
 	__State__00000005_ := (&models.State{Name: `Off FR`}).Stage(stage)
-	__State__00000006_ := (&models.State{Name: `Initial State UK`}).Stage(stage)
-	__State__00000007_ := (&models.State{Name: `Red UK`}).Stage(stage)
-	__State__00000008_ := (&models.State{Name: `Yellow UK`}).Stage(stage)
-	__State__00000009_ := (&models.State{Name: `Green UK`}).Stage(stage)
+	__State__00000006_ := (&models.State{Name: ``}).Stage(stage)
+	__State__00000007_ := (&models.State{Name: `Red`}).Stage(stage)
+	__State__00000008_ := (&models.State{Name: `Yellow`}).Stage(stage)
+	__State__00000009_ := (&models.State{Name: `Green`}).Stage(stage)
 	__State__00000010_ := (&models.State{Name: `On UK`}).Stage(stage)
 	__State__00000011_ := (&models.State{Name: `Off UK`}).Stage(stage)
 	__State__00000012_ := (&models.State{Name: `Is the Traffic Light OK ?`}).Stage(stage)
@@ -72,10 +72,10 @@ func _(stage *models.Stage) {
 	__StateShape__00000003_ := (&models.StateShape{Name: `Yellow FR`}).Stage(stage)
 	__StateShape__00000004_ := (&models.StateShape{Name: `On FR`}).Stage(stage)
 	__StateShape__00000005_ := (&models.StateShape{Name: `Off FR`}).Stage(stage)
-	__StateShape__00000006_ := (&models.StateShape{Name: `Red UK`}).Stage(stage)
-	__StateShape__00000007_ := (&models.StateShape{Name: `Initial State UK`}).Stage(stage)
-	__StateShape__00000008_ := (&models.StateShape{Name: `Yellow UK`}).Stage(stage)
-	__StateShape__00000009_ := (&models.StateShape{Name: `Green UK`}).Stage(stage)
+	__StateShape__00000006_ := (&models.StateShape{Name: `Red`}).Stage(stage)
+	__StateShape__00000007_ := (&models.StateShape{Name: ``}).Stage(stage)
+	__StateShape__00000008_ := (&models.StateShape{Name: `Yellow`}).Stage(stage)
+	__StateShape__00000009_ := (&models.StateShape{Name: `Green`}).Stage(stage)
 	__StateShape__00000010_ := (&models.StateShape{Name: `On UK`}).Stage(stage)
 	__StateShape__00000011_ := (&models.StateShape{Name: `Off UK`}).Stage(stage)
 	__StateShape__00000012_ := (&models.StateShape{Name: `Is the Traffic Light OK ?`}).Stage(stage)
@@ -86,12 +86,12 @@ func _(stage *models.Stage) {
 	__Transition__00000003_ := (&models.Transition{Name: `Yellow FR to Red FR`}).Stage(stage)
 	__Transition__00000004_ := (&models.Transition{Name: `On to Off`}).Stage(stage)
 	__Transition__00000005_ := (&models.Transition{Name: `Off to On`}).Stage(stage)
-	__Transition__00000006_ := (&models.Transition{Name: `Initial State UK to New State`}).Stage(stage)
-	__Transition__00000007_ := (&models.Transition{Name: `Red UK to Yellow UK`}).Stage(stage)
-	__Transition__00000008_ := (&models.Transition{Name: `Yellow UK to Green UK`}).Stage(stage)
-	__Transition__00000009_ := (&models.Transition{Name: `On UK to Off UK`}).Stage(stage)
-	__Transition__00000010_ := (&models.Transition{Name: `Off UK to Red UK`}).Stage(stage)
-	__Transition__00000011_ := (&models.Transition{Name: `Green UK to Red UK`}).Stage(stage)
+	__Transition__00000006_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000007_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000008_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000009_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000010_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000011_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000012_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000013_ := (&models.Transition{Name: ``}).Stage(stage)
 
@@ -205,22 +205,22 @@ func _(stage *models.Stage) {
 	__State__00000005_.IsFictious = false
 	__State__00000005_.IsEndState = true
 
-	__State__00000006_.Name = `Initial State UK`
+	__State__00000006_.Name = ``
 	__State__00000006_.IsDecisionNode = false
 	__State__00000006_.IsFictious = false
 	__State__00000006_.IsEndState = false
 
-	__State__00000007_.Name = `Red UK`
+	__State__00000007_.Name = `Red`
 	__State__00000007_.IsDecisionNode = false
 	__State__00000007_.IsFictious = false
 	__State__00000007_.IsEndState = false
 
-	__State__00000008_.Name = `Yellow UK`
+	__State__00000008_.Name = `Yellow`
 	__State__00000008_.IsDecisionNode = false
 	__State__00000008_.IsFictious = false
 	__State__00000008_.IsEndState = false
 
-	__State__00000009_.Name = `Green UK`
+	__State__00000009_.Name = `Green`
 	__State__00000009_.IsDecisionNode = false
 	__State__00000009_.IsFictious = false
 	__State__00000009_.IsEndState = false
@@ -292,30 +292,30 @@ func _(stage *models.Stage) {
 	__StateShape__00000005_.Height = 36.000000
 	__StateShape__00000005_.IsHidden = false
 
-	__StateShape__00000006_.Name = `Red UK`
-	__StateShape__00000006_.X = 180.000000
-	__StateShape__00000006_.Y = 254.000000
+	__StateShape__00000006_.Name = `Red`
+	__StateShape__00000006_.X = 193.000000
+	__StateShape__00000006_.Y = 255.000000
 	__StateShape__00000006_.Width = 200.000000
 	__StateShape__00000006_.Height = 80.000000
 	__StateShape__00000006_.IsHidden = false
 
-	__StateShape__00000007_.Name = `Initial State UK`
-	__StateShape__00000007_.X = 324.000000
-	__StateShape__00000007_.Y = 91.000000
+	__StateShape__00000007_.Name = ``
+	__StateShape__00000007_.X = 168.000000
+	__StateShape__00000007_.Y = 71.000000
 	__StateShape__00000007_.Width = 121.000000
 	__StateShape__00000007_.Height = 20.000000
 	__StateShape__00000007_.IsHidden = false
 
-	__StateShape__00000008_.Name = `Yellow UK`
+	__StateShape__00000008_.Name = `Yellow`
 	__StateShape__00000008_.X = 192.000000
 	__StateShape__00000008_.Y = 405.000000
 	__StateShape__00000008_.Width = 200.000000
-	__StateShape__00000008_.Height = 80.000000
+	__StateShape__00000008_.Height = 97.000000
 	__StateShape__00000008_.IsHidden = false
 
-	__StateShape__00000009_.Name = `Green UK`
-	__StateShape__00000009_.X = 196.000000
-	__StateShape__00000009_.Y = 576.000000
+	__StateShape__00000009_.Name = `Green`
+	__StateShape__00000009_.X = 197.000000
+	__StateShape__00000009_.Y = 595.000000
 	__StateShape__00000009_.Width = 200.000000
 	__StateShape__00000009_.Height = 80.000000
 	__StateShape__00000009_.IsHidden = false
@@ -323,14 +323,14 @@ func _(stage *models.Stage) {
 	__StateShape__00000010_.Name = `On UK`
 	__StateShape__00000010_.X = 57.000000
 	__StateShape__00000010_.Y = 209.000000
-	__StateShape__00000010_.Width = 772.000000
+	__StateShape__00000010_.Width = 499.000000
 	__StateShape__00000010_.Height = 479.000000
 	__StateShape__00000010_.IsHidden = false
 
 	__StateShape__00000011_.Name = `Off UK`
-	__StateShape__00000011_.X = 998.000000
-	__StateShape__00000011_.Y = 388.000000
-	__StateShape__00000011_.Width = 94.000000
+	__StateShape__00000011_.X = 641.000000
+	__StateShape__00000011_.Y = 392.000000
+	__StateShape__00000011_.Width = 106.000000
 	__StateShape__00000011_.Height = 36.000000
 	__StateShape__00000011_.IsHidden = false
 
@@ -353,17 +353,17 @@ func _(stage *models.Stage) {
 
 	__Transition__00000005_.Name = `Off to On`
 
-	__Transition__00000006_.Name = `Initial State UK to New State`
+	__Transition__00000006_.Name = ``
 
-	__Transition__00000007_.Name = `Red UK to Yellow UK`
+	__Transition__00000007_.Name = ``
 
-	__Transition__00000008_.Name = `Yellow UK to Green UK`
+	__Transition__00000008_.Name = ``
 
-	__Transition__00000009_.Name = `On UK to Off UK`
+	__Transition__00000009_.Name = ``
 
-	__Transition__00000010_.Name = `Off UK to Red UK`
+	__Transition__00000010_.Name = ``
 
-	__Transition__00000011_.Name = `Green UK to Red UK`
+	__Transition__00000011_.Name = ``
 
 	__Transition__00000012_.Name = ``
 
@@ -462,7 +462,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000011_.EndRatio = 0.675073
 	__Transition_Shape__00000011_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000011_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Transition_Shape__00000011_.CornerOffsetRatio = 2.206415
+	__Transition_Shape__00000011_.CornerOffsetRatio = 1.487510
 	__Transition_Shape__00000011_.IsHidden = false
 
 	__Transition_Shape__00000012_.Name = `-Traffic Light FR Diagram`
@@ -564,10 +564,12 @@ func _(stage *models.Stage) {
 	__State__00000008_.Parent = nil
 	__State__00000008_.Entry = nil
 	__State__00000008_.Activities = append(__State__00000008_.Activities, __Activities__00000001_)
+	__State__00000008_.Activities = append(__State__00000008_.Activities, __Activities__00000000_)
 	__State__00000008_.Exit = nil
 	__State__00000008_.Diagrams = append(__State__00000008_.Diagrams, __Diagram__00000001_)
 	__State__00000009_.Parent = nil
 	__State__00000009_.Entry = nil
+	__State__00000009_.Activities = append(__State__00000009_.Activities, __Activities__00000000_)
 	__State__00000009_.Exit = nil
 	__State__00000009_.Diagrams = append(__State__00000009_.Diagrams, __Diagram__00000001_)
 	__State__00000010_.Parent = nil
