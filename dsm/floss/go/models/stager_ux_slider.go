@@ -168,17 +168,17 @@ func (stager *Stager) ux_slider() {
 		groupComplexities.Sliders = append(groupComplexities.Sliders, slider)
 	}
 
-	// 2. Performances category (Alpha + performance elements in slice order)
+	// 2. Performances category (Mu + performance elements in slice order)
 	if activeCompareAnalysis != nil {
 		groupPerformances.Sliders = append(
 			groupPerformances.Sliders,
 			m.NewSlider(
 				stager,
-				"Alpha (α)",
+				"Mu (μ)",
 				0.1,
 				5.0,
 				0.01,
-				&activeCompareAnalysis.Alpha,
+				&activeCompareAnalysis.Mu,
 			),
 		)
 	}
@@ -264,17 +264,17 @@ func (stager *Stager) ux_slider() {
 		groupPerformances.Sliders = append(groupPerformances.Sliders, slider)
 	}
 
-	// 3. Efforts category (Beta + effort elements in slice order)
+	// 3. Efforts category (Epsilon + effort elements in slice order)
 	if activeCompareAnalysis != nil {
 		groupEfforts.Sliders = append(
 			groupEfforts.Sliders,
 			m.NewSlider(
 				stager,
-				"Beta (β)",
+				"Epsilon (ε)",
 				0.0,
 				5.0,
 				0.01,
-				&activeCompareAnalysis.Beta,
+				&activeCompareAnalysis.Epsilon,
 			),
 		)
 	}

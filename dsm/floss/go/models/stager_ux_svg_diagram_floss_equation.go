@@ -75,23 +75,23 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	var fromSys *System
 	var toSys *System
-	alpha := 1.0
-	beta := 1.0
+	mu := 1.0
+	epsilon := 1.0
 
 	if compareAnalysis != nil {
 		fromSys = compareAnalysis.FromSystem
 		toSys = compareAnalysis.ToSystem
-		if compareAnalysis.Alpha != 0 {
-			alpha = compareAnalysis.Alpha
+		if compareAnalysis.Mu != 0 {
+			mu = compareAnalysis.Mu
 		}
-		if compareAnalysis.Beta != 0 {
-			beta = compareAnalysis.Beta
+		if compareAnalysis.Epsilon != 0 {
+			epsilon = compareAnalysis.Epsilon
 		}
 	} else if owningSystem != nil {
 		fromSys = nil
 		toSys = owningSystem
-		alpha = 1.0
-		beta = 1.0
+		mu = 1.0
+		epsilon = 1.0
 	}
 
 	if toSys == nil || (compareAnalysis != nil && fromSys == nil) {
@@ -220,7 +220,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		scale = 5.0
 	}
 
-	rhs := alpha*deltaP - beta*deltaE
+	rhs := mu*deltaP - epsilon*deltaE
 	diff := deltaC - rhs
 
 	isDelta := fromSys != nil
@@ -330,12 +330,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerFormula.Name = "Header Formula"
 	if !isDelta {
 		if isCompoundedBreakdown {
-			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s [Subsystems Breakdown]", toSys.Name)
+			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = μ·P - ε·E   |   System: %s [Subsystems Breakdown]", toSys.Name)
 		} else {
-			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s", toSys.Name)
+			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = μ·P - ε·E   |   System: %s", toSys.Name)
 		}
 	} else {
-		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α·ΔP - β·ΔE   (V1: %s  →  V2: %s)", fromSys.Name, toSys.Name)
+		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = μ·ΔP - ε·ΔE   (V1: %s  →  V2: %s)", fromSys.Name, toSys.Name)
 	}
 	headerFormula.FontSize = "14px"
 	headerFormula.FontWeight = "600"
@@ -354,11 +354,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerValues := new(svg.RectAnchoredText)
 	headerValues.Name = "Header Values"
 	if !isDelta {
-		headerValues.Content = fmt.Sprintf("C=%.2f   P=%.2f (α=%.2f → α·P=%.2f)   E=%.2f (β=%.2f → β·E=%.2f)   [α·P - β·E = %.2f,  Diff = %.2f]",
-			cTo, pTo, alpha, alpha*pTo, eTo, beta, beta*eTo, rhs, diff)
+		headerValues.Content = fmt.Sprintf("C=%.2f   P=%.2f (μ=%.2f → μ·P=%.2f)   E=%.2f (ε=%.2f → ε·E=%.2f)   [μ·P - ε·E = %.2f,  Diff = %.2f]",
+			cTo, pTo, mu, mu*pTo, eTo, epsilon, epsilon*eTo, rhs, diff)
 	} else {
-		headerValues.Content = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   α·ΔP=%.2f (V2:%.2f - V1:%.2f)   β·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
-			deltaC, cTo, cFrom, alpha*deltaP, alpha*pTo, alpha*pFrom, beta*deltaE, beta*eTo, beta*eFrom, rhs, diff)
+		headerValues.Content = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   μ·ΔP=%.2f (V2:%.2f - V1:%.2f)   ε·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
+			deltaC, cTo, cFrom, mu*deltaP, mu*pTo, mu*pFrom, epsilon*deltaE, epsilon*eTo, epsilon*eFrom, rhs, diff)
 	}
 	headerValues.FontSize = "13px"
 	headerValues.FontWeight = "500"
@@ -419,7 +419,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		items []any,
 		sysMap map[any]*System,
 		ownerSys *System,
-		multiplier float64, // 1.0 for C, alpha for P, beta for E
+		multiplier float64, // 1.0 for C, mu for P, epsilon for E
 	) {
 		fillColor := "#FFF8E1"
 		strokeColor := "#FFA000"
@@ -514,9 +514,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				if diagram.AreQuantitativeElementsVisible {
 					if multiplier != 1.0 {
 						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
-							content = fmt.Sprintf("[%s] %s (%.2f · factor=%.2f)", sysOwner.Name, name, strength, strength*multiplier)
+							content = fmt.Sprintf("[%s] %s (%.2f × factor=%.2f)", sysOwner.Name, name, strength, strength*multiplier)
 						} else {
-							content = fmt.Sprintf("%s (%.2f · factor=%.2f)", name, strength, strength*multiplier)
+							content = fmt.Sprintf("%s (%.2f × factor=%.2f)", name, strength, strength*multiplier)
 						}
 					} else {
 						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
@@ -640,13 +640,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col1Label)
 
-		heightP_V2 := math.Max(alpha*pTo*scale, 24.0)
+		heightP_V2 := math.Max(mu*pTo*scale, 24.0)
 		yTipP_V2 := yGround - heightP_V2
-		renderColumnStack(xCol2_V2, yTipP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, alpha)
+		renderColumnStack(xCol2_V2, yTipP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, mu)
 
-		col2LabelText := "α · P"
+		col2LabelText := "μ · P"
 		if diagram.AreQuantitativeElementsVisible {
-			col2LabelText = fmt.Sprintf("α · P = %.2f", alpha*pTo)
+			col2LabelText = fmt.Sprintf("μ · P = %.2f", mu*pTo)
 		}
 		col2Label := &svg.Text{
 			Name:    "Col 2 Label",
@@ -661,14 +661,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col2Label)
 
-		heightE_V2 := math.Max(beta*eTo*scale, 24.0)
+		heightE_V2 := math.Max(epsilon*eTo*scale, 24.0)
 		yTopE_V2 := yTipP_V2
 		yBottomE_V2 := yTopE_V2 + heightE_V2
-		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, beta)
+		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, epsilon)
 
-		col3LabelText := "β · E"
+		col3LabelText := "ε · E"
 		if diagram.AreQuantitativeElementsVisible {
-			col3LabelText = fmt.Sprintf("β · E = %.2f", beta*eTo)
+			col3LabelText = fmt.Sprintf("ε · E = %.2f", epsilon*eTo)
 		}
 		col3Label := &svg.Text{
 			Name:    "Col 3 Label",
@@ -703,7 +703,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "Peak Label",
 			X:       columnsRight + 10,
 			Y:       yTipP_V2 + 4,
-			Content: "α · P peak",
+			Content: "μ · P peak",
 			Presentation: svg.Presentation{
 				Color:       "#388E3C",
 				FillOpacity: 1.0,
@@ -731,7 +731,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "RHS Label",
 			X:       columnsRight + 10,
 			Y:       yBottomE_V2 + 4,
-			Content: "α·P - β·E level",
+			Content: "μ·P - ε·E level",
 			Presentation: svg.Presentation{
 				Color:       "#1565C0",
 				FillOpacity: 1.0,
@@ -832,15 +832,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Texts = append(layer.Texts, col1Label)
 
 		// Column 2: Performance Pair (P2 bottom on baseline, P1 top aligned with P2 top)
-		heightP_V2 := math.Max(alpha*pTo*scale, 24.0)
+		heightP_V2 := math.Max(mu*pTo*scale, 24.0)
 		yTopP_V2 := yGround - heightP_V2
 
-		heightP_V1 := math.Max(alpha*pFrom*scale, 24.0)
+		heightP_V1 := math.Max(mu*pFrom*scale, 24.0)
 		yTopP_V1 := yTopP_V2 // P1 top aligned with P2 top
 		yBottomP_V1 := yTopP_V1 + heightP_V1
 
-		renderColumnStack(xCol2_V2, yTopP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, alpha)
-		renderColumnStack(xCol2_V1, yTopP_V1, heightP_V1, pFrom, true, "P", fromPerfItems, fromMapP, fromSys, alpha)
+		renderColumnStack(xCol2_V2, yTopP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, mu)
+		renderColumnStack(xCol2_V1, yTopP_V1, heightP_V1, pFrom, true, "P", fromPerfItems, fromMapP, fromSys, mu)
 
 		// Top peak line across P2 and P1
 		peakLine := &svg.Line{
@@ -878,7 +878,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "P V2 Sub-Label",
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2 (α·P=%.2f)", alpha*pTo),
+			Content: fmt.Sprintf("V2 (μ·P=%.2f)", mu*pTo),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -891,7 +891,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "P V1 Sub-Label",
 			X:       xCol2_V1 + colWidth/2,
 			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V1 (α·P=%.2f)", alpha*pFrom),
+			Content: fmt.Sprintf("V1 (μ·P=%.2f)", mu*pFrom),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -905,7 +905,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "Col 2 Label",
 			X:       col2CenterX,
 			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP),
+			Content: fmt.Sprintf("μ · ΔP = %.2f", mu*deltaP),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -915,16 +915,16 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Texts = append(layer.Texts, col2Label)
 
 		// Column 3: Effort Pair (E2 top at P1 bottom, E1 bottom aligned with E2 bottom)
-		heightE_V2 := math.Max(beta*eTo*scale, 24.0)
+		heightE_V2 := math.Max(epsilon*eTo*scale, 24.0)
 		yTopE_V2 := yBottomP_V1
 		yBottomE_V2 := yTopE_V2 + heightE_V2
 
-		heightE_V1 := math.Max(beta*eFrom*scale, 24.0)
+		heightE_V1 := math.Max(epsilon*eFrom*scale, 24.0)
 		yBottomE_V1 := yBottomE_V2 // E1 bottom aligned with E2 bottom
 		yTopE_V1 := yBottomE_V1 - heightE_V1
 
-		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, beta)
-		renderColumnStack(xCol3_V1, yTopE_V1, heightE_V1, eFrom, true, "E", fromEffItems, fromMapE, fromSys, beta)
+		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, epsilon)
+		renderColumnStack(xCol3_V1, yTopE_V1, heightE_V1, eFrom, true, "E", fromEffItems, fromMapE, fromSys, epsilon)
 
 		// Dashed guide across bottoms of E2 and E1
 		bottomELine := &svg.Line{
@@ -946,7 +946,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "E V2 Sub-Label",
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2 (β·E=%.2f)", beta*eTo),
+			Content: fmt.Sprintf("V2 (ε·E=%.2f)", epsilon*eTo),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -959,7 +959,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "E V1 Sub-Label",
 			X:       xCol3_V1 + colWidth/2,
 			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V1 (β·E=%.2f)", beta*eFrom),
+			Content: fmt.Sprintf("V1 (ε·E=%.2f)", epsilon*eFrom),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -973,7 +973,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "Col 3 Label",
 			X:       col3CenterX,
 			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
+			Content: fmt.Sprintf("ε · ΔE = %.2f", epsilon*deltaE),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -1002,7 +1002,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "RHS Label",
 			X:       columnsRight + 10,
 			Y:       yTopE_V1 + 4,
-			Content: fmt.Sprintf("α·ΔP - β·ΔE level (%.2f)", rhs),
+			Content: fmt.Sprintf("μ·ΔP - ε·ΔE level (%.2f)", rhs),
 			Presentation: svg.Presentation{
 				Color:       "#1565C0",
 				FillOpacity: 1.0,
@@ -1145,15 +1145,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col1Label)
 
-		// Column 2: Net Performance Gain (α·ΔP)
-		heightDeltaP := math.Max(math.Abs(alpha*deltaP)*scale, 50.0)
+		// Column 2: Net Performance Gain (μ·ΔP)
+		heightDeltaP := math.Max(math.Abs(mu*deltaP)*scale, 50.0)
 		yTopDeltaP := yGround - heightDeltaP // Top peak
 
 		var linesP []string
 		for _, p := range toPerformances {
 			if diagram.AreQuantitativeElementsVisible {
-				if alpha != 1.0 {
-					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*alpha))
+				if mu != 1.0 {
+					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*mu))
 				} else {
 					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f)", p.Name, p.Strength))
 				}
@@ -1163,8 +1163,8 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		for _, p := range fromPerformances {
 			if diagram.AreQuantitativeElementsVisible {
-				if alpha != 1.0 {
-					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*alpha))
+				if mu != 1.0 {
+					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*mu))
 				} else {
 					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f)", p.Name, p.Strength))
 				}
@@ -1182,10 +1182,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		renderDeltaRect(xCol2_V2, yTopDeltaP, heightDeltaP, "P", "#E8F5E9", "#2E7D32", "#1B5E20", linesP, allPerfItems)
 
 		v1v2SubP := &svg.Text{
-			Name:    "α·ΔP Sub-Label",
+			Name:    "μ·ΔP Sub-Label",
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", alpha*pTo, alpha*pFrom),
+			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", mu*pTo, mu*pFrom),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -1198,7 +1198,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "Col 2 Label",
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("α · ΔP = %.2f", alpha*deltaP),
+			Content: fmt.Sprintf("μ · ΔP = %.2f", mu*deltaP),
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -1207,16 +1207,16 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col2Label)
 
-		// Column 3: Net Effort Investment (β·ΔE) dropping from peak
-		heightDeltaE := math.Max(math.Abs(beta*deltaE)*scale, 50.0)
+		// Column 3: Net Effort Investment (ε·ΔE) dropping from peak
+		heightDeltaE := math.Max(math.Abs(epsilon*deltaE)*scale, 50.0)
 		yTopDeltaE := yTopDeltaP // drops from peak
 		yBottomDeltaE := yTopDeltaE + heightDeltaE
 
 		var linesE []string
 		for _, e := range toEfforts {
 			if diagram.AreQuantitativeElementsVisible {
-				if beta != 1.0 {
-					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*beta))
+				if epsilon != 1.0 {
+					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
 				} else {
 					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f)", e.Name, e.Strength))
 				}
@@ -1226,8 +1226,8 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		for _, e := range fromEfforts {
 			if diagram.AreQuantitativeElementsVisible {
-				if beta != 1.0 {
-					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*beta))
+				if epsilon != 1.0 {
+					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
 				} else {
 					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f)", e.Name, e.Strength))
 				}
@@ -1245,10 +1245,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		renderDeltaRect(xCol3_V2, yTopDeltaE, heightDeltaE, "E", "#E3F2FD", "#1976D2", "#0D47A1", linesE, allEffItems)
 
 		v1v2SubE := &svg.Text{
-			Name:    "β·ΔE Sub-Label",
+			Name:    "ε·ΔE Sub-Label",
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", beta*eTo, beta*eFrom),
+			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", epsilon*eTo, epsilon*eFrom),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -1261,7 +1261,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "Col 3 Label",
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("β · ΔE = %.2f", beta*deltaE),
+			Content: fmt.Sprintf("ε · ΔE = %.2f", epsilon*deltaE),
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -1290,7 +1290,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "Peak Label",
 			X:       columnsRight + 10,
 			Y:       yTopDeltaP + 4,
-			Content: "α · ΔP peak",
+			Content: "μ · ΔP peak",
 			Presentation: svg.Presentation{
 				Color:       "#388E3C",
 				FillOpacity: 1.0,
@@ -1318,7 +1318,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			Name:    "RHS Label",
 			X:       columnsRight + 10,
 			Y:       yBottomDeltaE + 4,
-			Content: fmt.Sprintf("α·ΔP - β·ΔE level (%.2f)", rhs),
+			Content: fmt.Sprintf("μ·ΔP - ε·ΔE level (%.2f)", rhs),
 			Presentation: svg.Presentation{
 				Color:       "#1565C0",
 				FillOpacity: 1.0,
@@ -1337,9 +1337,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	diffColor := "#43A047"
-	diffTextMsg := "Equilibrium (ΔC ≈ α·ΔP - β·ΔE)"
+	diffTextMsg := "Equilibrium (ΔC ≈ μ·ΔP - ε·ΔE)"
 	if !isDelta {
-		diffTextMsg = "Equilibrium (C ≈ α·P - β·E)"
+		diffTextMsg = "Equilibrium (C ≈ μ·P - ε·E)"
 	}
 	if math.Abs(diff) > 2.0 {
 		if diff > 0 {

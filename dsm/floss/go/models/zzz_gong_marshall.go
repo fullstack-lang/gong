@@ -265,7 +265,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		goModuleVersion = buildInfo.Main.Version
 	}
 	res = strings.ReplaceAll(res, "{{GoModuleVersion}}", goModuleVersion)
-	
+
 	goModuleVersionWithoutDirty := strings.ReplaceAll(goModuleVersion, "+dirty", "")
 	if goModuleVersionWithoutDirty == "" || goModuleVersionWithoutDirty == "(devel)" {
 		goModuleVersionWithoutDirty = "latest"
@@ -310,8 +310,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
-		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
-		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Beta"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Mu"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Epsilon"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquations"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
@@ -886,16 +886,16 @@ func (compareanalysis *CompareAnalysis) GongMarshallField(stage *Stage, fieldNam
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(compareanalysis.Name))
-	case "Alpha":
+	case "Mu":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Alpha")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Alpha))
-	case "Beta":
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Mu")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Mu))
+	case "Epsilon":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Beta")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Beta))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Epsilon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compareanalysis.Epsilon))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
@@ -2022,8 +2022,8 @@ func (compareanalysis *CompareAnalysis) GongMarshallAllFields(stage *Stage) (ini
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
-		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
-		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Beta"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Mu"))
+		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Epsilon"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquations"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))

@@ -4049,11 +4049,11 @@ func (compareanalysis *CompareAnalysis) GongGetFieldHeaders() (res []GongFieldHe
 			TargetGongstructName: "System",
 		},
 		{
-			Name:               "Alpha",
+			Name:               "Mu",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "Beta",
+			Name:               "Epsilon",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -4810,13 +4810,13 @@ func (compareanalysis *CompareAnalysis) GongGetFieldValue(fieldName string, stag
 			res.valueString = compareanalysis.ToSystem.Name
 			res.ids = compareanalysis.ToSystem.GongGetUUID(stage)
 		}
-	case "Alpha":
-		res.valueString = fmt.Sprintf("%f", compareanalysis.Alpha)
-		res.valueFloat = compareanalysis.Alpha
+	case "Mu":
+		res.valueString = fmt.Sprintf("%f", compareanalysis.Mu)
+		res.valueFloat = compareanalysis.Mu
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Beta":
-		res.valueString = fmt.Sprintf("%f", compareanalysis.Beta)
-		res.valueFloat = compareanalysis.Beta
+	case "Epsilon":
+		res.valueString = fmt.Sprintf("%f", compareanalysis.Epsilon)
+		res.valueFloat = compareanalysis.Epsilon
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DiagramFlossEquations":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5652,10 +5652,10 @@ func (compareanalysis *CompareAnalysis) GongSetFieldValue(fieldName string, valu
 				}
 			}
 		}
-	case "Alpha":
-		compareanalysis.Alpha = value.GetValueFloat()
-	case "Beta":
-		compareanalysis.Beta = value.GetValueFloat()
+	case "Mu":
+		compareanalysis.Mu = value.GetValueFloat()
+	case "Epsilon":
+		compareanalysis.Epsilon = value.GetValueFloat()
 	case "DiagramFlossEquations":
 		compareanalysis.DiagramFlossEquations = make([]*DiagramFlossEquation, 0)
 		ids := strings.Split(value.ids, ";")

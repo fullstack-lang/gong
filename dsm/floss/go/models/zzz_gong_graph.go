@@ -1960,11 +1960,11 @@ func (compareanalysis *CompareAnalysis) GongDiff(stage *Stage, compareanalysisOt
 			diffs = append(diffs, compareanalysis.GongMarshallField(stage, "ToSystem"))
 		}
 	}
-	if compareanalysis.Alpha != compareanalysisOther.Alpha {
-		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Alpha"))
+	if compareanalysis.Mu != compareanalysisOther.Mu {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Mu"))
 	}
-	if compareanalysis.Beta != compareanalysisOther.Beta {
-		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Beta"))
+	if compareanalysis.Epsilon != compareanalysisOther.Epsilon {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Epsilon"))
 	}
 	DiagramFlossEquationsDifferent := false
 	if len(compareanalysis.DiagramFlossEquations) != len(compareanalysisOther.DiagramFlossEquations) {

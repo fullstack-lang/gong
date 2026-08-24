@@ -142,26 +142,26 @@ func computeFlossDiagramVerticalExtents(
 			eTo += e.Strength
 		}
 
-		alpha := compareAnalysis.Alpha
-		if alpha == 0 {
-			alpha = 1.0
+		mu := compareAnalysis.Mu
+		if mu == 0 {
+			mu = 1.0
 		}
-		beta := compareAnalysis.Beta
-		if beta == 0 {
-			beta = 1.0
+		epsilon := compareAnalysis.Epsilon
+		if epsilon == 0 {
+			epsilon = 1.0
 		}
 
 		deltaC := cTo - cFrom
 		deltaP := pTo - pFrom
 		deltaE := eTo - eFrom
-		rhs := alpha*deltaP - beta*deltaE
+		rhs := mu*deltaP - epsilon*deltaE
 
-		extentAboveBaseline = math.Max(cTo, alpha*pTo)
+		extentAboveBaseline = math.Max(cTo, mu*pTo)
 		if !diagram.IsInDelta3ColumnsMode {
-			extentAboveBaseline = math.Max(extentAboveBaseline, alpha*pFrom)
+			extentAboveBaseline = math.Max(extentAboveBaseline, mu*pFrom)
 		} else {
 			if deltaP > 0 {
-				extentAboveBaseline = math.Max(extentAboveBaseline, alpha*deltaP)
+				extentAboveBaseline = math.Max(extentAboveBaseline, mu*deltaP)
 			}
 			if deltaC > 0 {
 				extentAboveBaseline = math.Max(extentAboveBaseline, deltaC)
@@ -169,8 +169,8 @@ func computeFlossDiagramVerticalExtents(
 		}
 
 		extentBelowBaseline = math.Max(0, -deltaC)
-		extentBelowBaseline = math.Max(extentBelowBaseline, -alpha*deltaP)
-		extentBelowBaseline = math.Max(extentBelowBaseline, -alpha*deltaP+beta*eTo)
+		extentBelowBaseline = math.Max(extentBelowBaseline, -mu*deltaP)
+		extentBelowBaseline = math.Max(extentBelowBaseline, -mu*deltaP+epsilon*eTo)
 		extentBelowBaseline = math.Max(extentBelowBaseline, -rhs)
 		if diagram.IsInDelta3ColumnsMode {
 			if deltaE > 0 {

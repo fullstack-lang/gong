@@ -2,15 +2,15 @@ package models
 
 func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 	for compareAnalysis := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
-		// Enforce alpha != 0
-		if compareAnalysis.Alpha == 0 {
-			compareAnalysis.Alpha = 1.0
+		// Enforce mu != 0
+		if compareAnalysis.Mu == 0 {
+			compareAnalysis.Mu = 1.0
 			needCommit = true
 		}
 
-		// Enforce default beta if 0
-		if compareAnalysis.Beta == 0 {
-			compareAnalysis.Beta = 1.0
+		// Enforce default epsilon if 0
+		if compareAnalysis.Epsilon == 0 {
+			compareAnalysis.Epsilon = 1.0
 			needCommit = true
 		}
 
@@ -23,7 +23,6 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 			compareAnalysis.DiagramFlossEquations = append(compareAnalysis.DiagramFlossEquations, diagram)
 			needCommit = true
 		}
-
 
 		for _, diagram := range compareAnalysis.DiagramFlossEquations {
 			diagram.SetOwningCompareAnalysis(compareAnalysis)

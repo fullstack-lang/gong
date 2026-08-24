@@ -50,8 +50,8 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__CompareAnalysis__00000000_.Name = `SysML v1 to v2 Semantic Performance Delta`
-	__CompareAnalysis__00000000_.Alpha = 1.000000
-	__CompareAnalysis__00000000_.Beta = 1.000000
+	__CompareAnalysis__00000000_.Mu = 1.000000
+	__CompareAnalysis__00000000_.Epsilon = 1.000000
 	__CompareAnalysis__00000000_.ComputedPrefix = ``
 	__CompareAnalysis__00000000_.IsExpanded = true
 

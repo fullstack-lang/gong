@@ -100,8 +100,8 @@ type CompareAnalysis struct {
 	FromSystem *System
 	ToSystem   *System
 
-	Alpha float64
-	Beta  float64
+	Mu      float64
+	Epsilon float64
 
 	DiagramFlossEquations                    []*DiagramFlossEquation
 	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation
