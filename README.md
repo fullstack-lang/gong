@@ -31,15 +31,13 @@ Diagrams are rendered using Scalable Vector Graphics (SVG). Gong provides a Go-b
 
 # 2. Rationale
 
-Gong is a framework designed to significantly reduce the effort required to develop Domain-Specific Modeling (DSM) tools and applications.
+Gong is a framework designed to minimize complexity for developping Domain-Specific Modeling (DSM) tool.
 
-A DSM application enables users to manage and visualize domain data through interactive diagrams. The underlying data model implements the abstract syntax of a Domain-Specific Language (DSL), while the diagrams represent its concrete visual syntax.
+A DSM tool enables users to manage and visualize domain data through interactive diagrams. The underlying data model implements the abstract syntax of the DSM, while the diagrams represent the concrete visual syntax of the DSM.
 
-Domain-Specific Modeling can be conducted using General Purpose Modeling Languages (GPML) such as UML or SysML, which are comprehensive standards encompassing hundreds of abstract and concrete syntax elements. However, adapting GPMLs to a specialized domain typically necessitates extensive subsetting—restricting usage to a narrow portion of the standard—as well as profiling (stereotypes) to adapt generic concepts to domain-specific needs.
+A DSM can be developped using General Purpose Modeling Languages (GPML) such as UML or SysML, which are comprehensive standards encompassing hundreds of abstract and concrete syntax elements. However, tailoring (extending & checking the semantic) a model to a specialized domain typically necessitates extensive subsetting—restricting usage to a narrow portion of the standard—as well as profiling (stereotypes) to adapt generic concepts to domain-specific needs.
 
-Gong enables the construction and evolution of a DSM directly from a General Purpose Programming Language (GPPL), such as Go. Development can begin from a baseline domain model (such as Structure or Project), with abstract and concrete syntax elements introduced incrementally as domain requirements mature.
-
-While developing a robust DSM requires familiarity with standard modeling patterns, Gong aims to streamline and democratize the engineering effort involved in the development process.
+Gong enables the construction and evolution of a DSM directly from go, a General Purpose Programming Language (GPPL). Development can begin from a baseline domain model (such as Structure or Project), with abstract and concrete syntax elements introduced incrementally as domain requirements mature. Go and Gong reduces the complexity of the extensibility and semantic checkability of the model.
 
 # 3. "Hello World" Web Application Example
 
