@@ -265,7 +265,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		goModuleVersion = buildInfo.Main.Version
 	}
 	res = strings.ReplaceAll(res, "{{GoModuleVersion}}", goModuleVersion)
-
+	
 	goModuleVersionWithoutDirty := strings.ReplaceAll(goModuleVersion, "+dirty", "")
 	if goModuleVersionWithoutDirty == "" || goModuleVersionWithoutDirty == "(devel)" {
 		goModuleVersionWithoutDirty = "latest"

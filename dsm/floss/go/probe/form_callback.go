@@ -163,7 +163,7 @@ func (compareanalysisFormCallback *CompareAnalysisFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their RootCompareAnalysis slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](compareanalysisFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(compareanalysisFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure compareanalysis_ is in _library.RootCompareAnalysis
@@ -208,7 +208,7 @@ func (compareanalysisFormCallback *CompareAnalysisFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their CompareAnalysisWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](compareanalysisFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(compareanalysisFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure compareanalysis_ is in _library.CompareAnalysisWhoseNodeIsExpanded
@@ -339,7 +339,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			// 3. Iterate over all DiagramFlossEquation instances and update their ComplexitysWhoseNodeIsExpanded slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure complexity_ is in _diagramflossequation.ComplexitysWhoseNodeIsExpanded
@@ -384,7 +384,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their RootComplexitys slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure complexity_ is in _library.RootComplexitys
@@ -429,7 +429,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their ComplexitysWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure complexity_ is in _library.ComplexitysWhoseNodeIsExpanded
@@ -474,7 +474,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			// 3. Iterate over all Note instances and update their Complexities slice
 			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _note)
-
+				
 				// if Note is selected
 				if targetNoteIDs[id] {
 					// ensure complexity_ is in _note.Complexities
@@ -519,7 +519,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their Complexities slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure complexity_ is in _system.Complexities
@@ -564,7 +564,7 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their ComplexitysWhoseNodeIsExpanded slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](complexityFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure complexity_ is in _system.ComplexitysWhoseNodeIsExpanded
@@ -977,7 +977,7 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			// 3. Iterate over all CompareAnalysis instances and update their DiagramFlossEquations slice
 			for _compareanalysis := range *models.GetGongstructInstancesSetFromPointerType[*models.CompareAnalysis](diagramflossequationFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(diagramflossequationFormCallback.probe.stageOfInterest, _compareanalysis)
-
+				
 				// if CompareAnalysis is selected
 				if targetCompareAnalysisIDs[id] {
 					// ensure diagramflossequation_ is in _compareanalysis.DiagramFlossEquations
@@ -1022,7 +1022,7 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			// 3. Iterate over all CompareAnalysis instances and update their DiagramFlossEquationsWhoseNodeIsExpanded slice
 			for _compareanalysis := range *models.GetGongstructInstancesSetFromPointerType[*models.CompareAnalysis](diagramflossequationFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(diagramflossequationFormCallback.probe.stageOfInterest, _compareanalysis)
-
+				
 				// if CompareAnalysis is selected
 				if targetCompareAnalysisIDs[id] {
 					// ensure diagramflossequation_ is in _compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded
@@ -1067,7 +1067,7 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			// 3. Iterate over all System instances and update their DiagramFlossEquations slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](diagramflossequationFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(diagramflossequationFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure diagramflossequation_ is in _system.DiagramFlossEquations
@@ -1112,7 +1112,7 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			// 3. Iterate over all System instances and update their DiagramFlossEquationsWhoseNodeIsExpanded slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](diagramflossequationFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(diagramflossequationFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure diagramflossequation_ is in _system.DiagramFlossEquationsWhoseNodeIsExpanded
@@ -1243,7 +1243,7 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			// 3. Iterate over all DiagramFlossEquation instances and update their EffortsWhoseNodeIsExpanded slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](effortFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure effort_ is in _diagramflossequation.EffortsWhoseNodeIsExpanded
@@ -1288,7 +1288,7 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their RootEfforts slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](effortFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure effort_ is in _library.RootEfforts
@@ -1333,7 +1333,7 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their EffortsWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](effortFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure effort_ is in _library.EffortsWhoseNodeIsExpanded
@@ -1378,7 +1378,7 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			// 3. Iterate over all Note instances and update their Efforts slice
 			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](effortFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _note)
-
+				
 				// if Note is selected
 				if targetNoteIDs[id] {
 					// ensure effort_ is in _note.Efforts
@@ -1423,7 +1423,7 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their Efforts slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](effortFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure effort_ is in _system.Efforts
@@ -1468,7 +1468,7 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their EffortsWhoseNodeIsExpanded slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](effortFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure effort_ is in _system.EffortsWhoseNodeIsExpanded
@@ -2067,7 +2067,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their SubLibraries slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(libraryFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure library_ is in _library.SubLibraries
@@ -2112,7 +2112,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their SubLibrariesWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(libraryFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure library_ is in _library.SubLibrariesWhoseNodeIsExpanded
@@ -2343,7 +2343,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			// 3. Iterate over all DiagramFlossEquation instances and update their NotesWhoseNodeIsExpanded slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](noteFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure note_ is in _diagramflossequation.NotesWhoseNodeIsExpanded
@@ -2388,7 +2388,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their RootNotes slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](noteFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure note_ is in _library.RootNotes
@@ -2433,7 +2433,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their NotesWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](noteFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure note_ is in _library.NotesWhoseNodeIsExpanded
@@ -2572,7 +2572,7 @@ func (notecomplexityshapeFormCallback *NoteComplexityShapeFormCallback) OnSave()
 			// 3. Iterate over all DiagramFlossEquation instances and update their NoteComplexityShapes slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](notecomplexityshapeFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(notecomplexityshapeFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure notecomplexityshape_ is in _diagramflossequation.NoteComplexityShapes
@@ -2711,7 +2711,7 @@ func (noteeffortshapeFormCallback *NoteEffortShapeFormCallback) OnSave() {
 			// 3. Iterate over all DiagramFlossEquation instances and update their NoteEffortShapes slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](noteeffortshapeFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(noteeffortshapeFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure noteeffortshape_ is in _diagramflossequation.NoteEffortShapes
@@ -2850,7 +2850,7 @@ func (noteperformanceshapeFormCallback *NotePerformanceShapeFormCallback) OnSave
 			// 3. Iterate over all DiagramFlossEquation instances and update their NotePerformanceShapes slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](noteperformanceshapeFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(noteperformanceshapeFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure noteperformanceshape_ is in _diagramflossequation.NotePerformanceShapes
@@ -2985,7 +2985,7 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			// 3. Iterate over all DiagramFlossEquation instances and update their Note_Shapes slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](noteshapeFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(noteshapeFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure noteshape_ is in _diagramflossequation.Note_Shapes
@@ -3116,7 +3116,7 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			// 3. Iterate over all DiagramFlossEquation instances and update their PerformancesWhoseNodeIsExpanded slice
 			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](performanceFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _diagramflossequation)
-
+				
 				// if DiagramFlossEquation is selected
 				if targetDiagramFlossEquationIDs[id] {
 					// ensure performance_ is in _diagramflossequation.PerformancesWhoseNodeIsExpanded
@@ -3161,7 +3161,7 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their RootPerformances slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](performanceFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure performance_ is in _library.RootPerformances
@@ -3206,7 +3206,7 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their PerformancesWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](performanceFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure performance_ is in _library.PerformancesWhoseNodeIsExpanded
@@ -3251,7 +3251,7 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			// 3. Iterate over all Note instances and update their Performances slice
 			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](performanceFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _note)
-
+				
 				// if Note is selected
 				if targetNoteIDs[id] {
 					// ensure performance_ is in _note.Performances
@@ -3296,7 +3296,7 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their Performances slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](performanceFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure performance_ is in _system.Performances
@@ -3341,7 +3341,7 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their PerformancesWhoseNodeIsExpanded slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](performanceFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure performance_ is in _system.PerformancesWhoseNodeIsExpanded
@@ -3772,7 +3772,7 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their RootSystems slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](systemFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure system_ is in _library.RootSystems
@@ -3817,7 +3817,7 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			// 3. Iterate over all Library instances and update their SystemsWhoseNodeIsExpanded slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](systemFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _library)
-
+				
 				// if Library is selected
 				if targetLibraryIDs[id] {
 					// ensure system_ is in _library.SystemsWhoseNodeIsExpanded
@@ -3862,7 +3862,7 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			// 3. Iterate over all System instances and update their SubSystemes slice
 			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](systemFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _system)
-
+				
 				// if System is selected
 				if targetSystemIDs[id] {
 					// ensure system_ is in _system.SubSystemes
