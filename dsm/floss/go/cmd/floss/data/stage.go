@@ -100,12 +100,14 @@ func _(stage *models.Stage) {
 	__Note__00000002_ := (&models.Note{Name: `h`}).Stage(stage)
 	__Note__00000003_ := (&models.Note{Name: `h2`}).Stage(stage)
 	__Note__00000004_ := (&models.Note{Name: `In software, complexity is decomposed in "essential" complexity and "accidental" complexity`}).Stage(stage)
+	__Note__00000006_ := (&models.Note{Name: `Complexity buydown leaves room for more performance  for a given complexity budget. `}).Stage(stage)
 
 	__NoteComplexityShape__00000000_ := (&models.NoteComplexityShape{Name: `In software, complexity is decomposed in "essential" complexity and "accidental complexity" to C`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
-	__NoteShape__00000002_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
+	__NoteShape__00000003_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
+	__NoteShape__00000004_ := (&models.NoteShape{Name: `Complexity allows you to prepare for more adding performance later while controlling your complexity budget.  shape`}).Stage(stage)
 
 	__Performance__00000000_ := (&models.Performance{Name: `Parametric Models`}).Stage(stage)
 	__Performance__00000001_ := (&models.Performance{Name: `Programmable Semantic`}).Stage(stage)
@@ -662,7 +664,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000020_.Description = ``
 	__DiagramFlossEquation__00000020_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000020_.IsExpanded = false
-	__DiagramFlossEquation__00000020_.IsChecked = false
+	__DiagramFlossEquation__00000020_.IsChecked = true
 	__DiagramFlossEquation__00000020_.IsEditable_ = true
 	__DiagramFlossEquation__00000020_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000020_.AreQuantitativeElementsVisible = true
@@ -672,7 +674,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000020_.Scale = 5.000000
 	__DiagramFlossEquation__00000020_.DefaultBoxWidth = 100.000000
 	__DiagramFlossEquation__00000020_.DefaultBoxHeigth = 70.000000
-	__DiagramFlossEquation__00000020_.IsNotesNodeExpanded = false
+	__DiagramFlossEquation__00000020_.IsNotesNodeExpanded = true
 	__DiagramFlossEquation__00000020_.IsComplexitysNodeExpanded = false
 	__DiagramFlossEquation__00000020_.IsPerformancesNodeExpanded = false
 	__DiagramFlossEquation__00000020_.IsEffortsNodeExpanded = false
@@ -681,7 +683,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000021_.Description = ``
 	__DiagramFlossEquation__00000021_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000021_.IsExpanded = false
-	__DiagramFlossEquation__00000021_.IsChecked = true
+	__DiagramFlossEquation__00000021_.IsChecked = false
 	__DiagramFlossEquation__00000021_.IsEditable_ = true
 	__DiagramFlossEquation__00000021_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000021_.AreQuantitativeElementsVisible = true
@@ -837,8 +839,8 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsPerformancesNodeExpanded = false
 	__Library__00000002_.IsEffortsNodeExpanded = false
 	__Library__00000002_.IsCompareAnalysisNodeExpanded = true
-	__Library__00000002_.IsNotesNodeExpanded = false
-	__Library__00000002_.IsExpandedTmp = false
+	__Library__00000002_.IsNotesNodeExpanded = true
+	__Library__00000002_.IsExpandedTmp = true
 
 	__Note__00000000_.Name = `Hypthesis`
 	__Note__00000000_.Description = ``
@@ -880,6 +882,14 @@ func _(stage *models.Stage) {
 	__Note__00000004_.IsPerformancesNodeExpanded = false
 	__Note__00000004_.IsEffortsNodeExpanded = false
 
+	__Note__00000006_.Name = `Complexity buydown leaves room for more performance  for a given complexity budget. `
+	__Note__00000006_.Description = ``
+	__Note__00000006_.ComputedPrefix = ``
+	__Note__00000006_.IsExpanded = false
+	__Note__00000006_.IsComplexitysNodeExpanded = false
+	__Note__00000006_.IsPerformancesNodeExpanded = false
+	__Note__00000006_.IsEffortsNodeExpanded = false
+
 	__NoteComplexityShape__00000000_.Name = `In software, complexity is decomposed in "essential" complexity and "accidental complexity" to C`
 	__NoteComplexityShape__00000000_.StartRatio = 0.500000
 	__NoteComplexityShape__00000000_.EndRatio = 0.500000
@@ -902,12 +912,19 @@ func _(stage *models.Stage) {
 	__NoteShape__00000001_.Height = 70.000000
 	__NoteShape__00000001_.IsHidden = false
 
-	__NoteShape__00000002_.Name = ` shape`
-	__NoteShape__00000002_.X = 325.000000
-	__NoteShape__00000002_.Y = 590.000000
-	__NoteShape__00000002_.Width = 250.000000
-	__NoteShape__00000002_.Height = 70.000000
-	__NoteShape__00000002_.IsHidden = false
+	__NoteShape__00000003_.Name = ` shape`
+	__NoteShape__00000003_.X = 85.000000
+	__NoteShape__00000003_.Y = 144.000000
+	__NoteShape__00000003_.Width = 253.000000
+	__NoteShape__00000003_.Height = 112.000000
+	__NoteShape__00000003_.IsHidden = false
+
+	__NoteShape__00000004_.Name = `Complexity allows you to prepare for more adding performance later while controlling your complexity budget.  shape`
+	__NoteShape__00000004_.X = 142.757903
+	__NoteShape__00000004_.Y = 192.579020
+	__NoteShape__00000004_.Width = 250.000000
+	__NoteShape__00000004_.Height = 70.000000
+	__NoteShape__00000004_.IsHidden = false
 
 	__Performance__00000000_.Name = `Parametric Models`
 	__Performance__00000000_.Strength = 37.000000
@@ -1114,9 +1131,11 @@ func _(stage *models.Stage) {
 	__CompareAnalysis__00000001_.FromSystem = __System__00000011_
 	__CompareAnalysis__00000001_.ToSystem = __System__00000012_
 	__CompareAnalysis__00000001_.DiagramFlossEquations = append(__CompareAnalysis__00000001_.DiagramFlossEquations, __DiagramFlossEquation__00000020_)
+	__CompareAnalysis__00000001_.DiagramFlossEquationsWhoseNodeIsExpanded = append(__CompareAnalysis__00000001_.DiagramFlossEquationsWhoseNodeIsExpanded, __DiagramFlossEquation__00000020_)
 	__DiagramFlossEquation__00000014_.Note_Shapes = append(__DiagramFlossEquation__00000014_.Note_Shapes, __NoteShape__00000000_)
 	__DiagramFlossEquation__00000015_.Note_Shapes = append(__DiagramFlossEquation__00000015_.Note_Shapes, __NoteShape__00000001_)
-	__DiagramFlossEquation__00000021_.Note_Shapes = append(__DiagramFlossEquation__00000021_.Note_Shapes, __NoteShape__00000002_)
+	__DiagramFlossEquation__00000020_.Note_Shapes = append(__DiagramFlossEquation__00000020_.Note_Shapes, __NoteShape__00000003_)
+	__DiagramFlossEquation__00000021_.Note_Shapes = append(__DiagramFlossEquation__00000021_.Note_Shapes, __NoteShape__00000004_)
 	__DiagramFlossEquation__00000021_.NoteComplexityShapes = append(__DiagramFlossEquation__00000021_.NoteComplexityShapes, __NoteComplexityShape__00000000_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
@@ -1180,6 +1199,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000002_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000003_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000004_)
+	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000006_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000007_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000010_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000013_)
@@ -1191,7 +1211,6 @@ func _(stage *models.Stage) {
 	__Library__00000002_.RootSystems = append(__Library__00000002_.RootSystems, __System__00000011_)
 	__Library__00000002_.RootSystems = append(__Library__00000002_.RootSystems, __System__00000012_)
 	__Library__00000002_.RootCompareAnalysis = append(__Library__00000002_.RootCompareAnalysis, __CompareAnalysis__00000001_)
-	__Library__00000002_.SystemsWhoseNodeIsExpanded = append(__Library__00000002_.SystemsWhoseNodeIsExpanded, __System__00000011_)
 	__Library__00000002_.SystemsWhoseNodeIsExpanded = append(__Library__00000002_.SystemsWhoseNodeIsExpanded, __System__00000012_)
 	__Library__00000002_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000002_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000001_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
@@ -1201,7 +1220,8 @@ func _(stage *models.Stage) {
 	__NoteComplexityShape__00000000_.Complexity = __Complexity__00000022_
 	__NoteShape__00000000_.Note = __Note__00000002_
 	__NoteShape__00000001_.Note = __Note__00000003_
-	__NoteShape__00000002_.Note = __Note__00000004_
+	__NoteShape__00000003_.Note = __Note__00000006_
+	__NoteShape__00000004_.Note = __Note__00000006_
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000008_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000009_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000007_)
