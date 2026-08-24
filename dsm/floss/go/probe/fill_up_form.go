@@ -402,7 +402,7 @@ func FillUpForm(
 	case *models.Note:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			true, false, 0, false, 0, false)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
 		AssociationSliceToForm("Complexities", instanceWithInferedType, &instanceWithInferedType.Complexities, formGroup, probe)

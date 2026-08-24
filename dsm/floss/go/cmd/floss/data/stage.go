@@ -99,9 +99,13 @@ func _(stage *models.Stage) {
 	__Note__00000001_ := (&models.Note{Name: `Hyp2`}).Stage(stage)
 	__Note__00000002_ := (&models.Note{Name: `h`}).Stage(stage)
 	__Note__00000003_ := (&models.Note{Name: `h2`}).Stage(stage)
+	__Note__00000004_ := (&models.Note{Name: `In software, complexity is decomposed in "essential" complexity and "accidental" complexity`}).Stage(stage)
+
+	__NoteComplexityShape__00000000_ := (&models.NoteComplexityShape{Name: `In software, complexity is decomposed in "essential" complexity and "accidental complexity" to C`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
+	__NoteShape__00000002_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
 
 	__Performance__00000000_ := (&models.Performance{Name: `Parametric Models`}).Stage(stage)
 	__Performance__00000001_ := (&models.Performance{Name: `Programmable Semantic`}).Stage(stage)
@@ -525,7 +529,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.Description = ``
 	__DiagramFlossEquation__00000013_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000013_.IsExpanded = false
-	__DiagramFlossEquation__00000013_.IsChecked = true
+	__DiagramFlossEquation__00000013_.IsChecked = false
 	__DiagramFlossEquation__00000013_.IsEditable_ = true
 	__DiagramFlossEquation__00000013_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = true
@@ -623,7 +627,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000018_.IsChecked = false
 	__DiagramFlossEquation__00000018_.IsEditable_ = true
 	__DiagramFlossEquation__00000018_.IsInDelta3ColumnsMode = false
-	__DiagramFlossEquation__00000018_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000018_.AreQuantitativeElementsVisible = true
 	__DiagramFlossEquation__00000018_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000018_.Width = 1170.000000
 	__DiagramFlossEquation__00000018_.Height = 750.000000
@@ -642,7 +646,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000019_.IsChecked = false
 	__DiagramFlossEquation__00000019_.IsEditable_ = true
 	__DiagramFlossEquation__00000019_.IsInDelta3ColumnsMode = false
-	__DiagramFlossEquation__00000019_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000019_.AreQuantitativeElementsVisible = true
 	__DiagramFlossEquation__00000019_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000019_.Width = 1170.000000
 	__DiagramFlossEquation__00000019_.Height = 750.000000
@@ -677,7 +681,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000021_.Description = ``
 	__DiagramFlossEquation__00000021_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000021_.IsExpanded = false
-	__DiagramFlossEquation__00000021_.IsChecked = false
+	__DiagramFlossEquation__00000021_.IsChecked = true
 	__DiagramFlossEquation__00000021_.IsEditable_ = true
 	__DiagramFlossEquation__00000021_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000021_.AreQuantitativeElementsVisible = true
@@ -687,7 +691,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000021_.Scale = 5.000000
 	__DiagramFlossEquation__00000021_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000021_.DefaultBoxHeigth = 70.000000
-	__DiagramFlossEquation__00000021_.IsNotesNodeExpanded = false
+	__DiagramFlossEquation__00000021_.IsNotesNodeExpanded = true
 	__DiagramFlossEquation__00000021_.IsComplexitysNodeExpanded = true
 	__DiagramFlossEquation__00000021_.IsPerformancesNodeExpanded = true
 	__DiagramFlossEquation__00000021_.IsEffortsNodeExpanded = true
@@ -812,13 +816,13 @@ func _(stage *models.Stage) {
 	__Library__00000001_.IsSubLibrariesNodeExpanded = false
 	__Library__00000001_.NbPixPerCharacter = 0.000000
 	__Library__00000001_.LogoSVGFile = ``
-	__Library__00000001_.IsSystemsNodeExpanded = true
+	__Library__00000001_.IsSystemsNodeExpanded = false
 	__Library__00000001_.IsComplexitysNodeExpanded = false
 	__Library__00000001_.IsPerformancesNodeExpanded = false
 	__Library__00000001_.IsEffortsNodeExpanded = false
 	__Library__00000001_.IsCompareAnalysisNodeExpanded = true
 	__Library__00000001_.IsNotesNodeExpanded = false
-	__Library__00000001_.IsExpandedTmp = true
+	__Library__00000001_.IsExpandedTmp = false
 
 	__Library__00000002_.Name = `Complexity buydow`
 	__Library__00000002_.Description = ``
@@ -868,6 +872,22 @@ func _(stage *models.Stage) {
 	__Note__00000003_.IsPerformancesNodeExpanded = false
 	__Note__00000003_.IsEffortsNodeExpanded = false
 
+	__Note__00000004_.Name = `In software, complexity is decomposed in "essential" complexity and "accidental" complexity`
+	__Note__00000004_.Description = ``
+	__Note__00000004_.ComputedPrefix = ``
+	__Note__00000004_.IsExpanded = false
+	__Note__00000004_.IsComplexitysNodeExpanded = false
+	__Note__00000004_.IsPerformancesNodeExpanded = false
+	__Note__00000004_.IsEffortsNodeExpanded = false
+
+	__NoteComplexityShape__00000000_.Name = `In software, complexity is decomposed in "essential" complexity and "accidental complexity" to C`
+	__NoteComplexityShape__00000000_.StartRatio = 0.500000
+	__NoteComplexityShape__00000000_.EndRatio = 0.500000
+	__NoteComplexityShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteComplexityShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteComplexityShape__00000000_.CornerOffsetRatio = 1.680000
+	__NoteComplexityShape__00000000_.IsHidden = false
+
 	__NoteShape__00000000_.Name = ` shape`
 	__NoteShape__00000000_.X = 127.000000
 	__NoteShape__00000000_.Y = 177.000000
@@ -881,6 +901,13 @@ func _(stage *models.Stage) {
 	__NoteShape__00000001_.Width = 250.000000
 	__NoteShape__00000001_.Height = 70.000000
 	__NoteShape__00000001_.IsHidden = false
+
+	__NoteShape__00000002_.Name = ` shape`
+	__NoteShape__00000002_.X = 325.000000
+	__NoteShape__00000002_.Y = 590.000000
+	__NoteShape__00000002_.Width = 250.000000
+	__NoteShape__00000002_.Height = 70.000000
+	__NoteShape__00000002_.IsHidden = false
 
 	__Performance__00000000_.Name = `Parametric Models`
 	__Performance__00000000_.Strength = 37.000000
@@ -1089,6 +1116,8 @@ func _(stage *models.Stage) {
 	__CompareAnalysis__00000001_.DiagramFlossEquations = append(__CompareAnalysis__00000001_.DiagramFlossEquations, __DiagramFlossEquation__00000020_)
 	__DiagramFlossEquation__00000014_.Note_Shapes = append(__DiagramFlossEquation__00000014_.Note_Shapes, __NoteShape__00000000_)
 	__DiagramFlossEquation__00000015_.Note_Shapes = append(__DiagramFlossEquation__00000015_.Note_Shapes, __NoteShape__00000001_)
+	__DiagramFlossEquation__00000021_.Note_Shapes = append(__DiagramFlossEquation__00000021_.Note_Shapes, __NoteShape__00000002_)
+	__DiagramFlossEquation__00000021_.NoteComplexityShapes = append(__DiagramFlossEquation__00000021_.NoteComplexityShapes, __NoteComplexityShape__00000000_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000007_)
@@ -1150,6 +1179,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000001_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000002_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000003_)
+	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000004_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000007_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000010_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000013_)
@@ -1161,11 +1191,17 @@ func _(stage *models.Stage) {
 	__Library__00000002_.RootSystems = append(__Library__00000002_.RootSystems, __System__00000011_)
 	__Library__00000002_.RootSystems = append(__Library__00000002_.RootSystems, __System__00000012_)
 	__Library__00000002_.RootCompareAnalysis = append(__Library__00000002_.RootCompareAnalysis, __CompareAnalysis__00000001_)
+	__Library__00000002_.SystemsWhoseNodeIsExpanded = append(__Library__00000002_.SystemsWhoseNodeIsExpanded, __System__00000011_)
+	__Library__00000002_.SystemsWhoseNodeIsExpanded = append(__Library__00000002_.SystemsWhoseNodeIsExpanded, __System__00000012_)
 	__Library__00000002_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000002_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000001_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
+	__Note__00000004_.Complexities = append(__Note__00000004_.Complexities, __Complexity__00000022_)
+	__NoteComplexityShape__00000000_.Note = __Note__00000004_
+	__NoteComplexityShape__00000000_.Complexity = __Complexity__00000022_
 	__NoteShape__00000000_.Note = __Note__00000002_
 	__NoteShape__00000001_.Note = __Note__00000003_
+	__NoteShape__00000002_.Note = __Note__00000004_
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000008_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000009_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000007_)
