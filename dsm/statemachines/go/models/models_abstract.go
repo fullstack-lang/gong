@@ -88,12 +88,6 @@ type State struct {
 	//gong:text width:300 height:300
 	Name string
 
-	Parent *State
-
-	IsDecisionNode bool
-
-	IsFictious bool
-
 	IsEndState bool
 
 	// When there are SubStates, the State is composite
@@ -102,6 +96,12 @@ type State struct {
 	Entry      *Action
 	Activities []*Activities
 	Exit       *Action
+
+	Parent *State
+
+	IsDecisionNode bool
+
+	IsFictious bool
 
 	// nodes can be edited
 	isInRenameMode bool

@@ -7,6 +7,14 @@ type StateShape struct {
 	RectShape
 }
 
+type Transition_Shape struct {
+	Name string
+
+	Transition *Transition
+
+	LinkShape
+}
+
 func newStateShapeToDiagram(state *State, diagram *Diagram, clientOnY float64) *StateShape {
 	stateShape := new(StateShape)
 	stateShape.State = state
@@ -18,14 +26,6 @@ func newStateShapeToDiagram(state *State, diagram *Diagram, clientOnY float64) *
 	diagram.State_Shapes = append(diagram.State_Shapes, stateShape)
 
 	return stateShape
-}
-
-type Transition_Shape struct {
-	Name string
-
-	Transition *Transition
-
-	LinkShape
 }
 
 // NoteShape
