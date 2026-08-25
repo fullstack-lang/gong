@@ -8,6 +8,7 @@ import (
 )
 
 func (stager *Stager) treeSystemes(
+	library *Library,
 	system *System,
 	parentNode *tree.Node,
 	systemsWhoseNodeIsExpanded *[]*System,
@@ -50,7 +51,7 @@ func (stager *Stager) treeSystemes(
 	// Diagrams within System
 	//
 	for _, diagram := range system.DiagramFlossEquations {
-		stager.treeDiagramFlossEquationWithinSystem(system, diagram, systemNode)
+		stager.treeDiagramFlossEquationWithinSystem(library, system, diagram, systemNode)
 	}
 
 	confDiagrams := ItemButtonConfiguration[
@@ -102,11 +103,12 @@ func (stager *Stager) treeSystemes(
 	subSystemesNode.OnClick = onNodeClicked(stager, system)
 
 	for _, system_ := range system.SubSystems {
-		stager.treeSystemes(system_, subSystemesNode, systemsWhoseNodeIsExpanded)
+		stager.treeSystemes(library, system_, subSystemesNode, systemsWhoseNodeIsExpanded)
 	}
 }
 
 func (stager *Stager) treeDiagramFlossEquationWithinSystem(
+	library *Library,
 	system *System,
 	diagram *DiagramFlossEquation,
 	parentNode *tree.Node,
@@ -343,13 +345,16 @@ func (stager *Stager) treeDiagramFlossEquationWithinSystem(
 		diagramNode.Children = append(diagramNode.Children, notesNode)
 		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
 
-		library := system.GetOwningLibrary()
+		if library == nil {
+			library = system.GetOwningLibrary()
+		}
 		if library == nil {
 			library = stager.getRootLibrary()
 		}
 
 		if library != nil {
-			for _, note := range library.RootNotes {
+			notes := stager.collectAllNotesForDiagram(library, diagram)
+			for _, note := range notes {
 				stager.treeNoteWithinDiagramFlossEquation(diagram, note, notesNode)
 			}
 

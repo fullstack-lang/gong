@@ -8,6 +8,45 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func (stager *Stager) collectAllNotesForDiagram(library *Library, diagram *DiagramFlossEquation) []*Note {
+	if library == nil {
+		library = stager.getRootLibrary()
+	}
+	var notes []*Note
+	visitedLibs := make(map[*Library]bool)
+	seenNotes := make(map[*Note]bool)
+
+	var collect func(lib *Library)
+	collect = func(lib *Library) {
+		if lib == nil || visitedLibs[lib] {
+			return
+		}
+		visitedLibs[lib] = true
+		for _, note := range lib.RootNotes {
+			if note != nil && !seenNotes[note] {
+				seenNotes[note] = true
+				notes = append(notes, note)
+			}
+		}
+		for _, subLib := range lib.SubLibraries {
+			collect(subLib)
+		}
+	}
+	collect(library)
+
+	// Also make sure any note referenced by an existing NoteShape in the diagram is present
+	if diagram != nil {
+		for _, shape := range diagram.Note_Shapes {
+			if shape != nil && shape.Note != nil && !seenNotes[shape.Note] {
+				seenNotes[shape.Note] = true
+				notes = append(notes, shape.Note)
+			}
+		}
+	}
+
+	return notes
+}
+
 func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 	diagramEquation *DiagramFlossEquation,
 	note *Note,
@@ -42,9 +81,8 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 		HasToolTip:      true,
 		ToolTipPosition: tree.Above,
 		OnClick: func() {
-			rootLib := stager.getRootLibrary()
-			if rootLib != nil {
-				rootLib.RootNotes = slices.DeleteFunc(rootLib.RootNotes, func(n *Note) bool { return n == note })
+			for _, lib := range GetGongstrucsSorted[*Library](stager.stage) {
+				lib.RootNotes = slices.DeleteFunc(lib.RootNotes, func(n *Note) bool { return n == note })
 			}
 			note.Unstage(stager.stage)
 			if shape, ok := diagramEquation.map_Note_NoteShape[note]; ok {

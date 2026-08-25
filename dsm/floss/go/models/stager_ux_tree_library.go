@@ -47,7 +47,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	addCreateItemButton(stager, confRootSystemes)
 
 	for _, system := range library.RootSystems {
-		stager.treeSystemes(system, systemesNode, &library.SystemsWhoseNodeIsExpanded)
+		stager.treeSystemes(library, system, systemesNode, &library.SystemsWhoseNodeIsExpanded)
 	}
 
 	//

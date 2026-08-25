@@ -47,7 +47,7 @@ func (stager *Stager) treeCompareAnalysisWithinLibrary(
 	// Diagrams within CompareAnalysis
 	//
 	for _, diagram := range compareAnalysis.DiagramFlossEquations {
-		stager.treeDiagramFlossEquation(compareAnalysis, diagram, node)
+		stager.treeDiagramFlossEquation(library, compareAnalysis, diagram, node)
 	}
 
 	confDiagrams := ItemButtonConfiguration[
@@ -74,6 +74,7 @@ func (stager *Stager) treeCompareAnalysisWithinLibrary(
 }
 
 func (stager *Stager) treeDiagramFlossEquation(
+	library *Library,
 	compareAnalysis *CompareAnalysis,
 	diagram *DiagramFlossEquation,
 	parentNode *tree.Node,
@@ -228,9 +229,16 @@ func (stager *Stager) treeDiagramFlossEquation(
 		diagramNode.Children = append(diagramNode.Children, notesNode)
 		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
 
-		rootLib := stager.getRootLibrary()
-		if rootLib != nil {
-			for _, note := range rootLib.RootNotes {
+		if library == nil {
+			library = compareAnalysis.GetOwningLibrary()
+		}
+		if library == nil {
+			library = stager.getRootLibrary()
+		}
+
+		if library != nil {
+			notes := stager.collectAllNotesForDiagram(library, diagram)
+			for _, note := range notes {
 				stager.treeNoteWithinDiagramFlossEquation(diagram, note, notesNode)
 			}
 
@@ -239,11 +247,11 @@ func (stager *Stager) treeDiagramFlossEquation(
 				Library, *Library,
 			]{
 				parentNode:                         notesNode,
-				sliceForNewAddedItem:               &rootLib.RootNotes,
+				sliceForNewAddedItem:               &library.RootNotes,
 				isParentNodeExpandedByAddOperation: true,
 				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 				parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
-				parentElement:                      rootLib,
+				parentElement:                      library,
 			}
 			adder := addCreateItemButton(stager, confNote)
 			adder.OnBeforeCommit = func() {
