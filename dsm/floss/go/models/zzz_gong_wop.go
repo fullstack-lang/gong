@@ -62,6 +62,8 @@ type DiagramFlossEquation_WOP struct {
 
 	Description string
 
+	Scale float64
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -80,8 +82,6 @@ type DiagramFlossEquation_WOP struct {
 
 	Height float64
 
-	Scale float64
-
 	DefaultBoxWidth float64
 
 	DefaultBoxHeigth float64
@@ -99,6 +99,7 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
+	to.Scale = from.Scale
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
@@ -108,7 +109,6 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.AreSubsystemsVisible = from.AreSubsystemsVisible
 	to.Width = from.Width
 	to.Height = from.Height
-	to.Scale = from.Scale
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded

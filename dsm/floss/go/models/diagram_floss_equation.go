@@ -8,6 +8,8 @@ type DiagramFlossEquation struct {
 	//gong:text width:300 height:300
 	Description string
 
+	Scale float64 // pixels per unit
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -22,8 +24,6 @@ type DiagramFlossEquation struct {
 	Width float64
 
 	Height float64
-
-	Scale float64 // pixels per unit
 
 	DefaultBoxWidth  float64
 	DefaultBoxHeigth float64

@@ -54,7 +54,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		fn   func() bool
 	}{
 		// abstract semantic checks
-		// VERY important because the probe only unstages objects
 		// this is the Clean that delete them from slices and pointers that reference them.
 		{"Clean stage", func() bool { return stage.Clean() }},
 		{"Enforce default values", stager.enforceDefaultValues},

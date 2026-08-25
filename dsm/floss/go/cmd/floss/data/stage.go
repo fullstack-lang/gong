@@ -50,6 +50,11 @@ func _(stage *models.Stage) {
 	__Complexity__00000020_ := (&models.Complexity{Name: `Source complexity (high)`}).Stage(stage)
 	__Complexity__00000021_ := (&models.Complexity{Name: `Target Complexity (low)`}).Stage(stage)
 	__Complexity__00000022_ := (&models.Complexity{Name: `C`}).Stage(stage)
+	__Complexity__00000023_ := (&models.Complexity{Name: `SysML v1.4 guide`}).Stage(stage)
+	__Complexity__00000024_ := (&models.Complexity{Name: `KerML`}).Stage(stage)
+	__Complexity__00000025_ := (&models.Complexity{Name: `SysML V2`}).Stage(stage)
+	__Complexity__00000026_ := (&models.Complexity{Name: `SysML API spec`}).Stage(stage)
+	__Complexity__00000027_ := (&models.Complexity{Name: `Tool Dependance complexity`}).Stage(stage)
 
 	__DiagramFlossEquation__00000000_ := (&models.DiagramFlossEquation{Name: `SysML V1's C/P/E for the tool manager Equation Diagram`}).Stage(stage)
 	__DiagramFlossEquation__00000001_ := (&models.DiagramFlossEquation{Name: `SysML V2 Equation Diagram`}).Stage(stage)
@@ -73,6 +78,9 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000019_ := (&models.DiagramFlossEquation{Name: ` Equation Diagram`}).Stage(stage)
 	__DiagramFlossEquation__00000020_ := (&models.DiagramFlossEquation{Name: ` Equation Diagram`}).Stage(stage)
 	__DiagramFlossEquation__00000021_ := (&models.DiagramFlossEquation{Name: ` Equation Diagram`}).Stage(stage)
+	__DiagramFlossEquation__00000022_ := (&models.DiagramFlossEquation{Name: ` Equation Diagram`}).Stage(stage)
+	__DiagramFlossEquation__00000023_ := (&models.DiagramFlossEquation{Name: ` Equation Diagram`}).Stage(stage)
+	__DiagramFlossEquation__00000024_ := (&models.DiagramFlossEquation{Name: ` Equation Diagram`}).Stage(stage)
 
 	__Effort__00000000_ := (&models.Effort{Name: `Go environment`}).Stage(stage)
 	__Effort__00000001_ := (&models.Effort{Name: `Angular environment`}).Stage(stage)
@@ -90,10 +98,15 @@ func _(stage *models.Stage) {
 	__Effort__00000014_ := (&models.Effort{Name: `Initial Effort (low)`}).Stage(stage)
 	__Effort__00000015_ := (&models.Effort{Name: `Target Effort (high)`}).Stage(stage)
 	__Effort__00000016_ := (&models.Effort{Name: `E`}).Stage(stage)
+	__Effort__00000017_ := (&models.Effort{Name: `Structuration of KerML`}).Stage(stage)
+	__Effort__00000018_ := (&models.Effort{Name: `Go envrionment`}).Stage(stage)
+	__Effort__00000019_ := (&models.Effort{Name: `Gong environment`}).Stage(stage)
+	__Effort__00000020_ := (&models.Effort{Name: `SysML standardisation effort`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Standards comparaisons at Standard Level`}).Stage(stage)
 	__Library__00000001_ := (&models.Library{Name: `CPE at Function Level`}).Stage(stage)
 	__Library__00000002_ := (&models.Library{Name: `Complexity buydow`}).Stage(stage)
+	__Library__00000003_ := (&models.Library{Name: `SysML`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `Hypthesis`}).Stage(stage)
 	__Note__00000001_ := (&models.Note{Name: `Hyp2`}).Stage(stage)
@@ -122,6 +135,10 @@ func _(stage *models.Stage) {
 	__Performance__00000011_ := (&models.Performance{Name: `P`}).Stage(stage)
 	__Performance__00000012_ := (&models.Performance{Name: `Performance`}).Stage(stage)
 	__Performance__00000013_ := (&models.Performance{Name: `P`}).Stage(stage)
+	__Performance__00000014_ := (&models.Performance{Name: `Extensibility via templating`}).Stage(stage)
+	__Performance__00000015_ := (&models.Performance{Name: `Programmatic extensibility`}).Stage(stage)
+	__Performance__00000016_ := (&models.Performance{Name: `Static verifiability`}).Stage(stage)
+	__Performance__00000017_ := (&models.Performance{Name: `Dynamic verifiability`}).Stage(stage)
 
 	__System__00000003_ := (&models.System{Name: `SysML V1 Extensibility`}).Stage(stage)
 	__System__00000005_ := (&models.System{Name: `SysML V2 Extensibility`}).Stage(stage)
@@ -133,6 +150,9 @@ func _(stage *models.Stage) {
 	__System__00000011_ := (&models.System{Name: `S source`}).Stage(stage)
 	__System__00000012_ := (&models.System{Name: `S target`}).Stage(stage)
 	__System__00000013_ := (&models.System{Name: `A system with high accidental complexity (cornice)`}).Stage(stage)
+	__System__00000014_ := (&models.System{Name: `SysML V1`}).Stage(stage)
+	__System__00000015_ := (&models.System{Name: `SysML V2`}).Stage(stage)
+	__System__00000016_ := (&models.System{Name: `Go SysML`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -279,6 +299,36 @@ func _(stage *models.Stage) {
 	__Complexity__00000022_.Description = ``
 	__Complexity__00000022_.ComputedPrefix = ``
 	__Complexity__00000022_.IsExpanded = false
+
+	__Complexity__00000023_.Name = `SysML v1.4 guide`
+	__Complexity__00000023_.Strength = 10.000000
+	__Complexity__00000023_.Description = ``
+	__Complexity__00000023_.ComputedPrefix = ``
+	__Complexity__00000023_.IsExpanded = false
+
+	__Complexity__00000024_.Name = `KerML`
+	__Complexity__00000024_.Strength = 10.000000
+	__Complexity__00000024_.Description = ``
+	__Complexity__00000024_.ComputedPrefix = ``
+	__Complexity__00000024_.IsExpanded = false
+
+	__Complexity__00000025_.Name = `SysML V2`
+	__Complexity__00000025_.Strength = 10.000000
+	__Complexity__00000025_.Description = ``
+	__Complexity__00000025_.ComputedPrefix = ``
+	__Complexity__00000025_.IsExpanded = false
+
+	__Complexity__00000026_.Name = `SysML API spec`
+	__Complexity__00000026_.Strength = 10.000000
+	__Complexity__00000026_.Description = ``
+	__Complexity__00000026_.ComputedPrefix = ``
+	__Complexity__00000026_.IsExpanded = false
+
+	__Complexity__00000027_.Name = `Tool Dependance complexity`
+	__Complexity__00000027_.Strength = 10.000000
+	__Complexity__00000027_.Description = ``
+	__Complexity__00000027_.ComputedPrefix = ``
+	__Complexity__00000027_.IsExpanded = false
 
 	__DiagramFlossEquation__00000000_.Name = `SysML V1's C/P/E for the tool manager Equation Diagram`
 	__DiagramFlossEquation__00000000_.Description = ``
@@ -664,14 +714,14 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000020_.Description = ``
 	__DiagramFlossEquation__00000020_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000020_.IsExpanded = false
-	__DiagramFlossEquation__00000020_.IsChecked = true
+	__DiagramFlossEquation__00000020_.IsChecked = false
 	__DiagramFlossEquation__00000020_.IsEditable_ = true
 	__DiagramFlossEquation__00000020_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000020_.AreQuantitativeElementsVisible = true
 	__DiagramFlossEquation__00000020_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000020_.Width = 1340.000000
 	__DiagramFlossEquation__00000020_.Height = 750.000000
-	__DiagramFlossEquation__00000020_.Scale = 5.000000
+	__DiagramFlossEquation__00000020_.Scale = 5.800000
 	__DiagramFlossEquation__00000020_.DefaultBoxWidth = 100.000000
 	__DiagramFlossEquation__00000020_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000020_.IsNotesNodeExpanded = true
@@ -697,6 +747,63 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000021_.IsComplexitysNodeExpanded = true
 	__DiagramFlossEquation__00000021_.IsPerformancesNodeExpanded = true
 	__DiagramFlossEquation__00000021_.IsEffortsNodeExpanded = true
+
+	__DiagramFlossEquation__00000022_.Name = ` Equation Diagram`
+	__DiagramFlossEquation__00000022_.Description = ``
+	__DiagramFlossEquation__00000022_.ComputedPrefix = ``
+	__DiagramFlossEquation__00000022_.IsExpanded = false
+	__DiagramFlossEquation__00000022_.IsChecked = false
+	__DiagramFlossEquation__00000022_.IsEditable_ = true
+	__DiagramFlossEquation__00000022_.IsInDelta3ColumnsMode = false
+	__DiagramFlossEquation__00000022_.AreQuantitativeElementsVisible = true
+	__DiagramFlossEquation__00000022_.AreSubsystemsVisible = false
+	__DiagramFlossEquation__00000022_.Width = 1170.000000
+	__DiagramFlossEquation__00000022_.Height = 750.000000
+	__DiagramFlossEquation__00000022_.Scale = 10.000000
+	__DiagramFlossEquation__00000022_.DefaultBoxWidth = 250.000000
+	__DiagramFlossEquation__00000022_.DefaultBoxHeigth = 70.000000
+	__DiagramFlossEquation__00000022_.IsNotesNodeExpanded = false
+	__DiagramFlossEquation__00000022_.IsComplexitysNodeExpanded = false
+	__DiagramFlossEquation__00000022_.IsPerformancesNodeExpanded = false
+	__DiagramFlossEquation__00000022_.IsEffortsNodeExpanded = false
+
+	__DiagramFlossEquation__00000023_.Name = ` Equation Diagram`
+	__DiagramFlossEquation__00000023_.Description = ``
+	__DiagramFlossEquation__00000023_.ComputedPrefix = ``
+	__DiagramFlossEquation__00000023_.IsExpanded = false
+	__DiagramFlossEquation__00000023_.IsChecked = true
+	__DiagramFlossEquation__00000023_.IsEditable_ = true
+	__DiagramFlossEquation__00000023_.IsInDelta3ColumnsMode = false
+	__DiagramFlossEquation__00000023_.AreQuantitativeElementsVisible = true
+	__DiagramFlossEquation__00000023_.AreSubsystemsVisible = false
+	__DiagramFlossEquation__00000023_.Width = 1170.000000
+	__DiagramFlossEquation__00000023_.Height = 750.000000
+	__DiagramFlossEquation__00000023_.Scale = 10.000000
+	__DiagramFlossEquation__00000023_.DefaultBoxWidth = 250.000000
+	__DiagramFlossEquation__00000023_.DefaultBoxHeigth = 70.000000
+	__DiagramFlossEquation__00000023_.IsNotesNodeExpanded = false
+	__DiagramFlossEquation__00000023_.IsComplexitysNodeExpanded = false
+	__DiagramFlossEquation__00000023_.IsPerformancesNodeExpanded = false
+	__DiagramFlossEquation__00000023_.IsEffortsNodeExpanded = false
+
+	__DiagramFlossEquation__00000024_.Name = ` Equation Diagram`
+	__DiagramFlossEquation__00000024_.Description = ``
+	__DiagramFlossEquation__00000024_.ComputedPrefix = ``
+	__DiagramFlossEquation__00000024_.IsExpanded = false
+	__DiagramFlossEquation__00000024_.IsChecked = false
+	__DiagramFlossEquation__00000024_.IsEditable_ = true
+	__DiagramFlossEquation__00000024_.IsInDelta3ColumnsMode = false
+	__DiagramFlossEquation__00000024_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000024_.AreSubsystemsVisible = false
+	__DiagramFlossEquation__00000024_.Width = 1170.000000
+	__DiagramFlossEquation__00000024_.Height = 750.000000
+	__DiagramFlossEquation__00000024_.Scale = 5.000000
+	__DiagramFlossEquation__00000024_.DefaultBoxWidth = 250.000000
+	__DiagramFlossEquation__00000024_.DefaultBoxHeigth = 70.000000
+	__DiagramFlossEquation__00000024_.IsNotesNodeExpanded = false
+	__DiagramFlossEquation__00000024_.IsComplexitysNodeExpanded = false
+	__DiagramFlossEquation__00000024_.IsPerformancesNodeExpanded = false
+	__DiagramFlossEquation__00000024_.IsEffortsNodeExpanded = false
 
 	__Effort__00000000_.Name = `Go environment`
 	__Effort__00000000_.Strength = 37.500000
@@ -794,6 +901,30 @@ func _(stage *models.Stage) {
 	__Effort__00000016_.ComputedPrefix = ``
 	__Effort__00000016_.IsExpanded = false
 
+	__Effort__00000017_.Name = `Structuration of KerML`
+	__Effort__00000017_.Strength = 10.000000
+	__Effort__00000017_.Description = ``
+	__Effort__00000017_.ComputedPrefix = ``
+	__Effort__00000017_.IsExpanded = false
+
+	__Effort__00000018_.Name = `Go envrionment`
+	__Effort__00000018_.Strength = 10.000000
+	__Effort__00000018_.Description = ``
+	__Effort__00000018_.ComputedPrefix = ``
+	__Effort__00000018_.IsExpanded = false
+
+	__Effort__00000019_.Name = `Gong environment`
+	__Effort__00000019_.Strength = 10.000000
+	__Effort__00000019_.Description = ``
+	__Effort__00000019_.ComputedPrefix = ``
+	__Effort__00000019_.IsExpanded = false
+
+	__Effort__00000020_.Name = `SysML standardisation effort`
+	__Effort__00000020_.Strength = 10.000000
+	__Effort__00000020_.Description = ``
+	__Effort__00000020_.ComputedPrefix = ``
+	__Effort__00000020_.IsExpanded = false
+
 	__Library__00000000_.Name = `Standards comparaisons at Standard Level`
 	__Library__00000000_.Description = ``
 	__Library__00000000_.ComputedPrefix = ``
@@ -802,11 +933,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsSubLibrariesNodeExpanded = true
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsSystemsNodeExpanded = true
+	__Library__00000000_.IsSystemsNodeExpanded = false
 	__Library__00000000_.IsComplexitysNodeExpanded = false
 	__Library__00000000_.IsPerformancesNodeExpanded = false
 	__Library__00000000_.IsEffortsNodeExpanded = false
-	__Library__00000000_.IsCompareAnalysisNodeExpanded = true
+	__Library__00000000_.IsCompareAnalysisNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
@@ -840,7 +971,23 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsEffortsNodeExpanded = false
 	__Library__00000002_.IsCompareAnalysisNodeExpanded = true
 	__Library__00000002_.IsNotesNodeExpanded = true
-	__Library__00000002_.IsExpandedTmp = true
+	__Library__00000002_.IsExpandedTmp = false
+
+	__Library__00000003_.Name = `SysML`
+	__Library__00000003_.Description = ``
+	__Library__00000003_.ComputedPrefix = ``
+	__Library__00000003_.IsExpanded = false
+	__Library__00000003_.IsRootLibrary = false
+	__Library__00000003_.IsSubLibrariesNodeExpanded = false
+	__Library__00000003_.NbPixPerCharacter = 0.000000
+	__Library__00000003_.LogoSVGFile = ``
+	__Library__00000003_.IsSystemsNodeExpanded = true
+	__Library__00000003_.IsComplexitysNodeExpanded = true
+	__Library__00000003_.IsPerformancesNodeExpanded = true
+	__Library__00000003_.IsEffortsNodeExpanded = true
+	__Library__00000003_.IsCompareAnalysisNodeExpanded = false
+	__Library__00000003_.IsNotesNodeExpanded = false
+	__Library__00000003_.IsExpandedTmp = true
 
 	__Note__00000000_.Name = `Hypthesis`
 	__Note__00000000_.Description = ``
@@ -1004,6 +1151,30 @@ func _(stage *models.Stage) {
 	__Performance__00000013_.ComputedPrefix = ``
 	__Performance__00000013_.IsExpanded = false
 
+	__Performance__00000014_.Name = `Extensibility via templating`
+	__Performance__00000014_.Strength = 10.000000
+	__Performance__00000014_.Description = ``
+	__Performance__00000014_.ComputedPrefix = ``
+	__Performance__00000014_.IsExpanded = false
+
+	__Performance__00000015_.Name = `Programmatic extensibility`
+	__Performance__00000015_.Strength = 10.000000
+	__Performance__00000015_.Description = ``
+	__Performance__00000015_.ComputedPrefix = ``
+	__Performance__00000015_.IsExpanded = false
+
+	__Performance__00000016_.Name = `Static verifiability`
+	__Performance__00000016_.Strength = 10.000000
+	__Performance__00000016_.Description = ``
+	__Performance__00000016_.ComputedPrefix = ``
+	__Performance__00000016_.IsExpanded = false
+
+	__Performance__00000017_.Name = `Dynamic verifiability`
+	__Performance__00000017_.Strength = 10.000000
+	__Performance__00000017_.Description = ``
+	__Performance__00000017_.ComputedPrefix = ``
+	__Performance__00000017_.IsExpanded = false
+
 	__System__00000003_.Name = `SysML V1 Extensibility`
 	__System__00000003_.Description = ``
 	__System__00000003_.AreCPEsCompoundedFromSubSystems = false
@@ -1124,6 +1295,42 @@ func _(stage *models.Stage) {
 	__System__00000013_.IsPerformancesNodeExpanded = false
 	__System__00000013_.IsEffortsNodeExpanded = false
 
+	__System__00000014_.Name = `SysML V1`
+	__System__00000014_.Description = ``
+	__System__00000014_.AreCPEsCompoundedFromSubSystems = false
+	__System__00000014_.ComputedPrefix = ``
+	__System__00000014_.IsExpanded = false
+	__System__00000014_.SVG_Path = ``
+	__System__00000014_.InverseAppliedScaling = 0.000000
+	__System__00000014_.IsSubSystemNodeExpanded = false
+	__System__00000014_.IsComplexitysNodeExpanded = false
+	__System__00000014_.IsPerformancesNodeExpanded = false
+	__System__00000014_.IsEffortsNodeExpanded = false
+
+	__System__00000015_.Name = `SysML V2`
+	__System__00000015_.Description = ``
+	__System__00000015_.AreCPEsCompoundedFromSubSystems = false
+	__System__00000015_.ComputedPrefix = ``
+	__System__00000015_.IsExpanded = false
+	__System__00000015_.SVG_Path = ``
+	__System__00000015_.InverseAppliedScaling = 0.000000
+	__System__00000015_.IsSubSystemNodeExpanded = false
+	__System__00000015_.IsComplexitysNodeExpanded = false
+	__System__00000015_.IsPerformancesNodeExpanded = false
+	__System__00000015_.IsEffortsNodeExpanded = false
+
+	__System__00000016_.Name = `Go SysML`
+	__System__00000016_.Description = ``
+	__System__00000016_.AreCPEsCompoundedFromSubSystems = false
+	__System__00000016_.ComputedPrefix = ``
+	__System__00000016_.IsExpanded = false
+	__System__00000016_.SVG_Path = ``
+	__System__00000016_.InverseAppliedScaling = 0.000000
+	__System__00000016_.IsSubSystemNodeExpanded = false
+	__System__00000016_.IsComplexitysNodeExpanded = false
+	__System__00000016_.IsPerformancesNodeExpanded = false
+	__System__00000016_.IsEffortsNodeExpanded = false
+
 	// insertion point for setup of pointers
 	__CompareAnalysis__00000000_.FromSystem = __System__00000007_
 	__CompareAnalysis__00000000_.ToSystem = __System__00000010_
@@ -1139,6 +1346,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000021_.NoteComplexityShapes = append(__DiagramFlossEquation__00000021_.NoteComplexityShapes, __NoteComplexityShape__00000000_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
+	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000003_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000007_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000010_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000013_)
@@ -1213,6 +1421,25 @@ func _(stage *models.Stage) {
 	__Library__00000002_.RootCompareAnalysis = append(__Library__00000002_.RootCompareAnalysis, __CompareAnalysis__00000001_)
 	__Library__00000002_.SystemsWhoseNodeIsExpanded = append(__Library__00000002_.SystemsWhoseNodeIsExpanded, __System__00000012_)
 	__Library__00000002_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000002_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000001_)
+	__Library__00000003_.RootSystems = append(__Library__00000003_.RootSystems, __System__00000014_)
+	__Library__00000003_.RootSystems = append(__Library__00000003_.RootSystems, __System__00000015_)
+	__Library__00000003_.RootSystems = append(__Library__00000003_.RootSystems, __System__00000016_)
+	__Library__00000003_.RootComplexitys = append(__Library__00000003_.RootComplexitys, __Complexity__00000023_)
+	__Library__00000003_.RootComplexitys = append(__Library__00000003_.RootComplexitys, __Complexity__00000024_)
+	__Library__00000003_.RootComplexitys = append(__Library__00000003_.RootComplexitys, __Complexity__00000025_)
+	__Library__00000003_.RootComplexitys = append(__Library__00000003_.RootComplexitys, __Complexity__00000026_)
+	__Library__00000003_.RootComplexitys = append(__Library__00000003_.RootComplexitys, __Complexity__00000027_)
+	__Library__00000003_.RootPerformances = append(__Library__00000003_.RootPerformances, __Performance__00000014_)
+	__Library__00000003_.RootPerformances = append(__Library__00000003_.RootPerformances, __Performance__00000015_)
+	__Library__00000003_.RootPerformances = append(__Library__00000003_.RootPerformances, __Performance__00000016_)
+	__Library__00000003_.RootPerformances = append(__Library__00000003_.RootPerformances, __Performance__00000017_)
+	__Library__00000003_.RootEfforts = append(__Library__00000003_.RootEfforts, __Effort__00000017_)
+	__Library__00000003_.RootEfforts = append(__Library__00000003_.RootEfforts, __Effort__00000018_)
+	__Library__00000003_.RootEfforts = append(__Library__00000003_.RootEfforts, __Effort__00000019_)
+	__Library__00000003_.RootEfforts = append(__Library__00000003_.RootEfforts, __Effort__00000020_)
+	__Library__00000003_.SystemsWhoseNodeIsExpanded = append(__Library__00000003_.SystemsWhoseNodeIsExpanded, __System__00000016_)
+	__Library__00000003_.SystemsWhoseNodeIsExpanded = append(__Library__00000003_.SystemsWhoseNodeIsExpanded, __System__00000015_)
+	__Library__00000003_.SystemsWhoseNodeIsExpanded = append(__Library__00000003_.SystemsWhoseNodeIsExpanded, __System__00000014_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__Note__00000004_.Complexities = append(__Note__00000004_.Complexities, __Complexity__00000022_)
@@ -1276,4 +1503,28 @@ func _(stage *models.Stage) {
 	__System__00000013_.Efforts = append(__System__00000013_.Efforts, __Effort__00000016_)
 	__System__00000013_.DiagramFlossEquations = append(__System__00000013_.DiagramFlossEquations, __DiagramFlossEquation__00000021_)
 	__System__00000013_.DiagramFlossEquationsWhoseNodeIsExpanded = append(__System__00000013_.DiagramFlossEquationsWhoseNodeIsExpanded, __DiagramFlossEquation__00000021_)
+	__System__00000014_.Complexities = append(__System__00000014_.Complexities, __Complexity__00000023_)
+	__System__00000014_.Performances = append(__System__00000014_.Performances, __Performance__00000014_)
+	__System__00000014_.Performances = append(__System__00000014_.Performances, __Performance__00000016_)
+	__System__00000014_.Efforts = append(__System__00000014_.Efforts, __Effort__00000020_)
+	__System__00000014_.DiagramFlossEquations = append(__System__00000014_.DiagramFlossEquations, __DiagramFlossEquation__00000022_)
+	__System__00000014_.DiagramFlossEquationsWhoseNodeIsExpanded = append(__System__00000014_.DiagramFlossEquationsWhoseNodeIsExpanded, __DiagramFlossEquation__00000022_)
+	__System__00000015_.Complexities = append(__System__00000015_.Complexities, __Complexity__00000023_)
+	__System__00000015_.Complexities = append(__System__00000015_.Complexities, __Complexity__00000024_)
+	__System__00000015_.Complexities = append(__System__00000015_.Complexities, __Complexity__00000025_)
+	__System__00000015_.Performances = append(__System__00000015_.Performances, __Performance__00000015_)
+	__System__00000015_.Performances = append(__System__00000015_.Performances, __Performance__00000014_)
+	__System__00000015_.Performances = append(__System__00000015_.Performances, __Performance__00000016_)
+	__System__00000015_.Efforts = append(__System__00000015_.Efforts, __Effort__00000020_)
+	__System__00000015_.Efforts = append(__System__00000015_.Efforts, __Effort__00000017_)
+	__System__00000015_.DiagramFlossEquations = append(__System__00000015_.DiagramFlossEquations, __DiagramFlossEquation__00000023_)
+	__System__00000016_.Complexities = append(__System__00000016_.Complexities, __Complexity__00000023_)
+	__System__00000016_.Performances = append(__System__00000016_.Performances, __Performance__00000017_)
+	__System__00000016_.Performances = append(__System__00000016_.Performances, __Performance__00000016_)
+	__System__00000016_.Performances = append(__System__00000016_.Performances, __Performance__00000015_)
+	__System__00000016_.Performances = append(__System__00000016_.Performances, __Performance__00000014_)
+	__System__00000016_.Efforts = append(__System__00000016_.Efforts, __Effort__00000018_)
+	__System__00000016_.Efforts = append(__System__00000016_.Efforts, __Effort__00000019_)
+	__System__00000016_.Efforts = append(__System__00000016_.Efforts, __Effort__00000020_)
+	__System__00000016_.DiagramFlossEquations = append(__System__00000016_.DiagramFlossEquations, __DiagramFlossEquation__00000024_)
 }

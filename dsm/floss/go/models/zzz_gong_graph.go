@@ -2051,6 +2051,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	if diagramflossequation.Description != diagramflossequationOther.Description {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Description"))
 	}
+	if diagramflossequation.Scale != diagramflossequationOther.Scale {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Scale"))
+	}
 	if diagramflossequation.ComputedPrefix != diagramflossequationOther.ComputedPrefix {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -2077,9 +2080,6 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	}
 	if diagramflossequation.Height != diagramflossequationOther.Height {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Height"))
-	}
-	if diagramflossequation.Scale != diagramflossequationOther.Scale {
-		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Scale"))
 	}
 	if diagramflossequation.DefaultBoxWidth != diagramflossequationOther.DefaultBoxWidth {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))

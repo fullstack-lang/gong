@@ -668,6 +668,8 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(diagramflossequation_.Description), formDiv)
+		case "Scale":
+			FormDivBasicFieldToField(&(diagramflossequation_.Scale), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagramflossequation_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -686,8 +688,6 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(diagramflossequation_.Height), formDiv)
-		case "Scale":
-			FormDivBasicFieldToField(&(diagramflossequation_.Scale), formDiv)
 		case "DefaultBoxWidth":
 			FormDivBasicFieldToField(&(diagramflossequation_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":
