@@ -54,7 +54,7 @@ type Stager struct {
 
 	// DSM mandatory
 	// map to navigate from abstract elements to all diagrams where they are displayed
-	map_Element_Diagrams map[AbstractType][]DiagramIF
+	map_Element_Diagrams map[AbstractType][]*Diagram
 	fileName             string
 
 	// End of DSM Mandatory
@@ -101,7 +101,7 @@ func NewStager(
 	stager.createViews()
 
 	beforeCommit := func(stage *Stage) {
-		stager.enforce_semantic()
+		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
 		stager.treeSimulation()

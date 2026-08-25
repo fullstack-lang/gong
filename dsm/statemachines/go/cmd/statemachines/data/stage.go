@@ -140,7 +140,7 @@ func _(stage *models.Stage) {
 	__Guard__00000001_.Name = `NO`
 
 	__Library__00000000_.Name = `Comparaison of Traffic lights UK vs FR`
-	__Library__00000000_.NbPixPerCharacter = 0.000000
+	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false

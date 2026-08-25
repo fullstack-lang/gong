@@ -38,6 +38,14 @@ func (d *Diagram) IsEditable() bool {
 	return d.IsEditable_
 }
 
+func (d *Diagram) GetIsChecked() bool {
+	return d.IsChecked
+}
+
+func (d *Diagram) SetIsChecked(v bool) {
+	d.IsChecked = v
+}
+
 type Message struct {
 	Name       string
 	IsSelected bool
