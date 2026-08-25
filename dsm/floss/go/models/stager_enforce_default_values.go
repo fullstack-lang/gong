@@ -48,6 +48,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			diagramEquation.DefaultBoxWidth = defaultBoxWidth
 			needCommit = true
 		}
+		if diagramEquation.FontSize == "" {
+			diagramEquation.FontSize = FONT_SIZE_NORMAL
+			needCommit = true
+		}
 	}
 
 	return

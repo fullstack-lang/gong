@@ -2054,6 +2054,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	if diagramflossequation.Scale != diagramflossequationOther.Scale {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Scale"))
 	}
+	if diagramflossequation.FontSize != diagramflossequationOther.FontSize {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "FontSize"))
+	}
 	if diagramflossequation.ComputedPrefix != diagramflossequationOther.ComputedPrefix {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
 	}

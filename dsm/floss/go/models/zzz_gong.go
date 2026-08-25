@@ -4121,6 +4121,11 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:                 "FontSize",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "FontSize",
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -4880,6 +4885,9 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.Scale)
 		res.valueFloat = diagramflossequation.Scale
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		enum := diagramflossequation.FontSize
+		res.valueString = enum.ToCodeString()
 	case "ComputedPrefix":
 		res.valueString = diagramflossequation.ComputedPrefix
 	case "IsExpanded":
@@ -5722,6 +5730,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.Description = value.GetValueString()
 	case "Scale":
 		diagramflossequation.Scale = value.GetValueFloat()
+	case "FontSize":
+		diagramflossequation.FontSize.FromCodeString(value.GetValueString())
 	case "ComputedPrefix":
 		diagramflossequation.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

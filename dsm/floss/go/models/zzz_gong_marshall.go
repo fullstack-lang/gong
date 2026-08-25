@@ -374,6 +374,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "FontSize"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
@@ -1012,6 +1013,19 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Scale")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Scale))
+	case "FontSize":
+		if diagramflossequation.FontSize.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontSize")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagramflossequation.FontSize.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontSize")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
@@ -2056,6 +2070,7 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "FontSize"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))

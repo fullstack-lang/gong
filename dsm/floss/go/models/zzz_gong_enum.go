@@ -92,6 +92,107 @@ func (complexitytype ComplexityType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for FontSize
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (fontsize FontSize) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch fontsize {
+	// insertion code per enum code
+	case FONT_SIZE_SMALL:
+		res = "small"
+	case FONT_SIZE_NORMAL:
+		res = "normal"
+	case FONT_SIZE_BIG:
+		res = "big"
+	case FONT_SIZE_VERY_BIG:
+		res = "very big"
+	}
+	return
+}
+
+func (fontsize *FontSize) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "small":
+		*fontsize = FONT_SIZE_SMALL
+		return
+	case "normal":
+		*fontsize = FONT_SIZE_NORMAL
+		return
+	case "big":
+		*fontsize = FONT_SIZE_BIG
+		return
+	case "very big":
+		*fontsize = FONT_SIZE_VERY_BIG
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (fontsize *FontSize) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "FONT_SIZE_SMALL":
+		*fontsize = FONT_SIZE_SMALL
+	case "FONT_SIZE_NORMAL":
+		*fontsize = FONT_SIZE_NORMAL
+	case "FONT_SIZE_BIG":
+		*fontsize = FONT_SIZE_BIG
+	case "FONT_SIZE_VERY_BIG":
+		*fontsize = FONT_SIZE_VERY_BIG
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (fontsize *FontSize) ToCodeString() (res string) {
+
+	switch *fontsize {
+	// insertion code per enum code
+	case FONT_SIZE_SMALL:
+		res = "FONT_SIZE_SMALL"
+	case FONT_SIZE_NORMAL:
+		res = "FONT_SIZE_NORMAL"
+	case FONT_SIZE_BIG:
+		res = "FONT_SIZE_BIG"
+	case FONT_SIZE_VERY_BIG:
+		res = "FONT_SIZE_VERY_BIG"
+	}
+	return
+}
+
+func (fontsize FontSize) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "FONT_SIZE_SMALL")
+	res = append(res, "FONT_SIZE_NORMAL")
+	res = append(res, "FONT_SIZE_BIG")
+	res = append(res, "FONT_SIZE_VERY_BIG")
+
+	return
+}
+
+func (fontsize FontSize) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "small")
+	res = append(res, "normal")
+	res = append(res, "big")
+	res = append(res, "very big")
+
+	return
+}
+
 // Utility function for LayoutDirection
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

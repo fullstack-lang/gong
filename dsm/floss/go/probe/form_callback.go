@@ -670,6 +670,8 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.Description), formDiv)
 		case "Scale":
 			FormDivBasicFieldToField(&(diagramflossequation_.Scale), formDiv)
+		case "FontSize":
+			FormDivEnumStringFieldToField(&(diagramflossequation_.FontSize), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagramflossequation_.ComputedPrefix), formDiv)
 		case "IsExpanded":

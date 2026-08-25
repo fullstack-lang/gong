@@ -161,6 +161,44 @@ func (stager *Stager) treeDiagramFlossEquation(
 		diagramNode.Buttons = append(diagramNode.Buttons, deltaColButton)
 	}
 
+	// Button for toggle between font sizes
+	{
+		fontSizeButton := &tree.Button{
+			Name:            diagram.GetName() + " Font Size Toggle",
+			Icon:            string(buttons.BUTTON_format_size),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				switch diagram.FontSize {
+				case FONT_SIZE_SMALL:
+					diagram.FontSize = FONT_SIZE_NORMAL
+				case FONT_SIZE_NORMAL:
+					diagram.FontSize = FONT_SIZE_BIG
+				case FONT_SIZE_BIG:
+					diagram.FontSize = FONT_SIZE_VERY_BIG
+				case FONT_SIZE_VERY_BIG:
+					diagram.FontSize = FONT_SIZE_SMALL
+				default:
+					diagram.FontSize = FONT_SIZE_BIG
+				}
+				stager.stage.Commit()
+			},
+		}
+		currentSizeLabel := "Normal"
+		switch diagram.FontSize {
+		case FONT_SIZE_SMALL:
+			currentSizeLabel = "Small"
+		case FONT_SIZE_BIG:
+			currentSizeLabel = "Big"
+		case FONT_SIZE_VERY_BIG:
+			currentSizeLabel = "Very Big"
+		default:
+			currentSizeLabel = "Normal"
+		}
+		fontSizeButton.ToolTipText = "Font size: " + currentSizeLabel + " (click to toggle)"
+		diagramNode.Buttons = append(diagramNode.Buttons, fontSizeButton)
+	}
+
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			for d_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {

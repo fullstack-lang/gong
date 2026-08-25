@@ -571,6 +571,8 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.Description = GongExtractString(valueExpr)
 	case "Scale":
 		instance.Scale = GongExtractFloat(valueExpr)
+	case "FontSize":
+		GongUnmarshallEnum(&instance.FontSize, valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

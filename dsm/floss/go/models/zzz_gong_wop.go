@@ -64,6 +64,8 @@ type DiagramFlossEquation_WOP struct {
 
 	Scale float64
 
+	FontSize FontSize
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -100,6 +102,7 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.Scale = from.Scale
+	to.FontSize = from.FontSize
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked

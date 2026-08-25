@@ -153,6 +153,7 @@ func FillUpForm(
 			true, false, 0, false, 0, false)
 		BasicFieldtoForm("Scale", instanceWithInferedType.Scale, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,

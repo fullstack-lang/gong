@@ -225,9 +225,112 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	isDelta := fromSys != nil
 
+	type DiagramFontSettings struct {
+		HeaderTitleSize   string
+		HeaderTitleYOff   float64
+		HeaderFormulaSize string
+		HeaderFormulaYOff float64
+		HeaderValuesSize  string
+		HeaderValuesYOff  float64
+		HeaderHeight      float64
+
+		ItemFontSize       string
+		ItemFontSizeShort  string
+		ItemBaseWrapSize   float64
+		ItemShortThreshold float64
+
+		LabelFontSize    string
+		SubLabelFontSize string
+
+		IndicatorFontSize string
+
+		NoteFontSize     string
+		NoteBaseWrapSize float64
+	}
+
+	var fontSettings DiagramFontSettings
+	switch diagram.FontSize {
+	case FONT_SIZE_SMALL:
+		fontSettings = DiagramFontSettings{
+			HeaderTitleSize:    "14px",
+			HeaderTitleYOff:    20,
+			HeaderFormulaSize:  "12px",
+			HeaderFormulaYOff:  40,
+			HeaderValuesSize:   "11px",
+			HeaderValuesYOff:   60,
+			HeaderHeight:       75,
+			ItemFontSize:       "10px",
+			ItemFontSizeShort:  "8px",
+			ItemBaseWrapSize:   10.0,
+			ItemShortThreshold: 25.0,
+			LabelFontSize:      "11px",
+			SubLabelFontSize:   "10px",
+			IndicatorFontSize:  "11px",
+			NoteFontSize:       "10px",
+			NoteBaseWrapSize:   10.0,
+		}
+	case FONT_SIZE_BIG:
+		fontSettings = DiagramFontSettings{
+			HeaderTitleSize:    "21px",
+			HeaderTitleYOff:    32,
+			HeaderFormulaSize:  "17px",
+			HeaderFormulaYOff:  64,
+			HeaderValuesSize:   "15px",
+			HeaderValuesYOff:   92,
+			HeaderHeight:       110,
+			ItemFontSize:       "16px",
+			ItemFontSizeShort:  "13px",
+			ItemBaseWrapSize:   16.0,
+			ItemShortThreshold: 35.0,
+			LabelFontSize:      "16px",
+			SubLabelFontSize:   "13px",
+			IndicatorFontSize:  "15px",
+			NoteFontSize:       "16px",
+			NoteBaseWrapSize:   16.0,
+		}
+	case FONT_SIZE_VERY_BIG:
+		fontSettings = DiagramFontSettings{
+			HeaderTitleSize:    "26px",
+			HeaderTitleYOff:    38,
+			HeaderFormulaSize:  "21px",
+			HeaderFormulaYOff:  76,
+			HeaderValuesSize:   "18px",
+			HeaderValuesYOff:   110,
+			HeaderHeight:       130,
+			ItemFontSize:       "20px",
+			ItemFontSizeShort:  "16px",
+			ItemBaseWrapSize:   20.0,
+			ItemShortThreshold: 40.0,
+			LabelFontSize:      "19px",
+			SubLabelFontSize:   "16px",
+			IndicatorFontSize:  "18px",
+			NoteFontSize:       "20px",
+			NoteBaseWrapSize:   20.0,
+		}
+	default:
+		fontSettings = DiagramFontSettings{
+			HeaderTitleSize:    "17px",
+			HeaderTitleYOff:    26,
+			HeaderFormulaSize:  "14px",
+			HeaderFormulaYOff:  52,
+			HeaderValuesSize:   "13px",
+			HeaderValuesYOff:   76,
+			HeaderHeight:       90,
+			ItemFontSize:       "13px",
+			ItemFontSizeShort:  "11px",
+			ItemBaseWrapSize:   13.0,
+			ItemShortThreshold: 30.0,
+			LabelFontSize:      "13px",
+			SubLabelFontSize:   "11px",
+			IndicatorFontSize:  "13px",
+			NoteFontSize:       "13px",
+			NoteBaseWrapSize:   13.0,
+		}
+	}
+
 	extentAboveBaseline, extentBelowBaseline := computeFlossDiagramVerticalExtents(diagram, compareAnalysis, owningSystem)
 
-	topMargin := 150.0
+	topMargin := math.Max(150.0, fontSettings.HeaderHeight+40.0)
 	bottomMargin := 120.0
 	yGround := topMargin + extentAboveBaseline*scale
 	maxBottom := yGround + extentBelowBaseline*scale
@@ -310,7 +413,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	maxTextLen := math.Max(float64(len(titleStr)), math.Max(float64(len(formulaStr)), float64(len(valuesStr))))
-	textWidth := maxTextLen * nbPixPerChar
+	textWidth := maxTextLen * nbPixPerChar * (fontSettings.ItemBaseWrapSize / 13.0)
 
 	// Header banner
 	headerWidth := math.Max(columnsRight+40.0, textWidth+40.0) // 40.0 padding
@@ -319,7 +422,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		X:      40,
 		Y:      20,
 		Width:  headerWidth,
-		Height: 90,
+		Height: fontSettings.HeaderHeight,
 		RX:     8,
 		Presentation: svg.Presentation{
 			Color:         "#FAFAFA",
@@ -340,7 +443,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerTitle := new(svg.RectAnchoredText)
 	headerTitle.Name = "Header Title"
 	headerTitle.Content = titleStr
-	headerTitle.FontSize = "17px"
+	headerTitle.FontSize = fontSettings.HeaderTitleSize
 	headerTitle.FontWeight = "700"
 	headerTitle.Color = "#0D47A1"
 	headerTitle.FillOpacity = 1.0
@@ -350,14 +453,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerTitle.RectAnchorType = svg.RECT_TOP_LEFT
 	headerTitle.TextAnchorType = svg.TEXT_ANCHOR_START
 	headerTitle.X_Offset = 20
-	headerTitle.Y_Offset = 26
+	headerTitle.Y_Offset = fontSettings.HeaderTitleYOff
 	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerTitle)
 
 	// Formula line
 	headerFormula := new(svg.RectAnchoredText)
 	headerFormula.Name = "Header Formula"
 	headerFormula.Content = formulaStr
-	headerFormula.FontSize = "14px"
+	headerFormula.FontSize = fontSettings.HeaderFormulaSize
 	headerFormula.FontWeight = "600"
 	headerFormula.Color = "#37474F"
 	headerFormula.FillOpacity = 1.0
@@ -367,14 +470,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerFormula.RectAnchorType = svg.RECT_TOP_LEFT
 	headerFormula.TextAnchorType = svg.TEXT_ANCHOR_START
 	headerFormula.X_Offset = 20
-	headerFormula.Y_Offset = 52
+	headerFormula.Y_Offset = fontSettings.HeaderFormulaYOff
 	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerFormula)
 
 	// Values summary
 	headerValues := new(svg.RectAnchoredText)
 	headerValues.Name = "Header Values"
 	headerValues.Content = valuesStr
-	headerValues.FontSize = "13px"
+	headerValues.FontSize = fontSettings.HeaderValuesSize
 	headerValues.FontWeight = "500"
 	headerValues.Color = "#616161"
 	headerValues.FillOpacity = 1.0
@@ -384,7 +487,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerValues.RectAnchorType = svg.RECT_TOP_LEFT
 	headerValues.TextAnchorType = svg.TEXT_ANCHOR_START
 	headerValues.X_Offset = 20
-	headerValues.Y_Offset = 76
+	headerValues.Y_Offset = fontSettings.HeaderValuesYOff
 	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerValues)
 
 	// -------------------------------------------------------------
@@ -529,11 +632,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 						}
 					}
 				}
-				content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
+				content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, fontSettings.ItemBaseWrapSize, 15.0)
 
-				fontSize := "13px"
-				if itemH < 30 {
-					fontSize = "11px"
+				fontSize := fontSettings.ItemFontSize
+				if itemH < fontSettings.ItemShortThreshold {
+					fontSize = fontSettings.ItemFontSizeShort
 				}
 
 				title := new(svg.RectAnchoredText)
@@ -635,6 +738,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol1_V2 + colWidth/2,
 			Y:       maxBottom + 40,
 			Content: col1LabelText,
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
 				FillOpacity: 1.0,
@@ -656,6 +763,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 40,
 			Content: col2LabelText,
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -678,6 +789,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 40,
 			Content: col3LabelText,
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -777,6 +892,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol1_V2 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2 (C=%.2f)", cTo),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
 				FillOpacity: 1.0,
@@ -790,6 +908,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol1_V1 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V1 (C=%.2f)", cFrom),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
 				FillOpacity: 1.0,
@@ -804,6 +925,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       col1CenterX,
 			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
 				FillOpacity: 1.0,
@@ -860,6 +985,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2 (μ·P=%.2f)", mu*pTo),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -873,6 +1001,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol2_V1 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V1 (μ·P=%.2f)", mu*pFrom),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -887,6 +1018,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       col2CenterX,
 			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("μ · ΔP = %.2f", mu*deltaP),
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -928,6 +1063,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2 (ε·E=%.2f)", epsilon*eTo),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -941,6 +1079,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol3_V1 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V1 (ε·E=%.2f)", epsilon*eFrom),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -955,6 +1096,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       col3CenterX,
 			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("ε · ΔE = %.2f", epsilon*deltaE),
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -1031,11 +1176,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			rect.CanHaveTopHandle = true
 
 			rawContent := strings.Join(lines, "\n")
-			content := strutils.WrapStringPreservingNewlinesScaled(rawContent, colWidth-20, nbPixPerChar, 13.0, 15.0)
+			content := strutils.WrapStringPreservingNewlinesScaled(rawContent, colWidth-20, nbPixPerChar, fontSettings.ItemBaseWrapSize, 15.0)
 
-			fontSize := "13px"
-			if height < 40 {
-				fontSize = "11px"
+			fontSize := fontSettings.ItemFontSize
+			if height < fontSettings.ItemShortThreshold+10.0 {
+				fontSize = fontSettings.ItemFontSizeShort
 			}
 
 			title := new(svg.RectAnchoredText)
@@ -1094,6 +1239,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol1_V2 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", cTo, cFrom),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#B78103",
 				FillOpacity: 1.0,
@@ -1107,6 +1255,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol1_V2 + colWidth/2,
 			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#E65100",
 				FillOpacity: 1.0,
@@ -1156,6 +1308,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", mu*pTo, mu*pFrom),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -1169,6 +1324,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol2_V2 + colWidth/2,
 			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("μ · ΔP = %.2f", mu*deltaP),
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#2E7D32",
 				FillOpacity: 1.0,
@@ -1177,7 +1336,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col2Label)
 
-		// Column 3: Net Effort Investment (ε·ΔE) dropping from peak
+		// Column 3: Effort Investment (ε·ΔE) dropping from peak
 		heightDeltaE := math.Max(math.Abs(epsilon*deltaE)*scale, 50.0)
 		yTopDeltaE := yTopDeltaP // drops from peak
 		yBottomDeltaE := yTopDeltaE + heightDeltaE
@@ -1219,6 +1378,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 20,
 			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", epsilon*eTo, epsilon*eFrom),
+			TextAttributes: svg.TextAttributes{
+				FontSize: fontSettings.SubLabelFontSize,
+			},
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -1232,6 +1394,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			X:       xCol3_V2 + colWidth/2,
 			Y:       maxBottom + 40,
 			Content: fmt.Sprintf("ε · ΔE = %.2f", epsilon*deltaE),
+			TextAttributes: svg.TextAttributes{
+				FontSize:   fontSettings.LabelFontSize,
+				FontWeight: "600",
+			},
 			Presentation: svg.Presentation{
 				Color:       "#1976D2",
 				FillOpacity: 1.0,
@@ -1314,6 +1480,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		X:       40,
 		Y:       maxBottom + 65,
 		Content: diffTextMsg,
+		TextAttributes: svg.TextAttributes{
+			FontSize:   fontSettings.IndicatorFontSize,
+			FontWeight: "600",
+		},
 		Presentation: svg.Presentation{
 			Color:       diffColor,
 			FillOpacity: 1.0,
@@ -1368,7 +1538,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 
 		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width-20, nbPixPerChar, 13.0, 15.0)
+			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width-20, nbPixPerChar, fontSettings.NoteBaseWrapSize, 15.0)
 		}
 
 		title.Content = content
@@ -1377,7 +1547,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		title.Stroke = "#5D4037"
 		title.StrokeWidth = 0
 		title.StrokeOpacity = 1.0
-		title.FontSize = "13px"
+		title.FontSize = fontSettings.NoteFontSize
 		title.FontStyle = "italic"
 		title.FontWeight = "normal"
 		title.RectAnchorType = svg.RECT_TOP_LEFT

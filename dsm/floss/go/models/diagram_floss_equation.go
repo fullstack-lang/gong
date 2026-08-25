@@ -10,6 +10,8 @@ type DiagramFlossEquation struct {
 
 	Scale float64 // pixels per unit
 
+	FontSize FontSize
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
