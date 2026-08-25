@@ -373,6 +373,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
@@ -382,7 +383,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxHeigth"))
 		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Note_Shapes"))
@@ -1007,6 +1007,11 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramflossequation.Description))
+	case "Scale":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Scale")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Scale))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
@@ -1052,11 +1057,6 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Height))
-	case "Scale":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Scale")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Scale))
 	case "DefaultBoxWidth":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
@@ -2055,6 +2055,7 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
@@ -2064,7 +2065,6 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxHeigth"))
 		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Note_Shapes"))

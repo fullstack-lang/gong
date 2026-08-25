@@ -145,7 +145,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
-	__Library__00000000_.IsStateMachinesNodeExpanded = true
+	__Library__00000000_.IsStateMachinesNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
@@ -516,7 +516,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000001_)
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
-	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000001_)
 	__Message__00000003_.MessageType = __MessageType__00000000_
 	__Message__00000003_.OriginTransition = __Transition__00000010_
 	__Message__00000004_.MessageType = __MessageType__00000000_

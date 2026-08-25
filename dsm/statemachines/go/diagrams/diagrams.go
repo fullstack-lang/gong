@@ -275,7 +275,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000005_.ShowMultiplicity = true
 	__Classdiagram__00000005_.ShowLinkNames = true
 	__Classdiagram__00000005_.IsInRenameMode = false
-	__Classdiagram__00000005_.IsExpanded = true
+	__Classdiagram__00000005_.IsExpanded = false
 	__Classdiagram__00000005_.NodeGongStructsIsExpanded = true
 	__Classdiagram__00000005_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
 	__Classdiagram__00000005_.NodeGongEnumsIsExpanded = false
@@ -1321,7 +1321,7 @@ Each concrete instance must reference an abstract instance.
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000005_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000005_
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000002_
 	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000000_)
 	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000001_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000008_)

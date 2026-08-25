@@ -12,20 +12,25 @@ func (stager *Stager) ux_slider() {
 
 	layout := new(m.Layout).Stage(stager.sliderStage)
 
+	groupDiagram := new(m.Group).Stage(stager.sliderStage)
+	groupDiagram.Name = "Diagram"
+	groupDiagram.Percentage = 16.0
+	layout.Groups = append(layout.Groups, groupDiagram)
+
 	// 3 separate groups for the 3 categories
 	groupComplexities := new(m.Group).Stage(stager.sliderStage)
 	groupComplexities.Name = "Complexities"
-	groupComplexities.Percentage = 33.3
+	groupComplexities.Percentage = 28.0
 	layout.Groups = append(layout.Groups, groupComplexities)
 
 	groupPerformances := new(m.Group).Stage(stager.sliderStage)
 	groupPerformances.Name = "Performances"
-	groupPerformances.Percentage = 33.3
+	groupPerformances.Percentage = 28.0
 	layout.Groups = append(layout.Groups, groupPerformances)
 
 	groupEfforts := new(m.Group).Stage(stager.sliderStage)
 	groupEfforts.Name = "Efforts"
-	groupEfforts.Percentage = 33.4
+	groupEfforts.Percentage = 28.0
 	layout.Groups = append(layout.Groups, groupEfforts)
 
 	// Find active DiagramFlossEquation & its CompareAnalysis or System
@@ -64,6 +69,37 @@ func (stager *Stager) ux_slider() {
 	if activeCompareAnalysis == nil && activeSystem == nil {
 		stager.sliderStage.Commit()
 		return
+	}
+
+	getScaleSliderBounds := func(val float64) (min, max, step float64) {
+		min = 0.1
+		max = 100.0
+		if val > 100.0 {
+			max = math.Max(100.0, math.Ceil(val*2.0/50.0)*50.0)
+		}
+		if val >= 50.0 {
+			step = 1.0
+		} else if val >= 5.0 {
+			step = 0.1
+		} else {
+			step = 0.01
+		}
+		return min, max, step
+	}
+
+	if activeDiagram != nil {
+		min, max, step := getScaleSliderBounds(activeDiagram.Scale)
+		groupDiagram.Sliders = append(
+			groupDiagram.Sliders,
+			m.NewSlider(
+				stager,
+				"Scale",
+				min,
+				max,
+				step,
+				&activeDiagram.Scale,
+			),
+		)
 	}
 
 	showSubsystems := activeDiagram == nil || activeDiagram.AreSubsystemsVisible

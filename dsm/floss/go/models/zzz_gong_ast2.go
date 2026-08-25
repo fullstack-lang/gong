@@ -569,6 +569,8 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.Name = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
+	case "Scale":
+		instance.Scale = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -587,8 +589,6 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
-	case "Scale":
-		instance.Scale = GongExtractFloat(valueExpr)
 	case "DefaultBoxWidth":
 		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
 	case "DefaultBoxHeigth":

@@ -4117,6 +4117,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Scale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -4150,10 +4154,6 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Scale",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -4876,6 +4876,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 		res.valueString = diagramflossequation.Name
 	case "Description":
 		res.valueString = diagramflossequation.Description
+	case "Scale":
+		res.valueString = fmt.Sprintf("%f", diagramflossequation.Scale)
+		res.valueFloat = diagramflossequation.Scale
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = diagramflossequation.ComputedPrefix
 	case "IsExpanded":
@@ -4909,10 +4913,6 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "Height":
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.Height)
 		res.valueFloat = diagramflossequation.Height
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Scale":
-		res.valueString = fmt.Sprintf("%f", diagramflossequation.Scale)
-		res.valueFloat = diagramflossequation.Scale
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DefaultBoxWidth":
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.DefaultBoxWidth)
@@ -5720,6 +5720,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.Name = value.GetValueString()
 	case "Description":
 		diagramflossequation.Description = value.GetValueString()
+	case "Scale":
+		diagramflossequation.Scale = value.GetValueFloat()
 	case "ComputedPrefix":
 		diagramflossequation.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -5738,8 +5740,6 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.Width = value.GetValueFloat()
 	case "Height":
 		diagramflossequation.Height = value.GetValueFloat()
-	case "Scale":
-		diagramflossequation.Scale = value.GetValueFloat()
 	case "DefaultBoxWidth":
 		diagramflossequation.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
