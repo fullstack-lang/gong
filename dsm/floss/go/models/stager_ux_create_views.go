@@ -110,5 +110,17 @@ func (stager *Stager) createViews() {
 		},
 	})
 
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "SVG probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: stager.flossDiagramSvgStage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
 	stager.splitStage.Commit()
 }
