@@ -47,10 +47,12 @@ func (stager *Stager) compute_map_modelElement_shape(
 
 			var fieldFound bool
 			for _, field := range gongStruct.Fields {
-
 				if field.GetName() == fieldShapeName {
-					map_ModelElement_Shape[field] = fieldShape
-					fieldFound = true
+					switch field.(type) {
+					case *gong.GongBasicField, *gong.GongTimeField:
+						map_ModelElement_Shape[field] = fieldShape
+						fieldFound = true
+					}
 				}
 			}
 			if !fieldFound {

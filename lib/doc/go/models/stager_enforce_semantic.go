@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"strings"
 
 	gong "github.com/fullstack-lang/gong/go/models"
 )
@@ -59,7 +60,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 	for fieldShape := range *GetGongstructInstancesSetFromPointerType[*AttributeShape](stager.stage) {
 		structname, fieldShapeName := IdentifierMetaToStructAndFieldName(fieldShape.IdentifierMeta)
 
-		_, ok := gongStructSet[structname]
+		gongStruct, ok := gongStructSet[structname]
 
 		if !ok {
 			log.Println("doc removed attribute shape", structname, fieldShapeName)
@@ -69,9 +70,24 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 
 		var fieldFound bool
-		for _, field := range gongStructSet[structname].Fields {
+		for _, field := range gongStruct.Fields {
 			if field.GetName() == fieldShapeName {
-				fieldFound = true
+				switch realField := field.(type) {
+				case *gong.GongBasicField:
+					names := strings.Split(realField.DeclaredType, ".")
+					fieldTypeName := names[len(names)-1]
+					if fieldShape.Fieldtypename != fieldTypeName {
+						fieldShape.Fieldtypename = fieldTypeName
+						needCommit = true
+					}
+					fieldFound = true
+				case *gong.GongTimeField:
+					if fieldShape.Fieldtypename != "Time" {
+						fieldShape.Fieldtypename = "Time"
+						needCommit = true
+					}
+					fieldFound = true
+				}
 			}
 		}
 		if !fieldFound {
@@ -84,7 +100,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 	for linkShape := range *GetGongstructInstancesSetFromPointerType[*LinkShape](stager.stage) {
 		structname, fieldShapeName := IdentifierMetaToStructAndFieldName(linkShape.IdentifierMeta)
 
-		_, ok := gongStructSet[structname]
+		gongStruct, ok := gongStructSet[structname]
 
 		if !ok {
 			log.Println("doc removed link shape", structname, fieldShapeName)
@@ -94,9 +110,54 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 
 		var fieldFound bool
-		for _, field := range gongStructSet[structname].Fields {
+		for _, field := range gongStruct.Fields {
 			if field.GetName() == fieldShapeName {
-				fieldFound = true
+				switch realField := field.(type) {
+				case *gong.PointerToGongStructField:
+					targetStructName := realField.GongStruct.Name
+					if _, targetOk := gongStructSet[targetStructName]; !targetOk {
+						break
+					}
+					expectedTargetMultiplicity := ZERO_ONE
+					expectedSourceMultiplicity := MANY
+					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifier(targetStructName) + "{}"
+
+					if linkShape.TargetMultiplicity != expectedTargetMultiplicity {
+						linkShape.TargetMultiplicity = expectedTargetMultiplicity
+						needCommit = true
+					}
+					if linkShape.SourceMultiplicity != expectedSourceMultiplicity {
+						linkShape.SourceMultiplicity = expectedSourceMultiplicity
+						needCommit = true
+					}
+					if linkShape.FieldTypeIdentifierMeta != expectedFieldTypeIdentifierMeta {
+						linkShape.FieldTypeIdentifierMeta = expectedFieldTypeIdentifierMeta
+						needCommit = true
+					}
+					fieldFound = true
+				case *gong.SliceOfPointerToGongStructField:
+					targetStructName := realField.GongStruct.Name
+					if _, targetOk := gongStructSet[targetStructName]; !targetOk {
+						break
+					}
+					expectedTargetMultiplicity := MANY
+					expectedSourceMultiplicity := MANY
+					expectedFieldTypeIdentifierMeta := GongStructNameToIdentifier(targetStructName) + "{}"
+
+					if linkShape.TargetMultiplicity != expectedTargetMultiplicity {
+						linkShape.TargetMultiplicity = expectedTargetMultiplicity
+						needCommit = true
+					}
+					if linkShape.SourceMultiplicity != expectedSourceMultiplicity {
+						linkShape.SourceMultiplicity = expectedSourceMultiplicity
+						needCommit = true
+					}
+					if linkShape.FieldTypeIdentifierMeta != expectedFieldTypeIdentifierMeta {
+						linkShape.FieldTypeIdentifierMeta = expectedFieldTypeIdentifierMeta
+						needCommit = true
+					}
+					fieldFound = true
+				}
 			}
 		}
 		if !fieldFound {
