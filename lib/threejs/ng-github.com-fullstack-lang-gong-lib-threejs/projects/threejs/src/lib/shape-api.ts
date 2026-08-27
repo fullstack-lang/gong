@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { Vector2API } from './vector2-api'
 

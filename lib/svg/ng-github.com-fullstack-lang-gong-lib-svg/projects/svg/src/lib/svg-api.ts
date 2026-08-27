@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { LayerAPI } from './layer-api'
 import { RectAPI } from './rect-api'

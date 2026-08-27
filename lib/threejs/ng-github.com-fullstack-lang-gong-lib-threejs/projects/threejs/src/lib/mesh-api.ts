@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { MeshMaterialBasicAPI } from './meshmaterialbasic-api'
 import { MeshPhysicalMaterialAPI } from './meshphysicalmaterial-api'

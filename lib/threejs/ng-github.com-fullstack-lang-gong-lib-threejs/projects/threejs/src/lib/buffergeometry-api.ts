@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { Vector3API } from './vector3-api'
 import { TriangleAPI } from './triangle-api'

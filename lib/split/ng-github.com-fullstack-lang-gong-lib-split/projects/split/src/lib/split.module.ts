@@ -1,3 +1,4 @@
+// generated code - do not edit
 import { NgModule } from '@angular/core';
 
 @NgModule({

@@ -1,3 +1,4 @@
+// generated code - do not edit
 package svg
 
 import "embed"

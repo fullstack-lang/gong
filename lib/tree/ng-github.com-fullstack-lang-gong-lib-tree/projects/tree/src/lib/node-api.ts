@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { SVGIconAPI } from './svgicon-api'
 import { ButtonAPI } from './button-api'

@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { BstructAPI } from './bstruct-api'
 

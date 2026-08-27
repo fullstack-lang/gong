@@ -2790,12 +2790,6 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(state_.Name), formDiv)
-		case "Parent":
-			FormDivSelectFieldToField(&(state_.Parent), stateFormCallback.probe.stageOfInterest, formDiv)
-		case "IsDecisionNode":
-			FormDivBasicFieldToField(&(state_.IsDecisionNode), formDiv)
-		case "IsFictious":
-			FormDivBasicFieldToField(&(state_.IsFictious), formDiv)
 		case "IsEndState":
 			FormDivBasicFieldToField(&(state_.IsEndState), formDiv)
 		case "SubStates":
@@ -2866,6 +2860,12 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 
 		case "Exit":
 			FormDivSelectFieldToField(&(state_.Exit), stateFormCallback.probe.stageOfInterest, formDiv)
+		case "Parent":
+			FormDivSelectFieldToField(&(state_.Parent), stateFormCallback.probe.stageOfInterest, formDiv)
+		case "IsDecisionNode":
+			FormDivBasicFieldToField(&(state_.IsDecisionNode), formDiv)
+		case "IsFictious":
+			FormDivBasicFieldToField(&(state_.IsFictious), formDiv)
 		case "Diagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](stateFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Diagram, 0)

@@ -677,14 +677,14 @@ func (stage *Stage) StageBranchState(state *State) {
 	state.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if state.Parent != nil {
-		StageBranch(stage, state.Parent)
-	}
 	if state.Entry != nil {
 		StageBranch(stage, state.Entry)
 	}
 	if state.Exit != nil {
 		StageBranch(stage, state.Exit)
+	}
+	if state.Parent != nil {
+		StageBranch(stage, state.Parent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1273,14 +1273,14 @@ func CopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State)
 	stateFrom.CopyBasicFields(stateTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if stateFrom.Parent != nil {
-		stateTo.Parent = CopyBranchState(mapOrigCopy, stateFrom.Parent)
-	}
 	if stateFrom.Entry != nil {
 		stateTo.Entry = CopyBranchAction(mapOrigCopy, stateFrom.Entry)
 	}
 	if stateFrom.Exit != nil {
 		stateTo.Exit = CopyBranchAction(mapOrigCopy, stateFrom.Exit)
+	}
+	if stateFrom.Parent != nil {
+		stateTo.Parent = CopyBranchState(mapOrigCopy, stateFrom.Parent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1799,14 +1799,14 @@ func (stage *Stage) UnstageBranchState(state *State) {
 	state.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if state.Parent != nil {
-		UnstageBranch(stage, state.Parent)
-	}
 	if state.Entry != nil {
 		UnstageBranch(stage, state.Entry)
 	}
 	if state.Exit != nil {
 		UnstageBranch(stage, state.Exit)
+	}
+	if state.Parent != nil {
+		UnstageBranch(stage, state.Parent)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2097,14 +2097,14 @@ func (reference *Role) GongReconstructPointersFromReferences(stage *Stage, insta
 
 func (reference *State) GongReconstructPointersFromReferences(stage *Stage, instance *State) {
 	// insertion point for pointers field
-	if instance.Parent != nil {
-		reference.Parent = stage.States_reference[instance.Parent]
-	}
 	if instance.Entry != nil {
 		reference.Entry = stage.Actions_reference[instance.Entry]
 	}
 	if instance.Exit != nil {
 		reference.Exit = stage.Actions_reference[instance.Exit]
+	}
+	if instance.Parent != nil {
+		reference.Parent = stage.States_reference[instance.Parent]
 	}
 	// insertion point for slice of pointers field
 	reference.SubStates = reference.SubStates[:0]
@@ -2445,12 +2445,6 @@ func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Parent; _reference != nil {
-		reference.Parent = nil
-		if _instance, ok := stage.States_instance[_reference]; ok {
-			reference.Parent = _instance
-		}
-	}
 	if _reference := reference.Entry; _reference != nil {
 		reference.Entry = nil
 		if _instance, ok := stage.Actions_instance[_reference]; ok {
@@ -2461,6 +2455,12 @@ func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.Exit = nil
 		if _instance, ok := stage.Actions_instance[_reference]; ok {
 			reference.Exit = _instance
+		}
+	}
+	if _reference := reference.Parent; _reference != nil {
+		reference.Parent = nil
+		if _instance, ok := stage.States_instance[_reference]; ok {
+			reference.Parent = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -3359,19 +3359,6 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 	if state.Name != stateOther.Name {
 		diffs = append(diffs, state.GongMarshallField(stage, "Name"))
 	}
-	if (state.Parent == nil) != (stateOther.Parent == nil) {
-		diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
-	} else if state.Parent != nil && stateOther.Parent != nil {
-		if state.Parent != stateOther.Parent {
-			diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
-		}
-	}
-	if state.IsDecisionNode != stateOther.IsDecisionNode {
-		diffs = append(diffs, state.GongMarshallField(stage, "IsDecisionNode"))
-	}
-	if state.IsFictious != stateOther.IsFictious {
-		diffs = append(diffs, state.GongMarshallField(stage, "IsFictious"))
-	}
 	if state.IsEndState != stateOther.IsEndState {
 		diffs = append(diffs, state.GongMarshallField(stage, "IsEndState"))
 	}
@@ -3430,6 +3417,19 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		if state.Exit != stateOther.Exit {
 			diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
 		}
+	}
+	if (state.Parent == nil) != (stateOther.Parent == nil) {
+		diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
+	} else if state.Parent != nil && stateOther.Parent != nil {
+		if state.Parent != stateOther.Parent {
+			diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
+		}
+	}
+	if state.IsDecisionNode != stateOther.IsDecisionNode {
+		diffs = append(diffs, state.GongMarshallField(stage, "IsDecisionNode"))
+	}
+	if state.IsFictious != stateOther.IsFictious {
+		diffs = append(diffs, state.GongMarshallField(stage, "IsFictious"))
 	}
 	DiagramsDifferent := false
 	if len(state.Diagrams) != len(stateOther.Diagrams) {

@@ -311,19 +311,19 @@ type State_WOP struct {
 
 	Name string
 
+	IsEndState bool
+
 	IsDecisionNode bool
 
 	IsFictious bool
-
-	IsEndState bool
 }
 
 func (from *State) CopyBasicFields(to *State) {
 	// insertion point
 	to.Name = from.Name
+	to.IsEndState = from.IsEndState
 	to.IsDecisionNode = from.IsDecisionNode
 	to.IsFictious = from.IsFictious
-	to.IsEndState = from.IsEndState
 }
 
 type StateMachine_WOP struct {

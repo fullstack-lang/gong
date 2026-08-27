@@ -4643,8 +4643,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&State{
 			// Initialisation of associations
 			// field is initialized with an instance of State with the name of the field
-			Parent: &State{Name: "Parent"},
-			// field is initialized with an instance of State with the name of the field
 			SubStates: []*State{{Name: "SubStates"}},
 			// field is initialized with an instance of Action with the name of the field
 			Entry: &Action{Name: "Entry"},
@@ -4652,6 +4650,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Activities: []*Activities{{Name: "Activities"}},
 			// field is initialized with an instance of Action with the name of the field
 			Exit: &Action{Name: "Exit"},
+			// field is initialized with an instance of State with the name of the field
+			Parent: &State{Name: "Parent"},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
@@ -4925,23 +4925,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case State:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Parent":
-			res := make(map[*State][]*State)
-			for state := range stage.States {
-				if state.Parent != nil {
-					state_ := state.Parent
-					var states []*State
-					_, ok := res[state_]
-					if ok {
-						states = res[state_]
-					} else {
-						states = make([]*State, 0)
-					}
-					states = append(states, state)
-					res[state_] = states
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Entry":
 			res := make(map[*Action][]*State)
 			for state := range stage.States {
@@ -4973,6 +4956,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					states = append(states, state)
 					res[action_] = states
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Parent":
+			res := make(map[*State][]*State)
+			for state := range stage.States {
+				if state.Parent != nil {
+					state_ := state.Parent
+					var states []*State
+					_, ok := res[state_]
+					if ok {
+						states = res[state_]
+					} else {
+						states = make([]*State, 0)
+					}
+					states = append(states, state)
+					res[state_] = states
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6151,19 +6151,6 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Parent",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "State",
-		},
-		{
-			Name:               "IsDecisionNode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsFictious",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsEndState",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6186,6 +6173,19 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Exit",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Action",
+		},
+		{
+			Name:                 "Parent",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "State",
+		},
+		{
+			Name:               "IsDecisionNode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsFictious",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Diagrams",
@@ -6953,20 +6953,6 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = state.Name
-	case "Parent":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if state.Parent != nil {
-			res.valueString = state.Parent.Name
-			res.ids = state.Parent.GongGetUUID(stage)
-		}
-	case "IsDecisionNode":
-		res.valueString = fmt.Sprintf("%t", state.IsDecisionNode)
-		res.valueBool = state.IsDecisionNode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsFictious":
-		res.valueString = fmt.Sprintf("%t", state.IsFictious)
-		res.valueBool = state.IsFictious
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsEndState":
 		res.valueString = fmt.Sprintf("%t", state.IsEndState)
 		res.valueBool = state.IsEndState
@@ -7003,6 +6989,20 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = state.Exit.Name
 			res.ids = state.Exit.GongGetUUID(stage)
 		}
+	case "Parent":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if state.Parent != nil {
+			res.valueString = state.Parent.Name
+			res.ids = state.Parent.GongGetUUID(stage)
+		}
+	case "IsDecisionNode":
+		res.valueString = fmt.Sprintf("%t", state.IsDecisionNode)
+		res.valueBool = state.IsDecisionNode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsFictious":
+		res.valueString = fmt.Sprintf("%t", state.IsFictious)
+		res.valueBool = state.IsFictious
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range state.Diagrams {
@@ -7821,21 +7821,6 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	// insertion point for per field code
 	case "Name":
 		state.Name = value.GetValueString()
-	case "Parent":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			state.Parent = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					state.Parent = __instance__
-					break
-				}
-			}
-		}
-	case "IsDecisionNode":
-		state.IsDecisionNode = value.GetValueBool()
-	case "IsFictious":
-		state.IsFictious = value.GetValueBool()
 	case "IsEndState":
 		state.IsEndState = value.GetValueBool()
 	case "SubStates":
@@ -7888,6 +7873,21 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "Parent":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			state.Parent = nil
+			for __instance__ := range stage.States {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
+					state.Parent = __instance__
+					break
+				}
+			}
+		}
+	case "IsDecisionNode":
+		state.IsDecisionNode = value.GetValueBool()
+	case "IsFictious":
+		state.IsFictious = value.GetValueBool()
 	case "Diagrams":
 		state.Diagrams = make([]*Diagram, 0)
 		ids := strings.Split(value.ids, ";")

@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { ShapeAPI } from './shape-api'
 import { CurveAPI } from './curve-api'

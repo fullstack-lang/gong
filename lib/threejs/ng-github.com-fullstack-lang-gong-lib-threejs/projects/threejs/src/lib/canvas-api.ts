@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { DirectionalLightAPI } from './directionallight-api'
 import { AmbiantLightAPI } from './ambiantlight-api'

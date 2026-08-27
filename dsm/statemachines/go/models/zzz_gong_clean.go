@@ -180,9 +180,9 @@ func (state *State) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &state.Activities) || modified
 	modified = GongCleanSlice(stage, &state.Diagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &state.Parent) || modified
 	modified = GongCleanPointer(stage, &state.Entry) || modified
 	modified = GongCleanPointer(stage, &state.Exit) || modified
+	modified = GongCleanPointer(stage, &state.Parent) || modified
 	return
 }
 

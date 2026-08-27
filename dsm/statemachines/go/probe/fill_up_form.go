@@ -478,17 +478,17 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
-		AssociationFieldToForm("Parent", instanceWithInferedType.Parent, formGroup, probe)
-		BasicFieldtoForm("IsDecisionNode", instanceWithInferedType.IsDecisionNode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsFictious", instanceWithInferedType.IsFictious, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsEndState", instanceWithInferedType.IsEndState, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("SubStates", instanceWithInferedType, &instanceWithInferedType.SubStates, formGroup, probe)
 		AssociationFieldToForm("Entry", instanceWithInferedType.Entry, formGroup, probe)
 		AssociationSliceToForm("Activities", instanceWithInferedType, &instanceWithInferedType.Activities, formGroup, probe)
 		AssociationFieldToForm("Exit", instanceWithInferedType.Exit, formGroup, probe)
+		AssociationFieldToForm("Parent", instanceWithInferedType.Parent, formGroup, probe)
+		BasicFieldtoForm("IsDecisionNode", instanceWithInferedType.IsDecisionNode, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsFictious", instanceWithInferedType.IsFictious, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

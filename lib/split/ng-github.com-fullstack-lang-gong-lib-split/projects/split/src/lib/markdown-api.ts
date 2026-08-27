@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 
 // usefull for managing pointer ID values that can be nullable

@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { ConditionAPI } from './condition-api'
 import { AnimateAPI } from './animate-api'

@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { AsSplitAPI } from './assplit-api'
 import { ButtonAPI } from './button-api'

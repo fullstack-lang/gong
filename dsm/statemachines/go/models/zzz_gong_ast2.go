@@ -1070,12 +1070,6 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Parent":
-		GongUnmarshallPointer(&instance.Parent, valueExpr, identifierMap)
-	case "IsDecisionNode":
-		instance.IsDecisionNode = GongExtractBool(valueExpr)
-	case "IsFictious":
-		instance.IsFictious = GongExtractBool(valueExpr)
 	case "IsEndState":
 		instance.IsEndState = GongExtractBool(valueExpr)
 	case "SubStates":
@@ -1086,6 +1080,12 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallSliceOfPointers(&instance.Activities, valueExpr, identifierMap)
 	case "Exit":
 		GongUnmarshallPointer(&instance.Exit, valueExpr, identifierMap)
+	case "Parent":
+		GongUnmarshallPointer(&instance.Parent, valueExpr, identifierMap)
+	case "IsDecisionNode":
+		instance.IsDecisionNode = GongExtractBool(valueExpr)
+	case "IsFictious":
+		instance.IsFictious = GongExtractBool(valueExpr)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	}

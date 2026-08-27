@@ -1,3 +1,4 @@
+// generated code - do not edit
 package test2
 
 import "embed"

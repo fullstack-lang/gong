@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 import { CellStringAPI } from './cellstring-api'
 import { CellFloat64API } from './cellfloat64-api'

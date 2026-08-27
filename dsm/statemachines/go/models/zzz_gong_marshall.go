@@ -770,14 +770,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(state.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
-		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
-		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
 	}
 
@@ -1938,6 +1938,11 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(state.Name))
+	case "IsEndState":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndState")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsEndState))
 	case "IsDecisionNode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
@@ -1948,25 +1953,7 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsFictious")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsFictious))
-	case "IsEndState":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndState")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsEndState))
 
-	case "Parent":
-		if state.Parent != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Parent")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", state.Parent.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Parent")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	case "SubStates":
 		var sb strings.Builder
 		for _, _state := range state.SubStates {
@@ -2011,6 +1998,19 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Exit")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Parent":
+		if state.Parent != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Parent")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", state.Parent.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Parent")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Diagrams":
@@ -2547,14 +2547,14 @@ func (state *State) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(state.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
-		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
-		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
 	}
 	initRes = initializerStatements.String()
