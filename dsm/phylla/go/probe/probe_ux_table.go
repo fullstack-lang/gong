@@ -321,7 +321,11 @@ func updateProbeTable[T models.PointerToGongstruct](
 	fields := models.GetFieldsFromPointer[T]()
 	reverseFields := models.GetReverseFields[T]()
 
-	table.NbOfStickyColumns = 3
+	if !probe.bulkDeleteMode {
+		table.NbOfStickyColumns = 3
+	} else {
+		table.NbOfStickyColumns = 2
+	}
 
 	setOfStructs := (*models.GetGongstructInstancesSetFromPointerType[T](probe.stageOfInterest))
 	sliceOfGongStructsSorted := make([]T, len(setOfStructs))
@@ -387,6 +391,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 				// reference the deleted instance.
 				// therefore, it is mandatory to clean the stage of interest
 				probe.bulkDeleteMode = false
+				probe.stageOfInterest.Clean()
 				probe.stageOfInterest.Commit()
 				probe.Refresh()
 			}
@@ -431,34 +436,36 @@ func updateProbeTable[T models.PointerToGongstruct](
 		}
 		cell.CellInt = cellInt
 
-		cell = &table_models.Cell{
-			Name: "Delete Icon",
-		}
-		row.Cells = append(row.Cells, cell)
-		cellIcon := &table_models.CellIcon{
-			Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
-				probe.stageOfInterest,
-				structInstance,
-			)),
-			Icon:                string(maticons.BUTTON_delete),
-			NeedsConfirmation:   true,
-			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
-		}
-		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
-			OnUpdated: func(stage *table_models.Stage, cellIcon, updatedCellIcon *table_models.CellIcon) {
-				structInstance.UnstageVoid(probe.stageOfInterest)
+		if !probe.bulkDeleteMode {
+			cell = &table_models.Cell{
+				Name: "Delete Icon",
+			}
+			row.Cells = append(row.Cells, cell)
+			cellIcon := &table_models.CellIcon{
+				Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
+					probe.stageOfInterest,
+					structInstance,
+				)),
+				Icon:                string(maticons.BUTTON_delete),
+				NeedsConfirmation:   true,
+				ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
+			}
+			cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+				OnUpdated: func(stage *table_models.Stage, cellIcon, updatedCellIcon *table_models.CellIcon) {
+					structInstance.UnstageVoid(probe.stageOfInterest)
 
-				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
-				// reference the deleted instance.
-				// therefore, it is mandatory to clean the stage of interest
-				probe.stageOfInterest.Clean()
-				probe.stageOfInterest.Commit()
+					// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+					// reference the deleted instance.
+					// therefore, it is mandatory to clean the stage of interest
+					probe.stageOfInterest.Clean()
+					probe.stageOfInterest.Commit()
 
-				updateProbeTable[T](probe)
-				probe.ux_tree()
-			},
+					updateProbeTable[T](probe)
+					probe.ux_tree()
+				},
+			}
+			cell.CellIcon = cellIcon
 		}
-		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
 			value := models.GetFieldStringValueFromPointer(structInstance, fieldName.Name, probe.stageOfInterest)
