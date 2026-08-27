@@ -2078,6 +2078,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	if diagramflossequation.AreSubsystemsVisible != diagramflossequationOther.AreSubsystemsVisible {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 	}
+	if diagramflossequation.AreCommonElementsHidden != diagramflossequationOther.AreCommonElementsHidden {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreCommonElementsHidden"))
+	}
 	if diagramflossequation.Width != diagramflossequationOther.Width {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Width"))
 	}

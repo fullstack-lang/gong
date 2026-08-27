@@ -191,6 +191,18 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 	}
 
+	if diagram.AreCommonElementsHidden && fromSys != nil {
+		fromComplexities, toComplexities, fromComplexitiesSysMap, toComplexitiesSysMap = stager.filterCommonComplexities(
+			fromComplexities, toComplexities, fromComplexitiesSysMap, toComplexitiesSysMap,
+		)
+		fromPerformances, toPerformances, fromPerformancesSysMap, toPerformancesSysMap = stager.filterCommonPerformances(
+			fromPerformances, toPerformances, fromPerformancesSysMap, toPerformancesSysMap,
+		)
+		fromEfforts, toEfforts, fromEffortsSysMap, toEffortsSysMap = stager.filterCommonEfforts(
+			fromEfforts, toEfforts, fromEffortsSysMap, toEffortsSysMap,
+		)
+	}
+
 	var cFrom, cTo, pFrom, pTo, eFrom, eTo float64
 	for _, c := range fromComplexities {
 		cFrom += c.Strength
@@ -388,6 +400,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	if compareAnalysis != nil {
 		titleStr = compareAnalysis.Name
+		if diagram.AreCommonElementsHidden {
+			titleStr += " (Common Elements Hidden)"
+		}
 	} else if isCompoundedBreakdown {
 		titleStr = fmt.Sprintf("%s (Subsystems Breakdown)", toSys.Name)
 	} else {
@@ -656,6 +671,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				currY += itemH
 			}
 		} else {
+			if totalH <= 0 {
+				return
+			}
 			colRect := &svg.Rect{
 				Name:   fmt.Sprintf("%s Col Rect", category),
 				X:      xPos,
@@ -845,10 +863,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		// -------------------------------------------------------------
 
 		// Column 1: Complexity Pair
-		heightC_V2 := math.Max(cTo*scale, 24.0)
+		var heightC_V2, heightC_V1 float64
+		if cTo > 0 {
+			heightC_V2 = math.Max(cTo*scale, 24.0)
+		}
 		yTipC_V2 := yGround - heightC_V2 // C2 bottom sits on abscissa baseline (yGround)
 
-		heightC_V1 := math.Max(cFrom*scale, 24.0)
+		if cFrom > 0 {
+			heightC_V1 = math.Max(cFrom*scale, 24.0)
+		}
 		yTipC_V1 := yTipC_V2 // Top tips aligned!
 		yBottomC_V1 := yTipC_V1 + heightC_V1
 
@@ -938,10 +961,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Texts = append(layer.Texts, col1Label)
 
 		// Column 2: Performance Pair (P2 bottom on baseline, P1 top aligned with P2 top)
-		heightP_V2 := math.Max(mu*pTo*scale, 24.0)
+		var heightP_V2, heightP_V1 float64
+		if pTo > 0 {
+			heightP_V2 = math.Max(mu*pTo*scale, 24.0)
+		}
 		yTopP_V2 := yGround - heightP_V2
 
-		heightP_V1 := math.Max(mu*pFrom*scale, 24.0)
+		if pFrom > 0 {
+			heightP_V1 = math.Max(mu*pFrom*scale, 24.0)
+		}
 		yTopP_V1 := yTopP_V2 // P1 top aligned with P2 top
 		yBottomP_V1 := yTopP_V1 + heightP_V1
 
@@ -1031,11 +1059,16 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Texts = append(layer.Texts, col2Label)
 
 		// Column 3: Effort Pair (E2 top at P1 bottom, E1 bottom aligned with E2 bottom)
-		heightE_V2 := math.Max(epsilon*eTo*scale, 24.0)
+		var heightE_V2, heightE_V1 float64
+		if eTo > 0 {
+			heightE_V2 = math.Max(epsilon*eTo*scale, 24.0)
+		}
 		yTopE_V2 := yBottomP_V1
 		yBottomE_V2 := yTopE_V2 + heightE_V2
 
-		heightE_V1 := math.Max(epsilon*eFrom*scale, 24.0)
+		if eFrom > 0 {
+			heightE_V1 = math.Max(epsilon*eFrom*scale, 24.0)
+		}
 		yBottomE_V1 := yBottomE_V2 // E1 bottom aligned with E2 bottom
 		yTopE_V1 := yBottomE_V1 - heightE_V1
 
@@ -1633,4 +1666,139 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	return svgObject
+}
+
+func (stager *Stager) filterCommonComplexities(
+	fromItems []*Complexity,
+	toItems []*Complexity,
+	fromSysMap map[*Complexity]*System,
+	toSysMap map[*Complexity]*System,
+) ([]*Complexity, []*Complexity, map[*Complexity]*System, map[*Complexity]*System) {
+	isCommonFrom := make(map[*Complexity]bool)
+	isCommonTo := make(map[*Complexity]bool)
+
+	for _, fItem := range fromItems {
+		fName := strings.TrimSpace(fItem.Name)
+		for _, tItem := range toItems {
+			tName := strings.TrimSpace(tItem.Name)
+			if fItem == tItem || (fName != "" && fName == tName) {
+				isCommonFrom[fItem] = true
+				isCommonTo[tItem] = true
+			}
+		}
+	}
+
+	newFromItems := make([]*Complexity, 0)
+	newFromSysMap := make(map[*Complexity]*System)
+	for _, fItem := range fromItems {
+		if !isCommonFrom[fItem] {
+			newFromItems = append(newFromItems, fItem)
+			if fromSysMap != nil {
+				newFromSysMap[fItem] = fromSysMap[fItem]
+			}
+		}
+	}
+
+	newToItems := make([]*Complexity, 0)
+	newToSysMap := make(map[*Complexity]*System)
+	for _, tItem := range toItems {
+		if !isCommonTo[tItem] {
+			newToItems = append(newToItems, tItem)
+			if toSysMap != nil {
+				newToSysMap[tItem] = toSysMap[tItem]
+			}
+		}
+	}
+
+	return newFromItems, newToItems, newFromSysMap, newToSysMap
+}
+
+func (stager *Stager) filterCommonPerformances(
+	fromItems []*Performance,
+	toItems []*Performance,
+	fromSysMap map[*Performance]*System,
+	toSysMap map[*Performance]*System,
+) ([]*Performance, []*Performance, map[*Performance]*System, map[*Performance]*System) {
+	isCommonFrom := make(map[*Performance]bool)
+	isCommonTo := make(map[*Performance]bool)
+
+	for _, fItem := range fromItems {
+		fName := strings.TrimSpace(fItem.Name)
+		for _, tItem := range toItems {
+			tName := strings.TrimSpace(tItem.Name)
+			if fItem == tItem || (fName != "" && fName == tName) {
+				isCommonFrom[fItem] = true
+				isCommonTo[tItem] = true
+			}
+		}
+	}
+
+	newFromItems := make([]*Performance, 0)
+	newFromSysMap := make(map[*Performance]*System)
+	for _, fItem := range fromItems {
+		if !isCommonFrom[fItem] {
+			newFromItems = append(newFromItems, fItem)
+			if fromSysMap != nil {
+				newFromSysMap[fItem] = fromSysMap[fItem]
+			}
+		}
+	}
+
+	newToItems := make([]*Performance, 0)
+	newToSysMap := make(map[*Performance]*System)
+	for _, tItem := range toItems {
+		if !isCommonTo[tItem] {
+			newToItems = append(newToItems, tItem)
+			if toSysMap != nil {
+				newToSysMap[tItem] = toSysMap[tItem]
+			}
+		}
+	}
+
+	return newFromItems, newToItems, newFromSysMap, newToSysMap
+}
+
+func (stager *Stager) filterCommonEfforts(
+	fromItems []*Effort,
+	toItems []*Effort,
+	fromSysMap map[*Effort]*System,
+	toSysMap map[*Effort]*System,
+) ([]*Effort, []*Effort, map[*Effort]*System, map[*Effort]*System) {
+	isCommonFrom := make(map[*Effort]bool)
+	isCommonTo := make(map[*Effort]bool)
+
+	for _, fItem := range fromItems {
+		fName := strings.TrimSpace(fItem.Name)
+		for _, tItem := range toItems {
+			tName := strings.TrimSpace(tItem.Name)
+			if fItem == tItem || (fName != "" && fName == tName) {
+				isCommonFrom[fItem] = true
+				isCommonTo[tItem] = true
+			}
+		}
+	}
+
+	newFromItems := make([]*Effort, 0)
+	newFromSysMap := make(map[*Effort]*System)
+	for _, fItem := range fromItems {
+		if !isCommonFrom[fItem] {
+			newFromItems = append(newFromItems, fItem)
+			if fromSysMap != nil {
+				newFromSysMap[fItem] = fromSysMap[fItem]
+			}
+		}
+	}
+
+	newToItems := make([]*Effort, 0)
+	newToSysMap := make(map[*Effort]*System)
+	for _, tItem := range toItems {
+		if !isCommonTo[tItem] {
+			newToItems = append(newToItems, tItem)
+			if toSysMap != nil {
+				newToSysMap[tItem] = toSysMap[tItem]
+			}
+		}
+	}
+
+	return newFromItems, newToItems, newFromSysMap, newToSysMap
 }

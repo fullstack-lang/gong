@@ -123,6 +123,19 @@ func computeFlossDiagramVerticalExtents(
 			toEfforts = compareAnalysis.ToSystem.Efforts
 		}
 
+		if diagram.AreCommonElementsHidden {
+			var dummyStager Stager
+			fromComplexities, toComplexities, _, _ = dummyStager.filterCommonComplexities(
+				fromComplexities, toComplexities, nil, nil,
+			)
+			fromPerformances, toPerformances, _, _ = dummyStager.filterCommonPerformances(
+				fromPerformances, toPerformances, nil, nil,
+			)
+			fromEfforts, toEfforts, _, _ = dummyStager.filterCommonEfforts(
+				fromEfforts, toEfforts, nil, nil,
+			)
+		}
+
 		for _, c := range fromComplexities {
 			cFrom += c.Strength
 		}

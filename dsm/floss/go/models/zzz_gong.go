@@ -4154,6 +4154,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "AreCommonElementsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Width",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -4913,6 +4917,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "AreSubsystemsVisible":
 		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreSubsystemsVisible)
 		res.valueBool = diagramflossequation.AreSubsystemsVisible
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AreCommonElementsHidden":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreCommonElementsHidden)
+		res.valueBool = diagramflossequation.AreCommonElementsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.Width)
@@ -5746,6 +5754,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.AreQuantitativeElementsVisible = value.GetValueBool()
 	case "AreSubsystemsVisible":
 		diagramflossequation.AreSubsystemsVisible = value.GetValueBool()
+	case "AreCommonElementsHidden":
+		diagramflossequation.AreCommonElementsHidden = value.GetValueBool()
 	case "Width":
 		diagramflossequation.Width = value.GetValueFloat()
 	case "Height":

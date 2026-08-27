@@ -686,6 +686,8 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.AreQuantitativeElementsVisible), formDiv)
 		case "AreSubsystemsVisible":
 			FormDivBasicFieldToField(&(diagramflossequation_.AreSubsystemsVisible), formDiv)
+		case "AreCommonElementsHidden":
+			FormDivBasicFieldToField(&(diagramflossequation_.AreCommonElementsHidden), formDiv)
 		case "Width":
 			FormDivBasicFieldToField(&(diagramflossequation_.Width), formDiv)
 		case "Height":

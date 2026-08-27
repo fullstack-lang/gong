@@ -162,6 +162,27 @@ func (stager *Stager) treeDiagramFlossEquation(
 		diagramNode.Buttons = append(diagramNode.Buttons, deltaColButton)
 	}
 
+	// Button for toggle hiding common elements between source & target
+	{
+		commonElementsButton := &tree.Button{
+			Name:            diagram.GetName() + " Common Elements Visibility Toggle",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagram.AreCommonElementsHidden = !diagram.AreCommonElementsHidden
+				stager.stage.Commit()
+			},
+		}
+		if diagram.AreCommonElementsHidden {
+			commonElementsButton.Icon = string(buttons.BUTTON_difference)
+			commonElementsButton.ToolTipText = "Show common elements between source & target (Currently Hidden)"
+		} else {
+			commonElementsButton.Icon = string(buttons.BUTTON_filter_alt_off)
+			commonElementsButton.ToolTipText = "Hide common elements between source & target"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, commonElementsButton)
+	}
+
 	// Button for toggle between font sizes
 	{
 		fontSizeButton := &tree.Button{

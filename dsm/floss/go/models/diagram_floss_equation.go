@@ -22,6 +22,7 @@ type DiagramFlossEquation struct {
 
 	AreQuantitativeElementsVisible bool
 	AreSubsystemsVisible           bool
+	AreCommonElementsHidden        bool
 
 	Width float64
 
