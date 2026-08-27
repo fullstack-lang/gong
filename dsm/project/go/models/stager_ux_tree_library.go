@@ -1,15 +1,18 @@
 package models
 
 import (
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
-		Name:            library.Name,
-		IsExpanded:      library.IsExpanded,
-		IsNodeClickable: true,
-		IsInEditMode:    library.isInRenameMode,
+		Name:                 library.Name,
+		IsExpanded:           library.IsExpanded,
+		IsNodeClickable:      true,
+		IsInEditMode:         library.isInRenameMode,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_local_library),
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -33,6 +34,8 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 		compositionShapes:            &diagram.ProductComposition_Shapes,
 	}
 	productNode := addNodeToTree(stager, productNodeConf)
+	productNode.IsWithPreceedingIcon = true
+	productNode.PreceedingIcon = string(buttons.BUTTON_category)
 
 	if product.IsImport && product.ReferencedProduct != nil {
 		productNode.Name = "🔗 " + product.ReferencedProduct.Name

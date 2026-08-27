@@ -54,6 +54,8 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 			map_Element_CompositionShape: diagram.map_Task_TaskCompositionShape,
 			compositionShapes:            &diagram.TaskComposition_Shapes,
 		})
+	taskNode.IsWithPreceedingIcon = true
+	taskNode.PreceedingIcon = string(buttons.BUTTON_task)
 
 	if task.IsImport && task.ReferencedTask != nil {
 		taskNode.Name = "🔗 " + task.ReferencedTask.Name
@@ -143,6 +145,8 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 				IsNodeClickable:         true,
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
+				IsWithPreceedingIcon:    true,
+				PreceedingIcon:          string(buttons.BUTTON_category),
 			}
 			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
 
@@ -223,6 +227,8 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 				IsNodeClickable:         true,
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
+				IsWithPreceedingIcon:    true,
+				PreceedingIcon:          string(buttons.BUTTON_category),
 			}
 			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
 

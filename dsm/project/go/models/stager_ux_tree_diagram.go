@@ -13,6 +13,9 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		HasCheckboxButton: true,
 		IsChecked:         diagram.IsChecked,
 
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_schema),
+
 		IsInEditMode: diagram.isInRenameMode,
 	}
 	libraryNode.Children = append(libraryNode.Children, diagramNode)
@@ -147,10 +150,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	}
 
 	pbsNode := &tree.Node{
-		Name:            "PBS",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsPBSNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "PBS",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsPBSNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, pbsNode)
 	pbsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsPBSNodeExpanded)
@@ -195,10 +200,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	}
 
 	wbsNode := &tree.Node{
-		Name:            "WBS",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsWBSNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "WBS",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsWBSNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, wbsNode)
 	wbsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsWBSNodeExpanded)
@@ -233,10 +240,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	addCreateItemShapeAndLinkButton(stager, confWBS)
 
 	taskGroupsNode := &tree.Node{
-		Name:            "TaskGroups",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsTaskGroupsNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "TaskGroups",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsTaskGroupsNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	wbsNode.Children = append(wbsNode.Children, taskGroupsNode)
 	taskGroupsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsTaskGroupsNodeExpanded)
@@ -278,6 +287,8 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 			shapesMap:                   diagram.map_TaskGroup_TaskGroupShape,
 		}
 		taskGroupNode := addNodeToTreeWithoutLink(stager, taskGroupNodeConf)
+		taskGroupNode.IsWithPreceedingIcon = true
+		taskGroupNode.PreceedingIcon = string(buttons.BUTTON_folder_open)
 
 		for _, task := range taskGroup.Tasks {
 			stager.treeTask(diagram, task, taskGroupNode)
@@ -289,10 +300,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	}
 
 	resourcesNode := &tree.Node{
-		Name:            "RBS",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsResourcesNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "RBS",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsResourcesNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, resourcesNode)
 	resourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsResourcesNodeExpanded)
@@ -332,10 +345,12 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 
 	{
 		notesNode := &tree.Node{
-			Name:            "Notes",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      diagram.IsNotesNodeExpanded,
-			IsNodeClickable: true,
+			Name:                 "Notes",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsNotesNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
 		}
 		diagramNode.Children = append(diagramNode.Children, notesNode)
 		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
@@ -401,12 +416,16 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 				compositionShapes:            dummySlice,
 			}
 			noteNode := addNodeToTree(stager, noteNodeConf)
+			noteNode.IsWithPreceedingIcon = true
+			noteNode.PreceedingIcon = string(buttons.BUTTON_description)
 
 			// allow display of associations note to products
 			for _, product := range note.Products {
 				nodeProduct := &tree.Node{
-					Name:            product.Name,
-					IsNodeClickable: true,
+					Name:                 product.Name,
+					IsNodeClickable:      true,
+					IsWithPreceedingIcon: true,
+					PreceedingIcon:       string(buttons.BUTTON_category),
 				}
 				noteNode.Children = append(noteNode.Children, nodeProduct)
 
@@ -442,8 +461,10 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 
 			for _, task := range note.Tasks {
 				nodeTask := &tree.Node{
-					Name:            task.Name,
-					IsNodeClickable: true,
+					Name:                 task.Name,
+					IsNodeClickable:      true,
+					IsWithPreceedingIcon: true,
+					PreceedingIcon:       string(buttons.BUTTON_task),
 				}
 				noteNode.Children = append(noteNode.Children, nodeTask)
 				showHideRelationButton := &tree.Button{
@@ -475,8 +496,10 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 
 			for _, resource := range note.Resources {
 				nodeResource := &tree.Node{
-					Name:            resource.Name,
-					IsNodeClickable: true,
+					Name:                 resource.Name,
+					IsNodeClickable:      true,
+					IsWithPreceedingIcon: true,
+					PreceedingIcon:       string(buttons.BUTTON_engineering),
 				}
 				noteNode.Children = append(noteNode.Children, nodeResource)
 				showHideRelationButton := &tree.Button{

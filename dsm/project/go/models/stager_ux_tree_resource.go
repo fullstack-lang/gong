@@ -36,6 +36,8 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 		compositionShapes:            &diagram.ResourceComposition_Shapes,
 	}
 	resourceNode := addNodeToTree(stager, resourceNodeConf)
+	resourceNode.IsWithPreceedingIcon = true
+	resourceNode.PreceedingIcon = string(buttons.BUTTON_engineering)
 
 	if resource.IsImport && resource.ReferencedResource != nil {
 		resourceNode.Name = "🔗 " + resource.ReferencedResource.Name
@@ -99,6 +101,8 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 				HasCheckboxButton:       true,
+				IsWithPreceedingIcon:    true,
+				PreceedingIcon:          string(buttons.BUTTON_task),
 			}
 			tasksNode.Children = append(tasksNode.Children, taskNode)
 			taskNode.IsCheckboxDisabled = true
