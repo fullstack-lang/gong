@@ -155,3 +155,10 @@ func (d *DiagramProcess) GetIsShowPrefix() bool {
 func (d *DiagramProcess) SetIsShowPrefix(v bool) {
 	d.IsShowPrefix = v
 }
+
+func (d *DiagramProcess) GetIsInAutoLayoutMode() bool {
+	return false
+}
+
+func (d *DiagramProcess) SetIsInAutoLayoutMode(v bool) {
+}

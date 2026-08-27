@@ -38,22 +38,22 @@ func _(stage *models.Stage) {
 	__Product__00000002_ := (&models.Product{Name: `A.1.1`}).Stage(stage)
 	__Product__00000003_ := (&models.Product{Name: `A.2`}).Stage(stage)
 	__Product__00000004_ := (&models.Product{Name: `A.3`}).Stage(stage)
-	__Product__00000005_ := (&models.Product{Name: ``}).Stage(stage)
 	__Product__00000006_ := (&models.Product{Name: `LA1`}).Stage(stage)
+	__Product__00000008_ := (&models.Product{Name: `A3`}).Stage(stage)
 
 	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `Default Diagram-A-A.1`}).Stage(stage)
 	__ProductCompositionShape__00000002_ := (&models.ProductCompositionShape{Name: `Default Diagram-A.1-A.1.1`}).Stage(stage)
 	__ProductCompositionShape__00000003_ := (&models.ProductCompositionShape{Name: `Default Diagram-A-A.2`}).Stage(stage)
 	__ProductCompositionShape__00000004_ := (&models.ProductCompositionShape{Name: `Default Diagram-A-A.3`}).Stage(stage)
-	__ProductCompositionShape__00000005_ := (&models.ProductCompositionShape{Name: `Default Diagram-A-`}).Stage(stage)
+	__ProductCompositionShape__00000007_ := (&models.ProductCompositionShape{Name: `Default Diagram-A-A3`}).Stage(stage)
 
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `Default Diagram-A`}).Stage(stage)
 	__ProductShape__00000002_ := (&models.ProductShape{Name: `Default Diagram-A.1`}).Stage(stage)
 	__ProductShape__00000003_ := (&models.ProductShape{Name: `Default Diagram-A.1.1`}).Stage(stage)
 	__ProductShape__00000004_ := (&models.ProductShape{Name: `Default Diagram-A.2`}).Stage(stage)
 	__ProductShape__00000005_ := (&models.ProductShape{Name: `Default Diagram-A.3`}).Stage(stage)
-	__ProductShape__00000006_ := (&models.ProductShape{Name: `Default Diagram-`}).Stage(stage)
 	__ProductShape__00000007_ := (&models.ProductShape{Name: `Default Diagram-LA1`}).Stage(stage)
+	__ProductShape__00000009_ := (&models.ProductShape{Name: `Default Diagram-A3`}).Stage(stage)
 
 	__Resource__00000000_ := (&models.Resource{Name: `R1`}).Stage(stage)
 	__Resource__00000001_ := (&models.Resource{Name: `R1.1`}).Stage(stage)
@@ -77,8 +77,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
-	__Diagram__00000000_.Width = 1395.056982
-	__Diagram__00000000_.Height = 1047.068307
+	__Diagram__00000000_.Width = 1350.000000
+	__Diagram__00000000_.Height = 870.000000
 	__Diagram__00000000_.IsTimeDiagram = false
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -108,10 +108,11 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DateYOffset = 0.000000
 	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
+	__Diagram__00000000_.IsInAutoLayoutMode = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
@@ -157,6 +158,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
+	__Diagram__00000001_.IsInAutoLayoutMode = true
 	__Diagram__00000001_.IsPBSNodeExpanded = true
 	__Diagram__00000001_.IsWBSNodeExpanded = false
 	__Diagram__00000001_.IsTaskGroupsNodeExpanded = false
@@ -202,6 +204,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsShowPrefix = false
+	__Diagram__00000002_.IsInAutoLayoutMode = true
 	__Diagram__00000002_.IsPBSNodeExpanded = false
 	__Diagram__00000002_.IsWBSNodeExpanded = false
 	__Diagram__00000002_.IsTaskGroupsNodeExpanded = false
@@ -219,14 +222,14 @@ func _(stage *models.Stage) {
 	__Library__00000001_.NbPixPerCharacter = 0.000000
 	__Library__00000001_.LogoSVGFile = ``
 	__Library__00000001_.ComputedPrefix = ``
-	__Library__00000001_.IsExpanded = false
+	__Library__00000001_.IsExpanded = true
 	__Library__00000001_.IsRootLibrary = false
 
 	__Library__00000002_.Name = `L1.1`
 	__Library__00000002_.NbPixPerCharacter = 0.000000
 	__Library__00000002_.LogoSVGFile = ``
 	__Library__00000002_.ComputedPrefix = ``
-	__Library__00000002_.IsExpanded = false
+	__Library__00000002_.IsExpanded = true
 	__Library__00000002_.IsRootLibrary = false
 
 	__Product__00000000_.Name = `A`
@@ -236,7 +239,7 @@ func _(stage *models.Stage) {
 	__Product__00000000_.IsImport = false
 	__Product__00000000_.ComputedPrefix = `1`
 	__Product__00000000_.IsExpanded = false
-	__Product__00000000_.LayoutDirection = models.Vertical
+	__Product__00000000_.LayoutDirection = models.Horizontal
 
 	__Product__00000001_.Name = `A.1`
 	__Product__00000001_.Description = ``
@@ -274,15 +277,6 @@ func _(stage *models.Stage) {
 	__Product__00000004_.IsExpanded = false
 	__Product__00000004_.LayoutDirection = models.Vertical
 
-	__Product__00000005_.Name = ``
-	__Product__00000005_.Description = ``
-	__Product__00000005_.IsProducersNodeExpanded = false
-	__Product__00000005_.IsConsumersNodeExpanded = false
-	__Product__00000005_.IsImport = false
-	__Product__00000005_.ComputedPrefix = `1.4`
-	__Product__00000005_.IsExpanded = false
-	__Product__00000005_.LayoutDirection = models.Vertical
-
 	__Product__00000006_.Name = `LA1`
 	__Product__00000006_.Description = ``
 	__Product__00000006_.IsProducersNodeExpanded = false
@@ -292,12 +286,21 @@ func _(stage *models.Stage) {
 	__Product__00000006_.IsExpanded = false
 	__Product__00000006_.LayoutDirection = models.Vertical
 
+	__Product__00000008_.Name = `A3`
+	__Product__00000008_.Description = ``
+	__Product__00000008_.IsProducersNodeExpanded = false
+	__Product__00000008_.IsConsumersNodeExpanded = false
+	__Product__00000008_.IsImport = false
+	__Product__00000008_.ComputedPrefix = `1.4`
+	__Product__00000008_.IsExpanded = false
+	__Product__00000008_.LayoutDirection = models.Vertical
+
 	__ProductCompositionShape__00000001_.Name = `Default Diagram-A-A.1`
 	__ProductCompositionShape__00000001_.StartRatio = 0.500000
 	__ProductCompositionShape__00000001_.EndRatio = 0.500000
 	__ProductCompositionShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000001_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000001_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000001_.IsHidden = false
 
 	__ProductCompositionShape__00000002_.Name = `Default Diagram-A.1-A.1.1`
@@ -305,38 +308,38 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000002_.EndRatio = 0.500000
 	__ProductCompositionShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000002_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000002_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000002_.IsHidden = false
 
 	__ProductCompositionShape__00000003_.Name = `Default Diagram-A-A.2`
 	__ProductCompositionShape__00000003_.StartRatio = 0.500000
 	__ProductCompositionShape__00000003_.EndRatio = 0.500000
 	__ProductCompositionShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000003_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000003_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000003_.IsHidden = false
 
 	__ProductCompositionShape__00000004_.Name = `Default Diagram-A-A.3`
 	__ProductCompositionShape__00000004_.StartRatio = 0.500000
 	__ProductCompositionShape__00000004_.EndRatio = 0.500000
 	__ProductCompositionShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000004_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000004_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000004_.IsHidden = false
 
-	__ProductCompositionShape__00000005_.Name = `Default Diagram-A-`
-	__ProductCompositionShape__00000005_.StartRatio = 0.500000
-	__ProductCompositionShape__00000005_.EndRatio = 0.500000
-	__ProductCompositionShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000005_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000005_.CornerOffsetRatio = 1.680000
-	__ProductCompositionShape__00000005_.IsHidden = false
+	__ProductCompositionShape__00000007_.Name = `Default Diagram-A-A3`
+	__ProductCompositionShape__00000007_.StartRatio = 0.500000
+	__ProductCompositionShape__00000007_.EndRatio = 0.500000
+	__ProductCompositionShape__00000007_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000007_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000007_.CornerOffsetRatio = 1.500000
+	__ProductCompositionShape__00000007_.IsHidden = false
 
 	__ProductShape__00000001_.Name = `Default Diagram-A`
 	__ProductShape__00000001_.OverideLayoutDirection = false
 	__ProductShape__00000001_.LayoutDirection = models.Vertical
-	__ProductShape__00000001_.X = 145.056982
-	__ProductShape__00000001_.Y = 125.618199
+	__ProductShape__00000001_.X = 50.000000
+	__ProductShape__00000001_.Y = 50.000000
 	__ProductShape__00000001_.Width = 250.000000
 	__ProductShape__00000001_.Height = 70.000000
 	__ProductShape__00000001_.IsHidden = false
@@ -344,8 +347,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000002_.Name = `Default Diagram-A.1`
 	__ProductShape__00000002_.OverideLayoutDirection = false
 	__ProductShape__00000002_.LayoutDirection = models.Vertical
-	__ProductShape__00000002_.X = 185.056982
-	__ProductShape__00000002_.Y = 244.618199
+	__ProductShape__00000002_.X = 225.000000
+	__ProductShape__00000002_.Y = 135.000000
 	__ProductShape__00000002_.Width = 250.000000
 	__ProductShape__00000002_.Height = 70.000000
 	__ProductShape__00000002_.IsHidden = false
@@ -353,8 +356,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000003_.Name = `Default Diagram-A.1.1`
 	__ProductShape__00000003_.OverideLayoutDirection = false
 	__ProductShape__00000003_.LayoutDirection = models.Vertical
-	__ProductShape__00000003_.X = 145.056982
-	__ProductShape__00000003_.Y = 405.618199
+	__ProductShape__00000003_.X = 400.000000
+	__ProductShape__00000003_.Y = 275.000000
 	__ProductShape__00000003_.Width = 250.000000
 	__ProductShape__00000003_.Height = 70.000000
 	__ProductShape__00000003_.IsHidden = false
@@ -362,8 +365,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000004_.Name = `Default Diagram-A.2`
 	__ProductShape__00000004_.OverideLayoutDirection = false
 	__ProductShape__00000004_.LayoutDirection = models.Vertical
-	__ProductShape__00000004_.X = 445.056982
-	__ProductShape__00000004_.Y = 265.618199
+	__ProductShape__00000004_.X = 225.000000
+	__ProductShape__00000004_.Y = 360.000000
 	__ProductShape__00000004_.Width = 250.000000
 	__ProductShape__00000004_.Height = 70.000000
 	__ProductShape__00000004_.IsHidden = false
@@ -371,20 +374,11 @@ func _(stage *models.Stage) {
 	__ProductShape__00000005_.Name = `Default Diagram-A.3`
 	__ProductShape__00000005_.OverideLayoutDirection = false
 	__ProductShape__00000005_.LayoutDirection = models.Vertical
-	__ProductShape__00000005_.X = 745.056982
-	__ProductShape__00000005_.Y = 265.618199
+	__ProductShape__00000005_.X = 225.000000
+	__ProductShape__00000005_.Y = 445.000000
 	__ProductShape__00000005_.Width = 250.000000
 	__ProductShape__00000005_.Height = 70.000000
 	__ProductShape__00000005_.IsHidden = false
-
-	__ProductShape__00000006_.Name = `Default Diagram-`
-	__ProductShape__00000006_.OverideLayoutDirection = false
-	__ProductShape__00000006_.LayoutDirection = models.Vertical
-	__ProductShape__00000006_.X = 1045.056982
-	__ProductShape__00000006_.Y = 265.618199
-	__ProductShape__00000006_.Width = 250.000000
-	__ProductShape__00000006_.Height = 70.000000
-	__ProductShape__00000006_.IsHidden = false
 
 	__ProductShape__00000007_.Name = `Default Diagram-LA1`
 	__ProductShape__00000007_.OverideLayoutDirection = false
@@ -394,6 +388,15 @@ func _(stage *models.Stage) {
 	__ProductShape__00000007_.Width = 250.000000
 	__ProductShape__00000007_.Height = 70.000000
 	__ProductShape__00000007_.IsHidden = false
+
+	__ProductShape__00000009_.Name = `Default Diagram-A3`
+	__ProductShape__00000009_.OverideLayoutDirection = false
+	__ProductShape__00000009_.LayoutDirection = models.Vertical
+	__ProductShape__00000009_.X = 225.000000
+	__ProductShape__00000009_.Y = 700.000000
+	__ProductShape__00000009_.Width = 250.000000
+	__ProductShape__00000009_.Height = 70.000000
+	__ProductShape__00000009_.IsHidden = false
 
 	__Resource__00000000_.Name = `R1`
 	__Resource__00000000_.Description = ``
@@ -414,26 +417,26 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000000_.EndRatio = 0.500000
 	__ResourceCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ResourceCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__ResourceCompositionShape__00000000_.CornerOffsetRatio = 1.500000
 	__ResourceCompositionShape__00000000_.IsHidden = false
 
 	__ResourceShape__00000000_.Name = `Default Diagram-R1`
 	__ResourceShape__00000000_.OverideLayoutDirection = false
 	__ResourceShape__00000000_.LayoutDirection = models.Vertical
-	__ResourceShape__00000000_.X = 414.182087
-	__ResourceShape__00000000_.Y = 605.740632
+	__ResourceShape__00000000_.X = 1000.000000
+	__ResourceShape__00000000_.Y = 50.000000
 	__ResourceShape__00000000_.Width = 250.000000
 	__ResourceShape__00000000_.Height = 70.000000
-	__ResourceShape__00000000_.IsHidden = false
+	__ResourceShape__00000000_.IsHidden = true
 
 	__ResourceShape__00000001_.Name = `Default Diagram-R1.1`
 	__ResourceShape__00000001_.OverideLayoutDirection = false
 	__ResourceShape__00000001_.LayoutDirection = models.Vertical
-	__ResourceShape__00000001_.X = 613.182087
-	__ResourceShape__00000001_.Y = 751.740586
+	__ResourceShape__00000001_.X = 1000.000000
+	__ResourceShape__00000001_.Y = 190.000000
 	__ResourceShape__00000001_.Width = 250.000000
 	__ResourceShape__00000001_.Height = 70.000000
-	__ResourceShape__00000001_.IsHidden = false
+	__ResourceShape__00000001_.IsHidden = true
 
 	__Task__00000000_.Name = `W1`
 	__Task__00000000_.Description = ``
@@ -490,28 +493,28 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000000_.EndRatio = 0.500000
 	__TaskCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__TaskCompositionShape__00000000_.CornerOffsetRatio = 1.500000
 	__TaskCompositionShape__00000000_.IsHidden = false
 
 	__TaskShape__00000000_.Name = `Default Diagram-W1`
 	__TaskShape__00000000_.IsShowDate = false
 	__TaskShape__00000000_.OverideLayoutDirection = false
 	__TaskShape__00000000_.LayoutDirection = models.Vertical
-	__TaskShape__00000000_.X = 110.726367
-	__TaskShape__00000000_.Y = 685.068292
+	__TaskShape__00000000_.X = 700.000000
+	__TaskShape__00000000_.Y = 50.000000
 	__TaskShape__00000000_.Width = 250.000000
 	__TaskShape__00000000_.Height = 70.000000
-	__TaskShape__00000000_.IsHidden = false
+	__TaskShape__00000000_.IsHidden = true
 
 	__TaskShape__00000001_.Name = `Default Diagram-W1.1`
 	__TaskShape__00000001_.IsShowDate = false
 	__TaskShape__00000001_.OverideLayoutDirection = false
 	__TaskShape__00000001_.LayoutDirection = models.Vertical
-	__TaskShape__00000001_.X = 214.726367
-	__TaskShape__00000001_.Y = 877.068307
+	__TaskShape__00000001_.X = 700.000000
+	__TaskShape__00000001_.Y = 190.000000
 	__TaskShape__00000001_.Width = 250.000000
 	__TaskShape__00000001_.Height = 70.000000
-	__TaskShape__00000001_.IsHidden = false
+	__TaskShape__00000001_.IsHidden = true
 
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
@@ -519,14 +522,14 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000003_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000004_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000005_)
-	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000006_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000009_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000001_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000001_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000002_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000003_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000004_)
-	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000005_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000007_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
 	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000000_)
@@ -548,27 +551,27 @@ func _(stage *models.Stage) {
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000003_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000004_)
-	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000005_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000008_)
 	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000001_.SubProducts = append(__Product__00000001_.SubProducts, __Product__00000002_)
 	__Product__00000001_.ReferencedProduct = nil
 	__Product__00000002_.ReferencedProduct = nil
 	__Product__00000003_.ReferencedProduct = nil
 	__Product__00000004_.ReferencedProduct = nil
-	__Product__00000005_.ReferencedProduct = nil
 	__Product__00000006_.ReferencedProduct = nil
+	__Product__00000008_.ReferencedProduct = nil
 	__ProductCompositionShape__00000001_.Product = __Product__00000001_
 	__ProductCompositionShape__00000002_.Product = __Product__00000002_
 	__ProductCompositionShape__00000003_.Product = __Product__00000003_
 	__ProductCompositionShape__00000004_.Product = __Product__00000004_
-	__ProductCompositionShape__00000005_.Product = __Product__00000005_
+	__ProductCompositionShape__00000007_.Product = __Product__00000008_
 	__ProductShape__00000001_.Product = __Product__00000000_
 	__ProductShape__00000002_.Product = __Product__00000001_
 	__ProductShape__00000003_.Product = __Product__00000002_
 	__ProductShape__00000004_.Product = __Product__00000003_
 	__ProductShape__00000005_.Product = __Product__00000004_
-	__ProductShape__00000006_.Product = __Product__00000005_
 	__ProductShape__00000007_.Product = __Product__00000006_
+	__ProductShape__00000009_.Product = __Product__00000008_
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000001_)
 	__Resource__00000000_.ReferencedResource = nil
 	__Resource__00000001_.ReferencedResource = nil

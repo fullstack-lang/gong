@@ -100,3 +100,10 @@ func (d *DiagramFlossEquation) GetOwningSystem() *System {
 func (d *DiagramFlossEquation) SetOwningSystem(s *System) {
 	d.owningSystem = s
 }
+
+func (d *DiagramFlossEquation) GetIsInAutoLayoutMode() bool {
+	return false
+}
+
+func (d *DiagramFlossEquation) SetIsInAutoLayoutMode(v bool) {
+}

@@ -90,6 +90,8 @@ type Diagram_WOP struct {
 
 	IsShowPrefix bool
 
+	IsInAutoLayoutMode bool
+
 	IsPBSNodeExpanded bool
 
 	IsWBSNodeExpanded bool
@@ -142,6 +144,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsShowPrefix = from.IsShowPrefix
+	to.IsInAutoLayoutMode = from.IsInAutoLayoutMode
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsTaskGroupsNodeExpanded = from.IsTaskGroupsNodeExpanded

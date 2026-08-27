@@ -3130,6 +3130,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsShowPrefix != diagramOther.IsShowPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsShowPrefix"))
 	}
+	if diagram.IsInAutoLayoutMode != diagramOther.IsInAutoLayoutMode {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInAutoLayoutMode"))
+	}
 	Product_ShapesDifferent := false
 	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
 		Product_ShapesDifferent = true

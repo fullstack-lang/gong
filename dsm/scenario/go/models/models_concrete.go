@@ -466,6 +466,13 @@ func (d *Diagram) SetDiagramListElement(abstractElement AbstractType) {
 	d.DiagramListElement = abstractElement
 }
 
+func (d *Diagram) GetIsInAutoLayoutMode() bool {
+	return false
+}
+
+func (d *Diagram) SetIsInAutoLayoutMode(v bool) {
+}
+
 // --- from generic_rect_shape.go ---
 // GenericRectShape
 type GenericRectShape[ShapeType, ModelType Gongstruct] interface {

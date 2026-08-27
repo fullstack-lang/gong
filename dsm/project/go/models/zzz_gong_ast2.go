@@ -585,6 +585,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsEditable_ = GongExtractBool(valueExpr)
 	case "IsShowPrefix":
 		instance.IsShowPrefix = GongExtractBool(valueExpr)
+	case "IsInAutoLayoutMode":
+		instance.IsInAutoLayoutMode = GongExtractBool(valueExpr)
 	case "Product_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Product_Shapes, valueExpr, identifierMap)
 	case "ProductsWhoseNodeIsExpanded":

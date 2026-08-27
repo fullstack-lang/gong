@@ -209,7 +209,12 @@ func layoutGenericDFS[AT interface {
 	return maxX, maxY
 }
 
+func (diagram *Diagram) Layout(stager *Stager) {
+	layoutDiagram(diagram, stager)
+}
+
 func layoutDiagram(diagram *Diagram, stager *Stager) {
+	stager.enforceParentAssociation()
 	rootLibrary := stager.getRootLibrary()
 
 	nextX := 50.0

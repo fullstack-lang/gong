@@ -105,6 +105,30 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, timeDiagramButton)
 	}
 	{
+		autoLayoutButton := &tree.Button{
+			Name:            "Auto Layout",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				diagram.IsInAutoLayoutMode = !diagram.IsInAutoLayoutMode
+				stager.stage.Commit()
+			},
+		}
+		if !diagram.IsInAutoLayoutMode {
+			autoLayoutButton.Icon = string(buttons.BUTTON_auto_fix_off)
+			autoLayoutButton.Name = "Enable Auto Layout"
+			autoLayoutButton.ToolTipText = "Enable Auto Layout"
+		} else {
+			autoLayoutButton.Icon = string(buttons.BUTTON_auto_mode)
+			autoLayoutButton.Name = "Disable Auto Layout"
+			autoLayoutButton.ToolTipText = "Disable Auto Layout"
+		}
+		if diagramNode.Menu == nil {
+			diagramNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, autoLayoutButton)
+	}
+	{
 		layoutButton := &tree.Button{
 			Name:            "Layout",
 			Icon:            string(buttons.BUTTON_format_align_justify),

@@ -5,6 +5,7 @@ func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
 		newDiagram := new(Diagram)
 		newDiagram.Name = diagram.Name + " copy"
 		newDiagram.IsEditable_ = true
+		newDiagram.IsInAutoLayoutMode = diagram.IsInAutoLayoutMode
 
 		library := stager.stage.Library_Diagrams_reverseMap[diagram]
 		Append(&library.Diagrams, newDiagram)

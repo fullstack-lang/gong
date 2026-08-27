@@ -49,6 +49,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
 		newDiagram.IsExpanded = true
+		newDiagram.IsInAutoLayoutMode = true
 		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
 			diagram_.IsChecked = false
 		}

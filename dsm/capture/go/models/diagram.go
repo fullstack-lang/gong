@@ -124,3 +124,5 @@ func (d *Diagram) GetDefaultBoxWidth() float64          { return d.DefaultBoxWid
 func (d *Diagram) GetDefaultBoxHeigth() float64         { return d.DefaultBoxHeigth }
 func (d *Diagram) GetDiagramListElement() AbstractType  { return d.elementWhoseDiagramListIsDisplayed }
 func (d *Diagram) SetDiagramListElement(a AbstractType) { d.elementWhoseDiagramListIsDisplayed = a }
+func (d *Diagram) GetIsInAutoLayoutMode() bool          { return false }
+func (d *Diagram) SetIsInAutoLayoutMode(b bool)         {}

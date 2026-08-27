@@ -6309,6 +6309,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsInAutoLayoutMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Product_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ProductShape",
@@ -7655,6 +7659,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsShowPrefix)
 		res.valueBool = diagram.IsShowPrefix
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsInAutoLayoutMode":
+		res.valueString = fmt.Sprintf("%t", diagram.IsInAutoLayoutMode)
+		res.valueBool = diagram.IsInAutoLayoutMode
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Product_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.Product_Shapes {
@@ -8954,6 +8962,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsEditable_ = value.GetValueBool()
 	case "IsShowPrefix":
 		diagram.IsShowPrefix = value.GetValueBool()
+	case "IsInAutoLayoutMode":
+		diagram.IsInAutoLayoutMode = value.GetValueBool()
 	case "Product_Shapes":
 		diagram.Product_Shapes = make([]*ProductShape, 0)
 		ids := strings.Split(value.ids, ";")

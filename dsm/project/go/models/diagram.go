@@ -77,6 +77,8 @@ type Diagram struct {
 
 	IsShowPrefix bool // display shapes with their prefix
 
+	IsInAutoLayoutMode bool
+
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Product]*ProductShape
 	ProductsWhoseNodeIsExpanded []*Product // to be made private once in production (no need to persist)
@@ -185,4 +187,12 @@ func (d *Diagram) GetIsShowPrefix() bool {
 
 func (d *Diagram) SetIsShowPrefix(v bool) {
 	d.IsShowPrefix = v
+}
+
+func (d *Diagram) GetIsInAutoLayoutMode() bool {
+	return d.IsInAutoLayoutMode
+}
+
+func (d *Diagram) SetIsInAutoLayoutMode(v bool) {
+	d.IsInAutoLayoutMode = v
 }

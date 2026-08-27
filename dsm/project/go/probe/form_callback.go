@@ -142,6 +142,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
 		case "IsShowPrefix":
 			FormDivBasicFieldToField(&(diagram_.IsShowPrefix), formDiv)
+		case "IsInAutoLayoutMode":
+			FormDivBasicFieldToField(&(diagram_.IsInAutoLayoutMode), formDiv)
 		case "Product_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)

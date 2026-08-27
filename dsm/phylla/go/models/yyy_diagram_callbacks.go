@@ -103,63 +103,73 @@ func setCallbacksElementInDiagram[
 					if compositionShapes != nil {
 						addAssociationShapeToDiagram(stager, parentElement, element, compositionShapes)
 
-						var siblingsCount int
-						for _, compShape := range *compositionShapes {
-							if compShape.GetAbstractStartElement() == parentElement {
-								siblingsCount++
-							}
-						}
-
-						var isHorizontal bool
-						if pShape, ok := any(parentShape).(LayoutConcreteType); ok {
-							if pShape.GetConcreteLayoutDirection() == Horizontal {
-								isHorizontal = true
-							}
-						}
-
-						if isHorizontal {
-							shape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
-							shape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(siblingsCount-1)*parentShape.GetHeight()*1.2)
-
-							if len(*compositionShapes) > 0 {
-								newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
-								newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
-								newCompositionShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-								newCompositionShape.SetCornerOffsetRatio(1.5)
+						if diagram.GetIsInAutoLayoutMode() {
+							if autoLayouter, ok := diagram.(interface{ Layout(stager *Stager) }); ok {
+								autoLayouter.Layout(stager)
 							}
 						} else {
-							var isGrandParentHorizontal bool
+							var siblingsCount int
 							for _, compShape := range *compositionShapes {
-								if compShape.GetAbstractEndElement() == any(parentElement).(AbstractType) {
-									grandParentElement := compShape.GetAbstractStartElement()
-									if grandParentElement != nil {
-										if grandParentShape, ok := shapesMap[grandParentElement.(AT)]; ok {
-											if gpShape, ok := any(grandParentShape).(LayoutConcreteType); ok {
-												if gpShape.GetConcreteLayoutDirection() == Horizontal {
-													isGrandParentHorizontal = true
+								if compShape.GetAbstractStartElement() == parentElement {
+									siblingsCount++
+								}
+							}
+
+							var isHorizontal bool
+							if pShape, ok := any(parentShape).(LayoutConcreteType); ok {
+								if pShape.GetConcreteLayoutDirection() == Horizontal {
+									isHorizontal = true
+								}
+							}
+
+							if isHorizontal {
+								shape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
+								shape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(siblingsCount-1)*parentShape.GetHeight()*1.2)
+
+								if len(*compositionShapes) > 0 {
+									newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
+									newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+									newCompositionShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+									newCompositionShape.SetCornerOffsetRatio(1.5)
+								}
+							} else {
+								var isGrandParentHorizontal bool
+								for _, compShape := range *compositionShapes {
+									if compShape.GetAbstractEndElement() == any(parentElement).(AbstractType) {
+										grandParentElement := compShape.GetAbstractStartElement()
+										if grandParentElement != nil {
+											if grandParentShape, ok := shapesMap[grandParentElement.(AT)]; ok {
+												if gpShape, ok := any(grandParentShape).(LayoutConcreteType); ok {
+													if gpShape.GetConcreteLayoutDirection() == Horizontal {
+														isGrandParentHorizontal = true
+													}
 												}
 											}
 										}
 									}
 								}
-							}
 
-							if isGrandParentHorizontal {
-								shape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0 + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
-							} else {
-								shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
-							}
-							shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+								if isGrandParentHorizontal {
+									shape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0 + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+								} else {
+									shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+								}
+								shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 
-							if len(*compositionShapes) > 0 {
-								newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
-								newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
-								newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
-								ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
-								newCompositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
+								if len(*compositionShapes) > 0 {
+									newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
+									newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+									newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+									ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+									newCompositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
+								}
 							}
 						}
 					}
+				}
+			} else if diagram.GetIsInAutoLayoutMode() {
+				if autoLayouter, ok := diagram.(interface{ Layout(stager *Stager) }); ok {
+					autoLayouter.Layout(stager)
 				}
 			}
 			stager.stage.Commit()
@@ -253,6 +263,11 @@ func setCallbacksElementInDiagramWithoutLink[
 			}
 			shape = newShapeToDiagram(element, diagram, shapes, stager, node.ClientOnY)
 			shapesMap[element] = shape
+			if diagram.GetIsInAutoLayoutMode() {
+				if autoLayouter, ok := diagram.(interface{ Layout(stager *Stager) }); ok {
+					autoLayouter.Layout(stager)
+				}
+			}
 			stager.stage.Commit()
 		} else {
 			if shape == nil {

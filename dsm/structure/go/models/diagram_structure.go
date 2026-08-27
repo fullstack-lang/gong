@@ -163,3 +163,10 @@ func (d *DiagramStructure) GetIsShowPrefix() bool {
 func (d *DiagramStructure) SetIsShowPrefix(v bool) {
 	d.IsShowPrefix = v
 }
+
+func (d *DiagramStructure) GetIsInAutoLayoutMode() bool {
+	return false
+}
+
+func (d *DiagramStructure) SetIsInAutoLayoutMode(v bool) {
+}

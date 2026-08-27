@@ -327,6 +327,9 @@ type DiagramIF interface {
 	SetIsShowPrefix(bool)
 	GetIsShowPrefix() bool
 
+	GetIsInAutoLayoutMode() bool
+	SetIsInAutoLayoutMode(bool)
+
 	GetDefaultBoxWidth() float64
 	GetDefaultBoxHeigth() float64
 	IsEditable() bool

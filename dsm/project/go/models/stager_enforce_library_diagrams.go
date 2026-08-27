@@ -12,9 +12,10 @@ func (stager *Stager) enforceLibraryHasAtLeastOneDiagram() (needCommit bool) {
 				diagram_.IsChecked = false
 			}
 			newDiagram := &Diagram{
-				Name:        "Default Diagram",
-				IsChecked:   true,
-				IsEditable_: true,
+				Name:               "Default Diagram",
+				IsChecked:          true,
+				IsEditable_:        true,
+				IsInAutoLayoutMode: true,
 				AbstractTypeFields: AbstractTypeFields{
 					IsExpanded: true,
 				},
