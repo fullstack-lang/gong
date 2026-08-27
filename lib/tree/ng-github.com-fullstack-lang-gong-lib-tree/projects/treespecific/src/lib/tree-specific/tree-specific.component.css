@@ -1,10 +1,27 @@
 .custom-tree-node {
     transition: background-color 0.3s, cursor 0.3s;
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
 }
 
 .custom-tree-node:hover {
     background-color: rgba(0, 0, 0, 0.04) !important;
     cursor: pointer;
+}
+
+.custom-tree-node mat-icon {
+    flex-shrink: 0;
+    min-width: 24px;
+}
+
+.custom-tree-node mat-checkbox,
+.custom-tree-node .mat-mdc-checkbox {
+    flex-shrink: 0;
+}
+
+.custom-tree-node button {
+    flex-shrink: 0;
 }
 
 /* Styling for edit mode */
