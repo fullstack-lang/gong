@@ -741,10 +741,10 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.IsShowPrefix = true
 	__Diagram__00000005_.IsInAutoLayoutMode = false
 	__Diagram__00000005_.IsPBSNodeExpanded = true
-	__Diagram__00000005_.IsWBSNodeExpanded = false
+	__Diagram__00000005_.IsWBSNodeExpanded = true
 	__Diagram__00000005_.IsTaskGroupsNodeExpanded = false
 	__Diagram__00000005_.IsNotesNodeExpanded = true
-	__Diagram__00000005_.IsResourcesNodeExpanded = false
+	__Diagram__00000005_.IsResourcesNodeExpanded = true
 
 	__Diagram__00000006_.Name = `RCS PBS`
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
@@ -3521,7 +3521,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000005_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000035_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000045_)
-	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000006_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000013_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000014_)

@@ -371,6 +371,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - project: go run . edit data/starline_report.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/project/go/cmd/project"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/starline_report.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - reqif: gong generate",
             "type": "shell",
             "options": {
