@@ -5,7 +5,7 @@
     "ng-github.com-fullstack-lang-gong-lib-button": {
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "configurations": {
             "development": {
               "extractLicenses": false,
@@ -51,10 +51,10 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "development": {
               "buildTarget": "ng-github.com-fullstack-lang-gong-lib-button:build:development"
@@ -106,7 +106,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "projects/button/ng-package.json"
           },
@@ -121,7 +121,7 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "projects/button/tsconfig.spec.json",
             "polyfills": [
@@ -139,7 +139,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "projects/buttonspecific/ng-package.json"
           },
@@ -154,7 +154,7 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "projects/buttonspecific/tsconfig.spec.json",
             "polyfills": [
