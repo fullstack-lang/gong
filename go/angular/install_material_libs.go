@@ -75,18 +75,17 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		start := time.Now()
 		cmd := exec.Command("npm", "install",
 			"angular-split@20",
-			"tone",
+			"tone@^15.0.4",
 			"ngx-markdown@20",
-			"katex",
-			"@types/katex",
-			"material-symbols",
-			"three",
-			"angular-three",
-			"angular-three-soba",
-			"camera-controls",
-			"maath",
-			"ngxtension",
-			"three-stdlib",
+			"katex@^0.16.21",
+			"material-symbols@^0.45.1",
+			"three@^0.182.0",
+			"angular-three@^4.2.2",
+			"angular-three-soba@^4.2.2",
+			"camera-controls@^2.10.1",
+			"maath@^0.10.8",
+			"ngxtension@^7.2.0",
+			"three-stdlib@^2.36.1",
 			"--legacy-peer-deps")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")
@@ -106,6 +105,30 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			log.Panic(err)
 		}
 		log.Printf("npm install is over and took %s", time.Since(start))
+	}
+	{
+		start := time.Now()
+		cmd := exec.Command("npm", "install",
+			"--save-dev",
+			"@types/three@^0.182.0",
+			"--legacy-peer-deps")
+		cmd.Dir = modelPkg.NgWorkspacePath
+		log.Printf("Installing dev packages\n")
+
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("npm install dev is over and took %s", time.Since(start))
 	}
 
 	// generate default app.component.ts, app.component.html and app.module.ts

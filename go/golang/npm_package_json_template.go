@@ -7,7 +7,6 @@ const NpmPackageJsonTemplate = `{
         "vendor/github.com/fullstack-lang/gong/lib/button/ng-github.com-fullstack-lang-gong-lib-button",
         "vendor/github.com/fullstack-lang/gong/lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor",
         "vendor/github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
-        "vendor/github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
         "vendor/github.com/fullstack-lang/gong/lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt",
         "vendor/github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load",
         "vendor/github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
@@ -22,8 +21,11 @@ const NpmPackageJsonTemplate = `{
         "vendor/github.com/fullstack-lang/gong/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "vendor/github.com/fullstack-lang/gong/lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx",
         "vendor/github.com/fullstack-lang/gong/lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
-        "vendor/github.com/fullstack-lang/gong/ng-github.com-fullstack-lang-gong",
-        ""
-    ]
+        "vendor/github.com/fullstack-lang/gong/ng-github.com-fullstack-lang-gong"
+    ],
+    "dependencies": {
+        "@types/katex": "^0.16.8",
+        "katex": "^0.16.21"
+    }
 }
 `
