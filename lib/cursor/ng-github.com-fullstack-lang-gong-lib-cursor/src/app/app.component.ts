@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AngularSplitModule } from 'angular-split';
+import { GongSplitComponent, GongSplitAreaComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/public-api';
 
 import * as cursor from '../../projects/cursor/src/public-api'
 
@@ -12,7 +12,8 @@ import { SplitSpecificComponent } from '@vendored_components/github.com/fullstac
   selector: 'app-root',
   standalone: true,
   imports: [
-    AngularSplitModule,
+    GongSplitComponent,
+    GongSplitAreaComponent,
     SplitSpecificComponent,
     CursorSpecificComponent
   ],

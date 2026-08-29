@@ -164,7 +164,7 @@ func _(stage *models.Stage) {
 	__Plant2DDiagram__00000003_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
 	__Plant2DDiagram__00000003_.IsChecked = false
 	__Plant2DDiagram__00000003_.ComputedPrefix = ``
-	__Plant2DDiagram__00000003_.IsExpanded = true
+	__Plant2DDiagram__00000003_.IsExpanded = false
 
 	__Plant2DDiagram__00000004_.Name = `New Plant - Diagram`
 	__Plant2DDiagram__00000004_.OriginX = 133.000000
@@ -266,7 +266,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_ABOUT_SPIRAL_PLANTS
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
-	__PlantAbstract__00000000_.IsSelected = true
+	__PlantAbstract__00000000_.IsSelected = false
 	__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsVase2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsVase3DDiagramsNodeExpanded = false
@@ -286,7 +286,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.ComputedPrefix = ``
 	__PlantAbstract__00000001_.IsExpanded = true
 	__PlantAbstract__00000001_.IsSelected = false
-	__PlantAbstract__00000001_.IsPlant2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000001_.IsPlant2DDiagramsNodeExpanded = true
 	__PlantAbstract__00000001_.IsVase2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000001_.IsVase3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000001_.IsStool2DDiagramsNodeExpanded = false
@@ -301,15 +301,15 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
 	__PlantAbstract__00000002_.RhombusSideLength = 95.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
-	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
+	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
 	__PlantAbstract__00000002_.IsExpanded = true
-	__PlantAbstract__00000002_.IsSelected = false
-	__PlantAbstract__00000002_.IsPlant2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000002_.IsSelected = true
+	__PlantAbstract__00000002_.IsPlant2DDiagramsNodeExpanded = true
 	__PlantAbstract__00000002_.IsVase2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsVase3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsStool2DDiagramsNodeExpanded = false
-	__PlantAbstract__00000002_.IsStool3DDiagramsNodeExpanded = false
+	__PlantAbstract__00000002_.IsStool3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000002_.IsClock2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsClock3DDiagramsNodeExpanded = false
 
@@ -342,9 +342,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000000_.Fov = 50.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = 345.651823
-	__Rendered3DShape__00000002_.ViewY = 1377.058462
-	__Rendered3DShape__00000002_.ViewZ = 1639.881858
+	__Rendered3DShape__00000002_.ViewX = 1135.061335
+	__Rendered3DShape__00000002_.ViewY = 439.094182
+	__Rendered3DShape__00000002_.ViewZ = 742.524136
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 98.382634
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
@@ -391,7 +391,7 @@ func _(stage *models.Stage) {
 	__Stool3DDiagram__00000000_.IsHiddenSeatAndLegs3DShape = false
 	__Stool3DDiagram__00000000_.IsHiddenRotatedSeatAndLegs3DShape = false
 	__Stool3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
-	__Stool3DDiagram__00000000_.IsChecked = false
+	__Stool3DDiagram__00000000_.IsChecked = true
 	__Stool3DDiagram__00000000_.ComputedPrefix = ``
 	__Stool3DDiagram__00000000_.IsExpanded = false
 
@@ -443,7 +443,7 @@ func _(stage *models.Stage) {
 	__Vase2DDiagram__00000000_.IsHiddenPxShape = true
 	__Vase2DDiagram__00000000_.IsHiddenChosenP1P2PairShape = true
 	__Vase2DDiagram__00000000_.IsHiddenKeyHoleShape = true
-	__Vase2DDiagram__00000000_.IsChecked = true
+	__Vase2DDiagram__00000000_.IsChecked = false
 	__Vase2DDiagram__00000000_.ComputedPrefix = ``
 	__Vase2DDiagram__00000000_.IsExpanded = true
 

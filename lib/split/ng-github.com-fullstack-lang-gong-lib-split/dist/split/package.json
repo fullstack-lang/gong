@@ -2,22 +2,23 @@
   "name": "split",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^19.2.0",
-    "@angular/core": "^19.2.0"
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "sideEffects": false,
   "module": "fesm2022/split.mjs",
-  "typings": "index.d.ts",
+  "typings": "types/split.d.ts",
   "exports": {
     "./package.json": {
       "default": "./package.json"
     },
     ".": {
-      "types": "./index.d.ts",
+      "types": "./types/split.d.ts",
       "default": "./fesm2022/split.mjs"
     }
-  }
+  },
+  "type": "module"
 }

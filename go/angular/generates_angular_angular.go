@@ -46,6 +46,7 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 			} else {
 				cmd = exec.Command("ng", "new", modelPkg.NgWorkspaceName, "--defaults=true", "--minimal=true", "--skip-install")
 			}
+			ConfigureNodeEnv(cmd)
 			cmd.Dir = filepath.Dir(modelPkg.NgWorkspacePath)
 			log.Printf("Creating angular workspace\n")
 
@@ -75,6 +76,7 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 			if !skipNpmInstall {
 				start := time.Now()
 				cmd := exec.Command("npm", "--no-audit", "install", "--legacy-peer-deps")
+				ConfigureNodeEnv(cmd)
 				cmd.Dir = modelPkg.NgWorkspacePath
 				log.Printf("Performing default npm install\n")
 
@@ -222,6 +224,7 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 	{
 		start := time.Now()
 		cmd := exec.Command("ng", "build")
+		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 

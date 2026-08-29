@@ -47,7 +47,11 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
-            "tsConfig": "tsconfig.app.json"
+            "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "automation-events",
+              "standardized-audio-context"
+            ]
           }
         },
         "extract-i18n": {
@@ -108,7 +112,11 @@
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/sim/ng-package.json"
+            "project": "projects/sim/ng-package.json",
+            "allowedCommonJsDependencies": [
+              "automation-events",
+              "standardized-audio-context"
+            ]
           },
           "configurations": {
             "production": {
@@ -141,7 +149,11 @@
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/simspecific/ng-package.json"
+            "project": "projects/simspecific/ng-package.json",
+            "allowedCommonJsDependencies": [
+              "automation-events",
+              "standardized-audio-context"
+            ]
           },
           "configurations": {
             "production": {

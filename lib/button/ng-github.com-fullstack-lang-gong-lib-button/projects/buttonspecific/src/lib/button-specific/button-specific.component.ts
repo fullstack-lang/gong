@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common'
 
 import * as button from '../../../../button/src/public-api'
 
-import { AngularSplitModule } from 'angular-split';
+import { GongSplitComponent, GongSplitAreaComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/public-api';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
@@ -14,7 +14,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'lib-button-specific',
   imports: [
-    AngularSplitModule,
+    GongSplitComponent,
+    GongSplitAreaComponent,
 
     MatButtonModule,
     MatIconModule,
@@ -39,6 +40,7 @@ export class ButtonSpecificComponent implements OnInit {
     private frontRepoService: button.FrontRepoService,
     private buttonService: button.ButtonService,
     private buttonToggleService: button.ButtonToggleService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   formatLabel(value: number): string {
@@ -60,7 +62,8 @@ export class ButtonSpecificComponent implements OnInit {
           this.layout = layout_
         }
 
-        this.splitAreaSize = 100.0 / this.frontRepo.array_Groups.length
+        this.splitAreaSize = 100.0 / (this.frontRepo.array_Groups?.length || 1)
+        this.cdr.markForCheck()
       }
     }
     )

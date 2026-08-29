@@ -63,6 +63,30 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		}
 		m["maximumError"] = "10mb"
 
+		// Set allowedCommonJsDependencies
+		vOpt := root
+		var optPath = []string{"projects",
+			modelPkg.NgWorkspaceName,
+			"architect",
+			"build",
+			"options"}
+		for i, k := range optPath {
+			m, ok := vOpt.(map[string]interface{})
+			if !ok {
+				log.Fatalf("map not found at %s", strings.Join(optPath[:i+1], ", "))
+			}
+			vOpt, ok = m[k]
+			if !ok {
+				log.Fatalf("value not found at %s", strings.Join(optPath[:i+1], ", "))
+			}
+		}
+		if optMap, ok := vOpt.(map[string]interface{}); ok {
+			optMap["allowedCommonJsDependencies"] = []string{
+				"automation-events",
+				"standardized-audio-context",
+			}
+		}
+
 		// Marshal back to JSON. Variable d is []byte with the JSON
 		d, err := json.Marshal(root)
 		if err != nil {
@@ -88,6 +112,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			// generate library project
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true")
+			ConfigureNodeEnv(cmd)
 			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
 
@@ -127,6 +152,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			// generate library project
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
+			ConfigureNodeEnv(cmd)
 			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name+"specific")
 
@@ -153,6 +179,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				start := time.Now()
 				cmd := exec.Command("ng", "generate", "component", componentName,
 					"--inline-template=false", "--inline-style=false", "--project="+modelPkg.Name+"specific")
+				ConfigureNodeEnv(cmd)
 				cmd.Dir = modelPkg.NgWorkspacePath
 				log.Printf("Creating a component %s in the angular workspace\n", componentName)
 
@@ -178,6 +205,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		if true {
 			start := time.Now()
 			cmd := exec.Command("npm", "i", "--legacy-peer-deps")
+			ConfigureNodeEnv(cmd)
 			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 

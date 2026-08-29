@@ -44,7 +44,11 @@
               "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "tsConfig": "tsconfig.app.json"
+            "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "automation-events",
+              "standardized-audio-context"
+            ]
           }
         },
         "extract-i18n": {

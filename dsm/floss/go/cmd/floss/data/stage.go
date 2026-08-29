@@ -879,7 +879,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000024_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000024_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000024_.IsExpanded = false
-	__DiagramFlossEquation__00000024_.IsChecked = false
+	__DiagramFlossEquation__00000024_.IsChecked = true
 	__DiagramFlossEquation__00000024_.IsEditable_ = true
 	__DiagramFlossEquation__00000024_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000024_.AreQuantitativeElementsVisible = true
@@ -921,7 +921,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000026_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000026_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000026_.IsExpanded = false
-	__DiagramFlossEquation__00000026_.IsChecked = true
+	__DiagramFlossEquation__00000026_.IsChecked = false
 	__DiagramFlossEquation__00000026_.IsEditable_ = true
 	__DiagramFlossEquation__00000026_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000026_.AreQuantitativeElementsVisible = false
@@ -1604,6 +1604,7 @@ func _(stage *models.Stage) {
 	__Library__00000003_.SystemsWhoseNodeIsExpanded = append(__Library__00000003_.SystemsWhoseNodeIsExpanded, __System__00000014_)
 	__Library__00000003_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000003_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000002_)
 	__Library__00000003_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000003_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000003_)
+	__Library__00000003_.NotesWhoseNodeIsExpanded = append(__Library__00000003_.NotesWhoseNodeIsExpanded, __Note__00000007_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__Note__00000004_.Complexities = append(__Note__00000004_.Complexities, __Complexity__00000022_)

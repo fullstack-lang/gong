@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import * as cursor from '../../../../cursor/src/public-api'
 
@@ -32,8 +32,8 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
 
   constructor(
     private frontRepoService: cursor.FrontRepoService,
-
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +45,7 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
       .subscribe((height: number) => {
         if (this.controlsHeight !== height) { // Optional: Check if value actually changed
             this.controlsHeight = height;
+            this.cdr.markForCheck();
             // console.log('SvgComponent: Controls height received', height);
             // Use the height here to adjust layout, transforms, viewbox, etc.
             // Example: setting margin-top (as shown in the template)
@@ -55,6 +56,7 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
     this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (gongtablesFrontRepo) => {
         this.frontRepo = gongtablesFrontRepo;
+        this.cdr.markForCheck();
 
         let cursors = this.frontRepo.getFrontArray<cursor.Cursor>(cursor.Cursor.GONGSTRUCT_NAME);
 

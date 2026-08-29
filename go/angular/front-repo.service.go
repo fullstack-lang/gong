@@ -13,7 +13,7 @@ import (
 )
 
 const NgLibFrontRepoServiceTemplate = `// generated code - do not edit
-import { Injectable } from '@angular/core'
+import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
@@ -113,7 +113,8 @@ export class FrontRepoService {
 
 
 	constructor(
-		private http: HttpClient, // insertion point sub template {{` + string(rune(NgLibFrontRepoServiceDecl)) + `}}
+		private http: HttpClient,
+		private ngZone: NgZone, // insertion point sub template {{` + string(rune(NgLibFrontRepoServiceDecl)) + `}}
 	) { }
 
 	// postService provides a post function for each struct name
@@ -185,7 +186,9 @@ export class FrontRepoService {
 						// insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjects)) + `}}
 
 						// hand over control flow to observer
-						observer.next(this.frontRepo)
+						this.ngZone.run(() => {
+							observer.next(this.frontRepo)
+						})
 					}
 				)
 			}
@@ -241,7 +244,9 @@ export class FrontRepoService {
 				// Second Step: reddeem front objects
 				// insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjectsFromWebSocket)) + `}}
 
-				observer.next(frontRepo)
+				this.ngZone.run(() => {
+					observer.next(frontRepo)
+				})
 			}
 
 			// 3. Connection Loop

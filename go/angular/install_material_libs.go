@@ -24,7 +24,8 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("ng", "add", "@angular/material@20", "--skip-confirmation")
+		cmd := exec.Command("ng", "add", "@angular/material@22", "--skip-confirmation")
+		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular material\n")
 
@@ -50,7 +51,8 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("npm", "install", "@angular/animations@20", "--legacy-peer-deps")
+		cmd := exec.Command("npm", "install", "@angular/animations@22", "--legacy-peer-deps")
+		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular animation\n")
 
@@ -74,9 +76,9 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		start := time.Now()
 		cmd := exec.Command("npm", "install",
-			"angular-split@20",
 			"tone@^15.0.4",
-			"ngx-markdown@20",
+			"ngx-markdown@22",
+			"marked@^18.0.0",
 			"katex@^0.16.21",
 			"material-symbols@^0.45.1",
 			"three@^0.182.0",
@@ -87,6 +89,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"ngxtension@^7.2.0",
 			"three-stdlib@^2.36.1",
 			"--legacy-peer-deps")
+		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")
 
@@ -112,6 +115,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"--save-dev",
 			"@types/three@^0.182.0",
 			"--legacy-peer-deps")
+		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing dev packages\n")
 

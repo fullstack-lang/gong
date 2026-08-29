@@ -1,6 +1,6 @@
 <as-split direction="vertical">
     @for (group of layout?.Groups; track group.ID) {
-    <as-split-area [size]="group.Percentage">
+    <as-split-area [size]="group.Percentage || splitAreaSize || '*'">
 
         @if (group.Name) {
         <div class="group-header">{{group.Name}}</div>

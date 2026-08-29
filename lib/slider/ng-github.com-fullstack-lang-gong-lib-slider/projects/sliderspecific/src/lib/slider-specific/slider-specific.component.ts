@@ -1,6 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-
-import { AngularSplitModule } from 'angular-split';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { GongSplitComponent, GongSplitAreaComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/public-api';
 
 import * as slider from '../../../../slider/src/public-api'
 
@@ -19,7 +18,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'lib-slider-specific',
   imports: [
-    AngularSplitModule,
+    GongSplitComponent,
+    GongSplitAreaComponent,
     MatSliderModule,
     MatRadioModule,
     MatCardModule,
@@ -51,6 +51,7 @@ export class SliderSpecificComponent implements OnInit, OnDestroy {
     private frontRepoService: slider.FrontRepoService,
     private sliderService: slider.SliderService,
     private checkboxService: slider.CheckboxService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   formatLabel(value: number): string {
@@ -77,7 +78,8 @@ export class SliderSpecificComponent implements OnInit, OnDestroy {
           this.layout = layout_
         }
 
-        this.splitAreaSize = 100.0 / this.frontRepo.array_Groups.length
+        this.splitAreaSize = 100.0 / (this.frontRepo.array_Groups?.length || 1)
+        this.cdr.markForCheck()
       }
     }
     )

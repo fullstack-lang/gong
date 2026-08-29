@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, EventEmitter, Output, signal } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, EventEmitter, Output, signal, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -28,6 +28,7 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
   constructor(
     private frontRepoService: load.FrontRepoService,
     private fileToUploadService: load.FileToUploadService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -60,14 +61,17 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
           }
 
           if (this.fileToDownload == undefined && this.fileToUpload == undefined) {
+            this.cdr.markForCheck();
             return;
           }
 
           if (this.frontRepo.getFrontArray<load.FileToDownload>(load.FileToDownload.GONGSTRUCT_NAME).length > 1) {
+            this.cdr.markForCheck();
             return;
           }
 
           if (this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME).length > 1) {
+            this.cdr.markForCheck();
             return;
           }
 
@@ -75,6 +79,7 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
           // ignore any subsequent WebSocket messages that might clear the FileToDownload
           // (such as the backend's stager.load() reset after 1 second).
           if (this.saveAsReady() && this.fileToDownload === undefined) {
+             this.cdr.markForCheck();
              return;
           }
 
@@ -108,6 +113,7 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
           } else {
             this.saveAsReady.set(false);
           }
+          this.cdr.markForCheck();
         }
       });
   }

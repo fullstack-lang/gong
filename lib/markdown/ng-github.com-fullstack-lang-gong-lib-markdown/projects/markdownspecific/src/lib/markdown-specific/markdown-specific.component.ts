@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import * as markdown from '../../../../markdown/src/public-api';
 
 import { MarkdownModule, provideMarkdown } from 'ngx-markdown';
@@ -23,6 +23,7 @@ export class MarkdownSpecificComponent {
 
   constructor(
     private frontRepoService: markdown.FrontRepoService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +44,7 @@ export class MarkdownSpecificComponent {
       this.contentName = contentInstance.Name;
       this.processImages(contentInstance.Content);
     }
+    this.cdr.markForCheck()
   }
 
   private processImages(markdownContent: string): void {

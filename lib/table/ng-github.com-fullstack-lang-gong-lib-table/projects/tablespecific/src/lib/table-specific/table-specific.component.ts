@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, Input, OnInit, OnDestroy, Optional, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, Inject, Input, OnInit, OnDestroy, Optional, ViewChild, ChangeDetectorRef } from '@angular/core'
 import { Subscription, debounceTime, distinctUntilChanged, forkJoin } from 'rxjs'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
@@ -115,6 +115,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
     private tableService: table.TableService,
     private buttonService: table.ButtonService,
     private celliconService: table.CellIconService,
+    private cdr: ChangeDetectorRef,
 
     // MatDialog service for opening OTHER dialogs (if needed)
     public dialog: MatDialog,
@@ -356,6 +357,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           this.dataSource.paginator = this.paginator;
         }
 
+        this.cdr.markForCheck();
       }
     )
 
@@ -390,6 +392,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
       if (this.paginator && this.selectedTable?.HasPaginator) {
         this.dataSource.paginator = this.paginator;
       }
+      this.cdr.markForCheck();
     })
 
   }
@@ -401,6 +404,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage()
     }
+    this.cdr.markForCheck();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AngularSplitModule } from 'angular-split';
 
 @Component({
   selector: 'lib-sim-specific',
@@ -21,7 +20,6 @@ import { AngularSplitModule } from 'angular-split';
     MatButtonModule,
     FormsModule,
     CommonModule,
-    AngularSplitModule,
   ],
   templateUrl: './sim-specific.component.html',
   styleUrl: './sim-specific.component.css'

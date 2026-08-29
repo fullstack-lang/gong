@@ -1,4 +1,4 @@
-import { Component, Renderer2, Input, OnInit, Inject, DOCUMENT } from '@angular/core';
+import { Component, Renderer2, Input, OnInit, Inject, DOCUMENT, ChangeDetectorRef } from '@angular/core';
 
 
 import * as split from '../../../../split/src/public-api'
@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 
 
-import { AngularSplitModule } from 'angular-split';
+import { GongSplitComponent, GongSplitAreaComponent } from '../native-split/gong-split.component';
 
 import { ButtonSpecificComponent } from '../../../../../../../button/ng-github.com-fullstack-lang-gong-lib-button/projects/buttonspecific/src/lib/button-specific/button-specific.component'
 import { CursorSpecificComponent } from '../../../../../../../cursor/ng-github.com-fullstack-lang-gong-lib-cursor/projects/cursorspecific/src/lib/cursor-specific/cursor-specific.component'
@@ -35,7 +35,8 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     MatButtonModule,
     MatMenuModule,
 
-    AngularSplitModule,
+    GongSplitComponent,
+    GongSplitAreaComponent,
 
     ButtonSpecificComponent,
     CursorSpecificComponent,
@@ -68,6 +69,7 @@ export class SplitSpecificComponent implements OnInit {
     private titleService: Title,
     private renderer: Renderer2,
     private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -78,6 +80,7 @@ export class SplitSpecificComponent implements OnInit {
         v.IsSelectedView = (v === selectedView);
       }
     }
+    this.cdr.markForCheck();
     this.viewService.updateFront(selectedView, this.Name).subscribe(
       () => {
         // front update sent to backend
@@ -147,6 +150,7 @@ export class SplitSpecificComponent implements OnInit {
           }
         }
 
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error(`[lib-split-specific] connectToWebSocket failed for Name: "${this.Name}"`, err);

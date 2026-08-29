@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription, forkJoin } from 'rxjs';
 
 import * as form from '../../../../form/src/public-api'
@@ -110,6 +110,7 @@ export class FormSpecific implements OnInit {
     private formGroupService: form.FormGroupService,
 
     public confirmationDialog: MatDialog,
+    private cdr: ChangeDetectorRef,
   ) {
 
   }
@@ -130,6 +131,7 @@ export class FormSpecific implements OnInit {
         this.angularFormGroup = undefined
         this.chunks = []
         if (this.selectedFormGroup == undefined) {
+          this.cdr.markForCheck()
           return
         }
 
@@ -176,92 +178,90 @@ export class FormSpecific implements OnInit {
           }
         }
 
-        let generatedFormGroupConfig: { [key: string]: [any, any] } = {};
+        const generatedFormGroupConfig: { [key: string]: any } = {};
 
-        if (this.selectedFormGroup.FormDivs == undefined) {
-          return
-        }
+        if (this.selectedFormGroup.FormDivs) {
+          for (let formDiv of this.selectedFormGroup.FormDivs) {
+            if (formDiv.FormFields) {
+              formDiv.FormFields.forEach((formField, index) => {
+                const uniqueFormControlName = `${formField.Name}_${index}`;
 
-        for (let formDiv of this.selectedFormGroup.FormDivs) {
-          if (formDiv.FormFields) {
-
-            formDiv.FormFields.forEach((formField, index) => {
-              const uniqueFormControlName = `${formField.Name}_${index}`;
-
-              if (formField.FormFieldString) {
-                generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldString.Value, Validators.required]
-              }
-              if (formField.FormFieldInt) {
-                let validators = [Validators.required]
-
-                if (formField.FormFieldInt.HasMinValidator) {
-                  validators.push(Validators.min(formField.FormFieldInt.MinValue))
+                if (formField.FormFieldString) {
+                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldString.Value, Validators.required]
                 }
-                if (formField.FormFieldInt.HasMaxValidator) {
-                  validators.push(Validators.max(formField.FormFieldInt.MaxValue))
+                if (formField.FormFieldInt) {
+                  let validators = [Validators.required]
+
+                  if (formField.FormFieldInt.HasMinValidator) {
+                    validators.push(Validators.min(formField.FormFieldInt.MinValue))
+                  }
+                  if (formField.FormFieldInt.HasMaxValidator) {
+                    validators.push(Validators.max(formField.FormFieldInt.MaxValue))
+                  }
+                  validators.push(integerValidator)
+                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldInt.Value.toString(), validators]
                 }
-                validators.push(integerValidator)
-                generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldInt.Value.toString(), validators]
-              }
-              if (formField.FormFieldFloat64) {
-                let validators = [Validators.required]
+                if (formField.FormFieldFloat64) {
+                  let validators = [Validators.required]
 
-                if (formField.FormFieldFloat64.HasMinValidator) {
-                  validators.push(Validators.min(formField.FormFieldFloat64.MinValue))
-                }
-                if (formField.FormFieldFloat64.HasMaxValidator) {
-                  validators.push(Validators.max(formField.FormFieldFloat64.MaxValue))
-                }
-                generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldFloat64.Value.toString(), validators]
-              }
-
-              if (formField.FormFieldDate) {
-                let displayedString = formField.FormFieldDate.Value.toString().substring(0, 10)
-                generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
-              }
-              if (formField.FormFieldDateTime) {
-                let displayedString = formField.FormFieldDateTime.Value.toString()
-                generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
-              }
-              if (formField.FormFieldTime) {
-                let timeValue = new Date(formField.FormFieldTime.Value)
-                let hours = timeValue.getUTCHours();
-                let minutes = timeValue.getUTCMinutes();
-                let seconds = timeValue.getUTCSeconds();
-
-                let hoursStr = hours < 10 ? '0' + hours.toString() : hours.toString();
-                let minutesStr = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
-                let secondsStr = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
-
-                const timeStr = `${hoursStr}:${minutesStr}:${secondsStr}`
-
-                generatedFormGroupConfig[uniqueFormControlName] = [timeStr, Validators.required]
-              }
-              if (formField.FormFieldSelect) {
-
-                if (formField.FormFieldSelect.PreserveInitialOrder == false) {
-                  formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
+                  if (formField.FormFieldFloat64.HasMinValidator) {
+                    validators.push(Validators.min(formField.FormFieldFloat64.MinValue))
+                  }
+                  if (formField.FormFieldFloat64.HasMaxValidator) {
+                    validators.push(Validators.max(formField.FormFieldFloat64.MaxValue))
+                  }
+                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldFloat64.Value.toString(), validators]
                 }
 
-                if (formField.FormFieldSelect.CanBeEmpty) {
-                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, []]
-                } else {
-                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                if (formField.FormFieldDate) {
+                  let displayedString = formField.FormFieldDate.Value.toString().substring(0, 10)
+                  generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
                 }
-              }
-            })
+                if (formField.FormFieldDateTime) {
+                  let displayedString = formField.FormFieldDateTime.Value.toString()
+                  generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
+                }
+                if (formField.FormFieldTime) {
+                  let timeValue = new Date(formField.FormFieldTime.Value)
+                  let hours = timeValue.getUTCHours();
+                  let minutes = timeValue.getUTCMinutes();
+                  let seconds = timeValue.getUTCSeconds();
+
+                  let hoursStr = hours < 10 ? '0' + hours.toString() : hours.toString();
+                  let minutesStr = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
+                  let secondsStr = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+
+                  const timeStr = `${hoursStr}:${minutesStr}:${secondsStr}`
+
+                  generatedFormGroupConfig[uniqueFormControlName] = [timeStr, Validators.required]
+                }
+                if (formField.FormFieldSelect) {
+
+                  if (formField.FormFieldSelect.PreserveInitialOrder == false) {
+                    formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
+                  }
+
+                  if (formField.FormFieldSelect.CanBeEmpty) {
+                    generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, []]
+                  } else {
+                    generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                  }
+                }
+              })
+            }
+
+            if (formDiv.CheckBoxs) {
+              formDiv.CheckBoxs.forEach((checkBox, index) => {
+                const uniqueFormControlName = `${checkBox.Name}_${index}`;
+                generatedFormGroupConfig[uniqueFormControlName] = [checkBox.Value, Validators.required]
+              });
+            }
+
           }
-
-          if (formDiv.CheckBoxs) {
-            formDiv.CheckBoxs.forEach((checkBox, index) => {
-              const uniqueFormControlName = `${checkBox.Name}_${index}`;
-              generatedFormGroupConfig[uniqueFormControlName] = [checkBox.Value, Validators.required]
-            });
-          }
-
         }
 
         this.angularFormGroup = this.formBuilder.group(generatedFormGroupConfig)
+        this.cdr.markForCheck()
       }
     )
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import * as test from '../../../../test/src/public-api'
 
@@ -22,6 +22,7 @@ export class TestSpecificComponent implements OnInit {
   constructor(
     private frontRepoService: test.FrontRepoService,
     private astructService: test.AstructService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +37,8 @@ export class TestSpecificComponent implements OnInit {
         for (let astruct of this.frontRepo.array_Astructs) {
           console.log("astruct:", astruct.Name)
         }
+
+        this.cdr.markForCheck();
       }
     })
 

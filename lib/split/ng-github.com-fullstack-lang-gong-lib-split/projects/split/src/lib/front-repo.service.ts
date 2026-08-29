@@ -1,5 +1,5 @@
 // generated code - do not edit
-import { Injectable } from '@angular/core'
+import { Injectable, NgZone } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
@@ -319,7 +319,8 @@ export class FrontRepoService {
 
 
 	constructor(
-		private http: HttpClient, // insertion point sub template 
+		private http: HttpClient,
+		private ngZone: NgZone, // insertion point sub template 
 		private assplitService: AsSplitService,
 		private assplitareaService: AsSplitAreaService,
 		private buttonService: ButtonService,
@@ -911,7 +912,9 @@ export class FrontRepoService {
 
 
 						// hand over control flow to observer
-						observer.next(this.frontRepo)
+						this.ngZone.run(() => {
+							observer.next(this.frontRepo)
+						})
 					}
 				)
 			}
@@ -1367,7 +1370,9 @@ export class FrontRepoService {
 				)
 
 
-				observer.next(frontRepo)
+				this.ngZone.run(() => {
+					observer.next(frontRepo)
+				})
 			}
 
 			// 3. Connection Loop

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -122,6 +122,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     private gongtreeButtonService: tree.ButtonService,
     private iconService: IconService,
     private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -154,6 +155,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
 
         if (treeSingloton.RootNodes == undefined) {
           // console.log("no nodes on tree " + this.name)
+          this.cdr.markForCheck();
           return
         }
 
@@ -196,6 +198,8 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
             }
           }
         )
+
+        this.cdr.markForCheck();
       }
     )
   }

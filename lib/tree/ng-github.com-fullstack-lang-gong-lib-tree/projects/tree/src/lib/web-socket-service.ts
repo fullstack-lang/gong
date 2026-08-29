@@ -39,7 +39,7 @@ export class WebSocketService {
           let port = this.document.location.port ? ':' + this.document.location.port : '';
           let host = this.document.location.hostname;
           
-          const wsUrl = `${protocol}${host}${port}/api/github.com/fullstack-lang/gong/test/test4/go/v1/ws/stage?Name=${stackPath}`;
+          const wsUrl = `${protocol}${host}${port}/api/github.com/fullstack-lang/gong/lib/tree/go/v1/ws/stage?Name=${stackPath}`;
           
           const ws = new WebSocket(wsUrl);
           ws.onmessage = (event) => subscriber.next(JSON.parse(event.data));

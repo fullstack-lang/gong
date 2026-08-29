@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, Input, ChangeDetectorRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,7 +38,8 @@ export class ToneSpecificComponent {
     private frontRepoService: tonelocal.FrontRepoService,
     private playerService: tonelocal.PlayerService,
     private ngZone: NgZone,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +72,7 @@ export class ToneSpecificComponent {
       )
       .subscribe(gongtablesFrontRepo => {
         this.frontRepo = gongtablesFrontRepo;
+        this.cdr.markForCheck();
       });
   }
 
