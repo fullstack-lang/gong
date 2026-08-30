@@ -185,7 +185,10 @@ func computeFlossDiagramVerticalExtents(
 		extentBelowBaseline = math.Max(extentBelowBaseline, -mu*deltaP)
 		extentBelowBaseline = math.Max(extentBelowBaseline, -mu*deltaP+epsilon*eTo)
 		extentBelowBaseline = math.Max(extentBelowBaseline, -rhs)
-		if diagram.IsInDelta3ColumnsMode {
+		if !diagram.IsInDelta3ColumnsMode {
+			extentBelowBaseline = math.Max(extentBelowBaseline, epsilon*eTo)
+			extentBelowBaseline = math.Max(extentBelowBaseline, epsilon*eFrom)
+		} else {
 			if deltaE > 0 {
 				extentBelowBaseline = math.Max(extentBelowBaseline, -rhs)
 			}

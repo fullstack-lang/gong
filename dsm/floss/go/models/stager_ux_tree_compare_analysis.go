@@ -183,6 +183,27 @@ func (stager *Stager) treeDiagramFlossEquation(
 		diagramNode.Buttons = append(diagramNode.Buttons, commonElementsButton)
 	}
 
+	// Button for toggle diff arrows (Added complexity/performance/effort notes & links)
+	{
+		cpeArrowsButton := &tree.Button{
+			Name:            diagram.GetName() + " Diff Arrows Visibility Toggle",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagram.AreCPEArrowsVisible = !diagram.AreCPEArrowsVisible
+				stager.stage.Commit()
+			},
+		}
+		if diagram.AreCPEArrowsVisible {
+			cpeArrowsButton.Icon = string(buttons.BUTTON_trending_up)
+			cpeArrowsButton.ToolTipText = "Hide Diff Arrows (Complexity/Performance/Effort)"
+		} else {
+			cpeArrowsButton.Icon = string(buttons.BUTTON_trending_flat)
+			cpeArrowsButton.ToolTipText = "Show Diff Arrows (Complexity/Performance/Effort)"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, cpeArrowsButton)
+	}
+
 	// Button for toggle between font sizes
 	{
 		fontSizeButton := &tree.Button{

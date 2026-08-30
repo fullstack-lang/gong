@@ -383,6 +383,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreCommonElementsHidden"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreCPEArrowsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))
@@ -1067,6 +1068,11 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreCommonElementsHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.AreCommonElementsHidden))
+	case "AreCPEArrowsVisible":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreCPEArrowsVisible")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.AreCPEArrowsVisible))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
@@ -2085,6 +2091,7 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreSubsystemsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreCommonElementsHidden"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreCPEArrowsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))

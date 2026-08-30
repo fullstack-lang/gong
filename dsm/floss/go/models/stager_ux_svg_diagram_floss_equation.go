@@ -368,17 +368,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	xMargin := 80.0
 
-	var xCol1_V2, xCol1_V1, xCol2_V2, xCol2_V1, xCol3_V2, xCol3_V1 float64
+	var xCol1_V1, xCol1_V2, xCol2_V1, xCol2_V2, xCol3_V1, xCol3_V2 float64
 	var columnsRight float64
 
 	if isDelta && !diagram.IsInDelta3ColumnsMode {
-		xCol1_V2 = xMargin
-		xCol1_V1 = xCol1_V2 + colWidth + pairGap
-		xCol2_V2 = xCol1_V1 + colWidth + colSpacing
-		xCol2_V1 = xCol2_V2 + colWidth + pairGap
-		xCol3_V2 = xCol2_V1 + colWidth + colSpacing
-		xCol3_V1 = xCol3_V2 + colWidth + pairGap
-		columnsRight = xCol3_V1 + colWidth
+		xCol1_V1 = xMargin
+		xCol1_V2 = xCol1_V1 + colWidth + pairGap
+		xCol2_V1 = xCol1_V2 + colWidth + colSpacing
+		xCol2_V2 = xCol2_V1 + colWidth + pairGap
+		xCol3_V1 = xCol2_V2 + colWidth + colSpacing
+		xCol3_V2 = xCol3_V1 + colWidth + pairGap
+		columnsRight = xCol3_V2 + colWidth
 	} else {
 		xCol1_V2 = xMargin
 		xCol2_V2 = xCol1_V2 + colWidth + colSpacing
@@ -862,6 +862,62 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		// 6 COLUMNS DELTA PAIR MODE (C2 bottom on abscissa baseline, matching 3 columns alignment)
 		// -------------------------------------------------------------
 
+		drawDiffBlockArrow := func(xCenter, yStart, yEnd float64, label string, color string) {
+			if !diagram.AreCPEArrowsVisible {
+				return
+			}
+			if math.Abs(yStart-yEnd) < 10.0 {
+				return
+			}
+			isUp := yEnd < yStart
+			shaftWidth := 14.0
+			headWidth := 34.0
+			headHeight := 16.0
+			
+			if math.Abs(yStart-yEnd) < headHeight*1.5 {
+				headHeight = math.Abs(yStart-yEnd) * 0.5
+			}
+			
+			var yHeadBase float64
+			if isUp {
+				yHeadBase = yEnd + headHeight
+			} else {
+				yHeadBase = yEnd - headHeight
+			}
+			
+			dummyRect := &svg.Rect{
+				Name: "Dummy Anchor for Arrow " + label,
+				X: 0, Y: 0, Width: 0, Height: 0,
+				Presentation: svg.Presentation{
+					Color: "transparent",
+					Stroke: "transparent",
+				},
+			}
+
+			anchoredPath := &svg.RectAnchoredPath{
+				Name: "Arrow " + label,
+				Definition: fmt.Sprintf("M %f,%f L %f,%f L %f,%f L %f,%f L %f,%f L %f,%f L %f,%f Z",
+					xCenter - shaftWidth/2, yStart,
+					xCenter + shaftWidth/2, yStart,
+					xCenter + shaftWidth/2, yHeadBase,
+					xCenter + headWidth/2, yHeadBase,
+					xCenter, yEnd,
+					xCenter - headWidth/2, yHeadBase,
+					xCenter - shaftWidth/2, yHeadBase),
+				RectAnchorType: svg.RECT_TOP_LEFT,
+				ScalePropotionnally: false,
+				Presentation: svg.Presentation{
+					Color: color,
+					FillOpacity: 0.2,
+					Stroke: color,
+					StrokeWidth: 2.0,
+					StrokeOpacity: 1.0,
+				},
+			}
+			dummyRect.RectAnchoredPaths = append(dummyRect.RectAnchoredPaths, anchoredPath)
+			layer.Rects = append(layer.Rects, dummyRect)
+		}
+
 		// Column 1: Complexity Pair
 		var heightC_V2, heightC_V1 float64
 		if cTo > 0 {
@@ -872,9 +928,8 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		if cFrom > 0 {
 			heightC_V1 = math.Max(cFrom*scale, 24.0)
 		}
-		yTipC_V1 := yTipC_V2 // Top tips aligned!
-		yBottomC_V1 := yTipC_V1 + heightC_V1
-
+		yTipC_V1 := yGround - heightC_V1 // V1 bottom sits on abscissa baseline (yGround)
+		yBottomC_V1 := yGround
 		renderColumnStack(xCol1_V2, yTipC_V2, heightC_V2, cTo, false, "C", toCompItems, toMapC, toSys, 1.0)
 		renderColumnStack(xCol1_V1, yTipC_V1, heightC_V1, cFrom, true, "C", fromCompItems, fromMapC, fromSys, 1.0)
 
@@ -898,9 +953,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		c1BottomLine := &svg.Line{
 			Name: "C1 Bottom Guide Line",
 			X1:   xCol1_V2,
-			Y1:   yBottomC_V1,
+			Y1:   yGround,
 			X2:   columnsRight,
-			Y2:   yBottomC_V1,
+			Y2:   yGround,
 			Presentation: svg.Presentation{
 				Stroke:          "#2196F3",
 				StrokeWidth:     1.5,
@@ -925,6 +980,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			},
 		}
 		layer.Texts = append(layer.Texts, v2Label)
+
+		if deltaC != 0.0 {
+			xArr := xCol1_V2
+			if cTo > cFrom {
+				xArr = xCol1_V1
+			}
+			drawDiffBlockArrow(xArr+colWidth/2.0, yTipC_V1, yTipC_V2, "C", "#E65100")
+		}
 
 		v1Label := &svg.Text{
 			Name:    "C V1 Sub-Label",
@@ -960,29 +1023,28 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Texts = append(layer.Texts, col1Label)
 
-		// Column 2: Performance Pair (P2 bottom on baseline, P1 top aligned with P2 top)
+		// Column 2: Performance Pair (P2 bottom on baseline, P1 bottom on baseline)
 		var heightP_V2, heightP_V1 float64
 		if pTo > 0 {
 			heightP_V2 = math.Max(mu*pTo*scale, 24.0)
 		}
-		yTopP_V2 := yGround - heightP_V2
+		yTipP_V2 := yGround - heightP_V2
 
 		if pFrom > 0 {
 			heightP_V1 = math.Max(mu*pFrom*scale, 24.0)
 		}
-		yTopP_V1 := yTopP_V2 // P1 top aligned with P2 top
-		yBottomP_V1 := yTopP_V1 + heightP_V1
-
-		renderColumnStack(xCol2_V2, yTopP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, mu)
-		renderColumnStack(xCol2_V1, yTopP_V1, heightP_V1, pFrom, true, "P", fromPerfItems, fromMapP, fromSys, mu)
+		yTipP_V1 := yGround - heightP_V1 // V1 bottom sits on abscissa baseline (yGround)
+		yBottomP_V1 := yGround
+		renderColumnStack(xCol2_V2, yTipP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, mu)
+		renderColumnStack(xCol2_V1, yTipP_V1, heightP_V1, pFrom, true, "P", fromPerfItems, fromMapP, fromSys, mu)
 
 		// Top peak line across P2 and P1
 		peakLine := &svg.Line{
 			Name: "Peak Indicator Line",
-			X1:   xCol2_V2,
-			Y1:   yTopP_V2,
-			X2:   xCol2_V1 + colWidth,
-			Y2:   yTopP_V2,
+			X1:   xCol2_V1,
+			Y1:   yTipP_V2,
+			X2:   xCol2_V2 + colWidth,
+			Y2:   yTipP_V2,
 			Presentation: svg.Presentation{
 				Stroke:          "#388E3C",
 				StrokeWidth:     1.5,
@@ -992,7 +1054,23 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, peakLine)
 
-		// Guide line from P1 bottom to E2 top
+		// Dashed guide across tips of C2 and C1
+		cTipLine := &svg.Line{
+			Name: "C Tip Guide Line",
+			X1:   xCol1_V1,
+			Y1:   yTipC_V2,
+			X2:   xCol1_V2 + colWidth,
+			Y2:   yTipC_V2,
+			Presentation: svg.Presentation{
+				Stroke:          "#E65100",
+				StrokeWidth:     1.5,
+				StrokeOpacity:   0.6,
+				StrokeDashArray: "4 3",
+			},
+		}
+		layer.Lines = append(layer.Lines, cTipLine)
+
+		// Equation Label line from P1 bottom to E2 top
 		p1BottomLine := &svg.Line{
 			Name: "P1 Bottom Guide Line",
 			X1:   xCol2_V1,
@@ -1023,6 +1101,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			},
 		}
 		layer.Texts = append(layer.Texts, v2PLabel)
+
+		if deltaP != 0.0 {
+			xArr := xCol2_V2
+			if pTo > pFrom {
+				xArr = xCol2_V1
+			}
+			drawDiffBlockArrow(xArr+colWidth/2.0, yTipP_V1, yTipP_V2, "P", "#2E7D32")
+		}
 
 		v1PLabel := &svg.Text{
 			Name:    "P V1 Sub-Label",
@@ -1075,21 +1161,21 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, epsilon)
 		renderColumnStack(xCol3_V1, yTopE_V1, heightE_V1, eFrom, true, "E", fromEffItems, fromMapE, fromSys, epsilon)
 
-		// Dashed guide across bottoms of E2 and E1
-		bottomELine := &svg.Line{
-			Name: "E Bottom Guide Line",
-			X1:   xCol3_V2,
-			Y1:   yBottomE_V2,
-			X2:   xCol3_V1 + colWidth,
-			Y2:   yBottomE_V2,
+		// Dashed guide across tips of E2 and E1
+		eTipLine := &svg.Line{
+			Name: "E Tip Guide Line",
+			X1:   xCol3_V1,
+			Y1:   yTopE_V1,
+			X2:   xCol3_V2 + colWidth,
+			Y2:   yTopE_V1,
 			Presentation: svg.Presentation{
 				Stroke:          "#1976D2",
 				StrokeWidth:     1.5,
-				StrokeOpacity:   1.0,
+				StrokeOpacity:   0.6,
 				StrokeDashArray: "4 3",
 			},
 		}
-		layer.Lines = append(layer.Lines, bottomELine)
+		layer.Lines = append(layer.Lines, eTipLine)
 
 		v2ELabel := &svg.Text{
 			Name:    "E V2 Sub-Label",
@@ -1106,6 +1192,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			},
 		}
 		layer.Texts = append(layer.Texts, v2ELabel)
+
+		if deltaE != 0.0 {
+			xArr := xCol3_V2
+			if eTo > eFrom {
+				xArr = xCol3_V1
+			}
+			drawDiffBlockArrow(xArr+colWidth/2.0, yTopE_V1, yTopE_V2, "E", "#1976D2")
+		}
 
 		v1ELabel := &svg.Text{
 			Name:    "E V1 Sub-Label",
@@ -1528,9 +1622,24 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	//
 	// Notes & Link Shapes
 	//
+
+	diffNotes := make(map[*Note]bool)
+	for _, shape := range diagram.NoteComplexityShapes {
+		if shape.Note != nil { diffNotes[shape.Note] = true }
+	}
+	for _, shape := range diagram.NotePerformanceShapes {
+		if shape.Note != nil { diffNotes[shape.Note] = true }
+	}
+	for _, shape := range diagram.NoteEffortShapes {
+		if shape.Note != nil { diffNotes[shape.Note] = true }
+	}
+
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
 	for _, noteShape := range diagram.Note_Shapes {
 		if noteShape.IsHidden || noteShape.Note == nil {
+			continue
+		}
+		if !diagram.AreCPEArrowsVisible && diffNotes[noteShape.Note] {
 			continue
 		}
 
@@ -1590,79 +1699,81 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 	}
 
-	for _, shape := range diagram.NoteComplexityShapes {
-		if shape.IsHidden || shape.Note == nil || shape.Complexity == nil {
-			continue
-		}
-		startRect := diagram.map_Note_Rect[shape.Note]
-		endRect := map_Element_Rect[shape.Complexity]
-		if startRect == nil || endRect == nil {
-			continue
+	if diagram.AreCPEArrowsVisible {
+		for _, shape := range diagram.NoteComplexityShapes {
+			if shape.IsHidden || shape.Note == nil || shape.Complexity == nil {
+				continue
+			}
+			startRect := diagram.map_Note_Rect[shape.Note]
+			endRect := map_Element_Rect[shape.Complexity]
+			if startRect == nil || endRect == nil {
+				continue
+			}
+
+			link := new(svg.Link)
+			layer.Links = append(layer.Links, link)
+			link.Name = startRect.Name + " to " + endRect.Name
+			link.Start = startRect
+			link.End = endRect
+			link.StartAnchorType = svg.ANCHOR_CENTER
+			link.EndAnchorType = svg.ANCHOR_CENTER
+			link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+			link.HasEndArrow = false
+			link.Stroke = "#FFA000"
+			link.StrokeWidth = 1.5
+			link.StrokeDashArray = "5 5"
+			link.StrokeOpacity = 1.0
 		}
 
-		link := new(svg.Link)
-		layer.Links = append(layer.Links, link)
-		link.Name = startRect.Name + " to " + endRect.Name
-		link.Start = startRect
-		link.End = endRect
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.HasEndArrow = false
-		link.Stroke = "#FFA000"
-		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "5 5"
-		link.StrokeOpacity = 1.0
-	}
+		for _, shape := range diagram.NotePerformanceShapes {
+			if shape.IsHidden || shape.Note == nil || shape.Performance == nil {
+				continue
+			}
+			startRect := diagram.map_Note_Rect[shape.Note]
+			endRect := map_Element_Rect[shape.Performance]
+			if startRect == nil || endRect == nil {
+				continue
+			}
 
-	for _, shape := range diagram.NotePerformanceShapes {
-		if shape.IsHidden || shape.Note == nil || shape.Performance == nil {
-			continue
-		}
-		startRect := diagram.map_Note_Rect[shape.Note]
-		endRect := map_Element_Rect[shape.Performance]
-		if startRect == nil || endRect == nil {
-			continue
-		}
-
-		link := new(svg.Link)
-		layer.Links = append(layer.Links, link)
-		link.Name = startRect.Name + " to " + endRect.Name
-		link.Start = startRect
-		link.End = endRect
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.HasEndArrow = false
-		link.Stroke = "#2E7D32"
-		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "5 5"
-		link.StrokeOpacity = 1.0
-	}
-
-	for _, shape := range diagram.NoteEffortShapes {
-		if shape.IsHidden || shape.Note == nil || shape.Effort == nil {
-			continue
-		}
-		startRect := diagram.map_Note_Rect[shape.Note]
-		endRect := map_Element_Rect[shape.Effort]
-		if startRect == nil || endRect == nil {
-			continue
+			link := new(svg.Link)
+			layer.Links = append(layer.Links, link)
+			link.Name = startRect.Name + " to " + endRect.Name
+			link.Start = startRect
+			link.End = endRect
+			link.StartAnchorType = svg.ANCHOR_CENTER
+			link.EndAnchorType = svg.ANCHOR_CENTER
+			link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+			link.HasEndArrow = false
+			link.Stroke = "#2E7D32"
+			link.StrokeWidth = 1.5
+			link.StrokeDashArray = "5 5"
+			link.StrokeOpacity = 1.0
 		}
 
-		link := new(svg.Link)
-		layer.Links = append(layer.Links, link)
-		link.Name = startRect.Name + " to " + endRect.Name
-		link.Start = startRect
-		link.End = endRect
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.HasEndArrow = false
-		link.Stroke = "#1976D2"
-		link.StrokeWidth = 1.5
-		link.StrokeDashArray = "5 5"
-		link.StrokeOpacity = 1.0
+		for _, shape := range diagram.NoteEffortShapes {
+			if shape.IsHidden || shape.Note == nil || shape.Effort == nil {
+				continue
+			}
+			startRect := diagram.map_Note_Rect[shape.Note]
+			endRect := map_Element_Rect[shape.Effort]
+			if startRect == nil || endRect == nil {
+				continue
+			}
+
+			link := new(svg.Link)
+			layer.Links = append(layer.Links, link)
+			link.Name = startRect.Name + " to " + endRect.Name
+			link.Start = startRect
+			link.End = endRect
+			link.StartAnchorType = svg.ANCHOR_CENTER
+			link.EndAnchorType = svg.ANCHOR_CENTER
+			link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+			link.HasEndArrow = false
+			link.Stroke = "#1976D2"
+			link.StrokeWidth = 1.5
+			link.StrokeDashArray = "5 5"
+			link.StrokeOpacity = 1.0
+		}
 	}
 
 	return svgObject

@@ -82,6 +82,8 @@ type DiagramFlossEquation_WOP struct {
 
 	AreCommonElementsHidden bool
 
+	AreCPEArrowsVisible bool
+
 	Width float64
 
 	Height float64
@@ -113,6 +115,7 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.AreQuantitativeElementsVisible = from.AreQuantitativeElementsVisible
 	to.AreSubsystemsVisible = from.AreSubsystemsVisible
 	to.AreCommonElementsHidden = from.AreCommonElementsHidden
+	to.AreCPEArrowsVisible = from.AreCPEArrowsVisible
 	to.Width = from.Width
 	to.Height = from.Height
 	to.DefaultBoxWidth = from.DefaultBoxWidth
