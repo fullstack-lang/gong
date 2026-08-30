@@ -489,21 +489,23 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerFormula)
 
 	// Values summary
-	headerValues := new(svg.RectAnchoredText)
-	headerValues.Name = "Header Values"
-	headerValues.Content = valuesStr
-	headerValues.FontSize = fontSettings.HeaderValuesSize
-	headerValues.FontWeight = "500"
-	headerValues.Color = "#616161"
-	headerValues.FillOpacity = 1.0
-	headerValues.Stroke = "#616161"
-	headerValues.StrokeWidth = 0
-	headerValues.StrokeOpacity = 1.0
-	headerValues.RectAnchorType = svg.RECT_TOP_LEFT
-	headerValues.TextAnchorType = svg.TEXT_ANCHOR_START
-	headerValues.X_Offset = 20
-	headerValues.Y_Offset = fontSettings.HeaderValuesYOff
-	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerValues)
+	if diagram.AreQuantitativeElementsVisible {
+		headerValues := new(svg.RectAnchoredText)
+		headerValues.Name = "Header Values"
+		headerValues.Content = valuesStr
+		headerValues.FontSize = fontSettings.HeaderValuesSize
+		headerValues.FontWeight = "500"
+		headerValues.Color = "#616161"
+		headerValues.FillOpacity = 1.0
+		headerValues.Stroke = "#616161"
+		headerValues.StrokeWidth = 0
+		headerValues.StrokeOpacity = 1.0
+		headerValues.RectAnchorType = svg.RECT_TOP_LEFT
+		headerValues.TextAnchorType = svg.TEXT_ANCHOR_START
+		headerValues.X_Offset = 20
+		headerValues.Y_Offset = fontSettings.HeaderValuesYOff
+		headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerValues)
+	}
 
 	// -------------------------------------------------------------
 	// Ground baseline
@@ -759,64 +761,68 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		yTipP_V2 := yGround - heightP_V2
 		renderColumnStack(xCol2_V2, yTipP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, mu)
 
-		muRect := &svg.Rect{
-			Name:   "Mu Label Rect",
-			X:      xCol2_V2,
-			Y:      yTipP_V2 - 35,
-			Width:  colWidth,
-			Height: 30,
-			Presentation: svg.Presentation{
-				FillOpacity:   0.0,
-				StrokeOpacity: 0.0,
-			},
-		}
-		layer.Rects = append(layer.Rects, muRect)
+		if diagram.AreQuantitativeElementsVisible {
+			muRect := &svg.Rect{
+				Name:   "Mu Label Rect",
+				X:      xCol2_V2,
+				Y:      yTipP_V2 - 35,
+				Width:  colWidth,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, muRect)
 
-		muText := new(svg.RectAnchoredText)
-		muText.Name = "Mu Text"
-		muText.Content = fmt.Sprintf("μ = %.2f", mu)
-		muText.FontSize = fontSettings.ItemFontSize
-		muText.FontWeight = "600"
-		muText.Color = "#2E7D32"
-		muText.FillOpacity = 1.0
-		muText.Stroke = "#2E7D32"
-		muText.StrokeWidth = 0
-		muText.StrokeOpacity = 1.0
-		muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
-		muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-		muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
+			muText := new(svg.RectAnchoredText)
+			muText.Name = "Mu Text"
+			muText.Content = fmt.Sprintf("μ = %.2f", mu)
+			muText.FontSize = fontSettings.ItemFontSize
+			muText.FontWeight = "600"
+			muText.Color = "#2E7D32"
+			muText.FillOpacity = 1.0
+			muText.Stroke = "#2E7D32"
+			muText.StrokeWidth = 0
+			muText.StrokeOpacity = 1.0
+			muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
+		}
 
 		heightE_V2 := math.Max(epsilon*eTo*scale, 24.0)
 		yTopE_V2 := yTipP_V2
 		yBottomE_V2 := yTopE_V2 + heightE_V2
 		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, epsilon)
 
-		epsilonRect := &svg.Rect{
-			Name:   "Epsilon Label Rect",
-			X:      xCol3_V2,
-			Y:      yBottomE_V2 + 5,
-			Width:  colWidth,
-			Height: 30,
-			Presentation: svg.Presentation{
-				FillOpacity:   0.0,
-				StrokeOpacity: 0.0,
-			},
-		}
-		layer.Rects = append(layer.Rects, epsilonRect)
+		if diagram.AreQuantitativeElementsVisible {
+			epsilonRect := &svg.Rect{
+				Name:   "Epsilon Label Rect",
+				X:      xCol3_V2,
+				Y:      yBottomE_V2 + 5,
+				Width:  colWidth,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, epsilonRect)
 
-		epsilonText := new(svg.RectAnchoredText)
-		epsilonText.Name = "Epsilon Text"
-		epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
-		epsilonText.FontSize = fontSettings.ItemFontSize
-		epsilonText.FontWeight = "600"
-		epsilonText.Color = "#1976D2"
-		epsilonText.FillOpacity = 1.0
-		epsilonText.Stroke = "#1976D2"
-		epsilonText.StrokeWidth = 0
-		epsilonText.StrokeOpacity = 1.0
-		epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
-		epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-		epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
+			epsilonText := new(svg.RectAnchoredText)
+			epsilonText.Name = "Epsilon Text"
+			epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+			epsilonText.FontSize = fontSettings.ItemFontSize
+			epsilonText.FontWeight = "600"
+			epsilonText.Color = "#1976D2"
+			epsilonText.FillOpacity = 1.0
+			epsilonText.Stroke = "#1976D2"
+			epsilonText.StrokeWidth = 0
+			epsilonText.StrokeOpacity = 1.0
+			epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
+		}
 
 		// Guides & Indicators
 		peakLine := &svg.Line{
@@ -1049,36 +1055,38 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			drawDiffBlockArrow(xArr+colWidth/2.0, yTipP_V1, yTipP_V2, "P", "#2E7D32")
 		}
 
-		pMinX := math.Min(xCol2_V2, xCol2_V1)
-		pTotalW := math.Abs(xCol2_V2-xCol2_V1) + colWidth
-		yPeakP := math.Min(yTipP_V2, yTipP_V1)
+		if diagram.AreQuantitativeElementsVisible {
+			pMinX := math.Min(xCol2_V2, xCol2_V1)
+			pTotalW := math.Abs(xCol2_V2-xCol2_V1) + colWidth
+			yPeakP := math.Min(yTipP_V2, yTipP_V1)
 
-		muRect := &svg.Rect{
-			Name:   "Mu Label Rect",
-			X:      pMinX,
-			Y:      yPeakP - 35,
-			Width:  pTotalW,
-			Height: 30,
-			Presentation: svg.Presentation{
-				FillOpacity:   0.0,
-				StrokeOpacity: 0.0,
-			},
+			muRect := &svg.Rect{
+				Name:   "Mu Label Rect",
+				X:      pMinX,
+				Y:      yPeakP - 35,
+				Width:  pTotalW,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, muRect)
+
+			muText := new(svg.RectAnchoredText)
+			muText.Name = "Mu Text"
+			muText.Content = fmt.Sprintf("μ = %.2f", mu)
+			muText.FontSize = fontSettings.ItemFontSize
+			muText.FontWeight = "600"
+			muText.Color = "#2E7D32"
+			muText.FillOpacity = 1.0
+			muText.Stroke = "#2E7D32"
+			muText.StrokeWidth = 0
+			muText.StrokeOpacity = 1.0
+			muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
 		}
-		layer.Rects = append(layer.Rects, muRect)
-
-		muText := new(svg.RectAnchoredText)
-		muText.Name = "Mu Text"
-		muText.Content = fmt.Sprintf("μ = %.2f", mu)
-		muText.FontSize = fontSettings.ItemFontSize
-		muText.FontWeight = "600"
-		muText.Color = "#2E7D32"
-		muText.FillOpacity = 1.0
-		muText.Stroke = "#2E7D32"
-		muText.StrokeWidth = 0
-		muText.StrokeOpacity = 1.0
-		muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
-		muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-		muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
 
 		// Column 3: Effort Pair (E2 top at P1 bottom, E1 bottom aligned with E2 bottom)
 		var heightE_V2, heightE_V1 float64
@@ -1123,36 +1131,38 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			drawDiffBlockArrow(xArr+colWidth/2.0, yTopE_V1, yTopE_V2, "E", "#1976D2")
 		}
 
-		eMinX := math.Min(xCol3_V2, xCol3_V1)
-		eTotalW := math.Abs(xCol3_V2-xCol3_V1) + colWidth
-		yBottomE := math.Max(yBottomE_V2, yBottomE_V1)
+		if diagram.AreQuantitativeElementsVisible {
+			eMinX := math.Min(xCol3_V2, xCol3_V1)
+			eTotalW := math.Abs(xCol3_V2-xCol3_V1) + colWidth
+			yBottomE := math.Max(yBottomE_V2, yBottomE_V1)
 
-		epsilonRect := &svg.Rect{
-			Name:   "Epsilon Label Rect",
-			X:      eMinX,
-			Y:      yBottomE + 5,
-			Width:  eTotalW,
-			Height: 30,
-			Presentation: svg.Presentation{
-				FillOpacity:   0.0,
-				StrokeOpacity: 0.0,
-			},
+			epsilonRect := &svg.Rect{
+				Name:   "Epsilon Label Rect",
+				X:      eMinX,
+				Y:      yBottomE + 5,
+				Width:  eTotalW,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, epsilonRect)
+
+			epsilonText := new(svg.RectAnchoredText)
+			epsilonText.Name = "Epsilon Text"
+			epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+			epsilonText.FontSize = fontSettings.ItemFontSize
+			epsilonText.FontWeight = "600"
+			epsilonText.Color = "#1976D2"
+			epsilonText.FillOpacity = 1.0
+			epsilonText.Stroke = "#1976D2"
+			epsilonText.StrokeWidth = 0
+			epsilonText.StrokeOpacity = 1.0
+			epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
 		}
-		layer.Rects = append(layer.Rects, epsilonRect)
-
-		epsilonText := new(svg.RectAnchoredText)
-		epsilonText.Name = "Epsilon Text"
-		epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
-		epsilonText.FontSize = fontSettings.ItemFontSize
-		epsilonText.FontWeight = "600"
-		epsilonText.Color = "#1976D2"
-		epsilonText.FillOpacity = 1.0
-		epsilonText.Stroke = "#1976D2"
-		epsilonText.StrokeWidth = 0
-		epsilonText.StrokeOpacity = 1.0
-		epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
-		epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-		epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
 
 		// Level line at E1 top / C1 bottom
 		rhsLine := &svg.Line{
@@ -1318,32 +1328,34 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		renderDeltaRect(xCol2_V2, yTopDeltaP, heightDeltaP, "P", "#E8F5E9", "#2E7D32", "#1B5E20", linesP, allPerfItems)
 
-		muRect := &svg.Rect{
-			Name:   "Mu Label Rect",
-			X:      xCol2_V2,
-			Y:      yTopDeltaP - 35,
-			Width:  colWidth,
-			Height: 30,
-			Presentation: svg.Presentation{
-				FillOpacity:   0.0,
-				StrokeOpacity: 0.0,
-			},
-		}
-		layer.Rects = append(layer.Rects, muRect)
+		if diagram.AreQuantitativeElementsVisible {
+			muRect := &svg.Rect{
+				Name:   "Mu Label Rect",
+				X:      xCol2_V2,
+				Y:      yTopDeltaP - 35,
+				Width:  colWidth,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, muRect)
 
-		muText := new(svg.RectAnchoredText)
-		muText.Name = "Mu Text"
-		muText.Content = fmt.Sprintf("μ = %.2f", mu)
-		muText.FontSize = fontSettings.ItemFontSize
-		muText.FontWeight = "600"
-		muText.Color = "#2E7D32"
-		muText.FillOpacity = 1.0
-		muText.Stroke = "#2E7D32"
-		muText.StrokeWidth = 0
-		muText.StrokeOpacity = 1.0
-		muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
-		muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-		muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
+			muText := new(svg.RectAnchoredText)
+			muText.Name = "Mu Text"
+			muText.Content = fmt.Sprintf("μ = %.2f", mu)
+			muText.FontSize = fontSettings.ItemFontSize
+			muText.FontWeight = "600"
+			muText.Color = "#2E7D32"
+			muText.FillOpacity = 1.0
+			muText.Stroke = "#2E7D32"
+			muText.StrokeWidth = 0
+			muText.StrokeOpacity = 1.0
+			muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
+		}
 
 		// Column 3: Effort Investment (ε·ΔE) dropping from peak
 		heightDeltaE := math.Max(math.Abs(epsilon*deltaE)*scale, 50.0)
@@ -1382,32 +1394,34 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		renderDeltaRect(xCol3_V2, yTopDeltaE, heightDeltaE, "E", "#E3F2FD", "#1976D2", "#0D47A1", linesE, allEffItems)
 
-		epsilonRect := &svg.Rect{
-			Name:   "Epsilon Label Rect",
-			X:      xCol3_V2,
-			Y:      yBottomDeltaE + 5,
-			Width:  colWidth,
-			Height: 30,
-			Presentation: svg.Presentation{
-				FillOpacity:   0.0,
-				StrokeOpacity: 0.0,
-			},
-		}
-		layer.Rects = append(layer.Rects, epsilonRect)
+		if diagram.AreQuantitativeElementsVisible {
+			epsilonRect := &svg.Rect{
+				Name:   "Epsilon Label Rect",
+				X:      xCol3_V2,
+				Y:      yBottomDeltaE + 5,
+				Width:  colWidth,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, epsilonRect)
 
-		epsilonText := new(svg.RectAnchoredText)
-		epsilonText.Name = "Epsilon Text"
-		epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
-		epsilonText.FontSize = fontSettings.ItemFontSize
-		epsilonText.FontWeight = "600"
-		epsilonText.Color = "#1976D2"
-		epsilonText.FillOpacity = 1.0
-		epsilonText.Stroke = "#1976D2"
-		epsilonText.StrokeWidth = 0
-		epsilonText.StrokeOpacity = 1.0
-		epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
-		epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-		epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
+			epsilonText := new(svg.RectAnchoredText)
+			epsilonText.Name = "Epsilon Text"
+			epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+			epsilonText.FontSize = fontSettings.ItemFontSize
+			epsilonText.FontWeight = "600"
+			epsilonText.Color = "#1976D2"
+			epsilonText.FillOpacity = 1.0
+			epsilonText.Stroke = "#1976D2"
+			epsilonText.StrokeWidth = 0
+			epsilonText.StrokeOpacity = 1.0
+			epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
+		}
 
 		// Guides and Indicators
 		peakLine := &svg.Line{
