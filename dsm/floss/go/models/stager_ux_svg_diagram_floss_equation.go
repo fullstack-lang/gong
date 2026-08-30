@@ -342,7 +342,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	extentAboveBaseline, extentBelowBaseline := computeFlossDiagramVerticalExtents(diagram, compareAnalysis, owningSystem)
 
-	topMargin := math.Max(150.0, fontSettings.HeaderHeight+40.0)
+	topMargin := math.Max(200.0, fontSettings.HeaderHeight+80.0)
 	bottomMargin := 120.0
 	yGround := topMargin + extentAboveBaseline*scale
 	maxBottom := yGround + extentBelowBaseline*scale
@@ -423,8 +423,8 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		valuesStr = fmt.Sprintf("C=%.2f   P=%.2f (μ=%.2f → μ·P=%.2f)   E=%.2f (ε=%.2f → ε·E=%.2f)   [μ·P - ε·E = %.2f,  Diff = %.2f]",
 			cTo, pTo, mu, mu*pTo, eTo, epsilon, epsilon*eTo, rhs, diff)
 	} else {
-		valuesStr = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   μ·ΔP=%.2f (V2:%.2f - V1:%.2f)   ε·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
-			deltaC, cTo, cFrom, mu*deltaP, mu*pTo, mu*pFrom, epsilon*deltaE, epsilon*eTo, epsilon*eFrom, rhs, diff)
+		valuesStr = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   μ=%.2f, μ·ΔP=%.2f (V2:%.2f - V1:%.2f)   ε=%.2f, ε·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
+			deltaC, cTo, cFrom, mu, mu*deltaP, mu*pTo, mu*pFrom, epsilon, epsilon*deltaE, epsilon*eTo, epsilon*eFrom, rhs, diff)
 	}
 
 	maxTextLen := math.Max(float64(len(titleStr)), math.Max(float64(len(formulaStr)), float64(len(valuesStr))))
@@ -747,77 +747,70 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		yTipC_V2 := yGround - heightC_V2
 		renderColumnStack(xCol1_V2, yTipC_V2, heightC_V2, cTo, false, "C", toCompItems, toMapC, toSys, 1.0)
 
-		col1LabelText := "C"
-		if diagram.AreQuantitativeElementsVisible {
-			col1LabelText = fmt.Sprintf("C = %.2f", cTo)
-		}
-		col1Label := &svg.Text{
-			Name:    "Col 1 Label",
-			X:       xCol1_V2 + colWidth/2,
-			Y:       maxBottom + 40,
-			Content: col1LabelText,
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
-			Presentation: svg.Presentation{
-				Color:       "#E65100",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, col1Label)
+		// Bottom labels removed per user request
 
 		heightP_V2 := math.Max(mu*pTo*scale, 24.0)
 		yTipP_V2 := yGround - heightP_V2
 		renderColumnStack(xCol2_V2, yTipP_V2, heightP_V2, pTo, false, "P", toPerfItems, toMapP, toSys, mu)
 
-		col2LabelText := "μ · P"
-		if diagram.AreQuantitativeElementsVisible {
-			col2LabelText = fmt.Sprintf("μ · P = %.2f", mu*pTo)
-		}
-		col2Label := &svg.Text{
-			Name:    "Col 2 Label",
-			X:       xCol2_V2 + colWidth/2,
-			Y:       maxBottom + 40,
-			Content: col2LabelText,
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
+		muRect := &svg.Rect{
+			Name:   "Mu Label Rect",
+			X:      xCol2_V2,
+			Y:      yTipP_V2 - 35,
+			Width:  colWidth,
+			Height: 30,
 			Presentation: svg.Presentation{
-				Color:       "#2E7D32",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			},
 		}
-		layer.Texts = append(layer.Texts, col2Label)
+		layer.Rects = append(layer.Rects, muRect)
+
+		muText := new(svg.RectAnchoredText)
+		muText.Name = "Mu Text"
+		muText.Content = fmt.Sprintf("μ = %.2f", mu)
+		muText.FontSize = fontSettings.ItemFontSize
+		muText.FontWeight = "600"
+		muText.Color = "#2E7D32"
+		muText.FillOpacity = 1.0
+		muText.Stroke = "#2E7D32"
+		muText.StrokeWidth = 0
+		muText.StrokeOpacity = 1.0
+		muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
 
 		heightE_V2 := math.Max(epsilon*eTo*scale, 24.0)
 		yTopE_V2 := yTipP_V2
 		yBottomE_V2 := yTopE_V2 + heightE_V2
 		renderColumnStack(xCol3_V2, yTopE_V2, heightE_V2, eTo, false, "E", toEffItems, toMapE, toSys, epsilon)
 
-		col3LabelText := "ε · E"
-		if diagram.AreQuantitativeElementsVisible {
-			col3LabelText = fmt.Sprintf("ε · E = %.2f", epsilon*eTo)
-		}
-		col3Label := &svg.Text{
-			Name:    "Col 3 Label",
-			X:       xCol3_V2 + colWidth/2,
-			Y:       maxBottom + 40,
-			Content: col3LabelText,
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
+		epsilonRect := &svg.Rect{
+			Name:   "Epsilon Label Rect",
+			X:      xCol3_V2,
+			Y:      yBottomE_V2 + 5,
+			Width:  colWidth,
+			Height: 30,
 			Presentation: svg.Presentation{
-				Color:       "#1976D2",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			},
 		}
-		layer.Texts = append(layer.Texts, col3Label)
+		layer.Rects = append(layer.Rects, epsilonRect)
+
+		epsilonText := new(svg.RectAnchoredText)
+		epsilonText.Name = "Epsilon Text"
+		epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+		epsilonText.FontSize = fontSettings.ItemFontSize
+		epsilonText.FontWeight = "600"
+		epsilonText.Color = "#1976D2"
+		epsilonText.FillOpacity = 1.0
+		epsilonText.Stroke = "#1976D2"
+		epsilonText.StrokeWidth = 0
+		epsilonText.StrokeOpacity = 1.0
+		epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
 
 		// Guides & Indicators
 		peakLine := &svg.Line{
@@ -965,21 +958,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, c1BottomLine)
 
-		v2Label := &svg.Text{
-			Name:    "C V2 Sub-Label",
-			X:       xCol1_V2 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2 (C=%.2f)", cTo),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#B78103",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v2Label)
+		// Bottom texts removed
 
 		if deltaC != 0.0 {
 			xArr := xCol1_V2
@@ -989,39 +968,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			drawDiffBlockArrow(xArr+colWidth/2.0, yTipC_V1, yTipC_V2, "C", "#E65100")
 		}
 
-		v1Label := &svg.Text{
-			Name:    "C V1 Sub-Label",
-			X:       xCol1_V1 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V1 (C=%.2f)", cFrom),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#B78103",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v1Label)
-
-		col1CenterX := (xCol1_V2 + xCol1_V1 + colWidth) / 2
-		col1Label := &svg.Text{
-			Name:    "Col 1 Label",
-			X:       col1CenterX,
-			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
-			Presentation: svg.Presentation{
-				Color:       "#E65100",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, col1Label)
+		// Bottom texts removed
 
 		// Column 2: Performance Pair (P2 bottom on baseline, P1 bottom on baseline)
 		var heightP_V2, heightP_V1 float64
@@ -1086,21 +1033,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, p1BottomLine)
 
-		v2PLabel := &svg.Text{
-			Name:    "P V2 Sub-Label",
-			X:       xCol2_V2 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2 (μ·P=%.2f)", mu*pTo),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#2E7D32",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v2PLabel)
+		// Bottom texts removed
 
 		if deltaP != 0.0 {
 			xArr := xCol2_V2
@@ -1110,39 +1043,36 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			drawDiffBlockArrow(xArr+colWidth/2.0, yTipP_V1, yTipP_V2, "P", "#2E7D32")
 		}
 
-		v1PLabel := &svg.Text{
-			Name:    "P V1 Sub-Label",
-			X:       xCol2_V1 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V1 (μ·P=%.2f)", mu*pFrom),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#2E7D32",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v1PLabel)
+		pMinX := math.Min(xCol2_V2, xCol2_V1)
+		pTotalW := math.Abs(xCol2_V2-xCol2_V1) + colWidth
+		yPeakP := math.Min(yTipP_V2, yTipP_V1)
 
-		col2CenterX := (xCol2_V2 + xCol2_V1 + colWidth) / 2
-		col2Label := &svg.Text{
-			Name:    "Col 2 Label",
-			X:       col2CenterX,
-			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("μ · ΔP = %.2f", mu*deltaP),
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
+		muRect := &svg.Rect{
+			Name:   "Mu Label Rect",
+			X:      pMinX,
+			Y:      yPeakP - 35,
+			Width:  pTotalW,
+			Height: 30,
 			Presentation: svg.Presentation{
-				Color:       "#2E7D32",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			},
 		}
-		layer.Texts = append(layer.Texts, col2Label)
+		layer.Rects = append(layer.Rects, muRect)
+
+		muText := new(svg.RectAnchoredText)
+		muText.Name = "Mu Text"
+		muText.Content = fmt.Sprintf("μ = %.2f", mu)
+		muText.FontSize = fontSettings.ItemFontSize
+		muText.FontWeight = "600"
+		muText.Color = "#2E7D32"
+		muText.FillOpacity = 1.0
+		muText.Stroke = "#2E7D32"
+		muText.StrokeWidth = 0
+		muText.StrokeOpacity = 1.0
+		muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
 
 		// Column 3: Effort Pair (E2 top at P1 bottom, E1 bottom aligned with E2 bottom)
 		var heightE_V2, heightE_V1 float64
@@ -1177,21 +1107,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		layer.Lines = append(layer.Lines, eTipLine)
 
-		v2ELabel := &svg.Text{
-			Name:    "E V2 Sub-Label",
-			X:       xCol3_V2 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2 (ε·E=%.2f)", epsilon*eTo),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#1976D2",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v2ELabel)
+		// Bottom texts removed
 
 		if deltaE != 0.0 {
 			xArr := xCol3_V2
@@ -1201,39 +1117,36 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			drawDiffBlockArrow(xArr+colWidth/2.0, yTopE_V1, yTopE_V2, "E", "#1976D2")
 		}
 
-		v1ELabel := &svg.Text{
-			Name:    "E V1 Sub-Label",
-			X:       xCol3_V1 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V1 (ε·E=%.2f)", epsilon*eFrom),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#1976D2",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v1ELabel)
+		eMinX := math.Min(xCol3_V2, xCol3_V1)
+		eTotalW := math.Abs(xCol3_V2-xCol3_V1) + colWidth
+		yBottomE := math.Max(yBottomE_V2, yBottomE_V1)
 
-		col3CenterX := (xCol3_V2 + xCol3_V1 + colWidth) / 2
-		col3Label := &svg.Text{
-			Name:    "Col 3 Label",
-			X:       col3CenterX,
-			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("ε · ΔE = %.2f", epsilon*deltaE),
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
+		epsilonRect := &svg.Rect{
+			Name:   "Epsilon Label Rect",
+			X:      eMinX,
+			Y:      yBottomE + 5,
+			Width:  eTotalW,
+			Height: 30,
 			Presentation: svg.Presentation{
-				Color:       "#1976D2",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			},
 		}
-		layer.Texts = append(layer.Texts, col3Label)
+		layer.Rects = append(layer.Rects, epsilonRect)
+
+		epsilonText := new(svg.RectAnchoredText)
+		epsilonText.Name = "Epsilon Text"
+		epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+		epsilonText.FontSize = fontSettings.ItemFontSize
+		epsilonText.FontWeight = "600"
+		epsilonText.Color = "#1976D2"
+		epsilonText.FillOpacity = 1.0
+		epsilonText.Stroke = "#1976D2"
+		epsilonText.StrokeWidth = 0
+		epsilonText.StrokeOpacity = 1.0
+		epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
 
 		// Level line at E1 top / C1 bottom
 		rhsLine := &svg.Line{
@@ -1361,38 +1274,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		renderDeltaRect(xCol1_V2, yTopDeltaC, heightDeltaC, "C", "#FFF8E1", "#FFA000", "#B78103", linesC, allCompItems)
 
-		v1v2SubC := &svg.Text{
-			Name:    "ΔC Sub-Label",
-			X:       xCol1_V2 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", cTo, cFrom),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
-			Presentation: svg.Presentation{
-				Color:       "#B78103",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, v1v2SubC)
-
-		col1Label := &svg.Text{
-			Name:    "Col 1 Label",
-			X:       xCol1_V2 + colWidth/2,
-			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("ΔC = %.2f", deltaC),
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
-			Presentation: svg.Presentation{
-				Color:       "#E65100",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, col1Label)
+		// Bottom texts removed
 
 		// Column 2: Net Performance Gain (μ·ΔP)
 		heightDeltaP := math.Max(math.Abs(mu*deltaP)*scale, 50.0)
@@ -1430,38 +1312,32 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		renderDeltaRect(xCol2_V2, yTopDeltaP, heightDeltaP, "P", "#E8F5E9", "#2E7D32", "#1B5E20", linesP, allPerfItems)
 
-		v1v2SubP := &svg.Text{
-			Name:    "μ·ΔP Sub-Label",
-			X:       xCol2_V2 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", mu*pTo, mu*pFrom),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
+		muRect := &svg.Rect{
+			Name:   "Mu Label Rect",
+			X:      xCol2_V2,
+			Y:      yTopDeltaP - 35,
+			Width:  colWidth,
+			Height: 30,
 			Presentation: svg.Presentation{
-				Color:       "#2E7D32",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			},
 		}
-		layer.Texts = append(layer.Texts, v1v2SubP)
+		layer.Rects = append(layer.Rects, muRect)
 
-		col2Label := &svg.Text{
-			Name:    "Col 2 Label",
-			X:       xCol2_V2 + colWidth/2,
-			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("μ · ΔP = %.2f", mu*deltaP),
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
-			Presentation: svg.Presentation{
-				Color:       "#2E7D32",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, col2Label)
+		muText := new(svg.RectAnchoredText)
+		muText.Name = "Mu Text"
+		muText.Content = fmt.Sprintf("μ = %.2f", mu)
+		muText.FontSize = fontSettings.ItemFontSize
+		muText.FontWeight = "600"
+		muText.Color = "#2E7D32"
+		muText.FillOpacity = 1.0
+		muText.Stroke = "#2E7D32"
+		muText.StrokeWidth = 0
+		muText.StrokeOpacity = 1.0
+		muText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		muText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		muRect.RectAnchoredTexts = append(muRect.RectAnchoredTexts, muText)
 
 		// Column 3: Effort Investment (ε·ΔE) dropping from peak
 		heightDeltaE := math.Max(math.Abs(epsilon*deltaE)*scale, 50.0)
@@ -1500,38 +1376,32 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		}
 		renderDeltaRect(xCol3_V2, yTopDeltaE, heightDeltaE, "E", "#E3F2FD", "#1976D2", "#0D47A1", linesE, allEffItems)
 
-		v1v2SubE := &svg.Text{
-			Name:    "ε·ΔE Sub-Label",
-			X:       xCol3_V2 + colWidth/2,
-			Y:       maxBottom + 20,
-			Content: fmt.Sprintf("V2:%.2f - V1:%.2f", epsilon*eTo, epsilon*eFrom),
-			TextAttributes: svg.TextAttributes{
-				FontSize: fontSettings.SubLabelFontSize,
-			},
+		epsilonRect := &svg.Rect{
+			Name:   "Epsilon Label Rect",
+			X:      xCol3_V2,
+			Y:      yBottomDeltaE + 5,
+			Width:  colWidth,
+			Height: 30,
 			Presentation: svg.Presentation{
-				Color:       "#1976D2",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
+				FillOpacity:   0.0,
+				StrokeOpacity: 0.0,
 			},
 		}
-		layer.Texts = append(layer.Texts, v1v2SubE)
+		layer.Rects = append(layer.Rects, epsilonRect)
 
-		col3Label := &svg.Text{
-			Name:    "Col 3 Label",
-			X:       xCol3_V2 + colWidth/2,
-			Y:       maxBottom + 40,
-			Content: fmt.Sprintf("ε · ΔE = %.2f", epsilon*deltaE),
-			TextAttributes: svg.TextAttributes{
-				FontSize:   fontSettings.LabelFontSize,
-				FontWeight: "600",
-			},
-			Presentation: svg.Presentation{
-				Color:       "#1976D2",
-				FillOpacity: 1.0,
-				Stroke:      "transparent",
-			},
-		}
-		layer.Texts = append(layer.Texts, col3Label)
+		epsilonText := new(svg.RectAnchoredText)
+		epsilonText.Name = "Epsilon Text"
+		epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+		epsilonText.FontSize = fontSettings.ItemFontSize
+		epsilonText.FontWeight = "600"
+		epsilonText.Color = "#1976D2"
+		epsilonText.FillOpacity = 1.0
+		epsilonText.Stroke = "#1976D2"
+		epsilonText.StrokeWidth = 0
+		epsilonText.StrokeOpacity = 1.0
+		epsilonText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		epsilonText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		epsilonRect.RectAnchoredTexts = append(epsilonRect.RectAnchoredTexts, epsilonText)
 
 		// Guides and Indicators
 		peakLine := &svg.Line{

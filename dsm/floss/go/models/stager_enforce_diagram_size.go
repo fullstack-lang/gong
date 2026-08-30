@@ -171,6 +171,7 @@ func computeFlossDiagramVerticalExtents(
 
 		extentAboveBaseline = math.Max(cTo, mu*pTo)
 		if !diagram.IsInDelta3ColumnsMode {
+			extentAboveBaseline = math.Max(extentAboveBaseline, cFrom)
 			extentAboveBaseline = math.Max(extentAboveBaseline, mu*pFrom)
 		} else {
 			if deltaP > 0 {

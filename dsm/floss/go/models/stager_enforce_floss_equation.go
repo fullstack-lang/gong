@@ -1,7 +1,47 @@
 package models
 
+func getSystemCPE(sys *System) (c, p, e float64) {
+	if sys == nil {
+		return
+	}
+	effC, _ := sys.GetEffectiveComplexities()
+	for _, comp := range effC {
+		c += comp.Strength
+	}
+	effP, _ := sys.GetEffectivePerformances()
+	for _, perf := range effP {
+		p += perf.Strength
+	}
+	effE, _ := sys.GetEffectiveEfforts()
+	for _, eff := range effE {
+		e += eff.Strength
+	}
+	return
+}
+
 func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 	for compareAnalysis := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
+		
+		if compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil {
+			C1, P1, E1 := getSystemCPE(compareAnalysis.FromSystem)
+			C2, P2, E2 := getSystemCPE(compareAnalysis.ToSystem)
+
+			D := P1*E2 - P2*E1
+			if D != 0 {
+				newMu := (C1*E2 - C2*E1) / D
+				newEpsilon := (C1*P2 - C2*P1) / D
+
+				if compareAnalysis.Mu != newMu {
+					compareAnalysis.Mu = newMu
+					needCommit = true
+				}
+				if compareAnalysis.Epsilon != newEpsilon {
+					compareAnalysis.Epsilon = newEpsilon
+					needCommit = true
+				}
+			}
+		}
+
 		// Enforce mu != 0
 		if compareAnalysis.Mu == 0 {
 			compareAnalysis.Mu = 1.0

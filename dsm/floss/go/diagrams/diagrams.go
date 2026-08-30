@@ -29,21 +29,24 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Strength`}).Stage(stage)
 	__AttributeShape__00000001_ := (&models.AttributeShape{Name: `Strength`}).Stage(stage)
 	__AttributeShape__00000002_ := (&models.AttributeShape{Name: `Strength`}).Stage(stage)
+	__AttributeShape__00000003_ := (&models.AttributeShape{Name: `Mu`}).Stage(stage)
+	__AttributeShape__00000004_ := (&models.AttributeShape{Name: `Epsilon`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Abstract`}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2026-08-21T02:26:25Z`}).Stage(stage)
 
-	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Library`}).Stage(stage)
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Abstract-Effort`}).Stage(stage)
 	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `Abstract-Complexity`}).Stage(stage)
 	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `Abstract-Performance`}).Stage(stage)
 	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `Abstract-System`}).Stage(stage)
+	__GongStructShape__00000007_ := (&models.GongStructShape{Name: `Abstract-CompareAnalysis`}).Stage(stage)
 
 	__LinkShape__00000003_ := (&models.LinkShape{Name: `Performances`}).Stage(stage)
 	__LinkShape__00000004_ := (&models.LinkShape{Name: `Efforts`}).Stage(stage)
 	__LinkShape__00000005_ := (&models.LinkShape{Name: `Complexities`}).Stage(stage)
-	__LinkShape__00000006_ := (&models.LinkShape{Name: `SubSystemes`}).Stage(stage)
+	__LinkShape__00000007_ := (&models.LinkShape{Name: `FromSystem`}).Stage(stage)
+	__LinkShape__00000008_ := (&models.LinkShape{Name: `ToSystem`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -65,6 +68,18 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000002_.Structname = `Performance`
 	__AttributeShape__00000002_.Fieldtypename = `float64`
 
+	__AttributeShape__00000003_.Name = `Mu`
+	__AttributeShape__00000003_.IdentifierMeta = ref_models.CompareAnalysis{}.Mu
+	__AttributeShape__00000003_.FieldTypeAsString = ``
+	__AttributeShape__00000003_.Structname = `CompareAnalysis`
+	__AttributeShape__00000003_.Fieldtypename = `float64`
+
+	__AttributeShape__00000004_.Name = `Epsilon`
+	__AttributeShape__00000004_.IdentifierMeta = ref_models.CompareAnalysis{}.Epsilon
+	__AttributeShape__00000004_.FieldTypeAsString = ``
+	__AttributeShape__00000004_.Structname = `CompareAnalysis`
+	__AttributeShape__00000004_.Fieldtypename = `float64`
+
 	__Classdiagram__00000000_.Name = `Abstract`
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
@@ -74,7 +89,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true]`
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[true,false,false,false,false,false,false,false,false,false,true,true,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
@@ -84,14 +99,6 @@ func _(stage *models.Stage) {
 	__DiagramPackage__00000000_.Path = ``
 	__DiagramPackage__00000000_.GongModelPath = ``
 	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
-
-	__GongStructShape__00000001_.Name = `Default-Library`
-	__GongStructShape__00000001_.X = 36.000000
-	__GongStructShape__00000001_.Y = 48.000000
-	__GongStructShape__00000001_.IdentifierMeta = ref_models.Library{}
-	__GongStructShape__00000001_.Width = 240.000000
-	__GongStructShape__00000001_.Height = 63.000000
-	__GongStructShape__00000001_.IsSelected = false
 
 	__GongStructShape__00000003_.Name = `Abstract-Effort`
 	__GongStructShape__00000003_.X = 1012.000031
@@ -122,8 +129,16 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.Y = 49.000000
 	__GongStructShape__00000006_.IdentifierMeta = ref_models.System{}
 	__GongStructShape__00000006_.Width = 240.000000
-	__GongStructShape__00000006_.Height = 63.000000
+	__GongStructShape__00000006_.Height = 237.000000
 	__GongStructShape__00000006_.IsSelected = false
+
+	__GongStructShape__00000007_.Name = `Abstract-CompareAnalysis`
+	__GongStructShape__00000007_.X = 59.000000
+	__GongStructShape__00000007_.Y = 57.000000
+	__GongStructShape__00000007_.IdentifierMeta = ref_models.CompareAnalysis{}
+	__GongStructShape__00000007_.Width = 240.000000
+	__GongStructShape__00000007_.Height = 209.000000
+	__GongStructShape__00000007_.IsSelected = false
 
 	__LinkShape__00000003_.Name = `Performances`
 	__LinkShape__00000003_.IdentifierMeta = ref_models.System{}.Performances
@@ -182,31 +197,50 @@ func _(stage *models.Stage) {
 	__LinkShape__00000005_.EndRatio = 0.500000
 	__LinkShape__00000005_.CornerOffsetRatio = 1.380000
 
-	__LinkShape__00000006_.Name = `SubSystemes`
-	__LinkShape__00000006_.IdentifierMeta = ref_models.System{}.SubSystems
-	__LinkShape__00000006_.FieldTypeIdentifierMeta = ref_models.System{}
-	__LinkShape__00000006_.FieldOffsetX = 0.000000
-	__LinkShape__00000006_.FieldOffsetY = 0.000000
-	__LinkShape__00000006_.TargetMultiplicity = models.MANY
-	__LinkShape__00000006_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000006_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000006_.SourceMultiplicity = models.MANY
-	__LinkShape__00000006_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000006_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000006_.X = 827.000000
-	__LinkShape__00000006_.Y = 80.500000
-	__LinkShape__00000006_.StartOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000006_.StartRatio = 0.088628
-	__LinkShape__00000006_.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000006_.EndRatio = 0.871962
-	__LinkShape__00000006_.CornerOffsetRatio = 2.777778
+	__LinkShape__00000007_.Name = `FromSystem`
+	__LinkShape__00000007_.IdentifierMeta = ref_models.CompareAnalysis{}.FromSystem
+	__LinkShape__00000007_.FieldTypeIdentifierMeta = ref_models.System{}
+	__LinkShape__00000007_.FieldOffsetX = 0.000000
+	__LinkShape__00000007_.FieldOffsetY = 0.000000
+	__LinkShape__00000007_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000007_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000007_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000007_.SourceMultiplicity = models.MANY
+	__LinkShape__00000007_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000007_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000007_.X = 633.000000
+	__LinkShape__00000007_.Y = 133.000000
+	__LinkShape__00000007_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000007_.StartRatio = 0.160238
+	__LinkShape__00000007_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000007_.EndRatio = 0.121349
+	__LinkShape__00000007_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000008_.Name = `ToSystem`
+	__LinkShape__00000008_.IdentifierMeta = ref_models.CompareAnalysis{}.ToSystem
+	__LinkShape__00000008_.FieldTypeIdentifierMeta = ref_models.System{}
+	__LinkShape__00000008_.FieldOffsetX = 0.000000
+	__LinkShape__00000008_.FieldOffsetY = 0.000000
+	__LinkShape__00000008_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000008_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000008_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000008_.SourceMultiplicity = models.MANY
+	__LinkShape__00000008_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000008_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000008_.X = 633.000000
+	__LinkShape__00000008_.Y = 133.000000
+	__LinkShape__00000008_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000008_.StartRatio = 0.812248
+	__LinkShape__00000008_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000008_.EndRatio = 0.750041
+	__LinkShape__00000008_.CornerOffsetRatio = 1.380000
 
 	// insertion point for setup of pointers
-	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000005_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000007_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
 	__GongStructShape__00000003_.AttributeShapes = append(__GongStructShape__00000003_.AttributeShapes, __AttributeShape__00000001_)
@@ -215,5 +249,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000003_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000004_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000005_)
-	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000006_)
+	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000003_)
+	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000004_)
+	__GongStructShape__00000007_.LinkShapes = append(__GongStructShape__00000007_.LinkShapes, __LinkShape__00000007_)
+	__GongStructShape__00000007_.LinkShapes = append(__GongStructShape__00000007_.LinkShapes, __LinkShape__00000008_)
 }

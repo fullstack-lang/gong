@@ -57,8 +57,8 @@ func _(stage *models.Stage) {
 	__Complexity__00000025_ := (&models.Complexity{Name: `SysML V2`}).Stage(stage)
 	__Complexity__00000026_ := (&models.Complexity{Name: `SysML API spec`}).Stage(stage)
 	__Complexity__00000027_ := (&models.Complexity{Name: `Tool Dependance complexity`}).Stage(stage)
-	__Complexity__00000028_ := (&models.Complexity{Name: `Tool Dependant Extensibility`}).Stage(stage)
-	__Complexity__00000031_ := (&models.Complexity{Name: `Tool Dependant Extensivility v2`}).Stage(stage)
+	__Complexity__00000028_ := (&models.Complexity{Name: `Tool Dependant Extensibility SysML V1`}).Stage(stage)
+	__Complexity__00000031_ := (&models.Complexity{Name: `Tool Dependant Extensivility SysML V2`}).Stage(stage)
 	__Complexity__00000032_ := (&models.Complexity{Name: `go + gong proficiency`}).Stage(stage)
 	__Complexity__00000033_ := (&models.Complexity{Name: `Tool installation`}).Stage(stage)
 
@@ -179,14 +179,14 @@ func _(stage *models.Stage) {
 	__CompareAnalysis__00000001_.IsExpanded = false
 
 	__CompareAnalysis__00000002_.Name = `V1 to V2`
-	__CompareAnalysis__00000002_.Mu = 1.000000
-	__CompareAnalysis__00000002_.Epsilon = 1.000000
+	__CompareAnalysis__00000002_.Mu = 0.939719
+	__CompareAnalysis__00000002_.Epsilon = 0.805457
 	__CompareAnalysis__00000002_.ComputedPrefix = ``
 	__CompareAnalysis__00000002_.IsExpanded = false
 
 	__CompareAnalysis__00000003_.Name = `V2 to Go`
-	__CompareAnalysis__00000003_.Mu = 1.000000
-	__CompareAnalysis__00000003_.Epsilon = 1.000000
+	__CompareAnalysis__00000003_.Mu = 0.993588
+	__CompareAnalysis__00000003_.Epsilon = 1.001916
 	__CompareAnalysis__00000003_.ComputedPrefix = ``
 	__CompareAnalysis__00000003_.IsExpanded = false
 
@@ -352,13 +352,13 @@ func _(stage *models.Stage) {
 	__Complexity__00000027_.ComputedPrefix = ``
 	__Complexity__00000027_.IsExpanded = false
 
-	__Complexity__00000028_.Name = `Tool Dependant Extensibility`
+	__Complexity__00000028_.Name = `Tool Dependant Extensibility SysML V1`
 	__Complexity__00000028_.Strength = 7.420000
 	__Complexity__00000028_.Description = ``
 	__Complexity__00000028_.ComputedPrefix = ``
 	__Complexity__00000028_.IsExpanded = false
 
-	__Complexity__00000031_.Name = `Tool Dependant Extensivility v2`
+	__Complexity__00000031_.Name = `Tool Dependant Extensivility SysML V2`
 	__Complexity__00000031_.Strength = 7.880000
 	__Complexity__00000031_.Description = ``
 	__Complexity__00000031_.ComputedPrefix = ``
@@ -756,7 +756,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000017_.FontSize = models.FONT_SIZE_NORMAL
 	__DiagramFlossEquation__00000017_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000017_.IsExpanded = false
-	__DiagramFlossEquation__00000017_.IsChecked = true
+	__DiagramFlossEquation__00000017_.IsChecked = false
 	__DiagramFlossEquation__00000017_.IsEditable_ = true
 	__DiagramFlossEquation__00000017_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000017_.AreQuantitativeElementsVisible = false
@@ -896,7 +896,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000023_.AreCommonElementsHidden = false
 	__DiagramFlossEquation__00000023_.AreCPEArrowsVisible = false
 	__DiagramFlossEquation__00000023_.Width = 1170.000000
-	__DiagramFlossEquation__00000023_.Height = 870.000000
+	__DiagramFlossEquation__00000023_.Height = 875.400000
 	__DiagramFlossEquation__00000023_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000023_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000023_.IsNotesNodeExpanded = false
@@ -918,7 +918,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000024_.AreCommonElementsHidden = false
 	__DiagramFlossEquation__00000024_.AreCPEArrowsVisible = false
 	__DiagramFlossEquation__00000024_.Width = 1170.000000
-	__DiagramFlossEquation__00000024_.Height = 1070.000000
+	__DiagramFlossEquation__00000024_.Height = 1075.400000
 	__DiagramFlossEquation__00000024_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000024_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000024_.IsNotesNodeExpanded = false
@@ -935,12 +935,12 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000025_.IsChecked = false
 	__DiagramFlossEquation__00000025_.IsEditable_ = true
 	__DiagramFlossEquation__00000025_.IsInDelta3ColumnsMode = false
-	__DiagramFlossEquation__00000025_.AreQuantitativeElementsVisible = true
+	__DiagramFlossEquation__00000025_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000025_.AreSubsystemsVisible = false
-	__DiagramFlossEquation__00000025_.AreCommonElementsHidden = false
+	__DiagramFlossEquation__00000025_.AreCommonElementsHidden = true
 	__DiagramFlossEquation__00000025_.AreCPEArrowsVisible = true
 	__DiagramFlossEquation__00000025_.Width = 1418.000000
-	__DiagramFlossEquation__00000025_.Height = 1036.000000
+	__DiagramFlossEquation__00000025_.Height = 750.000000
 	__DiagramFlossEquation__00000025_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000025_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000025_.IsNotesNodeExpanded = true
@@ -954,7 +954,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000026_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000026_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000026_.IsExpanded = false
-	__DiagramFlossEquation__00000026_.IsChecked = false
+	__DiagramFlossEquation__00000026_.IsChecked = true
 	__DiagramFlossEquation__00000026_.IsEditable_ = true
 	__DiagramFlossEquation__00000026_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000026_.AreQuantitativeElementsVisible = false
@@ -962,7 +962,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000026_.AreCommonElementsHidden = false
 	__DiagramFlossEquation__00000026_.AreCPEArrowsVisible = true
 	__DiagramFlossEquation__00000026_.Width = 1418.000000
-	__DiagramFlossEquation__00000026_.Height = 1353.750000
+	__DiagramFlossEquation__00000026_.Height = 1354.853266
 	__DiagramFlossEquation__00000026_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000026_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000026_.IsNotesNodeExpanded = true
@@ -1339,7 +1339,7 @@ func _(stage *models.Stage) {
 	__Performance__00000014_.IsExpanded = false
 
 	__Performance__00000015_.Name = `Programmatic extensibility`
-	__Performance__00000015_.Strength = 20.000000
+	__Performance__00000015_.Strength = 20.270000
 	__Performance__00000015_.Description = ``
 	__Performance__00000015_.ComputedPrefix = ``
 	__Performance__00000015_.IsExpanded = false
