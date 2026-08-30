@@ -957,7 +957,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000026_.IsChecked = true
 	__DiagramFlossEquation__00000026_.IsEditable_ = true
 	__DiagramFlossEquation__00000026_.IsInDelta3ColumnsMode = false
-	__DiagramFlossEquation__00000026_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000026_.AreQuantitativeElementsVisible = true
 	__DiagramFlossEquation__00000026_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000026_.AreCommonElementsHidden = false
 	__DiagramFlossEquation__00000026_.AreCPEArrowsVisible = true

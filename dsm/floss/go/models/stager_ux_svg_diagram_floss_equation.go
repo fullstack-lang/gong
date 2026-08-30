@@ -634,10 +634,16 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				}
 				if diagram.AreQuantitativeElementsVisible {
 					if multiplier != 1.0 {
+						factorSymbol := "factor"
+						if category == "P" {
+							factorSymbol = "μ"
+						} else if category == "E" {
+							factorSymbol = "ε"
+						}
 						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
-							content = fmt.Sprintf("[%s] %s (%.2f × factor=%.2f)", sysOwner.Name, name, strength, strength*multiplier)
+							content = fmt.Sprintf("[%s] %s (%.2f × %s=%.2f)", sysOwner.Name, name, strength, factorSymbol, strength*multiplier)
 						} else {
-							content = fmt.Sprintf("%s (%.2f × factor=%.2f)", name, strength, strength*multiplier)
+							content = fmt.Sprintf("%s (%.2f × %s=%.2f)", name, strength, factorSymbol, strength*multiplier)
 						}
 					} else {
 						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
@@ -1284,7 +1290,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, p := range toPerformances {
 			if diagram.AreQuantitativeElementsVisible {
 				if mu != 1.0 {
-					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*mu))
+					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f · μ=%.2f)", p.Name, p.Strength, p.Strength*mu))
 				} else {
 					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f)", p.Name, p.Strength))
 				}
@@ -1295,7 +1301,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, p := range fromPerformances {
 			if diagram.AreQuantitativeElementsVisible {
 				if mu != 1.0 {
-					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", p.Name, p.Strength, p.Strength*mu))
+					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f · μ=%.2f)", p.Name, p.Strength, p.Strength*mu))
 				} else {
 					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f)", p.Name, p.Strength))
 				}
@@ -1348,7 +1354,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, e := range toEfforts {
 			if diagram.AreQuantitativeElementsVisible {
 				if epsilon != 1.0 {
-					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
+					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f · ε=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
 				} else {
 					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f)", e.Name, e.Strength))
 				}
@@ -1359,7 +1365,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, e := range fromEfforts {
 			if diagram.AreQuantitativeElementsVisible {
 				if epsilon != 1.0 {
-					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f · factor=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
+					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f · ε=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
 				} else {
 					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f)", e.Name, e.Strength))
 				}
