@@ -1,5 +1,8 @@
 # 1. Domain-Specific Modeling (DSM) in the Browser
 
+> [!NOTE]
+> On average, the file to download is heavy (200 MB) and the zip is also heavy (74 MB).
+
 ## Systems Engineering
 
 - **System hierarchy definition**: [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)) supports the definition of Product Breakdown Structures (PBS), Work Breakdown Structures (WBS), task resource allocation, and execution planning.
