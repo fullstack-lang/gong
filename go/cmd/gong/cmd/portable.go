@@ -57,6 +57,9 @@ var portableCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		// If JS chunks exist, bundle the main JS entry point into a single self-contained bundle
+		bundleJsChunks(".tmp_build")
+
 		// Copy wasm_exec.js (Handles both older and newer Go versions)
 		goRootBytes, _ := exec.Command("go", "env", "GOROOT").Output()
 		goRoot := strings.TrimSpace(string(goRootBytes))
@@ -196,37 +199,49 @@ var portableCmd = &cobra.Command{
 		modulePreloadRe := regexp.MustCompile(`(?i)<link[^>]*rel="modulepreload"[^>]*>`)
 		html = modulePreloadRe.ReplaceAllString(html, "")
 
-		// Build an importmap mapping all JS files/chunks in buildDir to Base64 data URIs
-		// This enables ES module imports (static and dynamic) to resolve in-memory under file:// protocol
+		// Build an importmap mapping any remaining unbundled JS chunks in buildDir to Base64 data URIs
 		var importMappings []string
+		hasChunks := false
 		filepath.Walk(buildDir, func(path string, info os.FileInfo, err error) error {
 			if err != nil || info.IsDir() || !strings.HasSuffix(info.Name(), ".js") {
 				return nil
 			}
-			relPath, err := filepath.Rel(buildDir, path)
-			if err != nil {
-				return nil
+			if strings.HasPrefix(info.Name(), "chunk-") {
+				hasChunks = true
 			}
-			relUrl := filepath.ToSlash(relPath)
-			jsBytes, err := os.ReadFile(path)
-			if err != nil {
-				return nil
-			}
-			fmt.Printf("js chunk/module: Inlining %s into importmap\n", relUrl)
-			b64 := base64.StdEncoding.EncodeToString(jsBytes)
-			dataUri := "data:text/javascript;base64," + b64
-
-			importMappings = append(importMappings,
-				fmt.Sprintf(`    %q: %q`, relUrl, dataUri),
-				fmt.Sprintf(`    %q: %q`, "./"+relUrl, dataUri),
-				fmt.Sprintf(`    %q: %q`, "/"+relUrl, dataUri),
-			)
 			return nil
 		})
 
-		if len(importMappings) > 0 {
-			importMapScript := fmt.Sprintf("<script type=\"importmap\">\n{\n  \"imports\": {\n%s\n  }\n}\n</script>\n", strings.Join(importMappings, ",\n"))
-			html = strings.Replace(html, "<head>", "<head>\n"+importMapScript, 1)
+		if hasChunks {
+			filepath.Walk(buildDir, func(path string, info os.FileInfo, err error) error {
+				if err != nil || info.IsDir() || !strings.HasSuffix(info.Name(), ".js") {
+					return nil
+				}
+				relPath, err := filepath.Rel(buildDir, path)
+				if err != nil {
+					return nil
+				}
+				relUrl := filepath.ToSlash(relPath)
+				jsBytes, err := os.ReadFile(path)
+				if err != nil {
+					return nil
+				}
+				fmt.Printf("js chunk/module: Inlining %s into importmap\n", relUrl)
+				b64 := base64.StdEncoding.EncodeToString(jsBytes)
+				dataUri := "data:text/javascript;base64," + b64
+
+				importMappings = append(importMappings,
+					fmt.Sprintf(`    %q: %q`, relUrl, dataUri),
+					fmt.Sprintf(`    %q: %q`, "./"+relUrl, dataUri),
+					fmt.Sprintf(`    %q: %q`, "/"+relUrl, dataUri),
+				)
+				return nil
+			})
+
+			if len(importMappings) > 0 {
+				importMapScript := fmt.Sprintf("<script type=\"importmap\">\n{\n  \"imports\": {\n%s\n  }\n}\n</script>\n", strings.Join(importMappings, ",\n"))
+				html = strings.Replace(html, "<head>", "<head>\n"+importMapScript, 1)
+			}
 		}
 
 		// Inject history API patch in <head> to prevent Angular SecurityError on file:///
@@ -330,14 +345,21 @@ var portableCmd = &cobra.Command{
 			return match
 		})
 
-		// Inline Angular JS Modules
-		jsModuleRe := regexp.MustCompile(`(?i)<script src="([^"]+)" type="module"><\/script>`)
-		html = jsModuleRe.ReplaceAllStringFunc(html, func(match string) string {
-			src := jsModuleRe.FindStringSubmatch(match)[1]
+		// Inline Angular JS Modules and scripts (handles type="module", defer, and plain scripts)
+		scriptRe := regexp.MustCompile(`(?i)<script([^>]*)\ssrc="([^"]+)"([^>]*)><\/script>`)
+		html = scriptRe.ReplaceAllStringFunc(html, func(match string) string {
+			sub := scriptRe.FindStringSubmatch(match)
+			preAttrs := sub[1]
+			src := sub[2]
+			postAttrs := sub[3]
 			jsBytes, err := os.ReadFile(filepath.Join(buildDir, src))
 			if err == nil {
 				fmt.Printf("js: Inlining %s\n", src)
-				return fmt.Sprintf("<script type=\"module\">\n%s\n</script>", string(jsBytes))
+				allAttrs := strings.ToLower(preAttrs + " " + postAttrs)
+				if strings.Contains(allAttrs, `type="module"`) {
+					return fmt.Sprintf("<script type=\"module\">\n%s\n</script>", string(jsBytes))
+				}
+				return fmt.Sprintf("<script>\n%s\n</script>", string(jsBytes))
 			}
 			return match
 		})
@@ -482,5 +504,58 @@ func runWasmBuild(name string, args ...string) {
 	if err := cmd.Run(); err != nil {
 		fmt.Printf("❌ Error running command '%s %s': %v\n", name, strings.Join(args, " "), err)
 		os.Exit(1)
+	}
+}
+
+// Helper: Bundle JS chunks into main.js if esbuild or npx is available
+func bundleJsChunks(buildDir string) {
+	var chunkFiles []string
+	var mainFile string
+	filepath.Walk(buildDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil || info.IsDir() {
+			return nil
+		}
+		name := info.Name()
+		if strings.HasPrefix(name, "chunk-") && strings.HasSuffix(name, ".js") {
+			chunkFiles = append(chunkFiles, path)
+		}
+		if strings.HasPrefix(name, "main-") && strings.HasSuffix(name, ".js") {
+			mainFile = path
+		}
+		return nil
+	})
+
+	if len(chunkFiles) == 0 || mainFile == "" {
+		return
+	}
+
+	fmt.Printf("📦 Bundling %d JS chunks into %s using esbuild...\n", len(chunkFiles), filepath.Base(mainFile))
+	bundledFile := mainFile + ".bundled.js"
+	var cmd *exec.Cmd
+	if _, err := exec.LookPath("esbuild"); err == nil {
+		cmd = exec.Command("esbuild", mainFile, "--bundle", "--outfile="+bundledFile, "--format=esm")
+	} else if _, err := exec.LookPath("npx"); err == nil {
+		cmd = exec.Command("npx", "-y", "esbuild", mainFile, "--bundle", "--outfile="+bundledFile, "--format=esm")
+	}
+
+	if cmd != nil {
+		if out, err := cmd.CombinedOutput(); err == nil {
+			if err := os.Rename(bundledFile, mainFile); err == nil {
+				fmt.Println("✅ JS bundling successful!")
+				for _, cf := range chunkFiles {
+					os.Remove(cf)
+				}
+				// Also remove <link rel="modulepreload"> from index.html if present
+				indexPath := filepath.Join(buildDir, "index.html")
+				if indexBytes, err := os.ReadFile(indexPath); err == nil {
+					cleanedIndex := regexp.MustCompile(`(?i)<link[^>]*rel="modulepreload"[^>]*>`).ReplaceAllString(string(indexBytes), "")
+					os.WriteFile(indexPath, []byte(cleanedIndex), 0o644)
+				}
+			}
+		} else {
+			fmt.Printf("⚠️ Warning: esbuild bundling failed: %v\nOutput: %s\n", err, string(out))
+		}
+	} else {
+		fmt.Println("⚠️ Note: esbuild or npx not found in PATH; skipping JS bundling.")
 	}
 }
