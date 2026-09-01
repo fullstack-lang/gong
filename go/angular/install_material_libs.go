@@ -79,6 +79,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"tone@^15.0.4",
 			"ngx-markdown@22",
 			"marked@^18.0.0",
+			"marked-katex-extension@^5.1.12",
 			"katex@^0.16.21",
 			"material-symbols@^0.45.1",
 			"three@^0.182.0",

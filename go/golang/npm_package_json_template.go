@@ -25,7 +25,9 @@ const NpmPackageJsonTemplate = `{
     ],
     "dependencies": {
         "@types/katex": "^0.16.8",
-        "katex": "^0.16.21"
+        "katex": "^0.16.21",
+        "marked": "^18.0.0",
+        "marked-katex-extension": "^5.1.12"
     }
 }
 `
