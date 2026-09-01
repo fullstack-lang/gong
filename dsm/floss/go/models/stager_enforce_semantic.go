@@ -64,7 +64,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 		// concrete semantic check
 		{"Enforce at least one diagram per system", stager.enforceAtLeastOneDiagramPerSystem},
-		{"Enforce a system diagram has its owning system", stager.enforceASystemDiagramHasItsOwningSystem},
+		{"Enforce at least one diagram per compare analysis", stager.enforceAtLeastOneDiagramPerCompareAnalysis},
+		{"Enforce diagram floss equation exclusive owner", stager.enforceDiagramFlossEquationExclusiveOwner},
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce shapes not attached to system", stager.enforceShapesNotAttachedToSystem},

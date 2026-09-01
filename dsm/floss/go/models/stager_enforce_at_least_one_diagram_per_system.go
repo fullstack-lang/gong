@@ -16,7 +16,6 @@ func (stager *Stager) enforceAtLeastOneDiagramPerSystem() (needCommit bool) {
 		}
 
 		for _, diagram := range system.DiagramFlossEquations {
-			diagram.SetOwningSystem(system)
 			if diagram.Scale == 0 {
 				diagram.Scale = 5.0
 				needCommit = true

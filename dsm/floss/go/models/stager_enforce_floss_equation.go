@@ -53,24 +53,6 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 			compareAnalysis.Epsilon = 1.0
 			needCommit = true
 		}
-
-		// Ensure at least one diagram per compare analysis
-		if len(compareAnalysis.DiagramFlossEquations) == 0 {
-			diagram := new(DiagramFlossEquation).Stage(stager.stage)
-			diagram.Name = compareAnalysis.Name + " Equation Diagram"
-			diagram.Scale = 5.0
-			diagram.IsEditable_ = true
-			compareAnalysis.DiagramFlossEquations = append(compareAnalysis.DiagramFlossEquations, diagram)
-			needCommit = true
-		}
-
-		for _, diagram := range compareAnalysis.DiagramFlossEquations {
-			diagram.SetOwningCompareAnalysis(compareAnalysis)
-			if diagram.Scale == 0 {
-				diagram.Scale = 5.0
-				needCommit = true
-			}
-		}
 	}
 
 	for system := range *GetGongstructInstancesSet[System](stager.stage) {
