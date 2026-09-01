@@ -79,10 +79,8 @@ func (stager *Stager) ux_slider() {
 		}
 		if val >= 50.0 {
 			step = 1.0
-		} else if val >= 5.0 {
-			step = 0.1
 		} else {
-			step = 0.01
+			step = 0.1
 		}
 		return min, max, step
 	}
@@ -177,7 +175,7 @@ func (stager *Stager) ux_slider() {
 		if val > 100.0 {
 			max = math.Ceil(val/50.0) * 50.0
 		}
-		return 0.0, max, 0.01
+		return 0.0, max, 0.1
 	}
 
 	for _, c := range complexities {
@@ -213,7 +211,7 @@ func (stager *Stager) ux_slider() {
 				"Mu (μ)",
 				0.1,
 				5.0,
-				0.01,
+				0.1,
 				&activeCompareAnalysis.Mu,
 			),
 		)
@@ -309,7 +307,7 @@ func (stager *Stager) ux_slider() {
 				"Epsilon (ε)",
 				0.0,
 				5.0,
-				0.01,
+				0.1,
 				&activeCompareAnalysis.Epsilon,
 			),
 		)

@@ -420,10 +420,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	if !isDelta {
-		valuesStr = fmt.Sprintf("C=%.2f   P=%.2f (μ=%.2f → μ·P=%.2f)   E=%.2f (ε=%.2f → ε·E=%.2f)   [μ·P - ε·E = %.2f,  Diff = %.2f]",
+		valuesStr = fmt.Sprintf("C=%.1f   P=%.1f (μ=%.1f → μ·P=%.1f)   E=%.1f (ε=%.1f → ε·E=%.1f)   [μ·P - ε·E = %.1f,  Diff = %.1f]",
 			cTo, pTo, mu, mu*pTo, eTo, epsilon, epsilon*eTo, rhs, diff)
 	} else {
-		valuesStr = fmt.Sprintf("ΔC=%.2f (V2:%.2f - V1:%.2f)   μ=%.2f, μ·ΔP=%.2f (V2:%.2f - V1:%.2f)   ε=%.2f, ε·ΔE=%.2f (V2:%.2f - V1:%.2f)   [RHS = %.2f,  Diff = %.2f]",
+		valuesStr = fmt.Sprintf("ΔC=%.1f (V2:%.1f - V1:%.1f)   μ=%.1f, μ·ΔP=%.1f (V2:%.1f - V1:%.1f)   ε=%.1f, ε·ΔE=%.1f (V2:%.1f - V1:%.1f)   [RHS = %.1f,  Diff = %.1f]",
 			deltaC, cTo, cFrom, mu, mu*deltaP, mu*pTo, mu*pFrom, epsilon, epsilon*deltaE, epsilon*eTo, epsilon*eFrom, rhs, diff)
 	}
 
@@ -643,15 +643,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 							factorSymbol = "ε"
 						}
 						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
-							content = fmt.Sprintf("[%s] %s (%.2f × %s=%.2f)", sysOwner.Name, name, strength, factorSymbol, strength*multiplier)
+							content = fmt.Sprintf("[%s] %s (%.1f × %s=%.1f)", sysOwner.Name, name, strength, factorSymbol, strength*multiplier)
 						} else {
-							content = fmt.Sprintf("%s (%.2f × %s=%.2f)", name, strength, factorSymbol, strength*multiplier)
+							content = fmt.Sprintf("%s (%.1f × %s=%.1f)", name, strength, factorSymbol, strength*multiplier)
 						}
 					} else {
 						if sysOwner := sysMap[item]; sysOwner != nil && sysOwner != ownerSys {
-							content = fmt.Sprintf("[%s] %s (%.2f)", sysOwner.Name, name, strength)
+							content = fmt.Sprintf("[%s] %s (%.1f)", sysOwner.Name, name, strength)
 						} else {
-							content = fmt.Sprintf("%s (%.2f)", name, strength)
+							content = fmt.Sprintf("%s (%.1f)", name, strength)
 						}
 					}
 				}
@@ -777,7 +777,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 			muText := new(svg.RectAnchoredText)
 			muText.Name = "Mu Text"
-			muText.Content = fmt.Sprintf("μ = %.2f", mu)
+			muText.Content = fmt.Sprintf("μ = %.1f", mu)
 			muText.FontSize = fontSettings.ItemFontSize
 			muText.FontWeight = "600"
 			muText.Color = "#2E7D32"
@@ -811,7 +811,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 			epsilonText := new(svg.RectAnchoredText)
 			epsilonText.Name = "Epsilon Text"
-			epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+			epsilonText.Content = fmt.Sprintf("ε = %.1f", epsilon)
 			epsilonText.FontSize = fontSettings.ItemFontSize
 			epsilonText.FontWeight = "600"
 			epsilonText.Color = "#1976D2"
@@ -1075,7 +1075,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 			muText := new(svg.RectAnchoredText)
 			muText.Name = "Mu Text"
-			muText.Content = fmt.Sprintf("μ = %.2f", mu)
+			muText.Content = fmt.Sprintf("μ = %.1f", mu)
 			muText.FontSize = fontSettings.ItemFontSize
 			muText.FontWeight = "600"
 			muText.Color = "#2E7D32"
@@ -1151,7 +1151,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 			epsilonText := new(svg.RectAnchoredText)
 			epsilonText.Name = "Epsilon Text"
-			epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+			epsilonText.Content = fmt.Sprintf("ε = %.1f", epsilon)
 			epsilonText.FontSize = fontSettings.ItemFontSize
 			epsilonText.FontWeight = "600"
 			epsilonText.Color = "#1976D2"
@@ -1269,14 +1269,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		var linesC []string
 		for _, c := range toComplexities {
 			if diagram.AreQuantitativeElementsVisible {
-				linesC = append(linesC, fmt.Sprintf("V2: %s (%.2f)", c.Name, c.Strength))
+				linesC = append(linesC, fmt.Sprintf("V2: %s (%.1f)", c.Name, c.Strength))
 			} else {
 				linesC = append(linesC, fmt.Sprintf("V2: %s", c.Name))
 			}
 		}
 		for _, c := range fromComplexities {
 			if diagram.AreQuantitativeElementsVisible {
-				linesC = append(linesC, fmt.Sprintf("V1: %s (%.2f)", c.Name, c.Strength))
+				linesC = append(linesC, fmt.Sprintf("V1: %s (%.1f)", c.Name, c.Strength))
 			} else {
 				linesC = append(linesC, fmt.Sprintf("V1: %s", c.Name))
 			}
@@ -1300,9 +1300,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, p := range toPerformances {
 			if diagram.AreQuantitativeElementsVisible {
 				if mu != 1.0 {
-					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f · μ=%.2f)", p.Name, p.Strength, p.Strength*mu))
+					linesP = append(linesP, fmt.Sprintf("V2: %s (%.1f · μ=%.1f)", p.Name, p.Strength, p.Strength*mu))
 				} else {
-					linesP = append(linesP, fmt.Sprintf("V2: %s (%.2f)", p.Name, p.Strength))
+					linesP = append(linesP, fmt.Sprintf("V2: %s (%.1f)", p.Name, p.Strength))
 				}
 			} else {
 				linesP = append(linesP, fmt.Sprintf("V2: %s", p.Name))
@@ -1311,9 +1311,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, p := range fromPerformances {
 			if diagram.AreQuantitativeElementsVisible {
 				if mu != 1.0 {
-					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f · μ=%.2f)", p.Name, p.Strength, p.Strength*mu))
+					linesP = append(linesP, fmt.Sprintf("V1: %s (%.1f · μ=%.1f)", p.Name, p.Strength, p.Strength*mu))
 				} else {
-					linesP = append(linesP, fmt.Sprintf("V1: %s (%.2f)", p.Name, p.Strength))
+					linesP = append(linesP, fmt.Sprintf("V1: %s (%.1f)", p.Name, p.Strength))
 				}
 			} else {
 				linesP = append(linesP, fmt.Sprintf("V1: %s", p.Name))
@@ -1344,7 +1344,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 			muText := new(svg.RectAnchoredText)
 			muText.Name = "Mu Text"
-			muText.Content = fmt.Sprintf("μ = %.2f", mu)
+			muText.Content = fmt.Sprintf("μ = %.1f", mu)
 			muText.FontSize = fontSettings.ItemFontSize
 			muText.FontWeight = "600"
 			muText.Color = "#2E7D32"
@@ -1366,9 +1366,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, e := range toEfforts {
 			if diagram.AreQuantitativeElementsVisible {
 				if epsilon != 1.0 {
-					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f · ε=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
+					linesE = append(linesE, fmt.Sprintf("V2: %s (%.1f · ε=%.1f)", e.Name, e.Strength, e.Strength*epsilon))
 				} else {
-					linesE = append(linesE, fmt.Sprintf("V2: %s (%.2f)", e.Name, e.Strength))
+					linesE = append(linesE, fmt.Sprintf("V2: %s (%.1f)", e.Name, e.Strength))
 				}
 			} else {
 				linesE = append(linesE, fmt.Sprintf("V2: %s", e.Name))
@@ -1377,9 +1377,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		for _, e := range fromEfforts {
 			if diagram.AreQuantitativeElementsVisible {
 				if epsilon != 1.0 {
-					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f · ε=%.2f)", e.Name, e.Strength, e.Strength*epsilon))
+					linesE = append(linesE, fmt.Sprintf("V1: %s (%.1f · ε=%.1f)", e.Name, e.Strength, e.Strength*epsilon))
 				} else {
-					linesE = append(linesE, fmt.Sprintf("V1: %s (%.2f)", e.Name, e.Strength))
+					linesE = append(linesE, fmt.Sprintf("V1: %s (%.1f)", e.Name, e.Strength))
 				}
 			} else {
 				linesE = append(linesE, fmt.Sprintf("V1: %s", e.Name))
@@ -1410,7 +1410,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 			epsilonText := new(svg.RectAnchoredText)
 			epsilonText.Name = "Epsilon Text"
-			epsilonText.Content = fmt.Sprintf("ε = %.2f", epsilon)
+			epsilonText.Content = fmt.Sprintf("ε = %.1f", epsilon)
 			epsilonText.FontSize = fontSettings.ItemFontSize
 			epsilonText.FontWeight = "600"
 			epsilonText.Color = "#1976D2"
@@ -1471,10 +1471,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if math.Abs(diff) > 2.0 {
 		if diff > 0 {
 			diffColor = "#E53935"
-			diffTextMsg = fmt.Sprintf("Under-performing: Complexity exceeds Net Performance by %.2f", diff)
+			diffTextMsg = fmt.Sprintf("Under-performing: Complexity exceeds Net Performance by %.1f", diff)
 		} else {
 			diffColor = "#1E88E5"
-			diffTextMsg = fmt.Sprintf("Favorable Margin: Net Performance exceeds Complexity by %.2f", -diff)
+			diffTextMsg = fmt.Sprintf("Favorable Margin: Net Performance exceeds Complexity by %.1f", -diff)
 		}
 	}
 
