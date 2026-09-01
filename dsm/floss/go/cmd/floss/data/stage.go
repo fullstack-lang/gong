@@ -176,7 +176,7 @@ func _(stage *models.Stage) {
 
 	__CompareAnalysis__00000003_.Name = `V2 to Go`
 	__CompareAnalysis__00000003_.Mu = 1.000000
-	__CompareAnalysis__00000003_.Epsilon = 1.000000
+	__CompareAnalysis__00000003_.Epsilon = 0.900000
 	__CompareAnalysis__00000003_.ComputedPrefix = ``
 	__CompareAnalysis__00000003_.IsExpanded = false
 
@@ -749,7 +749,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000026_.AreCPEArrowsVisible = true
 	__DiagramFlossEquation__00000026_.AreColumnTitlesVisible = true
 	__DiagramFlossEquation__00000026_.Width = 1418.000000
-	__DiagramFlossEquation__00000026_.Height = 865.500000
+	__DiagramFlossEquation__00000026_.Height = 873.750000
 	__DiagramFlossEquation__00000026_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000026_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000026_.IsNotesNodeExpanded = true
@@ -866,7 +866,7 @@ func _(stage *models.Stage) {
 	__Effort__00000018_.IsExpanded = false
 
 	__Effort__00000019_.Name = `Gong environment`
-	__Effort__00000019_.Strength = 3.000000
+	__Effort__00000019_.Strength = 6.500000
 	__Effort__00000019_.Description = ``
 	__Effort__00000019_.ComputedPrefix = ``
 	__Effort__00000019_.IsExpanded = false

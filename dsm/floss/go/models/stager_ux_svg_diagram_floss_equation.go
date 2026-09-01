@@ -1511,9 +1511,40 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			titleRect.RectAnchoredTexts = append(titleRect.RectAnchoredTexts, titleText)
 		}
 
-		renderColumnTitle("Complexity", "Complexity", xCenterC, titleW, "#B78103")
-		renderColumnTitle("Performance", "Performance", xCenterP, titleW, "#2E7D32")
-		renderColumnTitle("Effort", "Effort", xCenterE, titleW, "#1976D2")
+		textC := "Complexity"
+		textP := "Performance"
+		textE := "Effort"
+		if diagram.AreQuantitativeElementsVisible {
+			if !isDelta {
+				textC = fmt.Sprintf("Complexity (%.1f)", cTo)
+				if mu != 1.0 {
+					textP = fmt.Sprintf("Performance (%.1f, μ·P=%.1f)", pTo, mu*pTo)
+				} else {
+					textP = fmt.Sprintf("Performance (%.1f)", pTo)
+				}
+				if epsilon != 1.0 {
+					textE = fmt.Sprintf("Effort (%.1f, ε·E=%.1f)", eTo, epsilon*eTo)
+				} else {
+					textE = fmt.Sprintf("Effort (%.1f)", eTo)
+				}
+			} else {
+				textC = fmt.Sprintf("Complexity (Δ=%.1f)", deltaC)
+				if mu != 1.0 {
+					textP = fmt.Sprintf("Performance (μ·ΔP=%.1f)", mu*deltaP)
+				} else {
+					textP = fmt.Sprintf("Performance (Δ=%.1f)", deltaP)
+				}
+				if epsilon != 1.0 {
+					textE = fmt.Sprintf("Effort (ε·ΔE=%.1f)", epsilon*deltaE)
+				} else {
+					textE = fmt.Sprintf("Effort (Δ=%.1f)", deltaE)
+				}
+			}
+		}
+
+		renderColumnTitle("Complexity", textC, xCenterC, titleW, "#B78103")
+		renderColumnTitle("Performance", textP, xCenterP, titleW, "#2E7D32")
+		renderColumnTitle("Effort", textE, xCenterE, titleW, "#1976D2")
 	}
 
 	diffColor := "#43A047"
