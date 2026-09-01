@@ -4162,6 +4162,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "AreColumnTitlesVisible",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Width",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -4929,6 +4933,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "AreCPEArrowsVisible":
 		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreCPEArrowsVisible)
 		res.valueBool = diagramflossequation.AreCPEArrowsVisible
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AreColumnTitlesVisible":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreColumnTitlesVisible)
+		res.valueBool = diagramflossequation.AreColumnTitlesVisible
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.Width)
@@ -5766,6 +5774,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.AreCommonElementsHidden = value.GetValueBool()
 	case "AreCPEArrowsVisible":
 		diagramflossequation.AreCPEArrowsVisible = value.GetValueBool()
+	case "AreColumnTitlesVisible":
+		diagramflossequation.AreColumnTitlesVisible = value.GetValueBool()
 	case "Width":
 		diagramflossequation.Width = value.GetValueFloat()
 	case "Height":

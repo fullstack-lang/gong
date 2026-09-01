@@ -2084,6 +2084,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	if diagramflossequation.AreCPEArrowsVisible != diagramflossequationOther.AreCPEArrowsVisible {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreCPEArrowsVisible"))
 	}
+	if diagramflossequation.AreColumnTitlesVisible != diagramflossequationOther.AreColumnTitlesVisible {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreColumnTitlesVisible"))
+	}
 	if diagramflossequation.Width != diagramflossequationOther.Width {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Width"))
 	}

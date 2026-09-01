@@ -24,6 +24,7 @@ type DiagramFlossEquation struct {
 	AreSubsystemsVisible           bool
 	AreCommonElementsHidden        bool
 	AreCPEArrowsVisible            bool
+	AreColumnTitlesVisible         bool
 
 	Width float64
 

@@ -204,6 +204,27 @@ func (stager *Stager) treeDiagramFlossEquation(
 		diagramNode.Buttons = append(diagramNode.Buttons, cpeArrowsButton)
 	}
 
+	// Button for visibility management of column titles (Complexity, Performance, Effort)
+	{
+		colTitlesButton := &tree.Button{
+			Name:            diagram.GetName() + " Column Titles Visibility",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagram.AreColumnTitlesVisible = !diagram.AreColumnTitlesVisible
+				stager.stage.Commit()
+			},
+		}
+		if diagram.AreColumnTitlesVisible {
+			colTitlesButton.Icon = string(buttons.BUTTON_label)
+			colTitlesButton.ToolTipText = "Hide Column Titles (Complexity, Performance, Effort)"
+		} else {
+			colTitlesButton.Icon = string(buttons.BUTTON_label_off)
+			colTitlesButton.ToolTipText = "Show Column Titles (Complexity, Performance, Effort)"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, colTitlesButton)
+	}
+
 	// Button for toggle between font sizes
 	{
 		fontSizeButton := &tree.Button{

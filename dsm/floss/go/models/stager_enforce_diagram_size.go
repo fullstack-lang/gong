@@ -36,6 +36,9 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 
 		topMargin := 150.0
 		bottomMargin := 120.0
+		if diagramEq.AreColumnTitlesVisible {
+			bottomMargin = 160.0
+		}
 		neededHeight := topMargin + extentAboveBaseline*scale + extentBelowBaseline*scale + bottomMargin
 		if neededHeight < 750.0 {
 			neededHeight = 750.0

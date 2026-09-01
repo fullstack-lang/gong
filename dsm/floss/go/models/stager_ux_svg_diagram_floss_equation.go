@@ -344,6 +344,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	topMargin := math.Max(200.0, fontSettings.HeaderHeight+80.0)
 	bottomMargin := 120.0
+	if diagram.AreColumnTitlesVisible {
+		bottomMargin = 160.0
+	}
 	yGround := topMargin + extentAboveBaseline*scale
 	maxBottom := yGround + extentBelowBaseline*scale
 	neededHeight := maxBottom + bottomMargin
@@ -1463,6 +1466,56 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		indicatorX = xCol1_V2 + colWidth/2
 	}
 
+	var xCenterC, xCenterP, xCenterE float64
+	var titleW float64 = colWidth
+	if isDelta && !diagram.IsInDelta3ColumnsMode {
+		xCenterC = (xCol1_V1 + xCol1_V2 + colWidth) / 2
+		xCenterP = (xCol2_V1 + xCol2_V2 + colWidth) / 2
+		xCenterE = (xCol3_V1 + xCol3_V2 + colWidth) / 2
+		titleW = math.Abs(xCol1_V2-xCol1_V1) + colWidth
+	} else {
+		xCenterC = xCol1_V2 + colWidth/2
+		xCenterP = xCol2_V2 + colWidth/2
+		xCenterE = xCol3_V2 + colWidth/2
+	}
+
+	yTitles := math.Max(yGround+35.0, maxBottom+40.0)
+
+	if diagram.AreColumnTitlesVisible {
+		renderColumnTitle := func(name string, text string, xCenter float64, width float64) {
+			titleRect := &svg.Rect{
+				Name:   name + " Title Rect",
+				X:      xCenter - width/2,
+				Y:      yTitles,
+				Width:  width,
+				Height: 30,
+				Presentation: svg.Presentation{
+					FillOpacity:   0.0,
+					StrokeOpacity: 0.0,
+				},
+			}
+			layer.Rects = append(layer.Rects, titleRect)
+
+			titleText := new(svg.RectAnchoredText)
+			titleText.Name = name + " Title Text"
+			titleText.Content = text
+			titleText.FontSize = fontSettings.HeaderFormulaSize
+			titleText.FontWeight = "600"
+			titleText.Color = "#263238"
+			titleText.FillOpacity = 1.0
+			titleText.Stroke = "#263238"
+			titleText.StrokeWidth = 0
+			titleText.StrokeOpacity = 1.0
+			titleText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			titleText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			titleRect.RectAnchoredTexts = append(titleRect.RectAnchoredTexts, titleText)
+		}
+
+		renderColumnTitle("Complexity", "Complexity", xCenterC, titleW)
+		renderColumnTitle("Performance", "Performance", xCenterP, titleW)
+		renderColumnTitle("Effort", "Effort", xCenterE, titleW)
+	}
+
 	diffColor := "#43A047"
 	diffTextMsg := "Equilibrium (ΔC ≈ μ·ΔP - ε·ΔE)"
 	if !isDelta {
@@ -1492,10 +1545,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Lines = append(layer.Lines, diffLine)
 
+	yIndicatorMsg := maxBottom + 65
+	if diagram.AreColumnTitlesVisible {
+		yIndicatorMsg = math.Max(yIndicatorMsg, yTitles+45)
+	}
+
 	indicatorLabel := &svg.Text{
 		Name:    "Indicator Message",
 		X:       40,
-		Y:       maxBottom + 65,
+		Y:       yIndicatorMsg,
 		Content: diffTextMsg,
 		TextAttributes: svg.TextAttributes{
 			FontSize:   fontSettings.IndicatorFontSize,

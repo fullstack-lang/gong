@@ -591,6 +591,8 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.AreCommonElementsHidden = GongExtractBool(valueExpr)
 	case "AreCPEArrowsVisible":
 		instance.AreCPEArrowsVisible = GongExtractBool(valueExpr)
+	case "AreColumnTitlesVisible":
+		instance.AreColumnTitlesVisible = GongExtractBool(valueExpr)
 	case "Width":
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
