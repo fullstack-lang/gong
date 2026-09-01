@@ -61,7 +61,7 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 	}
 
 	for compareAnalysis := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
-		
+
 		if compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil {
 			C1, P1, E1 := getSystemCPE(compareAnalysis.FromSystem)
 			C2, P2, E2 := getSystemCPE(compareAnalysis.ToSystem)
