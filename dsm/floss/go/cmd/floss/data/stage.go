@@ -355,7 +355,7 @@ func _(stage *models.Stage) {
 	__Complexity__00000031_.IsExpanded = false
 
 	__Complexity__00000032_.Name = `go + gong proficiency`
-	__Complexity__00000032_.Strength = 1.400000
+	__Complexity__00000032_.Strength = 1.700000
 	__Complexity__00000032_.Description = ``
 	__Complexity__00000032_.ComputedPrefix = ``
 	__Complexity__00000032_.IsExpanded = false
@@ -542,7 +542,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000017_.AreCPEArrowsVisible = true
 	__DiagramFlossEquation__00000017_.AreColumnTitlesVisible = false
 	__DiagramFlossEquation__00000017_.Width = 1418.000000
-	__DiagramFlossEquation__00000017_.Height = 1055.000000
+	__DiagramFlossEquation__00000017_.Height = 1005.000000
 	__DiagramFlossEquation__00000017_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000017_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000017_.IsNotesNodeExpanded = false
@@ -671,7 +671,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000023_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000023_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000023_.IsExpanded = false
-	__DiagramFlossEquation__00000023_.IsChecked = true
+	__DiagramFlossEquation__00000023_.IsChecked = false
 	__DiagramFlossEquation__00000023_.IsEditable_ = true
 	__DiagramFlossEquation__00000023_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000023_.AreQuantitativeElementsVisible = true
@@ -680,7 +680,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000023_.AreCPEArrowsVisible = false
 	__DiagramFlossEquation__00000023_.AreColumnTitlesVisible = true
 	__DiagramFlossEquation__00000023_.Width = 1170.000000
-	__DiagramFlossEquation__00000023_.Height = 916.000000
+	__DiagramFlossEquation__00000023_.Height = 846.000000
 	__DiagramFlossEquation__00000023_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000023_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000023_.IsNotesNodeExpanded = false
@@ -694,7 +694,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000024_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000024_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000024_.IsExpanded = false
-	__DiagramFlossEquation__00000024_.IsChecked = false
+	__DiagramFlossEquation__00000024_.IsChecked = true
 	__DiagramFlossEquation__00000024_.IsEditable_ = true
 	__DiagramFlossEquation__00000024_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000024_.AreQuantitativeElementsVisible = true
@@ -703,7 +703,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000024_.AreCPEArrowsVisible = false
 	__DiagramFlossEquation__00000024_.AreColumnTitlesVisible = true
 	__DiagramFlossEquation__00000024_.Width = 1170.000000
-	__DiagramFlossEquation__00000024_.Height = 1116.000000
+	__DiagramFlossEquation__00000024_.Height = 1046.000000
 	__DiagramFlossEquation__00000024_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000024_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000024_.IsNotesNodeExpanded = false
@@ -749,7 +749,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000026_.AreCPEArrowsVisible = true
 	__DiagramFlossEquation__00000026_.AreColumnTitlesVisible = true
 	__DiagramFlossEquation__00000026_.Width = 1418.000000
-	__DiagramFlossEquation__00000026_.Height = 935.500000
+	__DiagramFlossEquation__00000026_.Height = 865.500000
 	__DiagramFlossEquation__00000026_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000026_.DefaultBoxHeigth = 70.000000
 	__DiagramFlossEquation__00000026_.IsNotesNodeExpanded = true

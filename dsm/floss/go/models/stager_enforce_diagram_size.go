@@ -35,9 +35,9 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		extentAboveBaseline, extentBelowBaseline := computeFlossDiagramVerticalExtents(diagramEq, compareAnalysis, owningSystem)
 
 		topMargin := 150.0
-		bottomMargin := 120.0
+		bottomMargin := 70.0
 		if diagramEq.AreColumnTitlesVisible {
-			bottomMargin = 160.0
+			bottomMargin = 90.0
 		}
 		neededHeight := topMargin + extentAboveBaseline*scale + extentBelowBaseline*scale + bottomMargin
 		if neededHeight < 750.0 {

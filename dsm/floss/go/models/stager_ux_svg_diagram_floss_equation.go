@@ -343,9 +343,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	extentAboveBaseline, extentBelowBaseline := computeFlossDiagramVerticalExtents(diagram, compareAnalysis, owningSystem)
 
 	topMargin := math.Max(200.0, fontSettings.HeaderHeight+80.0)
-	bottomMargin := 120.0
+	bottomMargin := 70.0
 	if diagram.AreColumnTitlesVisible {
-		bottomMargin = 160.0
+		bottomMargin = 90.0
 	}
 	yGround := topMargin + extentAboveBaseline*scale
 	maxBottom := yGround + extentBelowBaseline*scale
@@ -1479,10 +1479,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		xCenterE = xCol3_V2 + colWidth/2
 	}
 
-	yTitles := math.Max(yGround+35.0, maxBottom+40.0)
+	yTitles := math.Max(yGround+25.0, maxBottom+30.0)
 
 	if diagram.AreColumnTitlesVisible {
-		renderColumnTitle := func(name string, text string, xCenter float64, width float64) {
+		renderColumnTitle := func(name string, text string, xCenter float64, width float64, color string) {
 			titleRect := &svg.Rect{
 				Name:   name + " Title Rect",
 				X:      xCenter - width/2,
@@ -1499,11 +1499,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			titleText := new(svg.RectAnchoredText)
 			titleText.Name = name + " Title Text"
 			titleText.Content = text
-			titleText.FontSize = fontSettings.HeaderFormulaSize
+			titleText.FontSize = fontSettings.ItemFontSize
 			titleText.FontWeight = "600"
-			titleText.Color = "#263238"
+			titleText.Color = color
 			titleText.FillOpacity = 1.0
-			titleText.Stroke = "#263238"
+			titleText.Stroke = color
 			titleText.StrokeWidth = 0
 			titleText.StrokeOpacity = 1.0
 			titleText.RectAnchorType = svg.RECT_CENTER_MIDDLE
@@ -1511,23 +1511,17 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			titleRect.RectAnchoredTexts = append(titleRect.RectAnchoredTexts, titleText)
 		}
 
-		renderColumnTitle("Complexity", "Complexity", xCenterC, titleW)
-		renderColumnTitle("Performance", "Performance", xCenterP, titleW)
-		renderColumnTitle("Effort", "Effort", xCenterE, titleW)
+		renderColumnTitle("Complexity", "Complexity", xCenterC, titleW, "#B78103")
+		renderColumnTitle("Performance", "Performance", xCenterP, titleW, "#2E7D32")
+		renderColumnTitle("Effort", "Effort", xCenterE, titleW, "#1976D2")
 	}
 
 	diffColor := "#43A047"
-	diffTextMsg := "Equilibrium (ΔC ≈ μ·ΔP - ε·ΔE)"
-	if !isDelta {
-		diffTextMsg = "Equilibrium (C ≈ μ·P - ε·E)"
-	}
 	if math.Abs(diff) > 2.0 {
 		if diff > 0 {
 			diffColor = "#E53935"
-			diffTextMsg = fmt.Sprintf("Under-performing: Complexity exceeds Net Performance by %.1f", diff)
 		} else {
 			diffColor = "#1E88E5"
-			diffTextMsg = fmt.Sprintf("Favorable Margin: Net Performance exceeds Complexity by %.1f", -diff)
 		}
 	}
 
@@ -1544,28 +1538,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		},
 	}
 	layer.Lines = append(layer.Lines, diffLine)
-
-	yIndicatorMsg := maxBottom + 65
-	if diagram.AreColumnTitlesVisible {
-		yIndicatorMsg = math.Max(yIndicatorMsg, yTitles+45)
-	}
-
-	indicatorLabel := &svg.Text{
-		Name:    "Indicator Message",
-		X:       40,
-		Y:       yIndicatorMsg,
-		Content: diffTextMsg,
-		TextAttributes: svg.TextAttributes{
-			FontSize:   fontSettings.IndicatorFontSize,
-			FontWeight: "600",
-		},
-		Presentation: svg.Presentation{
-			Color:       diffColor,
-			FillOpacity: 1.0,
-			Stroke:      "transparent",
-		},
-	}
-	layer.Texts = append(layer.Texts, indicatorLabel)
 
 	//
 	// Notes & Link Shapes
