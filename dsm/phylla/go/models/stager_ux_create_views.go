@@ -267,9 +267,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		if isVase2DChecked {
-			split.StageBranch(stager.splitStage, v1)
-		}
+		split.StageBranch(stager.splitStage, v1)
 		v1.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_VASE_FORM {
@@ -338,13 +336,17 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		if isVase2DChecked {
-			split.StageBranch(stager.splitStage, v2)
-		}
+		split.StageBranch(stager.splitStage, v2)
 		v2.OnClick = func() {
 			plant := stager.GetCurrentPlant()
-			if plant != nil && plant.CurrentView != VIEW_VASE_2D {
-				plant.CurrentView = VIEW_VASE_2D
+			if plant != nil {
+				if plant.CurrentView != VIEW_VASE_2D {
+					plant.CurrentView = VIEW_VASE_2D
+				}
+				if !isVase2DChecked && len(plant.Vase2DDiagrams) > 0 {
+					uncheckAllDiagrams(stager)
+					plant.Vase2DDiagrams[0].IsChecked = true
+				}
 				stager.stage.Commit()
 			}
 		}
@@ -409,13 +411,19 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		if isVase3DChecked {
-			split.StageBranch(stager.splitStage, v3)
-		}
+		split.StageBranch(stager.splitStage, v3)
 		v3.OnClick = func() {
 			plant := stager.GetCurrentPlant()
-			if plant != nil && plant.CurrentView != VIEW_VASE_3D {
-				plant.CurrentView = VIEW_VASE_3D
+			if plant != nil {
+				if plant.CurrentView != VIEW_VASE_3D {
+					plant.CurrentView = VIEW_VASE_3D
+				}
+				if !isVase3DChecked && len(plant.Vase3DDiagrams) > 0 {
+					uncheckAllDiagrams(stager)
+					plant.Vase3DDiagrams[0].IsChecked = true
+					plant.Vase3DDiagrams[0].IsExpanded = true
+					plant.IsVase3DDiagramsNodeExpanded = true
+				}
 				stager.stage.Commit()
 			}
 			stager.UpdateThreeJSStage()

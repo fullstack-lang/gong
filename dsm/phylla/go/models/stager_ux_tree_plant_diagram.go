@@ -102,9 +102,7 @@ func (stager *Stager) handleDiagramCheck(diagramType interface{}, plant *PlantAb
 		p.IsSelected = (p == plant)
 	}
 	stager.selectedPlant = plant
-	if plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
-		plant.CurrentView = view
-	}
+	plant.CurrentView = view
 }
 
 func (stager *Stager) treePlant2DDiagram(plant *PlantAbstract, diagram *Plant2DDiagram, parentNodes *[]*tree.Node, is3DView bool) {
@@ -370,6 +368,8 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_VASE_3D)
 			diagram.IsChecked = true
+			diagram.IsExpanded = true
+			plant.IsVase3DDiagramsNodeExpanded = true
 			stager.stage.Commit()
 		} else {
 			diagram.IsChecked = false
@@ -382,6 +382,8 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 		stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*Vase3DDiagram]())
 		stager.handleDiagramCheck(diagram, plant, VIEW_VASE_3D)
 		diagram.IsChecked = true
+		diagram.IsExpanded = true
+		plant.IsVase3DDiagramsNodeExpanded = true
 		stager.stage.Commit()
 	}
 

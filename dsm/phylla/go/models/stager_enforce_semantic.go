@@ -153,21 +153,45 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			}
 		}
 
+		checkDefaultDiagramForPlant := func(p *PlantAbstract) {
+			if p.PlantType == Vase {
+				if len(p.Vase3DDiagrams) > 0 {
+					p.Vase3DDiagrams[0].IsChecked = true
+					p.Vase3DDiagrams[0].IsExpanded = true
+					p.IsVase3DDiagramsNodeExpanded = true
+				} else if len(p.Vase2DDiagrams) > 0 {
+					p.Vase2DDiagrams[0].IsChecked = true
+				}
+			} else if p.PlantType == Stool {
+				if len(p.Stool3DDiagrams) > 0 {
+					p.Stool3DDiagrams[0].IsChecked = true
+				} else if len(p.Stool2DDiagrams) > 0 {
+					p.Stool2DDiagrams[0].IsChecked = true
+				}
+			} else if p.PlantType == Clock {
+				if len(p.Clock3DDiagrams) > 0 {
+					p.Clock3DDiagrams[0].IsChecked = true
+				} else if len(p.Clock2DDiagrams) > 0 {
+					p.Clock2DDiagrams[0].IsChecked = true
+				}
+			} else {
+				if len(p.Plant2DDiagrams) > 0 {
+					p.Plant2DDiagrams[0].IsChecked = true
+				}
+			}
+		}
+
 		if selectedPlant != nil {
 			if stager.selectedPlant != selectedPlant {
 				stager.selectedPlant = selectedPlant
 			}
-			if len(selectedPlant.Plant2DDiagrams) > 0 {
-				selectedPlant.Plant2DDiagrams[0].IsChecked = true
-				modified = true
-			}
+			checkDefaultDiagramForPlant(selectedPlant)
+			modified = true
 		} else if len(plants) > 0 {
 			for plant := range plants {
 				plant.IsSelected = true
 				stager.selectedPlant = plant
-				if len(plant.Plant2DDiagrams) > 0 {
-					plant.Plant2DDiagrams[0].IsChecked = true
-				}
+				checkDefaultDiagramForPlant(plant)
 				modified = true
 				break
 			}

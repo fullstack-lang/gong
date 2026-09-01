@@ -62,7 +62,13 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		!checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape ||
 		!checkedDiagram.IsHiddenPointsAndLines3DShape ||
 		!checkedDiagram.IsHiddenKeyHole3DShape ||
-		!checkedDiagram.IsHiddenVolumeKey3DShape
+		!checkedDiagram.IsHiddenKey3DShape ||
+		!checkedDiagram.IsHiddenVolumeKey3DShape ||
+		!checkedDiagram.IsHiddenTorusEdge3DShape ||
+		!checkedDiagram.IsHiddenSampledPoints3DShape ||
+		!checkedDiagram.IsHiddenOriginalPoints3DShape ||
+		!checkedDiagram.IsHiddenAngle0Shape ||
+		!checkedDiagram.IsHiddenTiledFloor3DShape
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 	if !isOne3DShapeVisible || plant.StackHeight == 0 {

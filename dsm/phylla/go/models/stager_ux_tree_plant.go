@@ -44,13 +44,17 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		stager.selectedPlant = plant
 		if plant.PlantType == Stool {
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
-				plant.CurrentView = VIEW_PLANT_2D
+				plant.CurrentView = VIEW_STOOL_3D
 			}
 		} else if plant.PlantType == Clock {
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
-				plant.CurrentView = VIEW_PLANT_2D
+				plant.CurrentView = VIEW_CLOCK_3D
 			}
-		} else if plant.PlantType != Vase {
+		} else if plant.PlantType == Vase {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+				plant.CurrentView = VIEW_VASE_3D
+			}
+		} else {
 			if plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_PLANT_2D
 			}
@@ -118,20 +122,37 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		if !hasCheckedDiagram {
 			// Uncheck all globally and select the first one if available
 			uncheckAllDiagrams(stager)
-			if len(plant.Plant2DDiagrams) > 0 {
-				plant.Plant2DDiagrams[0].IsChecked = true
-			} else if len(plant.Vase2DDiagrams) > 0 {
-				plant.Vase2DDiagrams[0].IsChecked = true
-			} else if len(plant.Vase3DDiagrams) > 0 {
-				plant.Vase3DDiagrams[0].IsChecked = true
-			} else if len(plant.Stool2DDiagrams) > 0 {
-				plant.Stool2DDiagrams[0].IsChecked = true
-			} else if len(plant.Stool3DDiagrams) > 0 {
-				plant.Stool3DDiagrams[0].IsChecked = true
-			} else if len(plant.Clock2DDiagrams) > 0 {
-				plant.Clock2DDiagrams[0].IsChecked = true
-			} else if len(plant.Clock3DDiagrams) > 0 {
-				plant.Clock3DDiagrams[0].IsChecked = true
+			if plant.PlantType == Vase {
+				if len(plant.Vase3DDiagrams) > 0 {
+					plant.Vase3DDiagrams[0].IsChecked = true
+					plant.Vase3DDiagrams[0].IsExpanded = true
+					plant.IsVase3DDiagramsNodeExpanded = true
+					plant.CurrentView = VIEW_VASE_3D
+				} else if len(plant.Vase2DDiagrams) > 0 {
+					plant.Vase2DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_VASE_2D
+				}
+			} else if plant.PlantType == Stool {
+				if len(plant.Stool3DDiagrams) > 0 {
+					plant.Stool3DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_STOOL_3D
+				} else if len(plant.Stool2DDiagrams) > 0 {
+					plant.Stool2DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_PLANT_2D
+				}
+			} else if plant.PlantType == Clock {
+				if len(plant.Clock3DDiagrams) > 0 {
+					plant.Clock3DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_CLOCK_3D
+				} else if len(plant.Clock2DDiagrams) > 0 {
+					plant.Clock2DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_PLANT_2D
+				}
+			} else {
+				if len(plant.Plant2DDiagrams) > 0 {
+					plant.Plant2DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_PLANT_2D
+				}
 			}
 		}
 
