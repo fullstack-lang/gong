@@ -1798,6 +1798,35 @@ func (u *KeyHoleShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	return nil
 }
 
+type Leaves3DShapeUnmarshaller struct{}
+
+func (u *Leaves3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Leaves3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Leaves3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Leaves3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type LibraryUnmarshaller struct{}
 
 func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2800,6 +2829,10 @@ func (u *Plant3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
 	case "TiledFloor3DShape":
 		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
+	case "IsHiddenLeaves3DShape":
+		instance.IsHiddenLeaves3DShape = GongExtractBool(valueExpr)
+	case "Leaves3DShape":
+		GongUnmarshallPointer(&instance.Leaves3DShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "IsChecked":

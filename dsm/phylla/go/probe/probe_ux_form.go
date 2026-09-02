@@ -243,6 +243,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.keyholeshape, probe)
 			}
+		case *Leaves3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Leaves3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.leaves3dshape, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
@@ -1395,6 +1401,19 @@ func FillUpFormFromGongstructName(
 		keyholeshape := new(models.KeyHoleShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(keyholeshape, formGroup, probe)
+	case "Leaves3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Leaves3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Leaves3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		leaves3dshape := new(models.Leaves3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(leaves3dshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

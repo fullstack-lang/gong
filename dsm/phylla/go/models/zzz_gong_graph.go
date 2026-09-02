@@ -121,6 +121,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *KeyHoleShape:
 		ok = stage.IsStagedKeyHoleShape(target)
 
+	case *Leaves3DShape:
+		ok = stage.IsStagedLeaves3DShape(target)
+
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
@@ -562,6 +565,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *KeyHoleShape:
 		ok = stage.IsStagedKeyHoleShape(target)
+
+	case *Leaves3DShape:
+		ok = stage.IsStagedLeaves3DShape(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -1150,6 +1156,13 @@ func (stage *Stage) IsStagedKeyHole3DShape(keyhole3dshape *KeyHole3DShape) (ok b
 func (stage *Stage) IsStagedKeyHoleShape(keyholeshape *KeyHoleShape) (ok bool) {
 
 	_, ok = stage.KeyHoleShapes[keyholeshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedLeaves3DShape(leaves3dshape *Leaves3DShape) (ok bool) {
+
+	_, ok = stage.Leaves3DShapes[leaves3dshape]
 
 	return
 }
@@ -2017,6 +2030,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *KeyHoleShape:
 		stage.StageBranchKeyHoleShape(target)
+
+	case *Leaves3DShape:
+		stage.StageBranchLeaves3DShape(target)
 
 	case *Library:
 		stage.StageBranchLibrary(target)
@@ -2918,6 +2934,21 @@ func (stage *Stage) StageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
 
 }
 
+func (stage *Stage) StageBranchLeaves3DShape(leaves3dshape *Leaves3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, leaves3dshape) {
+		return
+	}
+
+	leaves3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
@@ -3323,6 +3354,9 @@ func (stage *Stage) StageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) {
 	}
 	if plant3ddiagram.Circumference3DShape != nil {
 		StageBranch(stage, plant3ddiagram.Circumference3DShape)
+	}
+	if plant3ddiagram.Leaves3DShape != nil {
+		StageBranch(stage, plant3ddiagram.Leaves3DShape)
 	}
 	if plant3ddiagram.Rendered3DShape != nil {
 		StageBranch(stage, plant3ddiagram.Rendered3DShape)
@@ -4746,6 +4780,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchKeyHoleShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Leaves3DShape:
+		toT := CopyBranchLeaves3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Library:
 		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -5905,6 +5943,25 @@ func CopyBranchKeyHoleShape(mapOrigCopy map[any]any, keyholeshapeFrom *KeyHoleSh
 	return
 }
 
+func CopyBranchLeaves3DShape(mapOrigCopy map[any]any, leaves3dshapeFrom *Leaves3DShape) (leaves3dshapeTo *Leaves3DShape) {
+
+	// leaves3dshapeFrom has already been copied
+	if _leaves3dshapeTo, ok := mapOrigCopy[leaves3dshapeFrom]; ok {
+		leaves3dshapeTo = _leaves3dshapeTo.(*Leaves3DShape)
+		return
+	}
+
+	leaves3dshapeTo = new(Leaves3DShape)
+	mapOrigCopy[leaves3dshapeFrom] = leaves3dshapeTo
+	leaves3dshapeFrom.CopyBasicFields(leaves3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
@@ -6413,6 +6470,9 @@ func CopyBranchPlant3DDiagram(mapOrigCopy map[any]any, plant3ddiagramFrom *Plant
 	}
 	if plant3ddiagramFrom.Circumference3DShape != nil {
 		plant3ddiagramTo.Circumference3DShape = CopyBranchCircumference3DShape(mapOrigCopy, plant3ddiagramFrom.Circumference3DShape)
+	}
+	if plant3ddiagramFrom.Leaves3DShape != nil {
+		plant3ddiagramTo.Leaves3DShape = CopyBranchLeaves3DShape(mapOrigCopy, plant3ddiagramFrom.Leaves3DShape)
 	}
 	if plant3ddiagramFrom.Rendered3DShape != nil {
 		plant3ddiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plant3ddiagramFrom.Rendered3DShape)
@@ -8116,6 +8176,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *KeyHoleShape:
 		stage.UnstageBranchKeyHoleShape(target)
 
+	case *Leaves3DShape:
+		stage.UnstageBranchLeaves3DShape(target)
+
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
@@ -9016,6 +9079,21 @@ func (stage *Stage) UnstageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
 
 }
 
+func (stage *Stage) UnstageBranchLeaves3DShape(leaves3dshape *Leaves3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, leaves3dshape) {
+		return
+	}
+
+	leaves3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
@@ -9421,6 +9499,9 @@ func (stage *Stage) UnstageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) 
 	}
 	if plant3ddiagram.Circumference3DShape != nil {
 		UnstageBranch(stage, plant3ddiagram.Circumference3DShape)
+	}
+	if plant3ddiagram.Leaves3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.Leaves3DShape)
 	}
 	if plant3ddiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, plant3ddiagram.Rendered3DShape)
@@ -10878,6 +10959,11 @@ func (reference *KeyHoleShape) GongReconstructPointersFromReferences(stage *Stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *Leaves3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *Leaves3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -11027,6 +11113,9 @@ func (reference *Plant3DDiagram) GongReconstructPointersFromReferences(stage *St
 	}
 	if instance.Circumference3DShape != nil {
 		reference.Circumference3DShape = stage.Circumference3DShapes_reference[instance.Circumference3DShape]
+	}
+	if instance.Leaves3DShape != nil {
+		reference.Leaves3DShape = stage.Leaves3DShapes_reference[instance.Leaves3DShape]
 	}
 	if instance.Rendered3DShape != nil {
 		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
@@ -11696,6 +11785,11 @@ func (reference *KeyHoleShape) GongReconstructPointersFromInstances(stage *Stage
 	// insertion point for slice of pointers fields
 }
 
+func (reference *Leaves3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -11865,6 +11959,12 @@ func (reference *Plant3DDiagram) GongReconstructPointersFromInstances(stage *Sta
 		reference.Circumference3DShape = nil
 		if _instance, ok := stage.Circumference3DShapes_instance[_reference]; ok {
 			reference.Circumference3DShape = _instance
+		}
+	}
+	if _reference := reference.Leaves3DShape; _reference != nil {
+		reference.Leaves3DShape = nil
+		if _instance, ok := stage.Leaves3DShapes_instance[_reference]; ok {
+			reference.Leaves3DShape = _instance
 		}
 	}
 	if _reference := reference.Rendered3DShape; _reference != nil {
@@ -13130,6 +13230,17 @@ func (keyholeshape *KeyHoleShape) GongDiff(stage *Stage, keyholeshapeOther *KeyH
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (leaves3dshape *Leaves3DShape) GongDiff(stage *Stage, leaves3dshapeOther *Leaves3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if leaves3dshape.Name != leaves3dshapeOther.Name {
+		diffs = append(diffs, leaves3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []string) {
 	// insertion point for field diffs
 	if library.Name != libraryOther.Name {
@@ -13807,6 +13918,16 @@ func (plant3ddiagram *Plant3DDiagram) GongDiff(stage *Stage, plant3ddiagramOther
 	}
 	if plant3ddiagram.IsHiddenTiledFloor3DShape != plant3ddiagramOther.IsHiddenTiledFloor3DShape {
 		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+	}
+	if plant3ddiagram.IsHiddenLeaves3DShape != plant3ddiagramOther.IsHiddenLeaves3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenLeaves3DShape"))
+	}
+	if (plant3ddiagram.Leaves3DShape == nil) != (plant3ddiagramOther.Leaves3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Leaves3DShape"))
+	} else if plant3ddiagram.Leaves3DShape != nil && plant3ddiagramOther.Leaves3DShape != nil {
+		if plant3ddiagram.Leaves3DShape != plant3ddiagramOther.Leaves3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Leaves3DShape"))
+		}
 	}
 	if (plant3ddiagram.Rendered3DShape == nil) != (plant3ddiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Rendered3DShape"))

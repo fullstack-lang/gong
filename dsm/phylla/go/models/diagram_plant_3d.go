@@ -21,6 +21,9 @@ type Plant3DDiagram struct {
 	IsHiddenTiledFloor3DShape bool
 	TiledFloor3DShape         *TiledFloor3DShape
 
+	IsHiddenLeaves3DShape bool
+	Leaves3DShape         *Leaves3DShape
+
 	Rendered3DShape *Rendered3DShape
 
 	IsChecked bool
@@ -44,5 +47,9 @@ type CutLine3DShape struct {
 }
 
 type Circumference3DShape struct {
+	Name string
+}
+
+type Leaves3DShape struct {
 	Name string
 }

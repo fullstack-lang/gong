@@ -95,13 +95,12 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 		v2_rot_y = 1e-6
 	}
 
-	var H float64
-	if plant.StackHeight > 0 && plant.GrowthVectorShape != nil && plant.GrowthVectorShape.Y > 0 {
-		H = float64(plant.StackHeight) * plant.GrowthVectorShape.Y
+	baseH := 2.5 * globalR
+	sh := plant.StackHeight
+	if sh < 1 {
+		sh = 1
 	}
-	if H < 2.0*globalR {
-		H = 2.5 * globalR
-	}
+	H := float64(sh) * baseH
 
 	tubeRadius := math.Max(globalR*0.015, 1.2)
 	rTubeCenter := globalR + tubeRadius*0.25
@@ -394,7 +393,169 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 		}
 	}
 
-	// 6. Tiled Floor
+	// 6. Leaves at each intersection point
+	if checkedDiagram == nil || !checkedDiagram.IsHiddenLeaves3DShape {
+		deltaSlope := (v1_rot_x / v1_rot_y) - (v2_rot_x / v2_rot_y)
+		if deltaSlope > 1e-6 {
+			leafLength := math.Min(globalR*0.35, sideLength*0.45)
+			if leafLength < 5.0 {
+				leafLength = 5.0
+			}
+			if leafLength > 40.0 {
+				leafLength = 40.0
+			}
+			leafWidth := leafLength * 0.5
+			tiltAngle := 25.0 * math.Pi / 180.0
+			cosTilt := math.Cos(tiltAngle)
+			sinTilt := math.Sin(tiltAngle)
+
+			type leafPoint struct {
+				x, y, z, theta float64
+			}
+			var leafPoints []leafPoint
+
+			for k := 0; k < N; k++ {
+				for m := 0; m < M; m++ {
+					delta0 := float64(m)/float64(M) - float64(k)/float64(N)
+					minL := int(math.Floor(-delta0)) - 1
+					maxL := int(math.Ceil((H*deltaSlope)/C-delta0)) + 1
+
+					for L := minL; L <= maxL; L++ {
+						yPt := (C / deltaSlope) * (delta0 + float64(L))
+						if yPt < -1e-5 || yPt > H+1e-5 {
+							continue
+						}
+						if yPt < 0 {
+							yPt = 0
+						}
+						if yPt > H {
+							yPt = H
+						}
+
+						xPt := float64(k)*(C/float64(N)) + yPt*(v1_rot_x/v1_rot_y)
+						theta := xPt / globalR
+
+						ptX := rTubeCenter * math.Cos(theta)
+						ptY := yPt
+						ptZ := rTubeCenter * math.Sin(theta)
+
+						isDuplicate := false
+						for _, p := range leafPoints {
+							if math.Abs(p.y-ptY) < 0.5 && math.Hypot(p.x-ptX, p.z-ptZ) < 1.0 {
+								isDuplicate = true
+								break
+							}
+						}
+						if !isDuplicate {
+							leafPoints = append(leafPoints, leafPoint{
+								x:     ptX,
+								y:     ptY,
+								z:     ptZ,
+								theta: theta,
+							})
+						}
+					}
+				}
+			}
+
+			if len(leafPoints) > 0 {
+				leafGeom := (&threejs.BufferGeometry{
+					Name: "Plant Leaves BufferGeometry",
+				}).Stage(plant3dStage)
+
+				for idx, lp := range leafPoints {
+					baseIdx := idx * 5
+
+					urX := math.Cos(lp.theta)
+					urZ := math.Sin(lp.theta)
+
+					utX := -math.Sin(lp.theta)
+					utZ := math.Cos(lp.theta)
+
+					dLeafX := urX * cosTilt
+					dLeafY := sinTilt
+					dLeafZ := urZ * cosTilt
+
+					nLeafX := -urX * sinTilt
+					nLeafY := cosTilt
+					nLeafZ := -urZ * sinTilt
+
+					v0 := (&threejs.Vector3{
+						Name: fmt.Sprintf("L%d_V0", idx),
+						X:    lp.x,
+						Y:    lp.y,
+						Z:    lp.z,
+					}).Stage(plant3dStage)
+
+					v1 := (&threejs.Vector3{
+						Name: fmt.Sprintf("L%d_V1", idx),
+						X:    lp.x + 0.4*leafLength*dLeafX - 0.5*leafWidth*utX,
+						Y:    lp.y + 0.4*leafLength*dLeafY,
+						Z:    lp.z + 0.4*leafLength*dLeafZ - 0.5*leafWidth*utZ,
+					}).Stage(plant3dStage)
+
+					v2 := (&threejs.Vector3{
+						Name: fmt.Sprintf("L%d_V2", idx),
+						X:    lp.x + 0.4*leafLength*dLeafX + 0.5*leafWidth*utX,
+						Y:    lp.y + 0.4*leafLength*dLeafY,
+						Z:    lp.z + 0.4*leafLength*dLeafZ + 0.5*leafWidth*utZ,
+					}).Stage(plant3dStage)
+
+					v3 := (&threejs.Vector3{
+						Name: fmt.Sprintf("L%d_V3", idx),
+						X:    lp.x + leafLength*dLeafX,
+						Y:    lp.y + leafLength*dLeafY,
+						Z:    lp.z + leafLength*dLeafZ,
+					}).Stage(plant3dStage)
+
+					v4 := (&threejs.Vector3{
+						Name: fmt.Sprintf("L%d_V4", idx),
+						X:    lp.x + 0.4*leafLength*dLeafX + 0.15*leafWidth*nLeafX,
+						Y:    lp.y + 0.4*leafLength*dLeafY + 0.15*leafWidth*nLeafY,
+						Z:    lp.z + 0.4*leafLength*dLeafZ + 0.15*leafWidth*nLeafZ,
+					}).Stage(plant3dStage)
+
+					leafGeom.Vertices = append(leafGeom.Vertices, v0, v1, v2, v3, v4)
+
+					addTri := func(tName string, vi1, vi2, vi3 int) {
+						leafGeom.Faces = append(leafGeom.Faces, (&threejs.Triangle{
+							Name: tName,
+							V1:   vi1,
+							V2:   vi2,
+							V3:   vi3,
+						}).Stage(plant3dStage))
+					}
+
+					// Upper side faces
+					addTri(fmt.Sprintf("L%d_T1", idx), baseIdx+0, baseIdx+1, baseIdx+4)
+					addTri(fmt.Sprintf("L%d_T2", idx), baseIdx+0, baseIdx+4, baseIdx+2)
+					addTri(fmt.Sprintf("L%d_T3", idx), baseIdx+1, baseIdx+3, baseIdx+4)
+					addTri(fmt.Sprintf("L%d_T4", idx), baseIdx+2, baseIdx+4, baseIdx+3)
+
+					// Underside faces (reverse winding)
+					addTri(fmt.Sprintf("L%d_T5", idx), baseIdx+0, baseIdx+4, baseIdx+1)
+					addTri(fmt.Sprintf("L%d_T6", idx), baseIdx+0, baseIdx+2, baseIdx+4)
+					addTri(fmt.Sprintf("L%d_T7", idx), baseIdx+1, baseIdx+4, baseIdx+3)
+					addTri(fmt.Sprintf("L%d_T8", idx), baseIdx+2, baseIdx+3, baseIdx+4)
+				}
+
+				leafMesh := (&threejs.Mesh{
+					Name:           "Plant Leaves Mesh",
+					BufferGeometry: leafGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Plant Leaves Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#16a34a"},
+						Transparent:          true,
+						Opacity:              0.95,
+					}).Stage(plant3dStage),
+				}).Stage(plant3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, leafMesh)
+			}
+		}
+	}
+
+	// 7. Tiled Floor
 	if checkedDiagram == nil || !checkedDiagram.IsHiddenTiledFloor3DShape {
 		cylinderstage3d.AddFloorTiles(plant3dStage, canvas, globalR, 0.0)
 	}

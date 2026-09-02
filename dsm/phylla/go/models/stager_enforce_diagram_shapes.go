@@ -59,6 +59,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		if diagram.CutLine3DShape == nil { diagram.CutLine3DShape = (&CutLine3DShape{Name: diagram.Name + "-CutLine3DShape"}).Stage(stage); modified = true }
 		if diagram.Circumference3DShape == nil { diagram.Circumference3DShape = (&Circumference3DShape{Name: diagram.Name + "-Circumference3DShape"}).Stage(stage); modified = true }
 		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
+		if diagram.Leaves3DShape == nil { diagram.Leaves3DShape = (&Leaves3DShape{Name: diagram.Name + "-Leaves3DShape"}).Stage(stage); modified = true }
 	}
 
 	return modified

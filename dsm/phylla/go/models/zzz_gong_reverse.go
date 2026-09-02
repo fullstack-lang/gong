@@ -414,6 +414,15 @@ func (inst *KeyHoleShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
+func (inst *Leaves3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -2096,6 +2105,15 @@ func (inst *KeyHole3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField 
 }
 
 func (inst *KeyHoleShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *Leaves3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

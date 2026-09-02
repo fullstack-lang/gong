@@ -321,6 +321,13 @@ func (keyholeshape *KeyHoleShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Leaves3DShape
+func (leaves3dshape *Leaves3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -519,6 +526,7 @@ func (plant3ddiagram *Plant3DDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant3ddiagram.CutLine3DShape) || modified
 	modified = GongCleanPointer(stage, &plant3ddiagram.Circumference3DShape) || modified
 	modified = GongCleanPointer(stage, &plant3ddiagram.TiledFloor3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.Leaves3DShape) || modified
 	modified = GongCleanPointer(stage, &plant3ddiagram.Rendered3DShape) || modified
 	return
 }

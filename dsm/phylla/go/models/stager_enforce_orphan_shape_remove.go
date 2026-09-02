@@ -57,6 +57,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refParastichyMCurves3DShape := make(map[*ParastichyMCurves3DShape]bool)
 	refCutLine3DShape := make(map[*CutLine3DShape]bool)
 	refCircumference3DShape := make(map[*Circumference3DShape]bool)
+	refLeaves3DShape := make(map[*Leaves3DShape]bool)
 	refArcNormalVectorShape := make(map[*ArcNormalVectorShape]bool)
 	refStartArcShapeV2 := make(map[*StartArcShape]bool)
 	refTopStartArcShapeV2 := make(map[*TopStartArcShape]bool)
@@ -601,6 +602,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 		if diagram.TiledFloor3DShape != nil {
 			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
+		if diagram.Leaves3DShape != nil {
+			refLeaves3DShape[diagram.Leaves3DShape] = true
 		}
 	}
 
@@ -1391,6 +1395,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*Circumference3DShape](stage) {
 		if !refCircumference3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Leaves3DShape](stage) {
+		if !refLeaves3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

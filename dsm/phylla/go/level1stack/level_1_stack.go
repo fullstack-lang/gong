@@ -158,6 +158,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Key3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.KeyHole3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.KeyHoleShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Leaves3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MidArcVectorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MidArcVectorShapeGrid](stage)

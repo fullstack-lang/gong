@@ -736,6 +736,17 @@ func (from *KeyHoleShape) CopyBasicFields(to *KeyHoleShape) {
 	to.Height = from.Height
 }
 
+type Leaves3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Leaves3DShape) CopyBasicFields(to *Leaves3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Library_WOP struct {
 	// insertion point
 
@@ -1331,6 +1342,8 @@ type Plant3DDiagram_WOP struct {
 
 	IsHiddenTiledFloor3DShape bool
 
+	IsHiddenLeaves3DShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1347,6 +1360,7 @@ func (from *Plant3DDiagram) CopyBasicFields(to *Plant3DDiagram) {
 	to.IsHiddenCutLine3DShape = from.IsHiddenCutLine3DShape
 	to.IsHiddenCircumference3DShape = from.IsHiddenCircumference3DShape
 	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsHiddenLeaves3DShape = from.IsHiddenLeaves3DShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

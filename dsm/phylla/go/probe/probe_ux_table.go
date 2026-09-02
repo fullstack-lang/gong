@@ -100,6 +100,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.KeyHole3DShape](probe)
 	case "KeyHoleShape":
 		updateProbeTable[*models.KeyHoleShape](probe)
+	case "Leaves3DShape":
+		updateProbeTable[*models.Leaves3DShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "MidArcVectorShape":

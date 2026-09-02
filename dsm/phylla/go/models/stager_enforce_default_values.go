@@ -42,6 +42,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.RhombusSideLength = 100.0
 		}
+		if plant.StackHeight == 0 {
+			needCommit = true
+			plant.StackHeight = 1
+		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"

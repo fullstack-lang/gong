@@ -3909,6 +3909,84 @@ func (keyholeshapeFormCallback *KeyHoleShapeFormCallback) OnSave() {
 
 	keyholeshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__Leaves3DShapeFormCallback(
+	leaves3dshape *models.Leaves3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (leaves3dshapeFormCallback *Leaves3DShapeFormCallback) {
+	leaves3dshapeFormCallback = new(Leaves3DShapeFormCallback)
+	leaves3dshapeFormCallback.probe = probe
+	leaves3dshapeFormCallback.leaves3dshape = leaves3dshape
+	leaves3dshapeFormCallback.formGroup = formGroup
+
+	leaves3dshapeFormCallback.CreationMode = (leaves3dshape == nil)
+
+	return
+}
+
+type Leaves3DShapeFormCallback struct {
+	leaves3dshape *models.Leaves3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (leaves3dshapeFormCallback *Leaves3DShapeFormCallback) OnSave() {
+	leaves3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer leaves3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Leaves3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	leaves3dshapeFormCallback.probe.formStage.Checkout()
+
+	if leaves3dshapeFormCallback.leaves3dshape == nil {
+		leaves3dshapeFormCallback.leaves3dshape = new(models.Leaves3DShape).Stage(leaves3dshapeFormCallback.probe.stageOfInterest)
+	}
+	leaves3dshape_ := leaves3dshapeFormCallback.leaves3dshape
+	_ = leaves3dshape_
+
+	for _, formDiv := range leaves3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(leaves3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if leaves3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		leaves3dshape_.Unstage(leaves3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	leaves3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Leaves3DShape](
+		leaves3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if leaves3dshapeFormCallback.CreationMode || leaves3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		leaves3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(leaves3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Leaves3DShapeFormCallback(
+			nil,
+			leaves3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		leaves3dshape := new(models.Leaves3DShape)
+		FillUpForm(leaves3dshape, newFormGroup, leaves3dshapeFormCallback.probe)
+		leaves3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	leaves3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
 	probe *Probe,
@@ -7133,6 +7211,10 @@ func (plant3ddiagramFormCallback *Plant3DDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
 		case "TiledFloor3DShape":
 			FormDivSelectFieldToField(&(plant3ddiagram_.TiledFloor3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenLeaves3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenLeaves3DShape), formDiv)
+		case "Leaves3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.Leaves3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(plant3ddiagram_.Rendered3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":

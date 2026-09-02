@@ -703,6 +703,7 @@ func (stager *Stager) treePlant3DDiagram(plant *PlantAbstract, diagram *Plant3DD
 		appendDiagramNode(stager, node, "3D Parastichy M Curves (Orange)", diagram.ParastichyMCurves3DShape, &diagram.IsHiddenParastichyMCurves3DShape)
 		appendDiagramNode(stager, node, "3D Cut Line (Pink)", diagram.CutLine3DShape, &diagram.IsHiddenCutLine3DShape)
 		appendDiagramNode(stager, node, "3D Circumference Rings", diagram.Circumference3DShape, &diagram.IsHiddenCircumference3DShape)
+		appendDiagramNode(stager, node, "3D Leaves", diagram.Leaves3DShape, &diagram.IsHiddenLeaves3DShape)
 		appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
 	}
 }

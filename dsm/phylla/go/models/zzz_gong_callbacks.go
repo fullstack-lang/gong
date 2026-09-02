@@ -158,6 +158,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterKeyHoleShapeCreateCallback != nil {
 			stage.OnAfterKeyHoleShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Leaves3DShape:
+		if stage.OnAfterLeaves3DShapeCreateCallback != nil {
+			stage.OnAfterLeaves3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
@@ -785,6 +789,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*KeyHoleShape)
 		if stage.OnAfterKeyHoleShapeUpdateCallback != nil {
 			stage.OnAfterKeyHoleShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Leaves3DShape:
+		newTarget := any(new).(*Leaves3DShape)
+		if stage.OnAfterLeaves3DShapeUpdateCallback != nil {
+			stage.OnAfterLeaves3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -1516,6 +1525,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*KeyHoleShape)
 			stage.OnAfterKeyHoleShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Leaves3DShape:
+		if stage.OnAfterLeaves3DShapeDeleteCallback != nil {
+			staged := any(staged).(*Leaves3DShape)
+			stage.OnAfterLeaves3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
 			staged := any(staged).(*Library)
@@ -2208,6 +2222,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterKeyHoleShapeReadCallback != nil {
 			stage.OnAfterKeyHoleShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Leaves3DShape:
+		if stage.OnAfterLeaves3DShapeReadCallback != nil {
+			stage.OnAfterLeaves3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
 			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
@@ -2719,6 +2737,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterKeyHole3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[KeyHoleShape])
+	case *Leaves3DShape:
+		stage.OnAfterLeaves3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Leaves3DShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *MidArcVectorShape:
@@ -3014,6 +3034,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterKeyHole3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeCreateCallback = any(callback).(OnAfterCreateInterface[KeyHoleShape])
+	case *Leaves3DShape:
+		stage.OnAfterLeaves3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Leaves3DShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *MidArcVectorShape:
@@ -3309,6 +3331,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterKeyHole3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[KeyHoleShape])
+	case *Leaves3DShape:
+		stage.OnAfterLeaves3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Leaves3DShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *MidArcVectorShape:
@@ -3604,6 +3628,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterKeyHole3DShapeReadCallback = any(callback).(OnAfterReadInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeReadCallback = any(callback).(OnAfterReadInterface[KeyHoleShape])
+	case *Leaves3DShape:
+		stage.OnAfterLeaves3DShapeReadCallback = any(callback).(OnAfterReadInterface[Leaves3DShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *MidArcVectorShape:

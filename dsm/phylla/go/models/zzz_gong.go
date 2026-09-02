@@ -717,6 +717,21 @@ type Stage struct {
 	OnAfterKeyHoleShapeDeleteCallback OnAfterDeleteInterface[KeyHoleShape]
 	OnAfterKeyHoleShapeReadCallback   OnAfterReadInterface[KeyHoleShape]
 
+	Leaves3DShapes                map[*Leaves3DShape]struct{}
+	Leaves3DShapes_instance       map[*Leaves3DShape]*Leaves3DShape
+	Leaves3DShapes_mapString      map[string]*Leaves3DShape
+	Leaves3DShapeOrder            uint
+	Leaves3DShape_stagedOrder     map[*Leaves3DShape]uint
+	Leaves3DShape_orderStaged     map[uint]*Leaves3DShape
+	Leaves3DShapes_reference      map[*Leaves3DShape]*Leaves3DShape
+	Leaves3DShapes_referenceOrder map[*Leaves3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterLeaves3DShapeCreateCallback OnAfterCreateInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeUpdateCallback OnAfterUpdateInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeDeleteCallback OnAfterDeleteInterface[Leaves3DShape]
+	OnAfterLeaves3DShapeReadCallback   OnAfterReadInterface[Leaves3DShape]
+
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
 	Librarys_mapString      map[string]*Library
@@ -2797,6 +2812,10 @@ func (stage *Stage) Squash() {
 	stage.KeyHoleShapes_instance = make(map[*KeyHoleShape]*KeyHoleShape)
 	stage.KeyHoleShapes_referenceOrder = make(map[*KeyHoleShape]uint)
 
+	stage.Leaves3DShapes_reference = make(map[*Leaves3DShape]*Leaves3DShape)
+	stage.Leaves3DShapes_instance = make(map[*Leaves3DShape]*Leaves3DShape)
+	stage.Leaves3DShapes_referenceOrder = make(map[*Leaves3DShape]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
@@ -3778,6 +3797,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.KeyHoleShapeOrder = maxKeyHoleShapeOrder + 1
 	} else {
 		stage.KeyHoleShapeOrder = 0
+	}
+
+	var maxLeaves3DShapeOrder uint
+	var foundLeaves3DShape bool
+	for _, order := range stage.Leaves3DShape_stagedOrder {
+		if !foundLeaves3DShape || order > maxLeaves3DShapeOrder {
+			maxLeaves3DShapeOrder = order
+			foundLeaves3DShape = true
+		}
+	}
+	if foundLeaves3DShape {
+		stage.Leaves3DShapeOrder = maxLeaves3DShapeOrder + 1
+	} else {
+		stage.Leaves3DShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -5857,6 +5890,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Leaves3DShape:
+		tmp := GetStructInstancesByOrder(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Leaves3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -7446,6 +7493,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.KeyHole3DShapes, stage.KeyHole3DShape_stagedOrder)
 	case "KeyHoleShape":
 		res = GetNamedStructInstances(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder)
+	case "Leaves3DShape":
+		res = GetNamedStructInstances(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "MidArcVectorShape":
@@ -7803,6 +7852,8 @@ type BackRepoInterface interface {
 	CheckoutKeyHole3DShape(keyhole3dshape *KeyHole3DShape)
 	CommitKeyHoleShape(keyholeshape *KeyHoleShape)
 	CheckoutKeyHoleShape(keyholeshape *KeyHoleShape)
+	CommitLeaves3DShape(leaves3dshape *Leaves3DShape)
+	CheckoutLeaves3DShape(leaves3dshape *Leaves3DShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
@@ -8134,6 +8185,9 @@ func NewStage(name string) (stage *Stage) {
 
 		KeyHoleShapes:           make(map[*KeyHoleShape]struct{}),
 		KeyHoleShapes_mapString: make(map[string]*KeyHoleShape),
+
+		Leaves3DShapes:           make(map[*Leaves3DShape]struct{}),
+		Leaves3DShapes_mapString: make(map[string]*Leaves3DShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -8614,6 +8668,10 @@ func NewStage(name string) (stage *Stage) {
 		KeyHoleShape_stagedOrder: make(map[*KeyHoleShape]uint),
 		KeyHoleShape_orderStaged: make(map[uint]*KeyHoleShape),
 		KeyHoleShapes_reference:  make(map[*KeyHoleShape]*KeyHoleShape),
+
+		Leaves3DShape_stagedOrder: make(map[*Leaves3DShape]uint),
+		Leaves3DShape_orderStaged: make(map[uint]*Leaves3DShape),
+		Leaves3DShapes_reference:  make(map[*Leaves3DShape]*Leaves3DShape),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
@@ -9117,6 +9175,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"KeyHoleShape": &KeyHoleShapeUnmarshaller{},
 
+			"Leaves3DShape": &Leaves3DShapeUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
 
 			"MidArcVectorShape": &MidArcVectorShapeUnmarshaller{},
@@ -9371,6 +9431,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Key3DShape"},
 			{name: "KeyHole3DShape"},
 			{name: "KeyHoleShape"},
+			{name: "Leaves3DShape"},
 			{name: "Library"},
 			{name: "MidArcVectorShape"},
 			{name: "MidArcVectorShapeGrid"},
@@ -9564,6 +9625,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.KeyHole3DShape_stagedOrder[instance]
 	case *KeyHoleShape:
 		return stage.KeyHoleShape_stagedOrder[instance]
+	case *Leaves3DShape:
+		return stage.Leaves3DShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *MidArcVectorShape:
@@ -9861,6 +9924,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.KeyHole3DShape_orderStaged[order]).(Type)
 	case *KeyHoleShape:
 		return any(stage.KeyHoleShape_orderStaged[order]).(Type)
+	case *Leaves3DShape:
+		return any(stage.Leaves3DShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *MidArcVectorShape:
@@ -10157,6 +10222,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.KeyHole3DShape_stagedOrder[instance]
 	case *KeyHoleShape:
 		return stage.KeyHoleShape_stagedOrder[instance]
+	case *Leaves3DShape:
+		return stage.Leaves3DShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *MidArcVectorShape:
@@ -10472,6 +10539,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Key3DShape"] = len(stage.Key3DShapes)
 	stage.Map_GongStructName_InstancesNb["KeyHole3DShape"] = len(stage.KeyHole3DShapes)
 	stage.Map_GongStructName_InstancesNb["KeyHoleShape"] = len(stage.KeyHoleShapes)
+	stage.Map_GongStructName_InstancesNb["Leaves3DShape"] = len(stage.Leaves3DShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
@@ -13960,6 +14028,94 @@ func (keyholeshape *KeyHoleShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (keyholeshape *KeyHoleShape) SetName(name string) {
 	keyholeshape.Name = name
+}
+
+// Stage puts leaves3dshape to the model stage
+func (leaves3dshape *Leaves3DShape) Stage(stage *Stage) *Leaves3DShape {
+	if _, ok := stage.Leaves3DShapes[leaves3dshape]; !ok {
+		stage.Leaves3DShapes[leaves3dshape] = struct{}{}
+		stage.Leaves3DShape_stagedOrder[leaves3dshape] = stage.Leaves3DShapeOrder
+		stage.Leaves3DShape_orderStaged[stage.Leaves3DShapeOrder] = leaves3dshape
+		stage.Leaves3DShapeOrder++
+	}
+	stage.Leaves3DShapes_mapString[leaves3dshape.Name] = leaves3dshape
+
+	return leaves3dshape
+}
+
+// StagePreserveOrder puts leaves3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Leaves3DShapeOrder
+// - update stage.Leaves3DShapeOrder accordingly
+func (leaves3dshape *Leaves3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Leaves3DShapes[leaves3dshape]; !ok {
+		stage.Leaves3DShapes[leaves3dshape] = struct{}{}
+
+		if order > stage.Leaves3DShapeOrder {
+			stage.Leaves3DShapeOrder = order
+		}
+		stage.Leaves3DShape_stagedOrder[leaves3dshape] = order
+		stage.Leaves3DShape_orderStaged[order] = leaves3dshape
+		stage.Leaves3DShapeOrder++
+	}
+	stage.Leaves3DShapes_mapString[leaves3dshape.Name] = leaves3dshape
+}
+
+// Unstage removes leaves3dshape off the model stage
+func (leaves3dshape *Leaves3DShape) Unstage(stage *Stage) *Leaves3DShape {
+	delete(stage.Leaves3DShapes, leaves3dshape)
+	// issue1150
+	// delete(stage.Leaves3DShape_stagedOrder, leaves3dshape)
+	delete(stage.Leaves3DShapes_mapString, leaves3dshape.Name)
+
+	return leaves3dshape
+}
+
+// UnstageVoid removes leaves3dshape off the model stage
+func (leaves3dshape *Leaves3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Leaves3DShapes, leaves3dshape)
+	// issue1150
+	// delete(stage.Leaves3DShape_stagedOrder, leaves3dshape)
+	delete(stage.Leaves3DShapes_mapString, leaves3dshape.Name)
+}
+
+// commit leaves3dshape to the back repo (if it is already staged)
+func (leaves3dshape *Leaves3DShape) Commit(stage *Stage) *Leaves3DShape {
+	if _, ok := stage.Leaves3DShapes[leaves3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLeaves3DShape(leaves3dshape)
+		}
+	}
+	return leaves3dshape
+}
+
+func (leaves3dshape *Leaves3DShape) CommitVoid(stage *Stage) {
+	leaves3dshape.Commit(stage)
+}
+
+func (leaves3dshape *Leaves3DShape) StageVoid(stage *Stage) {
+	leaves3dshape.Stage(stage)
+}
+
+// Checkout leaves3dshape to the back repo (if it is already staged)
+func (leaves3dshape *Leaves3DShape) Checkout(stage *Stage) *Leaves3DShape {
+	if _, ok := stage.Leaves3DShapes[leaves3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLeaves3DShape(leaves3dshape)
+		}
+	}
+	return leaves3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (leaves3dshape *Leaves3DShape) GetName() (res string) {
+	return leaves3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (leaves3dshape *Leaves3DShape) SetName(name string) {
+	leaves3dshape.Name = name
 }
 
 // Stage puts library to the model stage
@@ -23330,6 +23486,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMKey3DShape(Key3DShape *Key3DShape)
 	CreateORMKeyHole3DShape(KeyHole3DShape *KeyHole3DShape)
 	CreateORMKeyHoleShape(KeyHoleShape *KeyHoleShape)
+	CreateORMLeaves3DShape(Leaves3DShape *Leaves3DShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
@@ -23477,6 +23634,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMKey3DShape(Key3DShape *Key3DShape)
 	DeleteORMKeyHole3DShape(KeyHole3DShape *KeyHole3DShape)
 	DeleteORMKeyHoleShape(KeyHoleShape *KeyHoleShape)
+	DeleteORMLeaves3DShape(Leaves3DShape *Leaves3DShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
@@ -23775,6 +23933,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.KeyHoleShapes_mapString = make(map[string]*KeyHoleShape)
 	stage.KeyHoleShape_stagedOrder = make(map[*KeyHoleShape]uint)
 	stage.KeyHoleShapeOrder = 0
+
+	stage.Leaves3DShapes = make(map[*Leaves3DShape]struct{})
+	stage.Leaves3DShapes_mapString = make(map[string]*Leaves3DShape)
+	stage.Leaves3DShape_stagedOrder = make(map[*Leaves3DShape]uint)
+	stage.Leaves3DShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -24429,6 +24592,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.KeyHoleShapes = nil
 	stage.KeyHoleShapes_mapString = nil
 
+	stage.Leaves3DShapes = nil
+	stage.Leaves3DShapes_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
@@ -24901,6 +25067,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for keyholeshape := range stage.KeyHoleShapes {
 		keyholeshape.Unstage(stage)
+	}
+
+	for leaves3dshape := range stage.Leaves3DShapes {
+		leaves3dshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -25479,6 +25649,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.KeyHole3DShapes).(*Type)
 	case map[*KeyHoleShape]any:
 		return any(&stage.KeyHoleShapes).(*Type)
+	case map[*Leaves3DShape]any:
+		return any(&stage.Leaves3DShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*MidArcVectorShape]any:
@@ -25779,6 +25951,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.KeyHole3DShapes_mapString).(map[string]Type)
 	case *KeyHoleShape:
 		return any(stage.KeyHoleShapes_mapString).(map[string]Type)
+	case *Leaves3DShape:
+		return any(stage.Leaves3DShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *MidArcVectorShape:
@@ -26079,6 +26253,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.KeyHole3DShapes).(*map[*Type]struct{})
 	case KeyHoleShape:
 		return any(&stage.KeyHoleShapes).(*map[*Type]struct{})
+	case Leaves3DShape:
+		return any(&stage.Leaves3DShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case MidArcVectorShape:
@@ -26379,6 +26555,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.KeyHole3DShapes).(*map[Type]struct{})
 	case *KeyHoleShape:
 		return any(&stage.KeyHoleShapes).(*map[Type]struct{})
+	case *Leaves3DShape:
+		return any(&stage.Leaves3DShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *MidArcVectorShape:
@@ -26679,6 +26857,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.KeyHole3DShapes_mapString).(*map[string]*Type)
 	case KeyHoleShape:
 		return any(&stage.KeyHoleShapes_mapString).(*map[string]*Type)
+	case Leaves3DShape:
+		return any(&stage.Leaves3DShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case MidArcVectorShape:
@@ -27087,6 +27267,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&KeyHoleShape{
 			// Initialisation of associations
 		}).(*Type)
+	case Leaves3DShape:
+		return any(&Leaves3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
@@ -27228,6 +27412,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Circumference3DShape: &Circumference3DShape{Name: "Circumference3DShape"},
 			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
+			// field is initialized with an instance of Leaves3DShape with the name of the field
+			Leaves3DShape: &Leaves3DShape{Name: "Leaves3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
@@ -28123,6 +28309,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Leaves3DShape
+	case Leaves3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
@@ -28351,6 +28542,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
 					res[tiledfloor3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Leaves3DShape":
+			res := make(map[*Leaves3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.Leaves3DShape != nil {
+					leaves3dshape_ := plant3ddiagram.Leaves3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[leaves3dshape_]
+					if ok {
+						plant3ddiagrams = res[leaves3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[leaves3dshape_] = plant3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -30486,6 +30694,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Leaves3DShape
+	case Leaves3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
@@ -31511,6 +31724,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "KeyHole3DShape"
 	case *KeyHoleShape:
 		res = "KeyHoleShape"
+	case *Leaves3DShape:
+		res = "Leaves3DShape"
 	case *Library:
 		res = "Library"
 	case *MidArcVectorShape:
@@ -31882,6 +32097,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *KeyHoleShape:
+		var rf ReverseField
+		_ = rf
+	case *Leaves3DShape:
 		var rf ReverseField
 		_ = rf
 	case *Library:
@@ -33259,6 +33477,17 @@ func (keyholeshape *KeyHoleShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 	return
 }
 
+func (leaves3dshape *Leaves3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -34063,6 +34292,15 @@ func (plant3ddiagram *Plant3DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 			Name:                 "TiledFloor3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TiledFloor3DShape",
+		},
+		{
+			Name:               "IsHiddenLeaves3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Leaves3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Leaves3DShape",
 		},
 		{
 			Name:                 "Rendered3DShape",
@@ -38445,6 +38683,15 @@ func (keyholeshape *KeyHoleShape) GongGetFieldValue(fieldName string, stage *Sta
 	return
 }
 
+func (leaves3dshape *Leaves3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = leaves3dshape.Name
+	}
+	return
+}
+
 func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -39262,6 +39509,16 @@ func (plant3ddiagram *Plant3DDiagram) GongGetFieldValue(fieldName string, stage 
 		if plant3ddiagram.TiledFloor3DShape != nil {
 			res.valueString = plant3ddiagram.TiledFloor3DShape.Name
 			res.ids = plant3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenLeaves3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenLeaves3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenLeaves3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Leaves3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.Leaves3DShape != nil {
+			res.valueString = plant3ddiagram.Leaves3DShape.Name
+			res.ids = plant3ddiagram.Leaves3DShape.GongGetUUID(stage)
 		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -43636,6 +43893,17 @@ func (keyholeshape *KeyHoleShape) GongSetFieldValue(fieldName string, value Gong
 	return nil
 }
 
+func (leaves3dshape *Leaves3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		leaves3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -44374,6 +44642,19 @@ func (plant3ddiagram *Plant3DDiagram) GongSetFieldValue(fieldName string, value 
 			for __instance__ := range stage.TiledFloor3DShapes {
 				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
 					plant3ddiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenLeaves3DShape":
+		plant3ddiagram.IsHiddenLeaves3DShape = value.GetValueBool()
+	case "Leaves3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.Leaves3DShape = nil
+			for __instance__ := range stage.Leaves3DShapes {
+				if stage.Leaves3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.Leaves3DShape = __instance__
 					break
 				}
 			}
@@ -47873,6 +48154,10 @@ func (keyholeshape *KeyHoleShape) GongGetGongstructName() string {
 	return "KeyHoleShape"
 }
 
+func (leaves3dshape *Leaves3DShape) GongGetGongstructName() string {
+	return "Leaves3DShape"
+}
+
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
@@ -48492,6 +48777,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.KeyHoleShapes_mapString = make(map[string]*KeyHoleShape)
 	for keyholeshape := range stage.KeyHoleShapes {
 		stage.KeyHoleShapes_mapString[keyholeshape.Name] = keyholeshape
+	}
+
+	stage.Leaves3DShapes_mapString = make(map[string]*Leaves3DShape)
+	for leaves3dshape := range stage.Leaves3DShapes {
+		stage.Leaves3DShapes_mapString[leaves3dshape.Name] = leaves3dshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)
