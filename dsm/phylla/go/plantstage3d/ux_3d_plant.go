@@ -395,17 +395,22 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 
 	// 6. Leaves at each intersection point
 	if checkedDiagram == nil || !checkedDiagram.IsHiddenLeaves3DShape {
-		deltaSlope := (v1_rot_x / v1_rot_y) - (v2_rot_x / v2_rot_y)
-		if deltaSlope > 1e-6 {
-			leafLength := math.Min(globalR*0.35, sideLength*0.45)
-			if leafLength < 5.0 {
-				leafLength = 5.0
-			}
-			if leafLength > 40.0 {
+		rate1 := v1_rot_x / (globalR * v1_rot_y)
+		rate2 := v2_rot_x / (globalR * v2_rot_y)
+		deltaRate := rate1 - rate2
+
+		if math.Abs(deltaRate) > 1e-6 {
+			stepY := 2.0 * math.Pi / deltaRate
+
+			leafLength := 4.0 * math.Min(globalR*0.4, sideLength*0.5)
+			if leafLength < 40.0 {
 				leafLength = 40.0
 			}
-			leafWidth := leafLength * 0.5
-			tiltAngle := 25.0 * math.Pi / 180.0
+			if leafLength > 200.0 {
+				leafLength = 200.0
+			}
+			leafWidth := leafLength * 0.55
+			tiltAngle := 20.0 * math.Pi / 180.0
 			cosTilt := math.Cos(tiltAngle)
 			sinTilt := math.Sin(tiltAngle)
 
@@ -416,13 +421,16 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 
 			for k := 0; k < N; k++ {
 				for m := 0; m < M; m++ {
-					delta0 := float64(m)/float64(M) - float64(k)/float64(N)
-					minL := int(math.Floor(-delta0)) - 1
-					maxL := int(math.Ceil((H*deltaSlope)/C-delta0)) + 1
+					f0 := float64(m)/float64(M) - float64(k)/float64(N)
+
+					bound1 := -f0
+					bound2 := (H / stepY) - f0
+					minL := int(math.Floor(math.Min(bound1, bound2))) - 1
+					maxL := int(math.Ceil(math.Max(bound1, bound2))) + 1
 
 					for L := minL; L <= maxL; L++ {
-						yPt := (C / deltaSlope) * (delta0 + float64(L))
-						if yPt < -1e-5 || yPt > H+1e-5 {
+						yPt := stepY * (float64(L) + f0)
+						if yPt < -1e-4 || yPt > H+1e-4 {
 							continue
 						}
 						if yPt < 0 {
@@ -432,8 +440,7 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 							yPt = H
 						}
 
-						xPt := float64(k)*(C/float64(N)) + yPt*(v1_rot_x/v1_rot_y)
-						theta := xPt / globalR
+						theta := float64(k)*2.0*math.Pi/float64(N) + yPt*rate1
 
 						ptX := rTubeCenter * math.Cos(theta)
 						ptY := yPt
@@ -441,7 +448,7 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 
 						isDuplicate := false
 						for _, p := range leafPoints {
-							if math.Abs(p.y-ptY) < 0.5 && math.Hypot(p.x-ptX, p.z-ptZ) < 1.0 {
+							if math.Abs(p.y-ptY) < 1.0 && math.Hypot(p.x-ptX, p.z-ptZ) < 1.5 {
 								isDuplicate = true
 								break
 							}
@@ -463,9 +470,20 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 					Name: "Plant Leaves BufferGeometry",
 				}).Stage(plant3dStage)
 
-				for idx, lp := range leafPoints {
-					baseIdx := idx * 5
+				leafNodeRadius := math.Max(tubeRadius*2.2, 3.2)
+				leafStalkRadius := math.Max(tubeRadius*1.5, 2.0)
 
+				nodeMaterial := (&threejs.MeshPhysicalMaterial{
+					Name:                 "Leaf Node Material",
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#15803d"},
+				}).Stage(plant3dStage)
+
+				stalkMaterial := (&threejs.MeshPhysicalMaterial{
+					Name:                 "Leaf Stalk Material",
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#16a34a"},
+				}).Stage(plant3dStage)
+
+				for idx, lp := range leafPoints {
 					urX := math.Cos(lp.theta)
 					urZ := math.Sin(lp.theta)
 
@@ -480,6 +498,69 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 					nLeafY := cosTilt
 					nLeafZ := -urZ * sinTilt
 
+					// 1. Primordium Node Sphere right at the intersection point
+					nodeSphere := (&threejs.Mesh{
+						Name: fmt.Sprintf("Leaf Node %d", idx),
+						Position: threejs.Position{
+							X: lp.x,
+							Y: lp.y,
+							Z: lp.z,
+						},
+						SphereGeometry: (&threejs.SphereGeometry{
+							Name:           fmt.Sprintf("Leaf Node Geom %d", idx),
+							Radius:         leafNodeRadius,
+							WidthSegments:  12,
+							HeightSegments: 12,
+						}).Stage(plant3dStage),
+						MeshPhysicalMaterial: nodeMaterial,
+					}).Stage(plant3dStage)
+					canvas.Meshs = append(canvas.Meshs, nodeSphere)
+
+					// 2. Leaf Petiole / Stalk (curving outward and slightly drooping at tip)
+					stalkCurve := (&threejs.Curve{
+						Name: fmt.Sprintf("Leaf Stalk Curve %d", idx),
+					}).Stage(plant3dStage)
+
+					p0 := (&threejs.Vector3{
+						Name: fmt.Sprintf("LS%d_P0", idx),
+						X:    lp.x,
+						Y:    lp.y,
+						Z:    lp.z,
+					}).Stage(plant3dStage)
+
+					p1 := (&threejs.Vector3{
+						Name: fmt.Sprintf("LS%d_P1", idx),
+						X:    lp.x + 0.5*leafLength*dLeafX,
+						Y:    lp.y + 0.5*leafLength*dLeafY,
+						Z:    lp.z + 0.5*leafLength*dLeafZ,
+					}).Stage(plant3dStage)
+
+					p2 := (&threejs.Vector3{
+						Name: fmt.Sprintf("LS%d_P2", idx),
+						X:    lp.x + leafLength*dLeafX,
+						Y:    lp.y + leafLength*dLeafY - 0.15*leafLength,
+						Z:    lp.z + leafLength*dLeafZ,
+					}).Stage(plant3dStage)
+
+					stalkCurve.Points = append(stalkCurve.Points, p0, p1, p2)
+
+					stalkMesh := (&threejs.Mesh{
+						Name: fmt.Sprintf("Leaf Stalk Mesh %d", idx),
+						TubeGeometry: (&threejs.TubeGeometry{
+							Name:            fmt.Sprintf("Leaf Stalk TubeGeom %d", idx),
+							Path:            stalkCurve,
+							TubularSegments: 12,
+							Radius:          leafStalkRadius,
+							RadialSegments:  8,
+							Closed:          false,
+						}).Stage(plant3dStage),
+						MeshPhysicalMaterial: stalkMaterial,
+					}).Stage(plant3dStage)
+					canvas.Meshs = append(canvas.Meshs, stalkMesh)
+
+					// 3. Faceted 3D Leaf Blade
+					baseIdx := idx * 5
+
 					v0 := (&threejs.Vector3{
 						Name: fmt.Sprintf("L%d_V0", idx),
 						X:    lp.x,
@@ -489,30 +570,30 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 
 					v1 := (&threejs.Vector3{
 						Name: fmt.Sprintf("L%d_V1", idx),
-						X:    lp.x + 0.4*leafLength*dLeafX - 0.5*leafWidth*utX,
-						Y:    lp.y + 0.4*leafLength*dLeafY,
-						Z:    lp.z + 0.4*leafLength*dLeafZ - 0.5*leafWidth*utZ,
+						X:    lp.x + 0.45*leafLength*dLeafX - 0.5*leafWidth*utX,
+						Y:    lp.y + 0.45*leafLength*dLeafY,
+						Z:    lp.z + 0.45*leafLength*dLeafZ - 0.5*leafWidth*utZ,
 					}).Stage(plant3dStage)
 
 					v2 := (&threejs.Vector3{
 						Name: fmt.Sprintf("L%d_V2", idx),
-						X:    lp.x + 0.4*leafLength*dLeafX + 0.5*leafWidth*utX,
-						Y:    lp.y + 0.4*leafLength*dLeafY,
-						Z:    lp.z + 0.4*leafLength*dLeafZ + 0.5*leafWidth*utZ,
+						X:    lp.x + 0.45*leafLength*dLeafX + 0.5*leafWidth*utX,
+						Y:    lp.y + 0.45*leafLength*dLeafY,
+						Z:    lp.z + 0.45*leafLength*dLeafZ + 0.5*leafWidth*utZ,
 					}).Stage(plant3dStage)
 
 					v3 := (&threejs.Vector3{
 						Name: fmt.Sprintf("L%d_V3", idx),
 						X:    lp.x + leafLength*dLeafX,
-						Y:    lp.y + leafLength*dLeafY,
+						Y:    lp.y + leafLength*dLeafY - 0.15*leafLength,
 						Z:    lp.z + leafLength*dLeafZ,
 					}).Stage(plant3dStage)
 
 					v4 := (&threejs.Vector3{
 						Name: fmt.Sprintf("L%d_V4", idx),
-						X:    lp.x + 0.4*leafLength*dLeafX + 0.15*leafWidth*nLeafX,
-						Y:    lp.y + 0.4*leafLength*dLeafY + 0.15*leafWidth*nLeafY,
-						Z:    lp.z + 0.4*leafLength*dLeafZ + 0.15*leafWidth*nLeafZ,
+						X:    lp.x + 0.45*leafLength*dLeafX + 0.12*leafWidth*nLeafX,
+						Y:    lp.y + 0.45*leafLength*dLeafY + 0.12*leafWidth*nLeafY,
+						Z:    lp.z + 0.45*leafLength*dLeafZ + 0.12*leafWidth*nLeafZ,
 					}).Stage(plant3dStage)
 
 					leafGeom.Vertices = append(leafGeom.Vertices, v0, v1, v2, v3, v4)
@@ -544,9 +625,9 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 					BufferGeometry: leafGeom,
 					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 						Name:                 "Plant Leaves Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#16a34a"},
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#22c55e"},
 						Transparent:          true,
-						Opacity:              0.95,
+						Opacity:              0.92,
 					}).Stage(plant3dStage),
 				}).Stage(plant3dStage)
 

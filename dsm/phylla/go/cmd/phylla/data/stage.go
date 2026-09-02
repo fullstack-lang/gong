@@ -408,7 +408,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.M = 3
 	__PlantAbstract__00000001_.StackHeight = 2
 	__PlantAbstract__00000001_.RhombusInsideAngle = 130.000000
-	__PlantAbstract__00000001_.RhombusSideLength = 105.000000
+	__PlantAbstract__00000001_.RhombusSideLength = 85.000000
 	__PlantAbstract__00000001_.PlantType = models.Plant
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_3D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
@@ -509,9 +509,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000005_.Fov = 0.000000
 
 	__Rendered3DShape__00000006_.Name = `Plant (3, 5, 100) - 3D Diagram-Rendered3DShape`
-	__Rendered3DShape__00000006_.ViewX = -281.672558
-	__Rendered3DShape__00000006_.ViewY = 32.892111
-	__Rendered3DShape__00000006_.ViewZ = 392.231300
+	__Rendered3DShape__00000006_.ViewX = -317.338051
+	__Rendered3DShape__00000006_.ViewY = 268.320117
+	__Rendered3DShape__00000006_.ViewZ = 323.285263
 	__Rendered3DShape__00000006_.TargetX = 0.000000
 	__Rendered3DShape__00000006_.TargetY = 91.207864
 	__Rendered3DShape__00000006_.TargetZ = 0.000000
