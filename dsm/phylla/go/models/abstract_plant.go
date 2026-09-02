@@ -10,6 +10,7 @@ type ViewType string
 
 const (
 	VIEW_PLANT_2D            ViewType = "Plant 2D"
+	VIEW_PLANT_3D            ViewType = "Plant 3D"
 	VIEW_VASE_FORM           ViewType = "Vase Form"
 	VIEW_VASE_2D             ViewType = "Vase 2D"
 	VIEW_VASE_3D             ViewType = "Vase 3D"
@@ -25,6 +26,7 @@ const (
 	Vase  PlantType = "Vase"
 	Stool PlantType = "Stool"
 	Clock PlantType = "Clock"
+	Music PlantType = "Music"
 )
 
 // Depending on the specific chirality (handedness) of the plant specimen, N may
@@ -63,6 +65,9 @@ type PlantAbstract struct {
 
 	IsPlant2DDiagramsNodeExpanded bool
 	Plant2DDiagrams               []*Plant2DDiagram
+
+	IsPlant3DDiagramsNodeExpanded bool
+	Plant3DDiagrams               []*Plant3DDiagram
 
 	IsVase2DDiagramsNodeExpanded bool
 	Vase2DDiagrams               []*Vase2DDiagram

@@ -71,6 +71,14 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			}
 		}
 		if !hasCheckedDiagram {
+			for _, d := range plant.Plant3DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagram = true
+					break
+				}
+			}
+		}
+		if !hasCheckedDiagram {
 			for _, d := range plant.Vase2DDiagrams {
 				if d.IsChecked {
 					hasCheckedDiagram = true
@@ -152,6 +160,9 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				if len(plant.Plant2DDiagrams) > 0 {
 					plant.Plant2DDiagrams[0].IsChecked = true
 					plant.CurrentView = VIEW_PLANT_2D
+				} else if len(plant.Plant3DDiagrams) > 0 {
+					plant.Plant3DDiagrams[0].IsChecked = true
+					plant.CurrentView = VIEW_PLANT_3D
 				}
 			}
 		}
@@ -193,6 +204,30 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 	diagramsNode.OnClick = onNodeClicked(stager, plant)
 	for _, diag := range plant.Plant2DDiagrams {
 		stager.treePlant2DDiagram(plant, diag, &diagramsNode.Children, is3DView)
+	}
+
+	plant3DDiagramsNode := &tree.Node{
+		Name:            "Plant 3D Diagrams",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      plant.IsPlant3DDiagramsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	plantNode.Children = append(plantNode.Children, plant3DDiagramsNode)
+	plant3DDiagramsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsPlant3DDiagramsNodeExpanded)
+	plant3DDiagramsNode.OnClick = onNodeClicked(stager, plant)
+
+	confPlant3D := ItemButtonConfiguration[Plant3DDiagram, *Plant3DDiagram, PlantAbstract, *PlantAbstract]{
+		parentNode: plant3DDiagramsNode, sliceForNewAddedItem: &plant.Plant3DDiagrams,
+		isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsPlant3DDiagramsNodeExpanded, IsButtonInMenu: true,
+	}
+	addCreateItemButton(stager, confPlant3D)
+	if len(plant3DDiagramsNode.Menu.Buttons) > 0 {
+		btn := plant3DDiagramsNode.Menu.Buttons[len(plant3DDiagramsNode.Menu.Buttons)-1]
+		btn.Name = "Add Plant 3D Diagram"
+		btn.ToolTipText = "Add a Plant 3D Diagram"
+	}
+	for _, diag := range plant.Plant3DDiagrams {
+		stager.treePlant3DDiagram(plant, diag, &plant3DDiagramsNode.Children, is3DView)
 	}
 
 	if plant.PlantType == Vase { // Vase 2D Diagrams
@@ -323,6 +358,9 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 
 func uncheckAllDiagrams(stager *Stager) {
 	for d := range *GetGongstructInstancesSetFromPointerType[*Plant2DDiagram](stager.stage) {
+		d.IsChecked = false
+	}
+	for d := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stager.stage) {
 		d.IsChecked = false
 	}
 	for d := range *GetGongstructInstancesSetFromPointerType[*Vase2DDiagram](stager.stage) {

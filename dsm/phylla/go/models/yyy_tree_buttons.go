@@ -730,11 +730,13 @@ func createBaseNode[
 					continue
 				}
 				diagramNode := &tree.Node{
-					Name:            diag.GetName(),
-					ToolTipText:     "Go to diagram \"" + diag.GetName() + "\"",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					IsNodeClickable: true,
+					Name:                 diag.GetName(),
+					ToolTipText:          "Go to diagram \"" + diag.GetName() + "\"",
+					HasToolTip:           true,
+					ToolTipPosition:      tree.Right,
+					IsNodeClickable:       true,
+					IsWithPreceedingIcon: true,
+					PreceedingIcon:       string(buttons.BUTTON_schema),
 					OnClick: func(frontNode *tree.Node) {
 						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
 							diagram_.SetIsChecked(false)

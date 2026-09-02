@@ -45,11 +45,16 @@ func (stager *Stager) createViews() {
 	isStool := (plant != nil && plant.PlantType == Stool)
 	isClock := (plant != nil && plant.PlantType == Clock)
 
-	var isPlant2DChecked, isVase2DChecked, isVase3DChecked, isStool2DChecked, isStool3DChecked, isClock2DChecked, isClock3DChecked bool
+	var isPlant2DChecked, isPlant3DChecked, isVase2DChecked, isVase3DChecked, isStool2DChecked, isStool3DChecked, isClock2DChecked, isClock3DChecked bool
 	if plant != nil {
 		for _, d := range plant.Plant2DDiagrams {
 			if d.IsChecked {
 				isPlant2DChecked = true
+			}
+		}
+		for _, d := range plant.Plant3DDiagrams {
+			if d.IsChecked {
+				isPlant3DChecked = true
 			}
 		}
 		for _, d := range plant.Vase2DDiagrams {
@@ -85,13 +90,13 @@ func (stager *Stager) createViews() {
 	}
 
 	if plant != nil {
-		if plant.PlantType == Plant && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		if plant.PlantType == Plant && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
-		} else if plant.PlantType == Stool && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if plant.PlantType == Stool && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
-		} else if plant.PlantType == Clock && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if plant.PlantType == Clock && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
-		} else if plant.PlantType == Vase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if plant.PlantType == Vase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
 		}
 		if plant.CurrentView != "" {
@@ -102,6 +107,7 @@ func (stager *Stager) createViews() {
 	}
 
 	view0Name := string(VIEW_PLANT_2D)
+	viewPlant3DName := string(VIEW_PLANT_3D)
 	view1Name := string(VIEW_VASE_FORM)
 	view2Name := string(VIEW_VASE_2D)
 	view3Name := string(VIEW_VASE_3D)
@@ -110,6 +116,7 @@ func (stager *Stager) createViews() {
 	viewAboutSpiralPlantsName := string(VIEW_ABOUT_SPIRAL_PLANTS)
 
 	isView0Selected := (currentView == VIEW_PLANT_2D)
+	isViewPlant3DSelected := (currentView == VIEW_PLANT_3D)
 	isView1Selected := (currentView == VIEW_VASE_FORM)
 	isView2Selected := (currentView == VIEW_VASE_2D)
 	isView3Selected := (currentView == VIEW_VASE_3D)
@@ -117,7 +124,7 @@ func (stager *Stager) createViews() {
 	isViewClock3DSelected := (currentView == VIEW_CLOCK_3D)
 	isViewAboutSpiralPlantsSelected := (currentView == VIEW_ABOUT_SPIRAL_PLANTS)
 
-	if !isView0Selected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected && !isViewClock3DSelected && !isViewAboutSpiralPlantsSelected {
+	if !isView0Selected && !isViewPlant3DSelected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected && !isViewClock3DSelected && !isViewAboutSpiralPlantsSelected {
 		isView0Selected = true
 	}
 
@@ -204,6 +211,84 @@ func (stager *Stager) createViews() {
 			plant.CurrentView = VIEW_PLANT_2D
 			stager.stage.Commit()
 		}
+	}
+
+	vPlant3D := &split.View{
+		Name:           viewPlant3DName,
+		Direction:      split.Horizontal,
+		IsSizeInPixel:  true,
+		IsSelectedView: isViewPlant3DSelected,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with both trees",
+				ShowNameInHeader: false,
+				IsAny:            true,
+				AsSplit: &split.AsSplit{
+					Name:          "as split",
+					IsSizeInPixel: true,
+					Direction:     split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 525,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "Libraries",
+										Size:             80,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage3D.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Button: &split.Button{
+											StackName: stager.buttonStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							IsAny: true,
+							Threejs: &split.Threejs{
+								StackName: stager.plant3dStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 585,
+				Slider: &split.Slider{
+					StackName: stager.sliderStage.GetName(),
+				},
+			},
+		},
+	}
+	split.StageBranch(stager.splitStage, vPlant3D)
+	vPlant3D.OnClick = func() {
+		plant := stager.GetCurrentPlant()
+		if plant != nil {
+			if plant.CurrentView != VIEW_PLANT_3D {
+				plant.CurrentView = VIEW_PLANT_3D
+			}
+			if !isPlant3DChecked && len(plant.Plant3DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
+				plant.Plant3DDiagrams[0].IsChecked = true
+				plant.Plant3DDiagrams[0].IsExpanded = true
+				plant.IsPlant3DDiagramsNodeExpanded = true
+			}
+			stager.stage.Commit()
+		}
+		stager.UpdatePlant3DStage()
 	}
 
 	if isVase {
@@ -755,6 +840,18 @@ func (stager *Stager) createViews() {
 			{
 				Split: &split.Split{
 					StackName: stager.sliderClockStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "plant3d Probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.plant3dStage.GetProbeSplitStageName(),
 				},
 			},
 		},

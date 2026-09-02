@@ -736,6 +736,35 @@ func (u *CircleGridShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
+type Circumference3DShapeUnmarshaller struct{}
+
+func (u *Circumference3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Circumference3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Circumference3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Circumference3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type Clock2DDiagramUnmarshaller struct{}
 
 func (u *Clock2DDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -891,6 +920,35 @@ func (u *ClockTopCurveShapeUnmarshaller) Initialize(stage *Stage, identifier str
 
 func (u *ClockTopCurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*ClockTopCurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type CutLine3DShapeUnmarshaller struct{}
+
+func (u *CutLine3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(CutLine3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *CutLine3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*CutLine3DShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -1880,6 +1938,64 @@ func (u *OriginalPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	return nil
 }
 
+type ParastichyMCurves3DShapeUnmarshaller struct{}
+
+func (u *ParastichyMCurves3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ParastichyMCurves3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ParastichyMCurves3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ParastichyMCurves3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type ParastichyNCurves3DShapeUnmarshaller struct{}
+
+func (u *ParastichyNCurves3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ParastichyNCurves3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ParastichyNCurves3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ParastichyNCurves3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type PartiallyGrowthCurve2DRibbonUnmarshaller struct{}
 
 func (u *PartiallyGrowthCurve2DRibbonUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2635,6 +2751,67 @@ func (u *Plant2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	return nil
 }
 
+type Plant3DDiagramUnmarshaller struct{}
+
+func (u *Plant3DDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Plant3DDiagram)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Plant3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Plant3DDiagram)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHiddenStemCylinder3DShape":
+		instance.IsHiddenStemCylinder3DShape = GongExtractBool(valueExpr)
+	case "StemCylinder3DShape":
+		GongUnmarshallPointer(&instance.StemCylinder3DShape, valueExpr, identifierMap)
+	case "IsHiddenParastichyNCurves3DShape":
+		instance.IsHiddenParastichyNCurves3DShape = GongExtractBool(valueExpr)
+	case "ParastichyNCurves3DShape":
+		GongUnmarshallPointer(&instance.ParastichyNCurves3DShape, valueExpr, identifierMap)
+	case "IsHiddenParastichyMCurves3DShape":
+		instance.IsHiddenParastichyMCurves3DShape = GongExtractBool(valueExpr)
+	case "ParastichyMCurves3DShape":
+		GongUnmarshallPointer(&instance.ParastichyMCurves3DShape, valueExpr, identifierMap)
+	case "IsHiddenCutLine3DShape":
+		instance.IsHiddenCutLine3DShape = GongExtractBool(valueExpr)
+	case "CutLine3DShape":
+		GongUnmarshallPointer(&instance.CutLine3DShape, valueExpr, identifierMap)
+	case "IsHiddenCircumference3DShape":
+		instance.IsHiddenCircumference3DShape = GongExtractBool(valueExpr)
+	case "Circumference3DShape":
+		GongUnmarshallPointer(&instance.Circumference3DShape, valueExpr, identifierMap)
+	case "IsHiddenTiledFloor3DShape":
+		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
+	case "TiledFloor3DShape":
+		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
+	case "Rendered3DShape":
+		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type PlantAbstractUnmarshaller struct{}
 
 func (u *PlantAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2690,6 +2867,10 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.IsPlant2DDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "Plant2DDiagrams":
 		GongUnmarshallSliceOfPointers(&instance.Plant2DDiagrams, valueExpr, identifierMap)
+	case "IsPlant3DDiagramsNodeExpanded":
+		instance.IsPlant3DDiagramsNodeExpanded = GongExtractBool(valueExpr)
+	case "Plant3DDiagrams":
+		GongUnmarshallSliceOfPointers(&instance.Plant3DDiagrams, valueExpr, identifierMap)
 	case "IsVase2DDiagramsNodeExpanded":
 		instance.IsVase2DDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "Vase2DDiagrams":
@@ -4779,6 +4960,35 @@ func (u *StartHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.Name = GongExtractString(valueExpr)
 	case "StartHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.StartHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StemCylinder3DShapeUnmarshaller struct{}
+
+func (u *StemCylinder3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StemCylinder3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StemCylinder3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StemCylinder3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

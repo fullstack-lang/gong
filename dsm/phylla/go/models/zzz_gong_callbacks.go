@@ -38,6 +38,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeCreateCallback != nil {
 			stage.OnAfterCircleGridShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Circumference3DShape:
+		if stage.OnAfterCircumference3DShapeCreateCallback != nil {
+			stage.OnAfterCircumference3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Clock2DDiagram:
 		if stage.OnAfterClock2DDiagramCreateCallback != nil {
 			stage.OnAfterClock2DDiagramCreateCallback.OnAfterCreate(stage, target)
@@ -53,6 +57,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ClockTopCurveShape:
 		if stage.OnAfterClockTopCurveShapeCreateCallback != nil {
 			stage.OnAfterClockTopCurveShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *CutLine3DShape:
+		if stage.OnAfterCutLine3DShapeCreateCallback != nil {
+			stage.OnAfterCutLine3DShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeCreateCallback != nil {
@@ -166,6 +174,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterOriginalPoints3DShapeCreateCallback != nil {
 			stage.OnAfterOriginalPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ParastichyMCurves3DShape:
+		if stage.OnAfterParastichyMCurves3DShapeCreateCallback != nil {
+			stage.OnAfterParastichyMCurves3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *ParastichyNCurves3DShape:
+		if stage.OnAfterParastichyNCurves3DShapeCreateCallback != nil {
+			stage.OnAfterParastichyNCurves3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback.OnAfterCreate(stage, target)
@@ -241,6 +257,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Plant2DDiagram:
 		if stage.OnAfterPlant2DDiagramCreateCallback != nil {
 			stage.OnAfterPlant2DDiagramCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Plant3DDiagram:
+		if stage.OnAfterPlant3DDiagramCreateCallback != nil {
+			stage.OnAfterPlant3DDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *PlantAbstract:
 		if stage.OnAfterPlantAbstractCreateCallback != nil {
@@ -442,6 +462,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStartHalfwayArcShapeGridCreateCallback != nil {
 			stage.OnAfterStartHalfwayArcShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *StemCylinder3DShape:
+		if stage.OnAfterStemCylinder3DShapeCreateCallback != nil {
+			stage.OnAfterStemCylinder3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Stool2DDiagram:
 		if stage.OnAfterStool2DDiagramCreateCallback != nil {
 			stage.OnAfterStool2DDiagramCreateCallback.OnAfterCreate(stage, target)
@@ -612,6 +636,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterCircleGridShapeUpdateCallback != nil {
 			stage.OnAfterCircleGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Circumference3DShape:
+		newTarget := any(new).(*Circumference3DShape)
+		if stage.OnAfterCircumference3DShapeUpdateCallback != nil {
+			stage.OnAfterCircumference3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Clock2DDiagram:
 		newTarget := any(new).(*Clock2DDiagram)
 		if stage.OnAfterClock2DDiagramUpdateCallback != nil {
@@ -631,6 +660,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*ClockTopCurveShape)
 		if stage.OnAfterClockTopCurveShapeUpdateCallback != nil {
 			stage.OnAfterClockTopCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *CutLine3DShape:
+		newTarget := any(new).(*CutLine3DShape)
+		if stage.OnAfterCutLine3DShapeUpdateCallback != nil {
+			stage.OnAfterCutLine3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *EndArcShape:
 		newTarget := any(new).(*EndArcShape)
@@ -772,6 +806,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterOriginalPoints3DShapeUpdateCallback != nil {
 			stage.OnAfterOriginalPoints3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *ParastichyMCurves3DShape:
+		newTarget := any(new).(*ParastichyMCurves3DShape)
+		if stage.OnAfterParastichyMCurves3DShapeUpdateCallback != nil {
+			stage.OnAfterParastichyMCurves3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ParastichyNCurves3DShape:
+		newTarget := any(new).(*ParastichyNCurves3DShape)
+		if stage.OnAfterParastichyNCurves3DShapeUpdateCallback != nil {
+			stage.OnAfterParastichyNCurves3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		newTarget := any(new).(*PartiallyGrowthCurve2DRibbon)
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback != nil {
@@ -866,6 +910,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Plant2DDiagram)
 		if stage.OnAfterPlant2DDiagramUpdateCallback != nil {
 			stage.OnAfterPlant2DDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Plant3DDiagram:
+		newTarget := any(new).(*Plant3DDiagram)
+		if stage.OnAfterPlant3DDiagramUpdateCallback != nil {
+			stage.OnAfterPlant3DDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PlantAbstract:
 		newTarget := any(new).(*PlantAbstract)
@@ -1117,6 +1166,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterStartHalfwayArcShapeGridUpdateCallback != nil {
 			stage.OnAfterStartHalfwayArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *StemCylinder3DShape:
+		newTarget := any(new).(*StemCylinder3DShape)
+		if stage.OnAfterStemCylinder3DShapeUpdateCallback != nil {
+			stage.OnAfterStemCylinder3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Stool2DDiagram:
 		newTarget := any(new).(*Stool2DDiagram)
 		if stage.OnAfterStool2DDiagramUpdateCallback != nil {
@@ -1312,6 +1366,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*CircleGridShape)
 			stage.OnAfterCircleGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Circumference3DShape:
+		if stage.OnAfterCircumference3DShapeDeleteCallback != nil {
+			staged := any(staged).(*Circumference3DShape)
+			stage.OnAfterCircumference3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Clock2DDiagram:
 		if stage.OnAfterClock2DDiagramDeleteCallback != nil {
 			staged := any(staged).(*Clock2DDiagram)
@@ -1331,6 +1390,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterClockTopCurveShapeDeleteCallback != nil {
 			staged := any(staged).(*ClockTopCurveShape)
 			stage.OnAfterClockTopCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *CutLine3DShape:
+		if stage.OnAfterCutLine3DShapeDeleteCallback != nil {
+			staged := any(staged).(*CutLine3DShape)
+			stage.OnAfterCutLine3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeDeleteCallback != nil {
@@ -1472,6 +1536,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*OriginalPoints3DShape)
 			stage.OnAfterOriginalPoints3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ParastichyMCurves3DShape:
+		if stage.OnAfterParastichyMCurves3DShapeDeleteCallback != nil {
+			staged := any(staged).(*ParastichyMCurves3DShape)
+			stage.OnAfterParastichyMCurves3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *ParastichyNCurves3DShape:
+		if stage.OnAfterParastichyNCurves3DShapeDeleteCallback != nil {
+			staged := any(staged).(*ParastichyNCurves3DShape)
+			stage.OnAfterParastichyNCurves3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback != nil {
 			staged := any(staged).(*PartiallyGrowthCurve2DRibbon)
@@ -1566,6 +1640,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterPlant2DDiagramDeleteCallback != nil {
 			staged := any(staged).(*Plant2DDiagram)
 			stage.OnAfterPlant2DDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Plant3DDiagram:
+		if stage.OnAfterPlant3DDiagramDeleteCallback != nil {
+			staged := any(staged).(*Plant3DDiagram)
+			stage.OnAfterPlant3DDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *PlantAbstract:
 		if stage.OnAfterPlantAbstractDeleteCallback != nil {
@@ -1817,6 +1896,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*StartHalfwayArcShapeGrid)
 			stage.OnAfterStartHalfwayArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *StemCylinder3DShape:
+		if stage.OnAfterStemCylinder3DShapeDeleteCallback != nil {
+			staged := any(staged).(*StemCylinder3DShape)
+			stage.OnAfterStemCylinder3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Stool2DDiagram:
 		if stage.OnAfterStool2DDiagramDeleteCallback != nil {
 			staged := any(staged).(*Stool2DDiagram)
@@ -2004,6 +2088,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeReadCallback != nil {
 			stage.OnAfterCircleGridShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Circumference3DShape:
+		if stage.OnAfterCircumference3DShapeReadCallback != nil {
+			stage.OnAfterCircumference3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Clock2DDiagram:
 		if stage.OnAfterClock2DDiagramReadCallback != nil {
 			stage.OnAfterClock2DDiagramReadCallback.OnAfterRead(stage, target)
@@ -2019,6 +2107,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ClockTopCurveShape:
 		if stage.OnAfterClockTopCurveShapeReadCallback != nil {
 			stage.OnAfterClockTopCurveShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *CutLine3DShape:
+		if stage.OnAfterCutLine3DShapeReadCallback != nil {
+			stage.OnAfterCutLine3DShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeReadCallback != nil {
@@ -2132,6 +2224,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterOriginalPoints3DShapeReadCallback != nil {
 			stage.OnAfterOriginalPoints3DShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *ParastichyMCurves3DShape:
+		if stage.OnAfterParastichyMCurves3DShapeReadCallback != nil {
+			stage.OnAfterParastichyMCurves3DShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *ParastichyNCurves3DShape:
+		if stage.OnAfterParastichyNCurves3DShapeReadCallback != nil {
+			stage.OnAfterParastichyNCurves3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback.OnAfterRead(stage, target)
@@ -2207,6 +2307,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Plant2DDiagram:
 		if stage.OnAfterPlant2DDiagramReadCallback != nil {
 			stage.OnAfterPlant2DDiagramReadCallback.OnAfterRead(stage, target)
+		}
+	case *Plant3DDiagram:
+		if stage.OnAfterPlant3DDiagramReadCallback != nil {
+			stage.OnAfterPlant3DDiagramReadCallback.OnAfterRead(stage, target)
 		}
 	case *PlantAbstract:
 		if stage.OnAfterPlantAbstractReadCallback != nil {
@@ -2408,6 +2512,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStartHalfwayArcShapeGridReadCallback != nil {
 			stage.OnAfterStartHalfwayArcShapeGridReadCallback.OnAfterRead(stage, target)
 		}
+	case *StemCylinder3DShape:
+		if stage.OnAfterStemCylinder3DShapeReadCallback != nil {
+			stage.OnAfterStemCylinder3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Stool2DDiagram:
 		if stage.OnAfterStool2DDiagramReadCallback != nil {
 			stage.OnAfterStool2DDiagramReadCallback.OnAfterRead(stage, target)
@@ -2551,6 +2659,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChosenP1P2PairShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[CircleGridShape])
+	case *Circumference3DShape:
+		stage.OnAfterCircumference3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Circumference3DShape])
 	case *Clock2DDiagram:
 		stage.OnAfterClock2DDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Clock2DDiagram])
 	case *Clock3DDiagram:
@@ -2559,6 +2669,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterClockAbstractUpdateCallback = any(callback).(OnAfterUpdateInterface[ClockAbstract])
 	case *ClockTopCurveShape:
 		stage.OnAfterClockTopCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ClockTopCurveShape])
+	case *CutLine3DShape:
+		stage.OnAfterCutLine3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[CutLine3DShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -2615,6 +2727,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShapeGrid])
 	case *OriginalPoints3DShape:
 		stage.OnAfterOriginalPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[OriginalPoints3DShape])
+	case *ParastichyMCurves3DShape:
+		stage.OnAfterParastichyMCurves3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ParastichyMCurves3DShape])
+	case *ParastichyNCurves3DShape:
+		stage.OnAfterParastichyNCurves3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ParastichyNCurves3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -2653,6 +2769,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPerpendicularVectorHalfwayUpdateCallback = any(callback).(OnAfterUpdateInterface[PerpendicularVectorHalfway])
 	case *Plant2DDiagram:
 		stage.OnAfterPlant2DDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Plant2DDiagram])
+	case *Plant3DDiagram:
+		stage.OnAfterPlant3DDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Plant3DDiagram])
 	case *PlantAbstract:
 		stage.OnAfterPlantAbstractUpdateCallback = any(callback).(OnAfterUpdateInterface[PlantAbstract])
 	case *PlantCircumferenceShape:
@@ -2753,6 +2871,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartHalfwayArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[StartHalfwayArcShapeGrid])
+	case *StemCylinder3DShape:
+		stage.OnAfterStemCylinder3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StemCylinder3DShape])
 	case *Stool2DDiagram:
 		stage.OnAfterStool2DDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Stool2DDiagram])
 	case *Stool3DDiagram:
@@ -2834,6 +2954,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChosenP1P2PairShapeCreateCallback = any(callback).(OnAfterCreateInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[CircleGridShape])
+	case *Circumference3DShape:
+		stage.OnAfterCircumference3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Circumference3DShape])
 	case *Clock2DDiagram:
 		stage.OnAfterClock2DDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Clock2DDiagram])
 	case *Clock3DDiagram:
@@ -2842,6 +2964,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterClockAbstractCreateCallback = any(callback).(OnAfterCreateInterface[ClockAbstract])
 	case *ClockTopCurveShape:
 		stage.OnAfterClockTopCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[ClockTopCurveShape])
+	case *CutLine3DShape:
+		stage.OnAfterCutLine3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[CutLine3DShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -2898,6 +3022,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShapeGrid])
 	case *OriginalPoints3DShape:
 		stage.OnAfterOriginalPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[OriginalPoints3DShape])
+	case *ParastichyMCurves3DShape:
+		stage.OnAfterParastichyMCurves3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[ParastichyMCurves3DShape])
+	case *ParastichyNCurves3DShape:
+		stage.OnAfterParastichyNCurves3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[ParastichyNCurves3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -2936,6 +3064,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPerpendicularVectorHalfwayCreateCallback = any(callback).(OnAfterCreateInterface[PerpendicularVectorHalfway])
 	case *Plant2DDiagram:
 		stage.OnAfterPlant2DDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Plant2DDiagram])
+	case *Plant3DDiagram:
+		stage.OnAfterPlant3DDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Plant3DDiagram])
 	case *PlantAbstract:
 		stage.OnAfterPlantAbstractCreateCallback = any(callback).(OnAfterCreateInterface[PlantAbstract])
 	case *PlantCircumferenceShape:
@@ -3036,6 +3166,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartHalfwayArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[StartHalfwayArcShapeGrid])
+	case *StemCylinder3DShape:
+		stage.OnAfterStemCylinder3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[StemCylinder3DShape])
 	case *Stool2DDiagram:
 		stage.OnAfterStool2DDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Stool2DDiagram])
 	case *Stool3DDiagram:
@@ -3117,6 +3249,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChosenP1P2PairShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[CircleGridShape])
+	case *Circumference3DShape:
+		stage.OnAfterCircumference3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Circumference3DShape])
 	case *Clock2DDiagram:
 		stage.OnAfterClock2DDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Clock2DDiagram])
 	case *Clock3DDiagram:
@@ -3125,6 +3259,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterClockAbstractDeleteCallback = any(callback).(OnAfterDeleteInterface[ClockAbstract])
 	case *ClockTopCurveShape:
 		stage.OnAfterClockTopCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ClockTopCurveShape])
+	case *CutLine3DShape:
+		stage.OnAfterCutLine3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[CutLine3DShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -3181,6 +3317,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShapeGrid])
 	case *OriginalPoints3DShape:
 		stage.OnAfterOriginalPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[OriginalPoints3DShape])
+	case *ParastichyMCurves3DShape:
+		stage.OnAfterParastichyMCurves3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ParastichyMCurves3DShape])
+	case *ParastichyNCurves3DShape:
+		stage.OnAfterParastichyNCurves3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ParastichyNCurves3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -3219,6 +3359,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPerpendicularVectorHalfwayDeleteCallback = any(callback).(OnAfterDeleteInterface[PerpendicularVectorHalfway])
 	case *Plant2DDiagram:
 		stage.OnAfterPlant2DDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Plant2DDiagram])
+	case *Plant3DDiagram:
+		stage.OnAfterPlant3DDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Plant3DDiagram])
 	case *PlantAbstract:
 		stage.OnAfterPlantAbstractDeleteCallback = any(callback).(OnAfterDeleteInterface[PlantAbstract])
 	case *PlantCircumferenceShape:
@@ -3319,6 +3461,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartHalfwayArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[StartHalfwayArcShapeGrid])
+	case *StemCylinder3DShape:
+		stage.OnAfterStemCylinder3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StemCylinder3DShape])
 	case *Stool2DDiagram:
 		stage.OnAfterStool2DDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Stool2DDiagram])
 	case *Stool3DDiagram:
@@ -3400,6 +3544,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterChosenP1P2PairShapeReadCallback = any(callback).(OnAfterReadInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeReadCallback = any(callback).(OnAfterReadInterface[CircleGridShape])
+	case *Circumference3DShape:
+		stage.OnAfterCircumference3DShapeReadCallback = any(callback).(OnAfterReadInterface[Circumference3DShape])
 	case *Clock2DDiagram:
 		stage.OnAfterClock2DDiagramReadCallback = any(callback).(OnAfterReadInterface[Clock2DDiagram])
 	case *Clock3DDiagram:
@@ -3408,6 +3554,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterClockAbstractReadCallback = any(callback).(OnAfterReadInterface[ClockAbstract])
 	case *ClockTopCurveShape:
 		stage.OnAfterClockTopCurveShapeReadCallback = any(callback).(OnAfterReadInterface[ClockTopCurveShape])
+	case *CutLine3DShape:
+		stage.OnAfterCutLine3DShapeReadCallback = any(callback).(OnAfterReadInterface[CutLine3DShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -3464,6 +3612,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterMidArcVectorShapeGridReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShapeGrid])
 	case *OriginalPoints3DShape:
 		stage.OnAfterOriginalPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[OriginalPoints3DShape])
+	case *ParastichyMCurves3DShape:
+		stage.OnAfterParastichyMCurves3DShapeReadCallback = any(callback).(OnAfterReadInterface[ParastichyMCurves3DShape])
+	case *ParastichyNCurves3DShape:
+		stage.OnAfterParastichyNCurves3DShapeReadCallback = any(callback).(OnAfterReadInterface[ParastichyNCurves3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -3502,6 +3654,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPerpendicularVectorHalfwayReadCallback = any(callback).(OnAfterReadInterface[PerpendicularVectorHalfway])
 	case *Plant2DDiagram:
 		stage.OnAfterPlant2DDiagramReadCallback = any(callback).(OnAfterReadInterface[Plant2DDiagram])
+	case *Plant3DDiagram:
+		stage.OnAfterPlant3DDiagramReadCallback = any(callback).(OnAfterReadInterface[Plant3DDiagram])
 	case *PlantAbstract:
 		stage.OnAfterPlantAbstractReadCallback = any(callback).(OnAfterReadInterface[PlantAbstract])
 	case *PlantCircumferenceShape:
@@ -3602,6 +3756,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterStartHalfwayArcShapeReadCallback = any(callback).(OnAfterReadInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[StartHalfwayArcShapeGrid])
+	case *StemCylinder3DShape:
+		stage.OnAfterStemCylinder3DShapeReadCallback = any(callback).(OnAfterReadInterface[StemCylinder3DShape])
 	case *Stool2DDiagram:
 		stage.OnAfterStool2DDiagramReadCallback = any(callback).(OnAfterReadInterface[Stool2DDiagram])
 	case *Stool3DDiagram:

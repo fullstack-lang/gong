@@ -161,6 +161,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.Circumference3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.Clock2DDiagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -257,6 +267,16 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.ClockTopCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.CutLine3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -791,6 +811,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.ParastichyMCurves3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.ParastichyNCurves3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.PartiallyGrowthCurve2DRibbon:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1296,6 +1336,52 @@ func FillUpForm(
 				})
 		}
 
+	case *models.Plant3DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStemCylinder3DShape", instanceWithInferedType.IsHiddenStemCylinder3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("StemCylinder3DShape", instanceWithInferedType.StemCylinder3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenParastichyNCurves3DShape", instanceWithInferedType.IsHiddenParastichyNCurves3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("ParastichyNCurves3DShape", instanceWithInferedType.ParastichyNCurves3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenParastichyMCurves3DShape", instanceWithInferedType.IsHiddenParastichyMCurves3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("ParastichyMCurves3DShape", instanceWithInferedType.ParastichyMCurves3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenCutLine3DShape", instanceWithInferedType.IsHiddenCutLine3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("CutLine3DShape", instanceWithInferedType.CutLine3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenCircumference3DShape", instanceWithInferedType.IsHiddenCircumference3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Circumference3DShape", instanceWithInferedType.Circumference3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
+		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Plant3DDiagram](
+				"PlantAbstract",
+				"Plant3DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Plant3DDiagram {
+					return owner.Plant3DDiagrams
+				})
+		}
+
 	case *models.PlantAbstract:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1324,6 +1410,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsPlant2DDiagramsNodeExpanded", instanceWithInferedType.IsPlant2DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Plant2DDiagrams", instanceWithInferedType, &instanceWithInferedType.Plant2DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsPlant3DDiagramsNodeExpanded", instanceWithInferedType.IsPlant3DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Plant3DDiagrams", instanceWithInferedType, &instanceWithInferedType.Plant3DDiagrams, formGroup, probe)
 		BasicFieldtoForm("IsVase2DDiagramsNodeExpanded", instanceWithInferedType.IsVase2DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Vase2DDiagrams", instanceWithInferedType, &instanceWithInferedType.Vase2DDiagrams, formGroup, probe)
@@ -2676,6 +2765,16 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("StartHalfwayArcShapes", instanceWithInferedType, &instanceWithInferedType.StartHalfwayArcShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.StemCylinder3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

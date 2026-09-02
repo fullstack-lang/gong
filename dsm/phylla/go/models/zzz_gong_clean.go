@@ -98,6 +98,13 @@ func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Circumference3DShape
+func (circumference3dshape *Circumference3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Clock2DDiagram
 func (clock2ddiagram *Clock2DDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -126,6 +133,13 @@ func (clockabstract *ClockAbstract) GongClean(stage *Stage) (modified bool) {
 
 // Clean garbage collect unstaged instances that are referenced by ClockTopCurveShape
 func (clocktopcurveshape *ClockTopCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by CutLine3DShape
+func (cutline3dshape *CutLine3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return
@@ -338,6 +352,20 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongClean(stage *Stage) (mod
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ParastichyMCurves3DShape
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ParastichyNCurves3DShape
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DRibbon
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -481,10 +509,25 @@ func (plant2ddiagram *Plant2DDiagram) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Plant3DDiagram
+func (plant3ddiagram *Plant3DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &plant3ddiagram.StemCylinder3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.ParastichyNCurves3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.ParastichyMCurves3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.CutLine3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.Circumference3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.TiledFloor3DShape) || modified
+	modified = GongCleanPointer(stage, &plant3ddiagram.Rendered3DShape) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PlantAbstract
 func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &plantabstract.Plant2DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Plant3DDiagrams) || modified
 	modified = GongCleanSlice(stage, &plantabstract.Vase2DDiagrams) || modified
 	modified = GongCleanSlice(stage, &plantabstract.Vase3DDiagrams) || modified
 	modified = GongCleanSlice(stage, &plantabstract.Stool2DDiagrams) || modified
@@ -879,6 +922,13 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongClean(stage *Stage) (modif
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &starthalfwayarcshapegrid.StartHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StemCylinder3DShape
+func (stemcylinder3dshape *StemCylinder3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }

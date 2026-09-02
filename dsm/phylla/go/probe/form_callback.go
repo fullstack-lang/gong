@@ -837,6 +837,84 @@ func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
 
 	circlegridshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__Circumference3DShapeFormCallback(
+	circumference3dshape *models.Circumference3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (circumference3dshapeFormCallback *Circumference3DShapeFormCallback) {
+	circumference3dshapeFormCallback = new(Circumference3DShapeFormCallback)
+	circumference3dshapeFormCallback.probe = probe
+	circumference3dshapeFormCallback.circumference3dshape = circumference3dshape
+	circumference3dshapeFormCallback.formGroup = formGroup
+
+	circumference3dshapeFormCallback.CreationMode = (circumference3dshape == nil)
+
+	return
+}
+
+type Circumference3DShapeFormCallback struct {
+	circumference3dshape *models.Circumference3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (circumference3dshapeFormCallback *Circumference3DShapeFormCallback) OnSave() {
+	circumference3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer circumference3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Circumference3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	circumference3dshapeFormCallback.probe.formStage.Checkout()
+
+	if circumference3dshapeFormCallback.circumference3dshape == nil {
+		circumference3dshapeFormCallback.circumference3dshape = new(models.Circumference3DShape).Stage(circumference3dshapeFormCallback.probe.stageOfInterest)
+	}
+	circumference3dshape_ := circumference3dshapeFormCallback.circumference3dshape
+	_ = circumference3dshape_
+
+	for _, formDiv := range circumference3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(circumference3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if circumference3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		circumference3dshape_.Unstage(circumference3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	circumference3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Circumference3DShape](
+		circumference3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if circumference3dshapeFormCallback.CreationMode || circumference3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		circumference3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(circumference3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Circumference3DShapeFormCallback(
+			nil,
+			circumference3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		circumference3dshape := new(models.Circumference3DShape)
+		FillUpForm(circumference3dshape, newFormGroup, circumference3dshapeFormCallback.probe)
+		circumference3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	circumference3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__Clock2DDiagramFormCallback(
 	clock2ddiagram *models.Clock2DDiagram,
 	probe *Probe,
@@ -1286,6 +1364,84 @@ func (clocktopcurveshapeFormCallback *ClockTopCurveShapeFormCallback) OnSave() {
 	}
 
 	clocktopcurveshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__CutLine3DShapeFormCallback(
+	cutline3dshape *models.CutLine3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (cutline3dshapeFormCallback *CutLine3DShapeFormCallback) {
+	cutline3dshapeFormCallback = new(CutLine3DShapeFormCallback)
+	cutline3dshapeFormCallback.probe = probe
+	cutline3dshapeFormCallback.cutline3dshape = cutline3dshape
+	cutline3dshapeFormCallback.formGroup = formGroup
+
+	cutline3dshapeFormCallback.CreationMode = (cutline3dshape == nil)
+
+	return
+}
+
+type CutLine3DShapeFormCallback struct {
+	cutline3dshape *models.CutLine3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (cutline3dshapeFormCallback *CutLine3DShapeFormCallback) OnSave() {
+	cutline3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer cutline3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("CutLine3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	cutline3dshapeFormCallback.probe.formStage.Checkout()
+
+	if cutline3dshapeFormCallback.cutline3dshape == nil {
+		cutline3dshapeFormCallback.cutline3dshape = new(models.CutLine3DShape).Stage(cutline3dshapeFormCallback.probe.stageOfInterest)
+	}
+	cutline3dshape_ := cutline3dshapeFormCallback.cutline3dshape
+	_ = cutline3dshape_
+
+	for _, formDiv := range cutline3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(cutline3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if cutline3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		cutline3dshape_.Unstage(cutline3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	cutline3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.CutLine3DShape](
+		cutline3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if cutline3dshapeFormCallback.CreationMode || cutline3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		cutline3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cutline3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__CutLine3DShapeFormCallback(
+			nil,
+			cutline3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		cutline3dshape := new(models.CutLine3DShape)
+		FillUpForm(cutline3dshape, newFormGroup, cutline3dshapeFormCallback.probe)
+		cutline3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	cutline3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__EndArcShapeFormCallback(
 	endarcshape *models.EndArcShape,
@@ -4269,6 +4425,162 @@ func (originalpoints3dshapeFormCallback *OriginalPoints3DShapeFormCallback) OnSa
 
 	originalpoints3dshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__ParastichyMCurves3DShapeFormCallback(
+	parastichymcurves3dshape *models.ParastichyMCurves3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (parastichymcurves3dshapeFormCallback *ParastichyMCurves3DShapeFormCallback) {
+	parastichymcurves3dshapeFormCallback = new(ParastichyMCurves3DShapeFormCallback)
+	parastichymcurves3dshapeFormCallback.probe = probe
+	parastichymcurves3dshapeFormCallback.parastichymcurves3dshape = parastichymcurves3dshape
+	parastichymcurves3dshapeFormCallback.formGroup = formGroup
+
+	parastichymcurves3dshapeFormCallback.CreationMode = (parastichymcurves3dshape == nil)
+
+	return
+}
+
+type ParastichyMCurves3DShapeFormCallback struct {
+	parastichymcurves3dshape *models.ParastichyMCurves3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (parastichymcurves3dshapeFormCallback *ParastichyMCurves3DShapeFormCallback) OnSave() {
+	parastichymcurves3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer parastichymcurves3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ParastichyMCurves3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	parastichymcurves3dshapeFormCallback.probe.formStage.Checkout()
+
+	if parastichymcurves3dshapeFormCallback.parastichymcurves3dshape == nil {
+		parastichymcurves3dshapeFormCallback.parastichymcurves3dshape = new(models.ParastichyMCurves3DShape).Stage(parastichymcurves3dshapeFormCallback.probe.stageOfInterest)
+	}
+	parastichymcurves3dshape_ := parastichymcurves3dshapeFormCallback.parastichymcurves3dshape
+	_ = parastichymcurves3dshape_
+
+	for _, formDiv := range parastichymcurves3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(parastichymcurves3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if parastichymcurves3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		parastichymcurves3dshape_.Unstage(parastichymcurves3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	parastichymcurves3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ParastichyMCurves3DShape](
+		parastichymcurves3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if parastichymcurves3dshapeFormCallback.CreationMode || parastichymcurves3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		parastichymcurves3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(parastichymcurves3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ParastichyMCurves3DShapeFormCallback(
+			nil,
+			parastichymcurves3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		parastichymcurves3dshape := new(models.ParastichyMCurves3DShape)
+		FillUpForm(parastichymcurves3dshape, newFormGroup, parastichymcurves3dshapeFormCallback.probe)
+		parastichymcurves3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	parastichymcurves3dshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ParastichyNCurves3DShapeFormCallback(
+	parastichyncurves3dshape *models.ParastichyNCurves3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (parastichyncurves3dshapeFormCallback *ParastichyNCurves3DShapeFormCallback) {
+	parastichyncurves3dshapeFormCallback = new(ParastichyNCurves3DShapeFormCallback)
+	parastichyncurves3dshapeFormCallback.probe = probe
+	parastichyncurves3dshapeFormCallback.parastichyncurves3dshape = parastichyncurves3dshape
+	parastichyncurves3dshapeFormCallback.formGroup = formGroup
+
+	parastichyncurves3dshapeFormCallback.CreationMode = (parastichyncurves3dshape == nil)
+
+	return
+}
+
+type ParastichyNCurves3DShapeFormCallback struct {
+	parastichyncurves3dshape *models.ParastichyNCurves3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (parastichyncurves3dshapeFormCallback *ParastichyNCurves3DShapeFormCallback) OnSave() {
+	parastichyncurves3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer parastichyncurves3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ParastichyNCurves3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	parastichyncurves3dshapeFormCallback.probe.formStage.Checkout()
+
+	if parastichyncurves3dshapeFormCallback.parastichyncurves3dshape == nil {
+		parastichyncurves3dshapeFormCallback.parastichyncurves3dshape = new(models.ParastichyNCurves3DShape).Stage(parastichyncurves3dshapeFormCallback.probe.stageOfInterest)
+	}
+	parastichyncurves3dshape_ := parastichyncurves3dshapeFormCallback.parastichyncurves3dshape
+	_ = parastichyncurves3dshape_
+
+	for _, formDiv := range parastichyncurves3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(parastichyncurves3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if parastichyncurves3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		parastichyncurves3dshape_.Unstage(parastichyncurves3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	parastichyncurves3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ParastichyNCurves3DShape](
+		parastichyncurves3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if parastichyncurves3dshapeFormCallback.CreationMode || parastichyncurves3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		parastichyncurves3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(parastichyncurves3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ParastichyNCurves3DShapeFormCallback(
+			nil,
+			parastichyncurves3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		parastichyncurves3dshape := new(models.ParastichyNCurves3DShape)
+		FillUpForm(parastichyncurves3dshape, newFormGroup, parastichyncurves3dshapeFormCallback.probe)
+		parastichyncurves3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	parastichyncurves3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PartiallyGrowthCurve2DRibbonFormCallback(
 	partiallygrowthcurve2dribbon *models.PartiallyGrowthCurve2DRibbon,
 	probe *Probe,
@@ -6750,6 +7062,161 @@ func (plant2ddiagramFormCallback *Plant2DDiagramFormCallback) OnSave() {
 
 	plant2ddiagramFormCallback.probe.ux_tree()
 }
+func __gong__New__Plant3DDiagramFormCallback(
+	plant3ddiagram *models.Plant3DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (plant3ddiagramFormCallback *Plant3DDiagramFormCallback) {
+	plant3ddiagramFormCallback = new(Plant3DDiagramFormCallback)
+	plant3ddiagramFormCallback.probe = probe
+	plant3ddiagramFormCallback.plant3ddiagram = plant3ddiagram
+	plant3ddiagramFormCallback.formGroup = formGroup
+
+	plant3ddiagramFormCallback.CreationMode = (plant3ddiagram == nil)
+
+	return
+}
+
+type Plant3DDiagramFormCallback struct {
+	plant3ddiagram *models.Plant3DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (plant3ddiagramFormCallback *Plant3DDiagramFormCallback) OnSave() {
+	plant3ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer plant3ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Plant3DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	plant3ddiagramFormCallback.probe.formStage.Checkout()
+
+	if plant3ddiagramFormCallback.plant3ddiagram == nil {
+		plant3ddiagramFormCallback.plant3ddiagram = new(models.Plant3DDiagram).Stage(plant3ddiagramFormCallback.probe.stageOfInterest)
+	}
+	plant3ddiagram_ := plant3ddiagramFormCallback.plant3ddiagram
+	_ = plant3ddiagram_
+
+	for _, formDiv := range plant3ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(plant3ddiagram_.Name), formDiv)
+		case "IsHiddenStemCylinder3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenStemCylinder3DShape), formDiv)
+		case "StemCylinder3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.StemCylinder3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenParastichyNCurves3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenParastichyNCurves3DShape), formDiv)
+		case "ParastichyNCurves3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.ParastichyNCurves3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenParastichyMCurves3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenParastichyMCurves3DShape), formDiv)
+		case "ParastichyMCurves3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.ParastichyMCurves3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenCutLine3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenCutLine3DShape), formDiv)
+		case "CutLine3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.CutLine3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenCircumference3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenCircumference3DShape), formDiv)
+		case "Circumference3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.Circumference3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.TiledFloor3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(plant3ddiagram_.Rendered3DShape), plant3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(plant3ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(plant3ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Plant3DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](plant3ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Plant3DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](plant3ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(plant3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure plant3ddiagram_ is in _plantabstract.Plant3DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Plant3DDiagrams {
+						if _b == plant3ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Plant3DDiagrams = append(_plantabstract.Plant3DDiagrams, plant3ddiagram_)
+						plant3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Plant3DDiagrams", &_plantabstract.Plant3DDiagrams)
+					}
+				} else {
+					// ensure plant3ddiagram_ is NOT in _plantabstract.Plant3DDiagrams
+					idx := slices.Index(_plantabstract.Plant3DDiagrams, plant3ddiagram_)
+					if idx != -1 {
+						_plantabstract.Plant3DDiagrams = slices.Delete(_plantabstract.Plant3DDiagrams, idx, idx+1)
+						plant3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Plant3DDiagrams", &_plantabstract.Plant3DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if plant3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plant3ddiagram_.Unstage(plant3ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	plant3ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Plant3DDiagram](
+		plant3ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if plant3ddiagramFormCallback.CreationMode || plant3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plant3ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(plant3ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Plant3DDiagramFormCallback(
+			nil,
+			plant3ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		plant3ddiagram := new(models.Plant3DDiagram)
+		FillUpForm(plant3ddiagram, newFormGroup, plant3ddiagramFormCallback.probe)
+		plant3ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	plant3ddiagramFormCallback.probe.ux_tree()
+}
 func __gong__New__PlantAbstractFormCallback(
 	plantabstract *models.PlantAbstract,
 	probe *Probe,
@@ -6856,6 +7323,40 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			}
 			plantabstract_.Plant2DDiagrams = instanceSlice
 			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Plant2DDiagrams", &plantabstract_.Plant2DDiagrams)
+
+		case "IsPlant3DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsPlant3DDiagramsNodeExpanded), formDiv)
+		case "Plant3DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Plant3DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Plant3DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Plant3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Plant3DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Plant3DDiagrams", &plantabstract_.Plant3DDiagrams)
 
 		case "IsVase2DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsVase2DDiagramsNodeExpanded), formDiv)
@@ -13177,6 +13678,84 @@ func (starthalfwayarcshapegridFormCallback *StartHalfwayArcShapeGridFormCallback
 	}
 
 	starthalfwayarcshapegridFormCallback.probe.ux_tree()
+}
+func __gong__New__StemCylinder3DShapeFormCallback(
+	stemcylinder3dshape *models.StemCylinder3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stemcylinder3dshapeFormCallback *StemCylinder3DShapeFormCallback) {
+	stemcylinder3dshapeFormCallback = new(StemCylinder3DShapeFormCallback)
+	stemcylinder3dshapeFormCallback.probe = probe
+	stemcylinder3dshapeFormCallback.stemcylinder3dshape = stemcylinder3dshape
+	stemcylinder3dshapeFormCallback.formGroup = formGroup
+
+	stemcylinder3dshapeFormCallback.CreationMode = (stemcylinder3dshape == nil)
+
+	return
+}
+
+type StemCylinder3DShapeFormCallback struct {
+	stemcylinder3dshape *models.StemCylinder3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stemcylinder3dshapeFormCallback *StemCylinder3DShapeFormCallback) OnSave() {
+	stemcylinder3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer stemcylinder3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StemCylinder3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stemcylinder3dshapeFormCallback.probe.formStage.Checkout()
+
+	if stemcylinder3dshapeFormCallback.stemcylinder3dshape == nil {
+		stemcylinder3dshapeFormCallback.stemcylinder3dshape = new(models.StemCylinder3DShape).Stage(stemcylinder3dshapeFormCallback.probe.stageOfInterest)
+	}
+	stemcylinder3dshape_ := stemcylinder3dshapeFormCallback.stemcylinder3dshape
+	_ = stemcylinder3dshape_
+
+	for _, formDiv := range stemcylinder3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stemcylinder3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if stemcylinder3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stemcylinder3dshape_.Unstage(stemcylinder3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	stemcylinder3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StemCylinder3DShape](
+		stemcylinder3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stemcylinder3dshapeFormCallback.CreationMode || stemcylinder3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stemcylinder3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stemcylinder3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StemCylinder3DShapeFormCallback(
+			nil,
+			stemcylinder3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		stemcylinder3dshape := new(models.StemCylinder3DShape)
+		FillUpForm(stemcylinder3dshape, newFormGroup, stemcylinder3dshapeFormCallback.probe)
+		stemcylinder3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	stemcylinder3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__Stool2DDiagramFormCallback(
 	stool2ddiagram *models.Stool2DDiagram,

@@ -310,6 +310,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(angle0shape.GongMarshallField(stage, "Name"))
 	}
 
+	circumference3dshapeOrdered := []*Circumference3DShape{}
+	for circumference3dshape := range stage.Circumference3DShapes {
+		circumference3dshapeOrdered = append(circumference3dshapeOrdered, circumference3dshape)
+	}
+	sort.Slice(circumference3dshapeOrdered[:], func(i, j int) bool {
+		circumference3dshapei := circumference3dshapeOrdered[i]
+		circumference3dshapej := circumference3dshapeOrdered[j]
+		circumference3dshapei_order, oki := stage.Circumference3DShape_stagedOrder[circumference3dshapei]
+		circumference3dshapej_order, okj := stage.Circumference3DShape_stagedOrder[circumference3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return circumference3dshapei_order < circumference3dshapej_order
+	})
+	if len(circumference3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, circumference3dshape := range circumference3dshapeOrdered {
+
+		identifiersDecl.WriteString(circumference3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(circumference3dshape.GongMarshallField(stage, "Name"))
+	}
+
 	clock2ddiagramOrdered := []*Clock2DDiagram{}
 	for clock2ddiagram := range stage.Clock2DDiagrams {
 		clock2ddiagramOrdered = append(clock2ddiagramOrdered, clock2ddiagram)
@@ -409,6 +435,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ProjectionAngle"))
 	}
 
+	cutline3dshapeOrdered := []*CutLine3DShape{}
+	for cutline3dshape := range stage.CutLine3DShapes {
+		cutline3dshapeOrdered = append(cutline3dshapeOrdered, cutline3dshape)
+	}
+	sort.Slice(cutline3dshapeOrdered[:], func(i, j int) bool {
+		cutline3dshapei := cutline3dshapeOrdered[i]
+		cutline3dshapej := cutline3dshapeOrdered[j]
+		cutline3dshapei_order, oki := stage.CutLine3DShape_stagedOrder[cutline3dshapei]
+		cutline3dshapej_order, okj := stage.CutLine3DShape_stagedOrder[cutline3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return cutline3dshapei_order < cutline3dshapej_order
+	})
+	if len(cutline3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, cutline3dshape := range cutline3dshapeOrdered {
+
+		identifiersDecl.WriteString(cutline3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(cutline3dshape.GongMarshallField(stage, "Name"))
+	}
+
 	libraryOrdered := []*Library{}
 	for library := range stage.Librarys {
 		libraryOrdered = append(libraryOrdered, library)
@@ -468,6 +520,58 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(originalpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 
+	parastichymcurves3dshapeOrdered := []*ParastichyMCurves3DShape{}
+	for parastichymcurves3dshape := range stage.ParastichyMCurves3DShapes {
+		parastichymcurves3dshapeOrdered = append(parastichymcurves3dshapeOrdered, parastichymcurves3dshape)
+	}
+	sort.Slice(parastichymcurves3dshapeOrdered[:], func(i, j int) bool {
+		parastichymcurves3dshapei := parastichymcurves3dshapeOrdered[i]
+		parastichymcurves3dshapej := parastichymcurves3dshapeOrdered[j]
+		parastichymcurves3dshapei_order, oki := stage.ParastichyMCurves3DShape_stagedOrder[parastichymcurves3dshapei]
+		parastichymcurves3dshapej_order, okj := stage.ParastichyMCurves3DShape_stagedOrder[parastichymcurves3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parastichymcurves3dshapei_order < parastichymcurves3dshapej_order
+	})
+	if len(parastichymcurves3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parastichymcurves3dshape := range parastichymcurves3dshapeOrdered {
+
+		identifiersDecl.WriteString(parastichymcurves3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parastichymcurves3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	parastichyncurves3dshapeOrdered := []*ParastichyNCurves3DShape{}
+	for parastichyncurves3dshape := range stage.ParastichyNCurves3DShapes {
+		parastichyncurves3dshapeOrdered = append(parastichyncurves3dshapeOrdered, parastichyncurves3dshape)
+	}
+	sort.Slice(parastichyncurves3dshapeOrdered[:], func(i, j int) bool {
+		parastichyncurves3dshapei := parastichyncurves3dshapeOrdered[i]
+		parastichyncurves3dshapej := parastichyncurves3dshapeOrdered[j]
+		parastichyncurves3dshapei_order, oki := stage.ParastichyNCurves3DShape_stagedOrder[parastichyncurves3dshapei]
+		parastichyncurves3dshapej_order, okj := stage.ParastichyNCurves3DShape_stagedOrder[parastichyncurves3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parastichyncurves3dshapei_order < parastichyncurves3dshapej_order
+	})
+	if len(parastichyncurves3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parastichyncurves3dshape := range parastichyncurves3dshapeOrdered {
+
+		identifiersDecl.WriteString(parastichyncurves3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parastichyncurves3dshape.GongMarshallField(stage, "Name"))
+	}
+
 	plant2ddiagramOrdered := []*Plant2DDiagram{}
 	for plant2ddiagram := range stage.Plant2DDiagrams {
 		plant2ddiagramOrdered = append(plant2ddiagramOrdered, plant2ddiagram)
@@ -522,6 +626,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant2ddiagram.GongMarshallField(stage, "IsExpanded"))
 	}
 
+	plant3ddiagramOrdered := []*Plant3DDiagram{}
+	for plant3ddiagram := range stage.Plant3DDiagrams {
+		plant3ddiagramOrdered = append(plant3ddiagramOrdered, plant3ddiagram)
+	}
+	sort.Slice(plant3ddiagramOrdered[:], func(i, j int) bool {
+		plant3ddiagrami := plant3ddiagramOrdered[i]
+		plant3ddiagramj := plant3ddiagramOrdered[j]
+		plant3ddiagrami_order, oki := stage.Plant3DDiagram_stagedOrder[plant3ddiagrami]
+		plant3ddiagramj_order, okj := stage.Plant3DDiagram_stagedOrder[plant3ddiagramj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return plant3ddiagrami_order < plant3ddiagramj_order
+	})
+	if len(plant3ddiagramOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, plant3ddiagram := range plant3ddiagramOrdered {
+
+		identifiersDecl.WriteString(plant3ddiagram.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenStemCylinder3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "StemCylinder3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenParastichyNCurves3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "ParastichyNCurves3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenParastichyMCurves3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "ParastichyMCurves3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenCutLine3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "CutLine3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenCircumference3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "Circumference3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsExpanded"))
+	}
+
 	plantabstractOrdered := []*PlantAbstract{}
 	for plantabstract := range stage.PlantAbstracts {
 		plantabstractOrdered = append(plantabstractOrdered, plantabstract)
@@ -561,6 +706,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsSelected"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsPlant2DDiagramsNodeExpanded"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "Plant2DDiagrams"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsPlant3DDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "Plant3DDiagrams"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsVase2DDiagramsNodeExpanded"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "Vase2DDiagrams"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsVase3DDiagramsNodeExpanded"))
@@ -632,6 +779,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(sampledpoints3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	stemcylinder3dshapeOrdered := []*StemCylinder3DShape{}
+	for stemcylinder3dshape := range stage.StemCylinder3DShapes {
+		stemcylinder3dshapeOrdered = append(stemcylinder3dshapeOrdered, stemcylinder3dshape)
+	}
+	sort.Slice(stemcylinder3dshapeOrdered[:], func(i, j int) bool {
+		stemcylinder3dshapei := stemcylinder3dshapeOrdered[i]
+		stemcylinder3dshapej := stemcylinder3dshapeOrdered[j]
+		stemcylinder3dshapei_order, oki := stage.StemCylinder3DShape_stagedOrder[stemcylinder3dshapei]
+		stemcylinder3dshapej_order, okj := stage.StemCylinder3DShape_stagedOrder[stemcylinder3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return stemcylinder3dshapei_order < stemcylinder3dshapej_order
+	})
+	if len(stemcylinder3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, stemcylinder3dshape := range stemcylinder3dshapeOrdered {
+
+		identifiersDecl.WriteString(stemcylinder3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stemcylinder3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	stool2ddiagramOrdered := []*Stool2DDiagram{}
@@ -915,6 +1088,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, circumference3dshape := range circumference3dshapeOrdered {
+		_ = circumference3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, clock2ddiagram := range clock2ddiagramOrdered {
 		_ = clock2ddiagram
 		var setPointerField string
@@ -939,6 +1120,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, cutline3dshape := range cutline3dshapeOrdered {
+		_ = cutline3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, library := range libraryOrdered {
 		_ = library
 		var setPointerField string
@@ -955,8 +1144,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, parastichymcurves3dshape := range parastichymcurves3dshapeOrdered {
+		_ = parastichymcurves3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parastichyncurves3dshape := range parastichyncurves3dshapeOrdered {
+		_ = parastichyncurves3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, plant2ddiagram := range plant2ddiagramOrdered {
 		_ = plant2ddiagram
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, plant3ddiagram := range plant3ddiagramOrdered {
+		_ = plant3ddiagram
 		var setPointerField string
 		_ = setPointerField
 
@@ -981,6 +1194,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, sampledpoints3dshape := range sampledpoints3dshapeOrdered {
 		_ = sampledpoints3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, stemcylinder3dshape := range stemcylinder3dshapeOrdered {
+		_ = stemcylinder3dshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1309,6 +1530,21 @@ func (circlegridshape *CircleGridShape) GongMarshallField(stage *Stage, fieldNam
 	return
 }
 
+func (circumference3dshape *Circumference3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", circumference3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circumference3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Circumference3DShape", fieldName)
+	}
+	return
+}
+
 func (clock2ddiagram *Clock2DDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1486,6 +1722,21 @@ func (clocktopcurveshape *ClockTopCurveShape) GongMarshallField(stage *Stage, fi
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ClockTopCurveShape", fieldName)
+	}
+	return
+}
+
+func (cutline3dshape *CutLine3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", cutline3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cutline3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CutLine3DShape", fieldName)
 	}
 	return
 }
@@ -2295,6 +2546,36 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallField(stage *Sta
 	return
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parastichymcurves3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parastichymcurves3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParastichyMCurves3DShape", fieldName)
+	}
+	return
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parastichyncurves3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parastichyncurves3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParastichyNCurves3DShape", fieldName)
+	}
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3040,6 +3321,144 @@ func (plant2ddiagram *Plant2DDiagram) GongMarshallField(stage *Stage, fieldName 
 	return
 }
 
+func (plant3ddiagram *Plant3DDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant3ddiagram.Name))
+	case "IsHiddenStemCylinder3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStemCylinder3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsHiddenStemCylinder3DShape))
+	case "IsHiddenParastichyNCurves3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenParastichyNCurves3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsHiddenParastichyNCurves3DShape))
+	case "IsHiddenParastichyMCurves3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenParastichyMCurves3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsHiddenParastichyMCurves3DShape))
+	case "IsHiddenCutLine3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenCutLine3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsHiddenCutLine3DShape))
+	case "IsHiddenCircumference3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenCircumference3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsHiddenCircumference3DShape))
+	case "IsHiddenTiledFloor3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTiledFloor3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsHiddenTiledFloor3DShape))
+	case "IsChecked":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsChecked))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant3ddiagram.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant3ddiagram.IsExpanded))
+
+	case "StemCylinder3DShape":
+		if plant3ddiagram.StemCylinder3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StemCylinder3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant3ddiagram.StemCylinder3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StemCylinder3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "ParastichyNCurves3DShape":
+		if plant3ddiagram.ParastichyNCurves3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParastichyNCurves3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant3ddiagram.ParastichyNCurves3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParastichyNCurves3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "ParastichyMCurves3DShape":
+		if plant3ddiagram.ParastichyMCurves3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParastichyMCurves3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant3ddiagram.ParastichyMCurves3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParastichyMCurves3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "CutLine3DShape":
+		if plant3ddiagram.CutLine3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CutLine3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant3ddiagram.CutLine3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CutLine3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Circumference3DShape":
+		if plant3ddiagram.Circumference3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Circumference3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant3ddiagram.Circumference3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Circumference3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Rendered3DShape":
+		if plant3ddiagram.Rendered3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant3ddiagram.Rendered3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant3ddiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Plant3DDiagram", fieldName)
+	}
+	return
+}
+
 func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3119,6 +3538,11 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlant2DDiagramsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantabstract.IsPlant2DDiagramsNodeExpanded))
+	case "IsPlant3DDiagramsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlant3DDiagramsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantabstract.IsPlant3DDiagramsNodeExpanded))
 	case "IsVase2DDiagramsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
@@ -3196,6 +3620,16 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Plant2DDiagrams")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plant2ddiagram.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Plant3DDiagrams":
+		var sb strings.Builder
+		for _, _plant3ddiagram := range plantabstract.Plant3DDiagrams {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Plant3DDiagrams")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plant3ddiagram.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -5400,6 +5834,21 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallField(stag
 	return
 }
 
+func (stemcylinder3dshape *StemCylinder3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stemcylinder3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stemcylinder3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StemCylinder3DShape", fieldName)
+	}
+	return
+}
+
 func (stool2ddiagram *Stool2DDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -6952,6 +7401,17 @@ func (circlegridshape *CircleGridShape) GongMarshallAllFields(stage *Stage) (ini
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (circumference3dshape *Circumference3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(circumference3dshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (clock2ddiagram *Clock2DDiagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -7012,6 +7472,17 @@ func (clocktopcurveshape *ClockTopCurveShape) GongMarshallAllFields(stage *Stage
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(clocktopcurveshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (cutline3dshape *CutLine3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(cutline3dshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -7400,6 +7871,28 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallAllFields(stage 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parastichymcurves3dshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parastichyncurves3dshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -7701,6 +8194,32 @@ func (plant2ddiagram *Plant2DDiagram) GongMarshallAllFields(stage *Stage) (initR
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (plant3ddiagram *Plant3DDiagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenStemCylinder3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "StemCylinder3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenParastichyNCurves3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "ParastichyNCurves3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenParastichyMCurves3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "ParastichyMCurves3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenCutLine3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "CutLine3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenCircumference3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "Circumference3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+		pointersInitializesStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plant3ddiagram.GongMarshallField(stage, "IsExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -7722,6 +8241,8 @@ func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsSelected"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsPlant2DDiagramsNodeExpanded"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "Plant2DDiagrams"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsPlant3DDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "Plant3DDiagrams"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsVase2DDiagramsNodeExpanded"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "Vase2DDiagrams"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsVase3DDiagramsNodeExpanded"))
@@ -8553,6 +9074,17 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallAllFields(
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(starthalfwayarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stemcylinder3dshape *StemCylinder3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stemcylinder3dshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

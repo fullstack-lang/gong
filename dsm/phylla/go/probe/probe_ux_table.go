@@ -40,6 +40,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ChosenP1P2PairShape](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
+	case "Circumference3DShape":
+		updateProbeTable[*models.Circumference3DShape](probe)
 	case "Clock2DDiagram":
 		updateProbeTable[*models.Clock2DDiagram](probe)
 	case "Clock3DDiagram":
@@ -48,6 +50,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ClockAbstract](probe)
 	case "ClockTopCurveShape":
 		updateProbeTable[*models.ClockTopCurveShape](probe)
+	case "CutLine3DShape":
+		updateProbeTable[*models.CutLine3DShape](probe)
 	case "EndArcShape":
 		updateProbeTable[*models.EndArcShape](probe)
 	case "EndArcShapeGrid":
@@ -104,6 +108,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.MidArcVectorShapeGrid](probe)
 	case "OriginalPoints3DShape":
 		updateProbeTable[*models.OriginalPoints3DShape](probe)
+	case "ParastichyMCurves3DShape":
+		updateProbeTable[*models.ParastichyMCurves3DShape](probe)
+	case "ParastichyNCurves3DShape":
+		updateProbeTable[*models.ParastichyNCurves3DShape](probe)
 	case "PartiallyGrowthCurve2DRibbon":
 		updateProbeTable[*models.PartiallyGrowthCurve2DRibbon](probe)
 	case "PartiallyGrowthCurve2DRibbonEndShape":
@@ -142,6 +150,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PerpendicularVectorHalfway](probe)
 	case "Plant2DDiagram":
 		updateProbeTable[*models.Plant2DDiagram](probe)
+	case "Plant3DDiagram":
+		updateProbeTable[*models.Plant3DDiagram](probe)
 	case "PlantAbstract":
 		updateProbeTable[*models.PlantAbstract](probe)
 	case "PlantCircumferenceShape":
@@ -242,6 +252,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StartHalfwayArcShape](probe)
 	case "StartHalfwayArcShapeGrid":
 		updateProbeTable[*models.StartHalfwayArcShapeGrid](probe)
+	case "StemCylinder3DShape":
+		updateProbeTable[*models.StemCylinder3DShape](probe)
 	case "Stool2DDiagram":
 		updateProbeTable[*models.Stool2DDiagram](probe)
 	case "Stool3DDiagram":

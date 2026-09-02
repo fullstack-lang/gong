@@ -31,6 +31,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
 
+	case *Circumference3DShape:
+		ok = stage.IsStagedCircumference3DShape(target)
+
 	case *Clock2DDiagram:
 		ok = stage.IsStagedClock2DDiagram(target)
 
@@ -42,6 +45,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *ClockTopCurveShape:
 		ok = stage.IsStagedClockTopCurveShape(target)
+
+	case *CutLine3DShape:
+		ok = stage.IsStagedCutLine3DShape(target)
 
 	case *EndArcShape:
 		ok = stage.IsStagedEndArcShape(target)
@@ -127,6 +133,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *OriginalPoints3DShape:
 		ok = stage.IsStagedOriginalPoints3DShape(target)
 
+	case *ParastichyMCurves3DShape:
+		ok = stage.IsStagedParastichyMCurves3DShape(target)
+
+	case *ParastichyNCurves3DShape:
+		ok = stage.IsStagedParastichyNCurves3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
 
@@ -183,6 +195,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *Plant2DDiagram:
 		ok = stage.IsStagedPlant2DDiagram(target)
+
+	case *Plant3DDiagram:
+		ok = stage.IsStagedPlant3DDiagram(target)
 
 	case *PlantAbstract:
 		ok = stage.IsStagedPlantAbstract(target)
@@ -333,6 +348,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *StartHalfwayArcShapeGrid:
 		ok = stage.IsStagedStartHalfwayArcShapeGrid(target)
+
+	case *StemCylinder3DShape:
+		ok = stage.IsStagedStemCylinder3DShape(target)
 
 	case *Stool2DDiagram:
 		ok = stage.IsStagedStool2DDiagram(target)
@@ -455,6 +473,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
 
+	case *Circumference3DShape:
+		ok = stage.IsStagedCircumference3DShape(target)
+
 	case *Clock2DDiagram:
 		ok = stage.IsStagedClock2DDiagram(target)
 
@@ -466,6 +487,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ClockTopCurveShape:
 		ok = stage.IsStagedClockTopCurveShape(target)
+
+	case *CutLine3DShape:
+		ok = stage.IsStagedCutLine3DShape(target)
 
 	case *EndArcShape:
 		ok = stage.IsStagedEndArcShape(target)
@@ -551,6 +575,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *OriginalPoints3DShape:
 		ok = stage.IsStagedOriginalPoints3DShape(target)
 
+	case *ParastichyMCurves3DShape:
+		ok = stage.IsStagedParastichyMCurves3DShape(target)
+
+	case *ParastichyNCurves3DShape:
+		ok = stage.IsStagedParastichyNCurves3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
 
@@ -607,6 +637,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Plant2DDiagram:
 		ok = stage.IsStagedPlant2DDiagram(target)
+
+	case *Plant3DDiagram:
+		ok = stage.IsStagedPlant3DDiagram(target)
 
 	case *PlantAbstract:
 		ok = stage.IsStagedPlantAbstract(target)
@@ -757,6 +790,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StartHalfwayArcShapeGrid:
 		ok = stage.IsStagedStartHalfwayArcShapeGrid(target)
+
+	case *StemCylinder3DShape:
+		ok = stage.IsStagedStemCylinder3DShape(target)
 
 	case *Stool2DDiagram:
 		ok = stage.IsStagedStool2DDiagram(target)
@@ -908,6 +944,13 @@ func (stage *Stage) IsStagedCircleGridShape(circlegridshape *CircleGridShape) (o
 	return
 }
 
+func (stage *Stage) IsStagedCircumference3DShape(circumference3dshape *Circumference3DShape) (ok bool) {
+
+	_, ok = stage.Circumference3DShapes[circumference3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedClock2DDiagram(clock2ddiagram *Clock2DDiagram) (ok bool) {
 
 	_, ok = stage.Clock2DDiagrams[clock2ddiagram]
@@ -932,6 +975,13 @@ func (stage *Stage) IsStagedClockAbstract(clockabstract *ClockAbstract) (ok bool
 func (stage *Stage) IsStagedClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) (ok bool) {
 
 	_, ok = stage.ClockTopCurveShapes[clocktopcurveshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedCutLine3DShape(cutline3dshape *CutLine3DShape) (ok bool) {
+
+	_, ok = stage.CutLine3DShapes[cutline3dshape]
 
 	return
 }
@@ -1132,6 +1182,20 @@ func (stage *Stage) IsStagedOriginalPoints3DShape(originalpoints3dshape *Origina
 	return
 }
 
+func (stage *Stage) IsStagedParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) (ok bool) {
+
+	_, ok = stage.ParastichyMCurves3DShapes[parastichymcurves3dshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) (ok bool) {
+
+	_, ok = stage.ParastichyNCurves3DShapes[parastichyncurves3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DRibbons[partiallygrowthcurve2dribbon]
@@ -1261,6 +1325,13 @@ func (stage *Stage) IsStagedPerpendicularVectorHalfway(perpendicularvectorhalfwa
 func (stage *Stage) IsStagedPlant2DDiagram(plant2ddiagram *Plant2DDiagram) (ok bool) {
 
 	_, ok = stage.Plant2DDiagrams[plant2ddiagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedPlant3DDiagram(plant3ddiagram *Plant3DDiagram) (ok bool) {
+
+	_, ok = stage.Plant3DDiagrams[plant3ddiagram]
 
 	return
 }
@@ -1615,6 +1686,13 @@ func (stage *Stage) IsStagedStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *S
 	return
 }
 
+func (stage *Stage) IsStagedStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) (ok bool) {
+
+	_, ok = stage.StemCylinder3DShapes[stemcylinder3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedStool2DDiagram(stool2ddiagram *Stool2DDiagram) (ok bool) {
 
 	_, ok = stage.Stool2DDiagrams[stool2ddiagram]
@@ -1850,6 +1928,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CircleGridShape:
 		stage.StageBranchCircleGridShape(target)
 
+	case *Circumference3DShape:
+		stage.StageBranchCircumference3DShape(target)
+
 	case *Clock2DDiagram:
 		stage.StageBranchClock2DDiagram(target)
 
@@ -1861,6 +1942,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ClockTopCurveShape:
 		stage.StageBranchClockTopCurveShape(target)
+
+	case *CutLine3DShape:
+		stage.StageBranchCutLine3DShape(target)
 
 	case *EndArcShape:
 		stage.StageBranchEndArcShape(target)
@@ -1946,6 +2030,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *OriginalPoints3DShape:
 		stage.StageBranchOriginalPoints3DShape(target)
 
+	case *ParastichyMCurves3DShape:
+		stage.StageBranchParastichyMCurves3DShape(target)
+
+	case *ParastichyNCurves3DShape:
+		stage.StageBranchParastichyNCurves3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.StageBranchPartiallyGrowthCurve2DRibbon(target)
 
@@ -2002,6 +2092,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Plant2DDiagram:
 		stage.StageBranchPlant2DDiagram(target)
+
+	case *Plant3DDiagram:
+		stage.StageBranchPlant3DDiagram(target)
 
 	case *PlantAbstract:
 		stage.StageBranchPlantAbstract(target)
@@ -2152,6 +2245,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StartHalfwayArcShapeGrid:
 		stage.StageBranchStartHalfwayArcShapeGrid(target)
+
+	case *StemCylinder3DShape:
+		stage.StageBranchStemCylinder3DShape(target)
 
 	case *Stool2DDiagram:
 		stage.StageBranchStool2DDiagram(target)
@@ -2366,6 +2462,21 @@ func (stage *Stage) StageBranchCircleGridShape(circlegridshape *CircleGridShape)
 
 }
 
+func (stage *Stage) StageBranchCircumference3DShape(circumference3dshape *Circumference3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, circumference3dshape) {
+		return
+	}
+
+	circumference3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchClock2DDiagram(clock2ddiagram *Clock2DDiagram) {
 
 	// check if instance is already staged
@@ -2425,6 +2536,21 @@ func (stage *Stage) StageBranchClockTopCurveShape(clocktopcurveshape *ClockTopCu
 	}
 
 	clocktopcurveshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchCutLine3DShape(cutline3dshape *CutLine3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, cutline3dshape) {
+		return
+	}
+
+	cutline3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -2858,6 +2984,36 @@ func (stage *Stage) StageBranchOriginalPoints3DShape(originalpoints3dshape *Orig
 
 }
 
+func (stage *Stage) StageBranchParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, parastichymcurves3dshape) {
+		return
+	}
+
+	parastichymcurves3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, parastichyncurves3dshape) {
+		return
+	}
+
+	parastichyncurves3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -3143,6 +3299,39 @@ func (stage *Stage) StageBranchPlant2DDiagram(plant2ddiagram *Plant2DDiagram) {
 
 }
 
+func (stage *Stage) StageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) {
+
+	// check if instance is already staged
+	if IsStaged(stage, plant3ddiagram) {
+		return
+	}
+
+	plant3ddiagram.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if plant3ddiagram.StemCylinder3DShape != nil {
+		StageBranch(stage, plant3ddiagram.StemCylinder3DShape)
+	}
+	if plant3ddiagram.ParastichyNCurves3DShape != nil {
+		StageBranch(stage, plant3ddiagram.ParastichyNCurves3DShape)
+	}
+	if plant3ddiagram.ParastichyMCurves3DShape != nil {
+		StageBranch(stage, plant3ddiagram.ParastichyMCurves3DShape)
+	}
+	if plant3ddiagram.CutLine3DShape != nil {
+		StageBranch(stage, plant3ddiagram.CutLine3DShape)
+	}
+	if plant3ddiagram.Circumference3DShape != nil {
+		StageBranch(stage, plant3ddiagram.Circumference3DShape)
+	}
+	if plant3ddiagram.Rendered3DShape != nil {
+		StageBranch(stage, plant3ddiagram.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 
 	// check if instance is already staged
@@ -3166,6 +3355,9 @@ func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plant2ddiagram := range plantabstract.Plant2DDiagrams {
 		StageBranch(stage, _plant2ddiagram)
+	}
+	for _, _plant3ddiagram := range plantabstract.Plant3DDiagrams {
+		StageBranch(stage, _plant3ddiagram)
 	}
 	for _, _vase2ddiagram := range plantabstract.Vase2DDiagrams {
 		StageBranch(stage, _vase2ddiagram)
@@ -3923,6 +4115,21 @@ func (stage *Stage) StageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid
 
 }
 
+func (stage *Stage) StageBranchStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, stemcylinder3dshape) {
+		return
+	}
+
+	stemcylinder3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchStool2DDiagram(stool2ddiagram *Stool2DDiagram) {
 
 	// check if instance is already staged
@@ -4419,6 +4626,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCircleGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Circumference3DShape:
+		toT := CopyBranchCircumference3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Clock2DDiagram:
 		toT := CopyBranchClock2DDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4433,6 +4644,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *ClockTopCurveShape:
 		toT := CopyBranchClockTopCurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CutLine3DShape:
+		toT := CopyBranchCutLine3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *EndArcShape:
@@ -4547,6 +4762,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchOriginalPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ParastichyMCurves3DShape:
+		toT := CopyBranchParastichyMCurves3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ParastichyNCurves3DShape:
+		toT := CopyBranchParastichyNCurves3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		toT := CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4621,6 +4844,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Plant2DDiagram:
 		toT := CopyBranchPlant2DDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Plant3DDiagram:
+		toT := CopyBranchPlant3DDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *PlantAbstract:
@@ -4821,6 +5048,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StartHalfwayArcShapeGrid:
 		toT := CopyBranchStartHalfwayArcShapeGrid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StemCylinder3DShape:
+		toT := CopyBranchStemCylinder3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Stool2DDiagram:
@@ -5098,6 +5329,25 @@ func CopyBranchCircleGridShape(mapOrigCopy map[any]any, circlegridshapeFrom *Cir
 	return
 }
 
+func CopyBranchCircumference3DShape(mapOrigCopy map[any]any, circumference3dshapeFrom *Circumference3DShape) (circumference3dshapeTo *Circumference3DShape) {
+
+	// circumference3dshapeFrom has already been copied
+	if _circumference3dshapeTo, ok := mapOrigCopy[circumference3dshapeFrom]; ok {
+		circumference3dshapeTo = _circumference3dshapeTo.(*Circumference3DShape)
+		return
+	}
+
+	circumference3dshapeTo = new(Circumference3DShape)
+	mapOrigCopy[circumference3dshapeFrom] = circumference3dshapeTo
+	circumference3dshapeFrom.CopyBasicFields(circumference3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchClock2DDiagram(mapOrigCopy map[any]any, clock2ddiagramFrom *Clock2DDiagram) (clock2ddiagramTo *Clock2DDiagram) {
 
 	// clock2ddiagramFrom has already been copied
@@ -5172,6 +5422,25 @@ func CopyBranchClockTopCurveShape(mapOrigCopy map[any]any, clocktopcurveshapeFro
 	clocktopcurveshapeTo = new(ClockTopCurveShape)
 	mapOrigCopy[clocktopcurveshapeFrom] = clocktopcurveshapeTo
 	clocktopcurveshapeFrom.CopyBasicFields(clocktopcurveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCutLine3DShape(mapOrigCopy map[any]any, cutline3dshapeFrom *CutLine3DShape) (cutline3dshapeTo *CutLine3DShape) {
+
+	// cutline3dshapeFrom has already been copied
+	if _cutline3dshapeTo, ok := mapOrigCopy[cutline3dshapeFrom]; ok {
+		cutline3dshapeTo = _cutline3dshapeTo.(*CutLine3DShape)
+		return
+	}
+
+	cutline3dshapeTo = new(CutLine3DShape)
+	mapOrigCopy[cutline3dshapeFrom] = cutline3dshapeTo
+	cutline3dshapeFrom.CopyBasicFields(cutline3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5718,6 +5987,44 @@ func CopyBranchOriginalPoints3DShape(mapOrigCopy map[any]any, originalpoints3dsh
 	return
 }
 
+func CopyBranchParastichyMCurves3DShape(mapOrigCopy map[any]any, parastichymcurves3dshapeFrom *ParastichyMCurves3DShape) (parastichymcurves3dshapeTo *ParastichyMCurves3DShape) {
+
+	// parastichymcurves3dshapeFrom has already been copied
+	if _parastichymcurves3dshapeTo, ok := mapOrigCopy[parastichymcurves3dshapeFrom]; ok {
+		parastichymcurves3dshapeTo = _parastichymcurves3dshapeTo.(*ParastichyMCurves3DShape)
+		return
+	}
+
+	parastichymcurves3dshapeTo = new(ParastichyMCurves3DShape)
+	mapOrigCopy[parastichymcurves3dshapeFrom] = parastichymcurves3dshapeTo
+	parastichymcurves3dshapeFrom.CopyBasicFields(parastichymcurves3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchParastichyNCurves3DShape(mapOrigCopy map[any]any, parastichyncurves3dshapeFrom *ParastichyNCurves3DShape) (parastichyncurves3dshapeTo *ParastichyNCurves3DShape) {
+
+	// parastichyncurves3dshapeFrom has already been copied
+	if _parastichyncurves3dshapeTo, ok := mapOrigCopy[parastichyncurves3dshapeFrom]; ok {
+		parastichyncurves3dshapeTo = _parastichyncurves3dshapeTo.(*ParastichyNCurves3DShape)
+		return
+	}
+
+	parastichyncurves3dshapeTo = new(ParastichyNCurves3DShape)
+	mapOrigCopy[parastichyncurves3dshapeFrom] = parastichyncurves3dshapeTo
+	parastichyncurves3dshapeFrom.CopyBasicFields(parastichyncurves3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy map[any]any, partiallygrowthcurve2dribbonFrom *PartiallyGrowthCurve2DRibbon) (partiallygrowthcurve2dribbonTo *PartiallyGrowthCurve2DRibbon) {
 
 	// partiallygrowthcurve2dribbonFrom has already been copied
@@ -6079,6 +6386,43 @@ func CopyBranchPlant2DDiagram(mapOrigCopy map[any]any, plant2ddiagramFrom *Plant
 	return
 }
 
+func CopyBranchPlant3DDiagram(mapOrigCopy map[any]any, plant3ddiagramFrom *Plant3DDiagram) (plant3ddiagramTo *Plant3DDiagram) {
+
+	// plant3ddiagramFrom has already been copied
+	if _plant3ddiagramTo, ok := mapOrigCopy[plant3ddiagramFrom]; ok {
+		plant3ddiagramTo = _plant3ddiagramTo.(*Plant3DDiagram)
+		return
+	}
+
+	plant3ddiagramTo = new(Plant3DDiagram)
+	mapOrigCopy[plant3ddiagramFrom] = plant3ddiagramTo
+	plant3ddiagramFrom.CopyBasicFields(plant3ddiagramTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if plant3ddiagramFrom.StemCylinder3DShape != nil {
+		plant3ddiagramTo.StemCylinder3DShape = CopyBranchStemCylinder3DShape(mapOrigCopy, plant3ddiagramFrom.StemCylinder3DShape)
+	}
+	if plant3ddiagramFrom.ParastichyNCurves3DShape != nil {
+		plant3ddiagramTo.ParastichyNCurves3DShape = CopyBranchParastichyNCurves3DShape(mapOrigCopy, plant3ddiagramFrom.ParastichyNCurves3DShape)
+	}
+	if plant3ddiagramFrom.ParastichyMCurves3DShape != nil {
+		plant3ddiagramTo.ParastichyMCurves3DShape = CopyBranchParastichyMCurves3DShape(mapOrigCopy, plant3ddiagramFrom.ParastichyMCurves3DShape)
+	}
+	if plant3ddiagramFrom.CutLine3DShape != nil {
+		plant3ddiagramTo.CutLine3DShape = CopyBranchCutLine3DShape(mapOrigCopy, plant3ddiagramFrom.CutLine3DShape)
+	}
+	if plant3ddiagramFrom.Circumference3DShape != nil {
+		plant3ddiagramTo.Circumference3DShape = CopyBranchCircumference3DShape(mapOrigCopy, plant3ddiagramFrom.Circumference3DShape)
+	}
+	if plant3ddiagramFrom.Rendered3DShape != nil {
+		plant3ddiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plant3ddiagramFrom.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *PlantAbstract) (plantabstractTo *PlantAbstract) {
 
 	// plantabstractFrom has already been copied
@@ -6105,6 +6449,9 @@ func CopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *PlantAb
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plant2ddiagram := range plantabstractFrom.Plant2DDiagrams {
 		plantabstractTo.Plant2DDiagrams = append(plantabstractTo.Plant2DDiagrams, CopyBranchPlant2DDiagram(mapOrigCopy, _plant2ddiagram))
+	}
+	for _, _plant3ddiagram := range plantabstractFrom.Plant3DDiagrams {
+		plantabstractTo.Plant3DDiagrams = append(plantabstractTo.Plant3DDiagrams, CopyBranchPlant3DDiagram(mapOrigCopy, _plant3ddiagram))
 	}
 	for _, _vase2ddiagram := range plantabstractFrom.Vase2DDiagrams {
 		plantabstractTo.Vase2DDiagrams = append(plantabstractTo.Vase2DDiagrams, CopyBranchVase2DDiagram(mapOrigCopy, _vase2ddiagram))
@@ -7059,6 +7406,25 @@ func CopyBranchStartHalfwayArcShapeGrid(mapOrigCopy map[any]any, starthalfwayarc
 	return
 }
 
+func CopyBranchStemCylinder3DShape(mapOrigCopy map[any]any, stemcylinder3dshapeFrom *StemCylinder3DShape) (stemcylinder3dshapeTo *StemCylinder3DShape) {
+
+	// stemcylinder3dshapeFrom has already been copied
+	if _stemcylinder3dshapeTo, ok := mapOrigCopy[stemcylinder3dshapeFrom]; ok {
+		stemcylinder3dshapeTo = _stemcylinder3dshapeTo.(*StemCylinder3DShape)
+		return
+	}
+
+	stemcylinder3dshapeTo = new(StemCylinder3DShape)
+	mapOrigCopy[stemcylinder3dshapeFrom] = stemcylinder3dshapeTo
+	stemcylinder3dshapeFrom.CopyBasicFields(stemcylinder3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchStool2DDiagram(mapOrigCopy map[any]any, stool2ddiagramFrom *Stool2DDiagram) (stool2ddiagramTo *Stool2DDiagram) {
 
 	// stool2ddiagramFrom has already been copied
@@ -7660,6 +8026,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CircleGridShape:
 		stage.UnstageBranchCircleGridShape(target)
 
+	case *Circumference3DShape:
+		stage.UnstageBranchCircumference3DShape(target)
+
 	case *Clock2DDiagram:
 		stage.UnstageBranchClock2DDiagram(target)
 
@@ -7671,6 +8040,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ClockTopCurveShape:
 		stage.UnstageBranchClockTopCurveShape(target)
+
+	case *CutLine3DShape:
+		stage.UnstageBranchCutLine3DShape(target)
 
 	case *EndArcShape:
 		stage.UnstageBranchEndArcShape(target)
@@ -7756,6 +8128,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *OriginalPoints3DShape:
 		stage.UnstageBranchOriginalPoints3DShape(target)
 
+	case *ParastichyMCurves3DShape:
+		stage.UnstageBranchParastichyMCurves3DShape(target)
+
+	case *ParastichyNCurves3DShape:
+		stage.UnstageBranchParastichyNCurves3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.UnstageBranchPartiallyGrowthCurve2DRibbon(target)
 
@@ -7812,6 +8190,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Plant2DDiagram:
 		stage.UnstageBranchPlant2DDiagram(target)
+
+	case *Plant3DDiagram:
+		stage.UnstageBranchPlant3DDiagram(target)
 
 	case *PlantAbstract:
 		stage.UnstageBranchPlantAbstract(target)
@@ -7962,6 +8343,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StartHalfwayArcShapeGrid:
 		stage.UnstageBranchStartHalfwayArcShapeGrid(target)
+
+	case *StemCylinder3DShape:
+		stage.UnstageBranchStemCylinder3DShape(target)
 
 	case *Stool2DDiagram:
 		stage.UnstageBranchStool2DDiagram(target)
@@ -8176,6 +8560,21 @@ func (stage *Stage) UnstageBranchCircleGridShape(circlegridshape *CircleGridShap
 
 }
 
+func (stage *Stage) UnstageBranchCircumference3DShape(circumference3dshape *Circumference3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, circumference3dshape) {
+		return
+	}
+
+	circumference3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchClock2DDiagram(clock2ddiagram *Clock2DDiagram) {
 
 	// check if instance is already staged
@@ -8235,6 +8634,21 @@ func (stage *Stage) UnstageBranchClockTopCurveShape(clocktopcurveshape *ClockTop
 	}
 
 	clocktopcurveshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchCutLine3DShape(cutline3dshape *CutLine3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, cutline3dshape) {
+		return
+	}
+
+	cutline3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -8668,6 +9082,36 @@ func (stage *Stage) UnstageBranchOriginalPoints3DShape(originalpoints3dshape *Or
 
 }
 
+func (stage *Stage) UnstageBranchParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, parastichymcurves3dshape) {
+		return
+	}
+
+	parastichymcurves3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, parastichyncurves3dshape) {
+		return
+	}
+
+	parastichyncurves3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -8953,6 +9397,39 @@ func (stage *Stage) UnstageBranchPlant2DDiagram(plant2ddiagram *Plant2DDiagram) 
 
 }
 
+func (stage *Stage) UnstageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, plant3ddiagram) {
+		return
+	}
+
+	plant3ddiagram.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if plant3ddiagram.StemCylinder3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.StemCylinder3DShape)
+	}
+	if plant3ddiagram.ParastichyNCurves3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.ParastichyNCurves3DShape)
+	}
+	if plant3ddiagram.ParastichyMCurves3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.ParastichyMCurves3DShape)
+	}
+	if plant3ddiagram.CutLine3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.CutLine3DShape)
+	}
+	if plant3ddiagram.Circumference3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.Circumference3DShape)
+	}
+	if plant3ddiagram.Rendered3DShape != nil {
+		UnstageBranch(stage, plant3ddiagram.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 
 	// check if instance is already staged
@@ -8976,6 +9453,9 @@ func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plant2ddiagram := range plantabstract.Plant2DDiagrams {
 		UnstageBranch(stage, _plant2ddiagram)
+	}
+	for _, _plant3ddiagram := range plantabstract.Plant3DDiagrams {
+		UnstageBranch(stage, _plant3ddiagram)
 	}
 	for _, _vase2ddiagram := range plantabstract.Vase2DDiagrams {
 		UnstageBranch(stage, _vase2ddiagram)
@@ -9733,6 +10213,21 @@ func (stage *Stage) UnstageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegr
 
 }
 
+func (stage *Stage) UnstageBranchStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, stemcylinder3dshape) {
+		return
+	}
+
+	stemcylinder3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchStool2DDiagram(stool2ddiagram *Stool2DDiagram) {
 
 	// check if instance is already staged
@@ -10227,6 +10722,11 @@ func (reference *CircleGridShape) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
+func (reference *Circumference3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *Circumference3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Clock2DDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *Clock2DDiagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -10249,6 +10749,11 @@ func (reference *ClockAbstract) GongReconstructPointersFromReferences(stage *Sta
 }
 
 func (reference *ClockTopCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *ClockTopCurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *CutLine3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *CutLine3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -10401,6 +10906,16 @@ func (reference *OriginalPoints3DShape) GongReconstructPointersFromReferences(st
 	// insertion point for slice of pointers field
 }
 
+func (reference *ParastichyMCurves3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *ParastichyMCurves3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *ParastichyNCurves3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *ParastichyNCurves3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DRibbon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -10496,6 +11011,29 @@ func (reference *Plant2DDiagram) GongReconstructPointersFromReferences(stage *St
 	// insertion point for slice of pointers field
 }
 
+func (reference *Plant3DDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *Plant3DDiagram) {
+	// insertion point for pointers field
+	if instance.StemCylinder3DShape != nil {
+		reference.StemCylinder3DShape = stage.StemCylinder3DShapes_reference[instance.StemCylinder3DShape]
+	}
+	if instance.ParastichyNCurves3DShape != nil {
+		reference.ParastichyNCurves3DShape = stage.ParastichyNCurves3DShapes_reference[instance.ParastichyNCurves3DShape]
+	}
+	if instance.ParastichyMCurves3DShape != nil {
+		reference.ParastichyMCurves3DShape = stage.ParastichyMCurves3DShapes_reference[instance.ParastichyMCurves3DShape]
+	}
+	if instance.CutLine3DShape != nil {
+		reference.CutLine3DShape = stage.CutLine3DShapes_reference[instance.CutLine3DShape]
+	}
+	if instance.Circumference3DShape != nil {
+		reference.Circumference3DShape = stage.Circumference3DShapes_reference[instance.Circumference3DShape]
+	}
+	if instance.Rendered3DShape != nil {
+		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
+	}
+	// insertion point for slice of pointers field
+}
+
 func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *PlantAbstract) {
 	// insertion point for pointers field
 	if instance.VaseAbstract != nil {
@@ -10511,6 +11049,10 @@ func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Sta
 	reference.Plant2DDiagrams = reference.Plant2DDiagrams[:0]
 	for _, _b := range instance.Plant2DDiagrams {
 		reference.Plant2DDiagrams = append(reference.Plant2DDiagrams, stage.Plant2DDiagrams_reference[_b])
+	}
+	reference.Plant3DDiagrams = reference.Plant3DDiagrams[:0]
+	for _, _b := range instance.Plant3DDiagrams {
+		reference.Plant3DDiagrams = append(reference.Plant3DDiagrams, stage.Plant3DDiagrams_reference[_b])
 	}
 	reference.Vase2DDiagrams = reference.Vase2DDiagrams[:0]
 	for _, _b := range instance.Vase2DDiagrams {
@@ -10783,6 +11325,11 @@ func (reference *StartHalfwayArcShapeGrid) GongReconstructPointersFromReferences
 	// insertion point for slice of pointers field
 }
 
+func (reference *StemCylinder3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *StemCylinder3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Stool2DDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *Stool2DDiagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -10987,6 +11534,11 @@ func (reference *CircleGridShape) GongReconstructPointersFromInstances(stage *St
 	// insertion point for slice of pointers fields
 }
 
+func (reference *Circumference3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Clock2DDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -11015,6 +11567,11 @@ func (reference *ClockAbstract) GongReconstructPointersFromInstances(stage *Stag
 }
 
 func (reference *ClockTopCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *CutLine3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -11173,6 +11730,16 @@ func (reference *OriginalPoints3DShape) GongReconstructPointersFromInstances(sta
 	// insertion point for slice of pointers fields
 }
 
+func (reference *ParastichyMCurves3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ParastichyNCurves3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -11268,6 +11835,47 @@ func (reference *Plant2DDiagram) GongReconstructPointersFromInstances(stage *Sta
 	// insertion point for slice of pointers fields
 }
 
+func (reference *Plant3DDiagram) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.StemCylinder3DShape; _reference != nil {
+		reference.StemCylinder3DShape = nil
+		if _instance, ok := stage.StemCylinder3DShapes_instance[_reference]; ok {
+			reference.StemCylinder3DShape = _instance
+		}
+	}
+	if _reference := reference.ParastichyNCurves3DShape; _reference != nil {
+		reference.ParastichyNCurves3DShape = nil
+		if _instance, ok := stage.ParastichyNCurves3DShapes_instance[_reference]; ok {
+			reference.ParastichyNCurves3DShape = _instance
+		}
+	}
+	if _reference := reference.ParastichyMCurves3DShape; _reference != nil {
+		reference.ParastichyMCurves3DShape = nil
+		if _instance, ok := stage.ParastichyMCurves3DShapes_instance[_reference]; ok {
+			reference.ParastichyMCurves3DShape = _instance
+		}
+	}
+	if _reference := reference.CutLine3DShape; _reference != nil {
+		reference.CutLine3DShape = nil
+		if _instance, ok := stage.CutLine3DShapes_instance[_reference]; ok {
+			reference.CutLine3DShape = _instance
+		}
+	}
+	if _reference := reference.Circumference3DShape; _reference != nil {
+		reference.Circumference3DShape = nil
+		if _instance, ok := stage.Circumference3DShapes_instance[_reference]; ok {
+			reference.Circumference3DShape = _instance
+		}
+	}
+	if _reference := reference.Rendered3DShape; _reference != nil {
+		reference.Rendered3DShape = nil
+		if _instance, ok := stage.Rendered3DShapes_instance[_reference]; ok {
+			reference.Rendered3DShape = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.VaseAbstract; _reference != nil {
@@ -11296,6 +11904,13 @@ func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	reference.Plant2DDiagrams = _Plant2DDiagrams
+	var _Plant3DDiagrams []*Plant3DDiagram
+	for _, _reference := range reference.Plant3DDiagrams {
+		if _instance, ok := stage.Plant3DDiagrams_instance[_reference]; ok {
+			_Plant3DDiagrams = append(_Plant3DDiagrams, _instance)
+		}
+	}
+	reference.Plant3DDiagrams = _Plant3DDiagrams
 	var _Vase2DDiagrams []*Vase2DDiagram
 	for _, _reference := range reference.Vase2DDiagrams {
 		if _instance, ok := stage.Vase2DDiagrams_instance[_reference]; ok {
@@ -11581,6 +12196,11 @@ func (reference *StartHalfwayArcShape) GongReconstructPointersFromInstances(stag
 }
 
 func (reference *StartHalfwayArcShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *StemCylinder3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -11917,6 +12537,17 @@ func (circlegridshape *CircleGridShape) GongDiff(stage *Stage, circlegridshapeOt
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (circumference3dshape *Circumference3DShape) GongDiff(stage *Stage, circumference3dshapeOther *Circumference3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if circumference3dshape.Name != circumference3dshapeOther.Name {
+		diffs = append(diffs, circumference3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (clock2ddiagram *Clock2DDiagram) GongDiff(stage *Stage, clock2ddiagramOther *Clock2DDiagram) (diffs []string) {
 	// insertion point for field diffs
 	if clock2ddiagram.Name != clock2ddiagramOther.Name {
@@ -12025,6 +12656,17 @@ func (clocktopcurveshape *ClockTopCurveShape) GongDiff(stage *Stage, clocktopcur
 	// insertion point for field diffs
 	if clocktopcurveshape.Name != clocktopcurveshapeOther.Name {
 		diffs = append(diffs, clocktopcurveshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (cutline3dshape *CutLine3DShape) GongDiff(stage *Stage, cutline3dshapeOther *CutLine3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if cutline3dshape.Name != cutline3dshapeOther.Name {
+		diffs = append(diffs, cutline3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -12601,6 +13243,28 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongDiff(stage *Stage, origi
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongDiff(stage *Stage, parastichymcurves3dshapeOther *ParastichyMCurves3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if parastichymcurves3dshape.Name != parastichymcurves3dshapeOther.Name {
+		diffs = append(diffs, parastichymcurves3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongDiff(stage *Stage, parastichyncurves3dshapeOther *ParastichyNCurves3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if parastichyncurves3dshape.Name != parastichyncurves3dshapeOther.Name {
+		diffs = append(diffs, parastichyncurves3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongDiff(stage *Stage, partiallygrowthcurve2dribbonOther *PartiallyGrowthCurve2DRibbon) (diffs []string) {
 	// insertion point for field diffs
 	if partiallygrowthcurve2dribbon.Name != partiallygrowthcurve2dribbonOther.Name {
@@ -13086,6 +13750,86 @@ func (plant2ddiagram *Plant2DDiagram) GongDiff(stage *Stage, plant2ddiagramOther
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (plant3ddiagram *Plant3DDiagram) GongDiff(stage *Stage, plant3ddiagramOther *Plant3DDiagram) (diffs []string) {
+	// insertion point for field diffs
+	if plant3ddiagram.Name != plant3ddiagramOther.Name {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Name"))
+	}
+	if plant3ddiagram.IsHiddenStemCylinder3DShape != plant3ddiagramOther.IsHiddenStemCylinder3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenStemCylinder3DShape"))
+	}
+	if (plant3ddiagram.StemCylinder3DShape == nil) != (plant3ddiagramOther.StemCylinder3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "StemCylinder3DShape"))
+	} else if plant3ddiagram.StemCylinder3DShape != nil && plant3ddiagramOther.StemCylinder3DShape != nil {
+		if plant3ddiagram.StemCylinder3DShape != plant3ddiagramOther.StemCylinder3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "StemCylinder3DShape"))
+		}
+	}
+	if plant3ddiagram.IsHiddenParastichyNCurves3DShape != plant3ddiagramOther.IsHiddenParastichyNCurves3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenParastichyNCurves3DShape"))
+	}
+	if (plant3ddiagram.ParastichyNCurves3DShape == nil) != (plant3ddiagramOther.ParastichyNCurves3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "ParastichyNCurves3DShape"))
+	} else if plant3ddiagram.ParastichyNCurves3DShape != nil && plant3ddiagramOther.ParastichyNCurves3DShape != nil {
+		if plant3ddiagram.ParastichyNCurves3DShape != plant3ddiagramOther.ParastichyNCurves3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "ParastichyNCurves3DShape"))
+		}
+	}
+	if plant3ddiagram.IsHiddenParastichyMCurves3DShape != plant3ddiagramOther.IsHiddenParastichyMCurves3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenParastichyMCurves3DShape"))
+	}
+	if (plant3ddiagram.ParastichyMCurves3DShape == nil) != (plant3ddiagramOther.ParastichyMCurves3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "ParastichyMCurves3DShape"))
+	} else if plant3ddiagram.ParastichyMCurves3DShape != nil && plant3ddiagramOther.ParastichyMCurves3DShape != nil {
+		if plant3ddiagram.ParastichyMCurves3DShape != plant3ddiagramOther.ParastichyMCurves3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "ParastichyMCurves3DShape"))
+		}
+	}
+	if plant3ddiagram.IsHiddenCutLine3DShape != plant3ddiagramOther.IsHiddenCutLine3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenCutLine3DShape"))
+	}
+	if (plant3ddiagram.CutLine3DShape == nil) != (plant3ddiagramOther.CutLine3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "CutLine3DShape"))
+	} else if plant3ddiagram.CutLine3DShape != nil && plant3ddiagramOther.CutLine3DShape != nil {
+		if plant3ddiagram.CutLine3DShape != plant3ddiagramOther.CutLine3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "CutLine3DShape"))
+		}
+	}
+	if plant3ddiagram.IsHiddenCircumference3DShape != plant3ddiagramOther.IsHiddenCircumference3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenCircumference3DShape"))
+	}
+	if (plant3ddiagram.Circumference3DShape == nil) != (plant3ddiagramOther.Circumference3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Circumference3DShape"))
+	} else if plant3ddiagram.Circumference3DShape != nil && plant3ddiagramOther.Circumference3DShape != nil {
+		if plant3ddiagram.Circumference3DShape != plant3ddiagramOther.Circumference3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Circumference3DShape"))
+		}
+	}
+	if plant3ddiagram.IsHiddenTiledFloor3DShape != plant3ddiagramOther.IsHiddenTiledFloor3DShape {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+	}
+	if (plant3ddiagram.Rendered3DShape == nil) != (plant3ddiagramOther.Rendered3DShape == nil) {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
+	} else if plant3ddiagram.Rendered3DShape != nil && plant3ddiagramOther.Rendered3DShape != nil {
+		if plant3ddiagram.Rendered3DShape != plant3ddiagramOther.Rendered3DShape {
+			diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
+		}
+	}
+	if plant3ddiagram.IsChecked != plant3ddiagramOther.IsChecked {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsChecked"))
+	}
+	if plant3ddiagram.ComputedPrefix != plant3ddiagramOther.ComputedPrefix {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if plant3ddiagram.IsExpanded != plant3ddiagramOther.IsExpanded {
+		diffs = append(diffs, plant3ddiagram.GongMarshallField(stage, "IsExpanded"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *PlantAbstract) (diffs []string) {
 	// insertion point for field diffs
 	if plantabstract.Name != plantabstractOther.Name {
@@ -13164,6 +13908,30 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 	}
 	if Plant2DDiagramsDifferent {
 		ops := Diff(stage, plantabstract, plantabstractOther, "Plant2DDiagrams", plantabstractOther.Plant2DDiagrams, plantabstract.Plant2DDiagrams)
+		diffs = append(diffs, ops)
+	}
+	if plantabstract.IsPlant3DDiagramsNodeExpanded != plantabstractOther.IsPlant3DDiagramsNodeExpanded {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "IsPlant3DDiagramsNodeExpanded"))
+	}
+	Plant3DDiagramsDifferent := false
+	if len(plantabstract.Plant3DDiagrams) != len(plantabstractOther.Plant3DDiagrams) {
+		Plant3DDiagramsDifferent = true
+	} else {
+		for i := range plantabstract.Plant3DDiagrams {
+			if (plantabstract.Plant3DDiagrams[i] == nil) != (plantabstractOther.Plant3DDiagrams[i] == nil) {
+				Plant3DDiagramsDifferent = true
+				break
+			} else if plantabstract.Plant3DDiagrams[i] != nil && plantabstractOther.Plant3DDiagrams[i] != nil {
+				// this is a pointer comparaison
+				if plantabstract.Plant3DDiagrams[i] != plantabstractOther.Plant3DDiagrams[i] {
+					Plant3DDiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Plant3DDiagramsDifferent {
+		ops := Diff(stage, plantabstract, plantabstractOther, "Plant3DDiagrams", plantabstractOther.Plant3DDiagrams, plantabstract.Plant3DDiagrams)
 		diffs = append(diffs, ops)
 	}
 	if plantabstract.IsVase2DDiagramsNodeExpanded != plantabstractOther.IsVase2DDiagramsNodeExpanded {
@@ -14688,6 +15456,17 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongDiff(stage *Stage,
 	// insertion point for field diffs
 	if starthalfwayarcshapegrid.Name != starthalfwayarcshapegridOther.Name {
 		diffs = append(diffs, starthalfwayarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (stemcylinder3dshape *StemCylinder3DShape) GongDiff(stage *Stage, stemcylinder3dshapeOther *StemCylinder3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if stemcylinder3dshape.Name != stemcylinder3dshapeOther.Name {
+		diffs = append(diffs, stemcylinder3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return

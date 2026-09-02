@@ -38,6 +38,9 @@ func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func(
 			if plant.CurrentView == VIEW_CLOCK_3D {
 				stager.UpdateClock3DStage()
 			}
+			if plant.CurrentView == VIEW_PLANT_3D {
+				stager.UpdatePlant3DStage()
+			}
 		}
 	}
 }
@@ -643,3 +646,64 @@ func (stager *Stager) treeClock3DDiagram(plant *PlantAbstract, diagram *Clock3DD
 		appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
 	}
 }
+
+func (stager *Stager) treePlant3DDiagram(plant *PlantAbstract, diagram *Plant3DDiagram, parentNodes *[]*tree.Node, is3DView bool) {
+	node := &tree.Node{
+		Name: diagram.Name, IsExpanded: diagram.IsExpanded, IsNodeClickable: true,
+		HasCheckboxButton: true, IsChecked: diagram.IsChecked, IsInEditMode: diagram.isInRenameMode,
+		HasToolTip: true, ToolTipPosition: tree.Right, ToolTipText: "Check to select the diagram",
+	}
+	*parentNodes = append(*parentNodes, node)
+	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Plant3DDiagrams {
+			if d == diagram {
+				plant.Plant3DDiagrams = append(plant.Plant3DDiagrams[:i], plant.Plant3DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
+	node.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked {
+			stager.handleDiagramCheck(diagram, plant, VIEW_PLANT_3D)
+			diagram.IsChecked = true
+			diagram.IsExpanded = true
+			plant.IsPlant3DDiagramsNodeExpanded = true
+			stager.stage.Commit()
+		} else {
+			diagram.IsChecked = false
+			stager.stage.Commit()
+		}
+	}
+	node.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsExpanded)
+	node.OnNameChange = stager.onNameChange(diagram)
+	node.OnClick = func(frontNode *tree.Node) {
+		stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*Plant3DDiagram]())
+		stager.handleDiagramCheck(diagram, plant, VIEW_PLANT_3D)
+		diagram.IsChecked = true
+		diagram.IsExpanded = true
+		plant.IsPlant3DDiagramsNodeExpanded = true
+		stager.stage.Commit()
+	}
+
+	if is3DView {
+		appendDiagramNode(stager, node, "3D Stem Cylinder", diagram.StemCylinder3DShape, &diagram.IsHiddenStemCylinder3DShape)
+		appendDiagramNode(stager, node, "3D Parastichy N Curves (Blue)", diagram.ParastichyNCurves3DShape, &diagram.IsHiddenParastichyNCurves3DShape)
+		appendDiagramNode(stager, node, "3D Parastichy M Curves (Orange)", diagram.ParastichyMCurves3DShape, &diagram.IsHiddenParastichyMCurves3DShape)
+		appendDiagramNode(stager, node, "3D Cut Line (Pink)", diagram.CutLine3DShape, &diagram.IsHiddenCutLine3DShape)
+		appendDiagramNode(stager, node, "3D Circumference Rings", diagram.Circumference3DShape, &diagram.IsHiddenCircumference3DShape)
+		appendDiagramNode(stager, node, "3D Tiled Floor", diagram.TiledFloor3DShape, &diagram.IsHiddenTiledFloor3DShape)
+	}
+}
+

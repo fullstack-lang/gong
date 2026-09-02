@@ -648,7 +648,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000022_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000022_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000022_.IsExpanded = false
-	__DiagramFlossEquation__00000022_.IsChecked = false
+	__DiagramFlossEquation__00000022_.IsChecked = true
 	__DiagramFlossEquation__00000022_.IsEditable_ = true
 	__DiagramFlossEquation__00000022_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000022_.AreQuantitativeElementsVisible = true
@@ -694,7 +694,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000024_.FontSize = models.FONT_SIZE_VERY_BIG
 	__DiagramFlossEquation__00000024_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000024_.IsExpanded = false
-	__DiagramFlossEquation__00000024_.IsChecked = true
+	__DiagramFlossEquation__00000024_.IsChecked = false
 	__DiagramFlossEquation__00000024_.IsEditable_ = true
 	__DiagramFlossEquation__00000024_.IsInDelta3ColumnsMode = false
 	__DiagramFlossEquation__00000024_.AreQuantitativeElementsVisible = true

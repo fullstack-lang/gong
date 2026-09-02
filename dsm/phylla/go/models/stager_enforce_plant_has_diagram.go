@@ -39,6 +39,18 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 
 			needCommit = true
 		}
+
+		if len(plant.Plant3DDiagrams) == 0 {
+			plant3DDiagram := new(Plant3DDiagram).Stage(stage)
+			plant3DDiagram.Name = plant.Name + " - 3D Diagram"
+			plant.Plant3DDiagrams = append(plant.Plant3DDiagrams, plant3DDiagram)
+
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default Plant3DDiagram for plant %s", plant.Name))
+			}
+
+			needCommit = true
+		}
 	}
 
 	return

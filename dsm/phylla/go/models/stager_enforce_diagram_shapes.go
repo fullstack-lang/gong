@@ -51,5 +51,15 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
 	}
 
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stage) {
+		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
+		if diagram.StemCylinder3DShape == nil { diagram.StemCylinder3DShape = (&StemCylinder3DShape{Name: diagram.Name + "-StemCylinder3DShape"}).Stage(stage); modified = true }
+		if diagram.ParastichyNCurves3DShape == nil { diagram.ParastichyNCurves3DShape = (&ParastichyNCurves3DShape{Name: diagram.Name + "-ParastichyNCurves3DShape"}).Stage(stage); modified = true }
+		if diagram.ParastichyMCurves3DShape == nil { diagram.ParastichyMCurves3DShape = (&ParastichyMCurves3DShape{Name: diagram.Name + "-ParastichyMCurves3DShape"}).Stage(stage); modified = true }
+		if diagram.CutLine3DShape == nil { diagram.CutLine3DShape = (&CutLine3DShape{Name: diagram.Name + "-CutLine3DShape"}).Stage(stage); modified = true }
+		if diagram.Circumference3DShape == nil { diagram.Circumference3DShape = (&Circumference3DShape{Name: diagram.Name + "-Circumference3DShape"}).Stage(stage); modified = true }
+		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
+	}
+
 	return modified
 }

@@ -176,6 +176,8 @@ func (planttype PlantType) ToString() (res string) {
 		res = "Stool"
 	case Clock:
 		res = "Clock"
+	case Music:
+		res = "Music"
 	}
 	return
 }
@@ -196,6 +198,9 @@ func (planttype *PlantType) FromString(input string) (err error) {
 	case "Clock":
 		*planttype = Clock
 		return
+	case "Music":
+		*planttype = Music
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -213,6 +218,8 @@ func (planttype *PlantType) FromCodeString(input string) (err error) {
 		*planttype = Stool
 	case "Clock":
 		*planttype = Clock
+	case "Music":
+		*planttype = Music
 	default:
 		err = errUnkownEnum
 	}
@@ -231,6 +238,8 @@ func (planttype *PlantType) ToCodeString() (res string) {
 		res = "Stool"
 	case Clock:
 		res = "Clock"
+	case Music:
+		res = "Music"
 	}
 	return
 }
@@ -244,6 +253,7 @@ func (planttype PlantType) Codes() (res []string) {
 	res = append(res, "Vase")
 	res = append(res, "Stool")
 	res = append(res, "Clock")
+	res = append(res, "Music")
 
 	return
 }
@@ -257,6 +267,7 @@ func (planttype PlantType) CodeValues() (res []string) {
 	res = append(res, "Vase")
 	res = append(res, "Stool")
 	res = append(res, "Clock")
+	res = append(res, "Music")
 
 	return
 }
@@ -271,6 +282,8 @@ func (viewtype ViewType) ToString() (res string) {
 	// insertion code per enum code
 	case VIEW_PLANT_2D:
 		res = "Plant 2D"
+	case VIEW_PLANT_3D:
+		res = "Plant 3D"
 	case VIEW_VASE_FORM:
 		res = "Vase Form"
 	case VIEW_VASE_2D:
@@ -293,6 +306,9 @@ func (viewtype *ViewType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "Plant 2D":
 		*viewtype = VIEW_PLANT_2D
+		return
+	case "Plant 3D":
+		*viewtype = VIEW_PLANT_3D
 		return
 	case "Vase Form":
 		*viewtype = VIEW_VASE_FORM
@@ -323,6 +339,8 @@ func (viewtype *ViewType) FromCodeString(input string) (err error) {
 	// insertion code per enum code
 	case "VIEW_PLANT_2D":
 		*viewtype = VIEW_PLANT_2D
+	case "VIEW_PLANT_3D":
+		*viewtype = VIEW_PLANT_3D
 	case "VIEW_VASE_FORM":
 		*viewtype = VIEW_VASE_FORM
 	case "VIEW_VASE_2D":
@@ -347,6 +365,8 @@ func (viewtype *ViewType) ToCodeString() (res string) {
 	// insertion code per enum code
 	case VIEW_PLANT_2D:
 		res = "VIEW_PLANT_2D"
+	case VIEW_PLANT_3D:
+		res = "VIEW_PLANT_3D"
 	case VIEW_VASE_FORM:
 		res = "VIEW_VASE_FORM"
 	case VIEW_VASE_2D:
@@ -369,6 +389,7 @@ func (viewtype ViewType) Codes() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "VIEW_PLANT_2D")
+	res = append(res, "VIEW_PLANT_3D")
 	res = append(res, "VIEW_VASE_FORM")
 	res = append(res, "VIEW_VASE_2D")
 	res = append(res, "VIEW_VASE_3D")
@@ -385,6 +406,7 @@ func (viewtype ViewType) CodeValues() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "Plant 2D")
+	res = append(res, "Plant 3D")
 	res = append(res, "Vase Form")
 	res = append(res, "Vase 2D")
 	res = append(res, "Vase 3D")

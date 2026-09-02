@@ -52,6 +52,10 @@ type Clock3DStageUpdaterInterface interface {
 	UpdateClock3DStage(stager *Stager)
 }
 
+type Plant3DStageUpdaterInterface interface {
+	UpdatePlant3DStage(stager *Stager)
+}
+
 type Stager struct {
 	stage      *Stage
 	splitStage *split.Stage
@@ -62,6 +66,7 @@ type Stager struct {
 	threejsStage     *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
 	stool3dStage     *threejs.Stage
 	clock3dStage     *threejs.Stage
+	plant3dStage     *threejs.Stage
 
 	treeStage2D      *tree.Stage
 	treeStage3D      *tree.Stage
@@ -92,6 +97,7 @@ type Stager struct {
 	threeJSUpdater ThreeJSStageUpdaterInterface
 	stool3DUpdater Stool3DStageUpdaterInterface
 	clock3DUpdater Clock3DStageUpdaterInterface
+	plant3DUpdater Plant3DStageUpdaterInterface
 
 	// maps
 	m_Plant_Library map[*PlantAbstract]*Library
@@ -105,6 +111,7 @@ func NewStager(
 	threeJSUpdater ThreeJSStageUpdaterInterface,
 	stool3DUpdater Stool3DStageUpdaterInterface,
 	clock3DUpdater Clock3DStageUpdaterInterface,
+	plant3DUpdater Plant3DStageUpdaterInterface,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -115,6 +122,7 @@ func NewStager(
 	stager.threeJSUpdater = threeJSUpdater
 	stager.stool3DUpdater = stool3DUpdater
 	stager.clock3DUpdater = clock3DUpdater
+	stager.plant3DUpdater = plant3DUpdater
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
@@ -131,6 +139,7 @@ func NewStager(
 	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.stool3dStage = threejs_stack.NewStack(r, "stool3d", "", "", "", true, true).Stage
 	stager.clock3dStage = threejs_stack.NewStack(r, "clock3d", "", "", "", true, true).Stage
+	stager.plant3dStage = threejs_stack.NewStack(r, "plant3d", "", "", "", true, true).Stage
 	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
@@ -158,6 +167,7 @@ func NewStager(
 		stager.UpdateThreeJSStage()
 		stager.UpdateStool3DStage()
 		stager.UpdateClock3DStage()
+		stager.UpdatePlant3DStage()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
@@ -290,3 +300,18 @@ func (stager *Stager) GetSliderClockStage() *slider.Stage {
 func (stager *Stager) GetMarkdownStage() *markdown.Stage {
 	return stager.markdownStage
 }
+
+func (stager *Stager) SetPlant3DUpdater(updater Plant3DStageUpdaterInterface) {
+	stager.plant3DUpdater = updater
+}
+
+func (stager *Stager) UpdatePlant3DStage() {
+	if stager.plant3DUpdater != nil {
+		stager.plant3DUpdater.UpdatePlant3DStage(stager)
+	}
+}
+
+func (stager *Stager) GetPlant3dStage() *threejs.Stage {
+	return stager.plant3dStage
+}
+

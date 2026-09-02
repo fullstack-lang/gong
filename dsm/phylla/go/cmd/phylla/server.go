@@ -10,6 +10,7 @@ import (
 	"github.com/fullstack-lang/gong/dsm/phylla/go/clockstage3d"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/plantstage3d"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/stoolstage3d"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/vasestage3d"
 )
@@ -37,6 +38,7 @@ func executeServer() {
 		vasestage3d.NewThreeJSStageUpdater(),
 		stoolstage3d.NewStool3DStageUpdater(),
 		clockstage3d.NewClock3DStageUpdater(),
+		plantstage3d.NewPlant3DStageUpdater(),
 	)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))

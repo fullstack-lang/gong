@@ -255,6 +255,21 @@ type Stage struct {
 	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
 	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
 
+	Circumference3DShapes                map[*Circumference3DShape]struct{}
+	Circumference3DShapes_instance       map[*Circumference3DShape]*Circumference3DShape
+	Circumference3DShapes_mapString      map[string]*Circumference3DShape
+	Circumference3DShapeOrder            uint
+	Circumference3DShape_stagedOrder     map[*Circumference3DShape]uint
+	Circumference3DShape_orderStaged     map[uint]*Circumference3DShape
+	Circumference3DShapes_reference      map[*Circumference3DShape]*Circumference3DShape
+	Circumference3DShapes_referenceOrder map[*Circumference3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCircumference3DShapeCreateCallback OnAfterCreateInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeUpdateCallback OnAfterUpdateInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeDeleteCallback OnAfterDeleteInterface[Circumference3DShape]
+	OnAfterCircumference3DShapeReadCallback   OnAfterReadInterface[Circumference3DShape]
+
 	Clock2DDiagrams                map[*Clock2DDiagram]struct{}
 	Clock2DDiagrams_instance       map[*Clock2DDiagram]*Clock2DDiagram
 	Clock2DDiagrams_mapString      map[string]*Clock2DDiagram
@@ -314,6 +329,21 @@ type Stage struct {
 	OnAfterClockTopCurveShapeUpdateCallback OnAfterUpdateInterface[ClockTopCurveShape]
 	OnAfterClockTopCurveShapeDeleteCallback OnAfterDeleteInterface[ClockTopCurveShape]
 	OnAfterClockTopCurveShapeReadCallback   OnAfterReadInterface[ClockTopCurveShape]
+
+	CutLine3DShapes                map[*CutLine3DShape]struct{}
+	CutLine3DShapes_instance       map[*CutLine3DShape]*CutLine3DShape
+	CutLine3DShapes_mapString      map[string]*CutLine3DShape
+	CutLine3DShapeOrder            uint
+	CutLine3DShape_stagedOrder     map[*CutLine3DShape]uint
+	CutLine3DShape_orderStaged     map[uint]*CutLine3DShape
+	CutLine3DShapes_reference      map[*CutLine3DShape]*CutLine3DShape
+	CutLine3DShapes_referenceOrder map[*CutLine3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCutLine3DShapeCreateCallback OnAfterCreateInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeUpdateCallback OnAfterUpdateInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeDeleteCallback OnAfterDeleteInterface[CutLine3DShape]
+	OnAfterCutLine3DShapeReadCallback   OnAfterReadInterface[CutLine3DShape]
 
 	EndArcShapes                map[*EndArcShape]struct{}
 	EndArcShapes_instance       map[*EndArcShape]*EndArcShape
@@ -753,6 +783,36 @@ type Stage struct {
 	OnAfterOriginalPoints3DShapeDeleteCallback OnAfterDeleteInterface[OriginalPoints3DShape]
 	OnAfterOriginalPoints3DShapeReadCallback   OnAfterReadInterface[OriginalPoints3DShape]
 
+	ParastichyMCurves3DShapes                map[*ParastichyMCurves3DShape]struct{}
+	ParastichyMCurves3DShapes_instance       map[*ParastichyMCurves3DShape]*ParastichyMCurves3DShape
+	ParastichyMCurves3DShapes_mapString      map[string]*ParastichyMCurves3DShape
+	ParastichyMCurves3DShapeOrder            uint
+	ParastichyMCurves3DShape_stagedOrder     map[*ParastichyMCurves3DShape]uint
+	ParastichyMCurves3DShape_orderStaged     map[uint]*ParastichyMCurves3DShape
+	ParastichyMCurves3DShapes_reference      map[*ParastichyMCurves3DShape]*ParastichyMCurves3DShape
+	ParastichyMCurves3DShapes_referenceOrder map[*ParastichyMCurves3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterParastichyMCurves3DShapeCreateCallback OnAfterCreateInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeUpdateCallback OnAfterUpdateInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeDeleteCallback OnAfterDeleteInterface[ParastichyMCurves3DShape]
+	OnAfterParastichyMCurves3DShapeReadCallback   OnAfterReadInterface[ParastichyMCurves3DShape]
+
+	ParastichyNCurves3DShapes                map[*ParastichyNCurves3DShape]struct{}
+	ParastichyNCurves3DShapes_instance       map[*ParastichyNCurves3DShape]*ParastichyNCurves3DShape
+	ParastichyNCurves3DShapes_mapString      map[string]*ParastichyNCurves3DShape
+	ParastichyNCurves3DShapeOrder            uint
+	ParastichyNCurves3DShape_stagedOrder     map[*ParastichyNCurves3DShape]uint
+	ParastichyNCurves3DShape_orderStaged     map[uint]*ParastichyNCurves3DShape
+	ParastichyNCurves3DShapes_reference      map[*ParastichyNCurves3DShape]*ParastichyNCurves3DShape
+	ParastichyNCurves3DShapes_referenceOrder map[*ParastichyNCurves3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterParastichyNCurves3DShapeCreateCallback OnAfterCreateInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeUpdateCallback OnAfterUpdateInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeDeleteCallback OnAfterDeleteInterface[ParastichyNCurves3DShape]
+	OnAfterParastichyNCurves3DShapeReadCallback   OnAfterReadInterface[ParastichyNCurves3DShape]
+
 	PartiallyGrowthCurve2DRibbons                map[*PartiallyGrowthCurve2DRibbon]struct{}
 	PartiallyGrowthCurve2DRibbons_instance       map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon
 	PartiallyGrowthCurve2DRibbons_mapString      map[string]*PartiallyGrowthCurve2DRibbon
@@ -1058,6 +1118,21 @@ type Stage struct {
 	OnAfterPlant2DDiagramDeleteCallback OnAfterDeleteInterface[Plant2DDiagram]
 	OnAfterPlant2DDiagramReadCallback   OnAfterReadInterface[Plant2DDiagram]
 
+	Plant3DDiagrams                map[*Plant3DDiagram]struct{}
+	Plant3DDiagrams_instance       map[*Plant3DDiagram]*Plant3DDiagram
+	Plant3DDiagrams_mapString      map[string]*Plant3DDiagram
+	Plant3DDiagramOrder            uint
+	Plant3DDiagram_stagedOrder     map[*Plant3DDiagram]uint
+	Plant3DDiagram_orderStaged     map[uint]*Plant3DDiagram
+	Plant3DDiagrams_reference      map[*Plant3DDiagram]*Plant3DDiagram
+	Plant3DDiagrams_referenceOrder map[*Plant3DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPlant3DDiagramCreateCallback OnAfterCreateInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramUpdateCallback OnAfterUpdateInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramDeleteCallback OnAfterDeleteInterface[Plant3DDiagram]
+	OnAfterPlant3DDiagramReadCallback   OnAfterReadInterface[Plant3DDiagram]
+
 	PlantAbstracts                map[*PlantAbstract]struct{}
 	PlantAbstracts_instance       map[*PlantAbstract]*PlantAbstract
 	PlantAbstracts_mapString      map[string]*PlantAbstract
@@ -1069,6 +1144,8 @@ type Stage struct {
 
 	// insertion point for slice of pointers maps
 	PlantAbstract_Plant2DDiagrams_reverseMap map[*Plant2DDiagram]*PlantAbstract
+
+	PlantAbstract_Plant3DDiagrams_reverseMap map[*Plant3DDiagram]*PlantAbstract
 
 	PlantAbstract_Vase2DDiagrams_reverseMap map[*Vase2DDiagram]*PlantAbstract
 
@@ -1864,6 +1941,21 @@ type Stage struct {
 	OnAfterStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[StartHalfwayArcShapeGrid]
 	OnAfterStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[StartHalfwayArcShapeGrid]
 
+	StemCylinder3DShapes                map[*StemCylinder3DShape]struct{}
+	StemCylinder3DShapes_instance       map[*StemCylinder3DShape]*StemCylinder3DShape
+	StemCylinder3DShapes_mapString      map[string]*StemCylinder3DShape
+	StemCylinder3DShapeOrder            uint
+	StemCylinder3DShape_stagedOrder     map[*StemCylinder3DShape]uint
+	StemCylinder3DShape_orderStaged     map[uint]*StemCylinder3DShape
+	StemCylinder3DShapes_reference      map[*StemCylinder3DShape]*StemCylinder3DShape
+	StemCylinder3DShapes_referenceOrder map[*StemCylinder3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStemCylinder3DShapeCreateCallback OnAfterCreateInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeUpdateCallback OnAfterUpdateInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeDeleteCallback OnAfterDeleteInterface[StemCylinder3DShape]
+	OnAfterStemCylinder3DShapeReadCallback   OnAfterReadInterface[StemCylinder3DShape]
+
 	Stool2DDiagrams                map[*Stool2DDiagram]struct{}
 	Stool2DDiagrams_instance       map[*Stool2DDiagram]*Stool2DDiagram
 	Stool2DDiagrams_mapString      map[string]*Stool2DDiagram
@@ -2585,6 +2677,10 @@ func (stage *Stage) Squash() {
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
 
+	stage.Circumference3DShapes_reference = make(map[*Circumference3DShape]*Circumference3DShape)
+	stage.Circumference3DShapes_instance = make(map[*Circumference3DShape]*Circumference3DShape)
+	stage.Circumference3DShapes_referenceOrder = make(map[*Circumference3DShape]uint)
+
 	stage.Clock2DDiagrams_reference = make(map[*Clock2DDiagram]*Clock2DDiagram)
 	stage.Clock2DDiagrams_instance = make(map[*Clock2DDiagram]*Clock2DDiagram)
 	stage.Clock2DDiagrams_referenceOrder = make(map[*Clock2DDiagram]uint)
@@ -2600,6 +2696,10 @@ func (stage *Stage) Squash() {
 	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
 	stage.ClockTopCurveShapes_instance = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
 	stage.ClockTopCurveShapes_referenceOrder = make(map[*ClockTopCurveShape]uint)
+
+	stage.CutLine3DShapes_reference = make(map[*CutLine3DShape]*CutLine3DShape)
+	stage.CutLine3DShapes_instance = make(map[*CutLine3DShape]*CutLine3DShape)
+	stage.CutLine3DShapes_referenceOrder = make(map[*CutLine3DShape]uint)
 
 	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_instance = make(map[*EndArcShape]*EndArcShape)
@@ -2713,6 +2813,14 @@ func (stage *Stage) Squash() {
 	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
 	stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint)
 
+	stage.ParastichyMCurves3DShapes_reference = make(map[*ParastichyMCurves3DShape]*ParastichyMCurves3DShape)
+	stage.ParastichyMCurves3DShapes_instance = make(map[*ParastichyMCurves3DShape]*ParastichyMCurves3DShape)
+	stage.ParastichyMCurves3DShapes_referenceOrder = make(map[*ParastichyMCurves3DShape]uint)
+
+	stage.ParastichyNCurves3DShapes_reference = make(map[*ParastichyNCurves3DShape]*ParastichyNCurves3DShape)
+	stage.ParastichyNCurves3DShapes_instance = make(map[*ParastichyNCurves3DShape]*ParastichyNCurves3DShape)
+	stage.ParastichyNCurves3DShapes_referenceOrder = make(map[*ParastichyNCurves3DShape]uint)
+
 	stage.PartiallyGrowthCurve2DRibbons_reference = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
 	stage.PartiallyGrowthCurve2DRibbons_instance = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
 	stage.PartiallyGrowthCurve2DRibbons_referenceOrder = make(map[*PartiallyGrowthCurve2DRibbon]uint)
@@ -2788,6 +2896,10 @@ func (stage *Stage) Squash() {
 	stage.Plant2DDiagrams_reference = make(map[*Plant2DDiagram]*Plant2DDiagram)
 	stage.Plant2DDiagrams_instance = make(map[*Plant2DDiagram]*Plant2DDiagram)
 	stage.Plant2DDiagrams_referenceOrder = make(map[*Plant2DDiagram]uint)
+
+	stage.Plant3DDiagrams_reference = make(map[*Plant3DDiagram]*Plant3DDiagram)
+	stage.Plant3DDiagrams_instance = make(map[*Plant3DDiagram]*Plant3DDiagram)
+	stage.Plant3DDiagrams_referenceOrder = make(map[*Plant3DDiagram]uint)
 
 	stage.PlantAbstracts_reference = make(map[*PlantAbstract]*PlantAbstract)
 	stage.PlantAbstracts_instance = make(map[*PlantAbstract]*PlantAbstract)
@@ -2988,6 +3100,10 @@ func (stage *Stage) Squash() {
 	stage.StartHalfwayArcShapeGrids_reference = make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid)
 	stage.StartHalfwayArcShapeGrids_instance = make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid)
 	stage.StartHalfwayArcShapeGrids_referenceOrder = make(map[*StartHalfwayArcShapeGrid]uint)
+
+	stage.StemCylinder3DShapes_reference = make(map[*StemCylinder3DShape]*StemCylinder3DShape)
+	stage.StemCylinder3DShapes_instance = make(map[*StemCylinder3DShape]*StemCylinder3DShape)
+	stage.StemCylinder3DShapes_referenceOrder = make(map[*StemCylinder3DShape]uint)
 
 	stage.Stool2DDiagrams_reference = make(map[*Stool2DDiagram]*Stool2DDiagram)
 	stage.Stool2DDiagrams_instance = make(map[*Stool2DDiagram]*Stool2DDiagram)
@@ -3244,6 +3360,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.CircleGridShapeOrder = 0
 	}
 
+	var maxCircumference3DShapeOrder uint
+	var foundCircumference3DShape bool
+	for _, order := range stage.Circumference3DShape_stagedOrder {
+		if !foundCircumference3DShape || order > maxCircumference3DShapeOrder {
+			maxCircumference3DShapeOrder = order
+			foundCircumference3DShape = true
+		}
+	}
+	if foundCircumference3DShape {
+		stage.Circumference3DShapeOrder = maxCircumference3DShapeOrder + 1
+	} else {
+		stage.Circumference3DShapeOrder = 0
+	}
+
 	var maxClock2DDiagramOrder uint
 	var foundClock2DDiagram bool
 	for _, order := range stage.Clock2DDiagram_stagedOrder {
@@ -3298,6 +3428,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ClockTopCurveShapeOrder = maxClockTopCurveShapeOrder + 1
 	} else {
 		stage.ClockTopCurveShapeOrder = 0
+	}
+
+	var maxCutLine3DShapeOrder uint
+	var foundCutLine3DShape bool
+	for _, order := range stage.CutLine3DShape_stagedOrder {
+		if !foundCutLine3DShape || order > maxCutLine3DShapeOrder {
+			maxCutLine3DShapeOrder = order
+			foundCutLine3DShape = true
+		}
+	}
+	if foundCutLine3DShape {
+		stage.CutLine3DShapeOrder = maxCutLine3DShapeOrder + 1
+	} else {
+		stage.CutLine3DShapeOrder = 0
 	}
 
 	var maxEndArcShapeOrder uint
@@ -3692,6 +3836,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.OriginalPoints3DShapeOrder = 0
 	}
 
+	var maxParastichyMCurves3DShapeOrder uint
+	var foundParastichyMCurves3DShape bool
+	for _, order := range stage.ParastichyMCurves3DShape_stagedOrder {
+		if !foundParastichyMCurves3DShape || order > maxParastichyMCurves3DShapeOrder {
+			maxParastichyMCurves3DShapeOrder = order
+			foundParastichyMCurves3DShape = true
+		}
+	}
+	if foundParastichyMCurves3DShape {
+		stage.ParastichyMCurves3DShapeOrder = maxParastichyMCurves3DShapeOrder + 1
+	} else {
+		stage.ParastichyMCurves3DShapeOrder = 0
+	}
+
+	var maxParastichyNCurves3DShapeOrder uint
+	var foundParastichyNCurves3DShape bool
+	for _, order := range stage.ParastichyNCurves3DShape_stagedOrder {
+		if !foundParastichyNCurves3DShape || order > maxParastichyNCurves3DShapeOrder {
+			maxParastichyNCurves3DShapeOrder = order
+			foundParastichyNCurves3DShape = true
+		}
+	}
+	if foundParastichyNCurves3DShape {
+		stage.ParastichyNCurves3DShapeOrder = maxParastichyNCurves3DShapeOrder + 1
+	} else {
+		stage.ParastichyNCurves3DShapeOrder = 0
+	}
+
 	var maxPartiallyGrowthCurve2DRibbonOrder uint
 	var foundPartiallyGrowthCurve2DRibbon bool
 	for _, order := range stage.PartiallyGrowthCurve2DRibbon_stagedOrder {
@@ -3956,6 +4128,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.Plant2DDiagramOrder = maxPlant2DDiagramOrder + 1
 	} else {
 		stage.Plant2DDiagramOrder = 0
+	}
+
+	var maxPlant3DDiagramOrder uint
+	var foundPlant3DDiagram bool
+	for _, order := range stage.Plant3DDiagram_stagedOrder {
+		if !foundPlant3DDiagram || order > maxPlant3DDiagramOrder {
+			maxPlant3DDiagramOrder = order
+			foundPlant3DDiagram = true
+		}
+	}
+	if foundPlant3DDiagram {
+		stage.Plant3DDiagramOrder = maxPlant3DDiagramOrder + 1
+	} else {
+		stage.Plant3DDiagramOrder = 0
 	}
 
 	var maxPlantAbstractOrder uint
@@ -4658,6 +4844,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.StartHalfwayArcShapeGridOrder = 0
 	}
 
+	var maxStemCylinder3DShapeOrder uint
+	var foundStemCylinder3DShape bool
+	for _, order := range stage.StemCylinder3DShape_stagedOrder {
+		if !foundStemCylinder3DShape || order > maxStemCylinder3DShapeOrder {
+			maxStemCylinder3DShapeOrder = order
+			foundStemCylinder3DShape = true
+		}
+	}
+	if foundStemCylinder3DShape {
+		stage.StemCylinder3DShapeOrder = maxStemCylinder3DShapeOrder + 1
+	} else {
+		stage.StemCylinder3DShapeOrder = 0
+	}
+
 	var maxStool2DDiagramOrder uint
 	var foundStool2DDiagram bool
 	for _, order := range stage.Stool2DDiagram_stagedOrder {
@@ -5237,6 +5437,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Circumference3DShape:
+		tmp := GetStructInstancesByOrder(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Circumference3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Clock2DDiagram:
 		tmp := GetStructInstancesByOrder(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
 
@@ -5290,6 +5504,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *ClockTopCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *CutLine3DShape:
+		tmp := GetStructInstancesByOrder(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *CutLine3DShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -5685,6 +5913,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ParastichyMCurves3DShape:
+		tmp := GetStructInstancesByOrder(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ParastichyMCurves3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ParastichyNCurves3DShape:
+		tmp := GetStructInstancesByOrder(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ParastichyNCurves3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PartiallyGrowthCurve2DRibbon:
 		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
 
@@ -5948,6 +6204,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Plant2DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Plant3DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Plant3DDiagram implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -6651,6 +6921,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *StemCylinder3DShape:
+		tmp := GetStructInstancesByOrder(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StemCylinder3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Stool2DDiagram:
 		tmp := GetStructInstancesByOrder(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
 
@@ -7102,6 +7386,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+	case "Circumference3DShape":
+		res = GetNamedStructInstances(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder)
 	case "Clock2DDiagram":
 		res = GetNamedStructInstances(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
 	case "Clock3DDiagram":
@@ -7110,6 +7396,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
 	case "ClockTopCurveShape":
 		res = GetNamedStructInstances(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
+	case "CutLine3DShape":
+		res = GetNamedStructInstances(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder)
 	case "EndArcShape":
 		res = GetNamedStructInstances(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 	case "EndArcShapeGrid":
@@ -7166,6 +7454,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
 	case "OriginalPoints3DShape":
 		res = GetNamedStructInstances(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
+	case "ParastichyMCurves3DShape":
+		res = GetNamedStructInstances(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder)
+	case "ParastichyNCurves3DShape":
+		res = GetNamedStructInstances(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder)
 	case "PartiallyGrowthCurve2DRibbon":
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
 	case "PartiallyGrowthCurve2DRibbonEndShape":
@@ -7204,6 +7496,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
 	case "Plant2DDiagram":
 		res = GetNamedStructInstances(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder)
+	case "Plant3DDiagram":
+		res = GetNamedStructInstances(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder)
 	case "PlantAbstract":
 		res = GetNamedStructInstances(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
 	case "PlantCircumferenceShape":
@@ -7304,6 +7598,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StartHalfwayArcShapes, stage.StartHalfwayArcShape_stagedOrder)
 	case "StartHalfwayArcShapeGrid":
 		res = GetNamedStructInstances(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder)
+	case "StemCylinder3DShape":
+		res = GetNamedStructInstances(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder)
 	case "Stool2DDiagram":
 		res = GetNamedStructInstances(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
 	case "Stool3DDiagram":
@@ -7447,6 +7743,8 @@ type BackRepoInterface interface {
 	CheckoutChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
+	CommitCircumference3DShape(circumference3dshape *Circumference3DShape)
+	CheckoutCircumference3DShape(circumference3dshape *Circumference3DShape)
 	CommitClock2DDiagram(clock2ddiagram *Clock2DDiagram)
 	CheckoutClock2DDiagram(clock2ddiagram *Clock2DDiagram)
 	CommitClock3DDiagram(clock3ddiagram *Clock3DDiagram)
@@ -7455,6 +7753,8 @@ type BackRepoInterface interface {
 	CheckoutClockAbstract(clockabstract *ClockAbstract)
 	CommitClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
 	CheckoutClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
+	CommitCutLine3DShape(cutline3dshape *CutLine3DShape)
+	CheckoutCutLine3DShape(cutline3dshape *CutLine3DShape)
 	CommitEndArcShape(endarcshape *EndArcShape)
 	CheckoutEndArcShape(endarcshape *EndArcShape)
 	CommitEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
@@ -7511,6 +7811,10 @@ type BackRepoInterface interface {
 	CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
 	CommitOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
 	CheckoutOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
+	CommitParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape)
+	CheckoutParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape)
+	CommitParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape)
+	CheckoutParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape)
 	CommitPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon)
 	CheckoutPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon)
 	CommitPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape)
@@ -7549,6 +7853,8 @@ type BackRepoInterface interface {
 	CheckoutPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
 	CommitPlant2DDiagram(plant2ddiagram *Plant2DDiagram)
 	CheckoutPlant2DDiagram(plant2ddiagram *Plant2DDiagram)
+	CommitPlant3DDiagram(plant3ddiagram *Plant3DDiagram)
+	CheckoutPlant3DDiagram(plant3ddiagram *Plant3DDiagram)
 	CommitPlantAbstract(plantabstract *PlantAbstract)
 	CheckoutPlantAbstract(plantabstract *PlantAbstract)
 	CommitPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
@@ -7649,6 +7955,8 @@ type BackRepoInterface interface {
 	CheckoutStartHalfwayArcShape(starthalfwayarcshape *StartHalfwayArcShape)
 	CommitStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid)
 	CheckoutStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid)
+	CommitStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape)
+	CheckoutStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape)
 	CommitStool2DDiagram(stool2ddiagram *Stool2DDiagram)
 	CheckoutStool2DDiagram(stool2ddiagram *Stool2DDiagram)
 	CommitStool3DDiagram(stool3ddiagram *Stool3DDiagram)
@@ -7737,6 +8045,9 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
 
+		Circumference3DShapes:           make(map[*Circumference3DShape]struct{}),
+		Circumference3DShapes_mapString: make(map[string]*Circumference3DShape),
+
 		Clock2DDiagrams:           make(map[*Clock2DDiagram]struct{}),
 		Clock2DDiagrams_mapString: make(map[string]*Clock2DDiagram),
 
@@ -7748,6 +8059,9 @@ func NewStage(name string) (stage *Stage) {
 
 		ClockTopCurveShapes:           make(map[*ClockTopCurveShape]struct{}),
 		ClockTopCurveShapes_mapString: make(map[string]*ClockTopCurveShape),
+
+		CutLine3DShapes:           make(map[*CutLine3DShape]struct{}),
+		CutLine3DShapes_mapString: make(map[string]*CutLine3DShape),
 
 		EndArcShapes:           make(map[*EndArcShape]struct{}),
 		EndArcShapes_mapString: make(map[string]*EndArcShape),
@@ -7833,6 +8147,12 @@ func NewStage(name string) (stage *Stage) {
 		OriginalPoints3DShapes:           make(map[*OriginalPoints3DShape]struct{}),
 		OriginalPoints3DShapes_mapString: make(map[string]*OriginalPoints3DShape),
 
+		ParastichyMCurves3DShapes:           make(map[*ParastichyMCurves3DShape]struct{}),
+		ParastichyMCurves3DShapes_mapString: make(map[string]*ParastichyMCurves3DShape),
+
+		ParastichyNCurves3DShapes:           make(map[*ParastichyNCurves3DShape]struct{}),
+		ParastichyNCurves3DShapes_mapString: make(map[string]*ParastichyNCurves3DShape),
+
 		PartiallyGrowthCurve2DRibbons:           make(map[*PartiallyGrowthCurve2DRibbon]struct{}),
 		PartiallyGrowthCurve2DRibbons_mapString: make(map[string]*PartiallyGrowthCurve2DRibbon),
 
@@ -7889,6 +8209,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Plant2DDiagrams:           make(map[*Plant2DDiagram]struct{}),
 		Plant2DDiagrams_mapString: make(map[string]*Plant2DDiagram),
+
+		Plant3DDiagrams:           make(map[*Plant3DDiagram]struct{}),
+		Plant3DDiagrams_mapString: make(map[string]*Plant3DDiagram),
 
 		PlantAbstracts:           make(map[*PlantAbstract]struct{}),
 		PlantAbstracts_mapString: make(map[string]*PlantAbstract),
@@ -8040,6 +8363,9 @@ func NewStage(name string) (stage *Stage) {
 		StartHalfwayArcShapeGrids:           make(map[*StartHalfwayArcShapeGrid]struct{}),
 		StartHalfwayArcShapeGrids_mapString: make(map[string]*StartHalfwayArcShapeGrid),
 
+		StemCylinder3DShapes:           make(map[*StemCylinder3DShape]struct{}),
+		StemCylinder3DShapes_mapString: make(map[string]*StemCylinder3DShape),
+
 		Stool2DDiagrams:           make(map[*Stool2DDiagram]struct{}),
 		Stool2DDiagrams_mapString: make(map[string]*Stool2DDiagram),
 
@@ -8169,6 +8495,10 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
 		CircleGridShapes_reference:  make(map[*CircleGridShape]*CircleGridShape),
 
+		Circumference3DShape_stagedOrder: make(map[*Circumference3DShape]uint),
+		Circumference3DShape_orderStaged: make(map[uint]*Circumference3DShape),
+		Circumference3DShapes_reference:  make(map[*Circumference3DShape]*Circumference3DShape),
+
 		Clock2DDiagram_stagedOrder: make(map[*Clock2DDiagram]uint),
 		Clock2DDiagram_orderStaged: make(map[uint]*Clock2DDiagram),
 		Clock2DDiagrams_reference:  make(map[*Clock2DDiagram]*Clock2DDiagram),
@@ -8184,6 +8514,10 @@ func NewStage(name string) (stage *Stage) {
 		ClockTopCurveShape_stagedOrder: make(map[*ClockTopCurveShape]uint),
 		ClockTopCurveShape_orderStaged: make(map[uint]*ClockTopCurveShape),
 		ClockTopCurveShapes_reference:  make(map[*ClockTopCurveShape]*ClockTopCurveShape),
+
+		CutLine3DShape_stagedOrder: make(map[*CutLine3DShape]uint),
+		CutLine3DShape_orderStaged: make(map[uint]*CutLine3DShape),
+		CutLine3DShapes_reference:  make(map[*CutLine3DShape]*CutLine3DShape),
 
 		EndArcShape_stagedOrder: make(map[*EndArcShape]uint),
 		EndArcShape_orderStaged: make(map[uint]*EndArcShape),
@@ -8297,6 +8631,14 @@ func NewStage(name string) (stage *Stage) {
 		OriginalPoints3DShape_orderStaged: make(map[uint]*OriginalPoints3DShape),
 		OriginalPoints3DShapes_reference:  make(map[*OriginalPoints3DShape]*OriginalPoints3DShape),
 
+		ParastichyMCurves3DShape_stagedOrder: make(map[*ParastichyMCurves3DShape]uint),
+		ParastichyMCurves3DShape_orderStaged: make(map[uint]*ParastichyMCurves3DShape),
+		ParastichyMCurves3DShapes_reference:  make(map[*ParastichyMCurves3DShape]*ParastichyMCurves3DShape),
+
+		ParastichyNCurves3DShape_stagedOrder: make(map[*ParastichyNCurves3DShape]uint),
+		ParastichyNCurves3DShape_orderStaged: make(map[uint]*ParastichyNCurves3DShape),
+		ParastichyNCurves3DShapes_reference:  make(map[*ParastichyNCurves3DShape]*ParastichyNCurves3DShape),
+
 		PartiallyGrowthCurve2DRibbon_stagedOrder: make(map[*PartiallyGrowthCurve2DRibbon]uint),
 		PartiallyGrowthCurve2DRibbon_orderStaged: make(map[uint]*PartiallyGrowthCurve2DRibbon),
 		PartiallyGrowthCurve2DRibbons_reference:  make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon),
@@ -8372,6 +8714,10 @@ func NewStage(name string) (stage *Stage) {
 		Plant2DDiagram_stagedOrder: make(map[*Plant2DDiagram]uint),
 		Plant2DDiagram_orderStaged: make(map[uint]*Plant2DDiagram),
 		Plant2DDiagrams_reference:  make(map[*Plant2DDiagram]*Plant2DDiagram),
+
+		Plant3DDiagram_stagedOrder: make(map[*Plant3DDiagram]uint),
+		Plant3DDiagram_orderStaged: make(map[uint]*Plant3DDiagram),
+		Plant3DDiagrams_reference:  make(map[*Plant3DDiagram]*Plant3DDiagram),
 
 		PlantAbstract_stagedOrder: make(map[*PlantAbstract]uint),
 		PlantAbstract_orderStaged: make(map[uint]*PlantAbstract),
@@ -8573,6 +8919,10 @@ func NewStage(name string) (stage *Stage) {
 		StartHalfwayArcShapeGrid_orderStaged: make(map[uint]*StartHalfwayArcShapeGrid),
 		StartHalfwayArcShapeGrids_reference:  make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid),
 
+		StemCylinder3DShape_stagedOrder: make(map[*StemCylinder3DShape]uint),
+		StemCylinder3DShape_orderStaged: make(map[uint]*StemCylinder3DShape),
+		StemCylinder3DShapes_reference:  make(map[*StemCylinder3DShape]*StemCylinder3DShape),
+
 		Stool2DDiagram_stagedOrder: make(map[*Stool2DDiagram]uint),
 		Stool2DDiagram_orderStaged: make(map[uint]*Stool2DDiagram),
 		Stool2DDiagrams_reference:  make(map[*Stool2DDiagram]*Stool2DDiagram),
@@ -8707,6 +9057,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
+			"Circumference3DShape": &Circumference3DShapeUnmarshaller{},
+
 			"Clock2DDiagram": &Clock2DDiagramUnmarshaller{},
 
 			"Clock3DDiagram": &Clock3DDiagramUnmarshaller{},
@@ -8714,6 +9066,8 @@ func NewStage(name string) (stage *Stage) {
 			"ClockAbstract": &ClockAbstractUnmarshaller{},
 
 			"ClockTopCurveShape": &ClockTopCurveShapeUnmarshaller{},
+
+			"CutLine3DShape": &CutLine3DShapeUnmarshaller{},
 
 			"EndArcShape": &EndArcShapeUnmarshaller{},
 
@@ -8771,6 +9125,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"OriginalPoints3DShape": &OriginalPoints3DShapeUnmarshaller{},
 
+			"ParastichyMCurves3DShape": &ParastichyMCurves3DShapeUnmarshaller{},
+
+			"ParastichyNCurves3DShape": &ParastichyNCurves3DShapeUnmarshaller{},
+
 			"PartiallyGrowthCurve2DRibbon": &PartiallyGrowthCurve2DRibbonUnmarshaller{},
 
 			"PartiallyGrowthCurve2DRibbonEndShape": &PartiallyGrowthCurve2DRibbonEndShapeUnmarshaller{},
@@ -8808,6 +9166,8 @@ func NewStage(name string) (stage *Stage) {
 			"PerpendicularVectorHalfway": &PerpendicularVectorHalfwayUnmarshaller{},
 
 			"Plant2DDiagram": &Plant2DDiagramUnmarshaller{},
+
+			"Plant3DDiagram": &Plant3DDiagramUnmarshaller{},
 
 			"PlantAbstract": &PlantAbstractUnmarshaller{},
 
@@ -8909,6 +9269,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"StartHalfwayArcShapeGrid": &StartHalfwayArcShapeGridUnmarshaller{},
 
+			"StemCylinder3DShape": &StemCylinder3DShapeUnmarshaller{},
+
 			"Stool2DDiagram": &Stool2DDiagramUnmarshaller{},
 
 			"Stool3DDiagram": &Stool3DDiagramUnmarshaller{},
@@ -8979,10 +9341,12 @@ func NewStage(name string) (stage *Stage) {
 			{name: "BaseVectorShapeGrid"},
 			{name: "ChosenP1P2PairShape"},
 			{name: "CircleGridShape"},
+			{name: "Circumference3DShape"},
 			{name: "Clock2DDiagram"},
 			{name: "Clock3DDiagram"},
 			{name: "ClockAbstract"},
 			{name: "ClockTopCurveShape"},
+			{name: "CutLine3DShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
 			{name: "EndHalfwayArcShape"},
@@ -9011,6 +9375,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "MidArcVectorShape"},
 			{name: "MidArcVectorShapeGrid"},
 			{name: "OriginalPoints3DShape"},
+			{name: "ParastichyMCurves3DShape"},
+			{name: "ParastichyNCurves3DShape"},
 			{name: "PartiallyGrowthCurve2DRibbon"},
 			{name: "PartiallyGrowthCurve2DRibbonEndShape"},
 			{name: "PartiallyGrowthCurve2DRibbonStartShape"},
@@ -9030,6 +9396,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PerpendicularVectorGridHalfway"},
 			{name: "PerpendicularVectorHalfway"},
 			{name: "Plant2DDiagram"},
+			{name: "Plant3DDiagram"},
 			{name: "PlantAbstract"},
 			{name: "PlantCircumferenceShape"},
 			{name: "PointsAndLines3DShape"},
@@ -9080,6 +9447,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StartArcShapeGrid"},
 			{name: "StartHalfwayArcShape"},
 			{name: "StartHalfwayArcShapeGrid"},
+			{name: "StemCylinder3DShape"},
 			{name: "Stool2DDiagram"},
 			{name: "Stool3DDiagram"},
 			{name: "StoolAbstract"},
@@ -9136,6 +9504,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *Circumference3DShape:
+		return stage.Circumference3DShape_stagedOrder[instance]
 	case *Clock2DDiagram:
 		return stage.Clock2DDiagram_stagedOrder[instance]
 	case *Clock3DDiagram:
@@ -9144,6 +9514,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ClockAbstract_stagedOrder[instance]
 	case *ClockTopCurveShape:
 		return stage.ClockTopCurveShape_stagedOrder[instance]
+	case *CutLine3DShape:
+		return stage.CutLine3DShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -9200,6 +9572,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
 	case *OriginalPoints3DShape:
 		return stage.OriginalPoints3DShape_stagedOrder[instance]
+	case *ParastichyMCurves3DShape:
+		return stage.ParastichyMCurves3DShape_stagedOrder[instance]
+	case *ParastichyNCurves3DShape:
+		return stage.ParastichyNCurves3DShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbon:
 		return stage.PartiallyGrowthCurve2DRibbon_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -9238,6 +9614,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
 	case *Plant2DDiagram:
 		return stage.Plant2DDiagram_stagedOrder[instance]
+	case *Plant3DDiagram:
+		return stage.Plant3DDiagram_stagedOrder[instance]
 	case *PlantAbstract:
 		return stage.PlantAbstract_stagedOrder[instance]
 	case *PlantCircumferenceShape:
@@ -9338,6 +9716,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StartHalfwayArcShape_stagedOrder[instance]
 	case *StartHalfwayArcShapeGrid:
 		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *StemCylinder3DShape:
+		return stage.StemCylinder3DShape_stagedOrder[instance]
 	case *Stool2DDiagram:
 		return stage.Stool2DDiagram_stagedOrder[instance]
 	case *Stool3DDiagram:
@@ -9421,6 +9801,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ChosenP1P2PairShape_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
+	case *Circumference3DShape:
+		return any(stage.Circumference3DShape_orderStaged[order]).(Type)
 	case *Clock2DDiagram:
 		return any(stage.Clock2DDiagram_orderStaged[order]).(Type)
 	case *Clock3DDiagram:
@@ -9429,6 +9811,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ClockAbstract_orderStaged[order]).(Type)
 	case *ClockTopCurveShape:
 		return any(stage.ClockTopCurveShape_orderStaged[order]).(Type)
+	case *CutLine3DShape:
+		return any(stage.CutLine3DShape_orderStaged[order]).(Type)
 	case *EndArcShape:
 		return any(stage.EndArcShape_orderStaged[order]).(Type)
 	case *EndArcShapeGrid:
@@ -9485,6 +9869,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
 	case *OriginalPoints3DShape:
 		return any(stage.OriginalPoints3DShape_orderStaged[order]).(Type)
+	case *ParastichyMCurves3DShape:
+		return any(stage.ParastichyMCurves3DShape_orderStaged[order]).(Type)
+	case *ParastichyNCurves3DShape:
+		return any(stage.ParastichyNCurves3DShape_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DRibbon:
 		return any(stage.PartiallyGrowthCurve2DRibbon_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -9523,6 +9911,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PerpendicularVectorHalfway_orderStaged[order]).(Type)
 	case *Plant2DDiagram:
 		return any(stage.Plant2DDiagram_orderStaged[order]).(Type)
+	case *Plant3DDiagram:
+		return any(stage.Plant3DDiagram_orderStaged[order]).(Type)
 	case *PlantAbstract:
 		return any(stage.PlantAbstract_orderStaged[order]).(Type)
 	case *PlantCircumferenceShape:
@@ -9623,6 +10013,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StartHalfwayArcShape_orderStaged[order]).(Type)
 	case *StartHalfwayArcShapeGrid:
 		return any(stage.StartHalfwayArcShapeGrid_orderStaged[order]).(Type)
+	case *StemCylinder3DShape:
+		return any(stage.StemCylinder3DShape_orderStaged[order]).(Type)
 	case *Stool2DDiagram:
 		return any(stage.Stool2DDiagram_orderStaged[order]).(Type)
 	case *Stool3DDiagram:
@@ -9705,6 +10097,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *Circumference3DShape:
+		return stage.Circumference3DShape_stagedOrder[instance]
 	case *Clock2DDiagram:
 		return stage.Clock2DDiagram_stagedOrder[instance]
 	case *Clock3DDiagram:
@@ -9713,6 +10107,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ClockAbstract_stagedOrder[instance]
 	case *ClockTopCurveShape:
 		return stage.ClockTopCurveShape_stagedOrder[instance]
+	case *CutLine3DShape:
+		return stage.CutLine3DShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -9769,6 +10165,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
 	case *OriginalPoints3DShape:
 		return stage.OriginalPoints3DShape_stagedOrder[instance]
+	case *ParastichyMCurves3DShape:
+		return stage.ParastichyMCurves3DShape_stagedOrder[instance]
+	case *ParastichyNCurves3DShape:
+		return stage.ParastichyNCurves3DShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbon:
 		return stage.PartiallyGrowthCurve2DRibbon_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -9807,6 +10207,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
 	case *Plant2DDiagram:
 		return stage.Plant2DDiagram_stagedOrder[instance]
+	case *Plant3DDiagram:
+		return stage.Plant3DDiagram_stagedOrder[instance]
 	case *PlantAbstract:
 		return stage.PlantAbstract_stagedOrder[instance]
 	case *PlantCircumferenceShape:
@@ -9907,6 +10309,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StartHalfwayArcShape_stagedOrder[instance]
 	case *StartHalfwayArcShapeGrid:
 		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *StemCylinder3DShape:
+		return stage.StemCylinder3DShape_stagedOrder[instance]
 	case *Stool2DDiagram:
 		return stage.Stool2DDiagram_stagedOrder[instance]
 	case *Stool3DDiagram:
@@ -10038,10 +10442,12 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ChosenP1P2PairShape"] = len(stage.ChosenP1P2PairShapes)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
+	stage.Map_GongStructName_InstancesNb["Circumference3DShape"] = len(stage.Circumference3DShapes)
 	stage.Map_GongStructName_InstancesNb["Clock2DDiagram"] = len(stage.Clock2DDiagrams)
 	stage.Map_GongStructName_InstancesNb["Clock3DDiagram"] = len(stage.Clock3DDiagrams)
 	stage.Map_GongStructName_InstancesNb["ClockAbstract"] = len(stage.ClockAbstracts)
 	stage.Map_GongStructName_InstancesNb["ClockTopCurveShape"] = len(stage.ClockTopCurveShapes)
+	stage.Map_GongStructName_InstancesNb["CutLine3DShape"] = len(stage.CutLine3DShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShape"] = len(stage.EndHalfwayArcShapes)
@@ -10070,6 +10476,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["OriginalPoints3DShape"] = len(stage.OriginalPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["ParastichyMCurves3DShape"] = len(stage.ParastichyMCurves3DShapes)
+	stage.Map_GongStructName_InstancesNb["ParastichyNCurves3DShape"] = len(stage.ParastichyNCurves3DShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbon"] = len(stage.PartiallyGrowthCurve2DRibbons)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbonEndShape"] = len(stage.PartiallyGrowthCurve2DRibbonEndShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbonStartShape"] = len(stage.PartiallyGrowthCurve2DRibbonStartShapes)
@@ -10089,6 +10497,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGridHalfway"] = len(stage.PerpendicularVectorGridHalfways)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorHalfway"] = len(stage.PerpendicularVectorHalfways)
 	stage.Map_GongStructName_InstancesNb["Plant2DDiagram"] = len(stage.Plant2DDiagrams)
+	stage.Map_GongStructName_InstancesNb["Plant3DDiagram"] = len(stage.Plant3DDiagrams)
 	stage.Map_GongStructName_InstancesNb["PlantAbstract"] = len(stage.PlantAbstracts)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PointsAndLines3DShape"] = len(stage.PointsAndLines3DShapes)
@@ -10139,6 +10548,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StartArcShapeGrid"] = len(stage.StartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShape"] = len(stage.StartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShapeGrid"] = len(stage.StartHalfwayArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["StemCylinder3DShape"] = len(stage.StemCylinder3DShapes)
 	stage.Map_GongStructName_InstancesNb["Stool2DDiagram"] = len(stage.Stool2DDiagrams)
 	stage.Map_GongStructName_InstancesNb["Stool3DDiagram"] = len(stage.Stool3DDiagrams)
 	stage.Map_GongStructName_InstancesNb["StoolAbstract"] = len(stage.StoolAbstracts)
@@ -10912,6 +11322,94 @@ func (circlegridshape *CircleGridShape) SetName(name string) {
 	circlegridshape.Name = name
 }
 
+// Stage puts circumference3dshape to the model stage
+func (circumference3dshape *Circumference3DShape) Stage(stage *Stage) *Circumference3DShape {
+	if _, ok := stage.Circumference3DShapes[circumference3dshape]; !ok {
+		stage.Circumference3DShapes[circumference3dshape] = struct{}{}
+		stage.Circumference3DShape_stagedOrder[circumference3dshape] = stage.Circumference3DShapeOrder
+		stage.Circumference3DShape_orderStaged[stage.Circumference3DShapeOrder] = circumference3dshape
+		stage.Circumference3DShapeOrder++
+	}
+	stage.Circumference3DShapes_mapString[circumference3dshape.Name] = circumference3dshape
+
+	return circumference3dshape
+}
+
+// StagePreserveOrder puts circumference3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Circumference3DShapeOrder
+// - update stage.Circumference3DShapeOrder accordingly
+func (circumference3dshape *Circumference3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Circumference3DShapes[circumference3dshape]; !ok {
+		stage.Circumference3DShapes[circumference3dshape] = struct{}{}
+
+		if order > stage.Circumference3DShapeOrder {
+			stage.Circumference3DShapeOrder = order
+		}
+		stage.Circumference3DShape_stagedOrder[circumference3dshape] = order
+		stage.Circumference3DShape_orderStaged[order] = circumference3dshape
+		stage.Circumference3DShapeOrder++
+	}
+	stage.Circumference3DShapes_mapString[circumference3dshape.Name] = circumference3dshape
+}
+
+// Unstage removes circumference3dshape off the model stage
+func (circumference3dshape *Circumference3DShape) Unstage(stage *Stage) *Circumference3DShape {
+	delete(stage.Circumference3DShapes, circumference3dshape)
+	// issue1150
+	// delete(stage.Circumference3DShape_stagedOrder, circumference3dshape)
+	delete(stage.Circumference3DShapes_mapString, circumference3dshape.Name)
+
+	return circumference3dshape
+}
+
+// UnstageVoid removes circumference3dshape off the model stage
+func (circumference3dshape *Circumference3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Circumference3DShapes, circumference3dshape)
+	// issue1150
+	// delete(stage.Circumference3DShape_stagedOrder, circumference3dshape)
+	delete(stage.Circumference3DShapes_mapString, circumference3dshape.Name)
+}
+
+// commit circumference3dshape to the back repo (if it is already staged)
+func (circumference3dshape *Circumference3DShape) Commit(stage *Stage) *Circumference3DShape {
+	if _, ok := stage.Circumference3DShapes[circumference3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCircumference3DShape(circumference3dshape)
+		}
+	}
+	return circumference3dshape
+}
+
+func (circumference3dshape *Circumference3DShape) CommitVoid(stage *Stage) {
+	circumference3dshape.Commit(stage)
+}
+
+func (circumference3dshape *Circumference3DShape) StageVoid(stage *Stage) {
+	circumference3dshape.Stage(stage)
+}
+
+// Checkout circumference3dshape to the back repo (if it is already staged)
+func (circumference3dshape *Circumference3DShape) Checkout(stage *Stage) *Circumference3DShape {
+	if _, ok := stage.Circumference3DShapes[circumference3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCircumference3DShape(circumference3dshape)
+		}
+	}
+	return circumference3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (circumference3dshape *Circumference3DShape) GetName() (res string) {
+	return circumference3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (circumference3dshape *Circumference3DShape) SetName(name string) {
+	circumference3dshape.Name = name
+}
+
 // Stage puts clock2ddiagram to the model stage
 func (clock2ddiagram *Clock2DDiagram) Stage(stage *Stage) *Clock2DDiagram {
 	if _, ok := stage.Clock2DDiagrams[clock2ddiagram]; !ok {
@@ -11262,6 +11760,94 @@ func (clocktopcurveshape *ClockTopCurveShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (clocktopcurveshape *ClockTopCurveShape) SetName(name string) {
 	clocktopcurveshape.Name = name
+}
+
+// Stage puts cutline3dshape to the model stage
+func (cutline3dshape *CutLine3DShape) Stage(stage *Stage) *CutLine3DShape {
+	if _, ok := stage.CutLine3DShapes[cutline3dshape]; !ok {
+		stage.CutLine3DShapes[cutline3dshape] = struct{}{}
+		stage.CutLine3DShape_stagedOrder[cutline3dshape] = stage.CutLine3DShapeOrder
+		stage.CutLine3DShape_orderStaged[stage.CutLine3DShapeOrder] = cutline3dshape
+		stage.CutLine3DShapeOrder++
+	}
+	stage.CutLine3DShapes_mapString[cutline3dshape.Name] = cutline3dshape
+
+	return cutline3dshape
+}
+
+// StagePreserveOrder puts cutline3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CutLine3DShapeOrder
+// - update stage.CutLine3DShapeOrder accordingly
+func (cutline3dshape *CutLine3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.CutLine3DShapes[cutline3dshape]; !ok {
+		stage.CutLine3DShapes[cutline3dshape] = struct{}{}
+
+		if order > stage.CutLine3DShapeOrder {
+			stage.CutLine3DShapeOrder = order
+		}
+		stage.CutLine3DShape_stagedOrder[cutline3dshape] = order
+		stage.CutLine3DShape_orderStaged[order] = cutline3dshape
+		stage.CutLine3DShapeOrder++
+	}
+	stage.CutLine3DShapes_mapString[cutline3dshape.Name] = cutline3dshape
+}
+
+// Unstage removes cutline3dshape off the model stage
+func (cutline3dshape *CutLine3DShape) Unstage(stage *Stage) *CutLine3DShape {
+	delete(stage.CutLine3DShapes, cutline3dshape)
+	// issue1150
+	// delete(stage.CutLine3DShape_stagedOrder, cutline3dshape)
+	delete(stage.CutLine3DShapes_mapString, cutline3dshape.Name)
+
+	return cutline3dshape
+}
+
+// UnstageVoid removes cutline3dshape off the model stage
+func (cutline3dshape *CutLine3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.CutLine3DShapes, cutline3dshape)
+	// issue1150
+	// delete(stage.CutLine3DShape_stagedOrder, cutline3dshape)
+	delete(stage.CutLine3DShapes_mapString, cutline3dshape.Name)
+}
+
+// commit cutline3dshape to the back repo (if it is already staged)
+func (cutline3dshape *CutLine3DShape) Commit(stage *Stage) *CutLine3DShape {
+	if _, ok := stage.CutLine3DShapes[cutline3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCutLine3DShape(cutline3dshape)
+		}
+	}
+	return cutline3dshape
+}
+
+func (cutline3dshape *CutLine3DShape) CommitVoid(stage *Stage) {
+	cutline3dshape.Commit(stage)
+}
+
+func (cutline3dshape *CutLine3DShape) StageVoid(stage *Stage) {
+	cutline3dshape.Stage(stage)
+}
+
+// Checkout cutline3dshape to the back repo (if it is already staged)
+func (cutline3dshape *CutLine3DShape) Checkout(stage *Stage) *CutLine3DShape {
+	if _, ok := stage.CutLine3DShapes[cutline3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCutLine3DShape(cutline3dshape)
+		}
+	}
+	return cutline3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (cutline3dshape *CutLine3DShape) GetName() (res string) {
+	return cutline3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (cutline3dshape *CutLine3DShape) SetName(name string) {
+	cutline3dshape.Name = name
 }
 
 // Stage puts endarcshape to the model stage
@@ -13728,6 +14314,182 @@ func (originalpoints3dshape *OriginalPoints3DShape) SetName(name string) {
 	originalpoints3dshape.Name = name
 }
 
+// Stage puts parastichymcurves3dshape to the model stage
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) Stage(stage *Stage) *ParastichyMCurves3DShape {
+	if _, ok := stage.ParastichyMCurves3DShapes[parastichymcurves3dshape]; !ok {
+		stage.ParastichyMCurves3DShapes[parastichymcurves3dshape] = struct{}{}
+		stage.ParastichyMCurves3DShape_stagedOrder[parastichymcurves3dshape] = stage.ParastichyMCurves3DShapeOrder
+		stage.ParastichyMCurves3DShape_orderStaged[stage.ParastichyMCurves3DShapeOrder] = parastichymcurves3dshape
+		stage.ParastichyMCurves3DShapeOrder++
+	}
+	stage.ParastichyMCurves3DShapes_mapString[parastichymcurves3dshape.Name] = parastichymcurves3dshape
+
+	return parastichymcurves3dshape
+}
+
+// StagePreserveOrder puts parastichymcurves3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ParastichyMCurves3DShapeOrder
+// - update stage.ParastichyMCurves3DShapeOrder accordingly
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ParastichyMCurves3DShapes[parastichymcurves3dshape]; !ok {
+		stage.ParastichyMCurves3DShapes[parastichymcurves3dshape] = struct{}{}
+
+		if order > stage.ParastichyMCurves3DShapeOrder {
+			stage.ParastichyMCurves3DShapeOrder = order
+		}
+		stage.ParastichyMCurves3DShape_stagedOrder[parastichymcurves3dshape] = order
+		stage.ParastichyMCurves3DShape_orderStaged[order] = parastichymcurves3dshape
+		stage.ParastichyMCurves3DShapeOrder++
+	}
+	stage.ParastichyMCurves3DShapes_mapString[parastichymcurves3dshape.Name] = parastichymcurves3dshape
+}
+
+// Unstage removes parastichymcurves3dshape off the model stage
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) Unstage(stage *Stage) *ParastichyMCurves3DShape {
+	delete(stage.ParastichyMCurves3DShapes, parastichymcurves3dshape)
+	// issue1150
+	// delete(stage.ParastichyMCurves3DShape_stagedOrder, parastichymcurves3dshape)
+	delete(stage.ParastichyMCurves3DShapes_mapString, parastichymcurves3dshape.Name)
+
+	return parastichymcurves3dshape
+}
+
+// UnstageVoid removes parastichymcurves3dshape off the model stage
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.ParastichyMCurves3DShapes, parastichymcurves3dshape)
+	// issue1150
+	// delete(stage.ParastichyMCurves3DShape_stagedOrder, parastichymcurves3dshape)
+	delete(stage.ParastichyMCurves3DShapes_mapString, parastichymcurves3dshape.Name)
+}
+
+// commit parastichymcurves3dshape to the back repo (if it is already staged)
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) Commit(stage *Stage) *ParastichyMCurves3DShape {
+	if _, ok := stage.ParastichyMCurves3DShapes[parastichymcurves3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitParastichyMCurves3DShape(parastichymcurves3dshape)
+		}
+	}
+	return parastichymcurves3dshape
+}
+
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) CommitVoid(stage *Stage) {
+	parastichymcurves3dshape.Commit(stage)
+}
+
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) StageVoid(stage *Stage) {
+	parastichymcurves3dshape.Stage(stage)
+}
+
+// Checkout parastichymcurves3dshape to the back repo (if it is already staged)
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) Checkout(stage *Stage) *ParastichyMCurves3DShape {
+	if _, ok := stage.ParastichyMCurves3DShapes[parastichymcurves3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutParastichyMCurves3DShape(parastichymcurves3dshape)
+		}
+	}
+	return parastichymcurves3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GetName() (res string) {
+	return parastichymcurves3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) SetName(name string) {
+	parastichymcurves3dshape.Name = name
+}
+
+// Stage puts parastichyncurves3dshape to the model stage
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) Stage(stage *Stage) *ParastichyNCurves3DShape {
+	if _, ok := stage.ParastichyNCurves3DShapes[parastichyncurves3dshape]; !ok {
+		stage.ParastichyNCurves3DShapes[parastichyncurves3dshape] = struct{}{}
+		stage.ParastichyNCurves3DShape_stagedOrder[parastichyncurves3dshape] = stage.ParastichyNCurves3DShapeOrder
+		stage.ParastichyNCurves3DShape_orderStaged[stage.ParastichyNCurves3DShapeOrder] = parastichyncurves3dshape
+		stage.ParastichyNCurves3DShapeOrder++
+	}
+	stage.ParastichyNCurves3DShapes_mapString[parastichyncurves3dshape.Name] = parastichyncurves3dshape
+
+	return parastichyncurves3dshape
+}
+
+// StagePreserveOrder puts parastichyncurves3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ParastichyNCurves3DShapeOrder
+// - update stage.ParastichyNCurves3DShapeOrder accordingly
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ParastichyNCurves3DShapes[parastichyncurves3dshape]; !ok {
+		stage.ParastichyNCurves3DShapes[parastichyncurves3dshape] = struct{}{}
+
+		if order > stage.ParastichyNCurves3DShapeOrder {
+			stage.ParastichyNCurves3DShapeOrder = order
+		}
+		stage.ParastichyNCurves3DShape_stagedOrder[parastichyncurves3dshape] = order
+		stage.ParastichyNCurves3DShape_orderStaged[order] = parastichyncurves3dshape
+		stage.ParastichyNCurves3DShapeOrder++
+	}
+	stage.ParastichyNCurves3DShapes_mapString[parastichyncurves3dshape.Name] = parastichyncurves3dshape
+}
+
+// Unstage removes parastichyncurves3dshape off the model stage
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) Unstage(stage *Stage) *ParastichyNCurves3DShape {
+	delete(stage.ParastichyNCurves3DShapes, parastichyncurves3dshape)
+	// issue1150
+	// delete(stage.ParastichyNCurves3DShape_stagedOrder, parastichyncurves3dshape)
+	delete(stage.ParastichyNCurves3DShapes_mapString, parastichyncurves3dshape.Name)
+
+	return parastichyncurves3dshape
+}
+
+// UnstageVoid removes parastichyncurves3dshape off the model stage
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.ParastichyNCurves3DShapes, parastichyncurves3dshape)
+	// issue1150
+	// delete(stage.ParastichyNCurves3DShape_stagedOrder, parastichyncurves3dshape)
+	delete(stage.ParastichyNCurves3DShapes_mapString, parastichyncurves3dshape.Name)
+}
+
+// commit parastichyncurves3dshape to the back repo (if it is already staged)
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) Commit(stage *Stage) *ParastichyNCurves3DShape {
+	if _, ok := stage.ParastichyNCurves3DShapes[parastichyncurves3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitParastichyNCurves3DShape(parastichyncurves3dshape)
+		}
+	}
+	return parastichyncurves3dshape
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) CommitVoid(stage *Stage) {
+	parastichyncurves3dshape.Commit(stage)
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) StageVoid(stage *Stage) {
+	parastichyncurves3dshape.Stage(stage)
+}
+
+// Checkout parastichyncurves3dshape to the back repo (if it is already staged)
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) Checkout(stage *Stage) *ParastichyNCurves3DShape {
+	if _, ok := stage.ParastichyNCurves3DShapes[parastichyncurves3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutParastichyNCurves3DShape(parastichyncurves3dshape)
+		}
+	}
+	return parastichyncurves3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GetName() (res string) {
+	return parastichyncurves3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) SetName(name string) {
+	parastichyncurves3dshape.Name = name
+}
+
 // Stage puts partiallygrowthcurve2dribbon to the model stage
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) Stage(stage *Stage) *PartiallyGrowthCurve2DRibbon {
 	if _, ok := stage.PartiallyGrowthCurve2DRibbons[partiallygrowthcurve2dribbon]; !ok {
@@ -15398,6 +16160,94 @@ func (plant2ddiagram *Plant2DDiagram) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (plant2ddiagram *Plant2DDiagram) SetName(name string) {
 	plant2ddiagram.Name = name
+}
+
+// Stage puts plant3ddiagram to the model stage
+func (plant3ddiagram *Plant3DDiagram) Stage(stage *Stage) *Plant3DDiagram {
+	if _, ok := stage.Plant3DDiagrams[plant3ddiagram]; !ok {
+		stage.Plant3DDiagrams[plant3ddiagram] = struct{}{}
+		stage.Plant3DDiagram_stagedOrder[plant3ddiagram] = stage.Plant3DDiagramOrder
+		stage.Plant3DDiagram_orderStaged[stage.Plant3DDiagramOrder] = plant3ddiagram
+		stage.Plant3DDiagramOrder++
+	}
+	stage.Plant3DDiagrams_mapString[plant3ddiagram.Name] = plant3ddiagram
+
+	return plant3ddiagram
+}
+
+// StagePreserveOrder puts plant3ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Plant3DDiagramOrder
+// - update stage.Plant3DDiagramOrder accordingly
+func (plant3ddiagram *Plant3DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Plant3DDiagrams[plant3ddiagram]; !ok {
+		stage.Plant3DDiagrams[plant3ddiagram] = struct{}{}
+
+		if order > stage.Plant3DDiagramOrder {
+			stage.Plant3DDiagramOrder = order
+		}
+		stage.Plant3DDiagram_stagedOrder[plant3ddiagram] = order
+		stage.Plant3DDiagram_orderStaged[order] = plant3ddiagram
+		stage.Plant3DDiagramOrder++
+	}
+	stage.Plant3DDiagrams_mapString[plant3ddiagram.Name] = plant3ddiagram
+}
+
+// Unstage removes plant3ddiagram off the model stage
+func (plant3ddiagram *Plant3DDiagram) Unstage(stage *Stage) *Plant3DDiagram {
+	delete(stage.Plant3DDiagrams, plant3ddiagram)
+	// issue1150
+	// delete(stage.Plant3DDiagram_stagedOrder, plant3ddiagram)
+	delete(stage.Plant3DDiagrams_mapString, plant3ddiagram.Name)
+
+	return plant3ddiagram
+}
+
+// UnstageVoid removes plant3ddiagram off the model stage
+func (plant3ddiagram *Plant3DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Plant3DDiagrams, plant3ddiagram)
+	// issue1150
+	// delete(stage.Plant3DDiagram_stagedOrder, plant3ddiagram)
+	delete(stage.Plant3DDiagrams_mapString, plant3ddiagram.Name)
+}
+
+// commit plant3ddiagram to the back repo (if it is already staged)
+func (plant3ddiagram *Plant3DDiagram) Commit(stage *Stage) *Plant3DDiagram {
+	if _, ok := stage.Plant3DDiagrams[plant3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPlant3DDiagram(plant3ddiagram)
+		}
+	}
+	return plant3ddiagram
+}
+
+func (plant3ddiagram *Plant3DDiagram) CommitVoid(stage *Stage) {
+	plant3ddiagram.Commit(stage)
+}
+
+func (plant3ddiagram *Plant3DDiagram) StageVoid(stage *Stage) {
+	plant3ddiagram.Stage(stage)
+}
+
+// Checkout plant3ddiagram to the back repo (if it is already staged)
+func (plant3ddiagram *Plant3DDiagram) Checkout(stage *Stage) *Plant3DDiagram {
+	if _, ok := stage.Plant3DDiagrams[plant3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPlant3DDiagram(plant3ddiagram)
+		}
+	}
+	return plant3ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (plant3ddiagram *Plant3DDiagram) GetName() (res string) {
+	return plant3ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (plant3ddiagram *Plant3DDiagram) SetName(name string) {
+	plant3ddiagram.Name = name
 }
 
 // Stage puts plantabstract to the model stage
@@ -19800,6 +20650,94 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) SetName(name string) {
 	starthalfwayarcshapegrid.Name = name
 }
 
+// Stage puts stemcylinder3dshape to the model stage
+func (stemcylinder3dshape *StemCylinder3DShape) Stage(stage *Stage) *StemCylinder3DShape {
+	if _, ok := stage.StemCylinder3DShapes[stemcylinder3dshape]; !ok {
+		stage.StemCylinder3DShapes[stemcylinder3dshape] = struct{}{}
+		stage.StemCylinder3DShape_stagedOrder[stemcylinder3dshape] = stage.StemCylinder3DShapeOrder
+		stage.StemCylinder3DShape_orderStaged[stage.StemCylinder3DShapeOrder] = stemcylinder3dshape
+		stage.StemCylinder3DShapeOrder++
+	}
+	stage.StemCylinder3DShapes_mapString[stemcylinder3dshape.Name] = stemcylinder3dshape
+
+	return stemcylinder3dshape
+}
+
+// StagePreserveOrder puts stemcylinder3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StemCylinder3DShapeOrder
+// - update stage.StemCylinder3DShapeOrder accordingly
+func (stemcylinder3dshape *StemCylinder3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StemCylinder3DShapes[stemcylinder3dshape]; !ok {
+		stage.StemCylinder3DShapes[stemcylinder3dshape] = struct{}{}
+
+		if order > stage.StemCylinder3DShapeOrder {
+			stage.StemCylinder3DShapeOrder = order
+		}
+		stage.StemCylinder3DShape_stagedOrder[stemcylinder3dshape] = order
+		stage.StemCylinder3DShape_orderStaged[order] = stemcylinder3dshape
+		stage.StemCylinder3DShapeOrder++
+	}
+	stage.StemCylinder3DShapes_mapString[stemcylinder3dshape.Name] = stemcylinder3dshape
+}
+
+// Unstage removes stemcylinder3dshape off the model stage
+func (stemcylinder3dshape *StemCylinder3DShape) Unstage(stage *Stage) *StemCylinder3DShape {
+	delete(stage.StemCylinder3DShapes, stemcylinder3dshape)
+	// issue1150
+	// delete(stage.StemCylinder3DShape_stagedOrder, stemcylinder3dshape)
+	delete(stage.StemCylinder3DShapes_mapString, stemcylinder3dshape.Name)
+
+	return stemcylinder3dshape
+}
+
+// UnstageVoid removes stemcylinder3dshape off the model stage
+func (stemcylinder3dshape *StemCylinder3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.StemCylinder3DShapes, stemcylinder3dshape)
+	// issue1150
+	// delete(stage.StemCylinder3DShape_stagedOrder, stemcylinder3dshape)
+	delete(stage.StemCylinder3DShapes_mapString, stemcylinder3dshape.Name)
+}
+
+// commit stemcylinder3dshape to the back repo (if it is already staged)
+func (stemcylinder3dshape *StemCylinder3DShape) Commit(stage *Stage) *StemCylinder3DShape {
+	if _, ok := stage.StemCylinder3DShapes[stemcylinder3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStemCylinder3DShape(stemcylinder3dshape)
+		}
+	}
+	return stemcylinder3dshape
+}
+
+func (stemcylinder3dshape *StemCylinder3DShape) CommitVoid(stage *Stage) {
+	stemcylinder3dshape.Commit(stage)
+}
+
+func (stemcylinder3dshape *StemCylinder3DShape) StageVoid(stage *Stage) {
+	stemcylinder3dshape.Stage(stage)
+}
+
+// Checkout stemcylinder3dshape to the back repo (if it is already staged)
+func (stemcylinder3dshape *StemCylinder3DShape) Checkout(stage *Stage) *StemCylinder3DShape {
+	if _, ok := stage.StemCylinder3DShapes[stemcylinder3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStemCylinder3DShape(stemcylinder3dshape)
+		}
+	}
+	return stemcylinder3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (stemcylinder3dshape *StemCylinder3DShape) GetName() (res string) {
+	return stemcylinder3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stemcylinder3dshape *StemCylinder3DShape) SetName(name string) {
+	stemcylinder3dshape.Name = name
+}
+
 // Stage puts stool2ddiagram to the model stage
 func (stool2ddiagram *Stool2DDiagram) Stage(stage *Stage) *Stool2DDiagram {
 	if _, ok := stage.Stool2DDiagrams[stool2ddiagram]; !ok {
@@ -22362,10 +23300,12 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	CreateORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
+	CreateORMCircumference3DShape(Circumference3DShape *Circumference3DShape)
 	CreateORMClock2DDiagram(Clock2DDiagram *Clock2DDiagram)
 	CreateORMClock3DDiagram(Clock3DDiagram *Clock3DDiagram)
 	CreateORMClockAbstract(ClockAbstract *ClockAbstract)
 	CreateORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
+	CreateORMCutLine3DShape(CutLine3DShape *CutLine3DShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	CreateORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
@@ -22394,6 +23334,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
 	CreateORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
+	CreateORMParastichyMCurves3DShape(ParastichyMCurves3DShape *ParastichyMCurves3DShape)
+	CreateORMParastichyNCurves3DShape(ParastichyNCurves3DShape *ParastichyNCurves3DShape)
 	CreateORMPartiallyGrowthCurve2DRibbon(PartiallyGrowthCurve2DRibbon *PartiallyGrowthCurve2DRibbon)
 	CreateORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
 	CreateORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
@@ -22413,6 +23355,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
 	CreateORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
 	CreateORMPlant2DDiagram(Plant2DDiagram *Plant2DDiagram)
+	CreateORMPlant3DDiagram(Plant3DDiagram *Plant3DDiagram)
 	CreateORMPlantAbstract(PlantAbstract *PlantAbstract)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
@@ -22463,6 +23406,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	CreateORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
 	CreateORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
+	CreateORMStemCylinder3DShape(StemCylinder3DShape *StemCylinder3DShape)
 	CreateORMStool2DDiagram(Stool2DDiagram *Stool2DDiagram)
 	CreateORMStool3DDiagram(Stool3DDiagram *Stool3DDiagram)
 	CreateORMStoolAbstract(StoolAbstract *StoolAbstract)
@@ -22503,10 +23447,12 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	DeleteORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
+	DeleteORMCircumference3DShape(Circumference3DShape *Circumference3DShape)
 	DeleteORMClock2DDiagram(Clock2DDiagram *Clock2DDiagram)
 	DeleteORMClock3DDiagram(Clock3DDiagram *Clock3DDiagram)
 	DeleteORMClockAbstract(ClockAbstract *ClockAbstract)
 	DeleteORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
+	DeleteORMCutLine3DShape(CutLine3DShape *CutLine3DShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	DeleteORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
@@ -22535,6 +23481,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
 	DeleteORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
+	DeleteORMParastichyMCurves3DShape(ParastichyMCurves3DShape *ParastichyMCurves3DShape)
+	DeleteORMParastichyNCurves3DShape(ParastichyNCurves3DShape *ParastichyNCurves3DShape)
 	DeleteORMPartiallyGrowthCurve2DRibbon(PartiallyGrowthCurve2DRibbon *PartiallyGrowthCurve2DRibbon)
 	DeleteORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
 	DeleteORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
@@ -22554,6 +23502,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
 	DeleteORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
 	DeleteORMPlant2DDiagram(Plant2DDiagram *Plant2DDiagram)
+	DeleteORMPlant3DDiagram(Plant3DDiagram *Plant3DDiagram)
 	DeleteORMPlantAbstract(PlantAbstract *PlantAbstract)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
@@ -22604,6 +23553,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	DeleteORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
 	DeleteORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
+	DeleteORMStemCylinder3DShape(StemCylinder3DShape *StemCylinder3DShape)
 	DeleteORMStool2DDiagram(Stool2DDiagram *Stool2DDiagram)
 	DeleteORMStool3DDiagram(Stool3DDiagram *Stool3DDiagram)
 	DeleteORMStoolAbstract(StoolAbstract *StoolAbstract)
@@ -22676,6 +23626,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CircleGridShape_stagedOrder = make(map[*CircleGridShape]uint)
 	stage.CircleGridShapeOrder = 0
 
+	stage.Circumference3DShapes = make(map[*Circumference3DShape]struct{})
+	stage.Circumference3DShapes_mapString = make(map[string]*Circumference3DShape)
+	stage.Circumference3DShape_stagedOrder = make(map[*Circumference3DShape]uint)
+	stage.Circumference3DShapeOrder = 0
+
 	stage.Clock2DDiagrams = make(map[*Clock2DDiagram]struct{})
 	stage.Clock2DDiagrams_mapString = make(map[string]*Clock2DDiagram)
 	stage.Clock2DDiagram_stagedOrder = make(map[*Clock2DDiagram]uint)
@@ -22695,6 +23650,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
 	stage.ClockTopCurveShape_stagedOrder = make(map[*ClockTopCurveShape]uint)
 	stage.ClockTopCurveShapeOrder = 0
+
+	stage.CutLine3DShapes = make(map[*CutLine3DShape]struct{})
+	stage.CutLine3DShapes_mapString = make(map[string]*CutLine3DShape)
+	stage.CutLine3DShape_stagedOrder = make(map[*CutLine3DShape]uint)
+	stage.CutLine3DShapeOrder = 0
 
 	stage.EndArcShapes = make(map[*EndArcShape]struct{})
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)
@@ -22836,6 +23796,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.OriginalPoints3DShape_stagedOrder = make(map[*OriginalPoints3DShape]uint)
 	stage.OriginalPoints3DShapeOrder = 0
 
+	stage.ParastichyMCurves3DShapes = make(map[*ParastichyMCurves3DShape]struct{})
+	stage.ParastichyMCurves3DShapes_mapString = make(map[string]*ParastichyMCurves3DShape)
+	stage.ParastichyMCurves3DShape_stagedOrder = make(map[*ParastichyMCurves3DShape]uint)
+	stage.ParastichyMCurves3DShapeOrder = 0
+
+	stage.ParastichyNCurves3DShapes = make(map[*ParastichyNCurves3DShape]struct{})
+	stage.ParastichyNCurves3DShapes_mapString = make(map[string]*ParastichyNCurves3DShape)
+	stage.ParastichyNCurves3DShape_stagedOrder = make(map[*ParastichyNCurves3DShape]uint)
+	stage.ParastichyNCurves3DShapeOrder = 0
+
 	stage.PartiallyGrowthCurve2DRibbons = make(map[*PartiallyGrowthCurve2DRibbon]struct{})
 	stage.PartiallyGrowthCurve2DRibbons_mapString = make(map[string]*PartiallyGrowthCurve2DRibbon)
 	stage.PartiallyGrowthCurve2DRibbon_stagedOrder = make(map[*PartiallyGrowthCurve2DRibbon]uint)
@@ -22930,6 +23900,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Plant2DDiagrams_mapString = make(map[string]*Plant2DDiagram)
 	stage.Plant2DDiagram_stagedOrder = make(map[*Plant2DDiagram]uint)
 	stage.Plant2DDiagramOrder = 0
+
+	stage.Plant3DDiagrams = make(map[*Plant3DDiagram]struct{})
+	stage.Plant3DDiagrams_mapString = make(map[string]*Plant3DDiagram)
+	stage.Plant3DDiagram_stagedOrder = make(map[*Plant3DDiagram]uint)
+	stage.Plant3DDiagramOrder = 0
 
 	stage.PlantAbstracts = make(map[*PlantAbstract]struct{})
 	stage.PlantAbstracts_mapString = make(map[string]*PlantAbstract)
@@ -23181,6 +24156,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StartHalfwayArcShapeGrid_stagedOrder = make(map[*StartHalfwayArcShapeGrid]uint)
 	stage.StartHalfwayArcShapeGridOrder = 0
 
+	stage.StemCylinder3DShapes = make(map[*StemCylinder3DShape]struct{})
+	stage.StemCylinder3DShapes_mapString = make(map[string]*StemCylinder3DShape)
+	stage.StemCylinder3DShape_stagedOrder = make(map[*StemCylinder3DShape]uint)
+	stage.StemCylinder3DShapeOrder = 0
+
 	stage.Stool2DDiagrams = make(map[*Stool2DDiagram]struct{})
 	stage.Stool2DDiagrams_mapString = make(map[string]*Stool2DDiagram)
 	stage.Stool2DDiagram_stagedOrder = make(map[*Stool2DDiagram]uint)
@@ -23359,6 +24339,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
+	stage.Circumference3DShapes = nil
+	stage.Circumference3DShapes_mapString = nil
+
 	stage.Clock2DDiagrams = nil
 	stage.Clock2DDiagrams_mapString = nil
 
@@ -23370,6 +24353,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.ClockTopCurveShapes = nil
 	stage.ClockTopCurveShapes_mapString = nil
+
+	stage.CutLine3DShapes = nil
+	stage.CutLine3DShapes_mapString = nil
 
 	stage.EndArcShapes = nil
 	stage.EndArcShapes_mapString = nil
@@ -23455,6 +24441,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.OriginalPoints3DShapes = nil
 	stage.OriginalPoints3DShapes_mapString = nil
 
+	stage.ParastichyMCurves3DShapes = nil
+	stage.ParastichyMCurves3DShapes_mapString = nil
+
+	stage.ParastichyNCurves3DShapes = nil
+	stage.ParastichyNCurves3DShapes_mapString = nil
+
 	stage.PartiallyGrowthCurve2DRibbons = nil
 	stage.PartiallyGrowthCurve2DRibbons_mapString = nil
 
@@ -23511,6 +24503,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Plant2DDiagrams = nil
 	stage.Plant2DDiagrams_mapString = nil
+
+	stage.Plant3DDiagrams = nil
+	stage.Plant3DDiagrams_mapString = nil
 
 	stage.PlantAbstracts = nil
 	stage.PlantAbstracts_mapString = nil
@@ -23662,6 +24657,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.StartHalfwayArcShapeGrids = nil
 	stage.StartHalfwayArcShapeGrids_mapString = nil
 
+	stage.StemCylinder3DShapes = nil
+	stage.StemCylinder3DShapes_mapString = nil
+
 	stage.Stool2DDiagrams = nil
 	stage.Stool2DDiagrams_mapString = nil
 
@@ -23785,6 +24783,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		circlegridshape.Unstage(stage)
 	}
 
+	for circumference3dshape := range stage.Circumference3DShapes {
+		circumference3dshape.Unstage(stage)
+	}
+
 	for clock2ddiagram := range stage.Clock2DDiagrams {
 		clock2ddiagram.Unstage(stage)
 	}
@@ -23799,6 +24801,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for clocktopcurveshape := range stage.ClockTopCurveShapes {
 		clocktopcurveshape.Unstage(stage)
+	}
+
+	for cutline3dshape := range stage.CutLine3DShapes {
+		cutline3dshape.Unstage(stage)
 	}
 
 	for endarcshape := range stage.EndArcShapes {
@@ -23913,6 +24919,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		originalpoints3dshape.Unstage(stage)
 	}
 
+	for parastichymcurves3dshape := range stage.ParastichyMCurves3DShapes {
+		parastichymcurves3dshape.Unstage(stage)
+	}
+
+	for parastichyncurves3dshape := range stage.ParastichyNCurves3DShapes {
+		parastichyncurves3dshape.Unstage(stage)
+	}
+
 	for partiallygrowthcurve2dribbon := range stage.PartiallyGrowthCurve2DRibbons {
 		partiallygrowthcurve2dribbon.Unstage(stage)
 	}
@@ -23987,6 +25001,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for plant2ddiagram := range stage.Plant2DDiagrams {
 		plant2ddiagram.Unstage(stage)
+	}
+
+	for plant3ddiagram := range stage.Plant3DDiagrams {
+		plant3ddiagram.Unstage(stage)
 	}
 
 	for plantabstract := range stage.PlantAbstracts {
@@ -24187,6 +25205,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
 		starthalfwayarcshapegrid.Unstage(stage)
+	}
+
+	for stemcylinder3dshape := range stage.StemCylinder3DShapes {
+		stemcylinder3dshape.Unstage(stage)
 	}
 
 	for stool2ddiagram := range stage.Stool2DDiagrams {
@@ -24397,6 +25419,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ChosenP1P2PairShapes).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
+	case map[*Circumference3DShape]any:
+		return any(&stage.Circumference3DShapes).(*Type)
 	case map[*Clock2DDiagram]any:
 		return any(&stage.Clock2DDiagrams).(*Type)
 	case map[*Clock3DDiagram]any:
@@ -24405,6 +25429,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ClockAbstracts).(*Type)
 	case map[*ClockTopCurveShape]any:
 		return any(&stage.ClockTopCurveShapes).(*Type)
+	case map[*CutLine3DShape]any:
+		return any(&stage.CutLine3DShapes).(*Type)
 	case map[*EndArcShape]any:
 		return any(&stage.EndArcShapes).(*Type)
 	case map[*EndArcShapeGrid]any:
@@ -24461,6 +25487,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.MidArcVectorShapeGrids).(*Type)
 	case map[*OriginalPoints3DShape]any:
 		return any(&stage.OriginalPoints3DShapes).(*Type)
+	case map[*ParastichyMCurves3DShape]any:
+		return any(&stage.ParastichyMCurves3DShapes).(*Type)
+	case map[*ParastichyNCurves3DShape]any:
+		return any(&stage.ParastichyNCurves3DShapes).(*Type)
 	case map[*PartiallyGrowthCurve2DRibbon]any:
 		return any(&stage.PartiallyGrowthCurve2DRibbons).(*Type)
 	case map[*PartiallyGrowthCurve2DRibbonEndShape]any:
@@ -24499,6 +25529,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PerpendicularVectorHalfways).(*Type)
 	case map[*Plant2DDiagram]any:
 		return any(&stage.Plant2DDiagrams).(*Type)
+	case map[*Plant3DDiagram]any:
+		return any(&stage.Plant3DDiagrams).(*Type)
 	case map[*PlantAbstract]any:
 		return any(&stage.PlantAbstracts).(*Type)
 	case map[*PlantCircumferenceShape]any:
@@ -24599,6 +25631,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StartHalfwayArcShapes).(*Type)
 	case map[*StartHalfwayArcShapeGrid]any:
 		return any(&stage.StartHalfwayArcShapeGrids).(*Type)
+	case map[*StemCylinder3DShape]any:
+		return any(&stage.StemCylinder3DShapes).(*Type)
 	case map[*Stool2DDiagram]any:
 		return any(&stage.Stool2DDiagrams).(*Type)
 	case map[*Stool3DDiagram]any:
@@ -24685,6 +25719,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ChosenP1P2PairShapes_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
+	case *Circumference3DShape:
+		return any(stage.Circumference3DShapes_mapString).(map[string]Type)
 	case *Clock2DDiagram:
 		return any(stage.Clock2DDiagrams_mapString).(map[string]Type)
 	case *Clock3DDiagram:
@@ -24693,6 +25729,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ClockAbstracts_mapString).(map[string]Type)
 	case *ClockTopCurveShape:
 		return any(stage.ClockTopCurveShapes_mapString).(map[string]Type)
+	case *CutLine3DShape:
+		return any(stage.CutLine3DShapes_mapString).(map[string]Type)
 	case *EndArcShape:
 		return any(stage.EndArcShapes_mapString).(map[string]Type)
 	case *EndArcShapeGrid:
@@ -24749,6 +25787,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
 	case *OriginalPoints3DShape:
 		return any(stage.OriginalPoints3DShapes_mapString).(map[string]Type)
+	case *ParastichyMCurves3DShape:
+		return any(stage.ParastichyMCurves3DShapes_mapString).(map[string]Type)
+	case *ParastichyNCurves3DShape:
+		return any(stage.ParastichyNCurves3DShapes_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DRibbon:
 		return any(stage.PartiallyGrowthCurve2DRibbons_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -24787,6 +25829,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PerpendicularVectorHalfways_mapString).(map[string]Type)
 	case *Plant2DDiagram:
 		return any(stage.Plant2DDiagrams_mapString).(map[string]Type)
+	case *Plant3DDiagram:
+		return any(stage.Plant3DDiagrams_mapString).(map[string]Type)
 	case *PlantAbstract:
 		return any(stage.PlantAbstracts_mapString).(map[string]Type)
 	case *PlantCircumferenceShape:
@@ -24887,6 +25931,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StartHalfwayArcShapes_mapString).(map[string]Type)
 	case *StartHalfwayArcShapeGrid:
 		return any(stage.StartHalfwayArcShapeGrids_mapString).(map[string]Type)
+	case *StemCylinder3DShape:
+		return any(stage.StemCylinder3DShapes_mapString).(map[string]Type)
 	case *Stool2DDiagram:
 		return any(stage.Stool2DDiagrams_mapString).(map[string]Type)
 	case *Stool3DDiagram:
@@ -24973,6 +26019,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ChosenP1P2PairShapes).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
+	case Circumference3DShape:
+		return any(&stage.Circumference3DShapes).(*map[*Type]struct{})
 	case Clock2DDiagram:
 		return any(&stage.Clock2DDiagrams).(*map[*Type]struct{})
 	case Clock3DDiagram:
@@ -24981,6 +26029,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ClockAbstracts).(*map[*Type]struct{})
 	case ClockTopCurveShape:
 		return any(&stage.ClockTopCurveShapes).(*map[*Type]struct{})
+	case CutLine3DShape:
+		return any(&stage.CutLine3DShapes).(*map[*Type]struct{})
 	case EndArcShape:
 		return any(&stage.EndArcShapes).(*map[*Type]struct{})
 	case EndArcShapeGrid:
@@ -25037,6 +26087,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.MidArcVectorShapeGrids).(*map[*Type]struct{})
 	case OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes).(*map[*Type]struct{})
+	case ParastichyMCurves3DShape:
+		return any(&stage.ParastichyMCurves3DShapes).(*map[*Type]struct{})
+	case ParastichyNCurves3DShape:
+		return any(&stage.ParastichyNCurves3DShapes).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&stage.PartiallyGrowthCurve2DRibbons).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DRibbonEndShape:
@@ -25075,6 +26129,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PerpendicularVectorHalfways).(*map[*Type]struct{})
 	case Plant2DDiagram:
 		return any(&stage.Plant2DDiagrams).(*map[*Type]struct{})
+	case Plant3DDiagram:
+		return any(&stage.Plant3DDiagrams).(*map[*Type]struct{})
 	case PlantAbstract:
 		return any(&stage.PlantAbstracts).(*map[*Type]struct{})
 	case PlantCircumferenceShape:
@@ -25175,6 +26231,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StartHalfwayArcShapes).(*map[*Type]struct{})
 	case StartHalfwayArcShapeGrid:
 		return any(&stage.StartHalfwayArcShapeGrids).(*map[*Type]struct{})
+	case StemCylinder3DShape:
+		return any(&stage.StemCylinder3DShapes).(*map[*Type]struct{})
 	case Stool2DDiagram:
 		return any(&stage.Stool2DDiagrams).(*map[*Type]struct{})
 	case Stool3DDiagram:
@@ -25261,6 +26319,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ChosenP1P2PairShapes).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
+	case *Circumference3DShape:
+		return any(&stage.Circumference3DShapes).(*map[Type]struct{})
 	case *Clock2DDiagram:
 		return any(&stage.Clock2DDiagrams).(*map[Type]struct{})
 	case *Clock3DDiagram:
@@ -25269,6 +26329,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ClockAbstracts).(*map[Type]struct{})
 	case *ClockTopCurveShape:
 		return any(&stage.ClockTopCurveShapes).(*map[Type]struct{})
+	case *CutLine3DShape:
+		return any(&stage.CutLine3DShapes).(*map[Type]struct{})
 	case *EndArcShape:
 		return any(&stage.EndArcShapes).(*map[Type]struct{})
 	case *EndArcShapeGrid:
@@ -25325,6 +26387,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
 	case *OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes).(*map[Type]struct{})
+	case *ParastichyMCurves3DShape:
+		return any(&stage.ParastichyMCurves3DShapes).(*map[Type]struct{})
+	case *ParastichyNCurves3DShape:
+		return any(&stage.ParastichyNCurves3DShapes).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DRibbon:
 		return any(&stage.PartiallyGrowthCurve2DRibbons).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -25363,6 +26429,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PerpendicularVectorHalfways).(*map[Type]struct{})
 	case *Plant2DDiagram:
 		return any(&stage.Plant2DDiagrams).(*map[Type]struct{})
+	case *Plant3DDiagram:
+		return any(&stage.Plant3DDiagrams).(*map[Type]struct{})
 	case *PlantAbstract:
 		return any(&stage.PlantAbstracts).(*map[Type]struct{})
 	case *PlantCircumferenceShape:
@@ -25463,6 +26531,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StartHalfwayArcShapes).(*map[Type]struct{})
 	case *StartHalfwayArcShapeGrid:
 		return any(&stage.StartHalfwayArcShapeGrids).(*map[Type]struct{})
+	case *StemCylinder3DShape:
+		return any(&stage.StemCylinder3DShapes).(*map[Type]struct{})
 	case *Stool2DDiagram:
 		return any(&stage.Stool2DDiagrams).(*map[Type]struct{})
 	case *Stool3DDiagram:
@@ -25549,6 +26619,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ChosenP1P2PairShapes_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
+	case Circumference3DShape:
+		return any(&stage.Circumference3DShapes_mapString).(*map[string]*Type)
 	case Clock2DDiagram:
 		return any(&stage.Clock2DDiagrams_mapString).(*map[string]*Type)
 	case Clock3DDiagram:
@@ -25557,6 +26629,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ClockAbstracts_mapString).(*map[string]*Type)
 	case ClockTopCurveShape:
 		return any(&stage.ClockTopCurveShapes_mapString).(*map[string]*Type)
+	case CutLine3DShape:
+		return any(&stage.CutLine3DShapes_mapString).(*map[string]*Type)
 	case EndArcShape:
 		return any(&stage.EndArcShapes_mapString).(*map[string]*Type)
 	case EndArcShapeGrid:
@@ -25613,6 +26687,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.MidArcVectorShapeGrids_mapString).(*map[string]*Type)
 	case OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes_mapString).(*map[string]*Type)
+	case ParastichyMCurves3DShape:
+		return any(&stage.ParastichyMCurves3DShapes_mapString).(*map[string]*Type)
+	case ParastichyNCurves3DShape:
+		return any(&stage.ParastichyNCurves3DShapes_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&stage.PartiallyGrowthCurve2DRibbons_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DRibbonEndShape:
@@ -25651,6 +26729,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PerpendicularVectorHalfways_mapString).(*map[string]*Type)
 	case Plant2DDiagram:
 		return any(&stage.Plant2DDiagrams_mapString).(*map[string]*Type)
+	case Plant3DDiagram:
+		return any(&stage.Plant3DDiagrams_mapString).(*map[string]*Type)
 	case PlantAbstract:
 		return any(&stage.PlantAbstracts_mapString).(*map[string]*Type)
 	case PlantCircumferenceShape:
@@ -25751,6 +26831,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StartHalfwayArcShapes_mapString).(*map[string]*Type)
 	case StartHalfwayArcShapeGrid:
 		return any(&stage.StartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
+	case StemCylinder3DShape:
+		return any(&stage.StemCylinder3DShapes_mapString).(*map[string]*Type)
 	case Stool2DDiagram:
 		return any(&stage.Stool2DDiagrams_mapString).(*map[string]*Type)
 	case Stool3DDiagram:
@@ -25859,6 +26941,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&CircleGridShape{
 			// Initialisation of associations
 		}).(*Type)
+	case Circumference3DShape:
+		return any(&Circumference3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case Clock2DDiagram:
 		return any(&Clock2DDiagram{
 			// Initialisation of associations
@@ -25883,6 +26969,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case ClockTopCurveShape:
 		return any(&ClockTopCurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case CutLine3DShape:
+		return any(&CutLine3DShape{
 			// Initialisation of associations
 		}).(*Type)
 	case EndArcShape:
@@ -26019,6 +27109,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&OriginalPoints3DShape{
 			// Initialisation of associations
 		}).(*Type)
+	case ParastichyMCurves3DShape:
+		return any(&ParastichyMCurves3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case ParastichyNCurves3DShape:
+		return any(&ParastichyNCurves3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&PartiallyGrowthCurve2DRibbon{
 			// Initialisation of associations
@@ -26115,6 +27213,24 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Plant2DDiagram{
 			// Initialisation of associations
 		}).(*Type)
+	case Plant3DDiagram:
+		return any(&Plant3DDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of StemCylinder3DShape with the name of the field
+			StemCylinder3DShape: &StemCylinder3DShape{Name: "StemCylinder3DShape"},
+			// field is initialized with an instance of ParastichyNCurves3DShape with the name of the field
+			ParastichyNCurves3DShape: &ParastichyNCurves3DShape{Name: "ParastichyNCurves3DShape"},
+			// field is initialized with an instance of ParastichyMCurves3DShape with the name of the field
+			ParastichyMCurves3DShape: &ParastichyMCurves3DShape{Name: "ParastichyMCurves3DShape"},
+			// field is initialized with an instance of CutLine3DShape with the name of the field
+			CutLine3DShape: &CutLine3DShape{Name: "CutLine3DShape"},
+			// field is initialized with an instance of Circumference3DShape with the name of the field
+			Circumference3DShape: &Circumference3DShape{Name: "Circumference3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+		}).(*Type)
 	case PlantAbstract:
 		return any(&PlantAbstract{
 			// Initialisation of associations
@@ -26126,6 +27242,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ClockAbstract: &ClockAbstract{Name: "ClockAbstract"},
 			// field is initialized with an instance of Plant2DDiagram with the name of the field
 			Plant2DDiagrams: []*Plant2DDiagram{{Name: "Plant2DDiagrams"}},
+			// field is initialized with an instance of Plant3DDiagram with the name of the field
+			Plant3DDiagrams: []*Plant3DDiagram{{Name: "Plant3DDiagrams"}},
 			// field is initialized with an instance of Vase2DDiagram with the name of the field
 			Vase2DDiagrams: []*Vase2DDiagram{{Name: "Vase2DDiagrams"}},
 			// field is initialized with an instance of Vase3DDiagram with the name of the field
@@ -26418,6 +27536,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of StartHalfwayArcShape with the name of the field
 			StartHalfwayArcShapes: []*StartHalfwayArcShape{{Name: "StartHalfwayArcShapes"}},
+		}).(*Type)
+	case StemCylinder3DShape:
+		return any(&StemCylinder3DShape{
+			// Initialisation of associations
 		}).(*Type)
 	case Stool2DDiagram:
 		return any(&Stool2DDiagram{
@@ -26732,6 +27854,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Circumference3DShape
+	case Circumference3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Clock2DDiagram
 	case Clock2DDiagram:
 		switch fieldname {
@@ -26834,6 +27961,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of ClockTopCurveShape
 	case ClockTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of CutLine3DShape
+	case CutLine3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -27011,6 +28143,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ParastichyMCurves3DShape
+	case ParastichyMCurves3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ParastichyNCurves3DShape
+	case ParastichyNCurves3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyGrowthCurve2DRibbon
 	case PartiallyGrowthCurve2DRibbon:
 		switch fieldname {
@@ -27105,6 +28247,130 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Plant2DDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Plant3DDiagram
+	case Plant3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "StemCylinder3DShape":
+			res := make(map[*StemCylinder3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.StemCylinder3DShape != nil {
+					stemcylinder3dshape_ := plant3ddiagram.StemCylinder3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[stemcylinder3dshape_]
+					if ok {
+						plant3ddiagrams = res[stemcylinder3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[stemcylinder3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ParastichyNCurves3DShape":
+			res := make(map[*ParastichyNCurves3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.ParastichyNCurves3DShape != nil {
+					parastichyncurves3dshape_ := plant3ddiagram.ParastichyNCurves3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[parastichyncurves3dshape_]
+					if ok {
+						plant3ddiagrams = res[parastichyncurves3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[parastichyncurves3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ParastichyMCurves3DShape":
+			res := make(map[*ParastichyMCurves3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.ParastichyMCurves3DShape != nil {
+					parastichymcurves3dshape_ := plant3ddiagram.ParastichyMCurves3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[parastichymcurves3dshape_]
+					if ok {
+						plant3ddiagrams = res[parastichymcurves3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[parastichymcurves3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "CutLine3DShape":
+			res := make(map[*CutLine3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.CutLine3DShape != nil {
+					cutline3dshape_ := plant3ddiagram.CutLine3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[cutline3dshape_]
+					if ok {
+						plant3ddiagrams = res[cutline3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[cutline3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Circumference3DShape":
+			res := make(map[*Circumference3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.Circumference3DShape != nil {
+					circumference3dshape_ := plant3ddiagram.Circumference3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[circumference3dshape_]
+					if ok {
+						plant3ddiagrams = res[circumference3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[circumference3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := plant3ddiagram.TiledFloor3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						plant3ddiagrams = res[tiledfloor3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[tiledfloor3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*Plant3DDiagram)
+			for plant3ddiagram := range stage.Plant3DDiagrams {
+				if plant3ddiagram.Rendered3DShape != nil {
+					rendered3dshape_ := plant3ddiagram.Rendered3DShape
+					var plant3ddiagrams []*Plant3DDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						plant3ddiagrams = res[rendered3dshape_]
+					} else {
+						plant3ddiagrams = make([]*Plant3DDiagram, 0)
+					}
+					plant3ddiagrams = append(plant3ddiagrams, plant3ddiagram)
+					res[rendered3dshape_] = plant3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantAbstract
 	case PlantAbstract:
@@ -27761,6 +29027,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of StartHalfwayArcShapeGrid
 	case StartHalfwayArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StemCylinder3DShape
+	case StemCylinder3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -29017,6 +30288,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Circumference3DShape
+	case Circumference3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Clock2DDiagram
 	case Clock2DDiagram:
 		switch fieldname {
@@ -29034,6 +30310,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of ClockTopCurveShape
 	case ClockTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of CutLine3DShape
+	case CutLine3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -29249,6 +30530,16 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ParastichyMCurves3DShape
+	case ParastichyMCurves3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ParastichyNCurves3DShape
+	case ParastichyNCurves3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyGrowthCurve2DRibbon
 	case PartiallyGrowthCurve2DRibbon:
 		switch fieldname {
@@ -29424,6 +30715,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Plant3DDiagram
+	case Plant3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PlantAbstract
 	case PlantAbstract:
 		switch fieldname {
@@ -29433,6 +30729,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for plantabstract := range stage.PlantAbstracts {
 				for _, plant2ddiagram_ := range plantabstract.Plant2DDiagrams {
 					res[plant2ddiagram_] = append(res[plant2ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Plant3DDiagrams":
+			res := make(map[*Plant3DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, plant3ddiagram_ := range plantabstract.Plant3DDiagrams {
+					res[plant3ddiagram_] = append(res[plant3ddiagram_], plantabstract)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -29898,6 +31202,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of StemCylinder3DShape
+	case StemCylinder3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Stool2DDiagram
 	case Stool2DDiagram:
 		switch fieldname {
@@ -30142,6 +31451,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ChosenP1P2PairShape"
 	case *CircleGridShape:
 		res = "CircleGridShape"
+	case *Circumference3DShape:
+		res = "Circumference3DShape"
 	case *Clock2DDiagram:
 		res = "Clock2DDiagram"
 	case *Clock3DDiagram:
@@ -30150,6 +31461,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ClockAbstract"
 	case *ClockTopCurveShape:
 		res = "ClockTopCurveShape"
+	case *CutLine3DShape:
+		res = "CutLine3DShape"
 	case *EndArcShape:
 		res = "EndArcShape"
 	case *EndArcShapeGrid:
@@ -30206,6 +31519,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "MidArcVectorShapeGrid"
 	case *OriginalPoints3DShape:
 		res = "OriginalPoints3DShape"
+	case *ParastichyMCurves3DShape:
+		res = "ParastichyMCurves3DShape"
+	case *ParastichyNCurves3DShape:
+		res = "ParastichyNCurves3DShape"
 	case *PartiallyGrowthCurve2DRibbon:
 		res = "PartiallyGrowthCurve2DRibbon"
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -30244,6 +31561,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PerpendicularVectorHalfway"
 	case *Plant2DDiagram:
 		res = "Plant2DDiagram"
+	case *Plant3DDiagram:
+		res = "Plant3DDiagram"
 	case *PlantAbstract:
 		res = "PlantAbstract"
 	case *PlantCircumferenceShape:
@@ -30344,6 +31663,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StartHalfwayArcShape"
 	case *StartHalfwayArcShapeGrid:
 		res = "StartHalfwayArcShapeGrid"
+	case *StemCylinder3DShape:
+		res = "StemCylinder3DShape"
 	case *Stool2DDiagram:
 		res = "Stool2DDiagram"
 	case *Stool3DDiagram:
@@ -30449,6 +31770,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *CircleGridShape:
 		var rf ReverseField
 		_ = rf
+	case *Circumference3DShape:
+		var rf ReverseField
+		_ = rf
 	case *Clock2DDiagram:
 		var rf ReverseField
 		_ = rf
@@ -30465,6 +31789,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *ClockTopCurveShape:
+		var rf ReverseField
+		_ = rf
+	case *CutLine3DShape:
 		var rf ReverseField
 		_ = rf
 	case *EndArcShape:
@@ -30575,6 +31902,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *OriginalPoints3DShape:
 		var rf ReverseField
 		_ = rf
+	case *ParastichyMCurves3DShape:
+		var rf ReverseField
+		_ = rf
+	case *ParastichyNCurves3DShape:
+		var rf ReverseField
+		_ = rf
 	case *PartiallyGrowthCurve2DRibbon:
 		var rf ReverseField
 		_ = rf
@@ -30664,6 +31997,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "PlantAbstract"
 		rf.Fieldname = "Plant2DDiagrams"
+		res = append(res, rf)
+	case *Plant3DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Plant3DDiagrams"
 		res = append(res, rf)
 	case *PlantAbstract:
 		var rf ReverseField
@@ -30879,6 +32218,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "StartHalfwayArcShapes"
 		res = append(res, rf)
 	case *StartHalfwayArcShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *StemCylinder3DShape:
 		var rf ReverseField
 		_ = rf
 	case *Stool2DDiagram:
@@ -31190,6 +32532,17 @@ func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
+func (circumference3dshape *Circumference3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (clock2ddiagram *Clock2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -31325,6 +32678,17 @@ func (clockabstract *ClockAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 }
 
 func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (cutline3dshape *CutLine3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -31990,6 +33354,28 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongGetFieldHeaders() (res [
 	return
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -32617,6 +34003,88 @@ func (plant2ddiagram *Plant2DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 	return
 }
 
+func (plant3ddiagram *Plant3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenStemCylinder3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "StemCylinder3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StemCylinder3DShape",
+		},
+		{
+			Name:               "IsHiddenParastichyNCurves3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ParastichyNCurves3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ParastichyNCurves3DShape",
+		},
+		{
+			Name:               "IsHiddenParastichyMCurves3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ParastichyMCurves3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ParastichyMCurves3DShape",
+		},
+		{
+			Name:               "IsHiddenCutLine3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "CutLine3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "CutLine3DShape",
+		},
+		{
+			Name:               "IsHiddenCircumference3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Circumference3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Circumference3DShape",
+		},
+		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -32689,6 +34157,15 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "Plant2DDiagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Plant2DDiagram",
+		},
+		{
+			Name:               "IsPlant3DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Plant3DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Plant3DDiagram",
 		},
 		{
 			Name:               "IsVase2DDiagramsNodeExpanded",
@@ -34617,6 +36094,17 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetFieldHeaders() 
 	return
 }
 
+func (stemcylinder3dshape *StemCylinder3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (stool2ddiagram *Stool2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -36257,6 +37745,15 @@ func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (circumference3dshape *Circumference3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = circumference3dshape.Name
+	}
+	return
+}
+
 func (clock2ddiagram *Clock2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -36391,6 +37888,15 @@ func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldValue(fieldName string
 	// string value of fields
 	case "Name":
 		res.valueString = clocktopcurveshape.Name
+	}
+	return
+}
+
+func (cutline3dshape *CutLine3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = cutline3dshape.Name
 	}
 	return
 }
@@ -37037,6 +38543,24 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongGetFieldValue(fieldName 
 	return
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = parastichymcurves3dshape.Name
+	}
+	return
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = parastichyncurves3dshape.Name
+	}
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -37674,6 +39198,91 @@ func (plant2ddiagram *Plant2DDiagram) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
+func (plant3ddiagram *Plant3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = plant3ddiagram.Name
+	case "IsHiddenStemCylinder3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenStemCylinder3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenStemCylinder3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "StemCylinder3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.StemCylinder3DShape != nil {
+			res.valueString = plant3ddiagram.StemCylinder3DShape.Name
+			res.ids = plant3ddiagram.StemCylinder3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenParastichyNCurves3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenParastichyNCurves3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenParastichyNCurves3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ParastichyNCurves3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.ParastichyNCurves3DShape != nil {
+			res.valueString = plant3ddiagram.ParastichyNCurves3DShape.Name
+			res.ids = plant3ddiagram.ParastichyNCurves3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenParastichyMCurves3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenParastichyMCurves3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenParastichyMCurves3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ParastichyMCurves3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.ParastichyMCurves3DShape != nil {
+			res.valueString = plant3ddiagram.ParastichyMCurves3DShape.Name
+			res.ids = plant3ddiagram.ParastichyMCurves3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenCutLine3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenCutLine3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenCutLine3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "CutLine3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.CutLine3DShape != nil {
+			res.valueString = plant3ddiagram.CutLine3DShape.Name
+			res.ids = plant3ddiagram.CutLine3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenCircumference3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenCircumference3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenCircumference3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Circumference3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.Circumference3DShape != nil {
+			res.valueString = plant3ddiagram.Circumference3DShape.Name
+			res.ids = plant3ddiagram.Circumference3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = plant3ddiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.TiledFloor3DShape != nil {
+			res.valueString = plant3ddiagram.TiledFloor3DShape.Name
+			res.ids = plant3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant3ddiagram.Rendered3DShape != nil {
+			res.valueString = plant3ddiagram.Rendered3DShape.Name
+			res.ids = plant3ddiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsChecked)
+		res.valueBool = plant3ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = plant3ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", plant3ddiagram.IsExpanded)
+		res.valueBool = plant3ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -37740,6 +39349,20 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 	case "Plant2DDiagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range plantabstract.Plant2DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsPlant3DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsPlant3DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsPlant3DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Plant3DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Plant3DDiagrams {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -39732,6 +41355,15 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetFieldValue(fiel
 	return
 }
 
+func (stemcylinder3dshape *StemCylinder3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stemcylinder3dshape.Name
+	}
+	return
+}
+
 func (stool2ddiagram *Stool2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -41347,6 +42979,17 @@ func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (circumference3dshape *Circumference3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		circumference3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (clock2ddiagram *Clock2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -41478,6 +43121,17 @@ func (clocktopcurveshape *ClockTopCurveShape) GongSetFieldValue(fieldName string
 	// insertion point for per field code
 	case "Name":
 		clocktopcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (cutline3dshape *CutLine3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cutline3dshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -42086,6 +43740,28 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongSetFieldValue(fieldName 
 	return nil
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		parastichymcurves3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		parastichyncurves3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -42619,6 +44295,112 @@ func (plant2ddiagram *Plant2DDiagram) GongSetFieldValue(fieldName string, value 
 	return nil
 }
 
+func (plant3ddiagram *Plant3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		plant3ddiagram.Name = value.GetValueString()
+	case "IsHiddenStemCylinder3DShape":
+		plant3ddiagram.IsHiddenStemCylinder3DShape = value.GetValueBool()
+	case "StemCylinder3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.StemCylinder3DShape = nil
+			for __instance__ := range stage.StemCylinder3DShapes {
+				if stage.StemCylinder3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.StemCylinder3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenParastichyNCurves3DShape":
+		plant3ddiagram.IsHiddenParastichyNCurves3DShape = value.GetValueBool()
+	case "ParastichyNCurves3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.ParastichyNCurves3DShape = nil
+			for __instance__ := range stage.ParastichyNCurves3DShapes {
+				if stage.ParastichyNCurves3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.ParastichyNCurves3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenParastichyMCurves3DShape":
+		plant3ddiagram.IsHiddenParastichyMCurves3DShape = value.GetValueBool()
+	case "ParastichyMCurves3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.ParastichyMCurves3DShape = nil
+			for __instance__ := range stage.ParastichyMCurves3DShapes {
+				if stage.ParastichyMCurves3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.ParastichyMCurves3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenCutLine3DShape":
+		plant3ddiagram.IsHiddenCutLine3DShape = value.GetValueBool()
+	case "CutLine3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.CutLine3DShape = nil
+			for __instance__ := range stage.CutLine3DShapes {
+				if stage.CutLine3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.CutLine3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenCircumference3DShape":
+		plant3ddiagram.IsHiddenCircumference3DShape = value.GetValueBool()
+	case "Circumference3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.Circumference3DShape = nil
+			for __instance__ := range stage.Circumference3DShapes {
+				if stage.Circumference3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.Circumference3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTiledFloor3DShape":
+		plant3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant3ddiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					plant3ddiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsChecked":
+		plant3ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		plant3ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		plant3ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -42688,6 +44470,22 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 				for __instance__ := range stage.Plant2DDiagrams {
 					if stage.Plant2DDiagram_stagedOrder[__instance__] == uint(id) {
 						plantabstract.Plant2DDiagrams = append(plantabstract.Plant2DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsPlant3DDiagramsNodeExpanded":
+		plantabstract.IsPlant3DDiagramsNodeExpanded = value.GetValueBool()
+	case "Plant3DDiagrams":
+		plantabstract.Plant3DDiagrams = make([]*Plant3DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Plant3DDiagrams {
+					if stage.Plant3DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Plant3DDiagrams = append(plantabstract.Plant3DDiagrams, __instance__)
 						break
 					}
 				}
@@ -44419,6 +46217,17 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongSetFieldValue(fiel
 	return nil
 }
 
+func (stemcylinder3dshape *StemCylinder3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stemcylinder3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (stool2ddiagram *Stool2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -45944,6 +47753,10 @@ func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
 
+func (circumference3dshape *Circumference3DShape) GongGetGongstructName() string {
+	return "Circumference3DShape"
+}
+
 func (clock2ddiagram *Clock2DDiagram) GongGetGongstructName() string {
 	return "Clock2DDiagram"
 }
@@ -45958,6 +47771,10 @@ func (clockabstract *ClockAbstract) GongGetGongstructName() string {
 
 func (clocktopcurveshape *ClockTopCurveShape) GongGetGongstructName() string {
 	return "ClockTopCurveShape"
+}
+
+func (cutline3dshape *CutLine3DShape) GongGetGongstructName() string {
+	return "CutLine3DShape"
 }
 
 func (endarcshape *EndArcShape) GongGetGongstructName() string {
@@ -46072,6 +47889,14 @@ func (originalpoints3dshape *OriginalPoints3DShape) GongGetGongstructName() stri
 	return "OriginalPoints3DShape"
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongGetGongstructName() string {
+	return "ParastichyMCurves3DShape"
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongGetGongstructName() string {
+	return "ParastichyNCurves3DShape"
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetGongstructName() string {
 	return "PartiallyGrowthCurve2DRibbon"
 }
@@ -46146,6 +47971,10 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetGongstructN
 
 func (plant2ddiagram *Plant2DDiagram) GongGetGongstructName() string {
 	return "Plant2DDiagram"
+}
+
+func (plant3ddiagram *Plant3DDiagram) GongGetGongstructName() string {
+	return "Plant3DDiagram"
 }
 
 func (plantabstract *PlantAbstract) GongGetGongstructName() string {
@@ -46348,6 +48177,10 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetGongstructName(
 	return "StartHalfwayArcShapeGrid"
 }
 
+func (stemcylinder3dshape *StemCylinder3DShape) GongGetGongstructName() string {
+	return "StemCylinder3DShape"
+}
+
 func (stool2ddiagram *Stool2DDiagram) GongGetGongstructName() string {
 	return "Stool2DDiagram"
 }
@@ -46511,6 +48344,11 @@ func (stage *Stage) ResetMapStrings() {
 		stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
 	}
 
+	stage.Circumference3DShapes_mapString = make(map[string]*Circumference3DShape)
+	for circumference3dshape := range stage.Circumference3DShapes {
+		stage.Circumference3DShapes_mapString[circumference3dshape.Name] = circumference3dshape
+	}
+
 	stage.Clock2DDiagrams_mapString = make(map[string]*Clock2DDiagram)
 	for clock2ddiagram := range stage.Clock2DDiagrams {
 		stage.Clock2DDiagrams_mapString[clock2ddiagram.Name] = clock2ddiagram
@@ -46529,6 +48367,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
 	for clocktopcurveshape := range stage.ClockTopCurveShapes {
 		stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
+	}
+
+	stage.CutLine3DShapes_mapString = make(map[string]*CutLine3DShape)
+	for cutline3dshape := range stage.CutLine3DShapes {
+		stage.CutLine3DShapes_mapString[cutline3dshape.Name] = cutline3dshape
 	}
 
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)
@@ -46671,6 +48514,16 @@ func (stage *Stage) ResetMapStrings() {
 		stage.OriginalPoints3DShapes_mapString[originalpoints3dshape.Name] = originalpoints3dshape
 	}
 
+	stage.ParastichyMCurves3DShapes_mapString = make(map[string]*ParastichyMCurves3DShape)
+	for parastichymcurves3dshape := range stage.ParastichyMCurves3DShapes {
+		stage.ParastichyMCurves3DShapes_mapString[parastichymcurves3dshape.Name] = parastichymcurves3dshape
+	}
+
+	stage.ParastichyNCurves3DShapes_mapString = make(map[string]*ParastichyNCurves3DShape)
+	for parastichyncurves3dshape := range stage.ParastichyNCurves3DShapes {
+		stage.ParastichyNCurves3DShapes_mapString[parastichyncurves3dshape.Name] = parastichyncurves3dshape
+	}
+
 	stage.PartiallyGrowthCurve2DRibbons_mapString = make(map[string]*PartiallyGrowthCurve2DRibbon)
 	for partiallygrowthcurve2dribbon := range stage.PartiallyGrowthCurve2DRibbons {
 		stage.PartiallyGrowthCurve2DRibbons_mapString[partiallygrowthcurve2dribbon.Name] = partiallygrowthcurve2dribbon
@@ -46764,6 +48617,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Plant2DDiagrams_mapString = make(map[string]*Plant2DDiagram)
 	for plant2ddiagram := range stage.Plant2DDiagrams {
 		stage.Plant2DDiagrams_mapString[plant2ddiagram.Name] = plant2ddiagram
+	}
+
+	stage.Plant3DDiagrams_mapString = make(map[string]*Plant3DDiagram)
+	for plant3ddiagram := range stage.Plant3DDiagrams {
+		stage.Plant3DDiagrams_mapString[plant3ddiagram.Name] = plant3ddiagram
 	}
 
 	stage.PlantAbstracts_mapString = make(map[string]*PlantAbstract)
@@ -47014,6 +48872,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.StartHalfwayArcShapeGrids_mapString = make(map[string]*StartHalfwayArcShapeGrid)
 	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
 		stage.StartHalfwayArcShapeGrids_mapString[starthalfwayarcshapegrid.Name] = starthalfwayarcshapegrid
+	}
+
+	stage.StemCylinder3DShapes_mapString = make(map[string]*StemCylinder3DShape)
+	for stemcylinder3dshape := range stage.StemCylinder3DShapes {
+		stage.StemCylinder3DShapes_mapString[stemcylinder3dshape.Name] = stemcylinder3dshape
 	}
 
 	stage.Stool2DDiagrams_mapString = make(map[string]*Stool2DDiagram)

@@ -52,6 +52,11 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refShiftedLeftStackGrowthCurveEndArcShape := make(map[*ShiftedLeftStackGrowthCurveEndArcShape]bool)
 	refRendered3DShape := make(map[*Rendered3DShape]bool)
 	refTiledFloor3DShape := make(map[*TiledFloor3DShape]bool)
+	refStemCylinder3DShape := make(map[*StemCylinder3DShape]bool)
+	refParastichyNCurves3DShape := make(map[*ParastichyNCurves3DShape]bool)
+	refParastichyMCurves3DShape := make(map[*ParastichyMCurves3DShape]bool)
+	refCutLine3DShape := make(map[*CutLine3DShape]bool)
+	refCircumference3DShape := make(map[*Circumference3DShape]bool)
 	refArcNormalVectorShape := make(map[*ArcNormalVectorShape]bool)
 	refStartArcShapeV2 := make(map[*StartArcShape]bool)
 	refTopStartArcShapeV2 := make(map[*TopStartArcShape]bool)
@@ -570,6 +575,29 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 		if diagram.ClockTopCurveShape != nil {
 			refClockTopCurveShape[diagram.ClockTopCurveShape] = true
+		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
+	}
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
+		}
+		if diagram.StemCylinder3DShape != nil {
+			refStemCylinder3DShape[diagram.StemCylinder3DShape] = true
+		}
+		if diagram.ParastichyNCurves3DShape != nil {
+			refParastichyNCurves3DShape[diagram.ParastichyNCurves3DShape] = true
+		}
+		if diagram.ParastichyMCurves3DShape != nil {
+			refParastichyMCurves3DShape[diagram.ParastichyMCurves3DShape] = true
+		}
+		if diagram.CutLine3DShape != nil {
+			refCutLine3DShape[diagram.CutLine3DShape] = true
+		}
+		if diagram.Circumference3DShape != nil {
+			refCircumference3DShape[diagram.Circumference3DShape] = true
 		}
 		if diagram.TiledFloor3DShape != nil {
 			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
@@ -1328,6 +1356,41 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*RotatedSeatAndLegs3DShape](stage) {
 		if !refRotatedSeatAndLegs3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StemCylinder3DShape](stage) {
+		if !refStemCylinder3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ParastichyNCurves3DShape](stage) {
+		if !refParastichyNCurves3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ParastichyMCurves3DShape](stage) {
+		if !refParastichyMCurves3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*CutLine3DShape](stage) {
+		if !refCutLine3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Circumference3DShape](stage) {
+		if !refCircumference3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

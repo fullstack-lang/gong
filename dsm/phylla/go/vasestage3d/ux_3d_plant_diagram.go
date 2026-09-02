@@ -50,7 +50,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 	floorMinY := math.MaxFloat64
 
-	if checkedDiagram == nil || checkedDiagram == nil {
+	if checkedDiagram == nil {
 		threejsStage.Commit()
 		return
 	}

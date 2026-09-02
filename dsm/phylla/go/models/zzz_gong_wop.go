@@ -157,6 +157,17 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
+type Circumference3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Circumference3DShape) CopyBasicFields(to *Circumference3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Clock2DDiagram_WOP struct {
 	// insertion point
 
@@ -254,6 +265,17 @@ type ClockTopCurveShape_WOP struct {
 }
 
 func (from *ClockTopCurveShape) CopyBasicFields(to *ClockTopCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type CutLine3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *CutLine3DShape) CopyBasicFields(to *CutLine3DShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -785,6 +807,28 @@ func (from *OriginalPoints3DShape) CopyBasicFields(to *OriginalPoints3DShape) {
 	to.Name = from.Name
 }
 
+type ParastichyMCurves3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ParastichyMCurves3DShape) CopyBasicFields(to *ParastichyMCurves3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type ParastichyNCurves3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ParastichyNCurves3DShape) CopyBasicFields(to *ParastichyNCurves3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PartiallyGrowthCurve2DRibbon_WOP struct {
 	// insertion point
 
@@ -1270,6 +1314,44 @@ func (from *Plant2DDiagram) CopyBasicFields(to *Plant2DDiagram) {
 	to.IsExpanded = from.IsExpanded
 }
 
+type Plant3DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenStemCylinder3DShape bool
+
+	IsHiddenParastichyNCurves3DShape bool
+
+	IsHiddenParastichyMCurves3DShape bool
+
+	IsHiddenCutLine3DShape bool
+
+	IsHiddenCircumference3DShape bool
+
+	IsHiddenTiledFloor3DShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Plant3DDiagram) CopyBasicFields(to *Plant3DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenStemCylinder3DShape = from.IsHiddenStemCylinder3DShape
+	to.IsHiddenParastichyNCurves3DShape = from.IsHiddenParastichyNCurves3DShape
+	to.IsHiddenParastichyMCurves3DShape = from.IsHiddenParastichyMCurves3DShape
+	to.IsHiddenCutLine3DShape = from.IsHiddenCutLine3DShape
+	to.IsHiddenCircumference3DShape = from.IsHiddenCircumference3DShape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
 type PlantAbstract_WOP struct {
 	// insertion point
 
@@ -1296,6 +1378,8 @@ type PlantAbstract_WOP struct {
 	IsSelected bool
 
 	IsPlant2DDiagramsNodeExpanded bool
+
+	IsPlant3DDiagramsNodeExpanded bool
 
 	IsVase2DDiagramsNodeExpanded bool
 
@@ -1324,6 +1408,7 @@ func (from *PlantAbstract) CopyBasicFields(to *PlantAbstract) {
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected
 	to.IsPlant2DDiagramsNodeExpanded = from.IsPlant2DDiagramsNodeExpanded
+	to.IsPlant3DDiagramsNodeExpanded = from.IsPlant3DDiagramsNodeExpanded
 	to.IsVase2DDiagramsNodeExpanded = from.IsVase2DDiagramsNodeExpanded
 	to.IsVase3DDiagramsNodeExpanded = from.IsVase3DDiagramsNodeExpanded
 	to.IsStool2DDiagramsNodeExpanded = from.IsStool2DDiagramsNodeExpanded
@@ -2707,6 +2792,17 @@ type StartHalfwayArcShapeGrid_WOP struct {
 }
 
 func (from *StartHalfwayArcShapeGrid) CopyBasicFields(to *StartHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type StemCylinder3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StemCylinder3DShape) CopyBasicFields(to *StemCylinder3DShape) {
 	// insertion point
 	to.Name = from.Name
 }

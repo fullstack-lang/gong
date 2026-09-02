@@ -63,6 +63,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.circlegridshape, probe)
 			}
+		case *Circumference3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Circumference3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.circumference3dshape, probe)
+			}
 		case *Clock2DDiagramFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Clock2DDiagram", true)
@@ -86,6 +92,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "ClockTopCurveShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.clocktopcurveshape, probe)
+			}
+		case *CutLine3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CutLine3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cutline3dshape, probe)
 			}
 		case *EndArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -255,6 +267,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.originalpoints3dshape, probe)
 			}
+		case *ParastichyMCurves3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ParastichyMCurves3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.parastichymcurves3dshape, probe)
+			}
+		case *ParastichyNCurves3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ParastichyNCurves3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.parastichyncurves3dshape, probe)
+			}
 		case *PartiallyGrowthCurve2DRibbonFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DRibbon", true)
@@ -368,6 +392,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "Plant2DDiagram", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.plant2ddiagram, probe)
+			}
+		case *Plant3DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Plant3DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.plant3ddiagram, probe)
 			}
 		case *PlantAbstractFormCallback:
 			if onSave.CreationMode {
@@ -669,6 +699,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.starthalfwayarcshapegrid, probe)
 			}
+		case *StemCylinder3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StemCylinder3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stemcylinder3dshape, probe)
+			}
 		case *Stool2DDiagramFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Stool2DDiagram", true)
@@ -969,6 +1005,19 @@ func FillUpFormFromGongstructName(
 		circlegridshape := new(models.CircleGridShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(circlegridshape, formGroup, probe)
+	case "Circumference3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Circumference3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Circumference3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		circumference3dshape := new(models.Circumference3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(circumference3dshape, formGroup, probe)
 	case "Clock2DDiagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1021,6 +1070,19 @@ func FillUpFormFromGongstructName(
 		clocktopcurveshape := new(models.ClockTopCurveShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(clocktopcurveshape, formGroup, probe)
+	case "CutLine3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CutLine3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CutLine3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		cutline3dshape := new(models.CutLine3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(cutline3dshape, formGroup, probe)
 	case "EndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1385,6 +1447,32 @@ func FillUpFormFromGongstructName(
 		originalpoints3dshape := new(models.OriginalPoints3DShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(originalpoints3dshape, formGroup, probe)
+	case "ParastichyMCurves3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ParastichyMCurves3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ParastichyMCurves3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		parastichymcurves3dshape := new(models.ParastichyMCurves3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(parastichymcurves3dshape, formGroup, probe)
+	case "ParastichyNCurves3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ParastichyNCurves3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ParastichyNCurves3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		parastichyncurves3dshape := new(models.ParastichyNCurves3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(parastichyncurves3dshape, formGroup, probe)
 	case "PartiallyGrowthCurve2DRibbon":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1632,6 +1720,19 @@ func FillUpFormFromGongstructName(
 		plant2ddiagram := new(models.Plant2DDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(plant2ddiagram, formGroup, probe)
+	case "Plant3DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Plant3DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Plant3DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		plant3ddiagram := new(models.Plant3DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(plant3ddiagram, formGroup, probe)
 	case "PlantAbstract":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2282,6 +2383,19 @@ func FillUpFormFromGongstructName(
 		starthalfwayarcshapegrid := new(models.StartHalfwayArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(starthalfwayarcshapegrid, formGroup, probe)
+	case "StemCylinder3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StemCylinder3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StemCylinder3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stemcylinder3dshape := new(models.StemCylinder3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stemcylinder3dshape, formGroup, probe)
 	case "Stool2DDiagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

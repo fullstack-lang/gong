@@ -115,6 +115,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
 		checked := false
 		for _, d := range plant.Plant2DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Plant3DDiagrams { if d.IsChecked { checked = true } }
 		for _, d := range plant.Vase2DDiagrams { if d.IsChecked { checked = true } }
 		for _, d := range plant.Vase3DDiagrams { if d.IsChecked { checked = true } }
 		for _, d := range plant.Stool2DDiagrams { if d.IsChecked { checked = true } }
@@ -203,16 +204,16 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 	}
 
 	if stager.selectedPlant != nil {
-		if stager.selectedPlant.PlantType == Plant && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		if stager.selectedPlant.PlantType == Plant && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
-		} else if stager.selectedPlant.PlantType == Stool && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_STOOL_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if stager.selectedPlant.PlantType == Stool && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_STOOL_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
-		} else if stager.selectedPlant.PlantType == Clock && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_CLOCK_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if stager.selectedPlant.PlantType == Clock && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_CLOCK_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
-		} else if stager.selectedPlant.PlantType == Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if stager.selectedPlant.PlantType == Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 		}

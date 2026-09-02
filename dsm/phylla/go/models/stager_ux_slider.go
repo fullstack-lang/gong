@@ -576,6 +576,7 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.UpdateThreeJSStage()
 	stager.UpdateStool3DStage()
 	stager.UpdateClock3DStage()
+	stager.UpdatePlant3DStage()
 
 	stager.stage.CommitWithSuspendedCallbacks()
 }
