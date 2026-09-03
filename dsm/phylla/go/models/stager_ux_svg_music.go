@@ -128,18 +128,25 @@ func (stager *Stager) ux_svg_music() {
 	if sideLength <= 0 {
 		sideLength = 100
 	}
+
+	scale := ma.ScoreScale
+	if scale <= 0 {
+		scale = 1.0
+	}
+	scaledSideLength := sideLength * scale
+
 	insideAngle := plant.RhombusInsideAngle
 	if insideAngle <= 0 {
 		insideAngle = 120
 	}
 
-	// 1. Compute geometry
+	// 1. Compute geometry with scaledSideLength
 	insideAngleRad := insideAngle * math.Pi / 180
 	sinHalfInsideAngle := math.Sin(insideAngleRad / 2)
 	cosHalfInsideAngle := math.Cos(insideAngleRad / 2)
 
-	y := float64(N)*sideLength*sinHalfInsideAngle + float64(M)*sideLength*sinHalfInsideAngle
-	x := float64(N)*sideLength*cosHalfInsideAngle - float64(M)*sideLength*cosHalfInsideAngle
+	y := float64(N)*scaledSideLength*sinHalfInsideAngle + float64(M)*scaledSideLength*sinHalfInsideAngle
+	x := float64(N)*scaledSideLength*cosHalfInsideAngle - float64(M)*scaledSideLength*cosHalfInsideAngle
 	initialAxisAngleDegree := math.Atan2(y, x) * 180 / math.Pi
 	circumferenceLength := math.Sqrt(x*x + y*y)
 	if circumferenceLength <= 0 {
@@ -159,8 +166,8 @@ func (stager *Stager) ux_svg_music() {
 	minY := math.MaxFloat64
 	for i := 0; i <= N; i++ {
 		for j := 0; j <= M; j++ {
-			cx := float64(i)*sideLength*cosHalfInsideAngle - float64(j)*sideLength*cosHalfInsideAngle
-			cy := float64(i)*sideLength*sinHalfInsideAngle + float64(j)*sideLength*sinHalfInsideAngle
+			cx := float64(i)*scaledSideLength*cosHalfInsideAngle - float64(j)*scaledSideLength*cosHalfInsideAngle
+			cy := float64(i)*scaledSideLength*sinHalfInsideAngle + float64(j)*scaledSideLength*sinHalfInsideAngle
 			rx := cx*cosRot - cy*sinRot
 			ry := cx*sinRot + cy*cosRot
 			if ry > 1e-4 && ry < minY {
@@ -170,7 +177,7 @@ func (stager *Stager) ux_svg_music() {
 		}
 	}
 	if minY == math.MaxFloat64 {
-		nextCircle = pt{x: sideLength, y: sideLength}
+		nextCircle = pt{x: scaledSideLength, y: scaledSideLength}
 	}
 
 	// 2. Compute construction circles
@@ -218,10 +225,10 @@ func (stager *Stager) ux_svg_music() {
 		baseBeziers[k] = MusicBezierSegment{
 			StartX:             sX,
 			StartY:             sY,
-			ControlPointStartX: sX + sideLength*controlRatio*math.Cos(angleRad),
-			ControlPointStartY: sY + sideLength*controlRatio*math.Sin(angleRad),
-			ControlPointEndX:   eX + sideLength*controlRatio*math.Cos(angleRad+math.Pi),
-			ControlPointEndY:   eY + sideLength*controlRatio*math.Sin(angleRad+math.Pi),
+			ControlPointStartX: sX + scaledSideLength*controlRatio*math.Cos(angleRad),
+			ControlPointStartY: sY + scaledSideLength*controlRatio*math.Sin(angleRad),
+			ControlPointEndX:   eX + scaledSideLength*controlRatio*math.Cos(angleRad+math.Pi),
+			ControlPointEndY:   eY + scaledSideLength*controlRatio*math.Sin(angleRad+math.Pi),
 			EndX:               eX,
 			EndY:               eY,
 		}
@@ -245,12 +252,12 @@ func (stager *Stager) ux_svg_music() {
 	}
 
 	// 4. Compute voices
-	firstVoiceShiftX := ma.FirstVoiceShiftX * sideLength
-	firstVoiceShiftY := ma.FirstVoiceShiftY * sideLength
+	firstVoiceShiftX := ma.FirstVoiceShiftX * scaledSideLength
+	firstVoiceShiftY := ma.FirstVoiceShiftY * scaledSideLength
 	firstVoice := translateBeziers(baseBeziers, firstVoiceShiftX, firstVoiceShiftY)
 	firstVoiceShiftedRight := translateBeziers(firstVoice, circumferenceLength, 0)
 
-	pitchSpacing := ma.PitchHeight * sideLength
+	pitchSpacing := ma.PitchHeight * scaledSideLength
 	if pitchSpacing <= 0 {
 		pitchSpacing = 10
 	}
@@ -266,7 +273,7 @@ func (stager *Stager) ux_svg_music() {
 	originX := ma.OriginX
 	originY := ma.OriginY
 	if originY <= 0 {
-		originY = 750.0
+		originY = 600.0
 	}
 
 	// 6. Draw Grid: Pitch Lines (horizontal) & Beat Lines (vertical)
@@ -310,12 +317,13 @@ func (stager *Stager) ux_svg_music() {
 			X2:   originX + totalWidth,
 			Y2:   originY - float64(i)*pitchSpacing,
 		}).Stage(stager.svgMusicStage)
-		line.Presentation.Stroke = "#dcdcdc"
+		line.Presentation.Stroke = "#888888"
 		line.Presentation.StrokeWidth = 1.0
-		line.Presentation.StrokeOpacity = 0.8
+		line.Presentation.StrokeOpacity = 0.4
 		if i%12 == 0 {
 			line.Presentation.StrokeWidth = 2.0
-			line.Presentation.Stroke = "#bfbfbf"
+			line.Presentation.Stroke = "#222222"
+			line.Presentation.StrokeOpacity = 0.75
 		}
 		layer.Lines = append(layer.Lines, line)
 	}
@@ -329,17 +337,18 @@ func (stager *Stager) ux_svg_music() {
 			X2:   originX + float64(i)*beatWidth,
 			Y2:   originY - totalHeight,
 		}).Stage(stager.svgMusicStage)
-		line.Presentation.Stroke = "#dcdcdc"
+		line.Presentation.Stroke = "#888888"
 		line.Presentation.StrokeWidth = 1.0
-		line.Presentation.StrokeOpacity = 0.8
+		line.Presentation.StrokeOpacity = 0.4
 		if i%nbBeats == 0 {
 			line.Presentation.StrokeWidth = 2.0
-			line.Presentation.Stroke = "#999999"
+			line.Presentation.Stroke = "#222222"
+			line.Presentation.StrokeOpacity = 0.75
 		}
 		layer.Lines = append(layer.Lines, line)
 	}
 
-	// 7. Draw Voice Wave Curves
+	// 7. Draw Voice Wave Curves (with prominent width matching phyllotaxymusic)
 	drawVoicePath := func(beziers []MusicBezierSegment, name, strokeColor string, strokeWidth float64, opacity float64) {
 		if len(beziers) == 0 {
 			return
@@ -364,19 +373,19 @@ func (stager *Stager) ux_svg_music() {
 	}
 
 	if ma.ShowFirstVoice {
-		drawVoicePath(firstVoice, "First Voice", "#e74c3c", 2.5, 1.0)
+		drawVoicePath(firstVoice, "First Voice", "red", 4.5, 0.65)
 	}
 	if ma.ShowFirstVoiceShiftRight {
-		drawVoicePath(firstVoiceShiftedRight, "First Voice Shift Right", "#888888", 2.0, 0.8)
+		drawVoicePath(firstVoiceShiftedRight, "First Voice Shift Right", "grey", 4.5, 0.65)
 	}
 	if ma.ShowSecondVoice {
-		drawVoicePath(secondVoice, "Second Voice", "#2ecc71", 2.5, 1.0)
+		drawVoicePath(secondVoice, "Second Voice", "green", 4.5, 0.65)
 	}
 	if ma.ShowSecondVoiceShiftRight {
-		drawVoicePath(secondVoiceShiftedRight, "Second Voice Shift Right", "#a8e6cf", 2.0, 0.8)
+		drawVoicePath(secondVoiceShiftedRight, "Second Voice Shift Right", "lightgreen", 4.5, 0.85)
 	}
 
-	// 8. Compute Notes and Draw Note Rectangles
+	// 8. Compute Notes and Draw Note Rectangles (20x20 rounded rects)
 	computeAndDrawVoiceNotes := func(beziers []MusicBezierSegment, voiceName, strokeColor string, isDisplayed bool) int {
 		if len(beziers) == 0 {
 			return 0
@@ -417,26 +426,25 @@ func (stager *Stager) ux_svg_music() {
 				continue
 			}
 
-			rectWidth := 18.0
+			rectWidth := 20.0
 			rect := (&svg.Rect{
 				Name:   fmt.Sprintf("%s-Note-%d", voiceName, beatNb),
 				X:      originX + noteX - rectWidth/2.0,
 				Y:      originY - quantizedY - rectWidth/2.0,
 				Width:  rectWidth,
 				Height: rectWidth,
-				RX:     2.0,
+				RX:     5.0,
 			}).Stage(stager.svgMusicStage)
 
 			rect.Presentation.Stroke = strokeColor
 			if isKept {
-				rect.Presentation.StrokeWidth = 2.0
-				rect.Presentation.StrokeOpacity = 1.0
+				rect.Presentation.StrokeWidth = 3.0
+				rect.Presentation.StrokeOpacity = 0.9
 				rect.Presentation.Color = "white"
 				rect.Presentation.FillOpacity = 0.9
 			} else {
-				rect.Presentation.Stroke = "#aaaaaa"
-				rect.Presentation.StrokeWidth = 1.0
-				rect.Presentation.StrokeOpacity = 0.4
+				rect.Presentation.StrokeWidth = 1.5
+				rect.Presentation.StrokeOpacity = 0.35
 				rect.Presentation.Color = "none"
 				rect.Presentation.FillOpacity = 0.0
 			}
@@ -459,10 +467,10 @@ func (stager *Stager) ux_svg_music() {
 		return nbMeasureJump
 	}
 
-	jump1 := computeAndDrawVoiceNotes(firstVoice, "1st Voice", "#e74c3c", ma.ShowFirstVoiceNotes)
-	computeAndDrawVoiceNotes(firstVoiceShiftedRight, "1st Voice Shift Right", "#888888", ma.ShowFirstVoiceNotesShiftRight)
-	jump2 := computeAndDrawVoiceNotes(secondVoice, "2nd Voice", "#2ecc71", ma.ShowSecondVoiceNotes)
-	computeAndDrawVoiceNotes(secondVoiceShiftedRight, "2nd Voice Shift Right", "#a8e6cf", ma.ShowSecondVoiceNotesShiftRight)
+	jump1 := computeAndDrawVoiceNotes(firstVoice, "1st Voice", "red", ma.ShowFirstVoiceNotes)
+	computeAndDrawVoiceNotes(firstVoiceShiftedRight, "1st Voice Shift Right", "grey", ma.ShowFirstVoiceNotesShiftRight)
+	jump2 := computeAndDrawVoiceNotes(secondVoice, "2nd Voice", "green", ma.ShowSecondVoiceNotes)
+	computeAndDrawVoiceNotes(secondVoiceShiftedRight, "2nd Voice Shift Right", "lightgreen", ma.ShowSecondVoiceNotesShiftRight)
 
 	ma.ActualBeatsTemporalShift = jump2 - jump1
 

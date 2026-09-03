@@ -21,7 +21,8 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 					NbPitchLines:                   50,
 					NbBeatLines:                    64,
 					OriginX:                        50.0,
-					OriginY:                        750.0,
+					OriginY:                        600.0,
+					ScoreScale:                     1.0,
 					ShowFirstVoice:                 true,
 					ShowFirstVoiceShiftRight:       true,
 					ShowSecondVoice:                true,
@@ -35,6 +36,10 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 				plant.MusicAbstract = ma
 				needCommit = true
 			} else {
+				if plant.MusicAbstract.ScoreScale <= 0 {
+					plant.MusicAbstract.ScoreScale = 1.0
+					needCommit = true
+				}
 				if plant.MusicAbstract.PitchHeight <= 0 {
 					plant.MusicAbstract.PitchHeight = 0.138
 					needCommit = true
@@ -60,7 +65,7 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 					needCommit = true
 				}
 				if plant.MusicAbstract.OriginY <= 0 {
-					plant.MusicAbstract.OriginY = 750.0
+					plant.MusicAbstract.OriginY = 600.0
 					needCommit = true
 				}
 				if plant.MusicAbstract.ThemeBinaryEncoding == 0 {

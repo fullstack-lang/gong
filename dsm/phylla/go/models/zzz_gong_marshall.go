@@ -560,6 +560,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbBeatLines"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginY"))
+		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ScoreScale"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoice"))
@@ -2731,6 +2732,11 @@ func (musicabstract *MusicAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginY")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.OriginY))
+	case "ScoreScale":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScoreScale")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", musicabstract.ScoreScale))
 	case "ShowFirstVoice":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
@@ -8181,6 +8187,7 @@ func (musicabstract *MusicAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "NbBeatLines"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "OriginY"))
+		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ScoreScale"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
 		initializerStatements.WriteString(musicabstract.GongMarshallField(stage, "ShowSecondVoice"))

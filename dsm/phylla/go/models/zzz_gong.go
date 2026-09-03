@@ -33862,6 +33862,10 @@ func (musicabstract *MusicAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "ScoreScale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ShowFirstVoice",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -39188,6 +39192,10 @@ func (musicabstract *MusicAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", musicabstract.OriginY)
 		res.valueFloat = musicabstract.OriginY
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ScoreScale":
+		res.valueString = fmt.Sprintf("%f", musicabstract.ScoreScale)
+		res.valueFloat = musicabstract.ScoreScale
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ShowFirstVoice":
 		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoice)
 		res.valueBool = musicabstract.ShowFirstVoice
@@ -44491,6 +44499,8 @@ func (musicabstract *MusicAbstract) GongSetFieldValue(fieldName string, value Go
 		musicabstract.OriginX = value.GetValueFloat()
 	case "OriginY":
 		musicabstract.OriginY = value.GetValueFloat()
+	case "ScoreScale":
+		musicabstract.ScoreScale = value.GetValueFloat()
 	case "ShowFirstVoice":
 		musicabstract.ShowFirstVoice = value.GetValueBool()
 	case "ShowFirstVoiceShiftRight":

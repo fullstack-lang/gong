@@ -844,6 +844,8 @@ type MusicAbstract_WOP struct {
 
 	OriginY float64
 
+	ScoreScale float64
+
 	ShowFirstVoice bool
 
 	ShowFirstVoiceShiftRight bool
@@ -882,6 +884,7 @@ func (from *MusicAbstract) CopyBasicFields(to *MusicAbstract) {
 	to.NbBeatLines = from.NbBeatLines
 	to.OriginX = from.OriginX
 	to.OriginY = from.OriginY
+	to.ScoreScale = from.ScoreScale
 	to.ShowFirstVoice = from.ShowFirstVoice
 	to.ShowFirstVoiceShiftRight = from.ShowFirstVoiceShiftRight
 	to.ShowSecondVoice = from.ShowSecondVoice

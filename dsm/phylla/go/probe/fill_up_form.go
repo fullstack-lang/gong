@@ -847,6 +847,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OriginY", instanceWithInferedType.OriginY, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ScoreScale", instanceWithInferedType.ScoreScale, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ShowFirstVoice", instanceWithInferedType.ShowFirstVoice, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ShowFirstVoiceShiftRight", instanceWithInferedType.ShowFirstVoiceShiftRight, instanceWithInferedType, probe.formStage, formGroup,

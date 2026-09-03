@@ -20,18 +20,59 @@ func (stager *Stager) ux_slider_music() {
 	layout := new(m.Layout).Stage(stager.sliderMusicStage)
 
 	group1 := new(m.Group).Stage(stager.sliderMusicStage)
-	group1.Percentage = 40
+	group1.Percentage = 25
 	layout.Groups = append(layout.Groups, group1)
 
 	group2 := new(m.Group).Stage(stager.sliderMusicStage)
-	group2.Percentage = 60
+	group2.Percentage = 25
 	layout.Groups = append(layout.Groups, group2)
+
+	group3 := new(m.Group).Stage(stager.sliderMusicStage)
+	group3.Percentage = 50
+	layout.Groups = append(layout.Groups, group3)
 
 	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderMusicStage}
 
-	// Group 1: Plant geometry & lattice parameters
+	// Group 1: Score Navigation & Scale (Origin X, Y and Scale)
 	group1.Sliders = append(
 		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Score Scale",
+			0.1,
+			3.0,
+			0.05,
+			&plant.MusicAbstract.ScoreScale,
+		),
+		m.NewSlider(
+			target,
+			"Score X",
+			-500,
+			2000,
+			10,
+			&plant.MusicAbstract.OriginX,
+		),
+		m.NewSlider(
+			target,
+			"Score Y",
+			0,
+			3000,
+			20,
+			&plant.MusicAbstract.OriginY,
+		),
+		m.NewSlider(
+			target,
+			"Side Length",
+			5,
+			600,
+			5,
+			&plant.RhombusSideLength,
+		),
+	)
+
+	// Group 2: Plant geometry & lattice parameters
+	group2.Sliders = append(
+		group2.Sliders,
 		m.NewSlider(
 			target,
 			"N",
@@ -47,14 +88,6 @@ func (stager *Stager) ux_slider_music() {
 			20,
 			1,
 			&plant.M,
-		),
-		m.NewSlider(
-			target,
-			"Side Length",
-			5,
-			600,
-			5,
-			&plant.RhombusSideLength,
 		),
 		m.NewSlider(
 			target,
@@ -74,9 +107,9 @@ func (stager *Stager) ux_slider_music() {
 		),
 	)
 
-	// Group 2: Music composition parameters (matching phyllotaxymusic)
-	group2.Sliders = append(
-		group2.Sliders,
+	// Group 3: Music composition parameters (matching phyllotaxymusic)
+	group3.Sliders = append(
+		group3.Sliders,
 		m.NewSlider(
 			target,
 			"Pitch Height",
@@ -143,8 +176,8 @@ func (stager *Stager) ux_slider_music() {
 		),
 	)
 
-	group2.Checkboxes = append(
-		group2.Checkboxes,
+	group3.Checkboxes = append(
+		group3.Checkboxes,
 		m.NewCheckbox(
 			target,
 			"Scale",

@@ -24,6 +24,7 @@ func (stager *Stager) ux_button_music() {
 
 	group1 := new(button.Group).Stage(stager.buttonMusicStage)
 	group1.Percentage = 100
+	group1.NbColumns = 2
 	layout.Groups = append(layout.Groups, group1)
 
 	buttonExportToMuseScore := button.NewButton(
@@ -34,6 +35,9 @@ func (stager *Stager) ux_button_music() {
 		string(buttons.BUTTON_music_note),
 		"Export to Musescore",
 	)
+	buttonExportToMuseScore.MatButtonType = button.MatButtonTypeBasic
+	buttonExportToMuseScore.MatButtonAppearance = button.MatButtonAppearanceOutlined
+	buttonExportToMuseScore.Color = button.MatButtonPaletteTypePrimary
 	group1.Buttons = append(group1.Buttons, buttonExportToMuseScore)
 
 	buttonExportStaticSite := button.NewButton(
@@ -44,6 +48,9 @@ func (stager *Stager) ux_button_music() {
 		string(buttons.BUTTON_web),
 		"Export Static Web Site",
 	)
+	buttonExportStaticSite.MatButtonType = button.MatButtonTypeBasic
+	buttonExportStaticSite.MatButtonAppearance = button.MatButtonAppearanceOutlined
+	buttonExportStaticSite.Color = button.MatButtonPaletteTypePrimary
 	group1.Buttons = append(group1.Buttons, buttonExportStaticSite)
 
 	stager.buttonMusicStage.Commit()

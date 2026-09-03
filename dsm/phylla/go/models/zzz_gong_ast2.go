@@ -1995,6 +1995,8 @@ func (u *MusicAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.OriginX = GongExtractFloat(valueExpr)
 	case "OriginY":
 		instance.OriginY = GongExtractFloat(valueExpr)
+	case "ScoreScale":
+		instance.ScoreScale = GongExtractFloat(valueExpr)
 	case "ShowFirstVoice":
 		instance.ShowFirstVoice = GongExtractBool(valueExpr)
 	case "ShowFirstVoiceShiftRight":

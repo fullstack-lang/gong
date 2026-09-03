@@ -200,8 +200,9 @@ func _(stage *models.Stage) {
 	__MusicAbstract__00000000_.BezierControlLengthRatio = 0.560000
 	__MusicAbstract__00000000_.NbPitchLines = 50
 	__MusicAbstract__00000000_.NbBeatLines = 64
-	__MusicAbstract__00000000_.OriginX = 50.000000
-	__MusicAbstract__00000000_.OriginY = 750.000000
+	__MusicAbstract__00000000_.OriginX = 200.000000
+	__MusicAbstract__00000000_.OriginY = 900.000000
+	__MusicAbstract__00000000_.ScoreScale = 0.950000
 	__MusicAbstract__00000000_.ShowFirstVoice = true
 	__MusicAbstract__00000000_.ShowFirstVoiceShiftRight = true
 	__MusicAbstract__00000000_.ShowSecondVoice = true
@@ -559,7 +560,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000004_.M = 2
 	__PlantAbstract__00000004_.StackHeight = 3
 	__PlantAbstract__00000004_.RhombusInsideAngle = 135.000000
-	__PlantAbstract__00000004_.RhombusSideLength = 100.000000
+	__PlantAbstract__00000004_.RhombusSideLength = 130.000000
 	__PlantAbstract__00000004_.PlantType = models.Music
 	__PlantAbstract__00000004_.CurrentView = models.VIEW_MUSIC_SCORE
 	__PlantAbstract__00000004_.ComputedPrefix = ``

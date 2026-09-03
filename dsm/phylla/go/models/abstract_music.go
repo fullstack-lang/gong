@@ -44,9 +44,10 @@ type MusicAbstract struct {
 	// Number of beat lines (vertical grid lines)
 	NbBeatLines int
 
-	// Origin of the score in SVG canvas space
-	OriginX float64
-	OriginY float64
+	// Origin and zoom of the score in SVG canvas space
+	OriginX    float64
+	OriginY    float64
+	ScoreScale float64
 
 	// Tree visibility checkboxes ("Composer")
 	ShowFirstVoice                 bool

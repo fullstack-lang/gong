@@ -13496,6 +13496,9 @@ func (musicabstract *MusicAbstract) GongDiff(stage *Stage, musicabstractOther *M
 	if musicabstract.OriginY != musicabstractOther.OriginY {
 		diffs = append(diffs, musicabstract.GongMarshallField(stage, "OriginY"))
 	}
+	if musicabstract.ScoreScale != musicabstractOther.ScoreScale {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ScoreScale"))
+	}
 	if musicabstract.ShowFirstVoice != musicabstractOther.ShowFirstVoice {
 		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
 	}

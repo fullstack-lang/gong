@@ -743,24 +743,24 @@ func (stager *Stager) createViews() {
 					},
 				},
 				{
-					Size: 525,
+					Size: 585,
 					AsSplit: &split.AsSplit{
 						Direction: split.Vertical,
 						AsSplitAreas: []*split.AsSplitArea{
 							{
-								Size: 60,
+								Size: 82,
 								Slider: &split.Slider{
 									StackName: stager.sliderMusicStage.GetName(),
 								},
 							},
 							{
-								Size: 20,
+								Size: 9,
 								Button: &split.Button{
 									StackName: stager.buttonMusicStage.GetName(),
 								},
 							},
 							{
-								Size: 20,
+								Size: 9,
 								Tone: &split.Tone{
 									StackName: stager.toneStage.GetName(),
 								},

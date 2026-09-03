@@ -4504,6 +4504,8 @@ func (musicabstractFormCallback *MusicAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(musicabstract_.OriginX), formDiv)
 		case "OriginY":
 			FormDivBasicFieldToField(&(musicabstract_.OriginY), formDiv)
+		case "ScoreScale":
+			FormDivBasicFieldToField(&(musicabstract_.ScoreScale), formDiv)
 		case "ShowFirstVoice":
 			FormDivBasicFieldToField(&(musicabstract_.ShowFirstVoice), formDiv)
 		case "ShowFirstVoiceShiftRight":
