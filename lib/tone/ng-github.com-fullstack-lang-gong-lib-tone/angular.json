@@ -34,11 +34,6 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              },
-              {
-                "glob": "**/*",
-                "input": "projects/tonespecific/src/lib/tone-specific/assets",
-                "output": "assets"
               }
             ],
             "browser": "src/main.ts",

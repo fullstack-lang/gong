@@ -9,6 +9,7 @@ import * as tonelocal from '../../../../tone/src/public-api';
 
 import { Subject } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
+import { SALAMANDER_SAMPLES } from './salamander-samples';
 
 @Component({
   selector: 'lib-tone-specific',
@@ -151,43 +152,15 @@ export class ToneSpecificComponent {
   }
 
   private initializeSampler(duration: number, notes: tonelocal.Note[]): void {
-
-    const audioBaseUrl = `${window.location.origin}/assets/audio/salamander/`;
-
-    const urls: { [key: string]: string } = {
-      C3: 'C3.mp3?v=1',
-      'D#3': 'Ds3.mp3?v=1',
-      'F#3': 'Fs3.mp3?v=1',
-      A3: 'A3.mp3?v=1',
-      C4: 'C4.mp3?v=1',
-      'D#4': 'Ds4.mp3?v=1',
-      'F#4': 'Fs4.mp3?v=1',
-      A4: 'A4.mp3?v=1',
-      C5: 'C5.mp3?v=1',
-      'D#5': 'Ds5.mp3?v=1'
-    };
-
     this.sampler = new Tone.Sampler({
-      urls: urls,
-      baseUrl: audioBaseUrl,
+      urls: SALAMANDER_SAMPLES,
       release: 1,
       onload: () => {
         console.log('Sampler loaded successfully');
         this.startPlayback(duration, notes);
       },
       onerror: (error) => {
-        console.error('Sampler load error for baseUrl:', audioBaseUrl, error);
-
-        // Detailed error logging
-        if (error instanceof Event) {
-          const target = error.target as HTMLAudioElement;
-          console.error('Failed Audio Source:', {
-            src: target.src,
-            error: target.error,
-            errorCode: target.error?.code
-          });
-        }
-
+        console.error('Sampler load error:', error);
         this.handleSamplerLoadError(error);
       }
     }).toDestination();
@@ -204,11 +177,15 @@ export class ToneSpecificComponent {
         this.isLoading = false;
         this.isPlaying = true;
 
+        Tone.getTransport().stop();
+        Tone.getTransport().position = 0;
+
         // Create and store the new loop
         this.currentLoop = new Tone.Loop((time) => {
           notes.forEach(note => {
             const frequencies = note.Frequencies.map(freq => freq.Name);
-            this.sampler?.triggerAttackRelease(frequencies, note.Duration, time + note.Start);
+            const noteTime = Math.max(Tone.now(), time + note.Start);
+            this.sampler?.triggerAttackRelease(frequencies, note.Duration, noteTime);
           });
         }, duration).start(0);
 
