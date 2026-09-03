@@ -267,6 +267,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.midarcvectorshapegrid, probe)
 			}
+		case *MusicAbstractFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "MusicAbstract", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.musicabstract, probe)
+			}
 		case *OriginalPoints3DShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "OriginalPoints3DShape", true)
@@ -1453,6 +1459,19 @@ func FillUpFormFromGongstructName(
 		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(midarcvectorshapegrid, formGroup, probe)
+	case "MusicAbstract":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "MusicAbstract Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MusicAbstractFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		musicabstract := new(models.MusicAbstract)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(musicabstract, formGroup, probe)
 	case "OriginalPoints3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

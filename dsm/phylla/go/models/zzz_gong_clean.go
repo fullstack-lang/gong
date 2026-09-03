@@ -352,6 +352,13 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongClean(stage *Stage) (mod
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by MusicAbstract
+func (musicabstract *MusicAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by OriginalPoints3DShape
 func (originalpoints3dshape *OriginalPoints3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -546,6 +553,7 @@ func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantabstract.VaseAbstract) || modified
 	modified = GongCleanPointer(stage, &plantabstract.StoolAbstract) || modified
 	modified = GongCleanPointer(stage, &plantabstract.ClockAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.MusicAbstract) || modified
 	modified = GongCleanPointer(stage, &plantabstract.AxesShape) || modified
 	modified = GongCleanPointer(stage, &plantabstract.RhombusStuff) || modified
 	modified = GongCleanPointer(stage, &plantabstract.GrowthVectorShape) || modified

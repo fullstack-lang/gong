@@ -72,6 +72,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce stool abstract name", stager.enforceStoolAbstractName, false},
 		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract, false},
 		{"Enforce clock abstract name", stager.enforceClockAbstractName, false},
+		{"Enforce plant has music abstract", stager.enforcePlantHasMusicAbstract, false},
+		{"Enforce music abstract name", stager.enforceMusicAbstractName, false},
 		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus, false},
 		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName, false},
 		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape, false},

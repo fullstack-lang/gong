@@ -565,6 +565,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.MusicAbstract:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "MusicAbstract",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MusicAbstractFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.OriginalPoints3DShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

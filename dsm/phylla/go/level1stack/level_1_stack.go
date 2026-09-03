@@ -162,6 +162,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MidArcVectorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MidArcVectorShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.MusicAbstract](stage)
 	models.SetOrchestratorOnAfterUpdate[models.OriginalPoints3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ParastichyMCurves3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ParastichyNCurves3DShape](stage)

@@ -31,6 +31,7 @@ func _(stage *models.Stage) {
 	__Circumference3DShape__00000001_ := (&models.Circumference3DShape{Name: `Vase (2,1,104) - 3D Diagram-Circumference3DShape`}).Stage(stage)
 	__Circumference3DShape__00000002_ := (&models.Circumference3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-Circumference3DShape`}).Stage(stage)
 	__Circumference3DShape__00000003_ := (&models.Circumference3DShape{Name: `Stool - 3D Diagram-Circumference3DShape`}).Stage(stage)
+	__Circumference3DShape__00000004_ := (&models.Circumference3DShape{Name: `New Plant - 3D Diagram-Circumference3DShape`}).Stage(stage)
 
 	__Clock2DDiagram__00000000_ := (&models.Clock2DDiagram{Name: `New Plant - Diagram-Clock2DDiagram`}).Stage(stage)
 
@@ -42,13 +43,17 @@ func _(stage *models.Stage) {
 	__CutLine3DShape__00000001_ := (&models.CutLine3DShape{Name: `Vase (2,1,104) - 3D Diagram-CutLine3DShape`}).Stage(stage)
 	__CutLine3DShape__00000002_ := (&models.CutLine3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-CutLine3DShape`}).Stage(stage)
 	__CutLine3DShape__00000003_ := (&models.CutLine3DShape{Name: `Stool - 3D Diagram-CutLine3DShape`}).Stage(stage)
+	__CutLine3DShape__00000004_ := (&models.CutLine3DShape{Name: `New Plant - 3D Diagram-CutLine3DShape`}).Stage(stage)
 
 	__Leaves3DShape__00000000_ := (&models.Leaves3DShape{Name: `Clock - 3D Diagram-Leaves3DShape`}).Stage(stage)
 	__Leaves3DShape__00000001_ := (&models.Leaves3DShape{Name: `Vase (2,1,104) - 3D Diagram-Leaves3DShape`}).Stage(stage)
 	__Leaves3DShape__00000002_ := (&models.Leaves3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-Leaves3DShape`}).Stage(stage)
 	__Leaves3DShape__00000003_ := (&models.Leaves3DShape{Name: `Stool - 3D Diagram-Leaves3DShape`}).Stage(stage)
+	__Leaves3DShape__00000004_ := (&models.Leaves3DShape{Name: `New Plant - 3D Diagram-Leaves3DShape`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Herbarium`}).Stage(stage)
+
+	__MusicAbstract__00000000_ := (&models.MusicAbstract{Name: `Music-MusicAbstract`}).Stage(stage)
 
 	__OriginalPoints3DShape__00000000_ := (&models.OriginalPoints3DShape{Name: `Plant 1-Vase3DDiagram-OriginalPoints3DShape`}).Stage(stage)
 
@@ -56,27 +61,32 @@ func _(stage *models.Stage) {
 	__ParastichyMCurves3DShape__00000001_ := (&models.ParastichyMCurves3DShape{Name: `Vase (2,1,104) - 3D Diagram-ParastichyMCurves3DShape`}).Stage(stage)
 	__ParastichyMCurves3DShape__00000002_ := (&models.ParastichyMCurves3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-ParastichyMCurves3DShape`}).Stage(stage)
 	__ParastichyMCurves3DShape__00000003_ := (&models.ParastichyMCurves3DShape{Name: `Stool - 3D Diagram-ParastichyMCurves3DShape`}).Stage(stage)
+	__ParastichyMCurves3DShape__00000004_ := (&models.ParastichyMCurves3DShape{Name: `New Plant - 3D Diagram-ParastichyMCurves3DShape`}).Stage(stage)
 
 	__ParastichyNCurves3DShape__00000000_ := (&models.ParastichyNCurves3DShape{Name: `Clock - 3D Diagram-ParastichyNCurves3DShape`}).Stage(stage)
 	__ParastichyNCurves3DShape__00000001_ := (&models.ParastichyNCurves3DShape{Name: `Vase (2,1,104) - 3D Diagram-ParastichyNCurves3DShape`}).Stage(stage)
 	__ParastichyNCurves3DShape__00000002_ := (&models.ParastichyNCurves3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-ParastichyNCurves3DShape`}).Stage(stage)
 	__ParastichyNCurves3DShape__00000003_ := (&models.ParastichyNCurves3DShape{Name: `Stool - 3D Diagram-ParastichyNCurves3DShape`}).Stage(stage)
+	__ParastichyNCurves3DShape__00000004_ := (&models.ParastichyNCurves3DShape{Name: `New Plant - 3D Diagram-ParastichyNCurves3DShape`}).Stage(stage)
 
 	__Plant2DDiagram__00000002_ := (&models.Plant2DDiagram{Name: `New Plant - Diagram`}).Stage(stage)
 	__Plant2DDiagram__00000003_ := (&models.Plant2DDiagram{Name: `Vase arcs`}).Stage(stage)
 	__Plant2DDiagram__00000004_ := (&models.Plant2DDiagram{Name: `New Plant - Diagram`}).Stage(stage)
 	__Plant2DDiagram__00000005_ := (&models.Plant2DDiagram{Name: `New Plant - Diagram`}).Stage(stage)
 	__Plant2DDiagram__00000006_ := (&models.Plant2DDiagram{Name: `For About spiral plants`}).Stage(stage)
+	__Plant2DDiagram__00000007_ := (&models.Plant2DDiagram{Name: `New Plant - Diagram`}).Stage(stage)
 
 	__Plant3DDiagram__00000000_ := (&models.Plant3DDiagram{Name: `Plant (3, 5, 100) - 3D Diagram`}).Stage(stage)
 	__Plant3DDiagram__00000001_ := (&models.Plant3DDiagram{Name: `Stool - 3D Diagram`}).Stage(stage)
 	__Plant3DDiagram__00000002_ := (&models.Plant3DDiagram{Name: `Clock - 3D Diagram`}).Stage(stage)
 	__Plant3DDiagram__00000003_ := (&models.Plant3DDiagram{Name: `Vase (2,1,104) - 3D Diagram`}).Stage(stage)
+	__Plant3DDiagram__00000004_ := (&models.Plant3DDiagram{Name: `New Plant - 3D Diagram`}).Stage(stage)
 
 	__PlantAbstract__00000000_ := (&models.PlantAbstract{Name: `Vase (2,1,104)`}).Stage(stage)
 	__PlantAbstract__00000001_ := (&models.PlantAbstract{Name: `Plant (3, 5, 100)`}).Stage(stage)
 	__PlantAbstract__00000002_ := (&models.PlantAbstract{Name: `Stool`}).Stage(stage)
 	__PlantAbstract__00000003_ := (&models.PlantAbstract{Name: `Clock`}).Stage(stage)
+	__PlantAbstract__00000004_ := (&models.PlantAbstract{Name: `Music`}).Stage(stage)
 
 	__Rendered3DShape__00000000_ := (&models.Rendered3DShape{Name: `Plant 1-Rendered3DShape`}).Stage(stage)
 	__Rendered3DShape__00000002_ := (&models.Rendered3DShape{Name: `New Plant - Diagram-Rendered3DShape`}).Stage(stage)
@@ -85,6 +95,7 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000005_ := (&models.Rendered3DShape{Name: `Vase (2,1,104) - 3D Diagram-Rendered3DShape`}).Stage(stage)
 	__Rendered3DShape__00000006_ := (&models.Rendered3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-Rendered3DShape`}).Stage(stage)
 	__Rendered3DShape__00000007_ := (&models.Rendered3DShape{Name: `Stool - 3D Diagram-Rendered3DShape`}).Stage(stage)
+	__Rendered3DShape__00000008_ := (&models.Rendered3DShape{Name: `New Plant - 3D Diagram-Rendered3DShape`}).Stage(stage)
 
 	__SampledPoints3DShape__00000000_ := (&models.SampledPoints3DShape{Name: `New Plant - Diagram-SampledPoints3DShape`}).Stage(stage)
 	__SampledPoints3DShape__00000001_ := (&models.SampledPoints3DShape{Name: `New Plant - Diagram-SampledPoints3DShape`}).Stage(stage)
@@ -94,6 +105,7 @@ func _(stage *models.Stage) {
 	__StemCylinder3DShape__00000001_ := (&models.StemCylinder3DShape{Name: `Vase (2,1,104) - 3D Diagram-StemCylinder3DShape`}).Stage(stage)
 	__StemCylinder3DShape__00000002_ := (&models.StemCylinder3DShape{Name: `Plant (3, 5, 100) - 3D Diagram-StemCylinder3DShape`}).Stage(stage)
 	__StemCylinder3DShape__00000003_ := (&models.StemCylinder3DShape{Name: `Stool - 3D Diagram-StemCylinder3DShape`}).Stage(stage)
+	__StemCylinder3DShape__00000004_ := (&models.StemCylinder3DShape{Name: `New Plant - 3D Diagram-StemCylinder3DShape`}).Stage(stage)
 
 	__Stool2DDiagram__00000000_ := (&models.Stool2DDiagram{Name: `New Plant - Diagram-Stool2DDiagram`}).Stage(stage)
 
@@ -118,6 +130,8 @@ func _(stage *models.Stage) {
 	__Circumference3DShape__00000002_.Name = `Plant (3, 5, 100) - 3D Diagram-Circumference3DShape`
 
 	__Circumference3DShape__00000003_.Name = `Stool - 3D Diagram-Circumference3DShape`
+
+	__Circumference3DShape__00000004_.Name = `New Plant - 3D Diagram-Circumference3DShape`
 
 	__Clock2DDiagram__00000000_.Name = `New Plant - Diagram-Clock2DDiagram`
 	__Clock2DDiagram__00000000_.Zoom = 1.000000
@@ -152,6 +166,8 @@ func _(stage *models.Stage) {
 
 	__CutLine3DShape__00000003_.Name = `Stool - 3D Diagram-CutLine3DShape`
 
+	__CutLine3DShape__00000004_.Name = `New Plant - 3D Diagram-CutLine3DShape`
+
 	__Leaves3DShape__00000000_.Name = `Clock - 3D Diagram-Leaves3DShape`
 
 	__Leaves3DShape__00000001_.Name = `Vase (2,1,104) - 3D Diagram-Leaves3DShape`
@@ -160,12 +176,41 @@ func _(stage *models.Stage) {
 
 	__Leaves3DShape__00000003_.Name = `Stool - 3D Diagram-Leaves3DShape`
 
+	__Leaves3DShape__00000004_.Name = `New Plant - 3D Diagram-Leaves3DShape`
+
 	__Library__00000000_.Name = `Herbarium`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
+
+	__MusicAbstract__00000000_.Name = `Music-MusicAbstract`
+	__MusicAbstract__00000000_.IsChecked = true
+	__MusicAbstract__00000000_.PitchHeight = 0.138000
+	__MusicAbstract__00000000_.NbOfBeatsInTheme = 16
+	__MusicAbstract__00000000_.BeatsPerSecond = 6.000000
+	__MusicAbstract__00000000_.FirstVoiceShiftX = 0.100000
+	__MusicAbstract__00000000_.FirstVoiceShiftY = 2.400000
+	__MusicAbstract__00000000_.PitchDifference = 12
+	__MusicAbstract__00000000_.Level = 11.100000
+	__MusicAbstract__00000000_.ActualBeatsTemporalShift = 5
+	__MusicAbstract__00000000_.IsMinor = true
+	__MusicAbstract__00000000_.ThemeBinaryEncoding = 65519
+	__MusicAbstract__00000000_.BezierControlLengthRatio = 0.560000
+	__MusicAbstract__00000000_.NbPitchLines = 50
+	__MusicAbstract__00000000_.NbBeatLines = 64
+	__MusicAbstract__00000000_.OriginX = 50.000000
+	__MusicAbstract__00000000_.OriginY = 750.000000
+	__MusicAbstract__00000000_.ShowFirstVoice = true
+	__MusicAbstract__00000000_.ShowFirstVoiceShiftRight = true
+	__MusicAbstract__00000000_.ShowSecondVoice = true
+	__MusicAbstract__00000000_.ShowSecondVoiceShiftRight = true
+	__MusicAbstract__00000000_.ShowFirstVoiceNotes = true
+	__MusicAbstract__00000000_.ShowFirstVoiceNotesShiftRight = true
+	__MusicAbstract__00000000_.ShowSecondVoiceNotes = true
+	__MusicAbstract__00000000_.ShowSecondVoiceNotesShiftRight = true
+	__MusicAbstract__00000000_.IsComposerNodeExpanded = true
 
 	__OriginalPoints3DShape__00000000_.Name = `Plant 1-Vase3DDiagram-OriginalPoints3DShape`
 
@@ -177,6 +222,8 @@ func _(stage *models.Stage) {
 
 	__ParastichyMCurves3DShape__00000003_.Name = `Stool - 3D Diagram-ParastichyMCurves3DShape`
 
+	__ParastichyMCurves3DShape__00000004_.Name = `New Plant - 3D Diagram-ParastichyMCurves3DShape`
+
 	__ParastichyNCurves3DShape__00000000_.Name = `Clock - 3D Diagram-ParastichyNCurves3DShape`
 
 	__ParastichyNCurves3DShape__00000001_.Name = `Vase (2,1,104) - 3D Diagram-ParastichyNCurves3DShape`
@@ -184,6 +231,8 @@ func _(stage *models.Stage) {
 	__ParastichyNCurves3DShape__00000002_.Name = `Plant (3, 5, 100) - 3D Diagram-ParastichyNCurves3DShape`
 
 	__ParastichyNCurves3DShape__00000003_.Name = `Stool - 3D Diagram-ParastichyNCurves3DShape`
+
+	__ParastichyNCurves3DShape__00000004_.Name = `New Plant - 3D Diagram-ParastichyNCurves3DShape`
 
 	__Plant2DDiagram__00000002_.Name = `New Plant - Diagram`
 	__Plant2DDiagram__00000002_.OriginX = 50.000000
@@ -335,6 +384,36 @@ func _(stage *models.Stage) {
 	__Plant2DDiagram__00000006_.ComputedPrefix = ``
 	__Plant2DDiagram__00000006_.IsExpanded = false
 
+	__Plant2DDiagram__00000007_.Name = `New Plant - Diagram`
+	__Plant2DDiagram__00000007_.OriginX = 280.000000
+	__Plant2DDiagram__00000007_.OriginY = 950.000000
+	__Plant2DDiagram__00000007_.Zoom = 1.000000
+	__Plant2DDiagram__00000007_.IsRhombusNodesExpanded = false
+	__Plant2DDiagram__00000007_.IsArcNodesExpanded = false
+	__Plant2DDiagram__00000007_.IsHiddenAxesShape = false
+	__Plant2DDiagram__00000007_.IsHiddenReferenceRhombus = false
+	__Plant2DDiagram__00000007_.IsHiddenPlantCircumferenceShape = false
+	__Plant2DDiagram__00000007_.IsHiddenGridPathShape = false
+	__Plant2DDiagram__00000007_.IsHiddenRhombusGridShape = false
+	__Plant2DDiagram__00000007_.IsHiddenExplanationTextShape = false
+	__Plant2DDiagram__00000007_.IsHiddenRotatedReferenceRhombus = false
+	__Plant2DDiagram__00000007_.IsHiddenRotatedPlantCircumferenceShape = false
+	__Plant2DDiagram__00000007_.IsHiddenRotatedGridPathShape = false
+	__Plant2DDiagram__00000007_.IsHiddenRotatedRhombusGridShape = false
+	__Plant2DDiagram__00000007_.IsHiddenGrowthPathRhombusGridShape = false
+	__Plant2DDiagram__00000007_.IsHiddenGrowthVectorShape = false
+	__Plant2DDiagram__00000007_.IsHiddenPerpendicularVectorGrid = false
+	__Plant2DDiagram__00000007_.IsHiddenBaseVectorShapeGrid = false
+	__Plant2DDiagram__00000007_.IsHiddenArcNormalVectorShapeGrid = false
+	__Plant2DDiagram__00000007_.IsHiddenStartArcShapeGrid = false
+	__Plant2DDiagram__00000007_.IsHiddenMidArcVectorShapeGrid = false
+	__Plant2DDiagram__00000007_.IsHiddenEndArcShapeGrid = false
+	__Plant2DDiagram__00000007_.IsHiddenGrowthCurve2D = false
+	__Plant2DDiagram__00000007_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
+	__Plant2DDiagram__00000007_.IsChecked = true
+	__Plant2DDiagram__00000007_.ComputedPrefix = ``
+	__Plant2DDiagram__00000007_.IsExpanded = false
+
 	__Plant3DDiagram__00000000_.Name = `Plant (3, 5, 100) - 3D Diagram`
 	__Plant3DDiagram__00000000_.IsHiddenStemCylinder3DShape = false
 	__Plant3DDiagram__00000000_.IsHiddenParastichyNCurves3DShape = false
@@ -383,6 +462,18 @@ func _(stage *models.Stage) {
 	__Plant3DDiagram__00000003_.ComputedPrefix = ``
 	__Plant3DDiagram__00000003_.IsExpanded = true
 
+	__Plant3DDiagram__00000004_.Name = `New Plant - 3D Diagram`
+	__Plant3DDiagram__00000004_.IsHiddenStemCylinder3DShape = false
+	__Plant3DDiagram__00000004_.IsHiddenParastichyNCurves3DShape = false
+	__Plant3DDiagram__00000004_.IsHiddenParastichyMCurves3DShape = false
+	__Plant3DDiagram__00000004_.IsHiddenCutLine3DShape = false
+	__Plant3DDiagram__00000004_.IsHiddenCircumference3DShape = false
+	__Plant3DDiagram__00000004_.IsHiddenTiledFloor3DShape = false
+	__Plant3DDiagram__00000004_.IsHiddenLeaves3DShape = false
+	__Plant3DDiagram__00000004_.IsChecked = false
+	__Plant3DDiagram__00000004_.ComputedPrefix = ``
+	__Plant3DDiagram__00000004_.IsExpanded = true
+
 	__PlantAbstract__00000000_.Name = `Vase (2,1,104)`
 	__PlantAbstract__00000000_.N = 1
 	__PlantAbstract__00000000_.M = 2
@@ -392,8 +483,8 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.PlantType = models.Vase
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
-	__PlantAbstract__00000000_.IsExpanded = true
-	__PlantAbstract__00000000_.IsSelected = true
+	__PlantAbstract__00000000_.IsExpanded = false
+	__PlantAbstract__00000000_.IsSelected = false
 	__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsPlant3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsVase2DDiagramsNodeExpanded = false
@@ -412,7 +503,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.PlantType = models.Plant
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_3D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
-	__PlantAbstract__00000001_.IsExpanded = true
+	__PlantAbstract__00000001_.IsExpanded = false
 	__PlantAbstract__00000001_.IsSelected = false
 	__PlantAbstract__00000001_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000001_.IsPlant3DDiagramsNodeExpanded = false
@@ -432,7 +523,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.PlantType = models.Stool
 	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
-	__PlantAbstract__00000002_.IsExpanded = true
+	__PlantAbstract__00000002_.IsExpanded = false
 	__PlantAbstract__00000002_.IsSelected = false
 	__PlantAbstract__00000002_.IsPlant2DDiagramsNodeExpanded = true
 	__PlantAbstract__00000002_.IsPlant3DDiagramsNodeExpanded = false
@@ -462,6 +553,26 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000003_.IsStool3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000003_.IsClock2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000003_.IsClock3DDiagramsNodeExpanded = true
+
+	__PlantAbstract__00000004_.Name = `Music`
+	__PlantAbstract__00000004_.N = 1
+	__PlantAbstract__00000004_.M = 2
+	__PlantAbstract__00000004_.StackHeight = 3
+	__PlantAbstract__00000004_.RhombusInsideAngle = 135.000000
+	__PlantAbstract__00000004_.RhombusSideLength = 100.000000
+	__PlantAbstract__00000004_.PlantType = models.Music
+	__PlantAbstract__00000004_.CurrentView = models.VIEW_MUSIC_SCORE
+	__PlantAbstract__00000004_.ComputedPrefix = ``
+	__PlantAbstract__00000004_.IsExpanded = true
+	__PlantAbstract__00000004_.IsSelected = true
+	__PlantAbstract__00000004_.IsPlant2DDiagramsNodeExpanded = true
+	__PlantAbstract__00000004_.IsPlant3DDiagramsNodeExpanded = true
+	__PlantAbstract__00000004_.IsVase2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000004_.IsVase3DDiagramsNodeExpanded = false
+	__PlantAbstract__00000004_.IsStool2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000004_.IsStool3DDiagramsNodeExpanded = false
+	__PlantAbstract__00000004_.IsClock2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000004_.IsClock3DDiagramsNodeExpanded = false
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
 	__Rendered3DShape__00000000_.ViewX = 1013.226869
@@ -526,6 +637,15 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000007_.TargetZ = 0.000000
 	__Rendered3DShape__00000007_.Fov = 0.000000
 
+	__Rendered3DShape__00000008_.Name = `New Plant - 3D Diagram-Rendered3DShape`
+	__Rendered3DShape__00000008_.ViewX = 225.905475
+	__Rendered3DShape__00000008_.ViewY = 76.557919
+	__Rendered3DShape__00000008_.ViewZ = 226.389476
+	__Rendered3DShape__00000008_.TargetX = 0.000000
+	__Rendered3DShape__00000008_.TargetY = 36.192044
+	__Rendered3DShape__00000008_.TargetZ = 0.000000
+	__Rendered3DShape__00000008_.Fov = 50.000000
+
 	__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 
 	__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -543,6 +663,9 @@ func _(stage *models.Stage) {
 
 	__StemCylinder3DShape__00000003_.Name = `Stool - 3D Diagram-StemCylinder3DShape`
 	__StemCylinder3DShape__00000003_.Transparency = 0.350000
+
+	__StemCylinder3DShape__00000004_.Name = `New Plant - 3D Diagram-StemCylinder3DShape`
+	__StemCylinder3DShape__00000004_.Transparency = 0.350000
 
 	__Stool2DDiagram__00000000_.Name = `New Plant - Diagram-Stool2DDiagram`
 	__Stool2DDiagram__00000000_.Zoom = 1.000000
@@ -641,7 +764,7 @@ func _(stage *models.Stage) {
 	__Vase3DDiagram__00000000_.IsHiddenOriginalPoints3DShape = true
 	__Vase3DDiagram__00000000_.IsHiddenAngle0Shape = true
 	__Vase3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
-	__Vase3DDiagram__00000000_.IsChecked = true
+	__Vase3DDiagram__00000000_.IsChecked = false
 	__Vase3DDiagram__00000000_.ComputedPrefix = ``
 	__Vase3DDiagram__00000000_.IsExpanded = true
 
@@ -673,6 +796,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000000_)
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000002_)
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000003_)
+	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000004_)
 	__Plant3DDiagram__00000000_.StemCylinder3DShape = __StemCylinder3DShape__00000002_
 	__Plant3DDiagram__00000000_.ParastichyNCurves3DShape = __ParastichyNCurves3DShape__00000002_
 	__Plant3DDiagram__00000000_.ParastichyMCurves3DShape = __ParastichyMCurves3DShape__00000002_
@@ -701,9 +825,17 @@ func _(stage *models.Stage) {
 	__Plant3DDiagram__00000003_.Circumference3DShape = __Circumference3DShape__00000001_
 	__Plant3DDiagram__00000003_.Leaves3DShape = __Leaves3DShape__00000001_
 	__Plant3DDiagram__00000003_.Rendered3DShape = __Rendered3DShape__00000005_
+	__Plant3DDiagram__00000004_.StemCylinder3DShape = __StemCylinder3DShape__00000004_
+	__Plant3DDiagram__00000004_.ParastichyNCurves3DShape = __ParastichyNCurves3DShape__00000004_
+	__Plant3DDiagram__00000004_.ParastichyMCurves3DShape = __ParastichyMCurves3DShape__00000004_
+	__Plant3DDiagram__00000004_.CutLine3DShape = __CutLine3DShape__00000004_
+	__Plant3DDiagram__00000004_.Circumference3DShape = __Circumference3DShape__00000004_
+	__Plant3DDiagram__00000004_.Leaves3DShape = __Leaves3DShape__00000004_
+	__Plant3DDiagram__00000004_.Rendered3DShape = __Rendered3DShape__00000008_
 	__PlantAbstract__00000000_.VaseAbstract = __VaseAbstract__00000000_
 	__PlantAbstract__00000000_.StoolAbstract = nil
 	__PlantAbstract__00000000_.ClockAbstract = nil
+	__PlantAbstract__00000000_.MusicAbstract = nil
 	__PlantAbstract__00000000_.Plant2DDiagrams = append(__PlantAbstract__00000000_.Plant2DDiagrams, __Plant2DDiagram__00000003_)
 	__PlantAbstract__00000000_.Plant3DDiagrams = append(__PlantAbstract__00000000_.Plant3DDiagrams, __Plant3DDiagram__00000003_)
 	__PlantAbstract__00000000_.Vase2DDiagrams = append(__PlantAbstract__00000000_.Vase2DDiagrams, __Vase2DDiagram__00000000_)
@@ -711,12 +843,14 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.VaseAbstract = nil
 	__PlantAbstract__00000001_.StoolAbstract = nil
 	__PlantAbstract__00000001_.ClockAbstract = nil
+	__PlantAbstract__00000001_.MusicAbstract = nil
 	__PlantAbstract__00000001_.Plant2DDiagrams = append(__PlantAbstract__00000001_.Plant2DDiagrams, __Plant2DDiagram__00000002_)
 	__PlantAbstract__00000001_.Plant2DDiagrams = append(__PlantAbstract__00000001_.Plant2DDiagrams, __Plant2DDiagram__00000006_)
 	__PlantAbstract__00000001_.Plant3DDiagrams = append(__PlantAbstract__00000001_.Plant3DDiagrams, __Plant3DDiagram__00000000_)
 	__PlantAbstract__00000002_.VaseAbstract = nil
 	__PlantAbstract__00000002_.StoolAbstract = __StoolAbstract__00000000_
 	__PlantAbstract__00000002_.ClockAbstract = nil
+	__PlantAbstract__00000002_.MusicAbstract = nil
 	__PlantAbstract__00000002_.Plant2DDiagrams = append(__PlantAbstract__00000002_.Plant2DDiagrams, __Plant2DDiagram__00000004_)
 	__PlantAbstract__00000002_.Plant3DDiagrams = append(__PlantAbstract__00000002_.Plant3DDiagrams, __Plant3DDiagram__00000001_)
 	__PlantAbstract__00000002_.Stool2DDiagrams = append(__PlantAbstract__00000002_.Stool2DDiagrams, __Stool2DDiagram__00000000_)
@@ -724,10 +858,17 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000003_.VaseAbstract = nil
 	__PlantAbstract__00000003_.StoolAbstract = nil
 	__PlantAbstract__00000003_.ClockAbstract = __ClockAbstract__00000000_
+	__PlantAbstract__00000003_.MusicAbstract = nil
 	__PlantAbstract__00000003_.Plant2DDiagrams = append(__PlantAbstract__00000003_.Plant2DDiagrams, __Plant2DDiagram__00000005_)
 	__PlantAbstract__00000003_.Plant3DDiagrams = append(__PlantAbstract__00000003_.Plant3DDiagrams, __Plant3DDiagram__00000002_)
 	__PlantAbstract__00000003_.Clock2DDiagrams = append(__PlantAbstract__00000003_.Clock2DDiagrams, __Clock2DDiagram__00000000_)
 	__PlantAbstract__00000003_.Clock3DDiagrams = append(__PlantAbstract__00000003_.Clock3DDiagrams, __Clock3DDiagram__00000000_)
+	__PlantAbstract__00000004_.VaseAbstract = nil
+	__PlantAbstract__00000004_.StoolAbstract = nil
+	__PlantAbstract__00000004_.ClockAbstract = nil
+	__PlantAbstract__00000004_.MusicAbstract = __MusicAbstract__00000000_
+	__PlantAbstract__00000004_.Plant2DDiagrams = append(__PlantAbstract__00000004_.Plant2DDiagrams, __Plant2DDiagram__00000007_)
+	__PlantAbstract__00000004_.Plant3DDiagrams = append(__PlantAbstract__00000004_.Plant3DDiagrams, __Plant3DDiagram__00000004_)
 	__Stool3DDiagram__00000000_.SampledPoints3DShape = __SampledPoints3DShape__00000000_
 	__Stool3DDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000002_
 	__Vase3DDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000000_

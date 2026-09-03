@@ -34,6 +34,12 @@ import (
 
 	markdown "github.com/fullstack-lang/gong/lib/markdown/go/models"
 	markdown_stack "github.com/fullstack-lang/gong/lib/markdown/go/stack"
+
+	cursor "github.com/fullstack-lang/gong/lib/cursor/go/models"
+	cursor_stack "github.com/fullstack-lang/gong/lib/cursor/go/stack"
+
+	tone "github.com/fullstack-lang/gong/lib/tone/go/models"
+	tone_stack "github.com/fullstack-lang/gong/lib/tone/go/stack"
 )
 
 type ThreeJSStageUpdaterInterface interface {
@@ -73,14 +79,23 @@ type Stager struct {
 	sliderStage      *slider.Stage
 	sliderStoolStage *slider.Stage
 	sliderClockStage *slider.Stage
+	sliderMusicStage *slider.Stage
 	plantFormStage   *form.Stage
 	ssgStage         *ssg.Stage // mandatory
 	svgPlantStage    *svg.Stage
 	svgVaseStage     *svg.Stage
+	svgMusicStage    *svg.Stage
 	svgStage         *svg.Stage
+	buttonMusicStage *button.Stage
+	toneStage        *tone.Stage
+	cursorStage      *cursor.Stage
+	cursor           *cursor.Cursor
 	markdownStage    *markdown.Stage
 
 	svgObject *svg.SVG
+
+	musicNotes          []*MusicNoteData
+	circumferenceLength float64
 
 	// DSM mandatory
 	// map to navigate from abstract elements to all diagrams where they are displayed
@@ -131,16 +146,24 @@ func NewStager(
 	stager.sliderStage = slider_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.sliderStoolStage = slider_stack.NewStack(r, "sliderStoolStage", "", "", "", true, true).Stage
 	stager.sliderClockStage = slider_stack.NewStack(r, "sliderClockStage", "", "", "", true, true).Stage
+	stager.sliderMusicStage = slider_stack.NewStack(r, "sliderMusicStage", "", "", "", true, true).Stage
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgPlantStage = svg_stack.NewStack(r, "svgPlantStage", "", "", "", true, true).Stage
 	stager.svgVaseStage = svg_stack.NewStack(r, "svgVaseStage", "", "", "", true, true).Stage
+	stager.svgMusicStage = svg_stack.NewStack(r, "svgMusicStage", "", "", "", true, true).Stage
 	stager.svgStage = stager.svgPlantStage
+	stager.buttonMusicStage = button_stack.NewStack(r, "buttonMusicStage", "", "", "", true, true).Stage
+	stager.toneStage = tone_stack.NewStack(r, "toneStage", "", "", "", true, true).Stage
+	stager.cursorStage = cursor_stack.NewStack(r, "cursorStage", "", "", "", true, true).Stage
 	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.stool3dStage = threejs_stack.NewStack(r, "stool3d", "", "", "", true, true).Stage
 	stager.clock3dStage = threejs_stack.NewStack(r, "clock3d", "", "", "", true, true).Stage
 	stager.plant3dStage = threejs_stack.NewStack(r, "plant3d", "", "", "", true, true).Stage
 	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
+
+	stager.cursor = new(cursor.Cursor).Stage(stager.cursorStage)
+	stager.cursorStage.Commit()
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
 	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
@@ -162,8 +185,13 @@ func NewStager(
 		stager.ux_slider()
 		stager.ux_slider_stool()
 		stager.ux_slider_clock()
+		stager.ux_slider_music()
+		stager.ux_button_music()
 		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
+		stager.ux_svg_music()
+		stager.ux_tone_music()
+		stager.ux_cursor_music()
 		stager.UpdateThreeJSStage()
 		stager.UpdateStool3DStage()
 		stager.UpdateClock3DStage()

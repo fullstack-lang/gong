@@ -17,6 +17,7 @@ const (
 	VIEW_STOOL_3D            ViewType = "Stool 3D"
 	VIEW_CLOCK_3D            ViewType = "Clock 3D"
 	VIEW_ABOUT_SPIRAL_PLANTS ViewType = "About Spiral Plants"
+	VIEW_MUSIC_SCORE         ViewType = "Music Score"
 )
 
 type PlantType string
@@ -55,6 +56,7 @@ type PlantAbstract struct {
 	VaseAbstract  *VaseAbstract
 	StoolAbstract *StoolAbstract
 	ClockAbstract *ClockAbstract
+	MusicAbstract *MusicAbstract
 
 	CurrentView ViewType
 

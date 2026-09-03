@@ -160,6 +160,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct MidArcVectorShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct MusicAbstract
+	// insertion point per field
+
 	// Compute reverse map for named struct OriginalPoints3DShape
 	// insertion point per field
 
@@ -695,6 +698,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.MidArcVectorShapeGrids {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.MusicAbstracts {
 		res = append(res, instance)
 	}
 
@@ -1363,6 +1370,12 @@ func (midarcvectorshape *MidArcVectorShape) GongCopy() GongstructIF {
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(MidArcVectorShapeGrid)
 	midarcvectorshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (musicabstract *MusicAbstract) GongCopy() GongstructIF {
+	newInstance := new(MusicAbstract)
+	musicabstract.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2402,6 +2415,16 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetUUID(stage *Stage) (u
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midarcvectorshapegrid), uint64(GetOrderPointerGongstruct(stage, midarcvectorshapegrid)))
+	return
+}
+
+func (musicabstract *MusicAbstract) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(musicabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(musicabstract), uint64(GetOrderPointerGongstruct(stage, musicabstract)))
 	return
 }
 
@@ -3893,6 +3916,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var musicabstracts_newInstances []*MusicAbstract
+	var musicabstracts_deletedInstances []*MusicAbstract
+
+	// parse all staged instances and check if they have a reference
+	for musicabstract := range stage.MusicAbstracts {
+		if ref, ok := stage.MusicAbstracts_reference[musicabstract]; !ok {
+			musicabstracts_newInstances = append(musicabstracts_newInstances, musicabstract)
+			newInstancesSlice = append(newInstancesSlice, musicabstract.GongMarshallIdentifier(stage))
+			if stage.MusicAbstracts_referenceOrder == nil {
+				stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint)
+			}
+			stage.MusicAbstracts_referenceOrder[musicabstract] = stage.MusicAbstract_stagedOrder[musicabstract]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, musicabstract.GongMarshallUnstaging(stage))
+			// delete(stage.MusicAbstracts_referenceOrder, musicabstract)
+			fieldInitializers, pointersInitializations := musicabstract.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.MusicAbstract_stagedOrder[ref] = stage.MusicAbstract_stagedOrder[musicabstract]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := musicabstract.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, musicabstract)
+			// delete(stage.MusicAbstract_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if musicabstract.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", musicabstract.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.MusicAbstracts_reference {
+		instance := stage.MusicAbstracts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.MusicAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			musicabstracts_deletedInstances = append(musicabstracts_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(musicabstracts_newInstances)
+	lenDeletedInstances += len(musicabstracts_deletedInstances)
 	var originalpoints3dshapes_newInstances []*OriginalPoints3DShape
 	var originalpoints3dshapes_deletedInstances []*OriginalPoints3DShape
 
@@ -5173,6 +5251,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.MidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.MusicAbstracts_reference = make(map[*MusicAbstract]*MusicAbstract)
+	stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint) // diff Unstage needs the reference order
+	stage.MusicAbstracts_instance = make(map[*MusicAbstract]*MusicAbstract)
+	for instance := range stage.MusicAbstracts {
+		_copy := instance.GongCopy().(*MusicAbstract)
+		stage.MusicAbstracts_reference[instance] = _copy
+		stage.MusicAbstracts_instance[_copy] = instance
+		stage.MusicAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
 	stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint) // diff Unstage needs the reference order
 	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
@@ -6414,6 +6502,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.MusicAbstracts {
+		reference := stage.MusicAbstracts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.OriginalPoints3DShapes {
 		reference := stage.OriginalPoints3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -7439,6 +7532,18 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetOrder(stage *Stage) u
 		return order
 	} else {
 		log.Printf("instance %p of type MidArcVectorShapeGrid was not staged and does not have a reference order", midarcvectorshapegrid)
+		return 0
+	}
+}
+
+func (musicabstract *MusicAbstract) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.MusicAbstract_stagedOrder[musicabstract]; ok {
+		return order
+	}
+	if order, ok := stage.MusicAbstracts_referenceOrder[musicabstract]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type MusicAbstract was not staged and does not have a reference order", musicabstract)
 		return 0
 	}
 }
@@ -9062,6 +9167,15 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetReferenceIdentifier(s
 	return fmt.Sprintf("__%s__%08d_", midarcvectorshapegrid.GongGetGongstructName(), midarcvectorshapegrid.GongGetOrder(stage))
 }
 
+func (musicabstract *MusicAbstract) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", musicabstract.GongGetGongstructName(), musicabstract.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (musicabstract *MusicAbstract) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", musicabstract.GongGetGongstructName(), musicabstract.GongGetOrder(stage))
+}
+
 func (originalpoints3dshape *OriginalPoints3DShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", originalpoints3dshape.GongGetGongstructName(), originalpoints3dshape.GongGetOrder(stage))
 }
@@ -10328,6 +10442,14 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallIdentifier(stage
 	return
 }
 
+func (musicabstract *MusicAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", musicabstract.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MusicAbstract")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(musicabstract.Name))
+	return
+}
+
 func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", originalpoints3dshape.GongGetIdentifier(stage))
@@ -11402,6 +11524,12 @@ func (midarcvectorshape *MidArcVectorShape) GongMarshallUnstaging(stage *Stage) 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (musicabstract *MusicAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", musicabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -811,6 +811,66 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.MusicAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PitchHeight", instanceWithInferedType.PitchHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NbOfBeatsInTheme", instanceWithInferedType.NbOfBeatsInTheme, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BeatsPerSecond", instanceWithInferedType.BeatsPerSecond, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FirstVoiceShiftX", instanceWithInferedType.FirstVoiceShiftX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FirstVoiceShiftY", instanceWithInferedType.FirstVoiceShiftY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PitchDifference", instanceWithInferedType.PitchDifference, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Level", instanceWithInferedType.Level, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ActualBeatsTemporalShift", instanceWithInferedType.ActualBeatsTemporalShift, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsMinor", instanceWithInferedType.IsMinor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ThemeBinaryEncoding", instanceWithInferedType.ThemeBinaryEncoding, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BezierControlLengthRatio", instanceWithInferedType.BezierControlLengthRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NbPitchLines", instanceWithInferedType.NbPitchLines, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NbBeatLines", instanceWithInferedType.NbBeatLines, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("OriginX", instanceWithInferedType.OriginX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("OriginY", instanceWithInferedType.OriginY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowFirstVoice", instanceWithInferedType.ShowFirstVoice, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowFirstVoiceShiftRight", instanceWithInferedType.ShowFirstVoiceShiftRight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowSecondVoice", instanceWithInferedType.ShowSecondVoice, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowSecondVoiceShiftRight", instanceWithInferedType.ShowSecondVoiceShiftRight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowFirstVoiceNotes", instanceWithInferedType.ShowFirstVoiceNotes, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowFirstVoiceNotesShiftRight", instanceWithInferedType.ShowFirstVoiceNotesShiftRight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowSecondVoiceNotes", instanceWithInferedType.ShowSecondVoiceNotes, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ShowSecondVoiceNotesShiftRight", instanceWithInferedType.ShowSecondVoiceNotesShiftRight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsComposerNodeExpanded", instanceWithInferedType.IsComposerNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.OriginalPoints3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1413,6 +1473,7 @@ func FillUpForm(
 		AssociationFieldToForm("VaseAbstract", instanceWithInferedType.VaseAbstract, formGroup, probe)
 		AssociationFieldToForm("StoolAbstract", instanceWithInferedType.StoolAbstract, formGroup, probe)
 		AssociationFieldToForm("ClockAbstract", instanceWithInferedType.ClockAbstract, formGroup, probe)
+		AssociationFieldToForm("MusicAbstract", instanceWithInferedType.MusicAbstract, formGroup, probe)
 		EnumTypeStringToForm("CurrentView", instanceWithInferedType.CurrentView, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

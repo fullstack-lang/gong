@@ -4425,6 +4425,134 @@ func (midarcvectorshapegridFormCallback *MidArcVectorShapeGridFormCallback) OnSa
 
 	midarcvectorshapegridFormCallback.probe.ux_tree()
 }
+func __gong__New__MusicAbstractFormCallback(
+	musicabstract *models.MusicAbstract,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (musicabstractFormCallback *MusicAbstractFormCallback) {
+	musicabstractFormCallback = new(MusicAbstractFormCallback)
+	musicabstractFormCallback.probe = probe
+	musicabstractFormCallback.musicabstract = musicabstract
+	musicabstractFormCallback.formGroup = formGroup
+
+	musicabstractFormCallback.CreationMode = (musicabstract == nil)
+
+	return
+}
+
+type MusicAbstractFormCallback struct {
+	musicabstract *models.MusicAbstract
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (musicabstractFormCallback *MusicAbstractFormCallback) OnSave() {
+	musicabstractFormCallback.probe.stageOfInterest.Lock()
+	defer musicabstractFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("MusicAbstractFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	musicabstractFormCallback.probe.formStage.Checkout()
+
+	if musicabstractFormCallback.musicabstract == nil {
+		musicabstractFormCallback.musicabstract = new(models.MusicAbstract).Stage(musicabstractFormCallback.probe.stageOfInterest)
+	}
+	musicabstract_ := musicabstractFormCallback.musicabstract
+	_ = musicabstract_
+
+	for _, formDiv := range musicabstractFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(musicabstract_.Name), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(musicabstract_.IsChecked), formDiv)
+		case "PitchHeight":
+			FormDivBasicFieldToField(&(musicabstract_.PitchHeight), formDiv)
+		case "NbOfBeatsInTheme":
+			FormDivBasicFieldToField(&(musicabstract_.NbOfBeatsInTheme), formDiv)
+		case "BeatsPerSecond":
+			FormDivBasicFieldToField(&(musicabstract_.BeatsPerSecond), formDiv)
+		case "FirstVoiceShiftX":
+			FormDivBasicFieldToField(&(musicabstract_.FirstVoiceShiftX), formDiv)
+		case "FirstVoiceShiftY":
+			FormDivBasicFieldToField(&(musicabstract_.FirstVoiceShiftY), formDiv)
+		case "PitchDifference":
+			FormDivBasicFieldToField(&(musicabstract_.PitchDifference), formDiv)
+		case "Level":
+			FormDivBasicFieldToField(&(musicabstract_.Level), formDiv)
+		case "ActualBeatsTemporalShift":
+			FormDivBasicFieldToField(&(musicabstract_.ActualBeatsTemporalShift), formDiv)
+		case "IsMinor":
+			FormDivBasicFieldToField(&(musicabstract_.IsMinor), formDiv)
+		case "ThemeBinaryEncoding":
+			FormDivBasicFieldToField(&(musicabstract_.ThemeBinaryEncoding), formDiv)
+		case "BezierControlLengthRatio":
+			FormDivBasicFieldToField(&(musicabstract_.BezierControlLengthRatio), formDiv)
+		case "NbPitchLines":
+			FormDivBasicFieldToField(&(musicabstract_.NbPitchLines), formDiv)
+		case "NbBeatLines":
+			FormDivBasicFieldToField(&(musicabstract_.NbBeatLines), formDiv)
+		case "OriginX":
+			FormDivBasicFieldToField(&(musicabstract_.OriginX), formDiv)
+		case "OriginY":
+			FormDivBasicFieldToField(&(musicabstract_.OriginY), formDiv)
+		case "ShowFirstVoice":
+			FormDivBasicFieldToField(&(musicabstract_.ShowFirstVoice), formDiv)
+		case "ShowFirstVoiceShiftRight":
+			FormDivBasicFieldToField(&(musicabstract_.ShowFirstVoiceShiftRight), formDiv)
+		case "ShowSecondVoice":
+			FormDivBasicFieldToField(&(musicabstract_.ShowSecondVoice), formDiv)
+		case "ShowSecondVoiceShiftRight":
+			FormDivBasicFieldToField(&(musicabstract_.ShowSecondVoiceShiftRight), formDiv)
+		case "ShowFirstVoiceNotes":
+			FormDivBasicFieldToField(&(musicabstract_.ShowFirstVoiceNotes), formDiv)
+		case "ShowFirstVoiceNotesShiftRight":
+			FormDivBasicFieldToField(&(musicabstract_.ShowFirstVoiceNotesShiftRight), formDiv)
+		case "ShowSecondVoiceNotes":
+			FormDivBasicFieldToField(&(musicabstract_.ShowSecondVoiceNotes), formDiv)
+		case "ShowSecondVoiceNotesShiftRight":
+			FormDivBasicFieldToField(&(musicabstract_.ShowSecondVoiceNotesShiftRight), formDiv)
+		case "IsComposerNodeExpanded":
+			FormDivBasicFieldToField(&(musicabstract_.IsComposerNodeExpanded), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if musicabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		musicabstract_.Unstage(musicabstractFormCallback.probe.stageOfInterest)
+	}
+
+	musicabstractFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.MusicAbstract](
+		musicabstractFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if musicabstractFormCallback.CreationMode || musicabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		musicabstractFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(musicabstractFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__MusicAbstractFormCallback(
+			nil,
+			musicabstractFormCallback.probe,
+			newFormGroup,
+		)
+		musicabstract := new(models.MusicAbstract)
+		FillUpForm(musicabstract, newFormGroup, musicabstractFormCallback.probe)
+		musicabstractFormCallback.probe.formStage.Commit()
+	}
+
+	musicabstractFormCallback.probe.ux_tree()
+}
 func __gong__New__OriginalPoints3DShapeFormCallback(
 	originalpoints3dshape *models.OriginalPoints3DShape,
 	probe *Probe,
@@ -7364,6 +7492,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantabstract_.StoolAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ClockAbstract":
 			FormDivSelectFieldToField(&(plantabstract_.ClockAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "MusicAbstract":
+			FormDivSelectFieldToField(&(plantabstract_.MusicAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "CurrentView":
 			FormDivEnumStringFieldToField(&(plantabstract_.CurrentView), formDiv)
 		case "ComputedPrefix":

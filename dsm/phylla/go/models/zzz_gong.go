@@ -783,6 +783,21 @@ type Stage struct {
 	OnAfterMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[MidArcVectorShapeGrid]
 	OnAfterMidArcVectorShapeGridReadCallback   OnAfterReadInterface[MidArcVectorShapeGrid]
 
+	MusicAbstracts                map[*MusicAbstract]struct{}
+	MusicAbstracts_instance       map[*MusicAbstract]*MusicAbstract
+	MusicAbstracts_mapString      map[string]*MusicAbstract
+	MusicAbstractOrder            uint
+	MusicAbstract_stagedOrder     map[*MusicAbstract]uint
+	MusicAbstract_orderStaged     map[uint]*MusicAbstract
+	MusicAbstracts_reference      map[*MusicAbstract]*MusicAbstract
+	MusicAbstracts_referenceOrder map[*MusicAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMusicAbstractCreateCallback OnAfterCreateInterface[MusicAbstract]
+	OnAfterMusicAbstractUpdateCallback OnAfterUpdateInterface[MusicAbstract]
+	OnAfterMusicAbstractDeleteCallback OnAfterDeleteInterface[MusicAbstract]
+	OnAfterMusicAbstractReadCallback   OnAfterReadInterface[MusicAbstract]
+
 	OriginalPoints3DShapes                map[*OriginalPoints3DShape]struct{}
 	OriginalPoints3DShapes_instance       map[*OriginalPoints3DShape]*OriginalPoints3DShape
 	OriginalPoints3DShapes_mapString      map[string]*OriginalPoints3DShape
@@ -2828,6 +2843,10 @@ func (stage *Stage) Squash() {
 	stage.MidArcVectorShapeGrids_instance = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint)
 
+	stage.MusicAbstracts_reference = make(map[*MusicAbstract]*MusicAbstract)
+	stage.MusicAbstracts_instance = make(map[*MusicAbstract]*MusicAbstract)
+	stage.MusicAbstracts_referenceOrder = make(map[*MusicAbstract]uint)
+
 	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
 	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
 	stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint)
@@ -3853,6 +3872,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.MidArcVectorShapeGridOrder = maxMidArcVectorShapeGridOrder + 1
 	} else {
 		stage.MidArcVectorShapeGridOrder = 0
+	}
+
+	var maxMusicAbstractOrder uint
+	var foundMusicAbstract bool
+	for _, order := range stage.MusicAbstract_stagedOrder {
+		if !foundMusicAbstract || order > maxMusicAbstractOrder {
+			maxMusicAbstractOrder = order
+			foundMusicAbstract = true
+		}
+	}
+	if foundMusicAbstract {
+		stage.MusicAbstractOrder = maxMusicAbstractOrder + 1
+	} else {
+		stage.MusicAbstractOrder = 0
 	}
 
 	var maxOriginalPoints3DShapeOrder uint
@@ -5946,6 +5979,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *MusicAbstract:
+		tmp := GetStructInstancesByOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *MusicAbstract implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *OriginalPoints3DShape:
 		tmp := GetStructInstancesByOrder(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
 
@@ -7501,6 +7548,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
 	case "MidArcVectorShapeGrid":
 		res = GetNamedStructInstances(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
+	case "MusicAbstract":
+		res = GetNamedStructInstances(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder)
 	case "OriginalPoints3DShape":
 		res = GetNamedStructInstances(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
 	case "ParastichyMCurves3DShape":
@@ -7860,6 +7909,8 @@ type BackRepoInterface interface {
 	CheckoutMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
 	CommitMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
 	CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
+	CommitMusicAbstract(musicabstract *MusicAbstract)
+	CheckoutMusicAbstract(musicabstract *MusicAbstract)
 	CommitOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
 	CheckoutOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
 	CommitParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape)
@@ -8197,6 +8248,9 @@ func NewStage(name string) (stage *Stage) {
 
 		MidArcVectorShapeGrids:           make(map[*MidArcVectorShapeGrid]struct{}),
 		MidArcVectorShapeGrids_mapString: make(map[string]*MidArcVectorShapeGrid),
+
+		MusicAbstracts:           make(map[*MusicAbstract]struct{}),
+		MusicAbstracts_mapString: make(map[string]*MusicAbstract),
 
 		OriginalPoints3DShapes:           make(map[*OriginalPoints3DShape]struct{}),
 		OriginalPoints3DShapes_mapString: make(map[string]*OriginalPoints3DShape),
@@ -8684,6 +8738,10 @@ func NewStage(name string) (stage *Stage) {
 		MidArcVectorShapeGrid_stagedOrder: make(map[*MidArcVectorShapeGrid]uint),
 		MidArcVectorShapeGrid_orderStaged: make(map[uint]*MidArcVectorShapeGrid),
 		MidArcVectorShapeGrids_reference:  make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid),
+
+		MusicAbstract_stagedOrder: make(map[*MusicAbstract]uint),
+		MusicAbstract_orderStaged: make(map[uint]*MusicAbstract),
+		MusicAbstracts_reference:  make(map[*MusicAbstract]*MusicAbstract),
 
 		OriginalPoints3DShape_stagedOrder: make(map[*OriginalPoints3DShape]uint),
 		OriginalPoints3DShape_orderStaged: make(map[uint]*OriginalPoints3DShape),
@@ -9183,6 +9241,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"MidArcVectorShapeGrid": &MidArcVectorShapeGridUnmarshaller{},
 
+			"MusicAbstract": &MusicAbstractUnmarshaller{},
+
 			"OriginalPoints3DShape": &OriginalPoints3DShapeUnmarshaller{},
 
 			"ParastichyMCurves3DShape": &ParastichyMCurves3DShapeUnmarshaller{},
@@ -9435,6 +9495,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Library"},
 			{name: "MidArcVectorShape"},
 			{name: "MidArcVectorShapeGrid"},
+			{name: "MusicAbstract"},
 			{name: "OriginalPoints3DShape"},
 			{name: "ParastichyMCurves3DShape"},
 			{name: "ParastichyNCurves3DShape"},
@@ -9633,6 +9694,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.MidArcVectorShape_stagedOrder[instance]
 	case *MidArcVectorShapeGrid:
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
+	case *MusicAbstract:
+		return stage.MusicAbstract_stagedOrder[instance]
 	case *OriginalPoints3DShape:
 		return stage.OriginalPoints3DShape_stagedOrder[instance]
 	case *ParastichyMCurves3DShape:
@@ -9932,6 +9995,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.MidArcVectorShape_orderStaged[order]).(Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
+	case *MusicAbstract:
+		return any(stage.MusicAbstract_orderStaged[order]).(Type)
 	case *OriginalPoints3DShape:
 		return any(stage.OriginalPoints3DShape_orderStaged[order]).(Type)
 	case *ParastichyMCurves3DShape:
@@ -10230,6 +10295,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.MidArcVectorShape_stagedOrder[instance]
 	case *MidArcVectorShapeGrid:
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
+	case *MusicAbstract:
+		return stage.MusicAbstract_stagedOrder[instance]
 	case *OriginalPoints3DShape:
 		return stage.OriginalPoints3DShape_stagedOrder[instance]
 	case *ParastichyMCurves3DShape:
@@ -10543,6 +10610,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
+	stage.Map_GongStructName_InstancesNb["MusicAbstract"] = len(stage.MusicAbstracts)
 	stage.Map_GongStructName_InstancesNb["OriginalPoints3DShape"] = len(stage.OriginalPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["ParastichyMCurves3DShape"] = len(stage.ParastichyMCurves3DShapes)
 	stage.Map_GongStructName_InstancesNb["ParastichyNCurves3DShape"] = len(stage.ParastichyNCurves3DShapes)
@@ -14380,6 +14448,94 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) SetName(name string) {
 	midarcvectorshapegrid.Name = name
+}
+
+// Stage puts musicabstract to the model stage
+func (musicabstract *MusicAbstract) Stage(stage *Stage) *MusicAbstract {
+	if _, ok := stage.MusicAbstracts[musicabstract]; !ok {
+		stage.MusicAbstracts[musicabstract] = struct{}{}
+		stage.MusicAbstract_stagedOrder[musicabstract] = stage.MusicAbstractOrder
+		stage.MusicAbstract_orderStaged[stage.MusicAbstractOrder] = musicabstract
+		stage.MusicAbstractOrder++
+	}
+	stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
+
+	return musicabstract
+}
+
+// StagePreserveOrder puts musicabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MusicAbstractOrder
+// - update stage.MusicAbstractOrder accordingly
+func (musicabstract *MusicAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.MusicAbstracts[musicabstract]; !ok {
+		stage.MusicAbstracts[musicabstract] = struct{}{}
+
+		if order > stage.MusicAbstractOrder {
+			stage.MusicAbstractOrder = order
+		}
+		stage.MusicAbstract_stagedOrder[musicabstract] = order
+		stage.MusicAbstract_orderStaged[order] = musicabstract
+		stage.MusicAbstractOrder++
+	}
+	stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
+}
+
+// Unstage removes musicabstract off the model stage
+func (musicabstract *MusicAbstract) Unstage(stage *Stage) *MusicAbstract {
+	delete(stage.MusicAbstracts, musicabstract)
+	// issue1150
+	// delete(stage.MusicAbstract_stagedOrder, musicabstract)
+	delete(stage.MusicAbstracts_mapString, musicabstract.Name)
+
+	return musicabstract
+}
+
+// UnstageVoid removes musicabstract off the model stage
+func (musicabstract *MusicAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.MusicAbstracts, musicabstract)
+	// issue1150
+	// delete(stage.MusicAbstract_stagedOrder, musicabstract)
+	delete(stage.MusicAbstracts_mapString, musicabstract.Name)
+}
+
+// commit musicabstract to the back repo (if it is already staged)
+func (musicabstract *MusicAbstract) Commit(stage *Stage) *MusicAbstract {
+	if _, ok := stage.MusicAbstracts[musicabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMusicAbstract(musicabstract)
+		}
+	}
+	return musicabstract
+}
+
+func (musicabstract *MusicAbstract) CommitVoid(stage *Stage) {
+	musicabstract.Commit(stage)
+}
+
+func (musicabstract *MusicAbstract) StageVoid(stage *Stage) {
+	musicabstract.Stage(stage)
+}
+
+// Checkout musicabstract to the back repo (if it is already staged)
+func (musicabstract *MusicAbstract) Checkout(stage *Stage) *MusicAbstract {
+	if _, ok := stage.MusicAbstracts[musicabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMusicAbstract(musicabstract)
+		}
+	}
+	return musicabstract
+}
+
+// for satisfaction of GongStruct interface
+func (musicabstract *MusicAbstract) GetName() (res string) {
+	return musicabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (musicabstract *MusicAbstract) SetName(name string) {
+	musicabstract.Name = name
 }
 
 // Stage puts originalpoints3dshape to the model stage
@@ -23490,6 +23646,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLibrary(Library *Library)
 	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
+	CreateORMMusicAbstract(MusicAbstract *MusicAbstract)
 	CreateORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
 	CreateORMParastichyMCurves3DShape(ParastichyMCurves3DShape *ParastichyMCurves3DShape)
 	CreateORMParastichyNCurves3DShape(ParastichyNCurves3DShape *ParastichyNCurves3DShape)
@@ -23638,6 +23795,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
+	DeleteORMMusicAbstract(MusicAbstract *MusicAbstract)
 	DeleteORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
 	DeleteORMParastichyMCurves3DShape(ParastichyMCurves3DShape *ParastichyMCurves3DShape)
 	DeleteORMParastichyNCurves3DShape(ParastichyNCurves3DShape *ParastichyNCurves3DShape)
@@ -23953,6 +24111,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrid_stagedOrder = make(map[*MidArcVectorShapeGrid]uint)
 	stage.MidArcVectorShapeGridOrder = 0
+
+	stage.MusicAbstracts = make(map[*MusicAbstract]struct{})
+	stage.MusicAbstracts_mapString = make(map[string]*MusicAbstract)
+	stage.MusicAbstract_stagedOrder = make(map[*MusicAbstract]uint)
+	stage.MusicAbstractOrder = 0
 
 	stage.OriginalPoints3DShapes = make(map[*OriginalPoints3DShape]struct{})
 	stage.OriginalPoints3DShapes_mapString = make(map[string]*OriginalPoints3DShape)
@@ -24604,6 +24767,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.MidArcVectorShapeGrids = nil
 	stage.MidArcVectorShapeGrids_mapString = nil
 
+	stage.MusicAbstracts = nil
+	stage.MusicAbstracts_mapString = nil
+
 	stage.OriginalPoints3DShapes = nil
 	stage.OriginalPoints3DShapes_mapString = nil
 
@@ -25083,6 +25249,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		midarcvectorshapegrid.Unstage(stage)
+	}
+
+	for musicabstract := range stage.MusicAbstracts {
+		musicabstract.Unstage(stage)
 	}
 
 	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
@@ -25657,6 +25827,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.MidArcVectorShapes).(*Type)
 	case map[*MidArcVectorShapeGrid]any:
 		return any(&stage.MidArcVectorShapeGrids).(*Type)
+	case map[*MusicAbstract]any:
+		return any(&stage.MusicAbstracts).(*Type)
 	case map[*OriginalPoints3DShape]any:
 		return any(&stage.OriginalPoints3DShapes).(*Type)
 	case map[*ParastichyMCurves3DShape]any:
@@ -25959,6 +26131,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.MidArcVectorShapes_mapString).(map[string]Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
+	case *MusicAbstract:
+		return any(stage.MusicAbstracts_mapString).(map[string]Type)
 	case *OriginalPoints3DShape:
 		return any(stage.OriginalPoints3DShapes_mapString).(map[string]Type)
 	case *ParastichyMCurves3DShape:
@@ -26261,6 +26435,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.MidArcVectorShapes).(*map[*Type]struct{})
 	case MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[*Type]struct{})
+	case MusicAbstract:
+		return any(&stage.MusicAbstracts).(*map[*Type]struct{})
 	case OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes).(*map[*Type]struct{})
 	case ParastichyMCurves3DShape:
@@ -26563,6 +26739,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.MidArcVectorShapes).(*map[Type]struct{})
 	case *MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
+	case *MusicAbstract:
+		return any(&stage.MusicAbstracts).(*map[Type]struct{})
 	case *OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes).(*map[Type]struct{})
 	case *ParastichyMCurves3DShape:
@@ -26865,6 +27043,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.MidArcVectorShapes_mapString).(*map[string]*Type)
 	case MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids_mapString).(*map[string]*Type)
+	case MusicAbstract:
+		return any(&stage.MusicAbstracts_mapString).(*map[string]*Type)
 	case OriginalPoints3DShape:
 		return any(&stage.OriginalPoints3DShapes_mapString).(*map[string]*Type)
 	case ParastichyMCurves3DShape:
@@ -27289,6 +27469,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of MidArcVectorShape with the name of the field
 			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
 		}).(*Type)
+	case MusicAbstract:
+		return any(&MusicAbstract{
+			// Initialisation of associations
+		}).(*Type)
 	case OriginalPoints3DShape:
 		return any(&OriginalPoints3DShape{
 			// Initialisation of associations
@@ -27426,6 +27610,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StoolAbstract: &StoolAbstract{Name: "StoolAbstract"},
 			// field is initialized with an instance of ClockAbstract with the name of the field
 			ClockAbstract: &ClockAbstract{Name: "ClockAbstract"},
+			// field is initialized with an instance of MusicAbstract with the name of the field
+			MusicAbstract: &MusicAbstract{Name: "MusicAbstract"},
 			// field is initialized with an instance of Plant2DDiagram with the name of the field
 			Plant2DDiagrams: []*Plant2DDiagram{{Name: "Plant2DDiagrams"}},
 			// field is initialized with an instance of Plant3DDiagram with the name of the field
@@ -28329,6 +28515,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of MusicAbstract
+	case MusicAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of OriginalPoints3DShape
 	case OriginalPoints3DShape:
 		switch fieldname {
@@ -28632,6 +28823,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plantabstracts = append(plantabstracts, plantabstract)
 					res[clockabstract_] = plantabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "MusicAbstract":
+			res := make(map[*MusicAbstract][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.MusicAbstract != nil {
+					musicabstract_ := plantabstract.MusicAbstract
+					var plantabstracts []*PlantAbstract
+					_, ok := res[musicabstract_]
+					if ok {
+						plantabstracts = res[musicabstract_]
+					} else {
+						plantabstracts = make([]*PlantAbstract, 0)
+					}
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[musicabstract_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -30738,6 +30946,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of MusicAbstract
+	case MusicAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of OriginalPoints3DShape
 	case OriginalPoints3DShape:
 		switch fieldname {
@@ -31732,6 +31945,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "MidArcVectorShape"
 	case *MidArcVectorShapeGrid:
 		res = "MidArcVectorShapeGrid"
+	case *MusicAbstract:
+		res = "MusicAbstract"
 	case *OriginalPoints3DShape:
 		res = "OriginalPoints3DShape"
 	case *ParastichyMCurves3DShape:
@@ -32115,6 +32330,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "MidArcVectorShapes"
 		res = append(res, rf)
 	case *MidArcVectorShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *MusicAbstract:
 		var rf ReverseField
 		_ = rf
 	case *OriginalPoints3DShape:
@@ -33572,6 +33790,117 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldHeaders() (res [
 	return
 }
 
+func (musicabstract *MusicAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "PitchHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "NbOfBeatsInTheme",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "BeatsPerSecond",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FirstVoiceShiftX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FirstVoiceShiftY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "PitchDifference",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Level",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ActualBeatsTemporalShift",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "IsMinor",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ThemeBinaryEncoding",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "BezierControlLengthRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "NbPitchLines",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "NbBeatLines",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "OriginX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OriginY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ShowFirstVoice",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowFirstVoiceShiftRight",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowSecondVoice",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowSecondVoiceShiftRight",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowFirstVoiceNotes",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowFirstVoiceNotesShiftRight",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowSecondVoiceNotes",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ShowSecondVoiceNotesShiftRight",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsComposerNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (originalpoints3dshape *OriginalPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -34369,6 +34698,11 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "ClockAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "ClockAbstract",
+		},
+		{
+			Name:                 "MusicAbstract",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "MusicAbstract",
 		},
 		{
 			Name:                 "CurrentView",
@@ -38785,6 +39119,115 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldValue(fieldName 
 	return
 }
 
+func (musicabstract *MusicAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = musicabstract.Name
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", musicabstract.IsChecked)
+		res.valueBool = musicabstract.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "PitchHeight":
+		res.valueString = fmt.Sprintf("%f", musicabstract.PitchHeight)
+		res.valueFloat = musicabstract.PitchHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbOfBeatsInTheme":
+		res.valueString = fmt.Sprintf("%d", musicabstract.NbOfBeatsInTheme)
+		res.valueInt = musicabstract.NbOfBeatsInTheme
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "BeatsPerSecond":
+		res.valueString = fmt.Sprintf("%f", musicabstract.BeatsPerSecond)
+		res.valueFloat = musicabstract.BeatsPerSecond
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FirstVoiceShiftX":
+		res.valueString = fmt.Sprintf("%f", musicabstract.FirstVoiceShiftX)
+		res.valueFloat = musicabstract.FirstVoiceShiftX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FirstVoiceShiftY":
+		res.valueString = fmt.Sprintf("%f", musicabstract.FirstVoiceShiftY)
+		res.valueFloat = musicabstract.FirstVoiceShiftY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "PitchDifference":
+		res.valueString = fmt.Sprintf("%d", musicabstract.PitchDifference)
+		res.valueInt = musicabstract.PitchDifference
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Level":
+		res.valueString = fmt.Sprintf("%f", musicabstract.Level)
+		res.valueFloat = musicabstract.Level
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ActualBeatsTemporalShift":
+		res.valueString = fmt.Sprintf("%d", musicabstract.ActualBeatsTemporalShift)
+		res.valueInt = musicabstract.ActualBeatsTemporalShift
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "IsMinor":
+		res.valueString = fmt.Sprintf("%t", musicabstract.IsMinor)
+		res.valueBool = musicabstract.IsMinor
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ThemeBinaryEncoding":
+		res.valueString = fmt.Sprintf("%d", musicabstract.ThemeBinaryEncoding)
+		res.valueInt = musicabstract.ThemeBinaryEncoding
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "BezierControlLengthRatio":
+		res.valueString = fmt.Sprintf("%f", musicabstract.BezierControlLengthRatio)
+		res.valueFloat = musicabstract.BezierControlLengthRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbPitchLines":
+		res.valueString = fmt.Sprintf("%d", musicabstract.NbPitchLines)
+		res.valueInt = musicabstract.NbPitchLines
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "NbBeatLines":
+		res.valueString = fmt.Sprintf("%d", musicabstract.NbBeatLines)
+		res.valueInt = musicabstract.NbBeatLines
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "OriginX":
+		res.valueString = fmt.Sprintf("%f", musicabstract.OriginX)
+		res.valueFloat = musicabstract.OriginX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OriginY":
+		res.valueString = fmt.Sprintf("%f", musicabstract.OriginY)
+		res.valueFloat = musicabstract.OriginY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ShowFirstVoice":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoice)
+		res.valueBool = musicabstract.ShowFirstVoice
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowFirstVoiceShiftRight":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoiceShiftRight)
+		res.valueBool = musicabstract.ShowFirstVoiceShiftRight
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowSecondVoice":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoice)
+		res.valueBool = musicabstract.ShowSecondVoice
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowSecondVoiceShiftRight":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoiceShiftRight)
+		res.valueBool = musicabstract.ShowSecondVoiceShiftRight
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowFirstVoiceNotes":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotes)
+		res.valueBool = musicabstract.ShowFirstVoiceNotes
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowFirstVoiceNotesShiftRight":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowFirstVoiceNotesShiftRight)
+		res.valueBool = musicabstract.ShowFirstVoiceNotesShiftRight
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowSecondVoiceNotes":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotes)
+		res.valueBool = musicabstract.ShowSecondVoiceNotes
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowSecondVoiceNotesShiftRight":
+		res.valueString = fmt.Sprintf("%t", musicabstract.ShowSecondVoiceNotesShiftRight)
+		res.valueBool = musicabstract.ShowSecondVoiceNotesShiftRight
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsComposerNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", musicabstract.IsComposerNodeExpanded)
+		res.valueBool = musicabstract.IsComposerNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (originalpoints3dshape *OriginalPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -39589,6 +40032,12 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 		if plantabstract.ClockAbstract != nil {
 			res.valueString = plantabstract.ClockAbstract.Name
 			res.ids = plantabstract.ClockAbstract.GongGetUUID(stage)
+		}
+	case "MusicAbstract":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantabstract.MusicAbstract != nil {
+			res.valueString = plantabstract.MusicAbstract.Name
+			res.ids = plantabstract.MusicAbstract.GongGetUUID(stage)
 		}
 	case "CurrentView":
 		enum := plantabstract.CurrentView
@@ -44005,6 +44454,67 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongSetFieldValue(fieldName 
 	return nil
 }
 
+func (musicabstract *MusicAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		musicabstract.Name = value.GetValueString()
+	case "IsChecked":
+		musicabstract.IsChecked = value.GetValueBool()
+	case "PitchHeight":
+		musicabstract.PitchHeight = value.GetValueFloat()
+	case "NbOfBeatsInTheme":
+		musicabstract.NbOfBeatsInTheme = int(value.GetValueInt())
+	case "BeatsPerSecond":
+		musicabstract.BeatsPerSecond = value.GetValueFloat()
+	case "FirstVoiceShiftX":
+		musicabstract.FirstVoiceShiftX = value.GetValueFloat()
+	case "FirstVoiceShiftY":
+		musicabstract.FirstVoiceShiftY = value.GetValueFloat()
+	case "PitchDifference":
+		musicabstract.PitchDifference = int(value.GetValueInt())
+	case "Level":
+		musicabstract.Level = value.GetValueFloat()
+	case "ActualBeatsTemporalShift":
+		musicabstract.ActualBeatsTemporalShift = int(value.GetValueInt())
+	case "IsMinor":
+		musicabstract.IsMinor = value.GetValueBool()
+	case "ThemeBinaryEncoding":
+		musicabstract.ThemeBinaryEncoding = int(value.GetValueInt())
+	case "BezierControlLengthRatio":
+		musicabstract.BezierControlLengthRatio = value.GetValueFloat()
+	case "NbPitchLines":
+		musicabstract.NbPitchLines = int(value.GetValueInt())
+	case "NbBeatLines":
+		musicabstract.NbBeatLines = int(value.GetValueInt())
+	case "OriginX":
+		musicabstract.OriginX = value.GetValueFloat()
+	case "OriginY":
+		musicabstract.OriginY = value.GetValueFloat()
+	case "ShowFirstVoice":
+		musicabstract.ShowFirstVoice = value.GetValueBool()
+	case "ShowFirstVoiceShiftRight":
+		musicabstract.ShowFirstVoiceShiftRight = value.GetValueBool()
+	case "ShowSecondVoice":
+		musicabstract.ShowSecondVoice = value.GetValueBool()
+	case "ShowSecondVoiceShiftRight":
+		musicabstract.ShowSecondVoiceShiftRight = value.GetValueBool()
+	case "ShowFirstVoiceNotes":
+		musicabstract.ShowFirstVoiceNotes = value.GetValueBool()
+	case "ShowFirstVoiceNotesShiftRight":
+		musicabstract.ShowFirstVoiceNotesShiftRight = value.GetValueBool()
+	case "ShowSecondVoiceNotes":
+		musicabstract.ShowSecondVoiceNotes = value.GetValueBool()
+	case "ShowSecondVoiceNotesShiftRight":
+		musicabstract.ShowSecondVoiceNotesShiftRight = value.GetValueBool()
+	case "IsComposerNodeExpanded":
+		musicabstract.IsComposerNodeExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (originalpoints3dshape *OriginalPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -44736,6 +45246,17 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 			for __instance__ := range stage.ClockAbstracts {
 				if stage.ClockAbstract_stagedOrder[__instance__] == uint(id) {
 					plantabstract.ClockAbstract = __instance__
+					break
+				}
+			}
+		}
+	case "MusicAbstract":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantabstract.MusicAbstract = nil
+			for __instance__ := range stage.MusicAbstracts {
+				if stage.MusicAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.MusicAbstract = __instance__
 					break
 				}
 			}
@@ -48180,6 +48701,10 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetGongstructName() stri
 	return "MidArcVectorShapeGrid"
 }
 
+func (musicabstract *MusicAbstract) GongGetGongstructName() string {
+	return "MusicAbstract"
+}
+
 func (originalpoints3dshape *OriginalPoints3DShape) GongGetGongstructName() string {
 	return "OriginalPoints3DShape"
 }
@@ -48807,6 +49332,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
+	}
+
+	stage.MusicAbstracts_mapString = make(map[string]*MusicAbstract)
+	for musicabstract := range stage.MusicAbstracts {
+		stage.MusicAbstracts_mapString[musicabstract.Name] = musicabstract
 	}
 
 	stage.OriginalPoints3DShapes_mapString = make(map[string]*OriginalPoints3DShape)

@@ -133,6 +133,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
 
+	case *MusicAbstract:
+		ok = stage.IsStagedMusicAbstract(target)
+
 	case *OriginalPoints3DShape:
 		ok = stage.IsStagedOriginalPoints3DShape(target)
 
@@ -577,6 +580,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
+
+	case *MusicAbstract:
+		ok = stage.IsStagedMusicAbstract(target)
 
 	case *OriginalPoints3DShape:
 		ok = stage.IsStagedOriginalPoints3DShape(target)
@@ -1184,6 +1190,13 @@ func (stage *Stage) IsStagedMidArcVectorShape(midarcvectorshape *MidArcVectorSha
 func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
 
 	_, ok = stage.MidArcVectorShapeGrids[midarcvectorshapegrid]
+
+	return
+}
+
+func (stage *Stage) IsStagedMusicAbstract(musicabstract *MusicAbstract) (ok bool) {
+
+	_, ok = stage.MusicAbstracts[musicabstract]
 
 	return
 }
@@ -2042,6 +2055,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MidArcVectorShapeGrid:
 		stage.StageBranchMidArcVectorShapeGrid(target)
+
+	case *MusicAbstract:
+		stage.StageBranchMusicAbstract(target)
 
 	case *OriginalPoints3DShape:
 		stage.StageBranchOriginalPoints3DShape(target)
@@ -3000,6 +3016,21 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 
 }
 
+func (stage *Stage) StageBranchMusicAbstract(musicabstract *MusicAbstract) {
+
+	// check if instance is already staged
+	if IsStaged(stage, musicabstract) {
+		return
+	}
+
+	musicabstract.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
 
 	// check if instance is already staged
@@ -3384,6 +3415,9 @@ func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	}
 	if plantabstract.ClockAbstract != nil {
 		StageBranch(stage, plantabstract.ClockAbstract)
+	}
+	if plantabstract.MusicAbstract != nil {
+		StageBranch(stage, plantabstract.MusicAbstract)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4796,6 +4830,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchMidArcVectorShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *MusicAbstract:
+		toT := CopyBranchMusicAbstract(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *OriginalPoints3DShape:
 		toT := CopyBranchOriginalPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -6025,6 +6063,25 @@ func CopyBranchMidArcVectorShapeGrid(mapOrigCopy map[any]any, midarcvectorshapeg
 	return
 }
 
+func CopyBranchMusicAbstract(mapOrigCopy map[any]any, musicabstractFrom *MusicAbstract) (musicabstractTo *MusicAbstract) {
+
+	// musicabstractFrom has already been copied
+	if _musicabstractTo, ok := mapOrigCopy[musicabstractFrom]; ok {
+		musicabstractTo = _musicabstractTo.(*MusicAbstract)
+		return
+	}
+
+	musicabstractTo = new(MusicAbstract)
+	mapOrigCopy[musicabstractFrom] = musicabstractTo
+	musicabstractFrom.CopyBasicFields(musicabstractTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchOriginalPoints3DShape(mapOrigCopy map[any]any, originalpoints3dshapeFrom *OriginalPoints3DShape) (originalpoints3dshapeTo *OriginalPoints3DShape) {
 
 	// originalpoints3dshapeFrom has already been copied
@@ -6504,6 +6561,9 @@ func CopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *PlantAb
 	}
 	if plantabstractFrom.ClockAbstract != nil {
 		plantabstractTo.ClockAbstract = CopyBranchClockAbstract(mapOrigCopy, plantabstractFrom.ClockAbstract)
+	}
+	if plantabstractFrom.MusicAbstract != nil {
+		plantabstractTo.MusicAbstract = CopyBranchMusicAbstract(mapOrigCopy, plantabstractFrom.MusicAbstract)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -8188,6 +8248,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MidArcVectorShapeGrid:
 		stage.UnstageBranchMidArcVectorShapeGrid(target)
 
+	case *MusicAbstract:
+		stage.UnstageBranchMusicAbstract(target)
+
 	case *OriginalPoints3DShape:
 		stage.UnstageBranchOriginalPoints3DShape(target)
 
@@ -9145,6 +9208,21 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 
 }
 
+func (stage *Stage) UnstageBranchMusicAbstract(musicabstract *MusicAbstract) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, musicabstract) {
+		return
+	}
+
+	musicabstract.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
 
 	// check if instance is already staged
@@ -9529,6 +9607,9 @@ func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	}
 	if plantabstract.ClockAbstract != nil {
 		UnstageBranch(stage, plantabstract.ClockAbstract)
+	}
+	if plantabstract.MusicAbstract != nil {
+		UnstageBranch(stage, plantabstract.MusicAbstract)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -10987,6 +11068,11 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromReferences(st
 	// insertion point for slice of pointers field
 }
 
+func (reference *MusicAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *MusicAbstract) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *OriginalPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *OriginalPoints3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -11133,6 +11219,9 @@ func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Sta
 	}
 	if instance.ClockAbstract != nil {
 		reference.ClockAbstract = stage.ClockAbstracts_reference[instance.ClockAbstract]
+	}
+	if instance.MusicAbstract != nil {
+		reference.MusicAbstract = stage.MusicAbstracts_reference[instance.MusicAbstract]
 	}
 	// insertion point for slice of pointers field
 	reference.Plant2DDiagrams = reference.Plant2DDiagrams[:0]
@@ -11819,6 +11908,11 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromInstances(sta
 	// insertion point for slice of pointers fields
 }
 
+func (reference *MusicAbstract) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *OriginalPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -11994,6 +12088,12 @@ func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stag
 		reference.ClockAbstract = nil
 		if _instance, ok := stage.ClockAbstracts_instance[_reference]; ok {
 			reference.ClockAbstract = _instance
+		}
+	}
+	if _reference := reference.MusicAbstract; _reference != nil {
+		reference.MusicAbstract = nil
+		if _instance, ok := stage.MusicAbstracts_instance[_reference]; ok {
+			reference.MusicAbstract = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -13343,6 +13443,92 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongDiff(stage *Stage, midar
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (musicabstract *MusicAbstract) GongDiff(stage *Stage, musicabstractOther *MusicAbstract) (diffs []string) {
+	// insertion point for field diffs
+	if musicabstract.Name != musicabstractOther.Name {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "Name"))
+	}
+	if musicabstract.IsChecked != musicabstractOther.IsChecked {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "IsChecked"))
+	}
+	if musicabstract.PitchHeight != musicabstractOther.PitchHeight {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "PitchHeight"))
+	}
+	if musicabstract.NbOfBeatsInTheme != musicabstractOther.NbOfBeatsInTheme {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "NbOfBeatsInTheme"))
+	}
+	if musicabstract.BeatsPerSecond != musicabstractOther.BeatsPerSecond {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "BeatsPerSecond"))
+	}
+	if musicabstract.FirstVoiceShiftX != musicabstractOther.FirstVoiceShiftX {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "FirstVoiceShiftX"))
+	}
+	if musicabstract.FirstVoiceShiftY != musicabstractOther.FirstVoiceShiftY {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "FirstVoiceShiftY"))
+	}
+	if musicabstract.PitchDifference != musicabstractOther.PitchDifference {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "PitchDifference"))
+	}
+	if musicabstract.Level != musicabstractOther.Level {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "Level"))
+	}
+	if musicabstract.ActualBeatsTemporalShift != musicabstractOther.ActualBeatsTemporalShift {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ActualBeatsTemporalShift"))
+	}
+	if musicabstract.IsMinor != musicabstractOther.IsMinor {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "IsMinor"))
+	}
+	if musicabstract.ThemeBinaryEncoding != musicabstractOther.ThemeBinaryEncoding {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ThemeBinaryEncoding"))
+	}
+	if musicabstract.BezierControlLengthRatio != musicabstractOther.BezierControlLengthRatio {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "BezierControlLengthRatio"))
+	}
+	if musicabstract.NbPitchLines != musicabstractOther.NbPitchLines {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "NbPitchLines"))
+	}
+	if musicabstract.NbBeatLines != musicabstractOther.NbBeatLines {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "NbBeatLines"))
+	}
+	if musicabstract.OriginX != musicabstractOther.OriginX {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "OriginX"))
+	}
+	if musicabstract.OriginY != musicabstractOther.OriginY {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "OriginY"))
+	}
+	if musicabstract.ShowFirstVoice != musicabstractOther.ShowFirstVoice {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoice"))
+	}
+	if musicabstract.ShowFirstVoiceShiftRight != musicabstractOther.ShowFirstVoiceShiftRight {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoiceShiftRight"))
+	}
+	if musicabstract.ShowSecondVoice != musicabstractOther.ShowSecondVoice {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoice"))
+	}
+	if musicabstract.ShowSecondVoiceShiftRight != musicabstractOther.ShowSecondVoiceShiftRight {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoiceShiftRight"))
+	}
+	if musicabstract.ShowFirstVoiceNotes != musicabstractOther.ShowFirstVoiceNotes {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotes"))
+	}
+	if musicabstract.ShowFirstVoiceNotesShiftRight != musicabstractOther.ShowFirstVoiceNotesShiftRight {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowFirstVoiceNotesShiftRight"))
+	}
+	if musicabstract.ShowSecondVoiceNotes != musicabstractOther.ShowSecondVoiceNotes {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotes"))
+	}
+	if musicabstract.ShowSecondVoiceNotesShiftRight != musicabstractOther.ShowSecondVoiceNotesShiftRight {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "ShowSecondVoiceNotesShiftRight"))
+	}
+	if musicabstract.IsComposerNodeExpanded != musicabstractOther.IsComposerNodeExpanded {
+		diffs = append(diffs, musicabstract.GongMarshallField(stage, "IsComposerNodeExpanded"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (originalpoints3dshape *OriginalPoints3DShape) GongDiff(stage *Stage, originalpoints3dshapeOther *OriginalPoints3DShape) (diffs []string) {
 	// insertion point for field diffs
 	if originalpoints3dshape.Name != originalpoints3dshapeOther.Name {
@@ -13993,6 +14179,13 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 	} else if plantabstract.ClockAbstract != nil && plantabstractOther.ClockAbstract != nil {
 		if plantabstract.ClockAbstract != plantabstractOther.ClockAbstract {
 			diffs = append(diffs, plantabstract.GongMarshallField(stage, "ClockAbstract"))
+		}
+	}
+	if (plantabstract.MusicAbstract == nil) != (plantabstractOther.MusicAbstract == nil) {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "MusicAbstract"))
+	} else if plantabstract.MusicAbstract != nil && plantabstractOther.MusicAbstract != nil {
+		if plantabstract.MusicAbstract != plantabstractOther.MusicAbstract {
+			diffs = append(diffs, plantabstract.GongMarshallField(stage, "MusicAbstract"))
 		}
 	}
 	if plantabstract.CurrentView != plantabstractOther.CurrentView {

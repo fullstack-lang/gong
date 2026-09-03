@@ -1938,6 +1938,85 @@ func (u *MidArcVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	return nil
 }
 
+type MusicAbstractUnmarshaller struct{}
+
+func (u *MusicAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(MusicAbstract)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *MusicAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*MusicAbstract)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
+	case "PitchHeight":
+		instance.PitchHeight = GongExtractFloat(valueExpr)
+	case "NbOfBeatsInTheme":
+		instance.NbOfBeatsInTheme = GongExtractInt(valueExpr)
+	case "BeatsPerSecond":
+		instance.BeatsPerSecond = GongExtractFloat(valueExpr)
+	case "FirstVoiceShiftX":
+		instance.FirstVoiceShiftX = GongExtractFloat(valueExpr)
+	case "FirstVoiceShiftY":
+		instance.FirstVoiceShiftY = GongExtractFloat(valueExpr)
+	case "PitchDifference":
+		instance.PitchDifference = GongExtractInt(valueExpr)
+	case "Level":
+		instance.Level = GongExtractFloat(valueExpr)
+	case "ActualBeatsTemporalShift":
+		instance.ActualBeatsTemporalShift = GongExtractInt(valueExpr)
+	case "IsMinor":
+		instance.IsMinor = GongExtractBool(valueExpr)
+	case "ThemeBinaryEncoding":
+		instance.ThemeBinaryEncoding = GongExtractInt(valueExpr)
+	case "BezierControlLengthRatio":
+		instance.BezierControlLengthRatio = GongExtractFloat(valueExpr)
+	case "NbPitchLines":
+		instance.NbPitchLines = GongExtractInt(valueExpr)
+	case "NbBeatLines":
+		instance.NbBeatLines = GongExtractInt(valueExpr)
+	case "OriginX":
+		instance.OriginX = GongExtractFloat(valueExpr)
+	case "OriginY":
+		instance.OriginY = GongExtractFloat(valueExpr)
+	case "ShowFirstVoice":
+		instance.ShowFirstVoice = GongExtractBool(valueExpr)
+	case "ShowFirstVoiceShiftRight":
+		instance.ShowFirstVoiceShiftRight = GongExtractBool(valueExpr)
+	case "ShowSecondVoice":
+		instance.ShowSecondVoice = GongExtractBool(valueExpr)
+	case "ShowSecondVoiceShiftRight":
+		instance.ShowSecondVoiceShiftRight = GongExtractBool(valueExpr)
+	case "ShowFirstVoiceNotes":
+		instance.ShowFirstVoiceNotes = GongExtractBool(valueExpr)
+	case "ShowFirstVoiceNotesShiftRight":
+		instance.ShowFirstVoiceNotesShiftRight = GongExtractBool(valueExpr)
+	case "ShowSecondVoiceNotes":
+		instance.ShowSecondVoiceNotes = GongExtractBool(valueExpr)
+	case "ShowSecondVoiceNotesShiftRight":
+		instance.ShowSecondVoiceNotesShiftRight = GongExtractBool(valueExpr)
+	case "IsComposerNodeExpanded":
+		instance.IsComposerNodeExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type OriginalPoints3DShapeUnmarshaller struct{}
 
 func (u *OriginalPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2888,6 +2967,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.StoolAbstract, valueExpr, identifierMap)
 	case "ClockAbstract":
 		GongUnmarshallPointer(&instance.ClockAbstract, valueExpr, identifierMap)
+	case "MusicAbstract":
+		GongUnmarshallPointer(&instance.MusicAbstract, valueExpr, identifierMap)
 	case "CurrentView":
 		GongUnmarshallEnum(&instance.CurrentView, valueExpr)
 	case "ComputedPrefix":

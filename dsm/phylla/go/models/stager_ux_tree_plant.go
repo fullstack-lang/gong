@@ -54,6 +54,10 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_VASE_3D
 			}
+		} else if plant.PlantType == Music {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+				plant.CurrentView = VIEW_MUSIC_SCORE
+			}
 		} else {
 			if plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_PLANT_2D
@@ -126,6 +130,11 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				}
 			}
 		}
+		if !hasCheckedDiagram && plant.PlantType == Music && plant.MusicAbstract != nil {
+			if plant.MusicAbstract.IsChecked {
+				hasCheckedDiagram = true
+			}
+		}
 
 		if !hasCheckedDiagram {
 			// Uncheck all globally and select the first one if available
@@ -156,6 +165,12 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 					plant.Clock2DDiagrams[0].IsChecked = true
 					plant.CurrentView = VIEW_PLANT_2D
 				}
+			} else if plant.PlantType == Music {
+				if plant.MusicAbstract != nil {
+					plant.MusicAbstract.IsChecked = true
+					plant.MusicAbstract.IsComposerNodeExpanded = true
+				}
+				plant.CurrentView = VIEW_MUSIC_SCORE
 			} else {
 				if len(plant.Plant2DDiagrams) > 0 {
 					plant.Plant2DDiagrams[0].IsChecked = true
@@ -421,6 +436,94 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		for _, diag := range plant.Clock3DDiagrams {
 			stager.treeClock3DDiagram(plant, diag, &clock3DNode.Children, is3DView)
 		}
+	} else if plant.PlantType == Music && plant.MusicAbstract != nil {
+		ma := plant.MusicAbstract
+		composerNode := &tree.Node{
+			Name:              "Composer",
+			FontStyle:         tree.ITALIC,
+			IsExpanded:        ma.IsComposerNodeExpanded,
+			IsNodeClickable:   true,
+			HasCheckboxButton: true,
+			IsChecked:         ma.IsChecked,
+			HasToolTip:        true,
+			ToolTipPosition:   tree.Right,
+			ToolTipText:       "Check to select the Music Score view",
+		}
+		plantNode.Children = append(plantNode.Children, composerNode)
+		composerNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&ma.IsComposerNodeExpanded)
+		composerNode.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked {
+				uncheckAllDiagrams(stager)
+				for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+					p.IsSelected = (p == plant)
+				}
+				stager.selectedPlant = plant
+				ma.IsChecked = true
+				plant.CurrentView = VIEW_MUSIC_SCORE
+				stager.stage.Commit()
+			} else {
+				ma.IsChecked = false
+				stager.stage.Commit()
+			}
+		}
+		composerNode.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(ma, GetPointerToGongstructName[*MusicAbstract]())
+			uncheckAllDiagrams(stager)
+			for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+				p.IsSelected = (p == plant)
+			}
+			stager.selectedPlant = plant
+			ma.IsChecked = true
+			plant.CurrentView = VIEW_MUSIC_SCORE
+			stager.stage.Commit()
+		}
+
+		addVoiceShowToggle := func(name string, showRef *bool) {
+			childNode := &tree.Node{
+				Name:              name,
+				HasCheckboxButton: false,
+				IsNodeClickable:   true,
+			}
+			btn := &tree.Button{
+				Name:            "Hide",
+				Icon:            string(buttons.BUTTON_visibility_off),
+				ToolTipText:     "Hide from score",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+			}
+			if !*showRef {
+				btn.Icon = string(buttons.BUTTON_visibility)
+				btn.Name = "Show"
+				btn.ToolTipText = "Show on score"
+			}
+			btn.OnClick = func() {
+				*showRef = !*showRef
+				if *showRef {
+					btn.Icon = string(buttons.BUTTON_visibility_off)
+					btn.Name = "Hide"
+					btn.ToolTipText = "Hide from score"
+				} else {
+					btn.Icon = string(buttons.BUTTON_visibility)
+					btn.Name = "Show"
+					btn.ToolTipText = "Show on score"
+				}
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.treeStage2D.Commit()
+				stager.treeStage3D.Commit()
+				stager.ux_svg_music()
+			}
+			childNode.Buttons = append(childNode.Buttons, btn)
+			composerNode.Children = append(composerNode.Children, childNode)
+		}
+
+		addVoiceShowToggle("First Voice", &ma.ShowFirstVoice)
+		addVoiceShowToggle("First Voice Shift Right", &ma.ShowFirstVoiceShiftRight)
+		addVoiceShowToggle("2nd Voice", &ma.ShowSecondVoice)
+		addVoiceShowToggle("2nd voice shifted right", &ma.ShowSecondVoiceShiftRight)
+		addVoiceShowToggle("First Voice notes", &ma.ShowFirstVoiceNotes)
+		addVoiceShowToggle("First Voice note shifted right", &ma.ShowFirstVoiceNotesShiftRight)
+		addVoiceShowToggle("Second Voice notes", &ma.ShowSecondVoiceNotes)
+		addVoiceShowToggle("Second Voice Notes Shift Right", &ma.ShowSecondVoiceNotesShiftRight)
 	}
 }
 
@@ -448,5 +551,8 @@ func uncheckAllDiagrams(stager *Stager) {
 	}
 	for d := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stager.stage) {
 		d.IsChecked = false
+	}
+	for ma := range *GetGongstructInstancesSetFromPointerType[*MusicAbstract](stager.stage) {
+		ma.IsChecked = false
 	}
 }

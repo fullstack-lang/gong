@@ -272,6 +272,107 @@ func (planttype PlantType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for STLExportPart
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (stlexportpart STLExportPart) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch stlexportpart {
+	// insertion code per enum code
+	case STLExportAll:
+		res = 0
+	case STLExportTopRing:
+		res = 1
+	case STLExportOneRing:
+		res = 2
+	case STLExportBottomRing:
+		res = 3
+	}
+	return
+}
+
+func (stlexportpart *STLExportPart) FromInt(input int) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*stlexportpart = STLExportAll
+		return
+	case 1:
+		*stlexportpart = STLExportTopRing
+		return
+	case 2:
+		*stlexportpart = STLExportOneRing
+		return
+	case 3:
+		*stlexportpart = STLExportBottomRing
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (stlexportpart *STLExportPart) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "STLExportAll":
+		*stlexportpart = STLExportAll
+	case "STLExportTopRing":
+		*stlexportpart = STLExportTopRing
+	case "STLExportOneRing":
+		*stlexportpart = STLExportOneRing
+	case "STLExportBottomRing":
+		*stlexportpart = STLExportBottomRing
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (stlexportpart *STLExportPart) ToCodeString() (res string) {
+
+	switch *stlexportpart {
+	// insertion code per enum code
+	case STLExportAll:
+		res = "STLExportAll"
+	case STLExportTopRing:
+		res = "STLExportTopRing"
+	case STLExportOneRing:
+		res = "STLExportOneRing"
+	case STLExportBottomRing:
+		res = "STLExportBottomRing"
+	}
+	return
+}
+
+func (stlexportpart STLExportPart) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "STLExportAll")
+	res = append(res, "STLExportTopRing")
+	res = append(res, "STLExportOneRing")
+	res = append(res, "STLExportBottomRing")
+
+	return
+}
+
+func (stlexportpart STLExportPart) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	// insertion code per enum code
+	res = append(res, 0)
+	res = append(res, 1)
+	res = append(res, 2)
+	res = append(res, 3)
+
+	return
+}
+
 // Utility function for ViewType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -296,6 +397,8 @@ func (viewtype ViewType) ToString() (res string) {
 		res = "Clock 3D"
 	case VIEW_ABOUT_SPIRAL_PLANTS:
 		res = "About Spiral Plants"
+	case VIEW_MUSIC_SCORE:
+		res = "Music Score"
 	}
 	return
 }
@@ -328,6 +431,9 @@ func (viewtype *ViewType) FromString(input string) (err error) {
 	case "About Spiral Plants":
 		*viewtype = VIEW_ABOUT_SPIRAL_PLANTS
 		return
+	case "Music Score":
+		*viewtype = VIEW_MUSIC_SCORE
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -353,6 +459,8 @@ func (viewtype *ViewType) FromCodeString(input string) (err error) {
 		*viewtype = VIEW_CLOCK_3D
 	case "VIEW_ABOUT_SPIRAL_PLANTS":
 		*viewtype = VIEW_ABOUT_SPIRAL_PLANTS
+	case "VIEW_MUSIC_SCORE":
+		*viewtype = VIEW_MUSIC_SCORE
 	default:
 		err = errUnkownEnum
 	}
@@ -379,6 +487,8 @@ func (viewtype *ViewType) ToCodeString() (res string) {
 		res = "VIEW_CLOCK_3D"
 	case VIEW_ABOUT_SPIRAL_PLANTS:
 		res = "VIEW_ABOUT_SPIRAL_PLANTS"
+	case VIEW_MUSIC_SCORE:
+		res = "VIEW_MUSIC_SCORE"
 	}
 	return
 }
@@ -396,6 +506,7 @@ func (viewtype ViewType) Codes() (res []string) {
 	res = append(res, "VIEW_STOOL_3D")
 	res = append(res, "VIEW_CLOCK_3D")
 	res = append(res, "VIEW_ABOUT_SPIRAL_PLANTS")
+	res = append(res, "VIEW_MUSIC_SCORE")
 
 	return
 }
@@ -413,6 +524,7 @@ func (viewtype ViewType) CodeValues() (res []string) {
 	res = append(res, "Stool 3D")
 	res = append(res, "Clock 3D")
 	res = append(res, "About Spiral Plants")
+	res = append(res, "Music Score")
 
 	return
 }
@@ -430,13 +542,13 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	int | LayoutDirection
+	int | LayoutDirection | STLExportPart
 	Codes() []string
 	CodeValues() []int
 }
 
 type PointerToGongstructEnumIntField interface {
-	//insertion point for pointers to enum int types | *LayoutDirection
+	//insertion point for pointers to enum int types | *LayoutDirection | *STLExportPart
 	FromCodeString(input string) (err error)
 }
 

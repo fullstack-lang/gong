@@ -44,8 +44,9 @@ func (stager *Stager) createViews() {
 	isVase := (plant != nil && plant.PlantType == Vase)
 	isStool := (plant != nil && plant.PlantType == Stool)
 	isClock := (plant != nil && plant.PlantType == Clock)
+	isMusic := (plant != nil && plant.PlantType == Music)
 
-	var isPlant2DChecked, isPlant3DChecked, isVase2DChecked, isVase3DChecked, isStool2DChecked, isStool3DChecked, isClock2DChecked, isClock3DChecked bool
+	var isPlant2DChecked, isPlant3DChecked, isVase2DChecked, isVase3DChecked, isStool2DChecked, isStool3DChecked, isClock2DChecked, isClock3DChecked, isMusicScoreChecked bool
 	if plant != nil {
 		for _, d := range plant.Plant2DDiagrams {
 			if d.IsChecked {
@@ -87,6 +88,9 @@ func (stager *Stager) createViews() {
 				isClock3DChecked = true
 			}
 		}
+		if plant.MusicAbstract != nil && plant.MusicAbstract.IsChecked {
+			isMusicScoreChecked = true
+		}
 	}
 
 	if plant != nil {
@@ -96,8 +100,13 @@ func (stager *Stager) createViews() {
 			plant.CurrentView = VIEW_PLANT_2D
 		} else if plant.PlantType == Clock && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
+		} else if plant.PlantType == Music && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			plant.CurrentView = VIEW_MUSIC_SCORE
 		} else if plant.PlantType == Vase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
+		}
+		if isMusicScoreChecked {
+			plant.CurrentView = VIEW_MUSIC_SCORE
 		}
 		if plant.CurrentView != "" {
 			currentView = plant.CurrentView
@@ -113,6 +122,7 @@ func (stager *Stager) createViews() {
 	view3Name := string(VIEW_VASE_3D)
 	viewStool3DName := string(VIEW_STOOL_3D)
 	viewClock3DName := string(VIEW_CLOCK_3D)
+	viewMusicScoreName := string(VIEW_MUSIC_SCORE)
 	viewAboutSpiralPlantsName := string(VIEW_ABOUT_SPIRAL_PLANTS)
 
 	isView0Selected := (currentView == VIEW_PLANT_2D)
@@ -122,10 +132,19 @@ func (stager *Stager) createViews() {
 	isView3Selected := (currentView == VIEW_VASE_3D)
 	isViewStool3DSelected := (currentView == VIEW_STOOL_3D)
 	isViewClock3DSelected := (currentView == VIEW_CLOCK_3D)
+	isViewMusicScoreSelected := (currentView == VIEW_MUSIC_SCORE)
 	isViewAboutSpiralPlantsSelected := (currentView == VIEW_ABOUT_SPIRAL_PLANTS)
 
-	if !isView0Selected && !isViewPlant3DSelected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected && !isViewClock3DSelected && !isViewAboutSpiralPlantsSelected {
-		isView0Selected = true
+	if isMusicScoreChecked {
+		isViewMusicScoreSelected = true
+		isView0Selected = false
+		isViewPlant3DSelected = false
+	} else if !isView0Selected && !isViewPlant3DSelected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected && !isViewClock3DSelected && !isViewMusicScoreSelected && !isViewAboutSpiralPlantsSelected {
+		if isMusic {
+			isViewMusicScoreSelected = true
+		} else {
+			isView0Selected = true
+		}
 	}
 
 	v0 := &split.View{
@@ -660,6 +679,110 @@ func (stager *Stager) createViews() {
 				stager.stage.Commit()
 			}
 			stager.UpdateClock3DStage()
+		}
+	}
+
+	if isMusic {
+		vMusicScore := &split.View{
+			Name:           viewMusicScoreName,
+			Direction:      split.Horizontal,
+			IsSizeInPixel:  true,
+			IsSelectedView: isViewMusicScoreSelected,
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Name:             "Sidebar with both trees",
+					ShowNameInHeader: false,
+					IsAny:            true,
+					AsSplit: &split.AsSplit{
+						Name:          "as split",
+						IsSizeInPixel: true,
+						Direction:     split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 525,
+								AsSplit: &split.AsSplit{
+									Direction: split.Vertical,
+									AsSplitAreas: []*split.AsSplitArea{
+										{
+											Name:             "Libraries",
+											Size:             80,
+											ShowNameInHeader: false,
+											Tree: &split.Tree{
+												StackName: stager.treeStage2D.GetName(),
+											},
+										},
+										{
+											Size: 10,
+											Load: &split.Load{
+												StackName: stager.loadStage.GetName(),
+											},
+										},
+										{
+											Size: 10,
+											Button: &split.Button{
+												StackName: stager.buttonStage.GetName(),
+											},
+										},
+									},
+								},
+							},
+							{
+								IsAny:    true,
+								HasDiv:   true,
+								DivStyle: "position: relative; width: 100%; height: 100%;",
+								Svg: &split.Svg{
+									StackName: stager.svgMusicStage.GetName(),
+									Style:     "position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;",
+								},
+								Cursor: &split.Cursor{
+									StackName: stager.cursorStage.GetName(),
+									Style:     "position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 2;pointer-events: none;",
+								},
+							},
+						},
+					},
+				},
+				{
+					Size: 525,
+					AsSplit: &split.AsSplit{
+						Direction: split.Vertical,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 60,
+								Slider: &split.Slider{
+									StackName: stager.sliderMusicStage.GetName(),
+								},
+							},
+							{
+								Size: 20,
+								Button: &split.Button{
+									StackName: stager.buttonMusicStage.GetName(),
+								},
+							},
+							{
+								Size: 20,
+								Tone: &split.Tone{
+									StackName: stager.toneStage.GetName(),
+								},
+							},
+							{
+								Size: 0,
+								Load: &split.Load{
+									StackName: stager.loadStage.GetName(),
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+		split.StageBranch(stager.splitStage, vMusicScore)
+		vMusicScore.OnClick = func() {
+			plant := stager.GetCurrentPlant()
+			if plant != nil && plant.CurrentView != VIEW_MUSIC_SCORE {
+				plant.CurrentView = VIEW_MUSIC_SCORE
+				stager.stage.Commit()
+			}
 		}
 	}
 

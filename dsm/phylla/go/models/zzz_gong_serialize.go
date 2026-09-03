@@ -66,6 +66,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*MidArcVectorShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*MidArcVectorShapeGrid](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*MusicAbstract](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*OriginalPoints3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ParastichyMCurves3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ParastichyNCurves3DShape](stage, f, addIDs)
