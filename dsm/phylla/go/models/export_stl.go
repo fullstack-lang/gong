@@ -312,13 +312,65 @@ type stlLayerConfig struct {
 	dx, dy, thetaOffset float64
 }
 
+type STLExportPart int
+
+const (
+	STLExportAll STLExportPart = iota
+	STLExportTopRing
+	STLExportOneRing
+	STLExportBottomRing
+)
+
+func buildBaseRingSTL(resampledBaseBottom, resampledBaseTop []vector3, radialRepetitions int, thetaOffset float64) (massiveBottom, massiveTop []vector3) {
+	massiveBottom = make([]vector3, 0, len(resampledBaseBottom)*radialRepetitions)
+	massiveTop = make([]vector3, 0, len(resampledBaseTop)*radialRepetitions)
+
+	for k := 0; k < radialRepetitions; k++ {
+		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+		totalThetaOffset := thetaOffset + baseThetaOffset
+
+		localBottom := rotateCurveSTL(resampledBaseBottom, totalThetaOffset)
+		localTop := rotateCurveSTL(resampledBaseTop, totalThetaOffset)
+
+		massiveBottom = append(massiveBottom, localBottom...)
+		massiveTop = append(massiveTop, localTop...)
+	}
+	return massiveBottom, massiveTop
+}
+
 func GenerateSTL(plant *PlantAbstract) string {
+	return GenerateSTLWithPart(plant, STLExportAll)
+}
+
+func GenerateTopRingSTL(plant *PlantAbstract) string {
+	return GenerateSTLWithPart(plant, STLExportTopRing)
+}
+
+func GenerateOneRingSTL(plant *PlantAbstract) string {
+	return GenerateSTLWithPart(plant, STLExportOneRing)
+}
+
+func GenerateBottomRingSTL(plant *PlantAbstract) string {
+	return GenerateSTLWithPart(plant, STLExportBottomRing)
+}
+
+func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 	if plant == nil {
 		return ""
 	}
 
+	solidName := plant.Name
+	switch part {
+	case STLExportTopRing:
+		solidName = plant.Name + "_top_ring"
+	case STLExportOneRing:
+		solidName = plant.Name + "_one_ring"
+	case STLExportBottomRing:
+		solidName = plant.Name + "_bottom_ring"
+	}
+
 	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("solid %s\n", plant.Name))
+	sb.WriteString(fmt.Sprintf("solid %s\n", solidName))
 
 	sideLength := 0.0
 	relativeRadialThickness := 0.0
@@ -475,179 +527,211 @@ func GenerateSTL(plant *PlantAbstract) string {
 			resampledBaseBottom := resampleCurveAtAnglesSTL(anglesBottom, bottomPoints, targetAngles, expectedDegrees)
 			resampledBaseTop := resampleCurveAtAnglesSTL(anglesTop, topPoints, targetAngles, expectedDegrees)
 
-			var checkedDiagram *Vase3DDiagram
-			for _, diagram := range plant.Vase3DDiagrams {
-				if diagram.IsChecked {
-					checkedDiagram = diagram
-					break
-				}
-			}
-
-			stackHeight := plant.StackHeight
-
-			var activeShapeRuns [][]stlLayerConfig
-
-			if checkedDiagram != nil {
-				if !checkedDiagram.IsHiddenTorusStackShape {
-					var growthVectorX, growthVectorY float64
-					if plant.GrowthVectorShape != nil {
-						growthVectorX = plant.GrowthVectorShape.X
-						growthVectorY = plant.GrowthVectorShape.Y
-					}
-					var vx, vy float64
-					if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
-						pGrid := plant.PerpendicularVectorGrid
-						vFirst := pGrid.PerpendicularVectors[0]
-						vx = vFirst.EndX - vFirst.StartX
-						vy = vFirst.EndY - vFirst.StartY
-						vLen := math.Hypot(vx, vy)
-						if vLen == 0 {
-							vLen = 1
-						}
-						vx, vy = vx/vLen, vy/vLen
-					}
-					verticalThickness := relativeVerticalThickness * sideLength
-					rotatedSeparation := relativeRotatedTorusSeparation * sideLength
-
-					var run []stlLayerConfig
-					for h := 0; h < stackHeight; h++ {
-						dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-						dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
-						thetaOffset := dx / globalR
-						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
-					}
-					activeShapeRuns = append(activeShapeRuns, run)
-				}
-
-				if !checkedDiagram.IsHiddenVerticalTorusStackShape {
-					var run []stlLayerConfig
-					for h := 0; h < stackHeight; h++ {
-						dx := 0.0
-						dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
-						thetaOffset := 0.0
-						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
-					}
-					activeShapeRuns = append(activeShapeRuns, run)
-				}
-
-				if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
-					dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
-					thetaOffset := dx / globalR
-					var run []stlLayerConfig
-					run = append(run, stlLayerConfig{dx: 0, dy: 0, thetaOffset: 0})
-					run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
-					activeShapeRuns = append(activeShapeRuns, run)
-				}
-
-				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
-					numSteps := stackHeight - 1
-					dxs := make([]float64, stackHeight)
-					dys := make([]float64, stackHeight)
-					dxs[0] = 0.0
-					dys[0] = 0.0
-
-					if numSteps > 0 {
-						totalProgress := rotationRatio * float64(numSteps)
-						var cumDX, cumDY float64
-						for k := 1; k <= numSteps; k++ {
-							var r_k float64
-							kFloat := float64(numSteps - k + 1)
-							if totalProgress >= kFloat {
-								r_k = 1.0
-							} else if totalProgress <= kFloat-1.0 {
-								r_k = 0.0
-							} else {
-								r_k = totalProgress - (kFloat - 1.0)
-							}
-							stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
-							cumDX += stepDX
-							cumDY += stepDY
-							dxs[k] = cumDX
-							dys[k] = cumDY
-						}
-					}
-
-					var run []stlLayerConfig
-					for h := 0; h < stackHeight; h++ {
-						dx := dxs[h]
-						dy := dys[h]
-						thetaOffset := dx / globalR
-						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
-					}
-					activeShapeRuns = append(activeShapeRuns, run)
-				}
-			}
-
-			if len(activeShapeRuns) == 0 {
-				var run []stlLayerConfig
-				for h := 0; h < stackHeight; h++ {
-					dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
-					run = append(run, stlLayerConfig{dx: 0, dy: dy, thetaOffset: 0})
-				}
-				activeShapeRuns = append(activeShapeRuns, run)
-			}
-
 			h_horiz := relativeHorizontalRingsHeight * sideLength
 
-			for _, run := range activeShapeRuns {
-				for h, cfg := range run {
-					massiveBottom := make([]vector3, 0, len(resampledBaseBottom)*radialRepetitions)
-					massiveTop := make([]vector3, 0, len(resampledBaseTop)*radialRepetitions)
+			if part == STLExportBottomRing {
+				massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
+				writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, 0.0, thickness, radialRepetitions)
 
-					for k := 0; k < radialRepetitions; k++ {
-						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-						totalThetaOffset := cfg.thetaOffset + baseThetaOffset
-
-						localBottom := rotateCurveSTL(resampledBaseBottom, totalThetaOffset)
-						localTop := rotateCurveSTL(resampledBaseTop, totalThetaOffset)
-
-						massiveBottom = append(massiveBottom, localBottom...)
-						massiveTop = append(massiveTop, localTop...)
+				if h_horiz > 0 && len(massiveBottom) > 0 {
+					minY_bottom := math.MaxFloat64
+					for _, p := range massiveBottom {
+						if p.Y < minY_bottom {
+							minY_bottom = p.Y
+						}
 					}
 
-					writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, cfg.dy, thickness, radialRepetitions)
+					horizBottom := make([]vector3, len(massiveBottom))
+					horizTop := make([]vector3, len(massiveBottom))
+					for idx, p := range massiveBottom {
+						horizBottom[idx] = vector3{X: p.X, Y: minY_bottom, Z: p.Z}
+						horizTop[idx] = vector3{X: p.X, Y: minY_bottom + h_horiz, Z: p.Z}
+					}
+					writeRibbonLayerSTL(&sb, horizBottom, horizTop, 0.0, thickness, radialRepetitions)
+				}
+			} else if part == STLExportOneRing {
+				massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
+				writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, 0.0, thickness, radialRepetitions)
+			} else if part == STLExportTopRing {
+				massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
+				writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, 0.0, thickness, radialRepetitions)
 
-					if h_horiz > 0 && h == 0 && len(massiveBottom) > 0 {
-						minY_bottom := math.MaxFloat64
-						for _, p := range massiveBottom {
-							yVal := p.Y + cfg.dy
-							if yVal < minY_bottom {
-								minY_bottom = yVal
+				if h_horiz > 0 && len(massiveTop) > 0 {
+					maxY_top := -math.MaxFloat64
+					for _, p := range massiveTop {
+						if p.Y > maxY_top {
+							maxY_top = p.Y
+						}
+					}
+
+					horizBottom := make([]vector3, len(massiveTop))
+					horizTop := make([]vector3, len(massiveTop))
+					for idx, p := range massiveTop {
+						horizBottom[idx] = vector3{X: p.X, Y: maxY_top - h_horiz, Z: p.Z}
+						horizTop[idx] = vector3{X: p.X, Y: maxY_top, Z: p.Z}
+					}
+					writeRibbonLayerSTL(&sb, horizBottom, horizTop, 0.0, thickness, radialRepetitions)
+				}
+			} else {
+				var checkedDiagram *Vase3DDiagram
+				for _, diagram := range plant.Vase3DDiagrams {
+					if diagram.IsChecked {
+						checkedDiagram = diagram
+						break
+					}
+				}
+
+				stackHeight := plant.StackHeight
+
+				var activeShapeRuns [][]stlLayerConfig
+
+				if checkedDiagram != nil {
+					if !checkedDiagram.IsHiddenTorusStackShape {
+						var growthVectorX, growthVectorY float64
+						if plant.GrowthVectorShape != nil {
+							growthVectorX = plant.GrowthVectorShape.X
+							growthVectorY = plant.GrowthVectorShape.Y
+						}
+						var vx, vy float64
+						if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+							pGrid := plant.PerpendicularVectorGrid
+							vFirst := pGrid.PerpendicularVectors[0]
+							vx = vFirst.EndX - vFirst.StartX
+							vy = vFirst.EndY - vFirst.StartY
+							vLen := math.Hypot(vx, vy)
+							if vLen == 0 {
+								vLen = 1
+							}
+							vx, vy = vx/vLen, vy/vLen
+						}
+						verticalThickness := relativeVerticalThickness * sideLength
+						rotatedSeparation := relativeRotatedTorusSeparation * sideLength
+
+						var run []stlLayerConfig
+						for h := 0; h < stackHeight; h++ {
+							dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+							dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
+							thetaOffset := dx / globalR
+							run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+						}
+						activeShapeRuns = append(activeShapeRuns, run)
+					}
+
+					if !checkedDiagram.IsHiddenVerticalTorusStackShape {
+						var run []stlLayerConfig
+						for h := 0; h < stackHeight; h++ {
+							dx := 0.0
+							dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
+							thetaOffset := 0.0
+							run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+						}
+						activeShapeRuns = append(activeShapeRuns, run)
+					}
+
+					if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
+						dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
+						thetaOffset := dx / globalR
+						var run []stlLayerConfig
+						run = append(run, stlLayerConfig{dx: 0, dy: 0, thetaOffset: 0})
+						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+						activeShapeRuns = append(activeShapeRuns, run)
+					}
+
+					if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
+						numSteps := stackHeight - 1
+						dxs := make([]float64, stackHeight)
+						dys := make([]float64, stackHeight)
+						dxs[0] = 0.0
+						dys[0] = 0.0
+
+						if numSteps > 0 {
+							totalProgress := rotationRatio * float64(numSteps)
+							var cumDX, cumDY float64
+							for k := 1; k <= numSteps; k++ {
+								var r_k float64
+								kFloat := float64(numSteps - k + 1)
+								if totalProgress >= kFloat {
+									r_k = 1.0
+								} else if totalProgress <= kFloat-1.0 {
+									r_k = 0.0
+								} else {
+									r_k = totalProgress - (kFloat - 1.0)
+								}
+								stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+								cumDX += stepDX
+								cumDY += stepDY
+								dxs[k] = cumDX
+								dys[k] = cumDY
 							}
 						}
 
-						horizBottom := make([]vector3, len(massiveBottom))
-						horizTop := make([]vector3, len(massiveBottom))
-						for idx, p := range massiveBottom {
-							horizBottom[idx] = vector3{X: p.X, Y: minY_bottom - cfg.dy, Z: p.Z}
-							horizTop[idx] = vector3{X: p.X, Y: (minY_bottom + h_horiz) - cfg.dy, Z: p.Z}
+						var run []stlLayerConfig
+						for h := 0; h < stackHeight; h++ {
+							dx := dxs[h]
+							dy := dys[h]
+							thetaOffset := dx / globalR
+							run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
 						}
-						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, radialRepetitions)
+						activeShapeRuns = append(activeShapeRuns, run)
 					}
+				}
 
-					if h_horiz > 0 && h == len(run)-1 && len(massiveTop) > 0 {
-						maxY_top := -math.MaxFloat64
-						for _, p := range massiveTop {
-							yVal := p.Y + cfg.dy
-							if yVal > maxY_top {
-								maxY_top = yVal
+				if len(activeShapeRuns) == 0 {
+					var run []stlLayerConfig
+					for h := 0; h < stackHeight; h++ {
+						dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
+						run = append(run, stlLayerConfig{dx: 0, dy: dy, thetaOffset: 0})
+					}
+					activeShapeRuns = append(activeShapeRuns, run)
+				}
+
+				for _, run := range activeShapeRuns {
+					for h, cfg := range run {
+						massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, cfg.thetaOffset)
+						writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, cfg.dy, thickness, radialRepetitions)
+
+						if h_horiz > 0 && h == 0 && len(massiveBottom) > 0 {
+							minY_bottom := math.MaxFloat64
+							for _, p := range massiveBottom {
+								yVal := p.Y + cfg.dy
+								if yVal < minY_bottom {
+									minY_bottom = yVal
+								}
 							}
+
+							horizBottom := make([]vector3, len(massiveBottom))
+							horizTop := make([]vector3, len(massiveBottom))
+							for idx, p := range massiveBottom {
+								horizBottom[idx] = vector3{X: p.X, Y: minY_bottom - cfg.dy, Z: p.Z}
+								horizTop[idx] = vector3{X: p.X, Y: (minY_bottom + h_horiz) - cfg.dy, Z: p.Z}
+							}
+							writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, radialRepetitions)
 						}
 
-						horizBottom := make([]vector3, len(massiveTop))
-						horizTop := make([]vector3, len(massiveTop))
-						for idx, p := range massiveTop {
-							horizBottom[idx] = vector3{X: p.X, Y: (maxY_top - h_horiz) - cfg.dy, Z: p.Z}
-							horizTop[idx] = vector3{X: p.X, Y: maxY_top - cfg.dy, Z: p.Z}
+						if h_horiz > 0 && h == len(run)-1 && len(massiveTop) > 0 {
+							maxY_top := -math.MaxFloat64
+							for _, p := range massiveTop {
+								yVal := p.Y + cfg.dy
+								if yVal > maxY_top {
+									maxY_top = yVal
+								}
+							}
+
+							horizBottom := make([]vector3, len(massiveTop))
+							horizTop := make([]vector3, len(massiveTop))
+							for idx, p := range massiveTop {
+								horizBottom[idx] = vector3{X: p.X, Y: (maxY_top - h_horiz) - cfg.dy, Z: p.Z}
+								horizTop[idx] = vector3{X: p.X, Y: maxY_top - cfg.dy, Z: p.Z}
+							}
+							writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, radialRepetitions)
 						}
-						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, radialRepetitions)
 					}
 				}
 			}
 		}
 	}
 
-	sb.WriteString(fmt.Sprintf("endsolid %s\n", plant.Name))
+	sb.WriteString(fmt.Sprintf("endsolid %s\n", solidName))
 
 	return sb.String()
 }

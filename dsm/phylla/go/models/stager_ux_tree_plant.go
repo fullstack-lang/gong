@@ -170,28 +170,96 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		stager.stage.Commit()
 	}
 
-	downloadBtn := &tree.Button{
-		Name:            "Download STL",
-		Icon:            string(buttons.BUTTON_download),
-		ToolTipText:     "Download STL",
-		HasToolTip:      true,
-		ToolTipPosition: tree.Right,
-		OnClick: func() {
-			stager.loadStage.Reset()
-			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+	if plant.PlantType == Vase {
+		topRingBtn := &tree.Button{
+			Name:            "export Top ring STL",
+			Icon:            string(buttons.BUTTON_vertical_align_top),
+			ToolTipText:     "export Top ring STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
 
-			// Generate the actual STL content
-			stlContent := GenerateSTL(plant)
+				stlContent := GenerateTopRingSTL(plant)
 
-			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
-			fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + ".stl"
-			stager.loadStage.Commit()
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-top-ring.stl"
+				stager.loadStage.Commit()
 
-			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
-			stager.load()
-		},
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, topRingBtn)
+
+		oneRingBtn := &tree.Button{
+			Name:            "export one ring STL",
+			Icon:            string(buttons.BUTTON_vertical_align_center),
+			ToolTipText:     "export one ring STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				stlContent := GenerateOneRingSTL(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-one-ring.stl"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, oneRingBtn)
+
+		bottomRingBtn := &tree.Button{
+			Name:            "export bottom ring STL",
+			Icon:            string(buttons.BUTTON_vertical_align_bottom),
+			ToolTipText:     "export bottom ring STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				stlContent := GenerateBottomRingSTL(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-bottom-ring.stl"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, bottomRingBtn)
+	} else {
+		downloadBtn := &tree.Button{
+			Name:            "Download STL",
+			Icon:            string(buttons.BUTTON_download),
+			ToolTipText:     "Download STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				// Generate the actual STL content
+				stlContent := GenerateSTL(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + ".stl"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 	}
-	plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 
 	diagramsNode := &tree.Node{
 		Name:            "Plant 2D Diagrams",

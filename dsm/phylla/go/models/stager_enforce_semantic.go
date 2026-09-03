@@ -36,7 +36,9 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceDiagramMaps()
 
 	if needCommit {
-		stager.probeForm.CommitNotificationTable()
+		if stager.probeForm != nil {
+			stager.probeForm.CommitNotificationTable()
+		}
 		stage.CommitWithSuspendedCallbacks()
 	}
 
