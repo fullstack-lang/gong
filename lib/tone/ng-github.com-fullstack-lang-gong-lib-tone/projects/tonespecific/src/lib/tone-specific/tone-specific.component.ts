@@ -112,10 +112,16 @@ export class ToneSpecificComponent {
     }
   }
 
-  play(): void {
+  async play(): Promise<void> {
     if (!this.frontRepo) {
       this.showError('No data available for playback');
       return;
+    }
+
+    try {
+      await Tone.start();
+    } catch (e) {
+      console.warn('Tone.start() error:', e);
     }
 
     // Stop any existing playback before starting new one
@@ -146,32 +152,31 @@ export class ToneSpecificComponent {
 
   private initializeSampler(duration: number, notes: tonelocal.Note[]): void {
 
-    // Use absolute URL with origin
     const audioBaseUrl = `${window.location.origin}/assets/audio/salamander/`;
 
-    // Prefer OGG files, fall back to MP3
     const urls: { [key: string]: string } = {
-      C3: `${audioBaseUrl}C3.mp3`,
-      'D#3': `${audioBaseUrl}Ds3.mp3`,
-      'F#3': `${audioBaseUrl}Fs3.mp3`,
-      A3: `${audioBaseUrl}A3.mp3`,
-      C4: `${audioBaseUrl}C4.mp3`,
-      'D#4': `${audioBaseUrl}Ds4.mp3`,
-      'F#4': `${audioBaseUrl}Fs4.mp3`,
-      A4: `${audioBaseUrl}A4.mp3`,
-      C5: `${audioBaseUrl}C5.mp3`,
-      'D#5': `${audioBaseUrl}Ds5.mp3`
+      C3: 'C3.mp3?v=1',
+      'D#3': 'Ds3.mp3?v=1',
+      'F#3': 'Fs3.mp3?v=1',
+      A3: 'A3.mp3?v=1',
+      C4: 'C4.mp3?v=1',
+      'D#4': 'Ds4.mp3?v=1',
+      'F#4': 'Fs4.mp3?v=1',
+      A4: 'A4.mp3?v=1',
+      C5: 'C5.mp3?v=1',
+      'D#5': 'Ds5.mp3?v=1'
     };
 
     this.sampler = new Tone.Sampler({
       urls: urls,
+      baseUrl: audioBaseUrl,
       release: 1,
       onload: () => {
         console.log('Sampler loaded successfully');
         this.startPlayback(duration, notes);
       },
       onerror: (error) => {
-        console.error('Sampler load error:', error);
+        console.error('Sampler load error for baseUrl:', audioBaseUrl, error);
 
         // Detailed error logging
         if (error instanceof Event) {
