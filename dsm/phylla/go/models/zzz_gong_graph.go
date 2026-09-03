@@ -15589,6 +15589,9 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongDiff(stage *Stage, stemcylin
 	if stemcylinder3dshape.Name != stemcylinder3dshapeOther.Name {
 		diffs = append(diffs, stemcylinder3dshape.GongMarshallField(stage, "Name"))
 	}
+	if stemcylinder3dshape.Transparency != stemcylinder3dshapeOther.Transparency {
+		diffs = append(diffs, stemcylinder3dshape.GongMarshallField(stage, "Transparency"))
+	}
 
 	return
 }

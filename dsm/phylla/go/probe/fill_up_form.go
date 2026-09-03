@@ -2788,6 +2788,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

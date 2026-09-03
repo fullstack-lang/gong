@@ -191,6 +191,18 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 
 	// 1. Stem Cylinder Surface
 	if checkedDiagram == nil || !checkedDiagram.IsHiddenStemCylinder3DShape {
+		transparency := 0.35
+		if checkedDiagram != nil && checkedDiagram.StemCylinder3DShape != nil {
+			transparency = checkedDiagram.StemCylinder3DShape.Transparency
+		}
+		opacity := 1.0 - transparency
+		if opacity < 0.0 {
+			opacity = 0.0
+		}
+		if opacity > 1.0 {
+			opacity = 1.0
+		}
+
 		cylGeom := (&threejs.CylinderGeometry{
 			Name:           "Stem Cylinder Geom",
 			RadiusTop:      globalR,
@@ -209,7 +221,7 @@ func (u *Plant3DStageUpdater) ux_3d_plant(stager *models.Stager) {
 				Name:                 "Stem Cylinder Material",
 				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#f1f5f9"},
 				Transparent:          true,
-				Opacity:              0.65,
+				Opacity:              opacity,
 			}).Stage(plant3dStage),
 		}).Stage(plant3dStage)
 

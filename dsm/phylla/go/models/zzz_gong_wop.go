@@ -2814,11 +2814,14 @@ type StemCylinder3DShape_WOP struct {
 	// insertion point
 
 	Name string
+
+	Transparency float64
 }
 
 func (from *StemCylinder3DShape) CopyBasicFields(to *StemCylinder3DShape) {
 	// insertion point
 	to.Name = from.Name
+	to.Transparency = from.Transparency
 }
 
 type Stool2DDiagram_WOP struct {

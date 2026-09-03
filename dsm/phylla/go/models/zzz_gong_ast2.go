@@ -5022,6 +5022,8 @@ func (u *StemCylinder3DShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Transparency":
+		instance.Transparency = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

@@ -13808,6 +13808,8 @@ func (stemcylinder3dshapeFormCallback *StemCylinder3DShapeFormCallback) OnSave()
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(stemcylinder3dshape_.Name), formDiv)
+		case "Transparency":
+			FormDivBasicFieldToField(&(stemcylinder3dshape_.Transparency), formDiv)
 		}
 	}
 

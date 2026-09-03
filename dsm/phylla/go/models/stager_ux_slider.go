@@ -107,6 +107,22 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		if plant.CurrentView == VIEW_PLANT_3D {
+			if transparency := stager.getActivePlant3DCylinderTransparency(plant); transparency != nil {
+				group1.Sliders = append(
+					group1.Sliders,
+					m.NewSlider(
+						stager,
+						"Cylinder Transparency",
+						0.0,
+						1.0,
+						0.05,
+						transparency,
+					),
+				)
+			}
+		}
+
 		if plant.CurrentView != VIEW_PLANT_2D && plant.PlantType == Vase {
 
 			group1.Sliders = append(
@@ -689,4 +705,23 @@ func GetPlant2DZoom(plant *PlantAbstract) float64 {
 
 func (stager *Stager) GetPlant2DZoom(plant *PlantAbstract) float64 {
 	return GetPlant2DZoom(plant)
+}
+
+func getActivePlant3DCylinderTransparency(plant *PlantAbstract) *float64 {
+	if plant == nil {
+		return nil
+	}
+	for _, d := range plant.Plant3DDiagrams {
+		if d.IsChecked && d.StemCylinder3DShape != nil {
+			return &d.StemCylinder3DShape.Transparency
+		}
+	}
+	if len(plant.Plant3DDiagrams) > 0 && plant.Plant3DDiagrams[0].StemCylinder3DShape != nil {
+		return &plant.Plant3DDiagrams[0].StemCylinder3DShape.Transparency
+	}
+	return nil
+}
+
+func (stager *Stager) getActivePlant3DCylinderTransparency(plant *PlantAbstract) *float64 {
+	return getActivePlant3DCylinderTransparency(plant)
 }

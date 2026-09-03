@@ -32,6 +32,9 @@ type Plant3DDiagram struct {
 
 type StemCylinder3DShape struct {
 	Name string
+
+	// Transparency of the 3D stem cylinder (between 0.0 for opaque and 1.0 for transparent)
+	Transparency float64
 }
 
 type ParastichyNCurves3DShape struct {

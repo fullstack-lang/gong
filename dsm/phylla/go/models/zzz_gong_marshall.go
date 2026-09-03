@@ -833,6 +833,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stemcylinder3dshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stemcylinder3dshape.GongMarshallField(stage, "Transparency"))
 	}
 
 	stool2ddiagramOrdered := []*Stool2DDiagram{}
@@ -5911,6 +5912,11 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongMarshallField(stage *Stage, 
 		res = strings.ReplaceAll(res, "{{Identifier}}", stemcylinder3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stemcylinder3dshape.Name))
+	case "Transparency":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stemcylinder3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stemcylinder3dshape.Transparency))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StemCylinder3DShape", fieldName)
@@ -9167,6 +9173,7 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongMarshallAllFields(stage *Sta
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stemcylinder3dshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stemcylinder3dshape.GongMarshallField(stage, "Transparency"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

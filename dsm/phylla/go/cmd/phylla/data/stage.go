@@ -336,10 +336,10 @@ func _(stage *models.Stage) {
 	__Plant2DDiagram__00000006_.IsExpanded = false
 
 	__Plant3DDiagram__00000000_.Name = `Plant (3, 5, 100) - 3D Diagram`
-	__Plant3DDiagram__00000000_.IsHiddenStemCylinder3DShape = true
+	__Plant3DDiagram__00000000_.IsHiddenStemCylinder3DShape = false
 	__Plant3DDiagram__00000000_.IsHiddenParastichyNCurves3DShape = false
 	__Plant3DDiagram__00000000_.IsHiddenParastichyMCurves3DShape = false
-	__Plant3DDiagram__00000000_.IsHiddenCutLine3DShape = false
+	__Plant3DDiagram__00000000_.IsHiddenCutLine3DShape = true
 	__Plant3DDiagram__00000000_.IsHiddenCircumference3DShape = false
 	__Plant3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
 	__Plant3DDiagram__00000000_.IsHiddenLeaves3DShape = false
@@ -390,14 +390,14 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 127.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_PLANT_3D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = false
 	__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsPlant3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000000_.IsVase2DDiagramsNodeExpanded = false
-	__PlantAbstract__00000000_.IsVase3DDiagramsNodeExpanded = false
+	__PlantAbstract__00000000_.IsVase3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000000_.IsStool2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsStool3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsClock2DDiagramsNodeExpanded = false
@@ -407,8 +407,8 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.N = 2
 	__PlantAbstract__00000001_.M = 3
 	__PlantAbstract__00000001_.StackHeight = 2
-	__PlantAbstract__00000001_.RhombusInsideAngle = 130.000000
-	__PlantAbstract__00000001_.RhombusSideLength = 85.000000
+	__PlantAbstract__00000001_.RhombusInsideAngle = 152.000000
+	__PlantAbstract__00000001_.RhombusSideLength = 90.000000
 	__PlantAbstract__00000001_.PlantType = models.Plant
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_3D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
@@ -509,9 +509,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000005_.Fov = 0.000000
 
 	__Rendered3DShape__00000006_.Name = `Plant (3, 5, 100) - 3D Diagram-Rendered3DShape`
-	__Rendered3DShape__00000006_.ViewX = -317.338051
-	__Rendered3DShape__00000006_.ViewY = 268.320117
-	__Rendered3DShape__00000006_.ViewZ = 323.285263
+	__Rendered3DShape__00000006_.ViewX = -776.286104
+	__Rendered3DShape__00000006_.ViewY = 767.615237
+	__Rendered3DShape__00000006_.ViewZ = -541.411706
 	__Rendered3DShape__00000006_.TargetX = 0.000000
 	__Rendered3DShape__00000006_.TargetY = 91.207864
 	__Rendered3DShape__00000006_.TargetZ = 0.000000
@@ -533,12 +533,16 @@ func _(stage *models.Stage) {
 	__SampledPoints3DShape__00000002_.Name = `Plant 1-Vase3DDiagram-SampledPoints3DShape`
 
 	__StemCylinder3DShape__00000000_.Name = `Clock - 3D Diagram-StemCylinder3DShape`
+	__StemCylinder3DShape__00000000_.Transparency = 0.350000
 
 	__StemCylinder3DShape__00000001_.Name = `Vase (2,1,104) - 3D Diagram-StemCylinder3DShape`
+	__StemCylinder3DShape__00000001_.Transparency = 0.350000
 
 	__StemCylinder3DShape__00000002_.Name = `Plant (3, 5, 100) - 3D Diagram-StemCylinder3DShape`
+	__StemCylinder3DShape__00000002_.Transparency = 0.000000
 
 	__StemCylinder3DShape__00000003_.Name = `Stool - 3D Diagram-StemCylinder3DShape`
+	__StemCylinder3DShape__00000003_.Transparency = 0.350000
 
 	__Stool2DDiagram__00000000_.Name = `New Plant - Diagram-Stool2DDiagram`
 	__Stool2DDiagram__00000000_.Zoom = 1.000000

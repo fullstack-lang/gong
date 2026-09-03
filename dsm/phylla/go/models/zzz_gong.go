@@ -36339,6 +36339,10 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongGetFieldHeaders() (res []Gon
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -41617,6 +41621,10 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongGetFieldValue(fieldName stri
 	// string value of fields
 	case "Name":
 		res.valueString = stemcylinder3dshape.Name
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", stemcylinder3dshape.Transparency)
+		res.valueFloat = stemcylinder3dshape.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -46503,6 +46511,8 @@ func (stemcylinder3dshape *StemCylinder3DShape) GongSetFieldValue(fieldName stri
 	// insertion point for per field code
 	case "Name":
 		stemcylinder3dshape.Name = value.GetValueString()
+	case "Transparency":
+		stemcylinder3dshape.Transparency = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
