@@ -30,6 +30,19 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 	}
 	*parentNodes = append(*parentNodes, plantNode)
 
+	plantNode.IsWithPreceedingIcon = true
+	plantNode.HasToolTip = true
+	plantNode.ToolTipPosition = tree.Right
+	if plant.IsSelected {
+		plantNode.BackgroundColor = "lightgrey"
+		plantNode.PreceedingIcon = string(buttons.BUTTON_radio_button_checked)
+		plantNode.ToolTipText = "Currently selected plant"
+	} else {
+		plantNode.BackgroundColor = ""
+		plantNode.PreceedingIcon = string(buttons.BUTTON_radio_button_unchecked)
+		plantNode.ToolTipText = "Click to select this plant"
+	}
+
 	addRenameButton(plant, plantNode, stager)
 
 	plantNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsExpanded)
@@ -42,6 +55,8 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		}
 
 		stager.selectedPlant = plant
+		plant.IsExpanded = true
+
 		if plant.PlantType == Stool {
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_STOOL_3D
@@ -64,125 +79,119 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			}
 		}
 
-		// Ensure one diagram is checked by default if none are checked
-		hasCheckedDiagram := false
-		if !hasCheckedDiagram {
-			for _, d := range plant.Plant2DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+		// Uncheck all diagrams of other plants
+		for otherPlant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+			if otherPlant != plant {
+				for _, d := range otherPlant.Plant2DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Plant3DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Plant3DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Vase2DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Vase2DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Vase3DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Vase3DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Stool2DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Stool2DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Stool3DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Stool3DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Clock2DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Clock2DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram {
-			for _, d := range plant.Clock3DDiagrams {
-				if d.IsChecked {
-					hasCheckedDiagram = true
-					break
+				for _, d := range otherPlant.Clock3DDiagrams {
+					d.IsChecked = false
 				}
-			}
-		}
-		if !hasCheckedDiagram && plant.PlantType == Music && plant.MusicAbstract != nil {
-			if plant.MusicAbstract.IsChecked {
-				hasCheckedDiagram = true
+				if otherPlant.MusicAbstract != nil {
+					otherPlant.MusicAbstract.IsChecked = false
+				}
 			}
 		}
 
-		if !hasCheckedDiagram {
-			// Uncheck all globally and select the first one if available
-			uncheckAllDiagrams(stager)
-			if plant.CurrentView == VIEW_PLANT_3D && len(plant.Plant3DDiagrams) > 0 {
+		// Ensure one diagram is checked for the current view
+		hasCheckedDiagramForView := false
+		switch plant.CurrentView {
+		case VIEW_PLANT_3D:
+			for _, d := range plant.Plant3DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagramForView = true
+					break
+				}
+			}
+			if !hasCheckedDiagramForView && len(plant.Plant3DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
 				plant.Plant3DDiagrams[0].IsChecked = true
 				plant.Plant3DDiagrams[0].IsExpanded = true
-			} else if plant.PlantType == Vase {
-				if plant.CurrentView == VIEW_VASE_2D && len(plant.Vase2DDiagrams) > 0 {
-					plant.Vase2DDiagrams[0].IsChecked = true
-				} else if len(plant.Vase3DDiagrams) > 0 {
-					plant.Vase3DDiagrams[0].IsChecked = true
-					plant.Vase3DDiagrams[0].IsExpanded = true
-					plant.CurrentView = VIEW_VASE_3D
-				} else if len(plant.Vase2DDiagrams) > 0 {
-					plant.Vase2DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_VASE_2D
+			}
+		case VIEW_PLANT_2D:
+			for _, d := range plant.Plant2DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagramForView = true
+					break
 				}
-			} else if plant.PlantType == Stool {
-				if len(plant.Stool3DDiagrams) > 0 {
-					plant.Stool3DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_STOOL_3D
-				} else if len(plant.Stool2DDiagrams) > 0 {
-					plant.Stool2DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_PLANT_2D
+			}
+			if !hasCheckedDiagramForView && len(plant.Plant2DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
+				plant.Plant2DDiagrams[0].IsChecked = true
+				plant.Plant2DDiagrams[0].IsExpanded = true
+			}
+		case VIEW_VASE_2D, VIEW_VASE_FORM:
+			for _, d := range plant.Vase2DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagramForView = true
+					break
 				}
-			} else if plant.PlantType == Clock {
-				if len(plant.Clock3DDiagrams) > 0 {
-					plant.Clock3DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_CLOCK_3D
-				} else if len(plant.Clock2DDiagrams) > 0 {
-					plant.Clock2DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_PLANT_2D
+			}
+			if !hasCheckedDiagramForView && len(plant.Vase2DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
+				plant.Vase2DDiagrams[0].IsChecked = true
+				plant.Vase2DDiagrams[0].IsExpanded = true
+			}
+		case VIEW_VASE_3D:
+			for _, d := range plant.Vase3DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagramForView = true
+					break
 				}
-			} else if plant.PlantType == Music {
-				if plant.MusicAbstract != nil {
-					plant.MusicAbstract.IsChecked = true
-					plant.MusicAbstract.IsComposerNodeExpanded = true
+			}
+			if !hasCheckedDiagramForView && len(plant.Vase3DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
+				plant.Vase3DDiagrams[0].IsChecked = true
+				plant.Vase3DDiagrams[0].IsExpanded = true
+			}
+		case VIEW_STOOL_3D:
+			for _, d := range plant.Stool3DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagramForView = true
+					break
 				}
-				plant.CurrentView = VIEW_MUSIC_SCORE
-			} else {
-				if len(plant.Plant2DDiagrams) > 0 {
-					plant.Plant2DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_PLANT_2D
-				} else if len(plant.Plant3DDiagrams) > 0 {
-					plant.Plant3DDiagrams[0].IsChecked = true
-					plant.CurrentView = VIEW_PLANT_3D
+			}
+			if !hasCheckedDiagramForView && len(plant.Stool3DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
+				plant.Stool3DDiagrams[0].IsChecked = true
+				plant.Stool3DDiagrams[0].IsExpanded = true
+			}
+		case VIEW_CLOCK_3D:
+			for _, d := range plant.Clock3DDiagrams {
+				if d.IsChecked {
+					hasCheckedDiagramForView = true
+					break
 				}
+			}
+			if !hasCheckedDiagramForView && len(plant.Clock3DDiagrams) > 0 {
+				uncheckAllDiagrams(stager)
+				plant.Clock3DDiagrams[0].IsChecked = true
+				plant.Clock3DDiagrams[0].IsExpanded = true
+			}
+		case VIEW_MUSIC_SCORE:
+			if plant.MusicAbstract != nil {
+				uncheckAllDiagrams(stager)
+				plant.MusicAbstract.IsChecked = true
+				plant.MusicAbstract.IsComposerNodeExpanded = true
 			}
 		}
 
@@ -419,6 +428,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 						p.IsSelected = (p == plant)
 					}
 					stager.selectedPlant = plant
+					plant.IsExpanded = true
 					ma.IsChecked = true
 					plant.CurrentView = VIEW_MUSIC_SCORE
 					stager.stage.Commit()
@@ -434,6 +444,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 					p.IsSelected = (p == plant)
 				}
 				stager.selectedPlant = plant
+				plant.IsExpanded = true
 				ma.IsChecked = true
 				plant.CurrentView = VIEW_MUSIC_SCORE
 				stager.stage.Commit()

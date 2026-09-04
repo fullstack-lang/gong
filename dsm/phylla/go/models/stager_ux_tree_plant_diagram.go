@@ -106,6 +106,7 @@ func (stager *Stager) handleDiagramCheck(diagramType interface{}, plant *PlantAb
 	}
 	stager.selectedPlant = plant
 	plant.CurrentView = view
+	plant.IsExpanded = true
 }
 
 func (stager *Stager) treePlant2DDiagram(plant *PlantAbstract, diagram *Plant2DDiagram, parentNodes *[]*tree.Node, is3DView bool) {

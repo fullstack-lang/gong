@@ -147,7 +147,7 @@ func _(stage *models.Stage) {
 	__Clock3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
 	__Clock3DDiagram__00000000_.IsChecked = false
 	__Clock3DDiagram__00000000_.ComputedPrefix = ``
-	__Clock3DDiagram__00000000_.IsExpanded = false
+	__Clock3DDiagram__00000000_.IsExpanded = true
 
 	__ClockAbstract__00000000_.Name = `Clock-ClockAbstract`
 	__ClockAbstract__00000000_.RadialRepetitions = 1
@@ -186,7 +186,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsRootLibrary = true
 
 	__MusicAbstract__00000000_.Name = `Music-MusicAbstract`
-	__MusicAbstract__00000000_.IsChecked = false
+	__MusicAbstract__00000000_.IsChecked = true
 	__MusicAbstract__00000000_.PitchHeight = 0.136000
 	__MusicAbstract__00000000_.NbOfBeatsInTheme = 16
 	__MusicAbstract__00000000_.BeatsPerSecond = 6.000000
@@ -447,7 +447,7 @@ func _(stage *models.Stage) {
 	__Plant3DDiagram__00000002_.IsHiddenCircumference3DShape = false
 	__Plant3DDiagram__00000002_.IsHiddenTiledFloor3DShape = false
 	__Plant3DDiagram__00000002_.IsHiddenLeaves3DShape = false
-	__Plant3DDiagram__00000002_.IsChecked = true
+	__Plant3DDiagram__00000002_.IsChecked = false
 	__Plant3DDiagram__00000002_.ComputedPrefix = ``
 	__Plant3DDiagram__00000002_.IsExpanded = true
 
@@ -484,10 +484,10 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.PlantType = models.Vase
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
-	__PlantAbstract__00000000_.IsExpanded = false
+	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = false
 	__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = false
-	__PlantAbstract__00000000_.IsPlant3DDiagramsNodeExpanded = false
+	__PlantAbstract__00000000_.IsPlant3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000000_.IsVase2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsVase3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000000_.IsStool2DDiagramsNodeExpanded = false
@@ -522,9 +522,9 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
 	__PlantAbstract__00000002_.RhombusSideLength = 95.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
-	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
+	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
-	__PlantAbstract__00000002_.IsExpanded = false
+	__PlantAbstract__00000002_.IsExpanded = true
 	__PlantAbstract__00000002_.IsSelected = false
 	__PlantAbstract__00000002_.IsPlant2DDiagramsNodeExpanded = true
 	__PlantAbstract__00000002_.IsPlant3DDiagramsNodeExpanded = false
@@ -542,10 +542,10 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000003_.RhombusInsideAngle = 138.000000
 	__PlantAbstract__00000003_.RhombusSideLength = 260.000000
 	__PlantAbstract__00000003_.PlantType = models.Clock
-	__PlantAbstract__00000003_.CurrentView = models.VIEW_PLANT_3D
+	__PlantAbstract__00000003_.CurrentView = models.VIEW_CLOCK_3D
 	__PlantAbstract__00000003_.ComputedPrefix = ``
-	__PlantAbstract__00000003_.IsExpanded = false
-	__PlantAbstract__00000003_.IsSelected = true
+	__PlantAbstract__00000003_.IsExpanded = true
+	__PlantAbstract__00000003_.IsSelected = false
 	__PlantAbstract__00000003_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000003_.IsPlant3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000003_.IsVase2DDiagramsNodeExpanded = false
@@ -562,10 +562,10 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000004_.RhombusInsideAngle = 132.000000
 	__PlantAbstract__00000004_.RhombusSideLength = 130.000000
 	__PlantAbstract__00000004_.PlantType = models.Music
-	__PlantAbstract__00000004_.CurrentView = models.VIEW_PLANT_3D
+	__PlantAbstract__00000004_.CurrentView = models.VIEW_MUSIC_SCORE
 	__PlantAbstract__00000004_.ComputedPrefix = ``
 	__PlantAbstract__00000004_.IsExpanded = true
-	__PlantAbstract__00000004_.IsSelected = false
+	__PlantAbstract__00000004_.IsSelected = true
 	__PlantAbstract__00000004_.IsPlant2DDiagramsNodeExpanded = true
 	__PlantAbstract__00000004_.IsPlant3DDiagramsNodeExpanded = true
 	__PlantAbstract__00000004_.IsVase2DDiagramsNodeExpanded = false
@@ -696,7 +696,7 @@ func _(stage *models.Stage) {
 	__Stool3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
 	__Stool3DDiagram__00000000_.IsChecked = false
 	__Stool3DDiagram__00000000_.ComputedPrefix = ``
-	__Stool3DDiagram__00000000_.IsExpanded = false
+	__Stool3DDiagram__00000000_.IsExpanded = true
 
 	__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
 	__StoolAbstract__00000000_.RadialRepetitions = 3

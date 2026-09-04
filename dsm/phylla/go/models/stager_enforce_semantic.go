@@ -114,22 +114,40 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 func (stager *Stager) enforceSingleSelectedPlant() bool {
 	modified := false
 
-	// Try to find if any diagram across all plants is checked
-	var plantWithCheckedDiagram *PlantAbstract
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		checked := false
-		for _, d := range plant.Plant2DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Plant3DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Vase2DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Vase3DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Stool2DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Stool3DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Clock2DDiagrams { if d.IsChecked { checked = true } }
-		for _, d := range plant.Clock3DDiagrams { if d.IsChecked { checked = true } }
+	hasChecked := func(p *PlantAbstract) bool {
+		if p == nil {
+			return false
+		}
+		for _, d := range p.Plant2DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Plant3DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Vase2DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Vase3DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Stool2DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Stool3DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Clock2DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.Clock3DDiagrams { if d.IsChecked { return true } }
+		if p.MusicAbstract != nil && p.MusicAbstract.IsChecked { return true }
+		return false
+	}
 
-		if checked {
-			plantWithCheckedDiagram = plant
-			break
+	// Try to find if any diagram across all plants is checked, prioritizing selectedPlant or IsSelected
+	var plantWithCheckedDiagram *PlantAbstract
+	if hasChecked(stager.selectedPlant) {
+		plantWithCheckedDiagram = stager.selectedPlant
+	} else {
+		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+			if plant.IsSelected && hasChecked(plant) {
+				plantWithCheckedDiagram = plant
+				break
+			}
+		}
+		if plantWithCheckedDiagram == nil {
+			for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+				if hasChecked(plant) {
+					plantWithCheckedDiagram = plant
+					break
+				}
+			}
 		}
 	}
 
@@ -139,6 +157,17 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			if plant.IsSelected != shouldBeSelected {
 				plant.IsSelected = shouldBeSelected
 				modified = true
+			}
+			if !shouldBeSelected {
+				for _, d := range plant.Plant2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Plant3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Vase2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Vase3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Stool2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Stool3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Clock2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.Clock3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				if plant.MusicAbstract != nil && plant.MusicAbstract.IsChecked { plant.MusicAbstract.IsChecked = false; modified = true }
 			}
 		}
 		if stager.selectedPlant != plantWithCheckedDiagram {
