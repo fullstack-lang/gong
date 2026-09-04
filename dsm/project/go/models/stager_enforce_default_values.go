@@ -119,11 +119,11 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 			}
 			for _, shape := range diagram.TaskPredecessorShapes {
-				if shape.StartOrientation != ORIENTATION_HORIZONTAL {
-					shape.StartOrientation = ORIENTATION_HORIZONTAL
+				if shape.StartOrientation == "" {
+					shape.StartOrientation = ORIENTATION_VERTICAL
 					needCommit = true
 				}
-				if shape.EndOrientation != ORIENTATION_HORIZONTAL {
+				if shape.EndOrientation == "" {
 					shape.EndOrientation = ORIENTATION_HORIZONTAL
 					needCommit = true
 				}

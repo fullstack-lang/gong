@@ -63,8 +63,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Height = 662.000000
 	__Diagram__00000000_.IsTimeDiagram = true
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.ComputedDuration = 7776000000000000
+	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.ComputedDuration = 10368000000000000
 	__Diagram__00000000_.UseManualStartAndEndDates = false
 	__Diagram__00000000_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-01 00:00:00 +0000 UTC")
@@ -209,9 +209,9 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Name = `Task 2`
 	__Task__00000001_.Description = ``
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-01 00:00:00 +0000 UTC")
-	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
+	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-05-01 00:00:00 +0000 UTC")
 	__Task__00000001_.DurationYears = 0.000000
-	__Task__00000001_.DurationMonths = 1.000000
+	__Task__00000001_.DurationMonths = 2.000000
 	__Task__00000001_.DurationWeeks = 0.000000
 	__Task__00000001_.DurationDays = 0.000000
 	__Task__00000001_.DurationHours = 0.000000
@@ -262,11 +262,11 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000000_.IsHidden = false
 
 	__TaskPredecessorShape__00000000_.Name = `gantt-Task 1 (before task 2)-Task 2`
-	__TaskPredecessorShape__00000000_.StartRatio = 0.776063
-	__TaskPredecessorShape__00000000_.EndRatio = 0.158071
-	__TaskPredecessorShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskPredecessorShape__00000000_.StartRatio = 0.706784
+	__TaskPredecessorShape__00000000_.EndRatio = 0.500000
+	__TaskPredecessorShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskPredecessorShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskPredecessorShape__00000000_.CornerOffsetRatio = 1.000108
+	__TaskPredecessorShape__00000000_.CornerOffsetRatio = 1.125108
 	__TaskPredecessorShape__00000000_.IsHidden = false
 
 	__TaskShape__00000000_.Name = `gantt-Task 1 (before task 2)`

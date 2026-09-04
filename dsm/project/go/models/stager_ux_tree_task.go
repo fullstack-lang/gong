@@ -346,8 +346,10 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 							if diagram.IsTimeDiagram {
 								for _, s := range diagram.TaskPredecessorShapes {
 									if s.Predecessor == predecessor && s.Task == task {
-										s.StartOrientation = ORIENTATION_HORIZONTAL
+										s.StartOrientation = ORIENTATION_VERTICAL
 										s.EndOrientation = ORIENTATION_HORIZONTAL
+										s.StartRatio = 0.9
+										s.EndRatio = 0.5
 									}
 								}
 							}
