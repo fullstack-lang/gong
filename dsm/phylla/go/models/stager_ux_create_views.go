@@ -257,7 +257,7 @@ func (stager *Stager) createViews() {
 										Size:             80,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{
-											StackName: stager.treeStage3D.GetName(),
+											StackName: stager.treeStage2D.GetName(),
 										},
 									},
 									{
@@ -480,7 +480,7 @@ func (stager *Stager) createViews() {
 											Size:             80,
 											ShowNameInHeader: false,
 											Tree: &split.Tree{
-												StackName: stager.treeStage3D.GetName(),
+												StackName: stager.treeStage2D.GetName(),
 											},
 										},
 										{
@@ -560,7 +560,7 @@ func (stager *Stager) createViews() {
 											Size:             80,
 											ShowNameInHeader: false,
 											Tree: &split.Tree{
-												StackName: stager.treeStage3D.GetName(),
+												StackName: stager.treeStage2D.GetName(),
 											},
 										},
 										{
@@ -634,7 +634,7 @@ func (stager *Stager) createViews() {
 											Size:             80,
 											ShowNameInHeader: false,
 											Tree: &split.Tree{
-												StackName: stager.treeStage3D.GetName(),
+												StackName: stager.treeStage2D.GetName(),
 											},
 										},
 										{

@@ -15,25 +15,20 @@ func (stager *Stager) ux_tree() {
 	rootLibrary := stager.getRootLibrary()
 	_ = rootLibrary
 
-	treeInstance2D := &tree.Tree{
-		Name:       "Library Tree",
-		HaveSearch: true,
+	currentView := VIEW_PLANT_2D
+	plant := stager.GetCurrentPlant()
+	if plant != nil && plant.CurrentView != "" {
+		currentView = plant.CurrentView
 	}
-	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
-		treeInstance2D.RootNodes = append(treeInstance2D.RootNodes, gni.(*tree.Node))
-	})
-	stager.treeLibrary(treeInstance2D, rootLibrary, &treeInstance2D.RootNodes, false)
-	tree.StageBranch(stager.treeStage2D, treeInstance2D)
-	stager.treeStage2D.Commit()
 
-	treeInstance3D := &tree.Tree{
+	treeInstance := &tree.Tree{
 		Name:       "Library Tree",
 		HaveSearch: true,
 	}
 	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
-		treeInstance3D.RootNodes = append(treeInstance3D.RootNodes, gni.(*tree.Node))
+		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
-	stager.treeLibrary(treeInstance3D, rootLibrary, &treeInstance3D.RootNodes, true)
-	tree.StageBranch(stager.treeStage3D, treeInstance3D)
-	stager.treeStage3D.Commit()
+	stager.treeLibrary(treeInstance, rootLibrary, &treeInstance.RootNodes, currentView)
+	tree.StageBranch(stager.treeStage2D, treeInstance)
+	stager.treeStage2D.Commit()
 }

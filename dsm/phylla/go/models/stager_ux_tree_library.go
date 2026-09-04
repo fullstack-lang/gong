@@ -13,7 +13,7 @@ func (stager *Stager) treeLibrary(
 	treeInstance *tree.Tree,
 	library *Library,
 	parentNodes *[]*tree.Node,
-	is3DView bool,
+	currentView ViewType,
 ) {
 	libraryNode := &tree.Node{
 		Name:            library.Name,
@@ -99,10 +99,10 @@ func (stager *Stager) treeLibrary(
 	}
 
 	for _, subLibrary := range library.SubLibraries {
-		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children, is3DView)
+		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children, currentView)
 	}
 
 	for _, plant := range library.Plants {
-		stager.treePlant(plant, &libraryNode.Children, is3DView)
+		stager.treePlant(plant, &libraryNode.Children, currentView)
 	}
 }

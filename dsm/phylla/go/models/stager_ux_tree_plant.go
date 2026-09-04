@@ -10,7 +10,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, is3DView bool) {
+func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, currentView ViewType) {
 	nodeName := plant.Name
 	if !plant.isInRenameMode && plant.PlantType == Vase {
 		h0 := plant.VaseAbstract.heightAtRotRatio0
@@ -43,23 +43,23 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 
 		stager.selectedPlant = plant
 		if plant.PlantType == Stool {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_STOOL_3D
 			}
 		} else if plant.PlantType == Clock {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_CLOCK_3D
 			}
 		} else if plant.PlantType == Vase {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_VASE_3D
 			}
 		} else if plant.PlantType == Music {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_MUSIC_SCORE
 			}
 		} else {
-			if plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_PLANT_2D
 			}
 		}
@@ -139,11 +139,15 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		if !hasCheckedDiagram {
 			// Uncheck all globally and select the first one if available
 			uncheckAllDiagrams(stager)
-			if plant.PlantType == Vase {
-				if len(plant.Vase3DDiagrams) > 0 {
+			if plant.CurrentView == VIEW_PLANT_3D && len(plant.Plant3DDiagrams) > 0 {
+				plant.Plant3DDiagrams[0].IsChecked = true
+				plant.Plant3DDiagrams[0].IsExpanded = true
+			} else if plant.PlantType == Vase {
+				if plant.CurrentView == VIEW_VASE_2D && len(plant.Vase2DDiagrams) > 0 {
+					plant.Vase2DDiagrams[0].IsChecked = true
+				} else if len(plant.Vase3DDiagrams) > 0 {
 					plant.Vase3DDiagrams[0].IsChecked = true
 					plant.Vase3DDiagrams[0].IsExpanded = true
-					plant.IsVase3DDiagramsNodeExpanded = true
 					plant.CurrentView = VIEW_VASE_3D
 				} else if len(plant.Vase2DDiagrams) > 0 {
 					plant.Vase2DDiagrams[0].IsChecked = true
@@ -276,183 +280,155 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 	}
 
-	diagramsNode := &tree.Node{
-		Name:            "Plant 2D Diagrams",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      plant.IsPlant2DDiagramsNodeExpanded,
-		IsNodeClickable: true,
-	}
-	plantNode.Children = append(plantNode.Children, diagramsNode)
-	diagramsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsPlant2DDiagramsNodeExpanded)
-	diagramsNode.OnClick = onNodeClicked(stager, plant)
-	for _, diag := range plant.Plant2DDiagrams {
-		stager.treePlant2DDiagram(plant, diag, &diagramsNode.Children, is3DView)
-	}
-
-	plant3DDiagramsNode := &tree.Node{
-		Name:            "Plant 3D Diagrams",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      plant.IsPlant3DDiagramsNodeExpanded,
-		IsNodeClickable: true,
-	}
-	plantNode.Children = append(plantNode.Children, plant3DDiagramsNode)
-	plant3DDiagramsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsPlant3DDiagramsNodeExpanded)
-	plant3DDiagramsNode.OnClick = onNodeClicked(stager, plant)
-
-	confPlant3D := ItemButtonConfiguration[Plant3DDiagram, *Plant3DDiagram, PlantAbstract, *PlantAbstract]{
-		parentNode: plant3DDiagramsNode, sliceForNewAddedItem: &plant.Plant3DDiagrams,
-		isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsPlant3DDiagramsNodeExpanded, IsButtonInMenu: true,
-	}
-	addCreateItemButton(stager, confPlant3D)
-	if len(plant3DDiagramsNode.Menu.Buttons) > 0 {
-		btn := plant3DDiagramsNode.Menu.Buttons[len(plant3DDiagramsNode.Menu.Buttons)-1]
-		btn.Name = "Add Plant 3D Diagram"
-		btn.ToolTipText = "Add a Plant 3D Diagram"
-	}
-	for _, diag := range plant.Plant3DDiagrams {
-		stager.treePlant3DDiagram(plant, diag, &plant3DDiagramsNode.Children, is3DView)
-	}
-
-	if plant.PlantType == Vase { // Vase 2D Diagrams
-		vase2DNode := &tree.Node{
-			Name: "Vase 2D Diagrams", FontStyle: tree.ITALIC, IsExpanded: plant.IsVase2DDiagramsNodeExpanded, IsNodeClickable: true,
+	switch currentView {
+	case VIEW_PLANT_2D:
+		confPlant2D := ItemButtonConfiguration[Plant2DDiagram, *Plant2DDiagram, PlantAbstract, *PlantAbstract]{
+			parentNode:                         plantNode,
+			sliceForNewAddedItem:               &plant.Plant2DDiagrams,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+			IsButtonInMenu:                     true,
 		}
-		plantNode.Children = append(plantNode.Children, vase2DNode)
-		vase2DNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsVase2DDiagramsNodeExpanded)
-		vase2DNode.OnClick = onNodeClicked(stager, plant)
-
-		confVase2D := ItemButtonConfiguration[Vase2DDiagram, *Vase2DDiagram, PlantAbstract, *PlantAbstract]{
-			parentNode: vase2DNode, sliceForNewAddedItem: &plant.Vase2DDiagrams,
-			isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsVase2DDiagramsNodeExpanded, IsButtonInMenu: true,
+		addCreateItemButton(stager, confPlant2D)
+		if len(plantNode.Menu.Buttons) > 0 {
+			btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+			btn.Name = "Add Plant 2D Diagram"
+			btn.ToolTipText = "Add a Plant 2D Diagram"
 		}
-		addCreateItemButton(stager, confVase2D)
-		if len(vase2DNode.Menu.Buttons) > 0 {
-			btn := vase2DNode.Menu.Buttons[len(vase2DNode.Menu.Buttons)-1]
-			btn.Name = "Add Vase 2D Diagram"
-			btn.ToolTipText = "Add a Vase 2D Diagram"
+		for _, diag := range plant.Plant2DDiagrams {
+			stager.treePlant2DDiagram(plant, diag, &plantNode.Children, false)
 		}
-		for _, diag := range plant.Vase2DDiagrams {
-			stager.treeVase2DDiagram(plant, diag, &vase2DNode.Children, is3DView)
-		} // Vase 3D Diagrams
-		vase3DNode := &tree.Node{
-			Name: "Vase 3D Diagrams", FontStyle: tree.ITALIC, IsExpanded: plant.IsVase3DDiagramsNodeExpanded, IsNodeClickable: true,
+	case VIEW_PLANT_3D:
+		confPlant3D := ItemButtonConfiguration[Plant3DDiagram, *Plant3DDiagram, PlantAbstract, *PlantAbstract]{
+			parentNode:                         plantNode,
+			sliceForNewAddedItem:               &plant.Plant3DDiagrams,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+			IsButtonInMenu:                     true,
 		}
-		plantNode.Children = append(plantNode.Children, vase3DNode)
-		vase3DNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsVase3DDiagramsNodeExpanded)
-		vase3DNode.OnClick = onNodeClicked(stager, plant)
-
-		confVase3D := ItemButtonConfiguration[Vase3DDiagram, *Vase3DDiagram, PlantAbstract, *PlantAbstract]{
-			parentNode: vase3DNode, sliceForNewAddedItem: &plant.Vase3DDiagrams,
-			isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsVase3DDiagramsNodeExpanded, IsButtonInMenu: true,
+		addCreateItemButton(stager, confPlant3D)
+		if len(plantNode.Menu.Buttons) > 0 {
+			btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+			btn.Name = "Add Plant 3D Diagram"
+			btn.ToolTipText = "Add a Plant 3D Diagram"
 		}
-		addCreateItemButton(stager, confVase3D)
-		if len(vase3DNode.Menu.Buttons) > 0 {
-			btn := vase3DNode.Menu.Buttons[len(vase3DNode.Menu.Buttons)-1]
-			btn.Name = "Add Vase 3D Diagram"
-			btn.ToolTipText = "Add a Vase 3D Diagram"
+		for _, diag := range plant.Plant3DDiagrams {
+			stager.treePlant3DDiagram(plant, diag, &plantNode.Children, true)
 		}
-		for _, diag := range plant.Vase3DDiagrams {
-			stager.treeVase3DDiagram(plant, diag, &vase3DNode.Children, is3DView)
+	case VIEW_VASE_2D, VIEW_VASE_FORM:
+		if plant.PlantType == Vase {
+			confVase2D := ItemButtonConfiguration[Vase2DDiagram, *Vase2DDiagram, PlantAbstract, *PlantAbstract]{
+				parentNode:                         plantNode,
+				sliceForNewAddedItem:               &plant.Vase2DDiagrams,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+				IsButtonInMenu:                     true,
+			}
+			addCreateItemButton(stager, confVase2D)
+			if len(plantNode.Menu.Buttons) > 0 {
+				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+				btn.Name = "Add Vase 2D Diagram"
+				btn.ToolTipText = "Add a Vase 2D Diagram"
+			}
+			for _, diag := range plant.Vase2DDiagrams {
+				stager.treeVase2DDiagram(plant, diag, &plantNode.Children, false)
+			}
 		}
-	} else if plant.PlantType == Stool { // Stool 2D Diagrams
-		stool2DNode := &tree.Node{
-			Name: "Stool 2D Diagrams", FontStyle: tree.ITALIC, IsExpanded: plant.IsStool2DDiagramsNodeExpanded, IsNodeClickable: true,
+	case VIEW_VASE_3D:
+		if plant.PlantType == Vase {
+			confVase3D := ItemButtonConfiguration[Vase3DDiagram, *Vase3DDiagram, PlantAbstract, *PlantAbstract]{
+				parentNode:                         plantNode,
+				sliceForNewAddedItem:               &plant.Vase3DDiagrams,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+				IsButtonInMenu:                     true,
+			}
+			addCreateItemButton(stager, confVase3D)
+			if len(plantNode.Menu.Buttons) > 0 {
+				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+				btn.Name = "Add Vase 3D Diagram"
+				btn.ToolTipText = "Add a Vase 3D Diagram"
+			}
+			for _, diag := range plant.Vase3DDiagrams {
+				stager.treeVase3DDiagram(plant, diag, &plantNode.Children, true)
+			}
 		}
-		plantNode.Children = append(plantNode.Children, stool2DNode)
-		stool2DNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsStool2DDiagramsNodeExpanded)
-		stool2DNode.OnClick = onNodeClicked(stager, plant)
-
-		confStool2D := ItemButtonConfiguration[Stool2DDiagram, *Stool2DDiagram, PlantAbstract, *PlantAbstract]{
-			parentNode: stool2DNode, sliceForNewAddedItem: &plant.Stool2DDiagrams,
-			isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsStool2DDiagramsNodeExpanded, IsButtonInMenu: true,
+	case VIEW_STOOL_3D:
+		if plant.PlantType == Stool {
+			confStool3D := ItemButtonConfiguration[Stool3DDiagram, *Stool3DDiagram, PlantAbstract, *PlantAbstract]{
+				parentNode:                         plantNode,
+				sliceForNewAddedItem:               &plant.Stool3DDiagrams,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+				IsButtonInMenu:                     true,
+			}
+			addCreateItemButton(stager, confStool3D)
+			if len(plantNode.Menu.Buttons) > 0 {
+				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+				btn.Name = "Add Stool 3D Diagram"
+				btn.ToolTipText = "Add a Stool 3D Diagram"
+			}
+			for _, diag := range plant.Stool3DDiagrams {
+				stager.treeStool3DDiagram(plant, diag, &plantNode.Children, true)
+			}
 		}
-		addCreateItemButton(stager, confStool2D)
-		if len(stool2DNode.Menu.Buttons) > 0 {
-			btn := stool2DNode.Menu.Buttons[len(stool2DNode.Menu.Buttons)-1]
-			btn.Name = "Add Stool 2D Diagram"
-			btn.ToolTipText = "Add a Stool 2D Diagram"
+	case VIEW_CLOCK_3D:
+		if plant.PlantType == Clock {
+			confClock3D := ItemButtonConfiguration[Clock3DDiagram, *Clock3DDiagram, PlantAbstract, *PlantAbstract]{
+				parentNode:                         plantNode,
+				sliceForNewAddedItem:               &plant.Clock3DDiagrams,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+				IsButtonInMenu:                     true,
+			}
+			addCreateItemButton(stager, confClock3D)
+			if len(plantNode.Menu.Buttons) > 0 {
+				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
+				btn.Name = "Add Clock 3D Diagram"
+				btn.ToolTipText = "Add a Clock 3D Diagram"
+			}
+			for _, diag := range plant.Clock3DDiagrams {
+				stager.treeClock3DDiagram(plant, diag, &plantNode.Children, true)
+			}
 		}
-		for _, diag := range plant.Stool2DDiagrams {
-			stager.treeStool2DDiagram(plant, diag, &stool2DNode.Children, is3DView)
-		} // Stool 3D Diagrams
-		stool3DNode := &tree.Node{
-			Name: "Stool 3D Diagrams", FontStyle: tree.ITALIC, IsExpanded: plant.IsStool3DDiagramsNodeExpanded, IsNodeClickable: true,
-		}
-		plantNode.Children = append(plantNode.Children, stool3DNode)
-		stool3DNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsStool3DDiagramsNodeExpanded)
-		stool3DNode.OnClick = onNodeClicked(stager, plant)
-
-		confStool3D := ItemButtonConfiguration[Stool3DDiagram, *Stool3DDiagram, PlantAbstract, *PlantAbstract]{
-			parentNode: stool3DNode, sliceForNewAddedItem: &plant.Stool3DDiagrams,
-			isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsStool3DDiagramsNodeExpanded, IsButtonInMenu: true,
-		}
-		addCreateItemButton(stager, confStool3D)
-		if len(stool3DNode.Menu.Buttons) > 0 {
-			btn := stool3DNode.Menu.Buttons[len(stool3DNode.Menu.Buttons)-1]
-			btn.Name = "Add Stool 3D Diagram"
-			btn.ToolTipText = "Add a Stool 3D Diagram"
-		}
-		for _, diag := range plant.Stool3DDiagrams {
-			stager.treeStool3DDiagram(plant, diag, &stool3DNode.Children, is3DView)
-		}
-	} else if plant.PlantType == Clock { // Clock 2D Diagrams
-		clock2DNode := &tree.Node{
-			Name: "Clock 2D Diagrams", FontStyle: tree.ITALIC, IsExpanded: plant.IsClock2DDiagramsNodeExpanded, IsNodeClickable: true,
-		}
-		plantNode.Children = append(plantNode.Children, clock2DNode)
-		clock2DNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsClock2DDiagramsNodeExpanded)
-		clock2DNode.OnClick = onNodeClicked(stager, plant)
-
-		confClock2D := ItemButtonConfiguration[Clock2DDiagram, *Clock2DDiagram, PlantAbstract, *PlantAbstract]{
-			parentNode: clock2DNode, sliceForNewAddedItem: &plant.Clock2DDiagrams,
-			isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsClock2DDiagramsNodeExpanded, IsButtonInMenu: true,
-		}
-		addCreateItemButton(stager, confClock2D)
-		if len(clock2DNode.Menu.Buttons) > 0 {
-			btn := clock2DNode.Menu.Buttons[len(clock2DNode.Menu.Buttons)-1]
-			btn.Name = "Add Clock 2D Diagram"
-			btn.ToolTipText = "Add a Clock 2D Diagram"
-		}
-		for _, diag := range plant.Clock2DDiagrams {
-			stager.treeClock2DDiagram(plant, diag, &clock2DNode.Children, is3DView)
-		} // Clock 3D Diagrams
-		clock3DNode := &tree.Node{
-			Name: "Clock 3D Diagrams", FontStyle: tree.ITALIC, IsExpanded: plant.IsClock3DDiagramsNodeExpanded, IsNodeClickable: true,
-		}
-		plantNode.Children = append(plantNode.Children, clock3DNode)
-		clock3DNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsClock3DDiagramsNodeExpanded)
-		clock3DNode.OnClick = onNodeClicked(stager, plant)
-
-		confClock3D := ItemButtonConfiguration[Clock3DDiagram, *Clock3DDiagram, PlantAbstract, *PlantAbstract]{
-			parentNode: clock3DNode, sliceForNewAddedItem: &plant.Clock3DDiagrams,
-			isParentNodeExpandedByAddOperation: true, parentNodeExpansionType: parentNodeExpansionTypeByBooleanValue, parentNodeExpansionBooleanValue: &plant.IsClock3DDiagramsNodeExpanded, IsButtonInMenu: true,
-		}
-		addCreateItemButton(stager, confClock3D)
-		if len(clock3DNode.Menu.Buttons) > 0 {
-			btn := clock3DNode.Menu.Buttons[len(clock3DNode.Menu.Buttons)-1]
-			btn.Name = "Add Clock 3D Diagram"
-			btn.ToolTipText = "Add a Clock 3D Diagram"
-		}
-		for _, diag := range plant.Clock3DDiagrams {
-			stager.treeClock3DDiagram(plant, diag, &clock3DNode.Children, is3DView)
-		}
-	} else if plant.PlantType == Music && plant.MusicAbstract != nil {
-		ma := plant.MusicAbstract
-		composerNode := &tree.Node{
-			Name:              "Composer",
-			FontStyle:         tree.ITALIC,
-			IsExpanded:        ma.IsComposerNodeExpanded,
-			IsNodeClickable:   true,
-			HasCheckboxButton: true,
-			IsChecked:         ma.IsChecked,
-			HasToolTip:        true,
-			ToolTipPosition:   tree.Right,
-			ToolTipText:       "Check to select the Music Score view",
-		}
-		plantNode.Children = append(plantNode.Children, composerNode)
-		composerNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&ma.IsComposerNodeExpanded)
-		composerNode.OnIsCheckedChanged = func(isChecked bool) {
-			if isChecked {
+	case VIEW_MUSIC_SCORE:
+		if plant.PlantType == Music && plant.MusicAbstract != nil {
+			ma := plant.MusicAbstract
+			composerNode := &tree.Node{
+				Name:              "Composer",
+				IsExpanded:        ma.IsComposerNodeExpanded,
+				IsNodeClickable:   true,
+				HasCheckboxButton: true,
+				IsChecked:         ma.IsChecked,
+				HasToolTip:        true,
+				ToolTipPosition:   tree.Right,
+				ToolTipText:       "Check to select the Music Score view",
+			}
+			plantNode.Children = append(plantNode.Children, composerNode)
+			composerNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&ma.IsComposerNodeExpanded)
+			composerNode.OnIsCheckedChanged = func(isChecked bool) {
+				if isChecked {
+					uncheckAllDiagrams(stager)
+					for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+						p.IsSelected = (p == plant)
+					}
+					stager.selectedPlant = plant
+					ma.IsChecked = true
+					plant.CurrentView = VIEW_MUSIC_SCORE
+					stager.stage.Commit()
+				} else {
+					ma.IsChecked = false
+					stager.stage.Commit()
+				}
+			}
+			composerNode.OnClick = func(frontNode *tree.Node) {
+				stager.probeForm.FillUpFormFromGongstruct(ma, GetPointerToGongstructName[*MusicAbstract]())
 				uncheckAllDiagrams(stager)
 				for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
 					p.IsSelected = (p == plant)
@@ -461,69 +437,57 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				ma.IsChecked = true
 				plant.CurrentView = VIEW_MUSIC_SCORE
 				stager.stage.Commit()
-			} else {
-				ma.IsChecked = false
-				stager.stage.Commit()
 			}
-		}
-		composerNode.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(ma, GetPointerToGongstructName[*MusicAbstract]())
-			uncheckAllDiagrams(stager)
-			for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-				p.IsSelected = (p == plant)
-			}
-			stager.selectedPlant = plant
-			ma.IsChecked = true
-			plant.CurrentView = VIEW_MUSIC_SCORE
-			stager.stage.Commit()
-		}
 
-		addVoiceShowToggle := func(name string, showRef *bool) {
-			childNode := &tree.Node{
-				Name:              name,
-				HasCheckboxButton: false,
-				IsNodeClickable:   true,
-			}
-			btn := &tree.Button{
-				Name:            "Hide",
-				Icon:            string(buttons.BUTTON_visibility_off),
-				ToolTipText:     "Hide from score",
-				HasToolTip:      true,
-				ToolTipPosition: tree.Right,
-			}
-			if !*showRef {
-				btn.Icon = string(buttons.BUTTON_visibility)
-				btn.Name = "Show"
-				btn.ToolTipText = "Show on score"
-			}
-			btn.OnClick = func() {
-				*showRef = !*showRef
-				if *showRef {
-					btn.Icon = string(buttons.BUTTON_visibility_off)
-					btn.Name = "Hide"
-					btn.ToolTipText = "Hide from score"
-				} else {
+			addVoiceShowToggle := func(name string, showRef *bool) {
+				childNode := &tree.Node{
+					Name:              name,
+					HasCheckboxButton: false,
+					IsNodeClickable:   true,
+				}
+				btn := &tree.Button{
+					Name:            "Hide",
+					Icon:            string(buttons.BUTTON_visibility_off),
+					ToolTipText:     "Hide from score",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+				}
+				if !*showRef {
 					btn.Icon = string(buttons.BUTTON_visibility)
 					btn.Name = "Show"
 					btn.ToolTipText = "Show on score"
 				}
-				stager.stage.CommitWithSuspendedCallbacks()
-				stager.treeStage2D.Commit()
-				stager.treeStage3D.Commit()
-				stager.ux_svg_music()
+				btn.OnClick = func() {
+					*showRef = !*showRef
+					if *showRef {
+						btn.Icon = string(buttons.BUTTON_visibility_off)
+						btn.Name = "Hide"
+						btn.ToolTipText = "Hide from score"
+					} else {
+						btn.Icon = string(buttons.BUTTON_visibility)
+						btn.Name = "Show"
+						btn.ToolTipText = "Show on score"
+					}
+					stager.stage.CommitWithSuspendedCallbacks()
+					stager.treeStage2D.Commit()
+					stager.treeStage3D.Commit()
+					stager.ux_svg_music()
+				}
+				childNode.Buttons = append(childNode.Buttons, btn)
+				composerNode.Children = append(composerNode.Children, childNode)
 			}
-			childNode.Buttons = append(childNode.Buttons, btn)
-			composerNode.Children = append(composerNode.Children, childNode)
-		}
 
-		addVoiceShowToggle("First Voice", &ma.ShowFirstVoice)
-		addVoiceShowToggle("First Voice Shift Right", &ma.ShowFirstVoiceShiftRight)
-		addVoiceShowToggle("2nd Voice", &ma.ShowSecondVoice)
-		addVoiceShowToggle("2nd voice shifted right", &ma.ShowSecondVoiceShiftRight)
-		addVoiceShowToggle("First Voice notes", &ma.ShowFirstVoiceNotes)
-		addVoiceShowToggle("First Voice note shifted right", &ma.ShowFirstVoiceNotesShiftRight)
-		addVoiceShowToggle("Second Voice notes", &ma.ShowSecondVoiceNotes)
-		addVoiceShowToggle("Second Voice Notes Shift Right", &ma.ShowSecondVoiceNotesShiftRight)
+			addVoiceShowToggle("First Voice", &ma.ShowFirstVoice)
+			addVoiceShowToggle("First Voice Shift Right", &ma.ShowFirstVoiceShiftRight)
+			addVoiceShowToggle("2nd Voice", &ma.ShowSecondVoice)
+			addVoiceShowToggle("2nd voice shifted right", &ma.ShowSecondVoiceShiftRight)
+			addVoiceShowToggle("First Voice notes", &ma.ShowFirstVoiceNotes)
+			addVoiceShowToggle("First Voice note shifted right", &ma.ShowFirstVoiceNotesShiftRight)
+			addVoiceShowToggle("Second Voice notes", &ma.ShowSecondVoiceNotes)
+			addVoiceShowToggle("Second Voice Notes Shift Right", &ma.ShowSecondVoiceNotesShiftRight)
+		}
+	case VIEW_ABOUT_SPIRAL_PLANTS:
+		// In about view, no diagram nodes are attached to plant
 	}
 }
 
