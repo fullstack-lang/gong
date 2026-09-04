@@ -45,6 +45,10 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
       .subscribe((height: number) => {
         if (this.controlsHeight !== height) { // Optional: Check if value actually changed
             this.controlsHeight = height;
+            if (this.cursor) {
+              this.y = this.cursor.Y1 + this.controlsHeight;
+              this.ye = this.cursor.Y2 + this.controlsHeight;
+            }
             this.cdr.markForCheck();
             // console.log('SvgComponent: Controls height received', height);
             // Use the height here to adjust layout, transforms, viewbox, etc.
@@ -85,6 +89,7 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.stopEmittingPosition();
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -93,6 +98,8 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
     if (this.cursor == undefined) {
       return;
     }
+
+    this.stopEmittingPosition();
 
     const duration = 1000 * this.cursor.DurationSeconds;
     const progressAbciss = this.cursor.EndX - this.cursor.StartX;
@@ -109,13 +116,15 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
       const deltaTime = timestamp - previousTimestamp!;
       previousTimestamp = timestamp;
 
-      // Subtract 50ms from the elapsed time calculation
-      const elapsed = ((timestamp - startTime - 300) % duration);
+      // Positive modulo elapsed time calculation
+      const rawElapsed = timestamp - startTime - 300;
+      const elapsed = ((rawElapsed % duration) + duration) % duration;
       const progress = elapsed / duration;
       this.x = this.cursor!.StartX + progress * progressAbciss;
+      this.cdr.detectChanges();
 
       this.animationFrameId = requestAnimationFrame(animate);
-    }
+    };
 
     this.animationFrameId = requestAnimationFrame(animate);
   }
@@ -127,6 +136,10 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
+    }
+    if (this.cursor) {
+      this.x = this.cursor.StartX;
+      this.cdr.detectChanges();
     }
   }
 }

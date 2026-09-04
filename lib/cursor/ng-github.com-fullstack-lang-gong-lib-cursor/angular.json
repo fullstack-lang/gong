@@ -112,11 +112,7 @@
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/cursor/ng-package.json",
-            "allowedCommonJsDependencies": [
-              "automation-events",
-              "standardized-audio-context"
-            ]
+            "project": "projects/cursor/ng-package.json"
           },
           "configurations": {
             "production": {
@@ -149,11 +145,7 @@
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/cursorspecific/ng-package.json",
-            "allowedCommonJsDependencies": [
-              "automation-events",
-              "standardized-audio-context"
-            ]
+            "project": "projects/cursorspecific/ng-package.json"
           },
           "configurations": {
             "production": {
