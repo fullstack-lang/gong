@@ -33,6 +33,7 @@ func _(stage *models.Stage) {
 	__Product__00000000_ := (&models.Product{Name: `task 1 output`}).Stage(stage)
 
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `wbs-task 1 output`}).Stage(stage)
+	__ProductShape__00000002_ := (&models.ProductShape{Name: `gantt-task 1 output`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `Task 1 (before task 2)`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `Task 2`}).Stage(stage)
@@ -42,6 +43,10 @@ func _(stage *models.Stage) {
 
 	__TaskGroupShape__00000000_ := (&models.TaskGroupShape{Name: `gantt-Task 1`}).Stage(stage)
 	__TaskGroupShape__00000001_ := (&models.TaskGroupShape{Name: `gantt-Task 2`}).Stage(stage)
+
+	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `gantt-Task 1 (before task 2)-task 1 output`}).Stage(stage)
+
+	__TaskPredecessorShape__00000000_ := (&models.TaskPredecessorShape{Name: `gantt-Task 1 (before task 2)-Task 2`}).Stage(stage)
 
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `gantt-Task 1 (before task 2)`}).Stage(stage)
 	__TaskShape__00000001_ := (&models.TaskShape{Name: `gantt-Task 2`}).Stage(stage)
@@ -55,7 +60,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
 	__Diagram__00000000_.Width = 1100.000000
-	__Diagram__00000000_.Height = 355.000000
+	__Diagram__00000000_.Height = 662.000000
 	__Diagram__00000000_.IsTimeDiagram = true
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
@@ -167,6 +172,15 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.Height = 70.000000
 	__ProductShape__00000001_.IsHidden = false
 
+	__ProductShape__00000002_.Name = `gantt-task 1 output`
+	__ProductShape__00000002_.OverideLayoutDirection = false
+	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.X = 104.000000
+	__ProductShape__00000002_.Y = 492.000000
+	__ProductShape__00000002_.Width = 250.000000
+	__ProductShape__00000002_.Height = 70.000000
+	__ProductShape__00000002_.IsHidden = false
+
 	__Task__00000000_.Name = `Task 1 (before task 2)`
 	__Task__00000000_.Description = ``
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
@@ -179,8 +193,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsEndDateComputedFromDuration = true
 	__Task__00000000_.IsStartDateComputedFromPredecessors = false
 	__Task__00000000_.IsMilestone = false
-	__Task__00000000_.IsInputsNodeExpanded = false
-	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
 	__Task__00000000_.DisplayVerticalBar = false
@@ -188,6 +200,8 @@ func _(stage *models.Stage) {
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
 	__Task__00000000_.IsImport = false
+	__Task__00000000_.IsInputsNodeExpanded = false
+	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.ComputedPrefix = `1`
 	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.LayoutDirection = models.Vertical
@@ -204,8 +218,6 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsEndDateComputedFromDuration = true
 	__Task__00000001_.IsStartDateComputedFromPredecessors = true
 	__Task__00000001_.IsMilestone = false
-	__Task__00000001_.IsInputsNodeExpanded = false
-	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
 	__Task__00000001_.DisplayVerticalBar = false
@@ -213,6 +225,8 @@ func _(stage *models.Stage) {
 	__Task__00000001_.XOffset = 0.000000
 	__Task__00000001_.YOffset = 0.000000
 	__Task__00000001_.IsImport = false
+	__Task__00000001_.IsInputsNodeExpanded = false
+	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.ComputedPrefix = `2`
 	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.LayoutDirection = models.Vertical
@@ -238,6 +252,22 @@ func _(stage *models.Stage) {
 	__TaskGroupShape__00000001_.Width = 250.000000
 	__TaskGroupShape__00000001_.Height = 70.000000
 	__TaskGroupShape__00000001_.IsHidden = false
+
+	__TaskOutputShape__00000000_.Name = `gantt-Task 1 (before task 2)-task 1 output`
+	__TaskOutputShape__00000000_.StartRatio = 0.500000
+	__TaskOutputShape__00000000_.EndRatio = 0.500000
+	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000000_.CornerOffsetRatio = 4.362608
+	__TaskOutputShape__00000000_.IsHidden = false
+
+	__TaskPredecessorShape__00000000_.Name = `gantt-Task 1 (before task 2)-Task 2`
+	__TaskPredecessorShape__00000000_.StartRatio = 0.776063
+	__TaskPredecessorShape__00000000_.EndRatio = 0.158071
+	__TaskPredecessorShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskPredecessorShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskPredecessorShape__00000000_.CornerOffsetRatio = 1.000108
+	__TaskPredecessorShape__00000000_.IsHidden = false
 
 	__TaskShape__00000000_.Name = `gantt-Task 1 (before task 2)`
 	__TaskShape__00000000_.IsShowDate = false
@@ -280,12 +310,19 @@ func _(stage *models.Stage) {
 	__TaskShape__00000003_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000002_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000001_)
+	__Diagram__00000000_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseOutputNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000000_.TasksWhosePredecessorNodeIsExpanded = append(__Diagram__00000000_.TasksWhosePredecessorNodeIsExpanded, __Task__00000001_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000000_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000001_)
 	__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000000_)
 	__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000001_)
+	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
+	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000000_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000001_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000002_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000003_)
@@ -298,6 +335,8 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
 	__Product__00000000_.ReferencedProduct = nil
 	__ProductShape__00000001_.Product = __Product__00000000_
+	__ProductShape__00000002_.Product = __Product__00000000_
+	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000000_)
 	__Task__00000000_.ReferencedTask = nil
 	__Task__00000001_.Predecessors = append(__Task__00000001_.Predecessors, __Task__00000000_)
 	__Task__00000001_.ReferencedTask = nil
@@ -305,6 +344,10 @@ func _(stage *models.Stage) {
 	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000001_)
 	__TaskGroupShape__00000000_.TaskGroup = __TaskGroup__00000000_
 	__TaskGroupShape__00000001_.TaskGroup = __TaskGroup__00000001_
+	__TaskOutputShape__00000000_.Task = __Task__00000000_
+	__TaskOutputShape__00000000_.Product = __Product__00000000_
+	__TaskPredecessorShape__00000000_.Predecessor = __Task__00000000_
+	__TaskPredecessorShape__00000000_.Task = __Task__00000001_
 	__TaskShape__00000000_.Task = __Task__00000000_
 	__TaskShape__00000001_.Task = __Task__00000001_
 	__TaskShape__00000002_.Task = __Task__00000000_

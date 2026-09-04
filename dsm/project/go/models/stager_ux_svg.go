@@ -318,6 +318,34 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		)
 	}
 
+	for _, taskPredecessorShape := range diagram.TaskPredecessorShapes {
+		if taskPredecessorShape.GetIsHidden() {
+			continue
+		}
+		task := taskPredecessorShape.Task
+		predecessor := taskPredecessorShape.Predecessor
+
+		if task == nil || predecessor == nil {
+			log.Panic("There should be a task and a predecessor")
+		}
+
+		startRect := diagram.map_Task_Rect[predecessor]
+		endRect := diagram.map_Task_Rect[task]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			taskPredecessorShape,
+			task,
+			layer,
+			true,
+		)
+	}
+
 	for _, noteShape := range diagram.Note_Shapes {
 		if noteShape.IsHidden {
 			continue

@@ -118,6 +118,7 @@ func FillUpForm(
 		AssociationSliceToForm("TasksWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("TasksWhoseInputNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhoseInputNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("TasksWhoseOutputNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhoseOutputNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("TasksWhosePredecessorNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhosePredecessorNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsTaskGroupsNodeExpanded", instanceWithInferedType.IsTaskGroupsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("TaskGroupShapes", instanceWithInferedType, &instanceWithInferedType.TaskGroupShapes, formGroup, probe)
@@ -125,6 +126,7 @@ func FillUpForm(
 		AssociationSliceToForm("TaskComposition_Shapes", instanceWithInferedType, &instanceWithInferedType.TaskComposition_Shapes, formGroup, probe)
 		AssociationSliceToForm("TaskInputShapes", instanceWithInferedType, &instanceWithInferedType.TaskInputShapes, formGroup, probe)
 		AssociationSliceToForm("TaskOutputShapes", instanceWithInferedType, &instanceWithInferedType.TaskOutputShapes, formGroup, probe)
+		AssociationSliceToForm("TaskPredecessorShapes", instanceWithInferedType, &instanceWithInferedType.TaskPredecessorShapes, formGroup, probe)
 		AssociationSliceToForm("Note_Shapes", instanceWithInferedType, &instanceWithInferedType.Note_Shapes, formGroup, probe)
 		AssociationSliceToForm("NotesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.NotesWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsNotesNodeExpanded", instanceWithInferedType.IsNotesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -819,6 +821,17 @@ func FillUpForm(
 				})
 		}
 		{
+			AssociationReverseSliceToForm[*models.Diagram, *models.Task](
+				"Diagram",
+				"TasksWhosePredecessorNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Task {
+					return owner.TasksWhosePredecessorNodeIsExpanded
+				})
+		}
+		{
 			AssociationReverseSliceToForm[*models.Library, *models.Task](
 				"Library",
 				"RootTasks",
@@ -1060,6 +1073,39 @@ func FillUpForm(
 				probe,
 				func(owner *models.Diagram) []*models.TaskOutputShape {
 					return owner.TaskOutputShapes
+				})
+		}
+
+	case *models.TaskPredecessorShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Predecessor", instanceWithInferedType.Predecessor, formGroup, probe)
+		AssociationFieldToForm("Task", instanceWithInferedType.Task, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskPredecessorShape](
+				"Diagram",
+				"TaskPredecessorShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskPredecessorShape {
+					return owner.TaskPredecessorShapes
 				})
 		}
 

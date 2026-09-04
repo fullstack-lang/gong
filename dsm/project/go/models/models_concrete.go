@@ -155,6 +155,11 @@ type taskProductKey struct {
 	Product *Product
 }
 
+type taskPredecessorKey struct {
+	Task        *Task
+	Predecessor *Task
+}
+
 type noteProductKey struct {
 	Note    *Note
 	Product *Product
@@ -242,6 +247,39 @@ func (s *TaskOutputShape) GetAbstractStartElement() AbstractType {
 }
 
 var _ AssociationConcreteType = (*TaskOutputShape)(nil)
+
+type TaskPredecessorShape struct {
+	Name string
+
+	Predecessor *Task
+	Task        *Task
+
+	LinkShape
+}
+
+func (s *TaskPredecessorShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Predecessor = abstractElement.(*Task)
+}
+
+func (s *TaskPredecessorShape) GetAbstractStartElement() AbstractType {
+	if s.Predecessor == nil {
+		return nil
+	}
+	return s.Predecessor
+}
+
+func (s *TaskPredecessorShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *TaskPredecessorShape) GetAbstractEndElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
+	return s.Task
+}
+
+var _ AssociationConcreteType = (*TaskPredecessorShape)(nil)
 
 // NoteShape
 type NoteShape struct {

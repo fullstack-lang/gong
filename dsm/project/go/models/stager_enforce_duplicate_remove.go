@@ -17,6 +17,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.TaskComposition_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.TaskInputShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.TaskOutputShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.TaskPredecessorShapes) || needCommit
 
 		needCommit = removeDuplicatesSlice(stager, &diagram.Note_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.NoteProductShapes) || needCommit
@@ -43,6 +44,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &task.SubTasks) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &task.Inputs) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &task.Outputs) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &task.Predecessors) || needCommit
 	}
 
 	for note := range *GetGongstructInstancesSetFromPointerType[*Note](stage) {

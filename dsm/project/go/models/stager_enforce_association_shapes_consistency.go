@@ -13,12 +13,16 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 
 	validTaskInputs := make(map[taskProductKey]bool)
 	validTaskOutputs := make(map[taskProductKey]bool)
+	validTaskPredecessors := make(map[taskPredecessorKey]bool)
 	for _, task := range GetGongstrucsSorted[*Task](stage) {
 		for _, prod := range task.Inputs {
 			validTaskInputs[taskProductKey{Task: task, Product: prod}] = true
 		}
 		for _, prod := range task.Outputs {
 			validTaskOutputs[taskProductKey{Task: task, Product: prod}] = true
+		}
+		for _, pred := range task.Predecessors {
+			validTaskPredecessors[taskPredecessorKey{Task: task, Predecessor: pred}] = true
 		}
 	}
 
@@ -83,6 +87,18 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 				shape.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskOutputShape %s", shape.GetName()))
+				}
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range GetGongstrucsSorted[*TaskPredecessorShape](stage) {
+		if shape.Task != nil && shape.Predecessor != nil {
+			if !validTaskPredecessors[taskPredecessorKey{Task: shape.Task, Predecessor: shape.Predecessor}] {
+				shape.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskPredecessorShape %s", shape.GetName()))
 				}
 				needCommit = true
 			}

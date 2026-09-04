@@ -356,12 +356,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhosePredecessorNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskOutputShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskPredecessorShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
@@ -1035,6 +1037,40 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "IsHidden"))
 	}
 
+	taskpredecessorshapeOrdered := []*TaskPredecessorShape{}
+	for taskpredecessorshape := range stage.TaskPredecessorShapes {
+		taskpredecessorshapeOrdered = append(taskpredecessorshapeOrdered, taskpredecessorshape)
+	}
+	sort.Slice(taskpredecessorshapeOrdered[:], func(i, j int) bool {
+		taskpredecessorshapei := taskpredecessorshapeOrdered[i]
+		taskpredecessorshapej := taskpredecessorshapeOrdered[j]
+		taskpredecessorshapei_order, oki := stage.TaskPredecessorShape_stagedOrder[taskpredecessorshapei]
+		taskpredecessorshapej_order, okj := stage.TaskPredecessorShape_stagedOrder[taskpredecessorshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return taskpredecessorshapei_order < taskpredecessorshapej_order
+	})
+	if len(taskpredecessorshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, taskpredecessorshape := range taskpredecessorshapeOrdered {
+
+		identifiersDecl.WriteString(taskpredecessorshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Predecessor"))
+		pointersInitializesStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Task"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "IsHidden"))
+	}
+
 	taskshapeOrdered := []*TaskShape{}
 	for taskshape := range stage.TaskShapes {
 		taskshapeOrdered = append(taskshapeOrdered, taskshape)
@@ -1225,6 +1261,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, taskoutputshape := range taskoutputshapeOrdered {
 		_ = taskoutputshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, taskpredecessorshape := range taskpredecessorshapeOrdered {
+		_ = taskpredecessorshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1600,6 +1644,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "TasksWhosePredecessorNodeIsExpanded":
+		var sb strings.Builder
+		for _, _task := range diagram.TasksWhosePredecessorNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhosePredecessorNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "TaskGroupShapes":
 		var sb strings.Builder
 		for _, _taskgroupshape := range diagram.TaskGroupShapes {
@@ -1647,6 +1701,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskOutputShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskoutputshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "TaskPredecessorShapes":
+		var sb strings.Builder
+		for _, _taskpredecessorshape := range diagram.TaskPredecessorShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskPredecessorShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskpredecessorshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -3348,6 +3412,93 @@ func (taskoutputshape *TaskOutputShape) GongMarshallField(stage *Stage, fieldNam
 	return
 }
 
+func (taskpredecessorshape *TaskPredecessorShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskpredecessorshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskpredecessorshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskpredecessorshape.EndRatio))
+	case "StartOrientation":
+		if taskpredecessorshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskpredecessorshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if taskpredecessorshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskpredecessorshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskpredecessorshape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskpredecessorshape.IsHidden))
+
+	case "Predecessor":
+		if taskpredecessorshape.Predecessor != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Predecessor")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskpredecessorshape.Predecessor.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Predecessor")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Task":
+		if taskpredecessorshape.Task != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", taskpredecessorshape.Task.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskpredecessorshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TaskPredecessorShape", fieldName)
+	}
+	return
+}
+
 func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3479,12 +3630,14 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhosePredecessorNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskOutputShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskPredecessorShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
@@ -3871,6 +4024,25 @@ func (taskoutputshape *TaskOutputShape) GongMarshallAllFields(stage *Stage) (ini
 		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(taskoutputshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (taskpredecessorshape *TaskPredecessorShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Predecessor"))
+		pointersInitializesStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "Task"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(taskpredecessorshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

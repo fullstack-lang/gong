@@ -140,6 +140,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.TaskGroupShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TaskInputShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TaskOutputShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TaskPredecessorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TaskShape](stage)
 
 	return

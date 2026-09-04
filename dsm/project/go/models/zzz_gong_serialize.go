@@ -44,6 +44,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*TaskGroupShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TaskInputShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TaskOutputShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*TaskPredecessorShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TaskShape](stage, f, addIDs)
 	}
 

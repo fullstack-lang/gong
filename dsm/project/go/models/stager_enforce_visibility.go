@@ -20,6 +20,7 @@ func (stager *Stager) enforceVisibility() (needCommit bool) {
 		needCommit = removeInvisibleShapes(stager, &diagram.TaskComposition_Shapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.TaskInputShapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.TaskOutputShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagram.TaskPredecessorShapes, visibleElements) || needCommit
 
 		needCommit = removeInvisibleShapes(stager, &diagram.NoteProductShapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.NoteTaskShapes, visibleElements) || needCommit

@@ -92,8 +92,9 @@ type Diagram struct {
 	Task_Shapes                    []*TaskShape
 	map_Task_TaskShape             map[*Task]*TaskShape
 	TasksWhoseNodeIsExpanded       []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
-	TasksWhoseInputNodeIsExpanded  []*Task
-	TasksWhoseOutputNodeIsExpanded []*Task
+	TasksWhoseInputNodeIsExpanded       []*Task
+	TasksWhoseOutputNodeIsExpanded      []*Task
+	TasksWhosePredecessorNodeIsExpanded []*Task
 
 	IsTaskGroupsNodeExpanded      bool
 	TaskGroupShapes               []*TaskGroupShape
@@ -108,6 +109,9 @@ type Diagram struct {
 
 	TaskOutputShapes         []*TaskOutputShape
 	map_Task_TaskOutputShape map[taskProductKey]*TaskOutputShape
+
+	TaskPredecessorShapes         []*TaskPredecessorShape
+	map_Task_TaskPredecessorShape map[taskPredecessorKey]*TaskPredecessorShape
 
 	Note_Shapes              []*NoteShape
 	map_Note_NoteShape       map[*Note]*NoteShape

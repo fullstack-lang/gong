@@ -393,6 +393,41 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagram_.TasksWhoseOutputNodeIsExpanded = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseOutputNodeIsExpanded", &diagram_.TasksWhoseOutputNodeIsExpanded)
 
+		case "TasksWhosePredecessorNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.TasksWhosePredecessorNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhosePredecessorNodeIsExpanded", &diagram_.TasksWhosePredecessorNodeIsExpanded)
+
 		case "IsTaskGroupsNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsTaskGroupsNodeExpanded), formDiv)
 		case "TaskGroupShapes":
@@ -569,6 +604,41 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.TaskOutputShapes = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskOutputShapes", &diagram_.TaskOutputShapes)
+
+		case "TaskPredecessorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskPredecessorShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TaskPredecessorShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TaskPredecessorShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskPredecessorShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.TaskPredecessorShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskPredecessorShapes", &diagram_.TaskPredecessorShapes)
 
 		case "Note_Shapes":
 			if formDiv.FormEditAssocButton == nil {
@@ -4091,6 +4161,54 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 					}
 				}
 			}
+		case "Diagram:TasksWhosePredecessorNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their TasksWhosePredecessorNodeIsExpanded slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure task_ is in _diagram.TasksWhosePredecessorNodeIsExpanded
+					found := false
+					for _, _b := range _diagram.TasksWhosePredecessorNodeIsExpanded {
+						if _b == task_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.TasksWhosePredecessorNodeIsExpanded = append(_diagram.TasksWhosePredecessorNodeIsExpanded, task_)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhosePredecessorNodeIsExpanded", &_diagram.TasksWhosePredecessorNodeIsExpanded)
+					}
+				} else {
+					// ensure task_ is NOT in _diagram.TasksWhosePredecessorNodeIsExpanded
+					idx := slices.Index(_diagram.TasksWhosePredecessorNodeIsExpanded, task_)
+					if idx != -1 {
+						_diagram.TasksWhosePredecessorNodeIsExpanded = slices.Delete(_diagram.TasksWhosePredecessorNodeIsExpanded, idx, idx+1)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhosePredecessorNodeIsExpanded", &_diagram.TasksWhosePredecessorNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootTasks":
 			if formDiv.FormEditAssocButton == nil {
 				continue
@@ -5232,6 +5350,148 @@ func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
 	}
 
 	taskoutputshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__TaskPredecessorShapeFormCallback(
+	taskpredecessorshape *models.TaskPredecessorShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (taskpredecessorshapeFormCallback *TaskPredecessorShapeFormCallback) {
+	taskpredecessorshapeFormCallback = new(TaskPredecessorShapeFormCallback)
+	taskpredecessorshapeFormCallback.probe = probe
+	taskpredecessorshapeFormCallback.taskpredecessorshape = taskpredecessorshape
+	taskpredecessorshapeFormCallback.formGroup = formGroup
+
+	taskpredecessorshapeFormCallback.CreationMode = (taskpredecessorshape == nil)
+
+	return
+}
+
+type TaskPredecessorShapeFormCallback struct {
+	taskpredecessorshape *models.TaskPredecessorShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (taskpredecessorshapeFormCallback *TaskPredecessorShapeFormCallback) OnSave() {
+	taskpredecessorshapeFormCallback.probe.stageOfInterest.Lock()
+	defer taskpredecessorshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TaskPredecessorShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	taskpredecessorshapeFormCallback.probe.formStage.Checkout()
+
+	if taskpredecessorshapeFormCallback.taskpredecessorshape == nil {
+		taskpredecessorshapeFormCallback.taskpredecessorshape = new(models.TaskPredecessorShape).Stage(taskpredecessorshapeFormCallback.probe.stageOfInterest)
+	}
+	taskpredecessorshape_ := taskpredecessorshapeFormCallback.taskpredecessorshape
+	_ = taskpredecessorshape_
+
+	for _, formDiv := range taskpredecessorshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(taskpredecessorshape_.Name), formDiv)
+		case "Predecessor":
+			FormDivSelectFieldToField(&(taskpredecessorshape_.Predecessor), taskpredecessorshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Task":
+			FormDivSelectFieldToField(&(taskpredecessorshape_.Task), taskpredecessorshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(taskpredecessorshape_.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(taskpredecessorshape_.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(taskpredecessorshape_.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(taskpredecessorshape_.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(taskpredecessorshape_.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(taskpredecessorshape_.IsHidden), formDiv)
+		case "Diagram:TaskPredecessorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskpredecessorshapeFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their TaskPredecessorShapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskpredecessorshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskpredecessorshapeFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure taskpredecessorshape_ is in _diagram.TaskPredecessorShapes
+					found := false
+					for _, _b := range _diagram.TaskPredecessorShapes {
+						if _b == taskpredecessorshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.TaskPredecessorShapes = append(_diagram.TaskPredecessorShapes, taskpredecessorshape_)
+						taskpredecessorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskPredecessorShapes", &_diagram.TaskPredecessorShapes)
+					}
+				} else {
+					// ensure taskpredecessorshape_ is NOT in _diagram.TaskPredecessorShapes
+					idx := slices.Index(_diagram.TaskPredecessorShapes, taskpredecessorshape_)
+					if idx != -1 {
+						_diagram.TaskPredecessorShapes = slices.Delete(_diagram.TaskPredecessorShapes, idx, idx+1)
+						taskpredecessorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskPredecessorShapes", &_diagram.TaskPredecessorShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if taskpredecessorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		taskpredecessorshape_.Unstage(taskpredecessorshapeFormCallback.probe.stageOfInterest)
+	}
+
+	taskpredecessorshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TaskPredecessorShape](
+		taskpredecessorshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if taskpredecessorshapeFormCallback.CreationMode || taskpredecessorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		taskpredecessorshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(taskpredecessorshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TaskPredecessorShapeFormCallback(
+			nil,
+			taskpredecessorshapeFormCallback.probe,
+			newFormGroup,
+		)
+		taskpredecessorshape := new(models.TaskPredecessorShape)
+		FillUpForm(taskpredecessorshape, newFormGroup, taskpredecessorshapeFormCallback.probe)
+		taskpredecessorshapeFormCallback.probe.formStage.Commit()
+	}
+
+	taskpredecessorshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TaskShapeFormCallback(
 	taskshape *models.TaskShape,

@@ -64,6 +64,9 @@ func (diagram *Diagram) GetLinks() (links []AssociationConcreteType) {
 	for _, s := range diagram.ResourceTaskShapes {
 		links = append(links, s)
 	}
+	for _, s := range diagram.TaskPredecessorShapes {
+		links = append(links, s)
+	}
 	return
 }
 
@@ -77,6 +80,8 @@ func (diagram *Diagram) AddLink(link AssociationConcreteType) {
 		diagram.TaskInputShapes = append(diagram.TaskInputShapes, l)
 	case *TaskOutputShape:
 		diagram.TaskOutputShapes = append(diagram.TaskOutputShapes, l)
+	case *TaskPredecessorShape:
+		diagram.TaskPredecessorShapes = append(diagram.TaskPredecessorShapes, l)
 	case *NoteProductShape:
 		diagram.NoteProductShapes = append(diagram.NoteProductShapes, l)
 	case *NoteTaskShape:

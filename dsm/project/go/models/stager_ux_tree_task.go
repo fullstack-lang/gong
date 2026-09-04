@@ -295,4 +295,96 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 			}
 		}
 	}
+
+	if len(task.Predecessors) > 0 {
+		predecessorsNode := &tree.Node{
+			Name:                 fmt.Sprintf("Predecessors (%d)", len(task.Predecessors)),
+			IsExpanded:           slices.Contains(diagram.TasksWhosePredecessorNodeIsExpanded, task),
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_arrow_back),
+		}
+		taskNode.Children = append(taskNode.Children, predecessorsNode)
+
+		setCallbacksExpandableNode(stager, predecessorsNode, task, &diagram.TasksWhosePredecessorNodeIsExpanded)
+
+		for _, predecessor := range task.Predecessors {
+			predecessorNode := &tree.Node{
+				Name:                    predecessor.GetName(),
+				IsExpanded:              true,
+				IsNodeClickable:         true,
+				CheckboxHasToolTip:      true,
+				CheckboxToolTipPosition: tree.Right,
+				IsWithPreceedingIcon:    true,
+				PreceedingIcon:          string(buttons.BUTTON_task),
+			}
+			predecessorsNode.Children = append(predecessorsNode.Children, predecessorNode)
+
+			// if predecessor task is present in diagram as well as the task
+			// display the show/hide predecessor relation button
+			if _, ok := diagram.map_Task_TaskShape[predecessor]; ok {
+				if _, ok := diagram.map_Task_TaskShape[task]; ok {
+
+					predecessorNode.HasCheckboxButton = true
+
+					taskPredecessorKey := taskPredecessorKey{
+						Task:        task,
+						Predecessor: predecessor,
+					}
+					taskPredecessorShape, ok := diagram.map_Task_TaskPredecessorShape[taskPredecessorKey]
+					predecessorNode.IsChecked = ok
+
+					if ok {
+						predecessorNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+					} else {
+						predecessorNode.CheckboxToolTipText = "Check to shape to diagram"
+					}
+
+					predecessorNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
+							addAssociationShapeToDiagram(stager, predecessor, task, &diagram.TaskPredecessorShapes)
+							if diagram.IsTimeDiagram {
+								for _, s := range diagram.TaskPredecessorShapes {
+									if s.Predecessor == predecessor && s.Task == task {
+										s.StartOrientation = ORIENTATION_HORIZONTAL
+										s.EndOrientation = ORIENTATION_HORIZONTAL
+									}
+								}
+							}
+							stager.stage.Commit()
+						} else {
+							if taskPredecessorShape != nil {
+								taskPredecessorShape.UnstageVoid(stager.stage)
+								stager.stage.Commit()
+							}
+						}
+					}
+
+					predecessorNode.Buttons = []*tree.Button{
+						{
+							Name:            diagram.GetName(),
+							Icon:            string(buttons.BUTTON_visibility_off),
+							ToolTipText:     "Hide link from diagram",
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+							OnClick: func() {
+								if taskPredecessorShape != nil {
+									taskPredecessorShape.SetIsHidden(!taskPredecessorShape.GetIsHidden())
+									stage.Commit()
+								}
+							},
+						},
+					}
+					if ok {
+						if taskPredecessorShape.GetIsHidden() {
+							predecessorNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							predecessorNode.Buttons[0].ToolTipText = "Show link on diagram"
+						}
+					} else {
+						predecessorNode.Buttons[0].IsDisabled = true
+					}
+				}
+			}
+		}
+	}
 }

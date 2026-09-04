@@ -736,6 +736,35 @@ func (from *TaskOutputShape) CopyBasicFields(to *TaskOutputShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type TaskPredecessorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *TaskPredecessorShape) CopyBasicFields(to *TaskPredecessorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
 type TaskShape_WOP struct {
 	// insertion point
 

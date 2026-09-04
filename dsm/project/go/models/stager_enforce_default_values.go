@@ -118,6 +118,16 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				diagram.DateYOffset = 15.0
 				needCommit = true
 			}
+			for _, shape := range diagram.TaskPredecessorShapes {
+				if shape.StartOrientation != ORIENTATION_HORIZONTAL {
+					shape.StartOrientation = ORIENTATION_HORIZONTAL
+					needCommit = true
+				}
+				if shape.EndOrientation != ORIENTATION_HORIZONTAL {
+					shape.EndOrientation = ORIENTATION_HORIZONTAL
+					needCommit = true
+				}
+			}
 		}
 	}
 	return
