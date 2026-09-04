@@ -23,6 +23,7 @@ func (stager *Stager) svgGenerateRect(
 	diagram diagramInterface, // might be ni
 	stateShape *StateShape,
 	isSelected bool,
+	hasSubStatesDisplayed bool,
 	layer *svg.Layer,
 ) *svg.Rect {
 
@@ -122,7 +123,7 @@ func (stager *Stager) svgGenerateRect(
 		stateTitleText.FontSize = "16px"
 		stateTitleText.X_Offset = 0
 
-		if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
+		if hasSubStatesDisplayed || state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
 			stateTitleText.Y_Offset = 22
 			stateTitleText.RectAnchorType = svg.RECT_TOP
 		} else {

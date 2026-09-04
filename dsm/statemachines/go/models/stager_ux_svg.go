@@ -38,10 +38,12 @@ func (stager *Stager) svg() {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	statesSet := make(map[*State]any)
+	displayedStates := make(map[*State]bool)
 
 	for _, stateShape_ := range diagram.State_Shapes {
-		statesSet[stateShape_.State] = true
+		if !stateShape_.GetIsHidden() && stateShape_.State != nil {
+			displayedStates[stateShape_.State] = true
+		}
 	}
 
 	// get the selected object
@@ -70,10 +72,13 @@ func (stager *Stager) svg() {
 			isSelected = selectedObject.State == state
 		}
 
+		hasSubStatesDisplayed := stager.hasSubStatesDisplayed(state, displayedStates)
+
 		rect := stager.svgGenerateRect(
 			diagram,
 			stateShape,
 			isSelected,
+			hasSubStatesDisplayed,
 			layer)
 		map_State_Rect[state] = rect
 		stager.map_SvgRect_StateShape[rect] = stateShape
@@ -169,4 +174,28 @@ func (stager *Stager) svg() {
 
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()
+}
+
+func (stager *Stager) hasSubStatesDisplayed(state *State, displayedStates map[*State]bool) bool {
+	visited := make(map[*State]bool)
+	var check func(s *State) bool
+	check = func(s *State) bool {
+		if visited[s] {
+			return false
+		}
+		visited[s] = true
+		for _, sub := range s.SubStates {
+			if sub == nil {
+				continue
+			}
+			if displayedStates[sub] {
+				return true
+			}
+			if check(sub) {
+				return true
+			}
+		}
+		return false
+	}
+	return check(state)
 }
