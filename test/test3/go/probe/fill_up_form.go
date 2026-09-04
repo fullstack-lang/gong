@@ -22,7 +22,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 300, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "Time fields",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Time fields",
 		}).Stage(probe.formStage))

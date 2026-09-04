@@ -323,18 +323,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Task_Outputs_reverseMap[_product] = task
 		}
 	}
-	stage.Task_TaskGroupsToDisplay_reverseMap = make(map[*TaskGroup]*Task)
-	for task := range stage.Tasks {
-		_ = task
-		for _, _taskgroup := range task.TaskGroupsToDisplay {
-			stage.Task_TaskGroupsToDisplay_reverseMap[_taskgroup] = task
-		}
-	}
 	stage.Task_SubTasks_reverseMap = make(map[*Task]*Task)
 	for task := range stage.Tasks {
 		_ = task
 		for _, _task := range task.SubTasks {
 			stage.Task_SubTasks_reverseMap[_task] = task
+		}
+	}
+	stage.Task_TaskGroupsToDisplay_reverseMap = make(map[*TaskGroup]*Task)
+	for task := range stage.Tasks {
+		_ = task
+		for _, _taskgroup := range task.TaskGroupsToDisplay {
+			stage.Task_TaskGroupsToDisplay_reverseMap[_taskgroup] = task
 		}
 	}
 

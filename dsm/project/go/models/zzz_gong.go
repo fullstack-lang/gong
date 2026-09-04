@@ -425,9 +425,9 @@ type Stage struct {
 
 	Task_Outputs_reverseMap map[*Product]*Task
 
-	Task_TaskGroupsToDisplay_reverseMap map[*TaskGroup]*Task
-
 	Task_SubTasks_reverseMap map[*Task]*Task
+
+	Task_TaskGroupsToDisplay_reverseMap map[*TaskGroup]*Task
 
 	OnAfterTaskCreateCallback OnAfterCreateInterface[Task]
 	OnAfterTaskUpdateCallback OnAfterUpdateInterface[Task]
@@ -4890,12 +4890,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Inputs: []*Product{{Name: "Inputs"}},
 			// field is initialized with an instance of Product with the name of the field
 			Outputs: []*Product{{Name: "Outputs"}},
+			// field is initialized with an instance of Task with the name of the field
+			SubTasks: []*Task{{Name: "SubTasks"}},
 			// field is initialized with an instance of TaskGroup with the name of the field
 			TaskGroupsToDisplay: []*TaskGroup{{Name: "TaskGroupsToDisplay"}},
 			// field is initialized with an instance of Task with the name of the field
 			ReferencedTask: &Task{Name: "ReferencedTask"},
-			// field is initialized with an instance of Task with the name of the field
-			SubTasks: []*Task{{Name: "SubTasks"}},
 		}).(*Type)
 	case TaskCompositionShape:
 		return any(&TaskCompositionShape{
@@ -5835,19 +5835,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TaskGroupsToDisplay":
-			res := make(map[*TaskGroup][]*Task)
-			for task := range stage.Tasks {
-				for _, taskgroup_ := range task.TaskGroupsToDisplay {
-					res[taskgroup_] = append(res[taskgroup_], task)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "SubTasks":
 			res := make(map[*Task][]*Task)
 			for task := range stage.Tasks {
 				for _, task_ := range task.SubTasks {
 					res[task_] = append(res[task_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TaskGroupsToDisplay":
+			res := make(map[*TaskGroup][]*Task)
+			for task := range stage.Tasks {
+				for _, taskgroup_ := range task.TaskGroupsToDisplay {
+					res[taskgroup_] = append(res[taskgroup_], task)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -7112,17 +7112,14 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Product",
 		},
 		{
-			Name:               "IsInputsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "Outputs",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
 		},
 		{
-			Name:               "IsOutputsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "SubTasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
 		},
 		{
 			Name:               "IsWithCompletion",
@@ -7165,9 +7162,12 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
-			Name:                 "SubTasks",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			Name:               "IsInputsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsOutputsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -8573,10 +8573,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsInputsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", task.IsInputsNodeExpanded)
-		res.valueBool = task.IsInputsNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Outputs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.Outputs {
@@ -8587,10 +8583,16 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsOutputsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", task.IsOutputsNodeExpanded)
-		res.valueBool = task.IsOutputsNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubTasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.SubTasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsWithCompletion":
 		res.valueString = fmt.Sprintf("%t", task.IsWithCompletion)
 		res.valueBool = task.IsWithCompletion
@@ -8633,16 +8635,14 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString = task.ReferencedTask.Name
 			res.ids = task.ReferencedTask.GongGetUUID(stage)
 		}
-	case "SubTasks":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range task.SubTasks {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
+	case "IsInputsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsInputsNodeExpanded)
+		res.valueBool = task.IsInputsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsOutputsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsOutputsNodeExpanded)
+		res.valueBool = task.IsOutputsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
 	case "IsExpanded":
@@ -9969,8 +9969,6 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
-	case "IsInputsNodeExpanded":
-		task.IsInputsNodeExpanded = value.GetValueBool()
 	case "Outputs":
 		task.Outputs = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9985,8 +9983,20 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
-	case "IsOutputsNodeExpanded":
-		task.IsOutputsNodeExpanded = value.GetValueBool()
+	case "SubTasks":
+		task.SubTasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
+						task.SubTasks = append(task.SubTasks, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsWithCompletion":
 		task.IsWithCompletion = value.GetValueBool()
 	case "Completion":
@@ -10026,20 +10036,10 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
-	case "SubTasks":
-		task.SubTasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						task.SubTasks = append(task.SubTasks, __instance__)
-						break
-					}
-				}
-			}
-		}
+	case "IsInputsNodeExpanded":
+		task.IsInputsNodeExpanded = value.GetValueBool()
+	case "IsOutputsNodeExpanded":
+		task.IsOutputsNodeExpanded = value.GetValueBool()
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

@@ -553,10 +553,6 @@ type Task_WOP struct {
 
 	IsMilestone bool
 
-	IsInputsNodeExpanded bool
-
-	IsOutputsNodeExpanded bool
-
 	IsWithCompletion bool
 
 	Completion CompletionEnum
@@ -570,6 +566,10 @@ type Task_WOP struct {
 	YOffset float64
 
 	IsImport bool
+
+	IsInputsNodeExpanded bool
+
+	IsOutputsNodeExpanded bool
 
 	ComputedPrefix string
 
@@ -592,8 +592,6 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.IsEndDateComputedFromDuration = from.IsEndDateComputedFromDuration
 	to.IsStartDateComputedFromPredecessors = from.IsStartDateComputedFromPredecessors
 	to.IsMilestone = from.IsMilestone
-	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
-	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion
 	to.DisplayVerticalBar = from.DisplayVerticalBar
@@ -601,6 +599,8 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.XOffset = from.XOffset
 	to.YOffset = from.YOffset
 	to.IsImport = from.IsImport
+	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
+	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection

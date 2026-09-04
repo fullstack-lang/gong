@@ -69,7 +69,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Task != nil && shape.Product != nil {
 			if !validTaskInputs[taskProductKey{Task: shape.Task, Product: shape.Product}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskInputShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskInputShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -79,7 +81,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Task != nil && shape.Product != nil {
 			if !validTaskOutputs[taskProductKey{Task: shape.Task, Product: shape.Product}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskOutputShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskOutputShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -89,7 +93,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Note != nil && shape.Product != nil {
 			if !validNoteProducts[noteProductKey{Note: shape.Note, Product: shape.Product}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteProductShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteProductShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -99,7 +105,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Note != nil && shape.Task != nil {
 			if !validNoteTasks[noteTaskKey{Note: shape.Note, Task: shape.Task}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteTaskShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteTaskShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -109,7 +117,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Note != nil && shape.Resource != nil {
 			if !validNoteResources[noteResourceKey{Note: shape.Note, Resource: shape.Resource}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteResourceShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteResourceShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -119,7 +129,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Resource != nil && shape.Task != nil {
 			if !validResourceTasks[resourceTaskKey{Resource: shape.Resource, Task: shape.Task}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceTaskShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceTaskShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -129,7 +141,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Task != nil {
 			if !validTaskCompositions[shape.Task] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskCompositionShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskCompositionShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -139,7 +153,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Product != nil {
 			if !validProductCompositions[shape.Product] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ProductCompositionShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ProductCompositionShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}
@@ -149,7 +165,9 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		if shape.Resource != nil {
 			if !validResourceCompositions[shape.Resource] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceCompositionShape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceCompositionShape %s", shape.GetName()))
+				}
 				needCommit = true
 			}
 		}

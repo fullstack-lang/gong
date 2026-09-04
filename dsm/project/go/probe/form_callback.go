@@ -145,6 +145,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsInAutoLayoutMode":
 			FormDivBasicFieldToField(&(diagram_.IsInAutoLayoutMode), formDiv)
 		case "Product_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
 
@@ -177,6 +180,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Product_Shapes", &diagram_.Product_Shapes)
 
 		case "ProductsWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -211,6 +217,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsPBSNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsPBSNodeExpanded), formDiv)
 		case "ProductComposition_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductCompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductCompositionShape, 0)
 
@@ -245,6 +254,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsWBSNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsWBSNodeExpanded), formDiv)
 		case "Task_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskShape, 0)
 
@@ -277,6 +289,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Task_Shapes", &diagram_.Task_Shapes)
 
 		case "TasksWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -309,6 +324,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseNodeIsExpanded", &diagram_.TasksWhoseNodeIsExpanded)
 
 		case "TasksWhoseInputNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -341,6 +359,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseInputNodeIsExpanded", &diagram_.TasksWhoseInputNodeIsExpanded)
 
 		case "TasksWhoseOutputNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -375,6 +396,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsTaskGroupsNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsTaskGroupsNodeExpanded), formDiv)
 		case "TaskGroupShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroupShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskGroupShape, 0)
 
@@ -407,6 +431,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskGroupShapes", &diagram_.TaskGroupShapes)
 
 		case "TaskGroupsWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskGroup, 0)
 
@@ -439,6 +466,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskGroupsWhoseNodeIsExpanded", &diagram_.TaskGroupsWhoseNodeIsExpanded)
 
 		case "TaskComposition_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskCompositionShape, 0)
 
@@ -471,6 +501,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskComposition_Shapes", &diagram_.TaskComposition_Shapes)
 
 		case "TaskInputShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskInputShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskInputShape, 0)
 
@@ -503,6 +536,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskInputShapes", &diagram_.TaskInputShapes)
 
 		case "TaskOutputShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskOutputShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskOutputShape, 0)
 
@@ -535,6 +571,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskOutputShapes", &diagram_.TaskOutputShapes)
 
 		case "Note_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteShape, 0)
 
@@ -567,6 +606,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Note_Shapes", &diagram_.Note_Shapes)
 
 		case "NotesWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Note, 0)
 
@@ -601,6 +643,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsNotesNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsNotesNodeExpanded), formDiv)
 		case "NoteProductShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteProductShape, 0)
 
@@ -633,6 +678,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteProductShapes", &diagram_.NoteProductShapes)
 
 		case "NoteTaskShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteTaskShape, 0)
 
@@ -665,6 +713,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteTaskShapes", &diagram_.NoteTaskShapes)
 
 		case "NoteResourceShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteResourceShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteResourceShape, 0)
 
@@ -697,6 +748,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteResourceShapes", &diagram_.NoteResourceShapes)
 
 		case "Resource_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ResourceShape, 0)
 
@@ -729,6 +783,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Resource_Shapes", &diagram_.Resource_Shapes)
 
 		case "ResourcesWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
@@ -763,6 +820,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsResourcesNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsResourcesNodeExpanded), formDiv)
 		case "ResourceComposition_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceCompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ResourceCompositionShape, 0)
 
@@ -795,6 +855,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ResourceComposition_Shapes", &diagram_.ResourceComposition_Shapes)
 
 		case "ResourceTaskShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceTaskShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ResourceTaskShape, 0)
 
@@ -827,6 +890,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ResourceTaskShapes", &diagram_.ResourceTaskShapes)
 
 		case "Library:Diagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -950,6 +1016,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
 		case "SubLibraries":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Library, 0)
 
@@ -992,6 +1061,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "RootProducts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -1024,6 +1096,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootProducts", &library_.RootProducts)
 
 		case "RootTasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -1056,6 +1131,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootTasks", &library_.RootTasks)
 
 		case "RootTaskGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskGroup, 0)
 
@@ -1088,6 +1166,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootTaskGroups", &library_.RootTaskGroups)
 
 		case "RootResources":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
@@ -1120,6 +1201,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootResources", &library_.RootResources)
 
 		case "Notes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Note, 0)
 
@@ -1152,6 +1236,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Notes", &library_.Notes)
 
 		case "Diagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Diagram, 0)
 
@@ -1184,6 +1271,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Diagrams", &library_.Diagrams)
 
 		case "Library:SubLibraries":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1313,6 +1403,9 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "Products":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -1345,6 +1438,9 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Products", &note_.Products)
 
 		case "Tasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -1377,6 +1473,9 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Tasks", &note_.Tasks)
 
 		case "Resources":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
@@ -1409,6 +1508,9 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Resources", &note_.Resources)
 
 		case "Diagram:NotesWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1454,6 +1556,9 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 		case "Library:Notes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1593,6 +1698,9 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteproductshape_.IsHidden), formDiv)
 		case "Diagram:NoteProductShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1732,6 +1840,9 @@ func (noteresourceshapeFormCallback *NoteResourceShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteresourceshape_.IsHidden), formDiv)
 		case "Diagram:NoteResourceShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1871,6 +1982,9 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteshape_.IsHidden), formDiv)
 		case "Diagram:Note_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2010,6 +2124,9 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(notetaskshape_.IsHidden), formDiv)
 		case "Diagram:NoteTaskShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2135,6 +2252,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		case "Description":
 			FormDivBasicFieldToField(&(product_.Description), formDiv)
 		case "SubProducts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](productFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -2181,6 +2301,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(product_.LayoutDirection), formDiv)
 		case "Diagram:ProductsWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2226,6 +2349,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 		case "Library:RootProducts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2271,6 +2397,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 		case "Note:Products":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2316,6 +2445,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 		case "Product:SubProducts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Product instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2361,6 +2493,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 		case "Task:Inputs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2406,6 +2541,9 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 		case "Task:Outputs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2543,6 +2681,9 @@ func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) 
 		case "IsHidden":
 			FormDivBasicFieldToField(&(productcompositionshape_.IsHidden), formDiv)
 		case "Diagram:ProductComposition_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2682,6 +2823,9 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(productshape_.IsHidden), formDiv)
 		case "Diagram:Product_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2807,6 +2951,9 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		case "Description":
 			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "Tasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](resourceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -2839,6 +2986,9 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			resourceFormCallback.probe.UpdateSliceOfPointersCallback(resource_, "Tasks", &resource_.Tasks)
 
 		case "SubResources":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](resourceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
@@ -2881,6 +3031,9 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		case "ReferencedResource":
 			FormDivSelectFieldToField(&(resource_.ReferencedResource), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2926,6 +3079,9 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 				}
 			}
 		case "Library:RootResources":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2971,6 +3127,9 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 				}
 			}
 		case "Note:Resources":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3016,6 +3175,9 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 				}
 			}
 		case "Resource:SubResources":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Resource instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3153,6 +3315,9 @@ func (resourcecompositionshapeFormCallback *ResourceCompositionShapeFormCallback
 		case "IsHidden":
 			FormDivBasicFieldToField(&(resourcecompositionshape_.IsHidden), formDiv)
 		case "Diagram:ResourceComposition_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3292,6 +3457,9 @@ func (resourceshapeFormCallback *ResourceShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(resourceshape_.IsHidden), formDiv)
 		case "Diagram:Resource_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3431,6 +3599,9 @@ func (resourcetaskshapeFormCallback *ResourceTaskShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(resourcetaskshape_.IsHidden), formDiv)
 		case "Diagram:ResourceTaskShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3572,6 +3743,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		case "IsEndDateComputedFromDuration":
 			FormDivBasicFieldToField(&(task_.IsEndDateComputedFromDuration), formDiv)
 		case "Predecessors":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -3608,6 +3782,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		case "IsMilestone":
 			FormDivBasicFieldToField(&(task_.IsMilestone), formDiv)
 		case "Inputs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -3639,9 +3816,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			task_.Inputs = instanceSlice
 			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "Inputs", &task_.Inputs)
 
-		case "IsInputsNodeExpanded":
-			FormDivBasicFieldToField(&(task_.IsInputsNodeExpanded), formDiv)
 		case "Outputs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -3673,8 +3851,41 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			task_.Outputs = instanceSlice
 			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "Outputs", &task_.Outputs)
 
-		case "IsOutputsNodeExpanded":
-			FormDivBasicFieldToField(&(task_.IsOutputsNodeExpanded), formDiv)
+		case "SubTasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					taskFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			task_.SubTasks = instanceSlice
+			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "SubTasks", &task_.SubTasks)
+
 		case "IsWithCompletion":
 			FormDivBasicFieldToField(&(task_.IsWithCompletion), formDiv)
 		case "Completion":
@@ -3682,6 +3893,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(task_.DisplayVerticalBar), formDiv)
 		case "TaskGroupsToDisplay":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskGroup, 0)
 
@@ -3723,38 +3937,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.IsImport), formDiv)
 		case "ReferencedTask":
 			FormDivSelectFieldToField(&(task_.ReferencedTask), taskFormCallback.probe.stageOfInterest, formDiv)
-		case "SubTasks":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					taskFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			task_.SubTasks = instanceSlice
-			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "SubTasks", &task_.SubTasks)
-
+		case "IsInputsNodeExpanded":
+			FormDivBasicFieldToField(&(task_.IsInputsNodeExpanded), formDiv)
+		case "IsOutputsNodeExpanded":
+			FormDivBasicFieldToField(&(task_.IsOutputsNodeExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -3762,6 +3948,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
 		case "Diagram:TasksWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3807,6 +3996,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Diagram:TasksWhoseInputNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3852,6 +4044,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Diagram:TasksWhoseOutputNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3897,6 +4092,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Library:RootTasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3942,6 +4140,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Note:Tasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3987,6 +4188,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Resource:Tasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Resource instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4032,6 +4236,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Task:Predecessors":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4077,6 +4284,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "Task:SubTasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4122,6 +4332,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 				}
 			}
 		case "TaskGroup:Tasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TaskGroup instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4259,6 +4472,9 @@ func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskcompositionshape_.IsHidden), formDiv)
 		case "Diagram:TaskComposition_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4386,6 +4602,9 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(taskgroup_.IsExpanded), formDiv)
 		case "Tasks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskgroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
@@ -4418,6 +4637,9 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 			taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(taskgroup_, "Tasks", &taskgroup_.Tasks)
 
 		case "Diagram:TaskGroupsWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4463,6 +4685,9 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 				}
 			}
 		case "Library:RootTaskGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4508,6 +4733,9 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 				}
 			}
 		case "Task:TaskGroupsToDisplay":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4643,6 +4871,9 @@ func (taskgroupshapeFormCallback *TaskGroupShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskgroupshape_.IsHidden), formDiv)
 		case "Diagram:TaskGroupShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4782,6 +5013,9 @@ func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskinputshape_.IsHidden), formDiv)
 		case "Diagram:TaskInputShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4921,6 +5155,9 @@ func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskoutputshape_.IsHidden), formDiv)
 		case "Diagram:TaskOutputShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5062,6 +5299,9 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskshape_.IsHidden), formDiv)
 		case "Diagram:Task_Shapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -332,7 +332,7 @@ func (stager *Stager) drawTimeLine(diagram *Diagram, XLeftLanes float64, XRightM
 	}
 	timeStepScale := diagram.TimeStepScale
 	if timeStepScale == "" {
-		timeStepScale = YEARS
+		timeStepScale = MONTHS
 	}
 
 	var ticks []time.Time

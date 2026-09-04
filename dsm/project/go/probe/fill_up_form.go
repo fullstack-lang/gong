@@ -32,7 +32,7 @@ func FillUpForm(
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "Time Diagram",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Time Diagram",
 		}).Stage(probe.formStage))
@@ -702,7 +702,7 @@ func FillUpForm(
 		BasicFieldtoForm("End", instanceWithInferedType.End, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, true)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "Duration",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Duration",
 		}).Stage(probe.formStage))
@@ -723,7 +723,7 @@ func FillUpForm(
 			IsAEndAccordionGroup:   true,
 		}).Stage(probe.formStage))
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "Predecessors",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Predecessors",
 		}).Stage(probe.formStage))
@@ -737,13 +737,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Inputs", instanceWithInferedType, &instanceWithInferedType.Inputs, formGroup, probe)
-		BasicFieldtoForm("IsInputsNodeExpanded", instanceWithInferedType.IsInputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Outputs", instanceWithInferedType, &instanceWithInferedType.Outputs, formGroup, probe)
-		BasicFieldtoForm("IsOutputsNodeExpanded", instanceWithInferedType.IsOutputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+		AssociationSliceToForm("SubTasks", instanceWithInferedType, &instanceWithInferedType.SubTasks, formGroup, probe)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "Completion Display",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Completion Display",
 		}).Stage(probe.formStage))
@@ -758,7 +755,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("TaskGroupsToDisplay", instanceWithInferedType, &instanceWithInferedType.TaskGroupsToDisplay, formGroup, probe)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "Custom positions",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Custom positions",
 		}).Stage(probe.formStage))
@@ -774,7 +771,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsImport", instanceWithInferedType.IsImport, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("ReferencedTask", instanceWithInferedType.ReferencedTask, formGroup, probe)
-		AssociationSliceToForm("SubTasks", instanceWithInferedType, &instanceWithInferedType.SubTasks, formGroup, probe)
+		BasicFieldtoForm("IsInputsNodeExpanded", instanceWithInferedType.IsInputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsOutputsNodeExpanded", instanceWithInferedType.IsOutputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,

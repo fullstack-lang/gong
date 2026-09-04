@@ -157,6 +157,9 @@ map[FormCallbackSubTemplateId]string{
 			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.probe.stageOfInterest, formDiv)`,
 	FormCallbackSubTmplSliceOfPointers: `
 		case "{{FieldName}}":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.{{AssocStructName}}, 0)
 
@@ -190,6 +193,9 @@ map[FormCallbackSubTemplateId]string{
 `,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the {{AssocStructName}} instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

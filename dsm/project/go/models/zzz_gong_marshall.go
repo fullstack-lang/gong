@@ -855,9 +855,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsWithCompletion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DisplayVerticalBar"))
@@ -867,7 +866,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "YOffset"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "LayoutDirection"))
@@ -2858,16 +2858,6 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMilestone")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsMilestone))
-	case "IsInputsNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInputsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsInputsNodeExpanded))
-	case "IsOutputsNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsOutputsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsOutputsNodeExpanded))
 	case "IsWithCompletion":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2919,6 +2909,16 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsImport")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsImport))
+	case "IsInputsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInputsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsInputsNodeExpanded))
+	case "IsOutputsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsOutputsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsOutputsNodeExpanded))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2973,6 +2973,16 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "SubTasks":
+		var sb strings.Builder
+		for _, _task := range task.SubTasks {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubTasks")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "TaskGroupsToDisplay":
 		var sb strings.Builder
 		for _, _taskgroup := range task.TaskGroupsToDisplay {
@@ -2996,16 +3006,6 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedTask")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "SubTasks":
-		var sb strings.Builder
-		for _, _task := range task.SubTasks {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubTasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Task", fieldName)
 	}
@@ -3768,9 +3768,8 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
-		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsWithCompletion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DisplayVerticalBar"))
@@ -3780,7 +3779,8 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "YOffset"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
-		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "LayoutDirection"))

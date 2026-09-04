@@ -101,7 +101,7 @@ map[ButtonImplSubTemplateId]string{
 		}`,
 	ButtonImplSubTmplAccordionStart: `
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "{{AccordionName}}",
+			Name:       "",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "{{AccordionName}}",
 		}).Stage(probe.formStage))`,

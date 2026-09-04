@@ -17,8 +17,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		root.NbPixPerCharacter = 8
 		needCommit = true
 
-		stager.probeForm.AddNotification(time.Now(),
-			fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
+		if stager.probeForm != nil {
+			stager.probeForm.AddNotification(time.Now(),
+				fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
+		}
 	}
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
@@ -40,6 +42,14 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		}
 
 		if diagram.IsTimeDiagram {
+			if diagram.TimeStep <= 0 {
+				diagram.TimeStep = 1
+				needCommit = true
+			}
+			if diagram.TimeStepScale == "" {
+				diagram.TimeStepScale = MONTHS
+				needCommit = true
+			}
 			if diagram.LaneHeight == 0 {
 				diagram.LaneHeight = 100.0
 				needCommit = true

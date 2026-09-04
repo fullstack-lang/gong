@@ -142,12 +142,17 @@ func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
 	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
 		if task.IsStartDateComputedFromPredecessors && len(task.Predecessors) > 0 {
 			var maxEnd time.Time
-			for i, predecessor := range task.Predecessors {
-				if i == 0 || predecessor.End.After(maxEnd) {
+			first := true
+			for _, predecessor := range task.Predecessors {
+				if predecessor == nil {
+					continue
+				}
+				if first || predecessor.End.After(maxEnd) {
 					maxEnd = predecessor.End
+					first = false
 				}
 			}
-			if !task.Start.Equal(maxEnd) {
+			if !first && !task.Start.Equal(maxEnd) {
 				task.Start = maxEnd
 				needCommit = true
 				if stager.probeForm != nil {

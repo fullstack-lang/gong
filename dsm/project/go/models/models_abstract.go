@@ -47,17 +47,11 @@ type Task struct {
 
 	IsMilestone bool
 
-	Inputs               []*Product
-	IsInputsNodeExpanded bool
+	Inputs []*Product
 
-	Outputs               []*Product
-	IsOutputsNodeExpanded bool
+	Outputs []*Product
 
-	// parentTask is a computed field
-	// since a Task belongs to at most one WBS,
-	// a parentTask is computed at each UX look. It can be null if the
-	// task is a root task or an orphaned task
-	parentTask *Task
+	SubTasks []*Task
 
 	// Completion Management
 	//gong:accordion-start "Completion Display"
@@ -81,7 +75,14 @@ type Task struct {
 	IsImport       bool
 	ReferencedTask *Task
 
-	SubTasks []*Task
+	IsInputsNodeExpanded  bool
+	IsOutputsNodeExpanded bool
+
+	// parentTask is a computed field
+	// since a Task belongs to at most one WBS,
+	// a parentTask is computed at each UX look. It can be null if the
+	// task is a root task or an orphaned task
+	parentTask *Task
 
 	LibraryAbstractFields
 	AbstractTypeFields

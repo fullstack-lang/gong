@@ -175,8 +175,10 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskInputShapes)
 							stager.stage.Commit()
 						} else {
-							taskInputShape.UnstageVoid(stager.stage)
-							stager.stage.Commit()
+							if taskInputShape != nil {
+								taskInputShape.UnstageVoid(stager.stage)
+								stager.stage.Commit()
+							}
 						}
 					}
 
@@ -189,8 +191,10 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
 							OnClick: func() {
-								taskInputShape.SetIsHidden(!taskInputShape.GetIsHidden())
-								stage.Commit()
+								if taskInputShape != nil {
+									taskInputShape.SetIsHidden(!taskInputShape.GetIsHidden())
+									stage.Commit()
+								}
 							},
 						},
 					}
@@ -257,8 +261,10 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskOutputShapes)
 							stager.stage.Commit()
 						} else {
-							taskOutputShape.UnstageVoid(stager.stage)
-							stager.stage.Commit()
+							if taskOutputShape != nil {
+								taskOutputShape.UnstageVoid(stager.stage)
+								stager.stage.Commit()
+							}
 						}
 					}
 
@@ -270,8 +276,10 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
 							OnClick: func() {
-								taskOutputShape.SetIsHidden(!taskOutputShape.GetIsHidden())
-								stage.Commit()
+								if taskOutputShape != nil {
+									taskOutputShape.SetIsHidden(!taskOutputShape.GetIsHidden())
+									stage.Commit()
+								}
 							},
 						},
 					}

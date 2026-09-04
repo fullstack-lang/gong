@@ -755,11 +755,11 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	for _, _product := range task.Outputs {
 		StageBranch(stage, _product)
 	}
-	for _, _taskgroup := range task.TaskGroupsToDisplay {
-		StageBranch(stage, _taskgroup)
-	}
 	for _, _task := range task.SubTasks {
 		StageBranch(stage, _task)
+	}
+	for _, _taskgroup := range task.TaskGroupsToDisplay {
+		StageBranch(stage, _taskgroup)
 	}
 
 }
@@ -1420,11 +1420,11 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	for _, _product := range taskFrom.Outputs {
 		taskTo.Outputs = append(taskTo.Outputs, CopyBranchProduct(mapOrigCopy, _product))
 	}
-	for _, _taskgroup := range taskFrom.TaskGroupsToDisplay {
-		taskTo.TaskGroupsToDisplay = append(taskTo.TaskGroupsToDisplay, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
-	}
 	for _, _task := range taskFrom.SubTasks {
 		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _taskgroup := range taskFrom.TaskGroupsToDisplay {
+		taskTo.TaskGroupsToDisplay = append(taskTo.TaskGroupsToDisplay, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
 
 	return
@@ -2026,11 +2026,11 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	for _, _product := range task.Outputs {
 		UnstageBranch(stage, _product)
 	}
-	for _, _taskgroup := range task.TaskGroupsToDisplay {
-		UnstageBranch(stage, _taskgroup)
-	}
 	for _, _task := range task.SubTasks {
 		UnstageBranch(stage, _task)
+	}
+	for _, _taskgroup := range task.TaskGroupsToDisplay {
+		UnstageBranch(stage, _taskgroup)
 	}
 
 }
@@ -2419,13 +2419,13 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Outputs {
 		reference.Outputs = append(reference.Outputs, stage.Products_reference[_b])
 	}
-	reference.TaskGroupsToDisplay = reference.TaskGroupsToDisplay[:0]
-	for _, _b := range instance.TaskGroupsToDisplay {
-		reference.TaskGroupsToDisplay = append(reference.TaskGroupsToDisplay, stage.TaskGroups_reference[_b])
-	}
 	reference.SubTasks = reference.SubTasks[:0]
 	for _, _b := range instance.SubTasks {
 		reference.SubTasks = append(reference.SubTasks, stage.Tasks_reference[_b])
+	}
+	reference.TaskGroupsToDisplay = reference.TaskGroupsToDisplay[:0]
+	for _, _b := range instance.TaskGroupsToDisplay {
+		reference.TaskGroupsToDisplay = append(reference.TaskGroupsToDisplay, stage.TaskGroups_reference[_b])
 	}
 }
 
@@ -2913,13 +2913,6 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Outputs = _Outputs
-	var _TaskGroupsToDisplay []*TaskGroup
-	for _, _reference := range reference.TaskGroupsToDisplay {
-		if _instance, ok := stage.TaskGroups_instance[_reference]; ok {
-			_TaskGroupsToDisplay = append(_TaskGroupsToDisplay, _instance)
-		}
-	}
-	reference.TaskGroupsToDisplay = _TaskGroupsToDisplay
 	var _SubTasks []*Task
 	for _, _reference := range reference.SubTasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -2927,6 +2920,13 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubTasks = _SubTasks
+	var _TaskGroupsToDisplay []*TaskGroup
+	for _, _reference := range reference.TaskGroupsToDisplay {
+		if _instance, ok := stage.TaskGroups_instance[_reference]; ok {
+			_TaskGroupsToDisplay = append(_TaskGroupsToDisplay, _instance)
+		}
+	}
+	reference.TaskGroupsToDisplay = _TaskGroupsToDisplay
 }
 
 func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4427,9 +4427,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		ops := Diff(stage, task, taskOther, "Inputs", taskOther.Inputs, task.Inputs)
 		diffs = append(diffs, ops)
 	}
-	if task.IsInputsNodeExpanded != taskOther.IsInputsNodeExpanded {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsInputsNodeExpanded"))
-	}
 	OutputsDifferent := false
 	if len(task.Outputs) != len(taskOther.Outputs) {
 		OutputsDifferent = true
@@ -4451,8 +4448,26 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		ops := Diff(stage, task, taskOther, "Outputs", taskOther.Outputs, task.Outputs)
 		diffs = append(diffs, ops)
 	}
-	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
+	SubTasksDifferent := false
+	if len(task.SubTasks) != len(taskOther.SubTasks) {
+		SubTasksDifferent = true
+	} else {
+		for i := range task.SubTasks {
+			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
+				SubTasksDifferent = true
+				break
+			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
+				// this is a pointer comparaison
+				if task.SubTasks[i] != taskOther.SubTasks[i] {
+					SubTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubTasksDifferent {
+		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
+		diffs = append(diffs, ops)
 	}
 	if task.IsWithCompletion != taskOther.IsWithCompletion {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsWithCompletion"))
@@ -4503,26 +4518,11 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 			diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
 		}
 	}
-	SubTasksDifferent := false
-	if len(task.SubTasks) != len(taskOther.SubTasks) {
-		SubTasksDifferent = true
-	} else {
-		for i := range task.SubTasks {
-			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
-				SubTasksDifferent = true
-				break
-			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
-				// this is a pointer comparaison
-				if task.SubTasks[i] != taskOther.SubTasks[i] {
-					SubTasksDifferent = true
-					break
-				}
-			}
-		}
+	if task.IsInputsNodeExpanded != taskOther.IsInputsNodeExpanded {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 	}
-	if SubTasksDifferent {
-		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
-		diffs = append(diffs, ops)
+	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
 	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))

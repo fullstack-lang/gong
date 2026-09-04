@@ -1293,12 +1293,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsMilestone = GongExtractBool(valueExpr)
 	case "Inputs":
 		GongUnmarshallSliceOfPointers(&instance.Inputs, valueExpr, identifierMap)
-	case "IsInputsNodeExpanded":
-		instance.IsInputsNodeExpanded = GongExtractBool(valueExpr)
 	case "Outputs":
 		GongUnmarshallSliceOfPointers(&instance.Outputs, valueExpr, identifierMap)
-	case "IsOutputsNodeExpanded":
-		instance.IsOutputsNodeExpanded = GongExtractBool(valueExpr)
+	case "SubTasks":
+		GongUnmarshallSliceOfPointers(&instance.SubTasks, valueExpr, identifierMap)
 	case "IsWithCompletion":
 		instance.IsWithCompletion = GongExtractBool(valueExpr)
 	case "Completion":
@@ -1317,8 +1315,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsImport = GongExtractBool(valueExpr)
 	case "ReferencedTask":
 		GongUnmarshallPointer(&instance.ReferencedTask, valueExpr, identifierMap)
-	case "SubTasks":
-		GongUnmarshallSliceOfPointers(&instance.SubTasks, valueExpr, identifierMap)
+	case "IsInputsNodeExpanded":
+		instance.IsInputsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsOutputsNodeExpanded":
+		instance.IsOutputsNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

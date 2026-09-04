@@ -51,7 +51,9 @@ func removeInvisibleShapes[T AssociationConcreteType](stager *Stager, shapes *[]
 		if !startVisible || !endVisible {
 			*shapes = slices.Delete(*shapes, i, i+1)
 			shape.UnstageVoid(stager.stage)
-			stager.probeForm.AddNotification(time.Now(), "Removed shape: "+shape.GetName())
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), "Removed shape: "+shape.GetName())
+			}
 			needCommit = true
 		}
 	}

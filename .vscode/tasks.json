@@ -256,7 +256,7 @@
                 "generate",
                 "--skipGoModCommands",
                 "--dsm"
-            ]   
+            ]
         },
         {
             "label": "dsm - phylla: go run . edit data/stage.go",
@@ -382,6 +382,21 @@
                 ".",
                 "edit",
                 "data/starline_report.go"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "dsm - project: go run . edit data/schedule.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/project/go/cmd/project"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/schedule.go"
             ],
             "group": "build"
         },
