@@ -5,6 +5,78 @@ import { takeUntil } from 'rxjs/operators';
 import * as load from '../../../../load/src/public-api';
 import { MatIconModule } from '@angular/material/icon';
 
+const DB_NAME = 'gong_fs_store';
+const STORE_NAME = 'handles';
+const KEY_LAST_SAVE = 'last_save_handle';
+
+let cachedSaveHandle: any = null;
+
+function getStoredHandle(key: string): Promise<any> {
+  return new Promise((resolve) => {
+    if (typeof indexedDB === 'undefined') {
+      resolve(null);
+      return;
+    }
+    try {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+      request.onsuccess = () => {
+        const db = request.result;
+        try {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const getReq = store.get(key);
+          getReq.onsuccess = () => resolve(getReq.result || null);
+          getReq.onerror = () => resolve(null);
+        } catch {
+          resolve(null);
+        }
+      };
+      request.onerror = () => resolve(null);
+    } catch {
+      resolve(null);
+    }
+  });
+}
+
+function storeHandle(key: string, handle: any): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof indexedDB === 'undefined') {
+      resolve();
+      return;
+    }
+    try {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+      request.onsuccess = () => {
+        const db = request.result;
+        try {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.put(handle, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch {
+          resolve();
+        }
+      };
+      request.onerror = () => resolve();
+    } catch {
+      resolve();
+    }
+  });
+}
+
 @Component({
   selector: 'lib-load-specific',
   imports: [MatIconModule],
@@ -33,6 +105,14 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log("ngOnInit");
+
+    if (!cachedSaveHandle) {
+      getStoredHandle(KEY_LAST_SAVE).then((h) => {
+        if (h && !cachedSaveHandle) {
+          cachedSaveHandle = h;
+        }
+      });
+    }
 
     this.frontRepoService.connectToWebSocket(this.Name)
       .pipe(
@@ -132,11 +212,20 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
       if (!(window as any).showSaveFilePicker) {
         throw new Error("Your browser does not support the File System Access API. Downloading file directly instead.");
       }
-      console.log("Calling showSaveFilePicker with name:", this.saveAsName);
+
+      if (!cachedSaveHandle) {
+        cachedSaveHandle = await getStoredHandle(KEY_LAST_SAVE);
+      }
+
+      console.log("Calling showSaveFilePicker with name:", this.saveAsName, "startIn:", cachedSaveHandle);
       const pickerOptions: any = {
         suggestedName: this.saveAsName,
         id: 'gong-save-file-picker',
       };
+
+      if (cachedSaveHandle) {
+        pickerOptions.startIn = cachedSaveHandle;
+      }
 
       if (this.saveAsName.endsWith('.go')) {
         pickerOptions.types = [
@@ -154,7 +243,31 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
         ];
       }
 
-      const handle = await (window as any).showSaveFilePicker(pickerOptions);
+      let handle: any;
+      try {
+        handle = await (window as any).showSaveFilePicker(pickerOptions);
+      } catch (pickerErr: any) {
+        if (pickerErr.name === 'AbortError') {
+          return;
+        }
+        // If startIn was invalid or permission was denied for that handle, retry without startIn
+        if (pickerOptions.startIn) {
+          delete pickerOptions.startIn;
+          try {
+            handle = await (window as any).showSaveFilePicker(pickerOptions);
+          } catch (retryErr: any) {
+            if (retryErr.name === 'AbortError') {
+              return;
+            }
+            throw retryErr;
+          }
+        } else {
+          throw pickerErr;
+        }
+      }
+
+      cachedSaveHandle = handle;
+      storeHandle(KEY_LAST_SAVE, handle).catch(() => {});
 
       const writable = await handle.createWritable();
       await writable.write(this.saveAsBlob);
