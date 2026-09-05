@@ -264,6 +264,50 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			},
 		}
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, bottomRingBtn)
+	} else if plant.PlantType == Stool {
+		objBtn := &tree.Button{
+			Name:            "export Stool OBJ",
+			Icon:            string(buttons.BUTTON_blender),
+			ToolTipText:     "export Stool OBJ (Wavefront for Blender)",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				objContent := stager.GenerateStoolOBJ(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(objContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-stool.obj"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, objBtn)
+
+		downloadBtn := &tree.Button{
+			Name:            "export Stool STL",
+			Icon:            string(buttons.BUTTON_download),
+			ToolTipText:     "export Stool STL",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				stlContent := stager.GenerateStoolSTL(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-stool.stl"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 	} else {
 		downloadBtn := &tree.Button{
 			Name:            "Download STL",

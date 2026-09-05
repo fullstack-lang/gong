@@ -52,6 +52,8 @@ type ThreeJSStageUpdaterInterface interface {
 
 type Stool3DStageUpdaterInterface interface {
 	UpdateStool3DStage(stager *Stager)
+	GenerateStoolOBJ(stager *Stager, plant *PlantAbstract) string
+	GenerateStoolSTL(stager *Stager, plant *PlantAbstract) string
 }
 
 type Clock3DStageUpdaterInterface interface {
@@ -243,6 +245,26 @@ func (stager *Stager) UpdateStool3DStage() {
 	if stager.stool3DUpdater != nil {
 		stager.stool3DUpdater.UpdateStool3DStage(stager)
 	}
+}
+
+func (stager *Stager) GenerateStoolOBJ(plant *PlantAbstract) string {
+	if stager.stool3DUpdater != nil {
+		return stager.stool3DUpdater.GenerateStoolOBJ(stager, plant)
+	}
+	return ""
+}
+
+func (stager *Stager) GenerateStoolSTL(plant *PlantAbstract) string {
+	if stager.stool3DUpdater != nil {
+		return stager.stool3DUpdater.GenerateStoolSTL(stager, plant)
+	}
+	return ""
+}
+
+func NewStagerForTest(stage *Stage) *Stager {
+	stager := new(Stager)
+	stager.stage = stage
+	return stager
 }
 
 func (stager *Stager) StartMovieRecordingVase3D(plant *PlantAbstract, vase3DDiagram *Vase3DDiagram) {

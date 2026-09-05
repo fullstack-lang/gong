@@ -171,7 +171,9 @@ func RenderCylinder3DBase(
 			rendered3DShape.TargetY = updatedCamera.TargetY
 			rendered3DShape.TargetZ = updatedCamera.TargetZ
 			rendered3DShape.Fov = updatedCamera.Fov
-			stager.GetStage().CommitWithSuspendedCallbacks()
+			if stager != nil && stager.GetStage() != nil {
+				stager.GetStage().CommitWithSuspendedCallbacks()
+			}
 		}
 	}
 
