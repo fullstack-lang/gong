@@ -38,10 +38,11 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceStagerMaps()
 
+	if stager.probeForm != nil {
+		stager.probeForm.CommitNotificationTable()
+	}
+
 	if needCommit {
-		if stager.probeForm != nil {
-			stager.probeForm.CommitNotificationTable()
-		}
 		stage.CommitWithSuspendedCallbacks()
 	}
 

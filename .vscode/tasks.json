@@ -474,6 +474,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - statemachines: go run . edit data/two cliques.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/statemachines/go/cmd/statemachines"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/two cliques.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - statemachines: gong generate statemachines --dsm",
             "type": "shell",
             "options": {
