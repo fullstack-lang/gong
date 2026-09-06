@@ -131,6 +131,25 @@ export function processSVG(svgString: string): string {
   svg.setAttribute('height', height.toString());
   svg.setAttribute('viewBox', `${minX} ${minY} ${width} ${height}`);
 
+  // Ensure font-family is declared on the SVG root for PowerPoint compatibility
+  if (!svg.getAttribute('font-family')) {
+    svg.setAttribute('font-family', 'Roboto, Arial, sans-serif');
+  }
+
+  // Ensure all text elements have valid font-size and remove empty attributes
+  const textElements = Array.from(svg.querySelectorAll('text'));
+  for (const textEl of textElements) {
+    const fontSize = textEl.getAttribute('font-size');
+    if (!fontSize || fontSize === '') {
+      textEl.setAttribute('font-size', '16px');
+    }
+    ['font-family', 'font-weight', 'font-style', 'letter-spacing', 'white-space', 'transform', 'stroke-dasharray', 'writing-mode', 'dominant-baseline'].forEach(attr => {
+      if (textEl.getAttribute(attr) === '') {
+        textEl.removeAttribute(attr);
+      }
+    });
+  }
+
   // Convert back to string
   return new XMLSerializer().serializeToString(svg);
 }

@@ -1873,6 +1873,36 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
     return segment0.EndPoint.Y + yOffset;
   }
 
+  getArrowTextX(segment: Segment, text: svg.LinkAnchoredText, position: string): number {
+    const baseX = position === svg.PositionOnArrowType.POSITION_ON_ARROW_END ? segment.EndPoint.X : segment.StartPoint.X;
+    if (!text.AutomaticLayout) {
+      return baseX + text.X_Offset;
+    }
+    const anchor = this.getArrowTextAnchor(segment, text, position);
+    const paddingX = 10;
+    if (anchor === 'end') {
+      return baseX - paddingX;
+    } else if (anchor === 'start') {
+      return baseX + paddingX;
+    }
+    return baseX;
+  }
+
+  getArrowTextAnchor(segment: Segment, text: svg.LinkAnchoredText, position: string): string {
+    if (!text.AutomaticLayout) {
+      return 'start';
+    }
+    if (segment.Orientation === "ORIENTATION_VERTICAL") {
+      return text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start';
+    } else {
+      if (position === svg.PositionOnArrowType.POSITION_ON_ARROW_END) {
+        return segment.EndPoint.X > segment.StartPoint.X ? 'end' : 'start';
+      } else {
+        return segment.EndPoint.X > segment.StartPoint.X ? 'start' : 'end';
+      }
+    }
+  }
+
   getCornerTextAnchor(segment: Segment, segments: Segment[], text: svg.LinkAnchoredText): string {
     if (!text.AutomaticLayout) {
         return 'start'; 

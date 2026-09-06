@@ -371,6 +371,7 @@
                         <text class="click-through"
                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                        [attr.text-anchor]="'start'"
                         [attr.font-weight]="text.FontWeight"
                         [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
@@ -393,8 +394,9 @@
                       </text>
                     } @else {
                       <text class="click-through"
-                        [attr.x]="segment.EndPoint.X" 
+                        [attr.x]="getArrowTextX(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
                         [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                        [attr.text-anchor]="getArrowTextAnchor(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)"
                         [attr.font-weight]="text.FontWeight"
                         [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
@@ -408,25 +410,9 @@
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
                         @for(line of lines; track $index) {
-                           @if (segment.Orientation === "ORIENTATION_VERTICAL") {
-                            <tspan [attr.x]="segment.EndPoint.X"
+                          <tspan [attr.x]="getArrowTextX(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)"
                             [attr.dy]="($index > 0) ? '1em' : '0'"
-                            [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
-                            &nbsp;{{line}}&nbsp;</tspan>
-                          }
-                          @else {
-                            @if (segment.EndPoint.X > segment.StartPoint.X) {
-                              <tspan [attr.x]="segment.EndPoint.X"
-                              [attr.dy]="($index > 0) ? '1em' : '0'"
-                              [attr.text-anchor]="'end'">
-                              &nbsp;{{line}}&nbsp;</tspan>
-                            } @else {
-                              <tspan [attr.x]="segment.EndPoint.X"
-                              [attr.dy]="($index > 0) ? '1em' : '0'"
-                              [attr.text-anchor]="'start'">
-                              &nbsp;{{line}}&nbsp;</tspan>
-                            }
-                          } 
+                            [attr.text-anchor]="getArrowTextAnchor(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)">{{line}}</tspan>
                         }
                       </text>
                     }
@@ -445,6 +431,7 @@
                       <text class="click-through"
                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
+                        [attr.text-anchor]="'start'"
                         [attr.font-weight]="text.FontWeight"
                         [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
@@ -467,8 +454,9 @@
                       </text>
                     } @else {
                       <text class="click-through"
-                        [attr.x]="segment.StartPoint.X" 
+                        [attr.x]="getArrowTextX(segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
                         [attr.y]="segment.StartPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
+                        [attr.text-anchor]="getArrowTextAnchor(segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)"
                         [attr.font-weight]="text.FontWeight"
                         [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
@@ -482,25 +470,9 @@
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
                         @for(line of lines; track $index) {
-                           @if (segment.Orientation === "ORIENTATION_VERTICAL") {
-                            <tspan [attr.x]="segment.StartPoint.X"
-                                  [attr.dy]="($index > 0) ? '1em' : '0'"
-                                  [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
-                                  &nbsp;{{line}}&nbsp;</tspan>
-                          }
-                          @else {
-                            @if (segment.EndPoint.X > segment.StartPoint.X) {
-                              <tspan [attr.x]="segment.StartPoint.X"
-                              [attr.dy]="($index > 0) ? '1em' : '0'"
-                              [attr.text-anchor]="'start'">
-                              &nbsp;{{line}}&nbsp;</tspan>
-                            } @else {
-                              <tspan [attr.x]="segment.StartPoint.X"
-                              [attr.dy]="($index > 0) ? '1em' : '0'"
-                              [attr.text-anchor]="'end'">
-                              &nbsp;{{line}}&nbsp;</tspan>
-                            }
-                          }
+                          <tspan [attr.x]="getArrowTextX(segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)"
+                            [attr.dy]="($index > 0) ? '1em' : '0'"
+                            [attr.text-anchor]="getArrowTextAnchor(segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)">{{line}}</tspan>
                         }
                       </text>
                     }
@@ -519,6 +491,7 @@
                     <text class="click-through"
                       [attr.x]="getCornerTextX(segment, segments, text)"
                       [attr.y]="getCornerTextY(segment, segments, text)"
+                      [attr.text-anchor]="getCornerTextAnchor(segment, segments, text)"
                       [attr.font-weight]="text.FontWeight"
                       [attr.font-family]="text.FontFamily"
                       [attr.font-size]="text.FontSize"
@@ -535,8 +508,7 @@
                       @for(line of lines; track $index) {
                         <tspan [attr.x]="getCornerTextX(segment, segments, text)"
                               [attr.dy]="($index > 0) ? '1em' : '0'"
-                              [attr.text-anchor]="getCornerTextAnchor(segment, segments, text)">
-                              &nbsp;{{line}}&nbsp;</tspan>
+                              [attr.text-anchor]="getCornerTextAnchor(segment, segments, text)">{{line}}</tspan>
                       }
                     </text>
                   }
@@ -616,6 +588,7 @@
                           <text class="click-through"
                           [attr.x]="segment.EndPoint.X + text.X_Offset" 
                           [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                          [attr.text-anchor]="'start'"
                           [attr.font-weight]="text.FontWeight"
                           [attr.font-family]="text.FontFamily"
                           [attr.font-size]="text.FontSize"
@@ -638,8 +611,9 @@
                         </text>
                       } @else {
                         <text class="click-through"
-                          [attr.x]="segment.EndPoint.X" 
+                          [attr.x]="getArrowTextX(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
                           [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                          [attr.text-anchor]="getArrowTextAnchor(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)"
                           [attr.font-weight]="text.FontWeight"
                           [attr.font-family]="text.FontFamily"
                           [attr.font-size]="text.FontSize"
@@ -653,25 +627,9 @@
                           [attr.stroke-dasharray]="text.StrokeDashArray"
                           [attr.transform]="text.Transform">
                           @for(line of lines; track $index) {
-                            @if (segment.Orientation === "ORIENTATION_VERTICAL") {
-                              <tspan [attr.x]="segment.EndPoint.X"
+                            <tspan [attr.x]="getArrowTextX(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)"
                               [attr.dy]="($index > 0) ? '1em' : '0'"
-                              [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
-                              &nbsp;{{line}}&nbsp;</tspan>
-                            }
-                            @else {
-                              @if (segment.EndPoint.X > segment.StartPoint.X) {
-                                <tspan [attr.x]="segment.EndPoint.X"
-                                [attr.dy]="($index > 0) ? '1em' : '0'"
-                                [attr.text-anchor]="'end'">
-                                &nbsp;{{line}}&nbsp;</tspan>
-                              } @else {
-                                <tspan [attr.x]="segment.EndPoint.X"
-                                [attr.dy]="($index > 0) ? '1em' : '0'"
-                                [attr.text-anchor]="'start'">
-                                &nbsp;{{line}}&nbsp;</tspan>
-                              }
-                            } 
+                              [attr.text-anchor]="getArrowTextAnchor(segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)">{{line}}</tspan>
                           }
                         </text>
                       }
@@ -736,6 +694,7 @@
                 <text class="click-through"
                   [attr.x]="getControlPointTextX(segments, text)"
                   [attr.y]="getControlPointTextY(segments, text)"
+                  [attr.text-anchor]="'start'"
                   [attr.font-weight]="text.FontWeight"
                   [attr.font-family]="text.FontFamily"
                   [attr.font-size]="text.FontSize"
@@ -752,8 +711,7 @@
                   @for(line of lines; track $index) {
                     <tspan [attr.x]="getControlPointTextX(segments, text)"
                           [attr.dy]="($index > 0) ? '1em' : '0'"
-                          [attr.text-anchor]="'start'">
-                          &nbsp;{{line}}&nbsp;</tspan>
+                          [attr.text-anchor]="'start'">{{line}}</tspan>
                   }
                 </text>
               }

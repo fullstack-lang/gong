@@ -130,45 +130,45 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.IsExpanded = false
 
 	__StateShape__00000000_.Name = `Start`
-	__StateShape__00000000_.X = 97.000000
-	__StateShape__00000000_.Y = 324.000000
+	__StateShape__00000000_.X = 44.000000
+	__StateShape__00000000_.Y = 43.000000
 	__StateShape__00000000_.Width = 98.000000
 	__StateShape__00000000_.Height = 20.000000
 	__StateShape__00000000_.IsHidden = false
 
 	__StateShape__00000001_.Name = `Clique 2 - State 2
 `
-	__StateShape__00000001_.X = 296.000000
-	__StateShape__00000001_.Y = 300.000000
+	__StateShape__00000001_.X = 243.000000
+	__StateShape__00000001_.Y = 19.000000
 	__StateShape__00000001_.Width = 200.000000
 	__StateShape__00000001_.Height = 80.000000
 	__StateShape__00000001_.IsHidden = false
 
 	__StateShape__00000002_.Name = `Clique 1 - State 2`
-	__StateShape__00000002_.X = 292.000000
-	__StateShape__00000002_.Y = 455.000000
+	__StateShape__00000002_.X = 239.000000
+	__StateShape__00000002_.Y = 174.000000
 	__StateShape__00000002_.Width = 200.000000
 	__StateShape__00000002_.Height = 80.000000
 	__StateShape__00000002_.IsHidden = false
 
 	__StateShape__00000003_.Name = `Clique 2 - State 1
 `
-	__StateShape__00000003_.X = 295.000000
-	__StateShape__00000003_.Y = 595.000000
+	__StateShape__00000003_.X = 242.000000
+	__StateShape__00000003_.Y = 314.000000
 	__StateShape__00000003_.Width = 200.000000
 	__StateShape__00000003_.Height = 80.000000
 	__StateShape__00000003_.IsHidden = false
 
 	__StateShape__00000004_.Name = `Clique 2 - State 2`
-	__StateShape__00000004_.X = 297.000000
-	__StateShape__00000004_.Y = 738.000000
+	__StateShape__00000004_.X = 244.000000
+	__StateShape__00000004_.Y = 457.000000
 	__StateShape__00000004_.Width = 200.000000
 	__StateShape__00000004_.Height = 80.000000
 	__StateShape__00000004_.IsHidden = false
 
 	__StateShape__00000005_.Name = `End`
-	__StateShape__00000005_.X = 107.000000
-	__StateShape__00000005_.Y = 477.000000
+	__StateShape__00000005_.X = 54.000000
+	__StateShape__00000005_.Y = 196.000000
 	__StateShape__00000005_.Width = 99.000000
 	__StateShape__00000005_.Height = 36.000000
 	__StateShape__00000005_.IsHidden = false

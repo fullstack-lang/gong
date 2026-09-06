@@ -69,6 +69,9 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 		case "Direction":
 			FormDivEnumStringFieldToField(&(assplit_.Direction), formDiv)
 		case "AsSplitAreas":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AsSplitArea](assplitFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AsSplitArea, 0)
 
@@ -223,6 +226,9 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 		case "DivStyle":
 			FormDivBasicFieldToField(&(assplitarea_.DivStyle), formDiv)
 		case "AsSplit:AsSplitAreas":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the AsSplit instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -268,6 +274,9 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 				}
 			}
 		case "View:RootAsSplitAreas":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the View instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1683,6 +1692,9 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 		case "ShowViewName":
 			FormDivBasicFieldToField(&(view_.ShowViewName), formDiv)
 		case "RootAsSplitAreas":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AsSplitArea](viewFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AsSplitArea, 0)
 
