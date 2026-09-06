@@ -49,11 +49,6 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	stager.diagram = diagram
 	stager.svgObject.OnUpdate = stager.onUpdateSVG
 
-	stager.svgObject.OverrideWidth = true
-	stager.svgObject.OverriddenWidth = diagram.Width
-	stager.svgObject.OverrideHeight = true
-	stager.svgObject.OverriddenHeight = diagram.Height
-
 	diagram.map_Deliverable_Rect = make(map[*Deliverable]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Concern]*svg.Rect)
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
@@ -83,23 +78,6 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 	layer := (&svg.Layer{Name: "Layer 1"})
 	stager.svgObject.Layers = append(stager.svgObject.Layers, layer)
-
-	backgroundRect := &svg.Rect{
-		Name:   diagram.Name + " background",
-		X:      0.0,
-		Y:      0.0,
-		Width:  diagram.Width,
-		Height: diagram.Height,
-		Presentation: svg.Presentation{
-			Color:       "transparent",
-			FillOpacity: 0.0,
-		},
-		OnUpdate: func(frontRect *svg.Rect) {
-			diagram.IsEditable_ = !diagram.IsEditable_
-			stager.stage.Commit()
-		},
-	}
-	layer.Rects = append(layer.Rects, backgroundRect)
 
 	for _, deliverableShape := range diagram.Deliverable_Shapes {
 		if deliverableShape.IsHidden {

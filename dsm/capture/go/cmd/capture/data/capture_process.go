@@ -352,8 +352,8 @@ Pain points with SysML v2 are:
 
 	__ConcernShape__00000006_.Name = `System Engineers delivers documentation products-Default Diagram`
 	__ConcernShape__00000006_.IsExpanded = false
-	__ConcernShape__00000006_.X = 179.913277
-	__ConcernShape__00000006_.Y = 475.000000
+	__ConcernShape__00000006_.X = 68.913277
+	__ConcernShape__00000006_.Y = 84.999969
 	__ConcernShape__00000006_.Width = 250.000000
 	__ConcernShape__00000006_.Height = 70.000000
 	__ConcernShape__00000006_.IsHidden = false
@@ -504,13 +504,13 @@ CONOPS, SSS, SSDD, ICDs, ...`
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = false
-	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 52800.000000
-	__Diagram__00000000_.Height = 52800.000000
+	__Diagram__00000000_.Width = 0.000000
+	__Diagram__00000000_.Height = 0.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = false
 	__Diagram__00000000_.IsPBSNodeExpanded = false
@@ -522,13 +522,13 @@ CONOPS, SSS, SSDD, ICDs, ...`
 	__Diagram__00000001_.Name = `Default Diagram`
 	__Diagram__00000001_.ComputedPrefix = `2`
 	__Diagram__00000001_.IsExpanded = true
-	__Diagram__00000001_.IsChecked = true
-	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsEditable_ = false
 	__Diagram__00000001_.ShowPrefix = false
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 5800.000000
-	__Diagram__00000001_.Height = 5800.000000
+	__Diagram__00000001_.Width = 0.000000
+	__Diagram__00000001_.Height = 0.000000
 	__Diagram__00000001_.IsRequirementsNodeExpanded = false
 	__Diagram__00000001_.IsConceptsNodeExpanded = false
 	__Diagram__00000001_.IsPBSNodeExpanded = false
