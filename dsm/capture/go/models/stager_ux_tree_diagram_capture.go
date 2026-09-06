@@ -13,44 +13,14 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 		HasCheckboxButton: true,
 		IsChecked:         diagram.IsChecked,
 
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_schema),
+
 		IsInEditMode: diagram.GetIsInRenameMode(),
 	}
 	libraryNode.Children = append(libraryNode.Children, diagramNode)
 
-	diagramNode.Menu = &tree.Menu{
-		Name: "Menu",
-	}
-
-	element := diagram
-	node := diagramNode
-
-	if !element.GetIsInRenameMode() {
-		node.Menu.Buttons = append(node.Menu.Buttons,
-			&tree.Button{
-				Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
-				Icon: string(buttons.BUTTON_edit_note),
-				OnClick: func() {
-					element.SetIsInRenameMode(true)
-					stager.stage.Commit()
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
-				ToolTipPosition: tree.Above,
-			})
-	} else {
-		node.Menu.Buttons = append(node.Menu.Buttons,
-			&tree.Button{
-				Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
-				Icon: string(buttons.BUTTON_edit_off),
-				OnClick: func() {
-					element.SetIsInRenameMode(false)
-					stager.stage.Commit()
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Cancel renaming",
-				ToolTipPosition: tree.Above,
-			})
-	}
+	addRenameButton(diagram, diagramNode, stager)
 
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
@@ -145,10 +115,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	diagramsCategoryNode := &tree.Node{
-		Name:            "Diagrams",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsDiagramsNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Diagrams",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsDiagramsNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, diagramsCategoryNode)
 	diagramsCategoryNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsDiagramsNodeExpanded)
@@ -158,10 +130,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	wbsNode := &tree.Node{
-		Name:            "Concerns",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsConcernsNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Concerns",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsConcernsNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, wbsNode)
 	wbsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConcernsNodeExpanded)
@@ -194,10 +168,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	stakeholderNode := &tree.Node{
-		Name:            "Stakeholders",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsStakeholdersNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Stakeholders",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsStakeholdersNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, stakeholderNode)
 	stakeholderNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsStakeholdersNodeExpanded)
@@ -231,10 +207,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	delivarablesNode := &tree.Node{
-		Name:            "Deliverables",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsPBSNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Deliverables",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsPBSNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, delivarablesNode)
 	delivarablesNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
@@ -264,10 +242,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	requirementsNode := &tree.Node{
-		Name:            "Requirements",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsRequirementsNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Requirements",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsRequirementsNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, requirementsNode)
 	requirementsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsRequirementsNodeExpanded)
@@ -297,10 +277,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	conceptsNode := &tree.Node{
-		Name:            "Concepts",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsConceptsNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Concepts",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           diagram.IsConceptsNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	diagramNode.Children = append(diagramNode.Children, conceptsNode)
 	conceptsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConceptsNodeExpanded)
@@ -331,10 +313,12 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 
 	{
 		notesNode := &tree.Node{
-			Name:            "Notes",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      diagram.IsNotesNodeExpanded,
-			IsNodeClickable: true,
+			Name:                 "Notes",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsNotesNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
 		}
 		diagramNode.Children = append(diagramNode.Children, notesNode)
 		notesNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded)

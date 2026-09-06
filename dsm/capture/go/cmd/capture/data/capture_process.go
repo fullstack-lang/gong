@@ -35,9 +35,9 @@ func _(stage *models.Stage) {
 	__ConceptShape__00000002_ := (&models.ConceptShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConceptShape__00000003_ := (&models.ConceptShape{Name: `-Default Diagram`}).Stage(stage)
 
-	__Concern__00000000_ := (&models.Concern{Name: `Deliver SE deliverables with MBSE Tools`}).Stage(stage)
-	__Concern__00000001_ := (&models.Concern{Name: `Consumes SE deliverables`}).Stage(stage)
-	__Concern__00000002_ := (&models.Concern{Name: `Taylor MBSE tools for enabling SEMP`}).Stage(stage)
+	__Concern__00000000_ := (&models.Concern{Name: `System Engineers delivers documentation products`}).Stage(stage)
+	__Concern__00000001_ := (&models.Concern{Name: `Stakeholders review documentation products`}).Stage(stage)
+	__Concern__00000002_ := (&models.Concern{Name: `Tool manager enable SEMP & digital thread`}).Stage(stage)
 	__Concern__00000003_ := (&models.Concern{Name: `Edit System Engineering Management Plan`}).Stage(stage)
 	__Concern__00000004_ := (&models.Concern{Name: `Tailor 15288 processes to project needs`}).Stage(stage)
 	__Concern__00000005_ := (&models.Concern{Name: `Develop Commercial & Open Source MBSE Tools`}).Stage(stage)
@@ -60,6 +60,7 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000003_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConcernShape__00000004_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConcernShape__00000005_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
+	__ConcernShape__00000006_ := (&models.ConcernShape{Name: `System Engineers delivers documentation products-Default Diagram`}).Stage(stage)
 
 	__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape in Edit System Engineering Management Plan to SE Deliverables 0`}).Stage(stage)
 	__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape in Edit System Engineering Management Plan to SE Deliverables 1`}).Stage(stage)
@@ -70,9 +71,11 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000009_ := (&models.ControlPointShape{Name: `Control Point Shape in Edit System Engineering Management Plan (activities & deliverables) to SE Deliverables 4`}).Stage(stage)
 	__ControlPointShape__00000010_ := (&models.ControlPointShape{Name: `Control Point Shape in Commercial & Open Source MBSE tools  to Taylor MBSE tools for enabling SEMP 0`}).Stage(stage)
 	__ControlPointShape__00000011_ := (&models.ControlPointShape{Name: `Control Point Shape in Commercial & Open Source MBSE tools  to Taylor MBSE tools for enabling SEMP 1`}).Stage(stage)
+	__ControlPointShape__00000012_ := (&models.ControlPointShape{Name: `Control Point Shape in Edit System Engineering Management Plan to System Engineering Management Plan 0`}).Stage(stage)
 
-	__Deliverable__00000000_ := (&models.Deliverable{Name: `SE Deliverables`}).Stage(stage)
-	__Deliverable__00000002_ := (&models.Deliverable{Name: `Taillored MBSE Tools`}).Stage(stage)
+	__Deliverable__00000000_ := (&models.Deliverable{Name: `Documentation products
+CONOPS, SSS, SSDD, ICDs, ...`}).Stage(stage)
+	__Deliverable__00000002_ := (&models.Deliverable{Name: `Digital thread between MBSE Tools`}).Stage(stage)
 	__Deliverable__00000003_ := (&models.Deliverable{Name: `System Engineering Management Plan`}).Stage(stage)
 	__Deliverable__00000004_ := (&models.Deliverable{Name: `Commercial & Open Source MBSE tools `}).Stage(stage)
 
@@ -87,8 +90,9 @@ func _(stage *models.Stage) {
 	__DeliverableShape__00000004_ := (&models.DeliverableShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__Diagram__00000001_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
 
-	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `MBSE capture process`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `With SysML V2, the tool editor is supposed to edit SysML v2 files for the definition of MBSE portable tools suited to the needs of the prorect.
 
@@ -106,16 +110,8 @@ Pain points with SysML v2 are:
 	__Stakeholder__00000003_ := (&models.Stakeholder{Name: `Chief Engineer`}).Stage(stage)
 	__Stakeholder__00000004_ := (&models.Stakeholder{Name: `Commercial & Open Source MBSE Tools developper`}).Stage(stage)
 
-	__StakeholderConcernShape__00000000_ := (&models.StakeholderConcernShape{Name: `M0 editor to Edit views`}).Stage(stage)
-	__StakeholderConcernShape__00000003_ := (&models.StakeholderConcernShape{Name: `Stakeholder to Consumes views`}).Stage(stage)
-	__StakeholderConcernShape__00000005_ := (&models.StakeholderConcernShape{Name: `M1 editor to Edit M1`}).Stage(stage)
-	__StakeholderConcernShape__00000006_ := (&models.StakeholderConcernShape{Name: `Chief Engineer to Define needed views for stakeholders`}).Stage(stage)
 	__StakeholderConcernShape__00000007_ := (&models.StakeholderConcernShape{Name: `Commercial & Open Source MBSE Tools developper to Develop Commercial & Open Source MBSE Tools`}).Stage(stage)
 
-	__StakeholderShape__00000000_ := (&models.StakeholderShape{Name: `-Default Diagram`}).Stage(stage)
-	__StakeholderShape__00000001_ := (&models.StakeholderShape{Name: `-Default Diagram`}).Stage(stage)
-	__StakeholderShape__00000002_ := (&models.StakeholderShape{Name: `-Default Diagram`}).Stage(stage)
-	__StakeholderShape__00000003_ := (&models.StakeholderShape{Name: `-Default Diagram`}).Stage(stage)
 	__StakeholderShape__00000004_ := (&models.StakeholderShape{Name: `-Default Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
@@ -168,7 +164,7 @@ Pain points with SysML v2 are:
 	__ConceptShape__00000003_.Height = 70.000000
 	__ConceptShape__00000003_.IsHidden = true
 
-	__Concern__00000000_.Name = `Deliver SE deliverables with MBSE Tools`
+	__Concern__00000000_.Name = `System Engineers delivers documentation products`
 	__Concern__00000000_.IDAirbus = ``
 	__Concern__00000000_.Priority = ""
 	__Concern__00000000_.ComputedPrefix = `1`
@@ -179,7 +175,7 @@ Pain points with SysML v2 are:
 	__Concern__00000000_.IsWithCompletion = false
 	__Concern__00000000_.Completion = ""
 
-	__Concern__00000001_.Name = `Consumes SE deliverables`
+	__Concern__00000001_.Name = `Stakeholders review documentation products`
 	__Concern__00000001_.IDAirbus = ``
 	__Concern__00000001_.Priority = ""
 	__Concern__00000001_.ComputedPrefix = `2`
@@ -190,7 +186,7 @@ Pain points with SysML v2 are:
 	__Concern__00000001_.IsWithCompletion = false
 	__Concern__00000001_.Completion = ""
 
-	__Concern__00000002_.Name = `Taylor MBSE tools for enabling SEMP`
+	__Concern__00000002_.Name = `Tool manager enable SEMP & digital thread`
 	__Concern__00000002_.IDAirbus = ``
 	__Concern__00000002_.Priority = ""
 	__Concern__00000002_.ComputedPrefix = `3`
@@ -308,32 +304,32 @@ Pain points with SysML v2 are:
 
 	__ConcernShape__00000000_.Name = `-Default Diagram`
 	__ConcernShape__00000000_.IsExpanded = false
-	__ConcernShape__00000000_.X = 470.000000
-	__ConcernShape__00000000_.Y = 440.000000
+	__ConcernShape__00000000_.X = 73.000000
+	__ConcernShape__00000000_.Y = 428.000000
 	__ConcernShape__00000000_.Width = 250.000000
 	__ConcernShape__00000000_.Height = 70.000000
 	__ConcernShape__00000000_.IsHidden = false
 
 	__ConcernShape__00000001_.Name = `-Default Diagram`
 	__ConcernShape__00000001_.IsExpanded = false
-	__ConcernShape__00000001_.X = 470.000000
-	__ConcernShape__00000001_.Y = 650.000000
+	__ConcernShape__00000001_.X = 78.000000
+	__ConcernShape__00000001_.Y = 634.000000
 	__ConcernShape__00000001_.Width = 250.000000
 	__ConcernShape__00000001_.Height = 70.000000
 	__ConcernShape__00000001_.IsHidden = false
 
 	__ConcernShape__00000002_.Name = `-Default Diagram`
 	__ConcernShape__00000002_.IsExpanded = false
-	__ConcernShape__00000002_.X = 470.000000
-	__ConcernShape__00000002_.Y = 230.000000
+	__ConcernShape__00000002_.X = 69.000000
+	__ConcernShape__00000002_.Y = 201.000000
 	__ConcernShape__00000002_.Width = 250.000000
 	__ConcernShape__00000002_.Height = 70.000000
 	__ConcernShape__00000002_.IsHidden = false
 
 	__ConcernShape__00000003_.Name = `-Default Diagram`
 	__ConcernShape__00000003_.IsExpanded = false
-	__ConcernShape__00000003_.X = 470.000000
-	__ConcernShape__00000003_.Y = 20.000000
+	__ConcernShape__00000003_.X = 64.000000
+	__ConcernShape__00000003_.Y = 18.000000
 	__ConcernShape__00000003_.Width = 250.000000
 	__ConcernShape__00000003_.Height = 70.000000
 	__ConcernShape__00000003_.IsHidden = false
@@ -353,6 +349,14 @@ Pain points with SysML v2 are:
 	__ConcernShape__00000005_.Width = 250.000000
 	__ConcernShape__00000005_.Height = 70.000000
 	__ConcernShape__00000005_.IsHidden = true
+
+	__ConcernShape__00000006_.Name = `System Engineers delivers documentation products-Default Diagram`
+	__ConcernShape__00000006_.IsExpanded = false
+	__ConcernShape__00000006_.X = 179.913277
+	__ConcernShape__00000006_.Y = 475.000000
+	__ConcernShape__00000006_.Width = 250.000000
+	__ConcernShape__00000006_.Height = 70.000000
+	__ConcernShape__00000006_.IsHidden = false
 
 	__ControlPointShape__00000002_.Name = `Control Point Shape in Edit System Engineering Management Plan to SE Deliverables 0`
 	__ControlPointShape__00000002_.X_Relative = 0.908333
@@ -399,14 +403,20 @@ Pain points with SysML v2 are:
 	__ControlPointShape__00000011_.Y_Relative = 0.534025
 	__ControlPointShape__00000011_.IsStartShapeTheClosestShape = false
 
-	__Deliverable__00000000_.Name = `SE Deliverables`
+	__ControlPointShape__00000012_.Name = `Control Point Shape in Edit System Engineering Management Plan to System Engineering Management Plan 0`
+	__ControlPointShape__00000012_.X_Relative = -0.336568
+	__ControlPointShape__00000012_.Y_Relative = -0.263433
+	__ControlPointShape__00000012_.IsStartShapeTheClosestShape = false
+
+	__Deliverable__00000000_.Name = `Documentation products
+CONOPS, SSS, SSDD, ICDs, ...`
 	__Deliverable__00000000_.ComputedPrefix = `1`
 	__Deliverable__00000000_.IsExpanded = false
 	__Deliverable__00000000_.Description = ``
 	__Deliverable__00000000_.IsProducersNodeExpanded = false
 	__Deliverable__00000000_.IsConsumersNodeExpanded = false
 
-	__Deliverable__00000002_.Name = `Taillored MBSE Tools`
+	__Deliverable__00000002_.Name = `Digital thread between MBSE Tools`
 	__Deliverable__00000002_.ComputedPrefix = `2`
 	__Deliverable__00000002_.IsExpanded = false
 	__Deliverable__00000002_.Description = ``
@@ -469,16 +479,16 @@ Pain points with SysML v2 are:
 
 	__DeliverableShape__00000002_.Name = `-Default Diagram`
 	__DeliverableShape__00000002_.IsExpanded = false
-	__DeliverableShape__00000002_.X = 470.000000
-	__DeliverableShape__00000002_.Y = 335.000000
+	__DeliverableShape__00000002_.X = 457.000000
+	__DeliverableShape__00000002_.Y = 289.000000
 	__DeliverableShape__00000002_.Width = 250.000000
 	__DeliverableShape__00000002_.Height = 70.000000
 	__DeliverableShape__00000002_.IsHidden = false
 
 	__DeliverableShape__00000003_.Name = `-Default Diagram`
 	__DeliverableShape__00000003_.IsExpanded = false
-	__DeliverableShape__00000003_.X = 470.000000
-	__DeliverableShape__00000003_.Y = 125.000000
+	__DeliverableShape__00000003_.X = 460.000000
+	__DeliverableShape__00000003_.Y = 86.000000
 	__DeliverableShape__00000003_.Width = 250.000000
 	__DeliverableShape__00000003_.Height = 70.000000
 	__DeliverableShape__00000003_.IsHidden = false
@@ -493,23 +503,41 @@ Pain points with SysML v2 are:
 
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 46600.000000
-	__Diagram__00000000_.Height = 46600.000000
+	__Diagram__00000000_.Width = 52800.000000
+	__Diagram__00000000_.Height = 52800.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
-	__Diagram__00000000_.IsConceptsNodeExpanded = true
-	__Diagram__00000000_.IsPBSNodeExpanded = true
-	__Diagram__00000000_.IsConcernsNodeExpanded = true
-	__Diagram__00000000_.IsNotesNodeExpanded = true
+	__Diagram__00000000_.IsConceptsNodeExpanded = false
+	__Diagram__00000000_.IsPBSNodeExpanded = false
+	__Diagram__00000000_.IsConcernsNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsStakeholdersNodeExpanded = true
 	__Diagram__00000000_.IsDiagramsNodeExpanded = false
 
-	__Library__00000000_.Name = ``
+	__Diagram__00000001_.Name = `Default Diagram`
+	__Diagram__00000001_.ComputedPrefix = `2`
+	__Diagram__00000001_.IsExpanded = true
+	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.ShowPrefix = false
+	__Diagram__00000001_.DefaultBoxWidth = 250.000000
+	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000001_.Width = 5800.000000
+	__Diagram__00000001_.Height = 5800.000000
+	__Diagram__00000001_.IsRequirementsNodeExpanded = false
+	__Diagram__00000001_.IsConceptsNodeExpanded = false
+	__Diagram__00000001_.IsPBSNodeExpanded = false
+	__Diagram__00000001_.IsConcernsNodeExpanded = true
+	__Diagram__00000001_.IsNotesNodeExpanded = false
+	__Diagram__00000001_.IsStakeholdersNodeExpanded = false
+	__Diagram__00000001_.IsDiagramsNodeExpanded = false
+
+	__Library__00000000_.Name = `MBSE capture process`
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
@@ -563,38 +591,6 @@ Pain points with SysML v2 are:
 	__Stakeholder__00000004_.IsExpanded = false
 	__Stakeholder__00000004_.Description = ``
 
-	__StakeholderConcernShape__00000000_.Name = `M0 editor to Edit views`
-	__StakeholderConcernShape__00000000_.StartRatio = 0.500000
-	__StakeholderConcernShape__00000000_.EndRatio = 0.500000
-	__StakeholderConcernShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000000_.CornerOffsetRatio = 1.680000
-	__StakeholderConcernShape__00000000_.IsHidden = false
-
-	__StakeholderConcernShape__00000003_.Name = `Stakeholder to Consumes views`
-	__StakeholderConcernShape__00000003_.StartRatio = 0.500000
-	__StakeholderConcernShape__00000003_.EndRatio = 0.500000
-	__StakeholderConcernShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000003_.CornerOffsetRatio = 1.680000
-	__StakeholderConcernShape__00000003_.IsHidden = false
-
-	__StakeholderConcernShape__00000005_.Name = `M1 editor to Edit M1`
-	__StakeholderConcernShape__00000005_.StartRatio = 0.500000
-	__StakeholderConcernShape__00000005_.EndRatio = 0.500000
-	__StakeholderConcernShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000005_.EndOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000005_.CornerOffsetRatio = 1.680000
-	__StakeholderConcernShape__00000005_.IsHidden = false
-
-	__StakeholderConcernShape__00000006_.Name = `Chief Engineer to Define needed views for stakeholders`
-	__StakeholderConcernShape__00000006_.StartRatio = 0.500000
-	__StakeholderConcernShape__00000006_.EndRatio = 0.500000
-	__StakeholderConcernShape__00000006_.StartOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000006_.EndOrientation = models.ORIENTATION_VERTICAL
-	__StakeholderConcernShape__00000006_.CornerOffsetRatio = 1.680000
-	__StakeholderConcernShape__00000006_.IsHidden = false
-
 	__StakeholderConcernShape__00000007_.Name = `Commercial & Open Source MBSE Tools developper to Develop Commercial & Open Source MBSE Tools`
 	__StakeholderConcernShape__00000007_.StartRatio = 0.500000
 	__StakeholderConcernShape__00000007_.EndRatio = 0.500000
@@ -602,38 +598,6 @@ Pain points with SysML v2 are:
 	__StakeholderConcernShape__00000007_.EndOrientation = models.ORIENTATION_VERTICAL
 	__StakeholderConcernShape__00000007_.CornerOffsetRatio = 1.680000
 	__StakeholderConcernShape__00000007_.IsHidden = false
-
-	__StakeholderShape__00000000_.Name = `-Default Diagram`
-	__StakeholderShape__00000000_.IsExpanded = false
-	__StakeholderShape__00000000_.X = 50.000000
-	__StakeholderShape__00000000_.Y = 440.000000
-	__StakeholderShape__00000000_.Width = 250.000000
-	__StakeholderShape__00000000_.Height = 70.000000
-	__StakeholderShape__00000000_.IsHidden = false
-
-	__StakeholderShape__00000001_.Name = `-Default Diagram`
-	__StakeholderShape__00000001_.IsExpanded = false
-	__StakeholderShape__00000001_.X = 50.000000
-	__StakeholderShape__00000001_.Y = 230.000000
-	__StakeholderShape__00000001_.Width = 250.000000
-	__StakeholderShape__00000001_.Height = 70.000000
-	__StakeholderShape__00000001_.IsHidden = false
-
-	__StakeholderShape__00000002_.Name = `-Default Diagram`
-	__StakeholderShape__00000002_.IsExpanded = false
-	__StakeholderShape__00000002_.X = 50.000000
-	__StakeholderShape__00000002_.Y = 650.000000
-	__StakeholderShape__00000002_.Width = 250.000000
-	__StakeholderShape__00000002_.Height = 70.000000
-	__StakeholderShape__00000002_.IsHidden = false
-
-	__StakeholderShape__00000003_.Name = `-Default Diagram`
-	__StakeholderShape__00000003_.IsExpanded = false
-	__StakeholderShape__00000003_.X = 50.000000
-	__StakeholderShape__00000003_.Y = 20.000000
-	__StakeholderShape__00000003_.Width = 250.000000
-	__StakeholderShape__00000003_.Height = 70.000000
-	__StakeholderShape__00000003_.IsHidden = false
 
 	__StakeholderShape__00000004_.Name = `-Default Diagram`
 	__StakeholderShape__00000004_.IsExpanded = false
@@ -680,6 +644,7 @@ Pain points with SysML v2 are:
 	__ConcernShape__00000003_.Concern = __Concern__00000003_
 	__ConcernShape__00000004_.Concern = __Concern__00000004_
 	__ConcernShape__00000005_.Concern = __Concern__00000005_
+	__ConcernShape__00000006_.Concern = __Concern__00000000_
 	__Deliverable__00000003_.Concepts = append(__Deliverable__00000003_.Concepts, __Concept__00000000_)
 	__Deliverable__00000003_.Concepts = append(__Deliverable__00000003_.Concepts, __Concept__00000001_)
 	__Deliverable__00000003_.Concepts = append(__Deliverable__00000003_.Concepts, __Concept__00000002_)
@@ -719,16 +684,8 @@ Pain points with SysML v2 are:
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000002_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000005_)
 	__Diagram__00000000_.NotesWhoseNodeIsExpanded = append(__Diagram__00000000_.NotesWhoseNodeIsExpanded, __Note__00000002_)
-	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000000_)
-	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000001_)
-	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000002_)
-	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000003_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000004_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Stakeholder__00000002_)
-	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000000_)
-	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000003_)
-	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000005_)
-	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000006_)
 	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000007_)
 	__Diagram__00000000_.Concept_Shapes = append(__Diagram__00000000_.Concept_Shapes, __ConceptShape__00000000_)
 	__Diagram__00000000_.Concept_Shapes = append(__Diagram__00000000_.Concept_Shapes, __ConceptShape__00000001_)
@@ -739,6 +696,7 @@ Pain points with SysML v2 are:
 	__Diagram__00000000_.DeliverableConceptShapes = append(__Diagram__00000000_.DeliverableConceptShapes, __DeliverableConceptShape__00000005_)
 	__Diagram__00000000_.DeliverableConceptShapes = append(__Diagram__00000000_.DeliverableConceptShapes, __DeliverableConceptShape__00000006_)
 	__Diagram__00000000_.DeliverableConceptShapes = append(__Diagram__00000000_.DeliverableConceptShapes, __DeliverableConceptShape__00000007_)
+	__Diagram__00000001_.Concern_Shapes = append(__Diagram__00000001_.Concern_Shapes, __ConcernShape__00000006_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000000_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000002_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000003_)
@@ -761,6 +719,7 @@ Pain points with SysML v2 are:
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000001_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000002_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
 	__Note__00000000_.Deliverables = append(__Note__00000000_.Deliverables, __Deliverable__00000002_)
 	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Concern__00000002_)
 	__Note__00000001_.Deliverables = append(__Note__00000001_.Deliverables, __Deliverable__00000003_)
@@ -772,19 +731,7 @@ Pain points with SysML v2 are:
 	__Stakeholder__00000002_.Concerns = append(__Stakeholder__00000002_.Concerns, __Concern__00000001_)
 	__Stakeholder__00000003_.Concerns = append(__Stakeholder__00000003_.Concerns, __Concern__00000003_)
 	__Stakeholder__00000004_.Concerns = append(__Stakeholder__00000004_.Concerns, __Concern__00000005_)
-	__StakeholderConcernShape__00000000_.Stakeholder = __Stakeholder__00000000_
-	__StakeholderConcernShape__00000000_.Concern = __Concern__00000000_
-	__StakeholderConcernShape__00000003_.Stakeholder = __Stakeholder__00000002_
-	__StakeholderConcernShape__00000003_.Concern = __Concern__00000001_
-	__StakeholderConcernShape__00000005_.Stakeholder = __Stakeholder__00000001_
-	__StakeholderConcernShape__00000005_.Concern = __Concern__00000002_
-	__StakeholderConcernShape__00000006_.Stakeholder = __Stakeholder__00000003_
-	__StakeholderConcernShape__00000006_.Concern = __Concern__00000003_
 	__StakeholderConcernShape__00000007_.Stakeholder = __Stakeholder__00000004_
 	__StakeholderConcernShape__00000007_.Concern = __Concern__00000005_
-	__StakeholderShape__00000000_.Stakeholder = __Stakeholder__00000000_
-	__StakeholderShape__00000001_.Stakeholder = __Stakeholder__00000001_
-	__StakeholderShape__00000002_.Stakeholder = __Stakeholder__00000002_
-	__StakeholderShape__00000003_.Stakeholder = __Stakeholder__00000003_
 	__StakeholderShape__00000004_.Stakeholder = __Stakeholder__00000004_
 }
