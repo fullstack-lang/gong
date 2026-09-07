@@ -11,6 +11,43 @@ export function processSVG(svgString: string): string {
     rects[0].remove();
   }
 
+  // Remove interactive helper elements that should not appear in exported SVGs
+  // (e.g. hit areas for mouse dragging, overlay handles, and control points)
+  const hitAreas = Array.from(svg.querySelectorAll('.hit-area'));
+  hitAreas.forEach(el => el.remove());
+
+  const overlays = Array.from(svg.querySelectorAll('.overlay'));
+  overlays.forEach(el => el.remove());
+
+  // Remove invisible lines (in SVG a line without a visible stroke has no visual appearance,
+  // but PowerPoint/Office converts lines with stroke="none" or stroke="transparent" into default solid black lines)
+  const lines = Array.from(svg.querySelectorAll('line'));
+  for (const line of lines) {
+    const stroke = (line.getAttribute('stroke') || '').trim().toLowerCase();
+    const strokeWidth = parseFloat(line.getAttribute('stroke-width') || '1');
+    const strokeOpacity = line.hasAttribute('stroke-opacity') ? parseFloat(line.getAttribute('stroke-opacity') || '1') : 1;
+    if (stroke === 'none' || stroke === 'transparent' || stroke === '' || strokeWidth === 0 || strokeOpacity === 0) {
+      line.remove();
+    }
+  }
+
+  // Remove empty paths that have no data
+  const paths = Array.from(svg.querySelectorAll('path'));
+  for (const path of paths) {
+    const d = (path.getAttribute('d') || '').trim();
+    if (!d) {
+      path.remove();
+    }
+  }
+
+  // Remove empty groups
+  const groups = Array.from(svg.querySelectorAll('g'));
+  for (const g of groups) {
+    if (g.children.length === 0) {
+      g.remove();
+    }
+  }
+
   // Get all remaining elements and convert to array for iteration
   const elements = Array.from(svg.getElementsByTagName('*'));
 
