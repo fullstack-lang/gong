@@ -76,10 +76,15 @@ func (stager *Stager) buttonSimulation() {
 		}
 
 		for _, role := range transition.RolesWithPermissions {
+			label := transition.Name
+			if label == "" {
+				label = "> " + transition.End.GetName()
+			}
+
 			button := (&buttons.Button{
 				Name:  transition.Name,
 				Icon:  "",
-				Label: transition.Name,
+				Label: label,
 				OnClick: func() {
 					transition.performTransition(stager.stage)
 				},
