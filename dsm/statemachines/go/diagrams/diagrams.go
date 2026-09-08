@@ -42,11 +42,14 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000017_ := (&models.AttributeShape{Name: `CornerOffsetRatio`}).Stage(stage)
 	__AttributeShape__00000023_ := (&models.AttributeShape{Name: `IsDecisionNode`}).Stage(stage)
 	__AttributeShape__00000024_ := (&models.AttributeShape{Name: `IsEndState`}).Stage(stage)
+	__AttributeShape__00000025_ := (&models.AttributeShape{Name: `IsDecisionNode`}).Stage(stage)
+	__AttributeShape__00000026_ := (&models.AttributeShape{Name: `IsEndState`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `abstract syntax`}).Stage(stage)
 	__Classdiagram__00000001_ := (&models.Classdiagram{Name: `concrete syntax`}).Stage(stage)
 	__Classdiagram__00000002_ := (&models.Classdiagram{Name: `abstract syntax standard`}).Stage(stage)
 	__Classdiagram__00000005_ := (&models.Classdiagram{Name: `abstract syntax standard extended`}).Stage(stage)
+	__Classdiagram__00000006_ := (&models.Classdiagram{Name: `abstract syntax standard extended Copy`}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2025-11-29T13:01:53Z`}).Stage(stage)
 
@@ -84,6 +87,14 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000044_ := (&models.GongStructShape{Name: `abstract syntax-Action`}).Stage(stage)
 	__GongStructShape__00000045_ := (&models.GongStructShape{Name: `abstract syntax standard Copy-Role`}).Stage(stage)
 	__GongStructShape__00000046_ := (&models.GongStructShape{Name: `abstract syntax standard extended-MessageType`}).Stage(stage)
+	__GongStructShape__00000047_ := (&models.GongStructShape{Name: `Default-State`}).Stage(stage)
+	__GongStructShape__00000048_ := (&models.GongStructShape{Name: `Default-StateMachine`}).Stage(stage)
+	__GongStructShape__00000049_ := (&models.GongStructShape{Name: `Default-Transition`}).Stage(stage)
+	__GongStructShape__00000050_ := (&models.GongStructShape{Name: `abstract syntax-Guard`}).Stage(stage)
+	__GongStructShape__00000051_ := (&models.GongStructShape{Name: `abstract syntax-Activities`}).Stage(stage)
+	__GongStructShape__00000052_ := (&models.GongStructShape{Name: `abstract syntax-Action`}).Stage(stage)
+	__GongStructShape__00000053_ := (&models.GongStructShape{Name: `abstract syntax standard Copy-Role`}).Stage(stage)
+	__GongStructShape__00000054_ := (&models.GongStructShape{Name: `abstract syntax standard extended-MessageType`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `Start`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `End`}).Stage(stage)
@@ -124,6 +135,17 @@ func _(stage *models.Stage) {
 	__LinkShape__00000064_ := (&models.LinkShape{Name: `Guard`}).Stage(stage)
 	__LinkShape__00000065_ := (&models.LinkShape{Name: `RolesWithPermissions`}).Stage(stage)
 	__LinkShape__00000066_ := (&models.LinkShape{Name: `GeneratedMessages`}).Stage(stage)
+	__LinkShape__00000067_ := (&models.LinkShape{Name: `SubStates`}).Stage(stage)
+	__LinkShape__00000068_ := (&models.LinkShape{Name: `Activities`}).Stage(stage)
+	__LinkShape__00000069_ := (&models.LinkShape{Name: `Entry`}).Stage(stage)
+	__LinkShape__00000070_ := (&models.LinkShape{Name: `Exit`}).Stage(stage)
+	__LinkShape__00000071_ := (&models.LinkShape{Name: `States`}).Stage(stage)
+	__LinkShape__00000072_ := (&models.LinkShape{Name: `InitialState`}).Stage(stage)
+	__LinkShape__00000073_ := (&models.LinkShape{Name: `Start`}).Stage(stage)
+	__LinkShape__00000074_ := (&models.LinkShape{Name: `End`}).Stage(stage)
+	__LinkShape__00000075_ := (&models.LinkShape{Name: `Guard`}).Stage(stage)
+	__LinkShape__00000076_ := (&models.LinkShape{Name: `RolesWithPermissions`}).Stage(stage)
+	__LinkShape__00000077_ := (&models.LinkShape{Name: `GeneratedMessages`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -223,6 +245,18 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000024_.Structname = `State`
 	__AttributeShape__00000024_.Fieldtypename = `bool`
 
+	__AttributeShape__00000025_.Name = `IsDecisionNode`
+	__AttributeShape__00000025_.IdentifierMeta = ref_models.State{}.IsDecisionNode
+	__AttributeShape__00000025_.FieldTypeAsString = ``
+	__AttributeShape__00000025_.Structname = `State`
+	__AttributeShape__00000025_.Fieldtypename = `bool`
+
+	__AttributeShape__00000026_.Name = `IsEndState`
+	__AttributeShape__00000026_.IdentifierMeta = ref_models.State{}.IsEndState
+	__AttributeShape__00000026_.FieldTypeAsString = ``
+	__AttributeShape__00000026_.Structname = `State`
+	__AttributeShape__00000026_.Fieldtypename = `bool`
+
 	__Classdiagram__00000000_.Name = `abstract syntax`
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
@@ -282,6 +316,21 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000005_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000005_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000005_.NodeGongNoteNodeExpansion = ``
+
+	__Classdiagram__00000006_.Name = `abstract syntax standard extended Copy`
+	__Classdiagram__00000006_.Description = ``
+	__Classdiagram__00000006_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000006_.ShowNbInstances = false
+	__Classdiagram__00000006_.ShowMultiplicity = true
+	__Classdiagram__00000006_.ShowLinkNames = true
+	__Classdiagram__00000006_.IsInRenameMode = false
+	__Classdiagram__00000006_.IsExpanded = false
+	__Classdiagram__00000006_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000006_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
+	__Classdiagram__00000006_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000006_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000006_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000006_.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__00000000_.Name = `Diagram Package created the 2025-11-29T13:01:53Z`
 	__DiagramPackage__00000000_.Path = ``
@@ -544,6 +593,70 @@ Each concrete instance must reference an abstract instance.
 	__GongStructShape__00000046_.Width = 240.000000
 	__GongStructShape__00000046_.Height = 63.000000
 	__GongStructShape__00000046_.IsSelected = false
+
+	__GongStructShape__00000047_.Name = `Default-State`
+	__GongStructShape__00000047_.X = 251.000000
+	__GongStructShape__00000047_.Y = 212.999985
+	__GongStructShape__00000047_.IdentifierMeta = ref_models.State{}
+	__GongStructShape__00000047_.Width = 240.000000
+	__GongStructShape__00000047_.Height = 123.000000
+	__GongStructShape__00000047_.IsSelected = false
+
+	__GongStructShape__00000048_.Name = `Default-StateMachine`
+	__GongStructShape__00000048_.X = 252.000000
+	__GongStructShape__00000048_.Y = 5.000000
+	__GongStructShape__00000048_.IdentifierMeta = ref_models.StateMachine{}
+	__GongStructShape__00000048_.Width = 231.000000
+	__GongStructShape__00000048_.Height = 97.999985
+	__GongStructShape__00000048_.IsSelected = false
+
+	__GongStructShape__00000049_.Name = `Default-Transition`
+	__GongStructShape__00000049_.X = 258.000000
+	__GongStructShape__00000049_.Y = 412.999985
+	__GongStructShape__00000049_.IdentifierMeta = ref_models.Transition{}
+	__GongStructShape__00000049_.Width = 217.000061
+	__GongStructShape__00000049_.Height = 134.000031
+	__GongStructShape__00000049_.IsSelected = false
+
+	__GongStructShape__00000050_.Name = `abstract syntax-Guard`
+	__GongStructShape__00000050_.X = 557.000000
+	__GongStructShape__00000050_.Y = 445.000000
+	__GongStructShape__00000050_.IdentifierMeta = ref_models.Guard{}
+	__GongStructShape__00000050_.Width = 173.000000
+	__GongStructShape__00000050_.Height = 63.000000
+	__GongStructShape__00000050_.IsSelected = false
+
+	__GongStructShape__00000051_.Name = `abstract syntax-Activities`
+	__GongStructShape__00000051_.X = 580.000000
+	__GongStructShape__00000051_.Y = 203.000000
+	__GongStructShape__00000051_.IdentifierMeta = ref_models.Activities{}
+	__GongStructShape__00000051_.Width = 149.000000
+	__GongStructShape__00000051_.Height = 63.000000
+	__GongStructShape__00000051_.IsSelected = false
+
+	__GongStructShape__00000052_.Name = `abstract syntax-Action`
+	__GongStructShape__00000052_.X = 21.000000
+	__GongStructShape__00000052_.Y = 209.000000
+	__GongStructShape__00000052_.IdentifierMeta = ref_models.Action{}
+	__GongStructShape__00000052_.Width = 140.000000
+	__GongStructShape__00000052_.Height = 125.000000
+	__GongStructShape__00000052_.IsSelected = false
+
+	__GongStructShape__00000053_.Name = `abstract syntax standard Copy-Role`
+	__GongStructShape__00000053_.X = 21.000061
+	__GongStructShape__00000053_.Y = 633.000000
+	__GongStructShape__00000053_.IdentifierMeta = ref_models.Role{}
+	__GongStructShape__00000053_.Width = 214.000000
+	__GongStructShape__00000053_.Height = 63.000000
+	__GongStructShape__00000053_.IsSelected = false
+
+	__GongStructShape__00000054_.Name = `abstract syntax standard extended-MessageType`
+	__GongStructShape__00000054_.X = 482.000061
+	__GongStructShape__00000054_.Y = 630.000000
+	__GongStructShape__00000054_.IdentifierMeta = ref_models.MessageType{}
+	__GongStructShape__00000054_.Width = 240.000000
+	__GongStructShape__00000054_.Height = 63.000000
+	__GongStructShape__00000054_.IsSelected = false
 
 	__LinkShape__00000000_.Name = `Start`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.Transition{}.Start
@@ -1286,6 +1399,215 @@ Each concrete instance must reference an abstract instance.
 	__LinkShape__00000066_.EndRatio = 0.500000
 	__LinkShape__00000066_.CornerOffsetRatio = 1.380000
 
+	__LinkShape__00000067_.Name = `SubStates`
+	__LinkShape__00000067_.IdentifierMeta = ref_models.State{}.SubStates
+	__LinkShape__00000067_.FieldTypeIdentifierMeta = ref_models.State{}
+	__LinkShape__00000067_.FieldOffsetX = 0.000000
+	__LinkShape__00000067_.FieldOffsetY = 0.000000
+	__LinkShape__00000067_.TargetMultiplicity = models.MANY
+	__LinkShape__00000067_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000067_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000067_.SourceMultiplicity = models.MANY
+	__LinkShape__00000067_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000067_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000067_.X = 1244.000000
+	__LinkShape__00000067_.Y = 444.499985
+	__LinkShape__00000067_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000067_.StartRatio = 0.504136
+	__LinkShape__00000067_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000067_.EndRatio = 0.918770
+	__LinkShape__00000067_.CornerOffsetRatio = 1.986581
+
+	__LinkShape__00000068_.Name = `Activities`
+	__LinkShape__00000068_.IdentifierMeta = ref_models.State{}.Activities
+	__LinkShape__00000068_.FieldTypeIdentifierMeta = ref_models.Activities{}
+	__LinkShape__00000068_.FieldOffsetX = 0.000000
+	__LinkShape__00000068_.FieldOffsetY = 0.000000
+	__LinkShape__00000068_.TargetMultiplicity = models.MANY
+	__LinkShape__00000068_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000068_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000068_.SourceMultiplicity = models.MANY
+	__LinkShape__00000068_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000068_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000068_.X = 568.500000
+	__LinkShape__00000068_.Y = 441.999992
+	__LinkShape__00000068_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000068_.StartRatio = 0.203323
+	__LinkShape__00000068_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000068_.EndRatio = 0.428709
+	__LinkShape__00000068_.CornerOffsetRatio = 1.190748
+
+	__LinkShape__00000069_.Name = `Entry`
+	__LinkShape__00000069_.IdentifierMeta = ref_models.State{}.Entry
+	__LinkShape__00000069_.FieldTypeIdentifierMeta = ref_models.Action{}
+	__LinkShape__00000069_.FieldOffsetX = 0.000000
+	__LinkShape__00000069_.FieldOffsetY = 0.000000
+	__LinkShape__00000069_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000069_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000069_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000069_.SourceMultiplicity = models.MANY
+	__LinkShape__00000069_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000069_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000069_.X = 557.000000
+	__LinkShape__00000069_.Y = 436.999992
+	__LinkShape__00000069_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000069_.StartRatio = 0.205443
+	__LinkShape__00000069_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000069_.EndRatio = 0.209766
+	__LinkShape__00000069_.CornerOffsetRatio = -0.203092
+
+	__LinkShape__00000070_.Name = `Exit`
+	__LinkShape__00000070_.IdentifierMeta = ref_models.State{}.Exit
+	__LinkShape__00000070_.FieldTypeIdentifierMeta = ref_models.Action{}
+	__LinkShape__00000070_.FieldOffsetX = 0.000000
+	__LinkShape__00000070_.FieldOffsetY = 0.000000
+	__LinkShape__00000070_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000070_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000070_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000070_.SourceMultiplicity = models.MANY
+	__LinkShape__00000070_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000070_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000070_.X = 557.000000
+	__LinkShape__00000070_.Y = 436.999992
+	__LinkShape__00000070_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000070_.StartRatio = 0.798939
+	__LinkShape__00000070_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000070_.EndRatio = 0.748227
+	__LinkShape__00000070_.CornerOffsetRatio = -0.223926
+
+	__LinkShape__00000071_.Name = `States`
+	__LinkShape__00000071_.IdentifierMeta = ref_models.StateMachine{}.States
+	__LinkShape__00000071_.FieldTypeIdentifierMeta = ref_models.State{}
+	__LinkShape__00000071_.FieldOffsetX = 0.000000
+	__LinkShape__00000071_.FieldOffsetY = 0.000000
+	__LinkShape__00000071_.TargetMultiplicity = models.MANY
+	__LinkShape__00000071_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000071_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000071_.SourceMultiplicity = models.MANY
+	__LinkShape__00000071_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000071_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000071_.X = 838.500000
+	__LinkShape__00000071_.Y = 199.499992
+	__LinkShape__00000071_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000071_.StartRatio = 0.135371
+	__LinkShape__00000071_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000071_.EndRatio = 0.196962
+	__LinkShape__00000071_.CornerOffsetRatio = 1.183099
+
+	__LinkShape__00000072_.Name = `InitialState`
+	__LinkShape__00000072_.IdentifierMeta = ref_models.StateMachine{}.InitialState
+	__LinkShape__00000072_.FieldTypeIdentifierMeta = ref_models.State{}
+	__LinkShape__00000072_.FieldOffsetX = 0.000000
+	__LinkShape__00000072_.FieldOffsetY = 0.000000
+	__LinkShape__00000072_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000072_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000072_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000072_.SourceMultiplicity = models.MANY
+	__LinkShape__00000072_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000072_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000072_.X = 838.500000
+	__LinkShape__00000072_.Y = 199.499992
+	__LinkShape__00000072_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000072_.StartRatio = 0.914592
+	__LinkShape__00000072_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000072_.EndRatio = 0.830295
+	__LinkShape__00000072_.CornerOffsetRatio = 1.204225
+
+	__LinkShape__00000073_.Name = `Start`
+	__LinkShape__00000073_.IdentifierMeta = ref_models.Transition{}.Start
+	__LinkShape__00000073_.FieldTypeIdentifierMeta = ref_models.State{}
+	__LinkShape__00000073_.FieldOffsetX = 0.000000
+	__LinkShape__00000073_.FieldOffsetY = 0.000000
+	__LinkShape__00000073_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000073_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000073_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000073_.SourceMultiplicity = models.MANY
+	__LinkShape__00000073_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000073_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000073_.X = 406.000000
+	__LinkShape__00000073_.Y = 76.500000
+	__LinkShape__00000073_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000073_.StartRatio = 0.833085
+	__LinkShape__00000073_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000073_.EndRatio = 0.774081
+	__LinkShape__00000073_.CornerOffsetRatio = -0.238741
+
+	__LinkShape__00000074_.Name = `End`
+	__LinkShape__00000074_.IdentifierMeta = ref_models.Transition{}.End
+	__LinkShape__00000074_.FieldTypeIdentifierMeta = ref_models.State{}
+	__LinkShape__00000074_.FieldOffsetX = 0.000000
+	__LinkShape__00000074_.FieldOffsetY = 0.000000
+	__LinkShape__00000074_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000074_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000074_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000074_.SourceMultiplicity = models.MANY
+	__LinkShape__00000074_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000074_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000074_.X = 406.000000
+	__LinkShape__00000074_.Y = 76.500000
+	__LinkShape__00000074_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000074_.StartRatio = 0.293915
+	__LinkShape__00000074_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000074_.EndRatio = 0.240748
+	__LinkShape__00000074_.CornerOffsetRatio = -0.276055
+
+	__LinkShape__00000075_.Name = `Guard`
+	__LinkShape__00000075_.IdentifierMeta = ref_models.Transition{}.Guard
+	__LinkShape__00000075_.FieldTypeIdentifierMeta = ref_models.Guard{}
+	__LinkShape__00000075_.FieldOffsetX = 0.000000
+	__LinkShape__00000075_.FieldOffsetY = 0.000000
+	__LinkShape__00000075_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000075_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000075_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000075_.SourceMultiplicity = models.MANY
+	__LinkShape__00000075_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000075_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000075_.X = 1108.500000
+	__LinkShape__00000075_.Y = 614.000008
+	__LinkShape__00000075_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000075_.StartRatio = 0.485139
+	__LinkShape__00000075_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000075_.EndRatio = 0.539820
+	__LinkShape__00000075_.CornerOffsetRatio = 1.288636
+
+	__LinkShape__00000076_.Name = `RolesWithPermissions`
+	__LinkShape__00000076_.IdentifierMeta = ref_models.Transition{}.RolesWithPermissions
+	__LinkShape__00000076_.FieldTypeIdentifierMeta = ref_models.Role{}
+	__LinkShape__00000076_.FieldOffsetX = 0.000000
+	__LinkShape__00000076_.FieldOffsetY = 0.000000
+	__LinkShape__00000076_.TargetMultiplicity = models.MANY
+	__LinkShape__00000076_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000076_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000076_.SourceMultiplicity = models.MANY
+	__LinkShape__00000076_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000076_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000076_.X = 1146.500092
+	__LinkShape__00000076_.Y = 460.000008
+	__LinkShape__00000076_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000076_.StartRatio = 0.293915
+	__LinkShape__00000076_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000076_.EndRatio = 0.874081
+	__LinkShape__00000076_.CornerOffsetRatio = 1.276184
+
+	__LinkShape__00000077_.Name = `GeneratedMessages`
+	__LinkShape__00000077_.IdentifierMeta = ref_models.Transition{}.GeneratedMessages
+	__LinkShape__00000077_.FieldTypeIdentifierMeta = ref_models.MessageType{}
+	__LinkShape__00000077_.FieldOffsetX = 0.000000
+	__LinkShape__00000077_.FieldOffsetY = 0.000000
+	__LinkShape__00000077_.TargetMultiplicity = models.MANY
+	__LinkShape__00000077_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000077_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000077_.SourceMultiplicity = models.MANY
+	__LinkShape__00000077_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000077_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000077_.X = 681.500092
+	__LinkShape__00000077_.Y = 300.500008
+	__LinkShape__00000077_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000077_.StartRatio = 0.732423
+	__LinkShape__00000077_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000077_.EndRatio = 0.694914
+	__LinkShape__00000077_.CornerOffsetRatio = 1.276184
+
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
@@ -1317,11 +1639,20 @@ Each concrete instance must reference an abstract instance.
 	__Classdiagram__00000005_.GongStructShapes = append(__Classdiagram__00000005_.GongStructShapes, __GongStructShape__00000044_)
 	__Classdiagram__00000005_.GongStructShapes = append(__Classdiagram__00000005_.GongStructShapes, __GongStructShape__00000045_)
 	__Classdiagram__00000005_.GongStructShapes = append(__Classdiagram__00000005_.GongStructShapes, __GongStructShape__00000046_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000047_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000048_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000049_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000050_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000051_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000052_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000053_)
+	__Classdiagram__00000006_.GongStructShapes = append(__Classdiagram__00000006_.GongStructShapes, __GongStructShape__00000054_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000005_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000005_
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000006_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000006_
 	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000000_)
 	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000001_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000008_)
@@ -1379,4 +1710,17 @@ Each concrete instance must reference an abstract instance.
 	__GongStructShape__00000041_.LinkShapes = append(__GongStructShape__00000041_.LinkShapes, __LinkShape__00000064_)
 	__GongStructShape__00000041_.LinkShapes = append(__GongStructShape__00000041_.LinkShapes, __LinkShape__00000065_)
 	__GongStructShape__00000041_.LinkShapes = append(__GongStructShape__00000041_.LinkShapes, __LinkShape__00000066_)
+	__GongStructShape__00000047_.AttributeShapes = append(__GongStructShape__00000047_.AttributeShapes, __AttributeShape__00000025_)
+	__GongStructShape__00000047_.AttributeShapes = append(__GongStructShape__00000047_.AttributeShapes, __AttributeShape__00000026_)
+	__GongStructShape__00000047_.LinkShapes = append(__GongStructShape__00000047_.LinkShapes, __LinkShape__00000067_)
+	__GongStructShape__00000047_.LinkShapes = append(__GongStructShape__00000047_.LinkShapes, __LinkShape__00000068_)
+	__GongStructShape__00000047_.LinkShapes = append(__GongStructShape__00000047_.LinkShapes, __LinkShape__00000069_)
+	__GongStructShape__00000047_.LinkShapes = append(__GongStructShape__00000047_.LinkShapes, __LinkShape__00000070_)
+	__GongStructShape__00000048_.LinkShapes = append(__GongStructShape__00000048_.LinkShapes, __LinkShape__00000071_)
+	__GongStructShape__00000048_.LinkShapes = append(__GongStructShape__00000048_.LinkShapes, __LinkShape__00000072_)
+	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000073_)
+	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000074_)
+	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000075_)
+	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000076_)
+	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000077_)
 }

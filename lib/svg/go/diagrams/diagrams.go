@@ -59,6 +59,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000030_ := (&models.AttributeShape{Name: `Type`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
+	__Classdiagram__00000001_ := (&models.Classdiagram{Name: `Synthetic`}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2026-01-31T17:53:12Z`}).Stage(stage)
 
@@ -84,6 +85,14 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000009_ := (&models.GongStructShape{Name: `Default-RectAnchoredRect`}).Stage(stage)
 	__GongStructShape__00000010_ := (&models.GongStructShape{Name: `Default-RectAnchoredText`}).Stage(stage)
 	__GongStructShape__00000011_ := (&models.GongStructShape{Name: `Default-LinkAnchoredText`}).Stage(stage)
+	__GongStructShape__00000012_ := (&models.GongStructShape{Name: `Synthetic-SVG`}).Stage(stage)
+	__GongStructShape__00000013_ := (&models.GongStructShape{Name: `Synthetic-Layer`}).Stage(stage)
+	__GongStructShape__00000014_ := (&models.GongStructShape{Name: `Synthetic-Rect`}).Stage(stage)
+	__GongStructShape__00000015_ := (&models.GongStructShape{Name: `Synthetic-Link`}).Stage(stage)
+	__GongStructShape__00000016_ := (&models.GongStructShape{Name: `Synthetic-RectAnchoredText`}).Stage(stage)
+	__GongStructShape__00000017_ := (&models.GongStructShape{Name: `Synthetic-RectAnchoredRect`}).Stage(stage)
+	__GongStructShape__00000018_ := (&models.GongStructShape{Name: `Synthetic-RectAnchoredPath`}).Stage(stage)
+	__GongStructShape__00000019_ := (&models.GongStructShape{Name: `Synthetic-LinkAnchoredText`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `Layers`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `Links`}).Stage(stage)
@@ -95,6 +104,16 @@ func _(stage *models.Stage) {
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `End`}).Stage(stage)
 	__LinkShape__00000008_ := (&models.LinkShape{Name: `TextAtArrowStart`}).Stage(stage)
 	__LinkShape__00000009_ := (&models.LinkShape{Name: `TextAtArrowEnd`}).Stage(stage)
+	__LinkShape__00000010_ := (&models.LinkShape{Name: `Layers`}).Stage(stage)
+	__LinkShape__00000011_ := (&models.LinkShape{Name: `Rects`}).Stage(stage)
+	__LinkShape__00000012_ := (&models.LinkShape{Name: `Links`}).Stage(stage)
+	__LinkShape__00000013_ := (&models.LinkShape{Name: `Start`}).Stage(stage)
+	__LinkShape__00000014_ := (&models.LinkShape{Name: `End`}).Stage(stage)
+	__LinkShape__00000015_ := (&models.LinkShape{Name: `RectAnchoredTexts`}).Stage(stage)
+	__LinkShape__00000016_ := (&models.LinkShape{Name: `RectAnchoredRects`}).Stage(stage)
+	__LinkShape__00000017_ := (&models.LinkShape{Name: `RectAnchoredPaths`}).Stage(stage)
+	__LinkShape__00000018_ := (&models.LinkShape{Name: `TextAtArrowStart`}).Stage(stage)
+	__LinkShape__00000019_ := (&models.LinkShape{Name: `TextAtArrowEnd`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -288,16 +307,31 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
 	__Classdiagram__00000000_.ShowNbInstances = true
-	__Classdiagram__00000000_.ShowMultiplicity = true
+	__Classdiagram__00000000_.ShowMultiplicity = false
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
-	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.IsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[true,false,false,false,true,true]`
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
+
+	__Classdiagram__00000001_.Name = `Synthetic`
+	__Classdiagram__00000001_.Description = `Synthetic diagram of svg package showing core concepts in vertical A5 format without basic fields`
+	__Classdiagram__00000001_.IsIncludedInStaticWebSite = true
+	__Classdiagram__00000001_.ShowNbInstances = false
+	__Classdiagram__00000001_.ShowMultiplicity = false
+	__Classdiagram__00000001_.ShowLinkNames = false
+	__Classdiagram__00000001_.IsInRenameMode = false
+	__Classdiagram__00000001_.IsExpanded = true
+	__Classdiagram__00000001_.NodeGongStructsIsExpanded = false
+	__Classdiagram__00000001_.NodeGongStructNodeExpansion = ``
+	__Classdiagram__00000001_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000001_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000001_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000001_.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__00000000_.Name = `Diagram Package created the 2026-01-31T17:53:12Z`
 	__DiagramPackage__00000000_.Path = ``
@@ -418,6 +452,70 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000011_.Width = 268.000000
 	__GongStructShape__00000011_.Height = 163.000000
 	__GongStructShape__00000011_.IsSelected = false
+
+	__GongStructShape__00000012_.Name = `Synthetic-SVG`
+	__GongStructShape__00000012_.X = 187.000000
+	__GongStructShape__00000012_.Y = 16.000000
+	__GongStructShape__00000012_.IdentifierMeta = ref_models.SVG{}
+	__GongStructShape__00000012_.Width = 200.000000
+	__GongStructShape__00000012_.Height = 48.000000
+	__GongStructShape__00000012_.IsSelected = false
+
+	__GongStructShape__00000013_.Name = `Synthetic-Layer`
+	__GongStructShape__00000013_.X = 30.000000
+	__GongStructShape__00000013_.Y = 105.000000
+	__GongStructShape__00000013_.IdentifierMeta = ref_models.Layer{}
+	__GongStructShape__00000013_.Width = 505.000000
+	__GongStructShape__00000013_.Height = 48.000000
+	__GongStructShape__00000013_.IsSelected = false
+
+	__GongStructShape__00000014_.Name = `Synthetic-Rect`
+	__GongStructShape__00000014_.X = 26.000000
+	__GongStructShape__00000014_.Y = 209.000000
+	__GongStructShape__00000014_.IdentifierMeta = ref_models.Rect{}
+	__GongStructShape__00000014_.Width = 200.000000
+	__GongStructShape__00000014_.Height = 386.000000
+	__GongStructShape__00000014_.IsSelected = false
+
+	__GongStructShape__00000015_.Name = `Synthetic-Link`
+	__GongStructShape__00000015_.X = 339.000000
+	__GongStructShape__00000015_.Y = 224.000000
+	__GongStructShape__00000015_.IdentifierMeta = ref_models.Link{}
+	__GongStructShape__00000015_.Width = 200.000000
+	__GongStructShape__00000015_.Height = 64.000000
+	__GongStructShape__00000015_.IsSelected = false
+
+	__GongStructShape__00000016_.Name = `Synthetic-RectAnchoredText`
+	__GongStructShape__00000016_.X = 337.000000
+	__GongStructShape__00000016_.Y = 487.000000
+	__GongStructShape__00000016_.IdentifierMeta = ref_models.RectAnchoredText{}
+	__GongStructShape__00000016_.Width = 200.000000
+	__GongStructShape__00000016_.Height = 48.000000
+	__GongStructShape__00000016_.IsSelected = false
+
+	__GongStructShape__00000017_.Name = `Synthetic-RectAnchoredRect`
+	__GongStructShape__00000017_.X = 339.000000
+	__GongStructShape__00000017_.Y = 418.000000
+	__GongStructShape__00000017_.IdentifierMeta = ref_models.RectAnchoredRect{}
+	__GongStructShape__00000017_.Width = 200.000000
+	__GongStructShape__00000017_.Height = 48.000000
+	__GongStructShape__00000017_.IsSelected = false
+
+	__GongStructShape__00000018_.Name = `Synthetic-RectAnchoredPath`
+	__GongStructShape__00000018_.X = 339.000000
+	__GongStructShape__00000018_.Y = 554.000000
+	__GongStructShape__00000018_.IdentifierMeta = ref_models.RectAnchoredPath{}
+	__GongStructShape__00000018_.Width = 200.000000
+	__GongStructShape__00000018_.Height = 48.000000
+	__GongStructShape__00000018_.IsSelected = false
+
+	__GongStructShape__00000019_.Name = `Synthetic-LinkAnchoredText`
+	__GongStructShape__00000019_.X = 340.000000
+	__GongStructShape__00000019_.Y = 339.000000
+	__GongStructShape__00000019_.IdentifierMeta = ref_models.LinkAnchoredText{}
+	__GongStructShape__00000019_.Width = 200.000000
+	__GongStructShape__00000019_.Height = 48.000000
+	__GongStructShape__00000019_.IsSelected = false
 
 	__LinkShape__00000000_.Name = `Layers`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.SVG{}.Layers
@@ -609,6 +707,196 @@ func _(stage *models.Stage) {
 	__LinkShape__00000009_.EndRatio = 0.852580
 	__LinkShape__00000009_.CornerOffsetRatio = 1.228332
 
+	__LinkShape__00000010_.Name = `Layers`
+	__LinkShape__00000010_.IdentifierMeta = ref_models.SVG{}.Layers
+	__LinkShape__00000010_.FieldTypeIdentifierMeta = ref_models.Layer{}
+	__LinkShape__00000010_.FieldOffsetX = 0.000000
+	__LinkShape__00000010_.FieldOffsetY = 0.000000
+	__LinkShape__00000010_.TargetMultiplicity = models.MANY
+	__LinkShape__00000010_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.SourceMultiplicity = models.MANY
+	__LinkShape__00000010_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.X = 0.000000
+	__LinkShape__00000010_.Y = 0.000000
+	__LinkShape__00000010_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000010_.StartRatio = 0.500000
+	__LinkShape__00000010_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000010_.EndRatio = 0.500000
+	__LinkShape__00000010_.CornerOffsetRatio = 1.500000
+
+	__LinkShape__00000011_.Name = `Rects`
+	__LinkShape__00000011_.IdentifierMeta = ref_models.Layer{}.Rects
+	__LinkShape__00000011_.FieldTypeIdentifierMeta = ref_models.Rect{}
+	__LinkShape__00000011_.FieldOffsetX = 0.000000
+	__LinkShape__00000011_.FieldOffsetY = 0.000000
+	__LinkShape__00000011_.TargetMultiplicity = models.MANY
+	__LinkShape__00000011_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.SourceMultiplicity = models.MANY
+	__LinkShape__00000011_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.X = 0.000000
+	__LinkShape__00000011_.Y = 0.000000
+	__LinkShape__00000011_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000011_.StartRatio = 0.250000
+	__LinkShape__00000011_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000011_.EndRatio = 0.650000
+	__LinkShape__00000011_.CornerOffsetRatio = 2.100000
+
+	__LinkShape__00000012_.Name = `Links`
+	__LinkShape__00000012_.IdentifierMeta = ref_models.Layer{}.Links
+	__LinkShape__00000012_.FieldTypeIdentifierMeta = ref_models.Link{}
+	__LinkShape__00000012_.FieldOffsetX = 0.000000
+	__LinkShape__00000012_.FieldOffsetY = 0.000000
+	__LinkShape__00000012_.TargetMultiplicity = models.MANY
+	__LinkShape__00000012_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000012_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000012_.SourceMultiplicity = models.MANY
+	__LinkShape__00000012_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000012_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000012_.X = 0.000000
+	__LinkShape__00000012_.Y = 0.000000
+	__LinkShape__00000012_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000012_.StartRatio = 0.783722
+	__LinkShape__00000012_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000012_.EndRatio = 0.458897
+	__LinkShape__00000012_.CornerOffsetRatio = 1.950629
+
+	__LinkShape__00000013_.Name = `Start`
+	__LinkShape__00000013_.IdentifierMeta = ref_models.Link{}.Start
+	__LinkShape__00000013_.FieldTypeIdentifierMeta = ref_models.Rect{}
+	__LinkShape__00000013_.FieldOffsetX = 0.000000
+	__LinkShape__00000013_.FieldOffsetY = -5.000000
+	__LinkShape__00000013_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000013_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000013_.TargetMultiplicityOffsetY = -6.000000
+	__LinkShape__00000013_.SourceMultiplicity = models.MANY
+	__LinkShape__00000013_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000013_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000013_.X = 0.000000
+	__LinkShape__00000013_.Y = 0.000000
+	__LinkShape__00000013_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000013_.StartRatio = 0.291097
+	__LinkShape__00000013_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000013_.EndRatio = 0.076762
+	__LinkShape__00000013_.CornerOffsetRatio = -0.200000
+
+	__LinkShape__00000014_.Name = `End`
+	__LinkShape__00000014_.IdentifierMeta = ref_models.Link{}.End
+	__LinkShape__00000014_.FieldTypeIdentifierMeta = ref_models.Rect{}
+	__LinkShape__00000014_.FieldOffsetX = 0.000000
+	__LinkShape__00000014_.FieldOffsetY = 6.000000
+	__LinkShape__00000014_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000014_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000014_.TargetMultiplicityOffsetY = 5.000000
+	__LinkShape__00000014_.SourceMultiplicity = models.MANY
+	__LinkShape__00000014_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000014_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000014_.X = 0.000000
+	__LinkShape__00000014_.Y = 0.000000
+	__LinkShape__00000014_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000014_.StartRatio = 0.850000
+	__LinkShape__00000014_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000014_.EndRatio = 0.209758
+	__LinkShape__00000014_.CornerOffsetRatio = -0.196103
+
+	__LinkShape__00000015_.Name = `RectAnchoredTexts`
+	__LinkShape__00000015_.IdentifierMeta = ref_models.Rect{}.RectAnchoredTexts
+	__LinkShape__00000015_.FieldTypeIdentifierMeta = ref_models.RectAnchoredText{}
+	__LinkShape__00000015_.FieldOffsetX = 0.000000
+	__LinkShape__00000015_.FieldOffsetY = 0.000000
+	__LinkShape__00000015_.TargetMultiplicity = models.MANY
+	__LinkShape__00000015_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000015_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000015_.SourceMultiplicity = models.MANY
+	__LinkShape__00000015_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000015_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000015_.X = 0.000000
+	__LinkShape__00000015_.Y = 0.000000
+	__LinkShape__00000015_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000015_.StartRatio = 0.771063
+	__LinkShape__00000015_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000015_.EndRatio = 0.471462
+	__LinkShape__00000015_.CornerOffsetRatio = 1.253897
+
+	__LinkShape__00000016_.Name = `RectAnchoredRects`
+	__LinkShape__00000016_.IdentifierMeta = ref_models.Rect{}.RectAnchoredRects
+	__LinkShape__00000016_.FieldTypeIdentifierMeta = ref_models.RectAnchoredRect{}
+	__LinkShape__00000016_.FieldOffsetX = 0.000000
+	__LinkShape__00000016_.FieldOffsetY = 0.000000
+	__LinkShape__00000016_.TargetMultiplicity = models.MANY
+	__LinkShape__00000016_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000016_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000016_.SourceMultiplicity = models.MANY
+	__LinkShape__00000016_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000016_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000016_.X = 0.000000
+	__LinkShape__00000016_.Y = 0.000000
+	__LinkShape__00000016_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000016_.StartRatio = 0.594897
+	__LinkShape__00000016_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000016_.EndRatio = 0.429796
+	__LinkShape__00000016_.CornerOffsetRatio = 1.200000
+
+	__LinkShape__00000017_.Name = `RectAnchoredPaths`
+	__LinkShape__00000017_.IdentifierMeta = ref_models.Rect{}.RectAnchoredPaths
+	__LinkShape__00000017_.FieldTypeIdentifierMeta = ref_models.RectAnchoredPath{}
+	__LinkShape__00000017_.FieldOffsetX = 0.000000
+	__LinkShape__00000017_.FieldOffsetY = 0.000000
+	__LinkShape__00000017_.TargetMultiplicity = models.MANY
+	__LinkShape__00000017_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000017_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000017_.SourceMultiplicity = models.MANY
+	__LinkShape__00000017_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000017_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000017_.X = 0.000000
+	__LinkShape__00000017_.Y = 0.000000
+	__LinkShape__00000017_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000017_.StartRatio = 0.939456
+	__LinkShape__00000017_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000017_.EndRatio = 0.408962
+	__LinkShape__00000017_.CornerOffsetRatio = 1.350000
+
+	__LinkShape__00000018_.Name = `TextAtArrowStart`
+	__LinkShape__00000018_.IdentifierMeta = ref_models.Link{}.TextAtArrowStart
+	__LinkShape__00000018_.FieldTypeIdentifierMeta = ref_models.LinkAnchoredText{}
+	__LinkShape__00000018_.FieldOffsetX = 0.000000
+	__LinkShape__00000018_.FieldOffsetY = -50.000000
+	__LinkShape__00000018_.TargetMultiplicity = models.MANY
+	__LinkShape__00000018_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000018_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000018_.SourceMultiplicity = models.MANY
+	__LinkShape__00000018_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000018_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000018_.X = 0.000000
+	__LinkShape__00000018_.Y = 0.000000
+	__LinkShape__00000018_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000018_.StartRatio = 0.223897
+	__LinkShape__00000018_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000018_.EndRatio = 0.250000
+	__LinkShape__00000018_.CornerOffsetRatio = 1.322347
+
+	__LinkShape__00000019_.Name = `TextAtArrowEnd`
+	__LinkShape__00000019_.IdentifierMeta = ref_models.Link{}.TextAtArrowEnd
+	__LinkShape__00000019_.FieldTypeIdentifierMeta = ref_models.LinkAnchoredText{}
+	__LinkShape__00000019_.FieldOffsetX = 0.000000
+	__LinkShape__00000019_.FieldOffsetY = 0.000000
+	__LinkShape__00000019_.TargetMultiplicity = models.MANY
+	__LinkShape__00000019_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000019_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000019_.SourceMultiplicity = models.MANY
+	__LinkShape__00000019_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000019_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000019_.X = 0.000000
+	__LinkShape__00000019_.Y = 0.000000
+	__LinkShape__00000019_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000019_.StartRatio = 0.750000
+	__LinkShape__00000019_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000019_.EndRatio = 0.738897
+	__LinkShape__00000019_.CornerOffsetRatio = 1.291097
+
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
@@ -621,8 +909,17 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000000_)
 	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000001_)
 	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000002_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000012_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000013_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000014_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000015_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000016_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000017_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000018_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000019_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000001_
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000000_)
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000004_)
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000005_)
@@ -673,4 +970,14 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000011_.AttributeShapes = append(__GongStructShape__00000011_.AttributeShapes, __AttributeShape__00000027_)
 	__GongStructShape__00000011_.AttributeShapes = append(__GongStructShape__00000011_.AttributeShapes, __AttributeShape__00000028_)
 	__GongStructShape__00000011_.AttributeShapes = append(__GongStructShape__00000011_.AttributeShapes, __AttributeShape__00000029_)
+	__GongStructShape__00000012_.LinkShapes = append(__GongStructShape__00000012_.LinkShapes, __LinkShape__00000010_)
+	__GongStructShape__00000013_.LinkShapes = append(__GongStructShape__00000013_.LinkShapes, __LinkShape__00000011_)
+	__GongStructShape__00000013_.LinkShapes = append(__GongStructShape__00000013_.LinkShapes, __LinkShape__00000012_)
+	__GongStructShape__00000014_.LinkShapes = append(__GongStructShape__00000014_.LinkShapes, __LinkShape__00000015_)
+	__GongStructShape__00000014_.LinkShapes = append(__GongStructShape__00000014_.LinkShapes, __LinkShape__00000016_)
+	__GongStructShape__00000014_.LinkShapes = append(__GongStructShape__00000014_.LinkShapes, __LinkShape__00000017_)
+	__GongStructShape__00000015_.LinkShapes = append(__GongStructShape__00000015_.LinkShapes, __LinkShape__00000013_)
+	__GongStructShape__00000015_.LinkShapes = append(__GongStructShape__00000015_.LinkShapes, __LinkShape__00000014_)
+	__GongStructShape__00000015_.LinkShapes = append(__GongStructShape__00000015_.LinkShapes, __LinkShape__00000018_)
+	__GongStructShape__00000015_.LinkShapes = append(__GongStructShape__00000015_.LinkShapes, __LinkShape__00000019_)
 }
