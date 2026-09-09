@@ -474,6 +474,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - statemachines: go run . edit --port=8090",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/statemachines/go/cmd/statemachines"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "--port=8090"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - statemachines: go run . edit data/two cliques.go",
             "type": "shell",
             "options": {

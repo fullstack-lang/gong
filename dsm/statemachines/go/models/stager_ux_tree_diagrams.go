@@ -40,6 +40,21 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	libraryNode.OnNameChange = stager.onNameChange(library)
 	libraryNode.OnClick = onNodeClicked(stager, library)
 
+	exportSysMLButton := &tree.Button{
+		Name:            "Export to SysML V2",
+		Icon:            string(buttons.BUTTON_file_download),
+		ToolTipText:     "Export to SysML V2 format",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			stager.exportSysML(library)
+		},
+	}
+	libraryNode.Buttons = append(libraryNode.Buttons, exportSysMLButton)
+	if libraryNode.Menu != nil {
+		libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, exportSysMLButton)
+	}
+
 	//
 	// SubLibraries
 	//
