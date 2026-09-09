@@ -384,8 +384,6 @@ func svgRect[CT interface {
 	shape CT,
 	layer *svg.Layer,
 ) *svg.Rect {
-	root := stager.GetRootLibrary()
-
 	abstractElement := shape.GetAbstractElement()
 
 	rect := new(svg.Rect)
@@ -420,16 +418,6 @@ func svgRect[CT interface {
 	title := new(svg.RectAnchoredText)
 	{
 		title.Name = abstractElement.GetName()
-
-		content := shape.GetAbstractElement().GetName()
-		if diagram.GetIsShowPrefix() {
-			content = abstractElement.GetComputedPrefix() + " " + content
-		}
-
-		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
-		}
-		title.Content = content
 		title.Stroke = svg.Black.ToString()
 		title.StrokeWidth = 1
 		title.StrokeOpacity = 1
@@ -443,10 +431,63 @@ func svgRect[CT interface {
 		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+		FormatRectTitle(stager, diagram, shape, rect, 0, 0)
 	}
 
 	layer.Rects = append(layer.Rects, rect)
 	return rect
+}
+
+// FormatRectTitle sets and wraps the rect title from the original abstract element name
+// accounting for any left and right margins (e.g. icons).
+func FormatRectTitle[CT interface {
+	*CT_
+	RectShapeInterface
+	ConcreteType
+}, CT_ Gongstruct](
+	stager *Stager,
+	diagram DiagramIF,
+	shape CT,
+	rect *svg.Rect,
+	leftMargin float64,
+	rightMargin float64,
+) {
+	if len(rect.RectAnchoredTexts) == 0 {
+		return
+	}
+
+	root := stager.GetRootLibrary()
+	abstractElement := shape.GetAbstractElement()
+	title := rect.RectAnchoredTexts[0]
+
+	content := abstractElement.GetName()
+	if diagram != nil && diagram.GetIsShowPrefix() {
+		content = abstractElement.GetComputedPrefix() + " " + content
+	}
+
+	availableWidth := rect.Width - (leftMargin + rightMargin)
+	if availableWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+		content = strutils.WrapStringPreservingNewlines(content, int(availableWidth/root.NbPixPerCharacter))
+	}
+
+	title.Content = content
+	title.X_Offset = (leftMargin - rightMargin) / 2.0
+}
+
+// AdjustRectTitleForLeftIcon adjusts the title's horizontal position and re-wraps
+// the text from the raw abstract element name to account for space occupied by a left-aligned icon.
+func AdjustRectTitleForLeftIcon[CT interface {
+	*CT_
+	RectShapeInterface
+	ConcreteType
+}, CT_ Gongstruct](
+	stager *Stager,
+	diagram DiagramIF,
+	shape CT,
+	rect *svg.Rect,
+	occupiedLeftWidth float64,
+) {
+	FormatRectTitle(stager, diagram, shape, rect, occupiedLeftWidth, 0)
 }
 
 func onSelectRectElement[AT AbstractType](

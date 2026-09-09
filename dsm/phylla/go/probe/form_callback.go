@@ -153,6 +153,9 @@ func (arcnormalvectorshapeFormCallback *ArcNormalVectorShapeFormCallback) OnSave
 		case "EndY":
 			FormDivBasicFieldToField(&(arcnormalvectorshape_.EndY), formDiv)
 		case "ArcNormalVectorShapeGrid:ArcNormalVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ArcNormalVectorShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -276,6 +279,9 @@ func (arcnormalvectorshapegridFormCallback *ArcNormalVectorShapeGridFormCallback
 		case "Name":
 			FormDivBasicFieldToField(&(arcnormalvectorshapegrid_.Name), formDiv)
 		case "ArcNormalVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArcNormalVectorShape](arcnormalvectorshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ArcNormalVectorShape, 0)
 
@@ -478,6 +484,9 @@ func (basevectorshapeFormCallback *BaseVectorShapeFormCallback) OnSave() {
 		case "EndY":
 			FormDivBasicFieldToField(&(basevectorshape_.EndY), formDiv)
 		case "BaseVectorShapeGrid:BaseVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the BaseVectorShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -601,6 +610,9 @@ func (basevectorshapegridFormCallback *BaseVectorShapeGridFormCallback) OnSave()
 		case "Name":
 			FormDivBasicFieldToField(&(basevectorshapegrid_.Name), formDiv)
 		case "BaseVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.BaseVectorShape](basevectorshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.BaseVectorShape, 0)
 
@@ -973,6 +985,9 @@ func (clock2ddiagramFormCallback *Clock2DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(clock2ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Clock2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1120,6 +1135,9 @@ func (clock3ddiagramFormCallback *Clock3DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(clock3ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Clock3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1509,6 +1527,9 @@ func (endarcshapeFormCallback *EndArcShapeFormCallback) OnSave() {
 		case "RadiusY":
 			FormDivBasicFieldToField(&(endarcshape_.RadiusY), formDiv)
 		case "EndArcShapeGrid:EndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the EndArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1632,6 +1653,9 @@ func (endarcshapegridFormCallback *EndArcShapeGridFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(endarcshapegrid_.Name), formDiv)
 		case "EndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShape](endarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.EndArcShape, 0)
 
@@ -1760,6 +1784,9 @@ func (endhalfwayarcshapeFormCallback *EndHalfwayArcShapeFormCallback) OnSave() {
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(endhalfwayarcshape_.SweepFlag), formDiv)
 		case "EndHalfwayArcShapeGrid:EndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the EndHalfwayArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1883,6 +1910,9 @@ func (endhalfwayarcshapegridFormCallback *EndHalfwayArcShapeGridFormCallback) On
 		case "Name":
 			FormDivBasicFieldToField(&(endhalfwayarcshapegrid_.Name), formDiv)
 		case "EndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.EndHalfwayArcShape](endhalfwayarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.EndHalfwayArcShape, 0)
 
@@ -2699,6 +2729,9 @@ func (growthcurve2dribbonFormCallback *GrowthCurve2DRibbonFormCallback) OnSave()
 		case "Name":
 			FormDivBasicFieldToField(&(growthcurve2dribbon_.Name), formDiv)
 		case "GrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurve2DRibbonStartShape](growthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GrowthCurve2DRibbonStartShape, 0)
 
@@ -2731,6 +2764,9 @@ func (growthcurve2dribbonFormCallback *GrowthCurve2DRibbonFormCallback) OnSave()
 			growthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(growthcurve2dribbon_, "GrowthCurve2DRibbonStartShapes", &growthcurve2dribbon_.GrowthCurve2DRibbonStartShapes)
 
 		case "GrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurve2DRibbonEndShape](growthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GrowthCurve2DRibbonEndShape, 0)
 
@@ -2877,6 +2913,9 @@ func (growthcurve2dribbonendshapeFormCallback *GrowthCurve2DRibbonEndShapeFormCa
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(growthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "GrowthCurve2DRibbon:GrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3036,6 +3075,9 @@ func (growthcurve2dribbonstartshapeFormCallback *GrowthCurve2DRibbonStartShapeFo
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(growthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "GrowthCurve2DRibbon:GrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3159,6 +3201,9 @@ func (growthcurverhombusgridshapeFormCallback *GrowthCurveRhombusGridShapeFormCa
 		case "Name":
 			FormDivBasicFieldToField(&(growthcurverhombusgridshape_.Name), formDiv)
 		case "GrowthCurveRhombusShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurveRhombusShape](growthcurverhombusgridshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GrowthCurveRhombusShape, 0)
 
@@ -3273,6 +3318,9 @@ func (growthcurverhombusshapeFormCallback *GrowthCurveRhombusShapeFormCallback) 
 		case "Y":
 			FormDivBasicFieldToField(&(growthcurverhombusshape_.Y), formDiv)
 		case "GrowthCurveRhombusGridShape:GrowthCurveRhombusShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GrowthCurveRhombusGridShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3478,6 +3526,9 @@ func (initialrhombusgridshapeFormCallback *InitialRhombusGridShapeFormCallback) 
 		case "Name":
 			FormDivBasicFieldToField(&(initialrhombusgridshape_.Name), formDiv)
 		case "InitialRhombusShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.InitialRhombusShape](initialrhombusgridshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.InitialRhombusShape, 0)
 
@@ -3592,6 +3643,9 @@ func (initialrhombusshapeFormCallback *InitialRhombusShapeFormCallback) OnSave()
 		case "Y":
 			FormDivBasicFieldToField(&(initialrhombusshape_.Y), formDiv)
 		case "InitialRhombusGridShape:InitialRhombusShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the InitialRhombusGridShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4035,6 +4089,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
 		case "SubLibraries":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Library, 0)
 
@@ -4077,6 +4134,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "Plants":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PlantAbstract, 0)
 
@@ -4109,6 +4169,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Plants", &library_.Plants)
 
 		case "Library:SubLibraries":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4240,6 +4303,9 @@ func (midarcvectorshapeFormCallback *MidArcVectorShapeFormCallback) OnSave() {
 		case "EndY":
 			FormDivBasicFieldToField(&(midarcvectorshape_.EndY), formDiv)
 		case "MidArcVectorShapeGrid:MidArcVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the MidArcVectorShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4363,6 +4429,9 @@ func (midarcvectorshapegridFormCallback *MidArcVectorShapeGridFormCallback) OnSa
 		case "Name":
 			FormDivBasicFieldToField(&(midarcvectorshapegrid_.Name), formDiv)
 		case "MidArcVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MidArcVectorShape](midarcvectorshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.MidArcVectorShape, 0)
 
@@ -4837,6 +4906,9 @@ func (partiallygrowthcurve2dribbonFormCallback *PartiallyGrowthCurve2DRibbonForm
 		case "Name":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dribbon_.Name), formDiv)
 		case "PartiallyGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DRibbonStartShape](partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DRibbonStartShape, 0)
 
@@ -4869,6 +4941,9 @@ func (partiallygrowthcurve2dribbonFormCallback *PartiallyGrowthCurve2DRibbonForm
 			partiallygrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dribbon_, "PartiallyGrowthCurve2DRibbonStartShapes", &partiallygrowthcurve2dribbon_.PartiallyGrowthCurve2DRibbonStartShapes)
 
 		case "PartiallyGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DRibbonEndShape](partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DRibbonEndShape, 0)
 
@@ -5015,6 +5090,9 @@ func (partiallygrowthcurve2dribbonendshapeFormCallback *PartiallyGrowthCurve2DRi
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "PartiallyGrowthCurve2DRibbon:PartiallyGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5174,6 +5252,9 @@ func (partiallygrowthcurve2dribbonstartshapeFormCallback *PartiallyGrowthCurve2D
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "PartiallyGrowthCurve2DRibbon:PartiallyGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5297,6 +5378,9 @@ func (partiallygrowthcurve2dtrajectoryFormCallback *PartiallyGrowthCurve2DTrajec
 		case "Name":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectory_.Name), formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryShape](partiallygrowthcurve2dtrajectoryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryShape, 0)
 
@@ -5415,6 +5499,9 @@ func (partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback *PartiallyGrowthC
 		case "EndY":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1curveshape_.EndY), formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2:P1CurveShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5538,6 +5625,9 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 		case "Name":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2_.Name), formDiv)
 		case "P1PointShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1PointShape, 0)
 
@@ -5570,6 +5660,9 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P1PointShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P1PointShapes)
 
 		case "P2PointShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP2PointShape, 0)
 
@@ -5602,6 +5695,9 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P2PointShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P2PointShapes)
 
 		case "P1CurveShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape, 0)
 
@@ -5634,6 +5730,9 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P1CurveShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P1CurveShapes)
 
 		case "P2CurveShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape, 0)
 
@@ -5666,6 +5765,9 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P2CurveShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P2CurveShapes)
 
 		case "P1P2PairLineShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape, 0)
 
@@ -5784,6 +5886,9 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback *PartiallyGr
 		case "EndY":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.EndY), formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2:P1P2PairLineShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5911,6 +6016,9 @@ func (partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback *PartiallyGrowthC
 		case "Y":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1pointshape_.Y), formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2:P1PointShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -6042,6 +6150,9 @@ func (partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback *PartiallyGrowthC
 		case "EndY":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2curveshape_.EndY), formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2:P2CurveShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -6169,6 +6280,9 @@ func (partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback *PartiallyGrowthC
 		case "Y":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2pointshape_.Y), formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2:P2PointShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -6300,6 +6414,9 @@ func (partiallygrowthcurve2dtrajectoryshapeFormCallback *PartiallyGrowthCurve2DT
 		case "EndY":
 			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryshape_.EndY), formDiv)
 		case "PartiallyGrowthCurve2DTrajectory:PartiallyGrowthCurve2DTrajectoryShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectory instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -6665,6 +6782,9 @@ func (perpendicularvectorFormCallback *PerpendicularVectorFormCallback) OnSave()
 		case "EndY":
 			FormDivBasicFieldToField(&(perpendicularvector_.EndY), formDiv)
 		case "PerpendicularVectorGrid:PerpendicularVectors":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PerpendicularVectorGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -6788,6 +6908,9 @@ func (perpendicularvectorgridFormCallback *PerpendicularVectorGridFormCallback) 
 		case "Name":
 			FormDivBasicFieldToField(&(perpendicularvectorgrid_.Name), formDiv)
 		case "PerpendicularVectors":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVector](perpendicularvectorgridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PerpendicularVector, 0)
 
@@ -6898,6 +7021,9 @@ func (perpendicularvectorgridhalfwayFormCallback *PerpendicularVectorGridHalfway
 		case "Name":
 			FormDivBasicFieldToField(&(perpendicularvectorgridhalfway_.Name), formDiv)
 		case "PerpendicularVectorHalfways":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorHalfway](perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PerpendicularVectorHalfway, 0)
 
@@ -7016,6 +7142,9 @@ func (perpendicularvectorhalfwayFormCallback *PerpendicularVectorHalfwayFormCall
 		case "EndY":
 			FormDivBasicFieldToField(&(perpendicularvectorhalfway_.EndY), formDiv)
 		case "PerpendicularVectorGridHalfway:PerpendicularVectorHalfways":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PerpendicularVectorGridHalfway instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -7195,6 +7324,9 @@ func (plant2ddiagramFormCallback *Plant2DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plant2ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Plant2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -7354,6 +7486,9 @@ func (plant3ddiagramFormCallback *Plant3DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plant3ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Plant3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -7507,6 +7642,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsPlant2DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsPlant2DDiagramsNodeExpanded), formDiv)
 		case "Plant2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Plant2DDiagram, 0)
 
@@ -7541,6 +7679,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsPlant3DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsPlant3DDiagramsNodeExpanded), formDiv)
 		case "Plant3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Plant3DDiagram, 0)
 
@@ -7575,6 +7716,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsVase2DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsVase2DDiagramsNodeExpanded), formDiv)
 		case "Vase2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vase2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Vase2DDiagram, 0)
 
@@ -7609,6 +7753,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsVase3DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsVase3DDiagramsNodeExpanded), formDiv)
 		case "Vase3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Vase3DDiagram, 0)
 
@@ -7643,6 +7790,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsStool2DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsStool2DDiagramsNodeExpanded), formDiv)
 		case "Stool2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Stool2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Stool2DDiagram, 0)
 
@@ -7677,6 +7827,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsStool3DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsStool3DDiagramsNodeExpanded), formDiv)
 		case "Stool3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Stool3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Stool3DDiagram, 0)
 
@@ -7711,6 +7864,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsClock2DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsClock2DDiagramsNodeExpanded), formDiv)
 		case "Clock2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Clock2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Clock2DDiagram, 0)
 
@@ -7745,6 +7901,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "IsClock3DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsClock3DDiagramsNodeExpanded), formDiv)
 		case "Clock3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Clock3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Clock3DDiagram, 0)
 
@@ -7799,6 +7958,9 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "StackOfGrowthCurve2DByGrowthVector":
 			FormDivSelectFieldToField(&(plantabstract_.StackOfGrowthCurve2DByGrowthVector), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8436,6 +8598,9 @@ func (rotatedrhombusgridshapeFormCallback *RotatedRhombusGridShapeFormCallback) 
 		case "Name":
 			FormDivBasicFieldToField(&(rotatedrhombusgridshape_.Name), formDiv)
 		case "RotatedRhombusShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RotatedRhombusShape](rotatedrhombusgridshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RotatedRhombusShape, 0)
 
@@ -8550,6 +8715,9 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 		case "Y":
 			FormDivBasicFieldToField(&(rotatedrhombusshape_.Y), formDiv)
 		case "RotatedRhombusGridShape:RotatedRhombusShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the RotatedRhombusGridShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -9237,6 +9405,9 @@ func (shiftedbottomtopstartarcshapeFormCallback *ShiftedBottomTopStartArcShapeFo
 		case "RadiusY":
 			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.RadiusY), formDiv)
 		case "ShiftedBottomTopStartArcShapeGrid:ShiftedBottomTopStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedBottomTopStartArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -9360,6 +9531,9 @@ func (shiftedbottomtopstartarcshapegridFormCallback *ShiftedBottomTopStartArcSha
 		case "Name":
 			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshapegrid_.Name), formDiv)
 		case "ShiftedBottomTopStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedBottomTopStartArcShape](shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedBottomTopStartArcShape, 0)
 
@@ -9470,6 +9644,9 @@ func (shiftedleftgrowthcurve2dribbonFormCallback *ShiftedLeftGrowthCurve2DRibbon
 		case "Name":
 			FormDivBasicFieldToField(&(shiftedleftgrowthcurve2dribbon_.Name), formDiv)
 		case "ShiftedLeftGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftGrowthCurve2DRibbonStartShape](shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftGrowthCurve2DRibbonStartShape, 0)
 
@@ -9502,6 +9679,9 @@ func (shiftedleftgrowthcurve2dribbonFormCallback *ShiftedLeftGrowthCurve2DRibbon
 			shiftedleftgrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(shiftedleftgrowthcurve2dribbon_, "ShiftedLeftGrowthCurve2DRibbonStartShapes", &shiftedleftgrowthcurve2dribbon_.ShiftedLeftGrowthCurve2DRibbonStartShapes)
 
 		case "ShiftedLeftGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftGrowthCurve2DRibbonEndShape](shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftGrowthCurve2DRibbonEndShape, 0)
 
@@ -9648,6 +9828,9 @@ func (shiftedleftgrowthcurve2dribbonendshapeFormCallback *ShiftedLeftGrowthCurve
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(shiftedleftgrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "ShiftedLeftGrowthCurve2DRibbon:ShiftedLeftGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -9807,6 +9990,9 @@ func (shiftedleftgrowthcurve2dribbonstartshapeFormCallback *ShiftedLeftGrowthCur
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(shiftedleftgrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "ShiftedLeftGrowthCurve2DRibbon:ShiftedLeftGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -9930,6 +10116,9 @@ func (shiftedleftpartiallygrowthcurve2dribbonFormCallback *ShiftedLeftPartiallyG
 		case "Name":
 			FormDivBasicFieldToField(&(shiftedleftpartiallygrowthcurve2dribbon_.Name), formDiv)
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape, 0)
 
@@ -9962,6 +10151,9 @@ func (shiftedleftpartiallygrowthcurve2dribbonFormCallback *ShiftedLeftPartiallyG
 			shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(shiftedleftpartiallygrowthcurve2dribbon_, "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes", &shiftedleftpartiallygrowthcurve2dribbon_.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes)
 
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape, 0)
 
@@ -10108,6 +10300,9 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshapeFormCallback *ShiftedLeftPa
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(shiftedleftpartiallygrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbon:ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftPartiallyGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10267,6 +10462,9 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshapeFormCallback *ShiftedLeft
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(shiftedleftpartiallygrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbon:ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftPartiallyGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10408,6 +10606,9 @@ func (shiftedleftstackgrowthcurveendarcshapeFormCallback *ShiftedLeftStackGrowth
 		case "RadiusY":
 			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.RadiusY), formDiv)
 		case "ShiftedLeftStackOfGrowthCurve:ShiftedLeftStackGrowthCurveEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftStackOfGrowthCurve instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10549,6 +10750,9 @@ func (shiftedleftstackgrowthcurvestartarcshapeFormCallback *ShiftedLeftStackGrow
 		case "RadiusY":
 			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.RadiusY), formDiv)
 		case "ShiftedLeftStackOfGrowthCurve:ShiftedLeftStackGrowthCurveStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftStackOfGrowthCurve instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10680,6 +10884,9 @@ func (shiftedleftstacknormalvectorFormCallback *ShiftedLeftStackNormalVectorForm
 		case "EndY":
 			FormDivBasicFieldToField(&(shiftedleftstacknormalvector_.EndY), formDiv)
 		case "ShiftedLeftStackOfNormalVector:ShiftedLeftStackNormalVectors":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftStackOfNormalVector instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10803,6 +11010,9 @@ func (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFo
 		case "Name":
 			FormDivBasicFieldToField(&(shiftedleftstackofgrowthcurve_.Name), formDiv)
 		case "ShiftedLeftStackGrowthCurveStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackGrowthCurveStartArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftStackGrowthCurveStartArcShape, 0)
 
@@ -10835,6 +11045,9 @@ func (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFo
 			shiftedleftstackofgrowthcurveFormCallback.probe.UpdateSliceOfPointersCallback(shiftedleftstackofgrowthcurve_, "ShiftedLeftStackGrowthCurveStartArcShapes", &shiftedleftstackofgrowthcurve_.ShiftedLeftStackGrowthCurveStartArcShapes)
 
 		case "ShiftedLeftStackGrowthCurveEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackGrowthCurveEndArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftStackGrowthCurveEndArcShape, 0)
 
@@ -10945,6 +11158,9 @@ func (shiftedleftstackofnormalvectorFormCallback *ShiftedLeftStackOfNormalVector
 		case "Name":
 			FormDivBasicFieldToField(&(shiftedleftstackofnormalvector_.Name), formDiv)
 		case "ShiftedLeftStackNormalVectors":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackNormalVector](shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedLeftStackNormalVector, 0)
 
@@ -11055,6 +11271,9 @@ func (shiftedrightgrowthcurve2dribbonFormCallback *ShiftedRightGrowthCurve2DRibb
 		case "Name":
 			FormDivBasicFieldToField(&(shiftedrightgrowthcurve2dribbon_.Name), formDiv)
 		case "ShiftedRightGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedRightGrowthCurve2DRibbonStartShape](shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedRightGrowthCurve2DRibbonStartShape, 0)
 
@@ -11087,6 +11306,9 @@ func (shiftedrightgrowthcurve2dribbonFormCallback *ShiftedRightGrowthCurve2DRibb
 			shiftedrightgrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(shiftedrightgrowthcurve2dribbon_, "ShiftedRightGrowthCurve2DRibbonStartShapes", &shiftedrightgrowthcurve2dribbon_.ShiftedRightGrowthCurve2DRibbonStartShapes)
 
 		case "ShiftedRightGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedRightGrowthCurve2DRibbonEndShape](shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ShiftedRightGrowthCurve2DRibbonEndShape, 0)
 
@@ -11233,6 +11455,9 @@ func (shiftedrightgrowthcurve2dribbonendshapeFormCallback *ShiftedRightGrowthCur
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(shiftedrightgrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "ShiftedRightGrowthCurve2DRibbon:ShiftedRightGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedRightGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11392,6 +11617,9 @@ func (shiftedrightgrowthcurve2dribbonstartshapeFormCallback *ShiftedRightGrowthC
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(shiftedrightgrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "ShiftedRightGrowthCurve2DRibbon:ShiftedRightGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedRightGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11533,6 +11761,9 @@ func (stackgrowthcurve2dendhalfwayarcshapeFormCallback *StackGrowthCurve2DEndHal
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(stackgrowthcurve2dendhalfwayarcshape_.SweepFlag), formDiv)
 		case "StackOfGrowthCurve2D:StackGrowthCurve2DEndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11692,6 +11923,9 @@ func (stackgrowthcurve2dribbonendshapeFormCallback *StackGrowthCurve2DRibbonEndS
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(stackgrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "StackOfGrowthCurve2DRibbon:StackGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11851,6 +12085,9 @@ func (stackgrowthcurve2dribbonstartshapeFormCallback *StackGrowthCurve2DRibbonSt
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(stackgrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "StackOfGrowthCurve2DRibbon:StackGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11992,6 +12229,9 @@ func (stackgrowthcurve2dstarthalfwayarcshapeFormCallback *StackGrowthCurve2DStar
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(stackgrowthcurve2dstarthalfwayarcshape_.SweepFlag), formDiv)
 		case "StackOfGrowthCurve2D:StackGrowthCurve2DStartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -12115,6 +12355,9 @@ func (stackofgrowthcurve2dFormCallback *StackOfGrowthCurve2DFormCallback) OnSave
 		case "Name":
 			FormDivBasicFieldToField(&(stackofgrowthcurve2d_.Name), formDiv)
 		case "StackGrowthCurve2DStartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DStartHalfwayArcShape](stackofgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackGrowthCurve2DStartHalfwayArcShape, 0)
 
@@ -12147,6 +12390,9 @@ func (stackofgrowthcurve2dFormCallback *StackOfGrowthCurve2DFormCallback) OnSave
 			stackofgrowthcurve2dFormCallback.probe.UpdateSliceOfPointersCallback(stackofgrowthcurve2d_, "StackGrowthCurve2DStartHalfwayArcShapes", &stackofgrowthcurve2d_.StackGrowthCurve2DStartHalfwayArcShapes)
 
 		case "StackGrowthCurve2DEndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DEndHalfwayArcShape](stackofgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackGrowthCurve2DEndHalfwayArcShape, 0)
 
@@ -12335,6 +12581,9 @@ func (stackofgrowthcurve2dribbonFormCallback *StackOfGrowthCurve2DRibbonFormCall
 		case "Name":
 			FormDivBasicFieldToField(&(stackofgrowthcurve2dribbon_.Name), formDiv)
 		case "StackGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DRibbonStartShape](stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackGrowthCurve2DRibbonStartShape, 0)
 
@@ -12367,6 +12616,9 @@ func (stackofgrowthcurve2dribbonFormCallback *StackOfGrowthCurve2DRibbonFormCall
 			stackofgrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(stackofgrowthcurve2dribbon_, "StackGrowthCurve2DRibbonStartShapes", &stackofgrowthcurve2dribbon_.StackGrowthCurve2DRibbonStartShapes)
 
 		case "StackGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DRibbonEndShape](stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackGrowthCurve2DRibbonEndShape, 0)
 
@@ -12555,6 +12807,9 @@ func (stackofrotatedgrowthcurve2dFormCallback *StackOfRotatedGrowthCurve2DFormCa
 		case "Name":
 			FormDivBasicFieldToField(&(stackofrotatedgrowthcurve2d_.Name), formDiv)
 		case "StackRotatedGrowthCurve2DStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DStartArcShape](stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DStartArcShape, 0)
 
@@ -12587,6 +12842,9 @@ func (stackofrotatedgrowthcurve2dFormCallback *StackOfRotatedGrowthCurve2DFormCa
 			stackofrotatedgrowthcurve2dFormCallback.probe.UpdateSliceOfPointersCallback(stackofrotatedgrowthcurve2d_, "StackRotatedGrowthCurve2DStartArcShapes", &stackofrotatedgrowthcurve2d_.StackRotatedGrowthCurve2DStartArcShapes)
 
 		case "StackRotatedGrowthCurve2DEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DEndArcShape](stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DEndArcShape, 0)
 
@@ -12697,6 +12955,9 @@ func (stackofrotatedgrowthcurve2dribbonFormCallback *StackOfRotatedGrowthCurve2D
 		case "Name":
 			FormDivBasicFieldToField(&(stackofrotatedgrowthcurve2dribbon_.Name), formDiv)
 		case "StackRotatedGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DRibbonStartShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DRibbonStartShape, 0)
 
@@ -12729,6 +12990,9 @@ func (stackofrotatedgrowthcurve2dribbonFormCallback *StackOfRotatedGrowthCurve2D
 			stackofrotatedgrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(stackofrotatedgrowthcurve2dribbon_, "StackRotatedGrowthCurve2DRibbonStartShapes", &stackofrotatedgrowthcurve2dribbon_.StackRotatedGrowthCurve2DRibbonStartShapes)
 
 		case "StackRotatedGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DRibbonEndShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DRibbonEndShape, 0)
 
@@ -12857,6 +13121,9 @@ func (stackrotatedgrowthcurve2dendarcshapeFormCallback *StackRotatedGrowthCurve2
 		case "RadiusY":
 			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dendarcshape_.RadiusY), formDiv)
 		case "StackOfRotatedGrowthCurve2D:StackRotatedGrowthCurve2DEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfRotatedGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -13016,6 +13283,9 @@ func (stackrotatedgrowthcurve2dribbonendshapeFormCallback *StackRotatedGrowthCur
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
 		case "StackOfRotatedGrowthCurve2DRibbon:StackRotatedGrowthCurve2DRibbonEndShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfRotatedGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -13175,6 +13445,9 @@ func (stackrotatedgrowthcurve2dribbonstartshapeFormCallback *StackRotatedGrowthC
 		case "TopSweepFlag":
 			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
 		case "StackOfRotatedGrowthCurve2DRibbon:StackRotatedGrowthCurve2DRibbonStartShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfRotatedGrowthCurve2DRibbon instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -13316,6 +13589,9 @@ func (stackrotatedgrowthcurve2dstartarcshapeFormCallback *StackRotatedGrowthCurv
 		case "RadiusY":
 			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dstartarcshape_.RadiusY), formDiv)
 		case "StackOfRotatedGrowthCurve2D:StackRotatedGrowthCurve2DStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfRotatedGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -13457,6 +13733,9 @@ func (startarcshapeFormCallback *StartArcShapeFormCallback) OnSave() {
 		case "RadiusY":
 			FormDivBasicFieldToField(&(startarcshape_.RadiusY), formDiv)
 		case "StartArcShapeGrid:StartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StartArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -13580,6 +13859,9 @@ func (startarcshapegridFormCallback *StartArcShapeGridFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(startarcshapegrid_.Name), formDiv)
 		case "StartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShape](startarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StartArcShape, 0)
 
@@ -13708,6 +13990,9 @@ func (starthalfwayarcshapeFormCallback *StartHalfwayArcShapeFormCallback) OnSave
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(starthalfwayarcshape_.SweepFlag), formDiv)
 		case "StartHalfwayArcShapeGrid:StartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StartHalfwayArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -13831,6 +14116,9 @@ func (starthalfwayarcshapegridFormCallback *StartHalfwayArcShapeGridFormCallback
 		case "Name":
 			FormDivBasicFieldToField(&(starthalfwayarcshapegrid_.Name), formDiv)
 		case "StartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StartHalfwayArcShape](starthalfwayarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StartHalfwayArcShape, 0)
 
@@ -14031,6 +14319,9 @@ func (stool2ddiagramFormCallback *Stool2DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(stool2ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Stool2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -14234,6 +14525,9 @@ func (stool3ddiagramFormCallback *Stool3DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(stool3ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Stool3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -14551,6 +14845,9 @@ func (topendarcshapeFormCallback *TopEndArcShapeFormCallback) OnSave() {
 		case "RadiusY":
 			FormDivBasicFieldToField(&(topendarcshape_.RadiusY), formDiv)
 		case "TopEndArcShapeGrid:TopEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopEndArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -14674,6 +14971,9 @@ func (topendarcshapegridFormCallback *TopEndArcShapeGridFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(topendarcshapegrid_.Name), formDiv)
 		case "TopEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShape](topendarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopEndArcShape, 0)
 
@@ -14802,6 +15102,9 @@ func (topendhalfwayarcshapeFormCallback *TopEndHalfwayArcShapeFormCallback) OnSa
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(topendhalfwayarcshape_.SweepFlag), formDiv)
 		case "TopEndHalfwayArcShapeGrid:TopEndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopEndHalfwayArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -14925,6 +15228,9 @@ func (topendhalfwayarcshapegridFormCallback *TopEndHalfwayArcShapeGridFormCallba
 		case "Name":
 			FormDivBasicFieldToField(&(topendhalfwayarcshapegrid_.Name), formDiv)
 		case "TopEndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndHalfwayArcShape](topendhalfwayarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopEndHalfwayArcShape, 0)
 
@@ -15125,6 +15431,9 @@ func (topmidarcvectorshapeFormCallback *TopMidArcVectorShapeFormCallback) OnSave
 		case "EndY":
 			FormDivBasicFieldToField(&(topmidarcvectorshape_.EndY), formDiv)
 		case "TopMidArcVectorShapeGrid:TopMidArcVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopMidArcVectorShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -15248,6 +15557,9 @@ func (topmidarcvectorshapegridFormCallback *TopMidArcVectorShapeGridFormCallback
 		case "Name":
 			FormDivBasicFieldToField(&(topmidarcvectorshapegrid_.Name), formDiv)
 		case "TopMidArcVectorShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopMidArcVectorShape](topmidarcvectorshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopMidArcVectorShape, 0)
 
@@ -15376,6 +15688,9 @@ func (topstackgrowthcurve2dendhalfwayarcshapeFormCallback *TopStackGrowthCurve2D
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(topstackgrowthcurve2dendhalfwayarcshape_.SweepFlag), formDiv)
 		case "TopStackOfGrowthCurve2D:TopStackGrowthCurve2DEndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStackOfGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -15517,6 +15832,9 @@ func (topstackgrowthcurve2dstarthalfwayarcshapeFormCallback *TopStackGrowthCurve
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(topstackgrowthcurve2dstarthalfwayarcshape_.SweepFlag), formDiv)
 		case "TopStackOfGrowthCurve2D:TopStackGrowthCurve2DStartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStackOfGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -15640,6 +15958,9 @@ func (topstackofgrowthcurve2dFormCallback *TopStackOfGrowthCurve2DFormCallback) 
 		case "Name":
 			FormDivBasicFieldToField(&(topstackofgrowthcurve2d_.Name), formDiv)
 		case "TopStackGrowthCurve2DStartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurve2DStartHalfwayArcShape](topstackofgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopStackGrowthCurve2DStartHalfwayArcShape, 0)
 
@@ -15672,6 +15993,9 @@ func (topstackofgrowthcurve2dFormCallback *TopStackOfGrowthCurve2DFormCallback) 
 			topstackofgrowthcurve2dFormCallback.probe.UpdateSliceOfPointersCallback(topstackofgrowthcurve2d_, "TopStackGrowthCurve2DStartHalfwayArcShapes", &topstackofgrowthcurve2d_.TopStackGrowthCurve2DStartHalfwayArcShapes)
 
 		case "TopStackGrowthCurve2DEndHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurve2DEndHalfwayArcShape](topstackofgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopStackGrowthCurve2DEndHalfwayArcShape, 0)
 
@@ -15782,6 +16106,9 @@ func (topstackofrotatedgrowthcurve2dFormCallback *TopStackOfRotatedGrowthCurve2D
 		case "Name":
 			FormDivBasicFieldToField(&(topstackofrotatedgrowthcurve2d_.Name), formDiv)
 		case "TopStackOfRotatedGrowthCurve2DStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfRotatedGrowthCurve2DStartArcShape](topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopStackOfRotatedGrowthCurve2DStartArcShape, 0)
 
@@ -15814,6 +16141,9 @@ func (topstackofrotatedgrowthcurve2dFormCallback *TopStackOfRotatedGrowthCurve2D
 			topstackofrotatedgrowthcurve2dFormCallback.probe.UpdateSliceOfPointersCallback(topstackofrotatedgrowthcurve2d_, "TopStackOfRotatedGrowthCurve2DStartArcShapes", &topstackofrotatedgrowthcurve2d_.TopStackOfRotatedGrowthCurve2DStartArcShapes)
 
 		case "TopStackOfRotatedGrowthCurve2DEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfRotatedGrowthCurve2DEndArcShape](topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopStackOfRotatedGrowthCurve2DEndArcShape, 0)
 
@@ -15942,6 +16272,9 @@ func (topstackofrotatedgrowthcurve2dendarcshapeFormCallback *TopStackOfRotatedGr
 		case "RadiusY":
 			FormDivBasicFieldToField(&(topstackofrotatedgrowthcurve2dendarcshape_.RadiusY), formDiv)
 		case "TopStackOfRotatedGrowthCurve2D:TopStackOfRotatedGrowthCurve2DEndArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStackOfRotatedGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -16083,6 +16416,9 @@ func (topstackofrotatedgrowthcurve2dstartarcshapeFormCallback *TopStackOfRotated
 		case "RadiusY":
 			FormDivBasicFieldToField(&(topstackofrotatedgrowthcurve2dstartarcshape_.RadiusY), formDiv)
 		case "TopStackOfRotatedGrowthCurve2D:TopStackOfRotatedGrowthCurve2DStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStackOfRotatedGrowthCurve2D instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -16224,6 +16560,9 @@ func (topstartarcshapeFormCallback *TopStartArcShapeFormCallback) OnSave() {
 		case "RadiusY":
 			FormDivBasicFieldToField(&(topstartarcshape_.RadiusY), formDiv)
 		case "TopStartArcShapeGrid:TopStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStartArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -16347,6 +16686,9 @@ func (topstartarcshapegridFormCallback *TopStartArcShapeGridFormCallback) OnSave
 		case "Name":
 			FormDivBasicFieldToField(&(topstartarcshapegrid_.Name), formDiv)
 		case "TopStartArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShape](topstartarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopStartArcShape, 0)
 
@@ -16475,6 +16817,9 @@ func (topstarthalfwayarcshapeFormCallback *TopStartHalfwayArcShapeFormCallback) 
 		case "SweepFlag":
 			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.SweepFlag), formDiv)
 		case "TopStartHalfwayArcShapeGrid:TopStartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStartHalfwayArcShapeGrid instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -16598,6 +16943,9 @@ func (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCa
 		case "Name":
 			FormDivBasicFieldToField(&(topstarthalfwayarcshapegrid_.Name), formDiv)
 		case "TopStartHalfwayArcShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartHalfwayArcShape](topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TopStartHalfwayArcShape, 0)
 
@@ -17018,6 +17366,9 @@ func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Vase2DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -17203,6 +17554,9 @@ func (vase3ddiagramFormCallback *Vase3DDiagramFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(vase3ddiagram_.IsExpanded), formDiv)
 		case "PlantAbstract:Vase3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

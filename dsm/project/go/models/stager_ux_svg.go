@@ -225,12 +225,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
 
 			// shift the text on the right
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content,
-					int((rect.Width-(distanceFromBorder+iconWidth))/stager.getRootLibrary().NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, taskShape, rect, distanceFromBorder+iconWidth)
 		}
 	}
 
@@ -499,13 +494,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
 
 			// shift the text on the right
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content,
-					int((rect.Width-(distanceFromBorder+iconWidth))/stager.getRootLibrary().NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
-
+			AdjustRectTitleForLeftIcon(stager, diagram, resourceShape, rect, distanceFromBorder+iconWidth)
 		}
 	}
 

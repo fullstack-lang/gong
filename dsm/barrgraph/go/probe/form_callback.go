@@ -161,6 +161,9 @@ func (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(artefacttypeshape_.IsHidden), formDiv)
 		case "Diagram:ArtefactTypeShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -400,6 +403,9 @@ func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
 		case "ImagePngBase64Content":
 			FormDivBasicFieldToField(&(artistshape_.ImagePngBase64Content), formDiv)
 		case "Diagram:ArtistShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -529,6 +535,9 @@ func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
 		case "IsStartShapeTheClosestShape":
 			FormDivBasicFieldToField(&(controlpointshape_.IsStartShapeTheClosestShape), formDiv)
 		case "InfluenceShape:ControlPointShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the InfluenceShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -738,6 +747,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "MovementShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MovementShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.MovementShape, 0)
 
@@ -770,6 +782,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MovementShapes", &diagram_.MovementShapes)
 
 		case "ArtefactTypeShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArtefactTypeShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ArtefactTypeShape, 0)
 
@@ -802,6 +817,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ArtefactTypeShapes", &diagram_.ArtefactTypeShapes)
 
 		case "ArtistShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArtistShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ArtistShape, 0)
 
@@ -834,6 +852,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ArtistShapes", &diagram_.ArtistShapes)
 
 		case "InfluenceShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.InfluenceShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.InfluenceShape, 0)
 
@@ -1212,6 +1233,9 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(influenceshape_.IsHidden), formDiv)
 		case "ControlPointShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](influenceshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlPointShape, 0)
 
@@ -1244,6 +1268,9 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 			influenceshapeFormCallback.probe.UpdateSliceOfPointersCallback(influenceshape_, "ControlPointShapes", &influenceshape_.ControlPointShapes)
 
 		case "Diagram:InfluenceShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1375,6 +1402,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "SubLibraries":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Library, 0)
 
@@ -1409,6 +1439,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "IsSubLibrariesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsSubLibrariesNodeExpanded), formDiv)
 		case "SubLibrariesWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Library, 0)
 
@@ -1447,6 +1480,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
 		case "Library:SubLibraries":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1492,6 +1528,9 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 		case "Library:SubLibrariesWhoseNodeIsExpanded":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1623,6 +1662,9 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 		case "HideDate":
 			FormDivBasicFieldToField(&(movement_.HideDate), formDiv)
 		case "Places":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Place](movementFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Place, 0)
 
@@ -1759,6 +1801,9 @@ func (movementshapeFormCallback *MovementShapeFormCallback) OnSave() {
 		case "IsHidden":
 			FormDivBasicFieldToField(&(movementshape_.IsHidden), formDiv)
 		case "Diagram:MovementShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1882,6 +1927,9 @@ func (placeFormCallback *PlaceFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(place_.Name), formDiv)
 		case "Movement:Places":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Movement instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

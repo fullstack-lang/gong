@@ -3,7 +3,6 @@ package models
 import (
 	"log"
 
-	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -41,8 +40,6 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
-	root := stager.GetRootLibrary()
-
 	svgStage := stager.svgStage
 
 	stager.svgObject = (&svg.SVG{Name: `SVG`})
@@ -126,10 +123,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			title.FontWeight = "500"
 			title.FontSize = "16px"
 			title.FontFamily = "sans-serif"
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, deliverableShape, rect, distanceFromBorder+iconWidth+padding)
 		}
 	}
 
@@ -233,11 +227,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
 
 			// shift the text on the right
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, concernShape, rect, distanceFromBorder+iconWidth+padding)
 		} else {
 			concernLogo := new(svg.RectAnchoredPath)
 			concernLogo.Name = "Gear"
@@ -257,13 +247,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			concernLogo.RectAnchorType = svg.RECT_TOP_LEFT
 			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, concernLogo)
 
-			if len(rect.RectAnchoredTexts) > 0 {
-				title := rect.RectAnchoredTexts[0]
-				if rect.Width > (distanceFromBorder + iconWidth + padding) {
-					title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-				}
-				title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
-			}
+			AdjustRectTitleForLeftIcon(stager, diagram, concernShape, rect, distanceFromBorder+iconWidth+padding)
 		}
 
 		if concernShape.Concern.IDAirbus != "" {
@@ -424,14 +408,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		penLogo.Y_Offset = distanceFromBorder
 		penLogo.RectAnchorType = svg.RECT_TOP_LEFT
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
-
-		if len(rect.RectAnchoredTexts) > 0 {
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
-		}
+		AdjustRectTitleForLeftIcon(stager, diagram, noteShape, rect, distanceFromBorder+iconWidth+padding)
 	}
 
 	for _, noteDeliverableShape := range diagram.NoteDeliverableShapes {
@@ -531,11 +508,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 			// shift the text on the right
 			padding := 10.0
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, s, rect, distanceFromBorder+iconWidth+padding)
 		}
 
 		if s.Stakeholder.IDAirbus != "" {
@@ -676,11 +649,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			padding := 10.0
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, reqShape, rect, distanceFromBorder+iconWidth+padding)
 		}
 	}
 
@@ -757,11 +726,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			padding := 10.0
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, diagramShape, rect, distanceFromBorder+iconWidth+padding)
 		}
 	}
 
@@ -816,11 +781,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			padding := 10.0
-			title := rect.RectAnchoredTexts[0]
-			if rect.Width > (distanceFromBorder + iconWidth + padding) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
-			}
-			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+			AdjustRectTitleForLeftIcon(stager, diagram, conceptShape, rect, distanceFromBorder+iconWidth+padding)
 		}
 	}
 
