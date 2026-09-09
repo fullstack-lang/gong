@@ -67,16 +67,6 @@ func (stager *Stager) enforceShapeSemantic() (needCommit bool) {
 				}
 			}
 		}
-
-		for _, noteTransitionShape := range diagram.NoteTransition_Shapes {
-			if noteTransitionShape.Note == nil || noteTransitionShape.Transition == nil {
-				noteTransitionShape.Unstage(stager.stage)
-				needCommit = true
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), "Unstaged NoteTransitionShape with nil Note or Transition")
-				}
-			}
-		}
 	}
 
 	return

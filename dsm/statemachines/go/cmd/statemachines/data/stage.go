@@ -88,7 +88,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = true
-	__Diagram__00000001_.IsNotesNodeExpanded = false
 
 	__Guard__00000000_.Name = `YES`
 
@@ -101,7 +100,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = true
-	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 

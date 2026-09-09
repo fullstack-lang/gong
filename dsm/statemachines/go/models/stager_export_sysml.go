@@ -84,6 +84,7 @@ func writeState(sb *strings.Builder, state *State, indent string, parentMap map[
 	}
 
 	hasBody := hasSubStates ||
+		len(state.Notes) > 0 ||
 		(state.Entry != nil && state.Entry.Name != "") ||
 		len(state.Activities) > 0 ||
 		(state.Exit != nil && state.Exit.Name != "")
@@ -102,6 +103,12 @@ func writeState(sb *strings.Builder, state *State, indent string, parentMap map[
 
 	if state.IsEndState {
 		sb.WriteString(fmt.Sprintf("%s// end state\n", innerIndent))
+	}
+
+	for _, note := range state.Notes {
+		if note != nil && note.Name != "" {
+			sb.WriteString(fmt.Sprintf("%sdoc /* Note: %s */\n", innerIndent, strings.ReplaceAll(note.Name, "*/", "* /")))
+		}
 	}
 
 	if state.Entry != nil && state.Entry.Name != "" {
@@ -329,15 +336,7 @@ func (stager *Stager) writeLibraryPackage(sb *strings.Builder, lib *Library, ind
 		sb.WriteString("\n")
 	}
 
-	// Write Notes as comments/doc if present
-	for _, note := range lib.RootNotes {
-		if note != nil && note.Name != "" {
-			sb.WriteString(fmt.Sprintf("%sdoc /* Note: %s */\n", innerIndent, strings.ReplaceAll(note.Name, "*/", "* /")))
-		}
-	}
-	if len(lib.RootNotes) > 0 {
-		sb.WriteString("\n")
-	}
+
 
 	// Write state machines
 	for _, sm := range sms {

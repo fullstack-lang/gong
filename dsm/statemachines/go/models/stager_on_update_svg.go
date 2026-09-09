@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"slices"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
@@ -62,6 +63,28 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		stager.probeForm.FillUpFormFromGongstruct(transition, "Transition")
 	} else if isStartNote && isEndState {
+		// A note can only be attached to one and only one state
+		if startNoteShape.Note.State != nil && startNoteShape.Note.State != endStateShape.State {
+			idx := slices.Index(startNoteShape.Note.State.Notes, startNoteShape.Note)
+			if idx != -1 {
+				startNoteShape.Note.State.Notes = slices.Delete(startNoteShape.Note.State.Notes, idx, idx+1)
+			}
+			var newNoteStateShapes []*NoteStateShape
+			for _, nss := range stager.diagram.NoteState_Shapes {
+				if nss.Note == startNoteShape.Note {
+					nss.Unstage(stager.stage)
+				} else {
+					newNoteStateShapes = append(newNoteStateShapes, nss)
+				}
+			}
+			stager.diagram.NoteState_Shapes = newNoteStateShapes
+		}
+
+		startNoteShape.Note.State = endStateShape.State
+		if !slices.Contains(endStateShape.State.Notes, startNoteShape.Note) {
+			endStateShape.State.Notes = append(endStateShape.State.Notes, startNoteShape.Note)
+		}
+
 		noteStateShape := new(NoteStateShape).Stage(stager.stage)
 		noteStateShape.Name = startNoteShape.Note.Name + " to " + endStateShape.State.Name
 		noteStateShape.Note = startNoteShape.Note
@@ -74,9 +97,6 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		stager.diagram.NoteState_Shapes =
 			append(stager.diagram.NoteState_Shapes, noteStateShape)
-
-		// also add the state to the note's state links
-		startNoteShape.Note.States = append(startNoteShape.Note.States, endStateShape.State)
 
 		stager.probeForm.FillUpFormFromGongstruct(noteStateShape, "NoteStateShape")
 	}

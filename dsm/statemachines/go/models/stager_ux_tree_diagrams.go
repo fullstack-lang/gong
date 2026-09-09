@@ -115,54 +115,6 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		stager.treeStateMachines(stateMachine, stateMachinesNode, &library.StateMachinesWhoseNodeIsExpanded)
 	}
 
-	//
-	// Notes
-	//
-	notesNode := &tree.Node{
-		Name:            "Notes",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      library.IsNotesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	libraryNode.Children = append(libraryNode.Children, notesNode)
-	notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsNotesNodeExpanded)
-	notesNode.OnClick = onNodeClicked(stager, library)
-
-	// add a note to the library button
-	confRootNotes := ItemButtonConfiguration[
-		Note, *Note,
-		Library, *Library,
-	]{
-		parentNode:                         notesNode,
-		sliceForNewAddedItem:               &library.RootNotes,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsNotesNodeExpanded,
-	}
-	addCreateItemButton(stager, confRootNotes)
-
-	for _, note := range library.RootNotes {
-		stager.treeNotes(note, notesNode, &library.NotesWhoseNodeIsExpanded)
-	}
-}
-
-func (stager *Stager) treeNotes(
-	note *Note,
-	parentNode *tree.Node,
-	notesWhoseNodeIsExpanded *[]*Note,
-) {
-	noteNode := &tree.Node{
-		Name:            note.GetName(),
-		IsExpanded:      slices.Contains(*notesWhoseNodeIsExpanded, note),
-		IsNodeClickable: true,
-		IsInEditMode:    note.GetIsInRenameMode(),
-	}
-	parentNode.Children = append(parentNode.Children, noteNode)
-
-	addRenameButton(note, noteNode, stager)
-	noteNode.OnNameChange = stager.onNameChange(note)
-	noteNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, note, notesWhoseNodeIsExpanded)
-	noteNode.OnClick = onNodeClicked(stager, note)
 }
 
 func (stager *Stager) treeStateMachines(
@@ -285,6 +237,13 @@ func (stager *Stager) treeStateMachines(
 		map_Transition__TransitionShape := make(map[*Transition]*Transition_Shape)
 		for _, transitionShape := range diagram.Transition_Shapes {
 			map_Transition__TransitionShape[transitionShape.Transition] = transitionShape
+		}
+
+		map_Note__NoteShape := make(map[*Note]*NoteShape)
+		for _, noteShape := range diagram.Note_Shapes {
+			if noteShape.Note != nil {
+				map_Note__NoteShape[noteShape.Note] = noteShape
+			}
 		}
 
 		statesNode := &tree.Node{
@@ -466,6 +425,179 @@ func (stager *Stager) treeStateMachines(
 						diagramStateNode.Children = append(diagramStateNode.Children, transitionNode)
 					}
 				}
+
+				addNoteButton := &tree.Button{
+					Name:            state.GetName() + " " + string(buttons.BUTTON_note_add),
+					Icon:            string(buttons.BUTTON_note_add),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Add a Note to this State and to the diagram",
+					OnClick: func() {
+						s := stager.stage
+						newNote := new(Note).Stage(s)
+						newNote.Name = "New Note"
+						newNote.State = state
+						state.Notes = append(state.Notes, newNote)
+
+						newShape := new(NoteShape)
+						newShape.Note = newNote
+						newShape.Name = newNote.GetName() + "-" + diagram.GetName()
+						newShape.Height = 80
+						newShape.Width = 200
+						newShape.X = stateShape.X + 250
+						newShape.Y = stateShape.Y
+						diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
+						newShape.Stage(s)
+
+						noteStateShape := new(NoteStateShape).Stage(s)
+						noteStateShape.Name = newNote.GetName() + "-" + state.GetName()
+						noteStateShape.Note = newNote
+						noteStateShape.State = state
+						noteStateShape.StartOrientation = ORIENTATION_HORIZONTAL
+						noteStateShape.EndOrientation = ORIENTATION_HORIZONTAL
+						noteStateShape.CornerOffsetRatio = 1.2
+						noteStateShape.StartRatio = 0.5
+						noteStateShape.EndRatio = 0.5
+						diagram.NoteState_Shapes = append(diagram.NoteState_Shapes, noteStateShape)
+
+						stager.stage.Commit()
+					},
+				}
+				diagramStateNode.Buttons = append(diagramStateNode.Buttons, addNoteButton)
+
+				for _, note := range state.Notes {
+					noteNode := new(tree.Node)
+					noteNode.Name = note.Name
+					noteNode.HasCheckboxButton = true
+					noteNode.IsNodeClickable = true
+					noteNode.IsInEditMode = note.isInRenameMode
+
+					var noteShape *NoteShape
+					var isNoteChecked bool
+					if shape, ok := map_Note__NoteShape[note]; ok {
+						noteShape = shape
+						isNoteChecked = true
+						noteNode.IsChecked = true
+					}
+
+					if !note.isInRenameMode {
+						noteNode.Buttons = append(noteNode.Buttons,
+							&tree.Button{
+								Name: note.GetName() + " " + string(buttons.BUTTON_edit_note),
+								Icon: string(buttons.BUTTON_edit_note),
+								OnClick: func() {
+									note.isInRenameMode = true
+									stager.stage.Commit()
+								},
+								HasToolTip:      true,
+								ToolTipText:     "Rename the note",
+								ToolTipPosition: tree.Above,
+							})
+					} else {
+						noteNode.Buttons = append(noteNode.Buttons,
+							&tree.Button{
+								Name: note.GetName() + " " + string(buttons.BUTTON_edit_off),
+								Icon: string(buttons.BUTTON_edit_off),
+								OnClick: func() {
+									note.isInRenameMode = false
+									stager.stage.Commit()
+								},
+								HasToolTip:      true,
+								ToolTipText:     "Cancel renaming",
+								ToolTipPosition: tree.Above,
+							})
+					}
+
+					if isNoteChecked && noteShape != nil {
+						howHideButton := &tree.Button{
+							Name:            "Show Note Shape",
+							Icon:            string(buttons.BUTTON_visibility),
+							HasToolTip:      true,
+							ToolTipPosition: tree.Above,
+							ToolTipText:     "Show Note Shape",
+							OnClick: func() {
+								noteShape.SetIsHidden(!noteShape.GetIsHidden())
+								stager.stage.Commit()
+							},
+						}
+						noteNode.Buttons = append(noteNode.Buttons, howHideButton)
+
+						if !noteShape.GetIsHidden() {
+							howHideButton.Icon = string(buttons.BUTTON_visibility_off)
+							howHideButton.ToolTipText = "Hide Note Shape"
+						}
+					}
+
+					noteNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
+							if noteShape != nil {
+								log.Fatalln("adding a shape to an already note shape")
+							}
+							newShape := new(NoteShape)
+							newShape.Note = note
+							newShape.Name = note.GetName() + "-" + diagram.GetName()
+							newShape.Height = 80
+							newShape.Width = 200
+							newShape.X = stateShape.X + 250
+							newShape.Y = stateShape.Y
+							diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
+							newShape.Stage(stager.stage)
+
+							hasNoteStateShape := false
+							for _, nss := range diagram.NoteState_Shapes {
+								if nss.Note == note && nss.State == state {
+									hasNoteStateShape = true
+									break
+								}
+							}
+							if !hasNoteStateShape {
+								nss := new(NoteStateShape).Stage(stager.stage)
+								nss.Name = note.GetName() + "-" + state.GetName()
+								nss.Note = note
+								nss.State = state
+								nss.StartOrientation = ORIENTATION_HORIZONTAL
+								nss.EndOrientation = ORIENTATION_HORIZONTAL
+								nss.CornerOffsetRatio = 1.2
+								nss.StartRatio = 0.5
+								nss.EndRatio = 0.5
+								diagram.NoteState_Shapes = append(diagram.NoteState_Shapes, nss)
+							}
+
+							stager.stage.Commit()
+						} else {
+							if noteShape != nil {
+								noteShape.Unstage(stager.stage)
+								idx := slices.Index(diagram.Note_Shapes, noteShape)
+								if idx != -1 {
+									diagram.Note_Shapes = slices.Delete(diagram.Note_Shapes, idx, idx+1)
+								}
+							}
+							var remainingNSS []*NoteStateShape
+							for _, nss := range diagram.NoteState_Shapes {
+								if nss.Note == note && nss.State == state {
+									nss.Unstage(stager.stage)
+								} else {
+									remainingNSS = append(remainingNSS, nss)
+								}
+							}
+							diagram.NoteState_Shapes = remainingNSS
+
+							stager.stage.Commit()
+						}
+					}
+
+					noteNode.OnNameChange = func(newName string) {
+						note.Name = newName
+						note.isInRenameMode = false
+						stager.stage.Commit()
+					}
+
+					noteNode.OnClick = func(frontNode *tree.Node) {
+						stager.probeForm.FillUpFormFromGongstruct(note, "Note")
+					}
+
+					diagramStateNode.Children = append(diagramStateNode.Children, noteNode)
+				}
 			}
 
 			diagramStateNode.OnIsCheckedChanged = func(isChecked bool) {
@@ -515,275 +647,6 @@ func (stager *Stager) treeStateMachines(
 			}
 
 			statesNode.Children = append(statesNode.Children, diagramStateNode)
-		}
-
-		notesNode := &tree.Node{
-			Name:            "Notes",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      diagram.IsNotesNodeExpanded,
-			IsNodeClickable: true,
-		}
-		diagramNode.Children = append(diagramNode.Children, notesNode)
-		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
-		notesNode.OnClick = func(*tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
-		}
-
-		if diagram.IsChecked {
-			var addButton *tree.Button
-			addButton = &tree.Button{
-				Name:            "Diagram" + " " + string(buttons.BUTTON_add),
-				Icon:            string(buttons.BUTTON_add),
-				HasToolTip:      true,
-				ToolTipPosition: tree.Above,
-				ToolTipText:     "Add a Note to the Library and add it to the diagram",
-			}
-			addButton.OnClick = func() {
-				s := stager.stage
-				newNote := new(Note).Stage(s)
-
-				newNote.Name = "New Note"
-				stager.GetRootLibrary().RootNotes = append(stager.GetRootLibrary().RootNotes, newNote)
-
-				newShape := new(NoteShape)
-				newShape.Note = newNote
-				newShape.Name = newNote.GetName() + "-" + diagram.GetName()
-				newShape.Height = 80
-				newShape.Width = 200
-				newShape.X = 100
-				newShape.Y = addButton.ClientOnY
-				diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
-				newShape.Stage(stager.stage)
-
-				stager.stage.Commit()
-			}
-			notesNode.Buttons = append(notesNode.Buttons, addButton)
-		}
-
-		// for displaying wether the Note node is checked
-		map_Note__NoteShape := make(map[*Note]*NoteShape)
-		for _, noteShape := range diagram.Note_Shapes {
-			map_Note__NoteShape[noteShape.Note] = noteShape
-		}
-
-		map_NoteState__NoteStateShape := make(map[*Note]map[*State]*NoteStateShape)
-		for _, noteStateShape := range diagram.NoteState_Shapes {
-			if map_NoteState__NoteStateShape[noteStateShape.Note] == nil {
-				map_NoteState__NoteStateShape[noteStateShape.Note] = make(map[*State]*NoteStateShape)
-			}
-			map_NoteState__NoteStateShape[noteStateShape.Note][noteStateShape.State] = noteStateShape
-		}
-
-		map_NoteTransition__NoteTransitionShape := make(map[*Note]map[*Transition]*NoteTransitionShape)
-		for _, noteTransitionShape := range diagram.NoteTransition_Shapes {
-			if map_NoteTransition__NoteTransitionShape[noteTransitionShape.Note] == nil {
-				map_NoteTransition__NoteTransitionShape[noteTransitionShape.Note] = make(map[*Transition]*NoteTransitionShape)
-			}
-			map_NoteTransition__NoteTransitionShape[noteTransitionShape.Note][noteTransitionShape.Transition] = noteTransitionShape
-		}
-
-		for _, note := range stager.GetRootLibrary().RootNotes {
-			diagramNoteNode := new(tree.Node)
-			diagramNoteNode.Name = note.Name
-			diagramNoteNode.HasCheckboxButton = true
-			diagramNoteNode.IsNodeClickable = true
-			diagramNoteNode.IsInEditMode = note.isInRenameMode
-			diagramNoteNode.IsExpanded = slices.Contains(diagram.NotesWhoseNodeIsExpanded, note)
-
-			if !note.isInRenameMode {
-				diagramNoteNode.Buttons = append(diagramNoteNode.Buttons,
-					&tree.Button{
-						Name: note.GetName() + " " + string(buttons.BUTTON_edit_note),
-						Icon: string(buttons.BUTTON_edit_note),
-						OnClick: func() {
-							note.isInRenameMode = true
-							stager.stage.Commit()
-						},
-						HasToolTip:      true,
-						ToolTipText:     "Rename the note",
-						ToolTipPosition: tree.Above,
-					})
-			} else {
-				diagramNoteNode.Buttons = append(diagramNoteNode.Buttons,
-					&tree.Button{
-						Name: note.GetName() + " " + string(buttons.BUTTON_edit_off),
-						Icon: string(buttons.BUTTON_edit_off),
-						OnClick: func() {
-							note.isInRenameMode = false
-							stager.stage.Commit()
-						},
-						HasToolTip:      true,
-						ToolTipText:     "Cancel renaming",
-						ToolTipPosition: tree.Above,
-					})
-			}
-
-			var noteShape *NoteShape
-			var ok bool
-			if noteShape, ok = map_Note__NoteShape[note]; ok {
-				diagramNoteNode.IsChecked = true
-
-				howHideButton := &tree.Button{
-					Name:            "Show Note Shape",
-					Icon:            string(buttons.BUTTON_visibility),
-					HasToolTip:      true,
-					ToolTipPosition: tree.Above,
-					ToolTipText:     "Show Note Shape",
-					OnClick: func() {
-						noteShape.SetIsHidden(!noteShape.GetIsHidden())
-						stager.stage.Commit()
-					},
-				}
-				diagramNoteNode.Buttons = append(diagramNoteNode.Buttons, howHideButton)
-
-				if !noteShape.GetIsHidden() {
-					howHideButton.Icon = string(buttons.BUTTON_visibility_off)
-					howHideButton.ToolTipText = "Hide Note Shape"
-				}
-			}
-
-			diagramNoteNode.OnIsCheckedChanged = func(isChecked bool) {
-				if isChecked {
-					if noteShape != nil {
-						log.Fatalln("adding a shape to an already note shape")
-					}
-					// newNoteShapeToDiagram(note, diagram).Stage(stager.stage)
-					// wait, since we don't have newNoteShapeToDiagram, we create it here
-					newShape := new(NoteShape)
-					newShape.Note = note
-					newShape.Name = note.GetName() + "-" + diagram.GetName()
-					newShape.Height = 80
-					newShape.Width = 200
-					newShape.X = 100
-					newShape.Y = diagramNoteNode.ClientOnY
-					diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
-					newShape.Stage(stager.stage)
-					stager.stage.Commit()
-				} else {
-					if noteShape == nil {
-						log.Fatalln("remove a non existing shape to note")
-					}
-					noteShape.Unstage(stager.stage)
-					idx := slices.Index(diagram.Note_Shapes, noteShape)
-					diagram.Note_Shapes = slices.Delete(diagram.Note_Shapes, idx, idx+1)
-					stager.stage.Commit()
-				}
-			}
-
-			diagramNoteNode.OnNameChange = func(newName string) {
-				note.Name = newName
-				note.isInRenameMode = false
-				stager.stage.Commit()
-			}
-
-			diagramNoteNode.OnIsExpandedChange = func(isExpanded bool) {
-				if isExpanded {
-					if slices.Index(diagram.NotesWhoseNodeIsExpanded, note) == -1 {
-						diagram.NotesWhoseNodeIsExpanded = append(diagram.NotesWhoseNodeIsExpanded, note)
-					}
-				} else {
-					if idx := slices.Index(diagram.NotesWhoseNodeIsExpanded, note); idx != -1 {
-						diagram.NotesWhoseNodeIsExpanded = slices.Delete(diagram.NotesWhoseNodeIsExpanded, idx, idx+1)
-					}
-				}
-				stager.stage.Commit()
-			}
-
-			diagramNoteNode.OnClick = func(frontNode *tree.Node) {
-				stager.probeForm.FillUpFormFromGongstruct(note, "Note")
-			}
-
-			// Add States linked to Note
-			for _, state := range note.States {
-				noteStateNode := new(tree.Node)
-				noteStateNode.Name = state.Name
-				noteStateNode.HasCheckboxButton = true
-
-				var noteStateShape *NoteStateShape
-				if shapes, ok := map_NoteState__NoteStateShape[note]; ok {
-					if shape, ok2 := shapes[state]; ok2 {
-						noteStateShape = shape
-						noteStateNode.IsChecked = true
-					}
-				}
-
-				// disable if state shape is not present
-				if _, ok := map_State__StateShape[state]; !ok {
-					noteStateNode.IsCheckboxDisabled = true
-				}
-
-				noteStateNode.OnIsCheckedChanged = func(isChecked bool) {
-					if isChecked {
-						newShape := new(NoteStateShape)
-						newShape.Note = note
-						newShape.State = state
-						newShape.Name = note.GetName() + "-" + state.GetName()
-						newShape.StartOrientation = ORIENTATION_VERTICAL
-						newShape.EndOrientation = ORIENTATION_VERTICAL
-						newShape.CornerOffsetRatio = 1.68
-						newShape.StartRatio = 0.5
-						newShape.EndRatio = 0.5
-						diagram.NoteState_Shapes = append(diagram.NoteState_Shapes, newShape)
-						newShape.Stage(stager.stage)
-						stager.stage.Commit()
-					} else {
-						if noteStateShape != nil {
-							noteStateShape.Unstage(stager.stage)
-							idx := slices.Index(diagram.NoteState_Shapes, noteStateShape)
-							diagram.NoteState_Shapes = slices.Delete(diagram.NoteState_Shapes, idx, idx+1)
-							stager.stage.Commit()
-						}
-					}
-				}
-				diagramNoteNode.Children = append(diagramNoteNode.Children, noteStateNode)
-			}
-
-			// Add Transitions linked to Note
-			for _, transition := range note.Transitions {
-				noteTransitionNode := new(tree.Node)
-				noteTransitionNode.Name = transition.Name
-				noteTransitionNode.HasCheckboxButton = true
-
-				var noteTransitionShape *NoteTransitionShape
-				if shapes, ok := map_NoteTransition__NoteTransitionShape[note]; ok {
-					if shape, ok2 := shapes[transition]; ok2 {
-						noteTransitionShape = shape
-						noteTransitionNode.IsChecked = true
-					}
-				}
-
-				// disable if transition shape is not present
-				if _, ok := map_Transition__TransitionShape[transition]; !ok {
-					noteTransitionNode.IsCheckboxDisabled = true
-				}
-
-				noteTransitionNode.OnIsCheckedChanged = func(isChecked bool) {
-					if isChecked {
-						newShape := new(NoteTransitionShape)
-						newShape.Note = note
-						newShape.Transition = transition
-						newShape.Name = note.GetName() + "-" + transition.GetName()
-						newShape.StartOrientation = ORIENTATION_VERTICAL
-						newShape.EndOrientation = ORIENTATION_VERTICAL
-						newShape.CornerOffsetRatio = 1.68
-						newShape.StartRatio = 0.5
-						newShape.EndRatio = 0.5
-						diagram.NoteTransition_Shapes = append(diagram.NoteTransition_Shapes, newShape)
-						newShape.Stage(stager.stage)
-						stager.stage.Commit()
-					} else {
-						if noteTransitionShape != nil {
-							noteTransitionShape.Unstage(stager.stage)
-							idx := slices.Index(diagram.NoteTransition_Shapes, noteTransitionShape)
-							diagram.NoteTransition_Shapes = slices.Delete(diagram.NoteTransition_Shapes, idx, idx+1)
-							stager.stage.Commit()
-						}
-					}
-				}
-				diagramNoteNode.Children = append(diagramNoteNode.Children, noteTransitionNode)
-			}
-
-			notesNode.Children = append(notesNode.Children, diagramNoteNode)
 		}
 	}
 }

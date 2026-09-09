@@ -63,8 +63,6 @@ type Diagram_WOP struct {
 	IsEditable_ bool
 
 	IsStatesNodeExpanded bool
-
-	IsNotesNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -74,7 +72,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsExpanded = from.IsExpanded
 	to.IsEditable_ = from.IsEditable_
 	to.IsStatesNodeExpanded = from.IsStatesNodeExpanded
-	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 }
 
 type Guard_WOP struct {
@@ -116,8 +113,6 @@ type Library_WOP struct {
 
 	IsStateMachinesNodeExpanded bool
 
-	IsNotesNodeExpanded bool
-
 	IsSubLibrariesNodeExpanded bool
 
 	IsExpandedTmp bool
@@ -132,7 +127,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsExpanded = from.IsExpanded
 	to.IsRootLibrary = from.IsRootLibrary
 	to.IsStateMachinesNodeExpanded = from.IsStateMachinesNodeExpanded
-	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
@@ -233,35 +227,6 @@ type NoteStateShape_WOP struct {
 }
 
 func (from *NoteStateShape) CopyBasicFields(to *NoteStateShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartRatio = from.StartRatio
-	to.EndRatio = from.EndRatio
-	to.StartOrientation = from.StartOrientation
-	to.EndOrientation = from.EndOrientation
-	to.CornerOffsetRatio = from.CornerOffsetRatio
-	to.IsHidden = from.IsHidden
-}
-
-type NoteTransitionShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartRatio float64
-
-	EndRatio float64
-
-	StartOrientation OrientationType
-
-	EndOrientation OrientationType
-
-	CornerOffsetRatio float64
-
-	IsHidden bool
-}
-
-func (from *NoteTransitionShape) CopyBasicFields(to *NoteTransitionShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio

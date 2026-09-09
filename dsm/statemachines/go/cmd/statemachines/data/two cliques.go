@@ -72,14 +72,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = false
-	__Diagram__00000000_.IsNotesNodeExpanded = false
 
 	__Diagram__00000001_.Name = `two cliques`
 	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = true
-	__Diagram__00000001_.IsNotesNodeExpanded = false
 
 	__Library__00000000_.Name = `two cliques`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -88,7 +86,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = true
-	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 

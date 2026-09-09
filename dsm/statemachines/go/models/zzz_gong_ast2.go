@@ -590,10 +590,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsEditable_ = GongExtractBool(valueExpr)
 	case "IsStatesNodeExpanded":
 		instance.IsStatesNodeExpanded = GongExtractBool(valueExpr)
-	case "IsNotesNodeExpanded":
-		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
-	case "NotesWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "State_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.State_Shapes, valueExpr, identifierMap)
 	case "StatesWhoseNodeIsExpanded":
@@ -604,8 +600,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
 	case "NoteState_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.NoteState_Shapes, valueExpr, identifierMap)
-	case "NoteTransition_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.NoteTransition_Shapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -713,12 +707,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsStateMachinesNodeExpanded = GongExtractBool(valueExpr)
 	case "StateMachinesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.StateMachinesWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "RootNotes":
-		GongUnmarshallSliceOfPointers(&instance.RootNotes, valueExpr, identifierMap)
-	case "IsNotesNodeExpanded":
-		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
-	case "NotesWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsSubLibrariesNodeExpanded":
 		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
 	case "SubLibrariesWhoseNodeIsExpanded":
@@ -824,10 +812,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "States":
-		GongUnmarshallSliceOfPointers(&instance.States, valueExpr, identifierMap)
-	case "Transitions":
-		GongUnmarshallSliceOfPointers(&instance.Transitions, valueExpr, identifierMap)
+	case "State":
+		GongUnmarshallPointer(&instance.State, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -906,51 +892,6 @@ func (u *NoteStateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
 	case "State":
 		GongUnmarshallPointer(&instance.State, valueExpr, identifierMap)
-	case "StartRatio":
-		instance.StartRatio = GongExtractFloat(valueExpr)
-	case "EndRatio":
-		instance.EndRatio = GongExtractFloat(valueExpr)
-	case "StartOrientation":
-		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
-	case "EndOrientation":
-		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
-	case "CornerOffsetRatio":
-		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
-	}
-	return nil
-}
-
-type NoteTransitionShapeUnmarshaller struct{}
-
-func (u *NoteTransitionShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(NoteTransitionShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *NoteTransitionShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*NoteTransitionShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Note":
-		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
-	case "Transition":
-		GongUnmarshallPointer(&instance.Transition, valueExpr, identifierMap)
 	case "StartRatio":
 		instance.StartRatio = GongExtractFloat(valueExpr)
 	case "EndRatio":
@@ -1072,6 +1013,8 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.Name = GongExtractString(valueExpr)
 	case "IsEndState":
 		instance.IsEndState = GongExtractBool(valueExpr)
+	case "IsDecisionNode":
+		instance.IsDecisionNode = GongExtractBool(valueExpr)
 	case "SubStates":
 		GongUnmarshallSliceOfPointers(&instance.SubStates, valueExpr, identifierMap)
 	case "Entry":
@@ -1082,12 +1025,12 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.Exit, valueExpr, identifierMap)
 	case "Parent":
 		GongUnmarshallPointer(&instance.Parent, valueExpr, identifierMap)
-	case "IsDecisionNode":
-		instance.IsDecisionNode = GongExtractBool(valueExpr)
 	case "IsFictious":
 		instance.IsFictious = GongExtractBool(valueExpr)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	case "Notes":
+		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
 	}
 	return nil
 }

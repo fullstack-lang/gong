@@ -11,7 +11,6 @@ func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
 		needCommit = removeDuplicateTransitionShapes(stager, diagram) || needCommit
 		needCommit = removeDuplicateNoteShapes(stager, diagram) || needCommit
 		needCommit = removeDuplicateNoteStateShapes(stager, diagram) || needCommit
-		needCommit = removeDuplicateNoteTransitionShapes(stager, diagram) || needCommit
 	}
 	return
 }
@@ -114,36 +113,6 @@ func removeDuplicateNoteStateShapes(stager *Stager, diagram *Diagram) (needCommi
 	}
 	if needCommit {
 		diagram.NoteState_Shapes = newShapes
-	}
-	return
-}
-
-type noteTransitionKey struct {
-	note       *Note
-	transition *Transition
-}
-
-func removeDuplicateNoteTransitionShapes(stager *Stager, diagram *Diagram) (needCommit bool) {
-	seen := make(map[noteTransitionKey]bool)
-	var newShapes []*NoteTransitionShape
-
-	for _, shape := range diagram.NoteTransition_Shapes {
-		if shape.Note != nil && shape.Transition != nil {
-			key := noteTransitionKey{note: shape.Note, transition: shape.Transition}
-			if seen[key] {
-				shape.Unstage(stager.stage)
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged duplicate NoteTransitionShape \"%s\"", shape.Name))
-				}
-				needCommit = true
-				continue
-			}
-			seen[key] = true
-		}
-		newShapes = append(newShapes, shape)
-	}
-	if needCommit {
-		diagram.NoteTransition_Shapes = newShapes
 	}
 	return
 }

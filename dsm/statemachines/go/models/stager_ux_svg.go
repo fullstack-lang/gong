@@ -152,26 +152,6 @@ func (stager *Stager) svg() {
 		)
 	}
 
-	for _, noteTransitionShape := range diagram.NoteTransition_Shapes {
-		if noteTransitionShape.Note == nil || noteTransitionShape.Transition == nil {
-			continue
-		}
-
-		startRect := map_Note_Rect[noteTransitionShape.Note]
-		// Link to the transition's Start State since we can't link to a link
-		endRect := map_State_Rect[noteTransitionShape.Transition.Start]
-
-		if startRect == nil || endRect == nil {
-			continue
-		}
-
-		stager.svgGenerateNoteLink(
-			startRect, endRect,
-			noteTransitionShape,
-			layer,
-		)
-	}
-
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()
 }

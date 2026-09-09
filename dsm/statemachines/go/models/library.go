@@ -28,10 +28,6 @@ type Library struct {
 	IsStateMachinesNodeExpanded     bool
 	StateMachinesWhoseNodeIsExpanded []*StateMachine
 
-	RootNotes               []*Note
-	IsNotesNodeExpanded     bool
-	NotesWhoseNodeIsExpanded []*Note
-
 	IsSubLibrariesNodeExpanded      bool
 	SubLibrariesWhoseNodeIsExpanded []*Library
 

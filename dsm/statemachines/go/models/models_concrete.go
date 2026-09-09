@@ -59,15 +59,6 @@ type NoteStateShape struct {
 	LinkShape
 }
 
-type NoteTransitionShape struct {
-	Name string
-
-	Note       *Note
-	Transition *Transition
-
-	LinkShape
-}
-
 // GONGDOC(NoteOnConcreteShape):
 //
 // [models.StateShape] & [models.Transition_Shape] are the concrete syntax

@@ -474,6 +474,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - statemachines: go run . edit data/issue1415.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/statemachines/go/cmd/statemachines"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/issue1415.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - statemachines: go run . edit --port=8090",
             "type": "shell",
             "options": {

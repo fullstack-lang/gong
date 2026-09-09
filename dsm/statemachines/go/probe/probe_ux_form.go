@@ -87,12 +87,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.notestateshape, probe)
 			}
-		case *NoteTransitionShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteTransitionShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.notetransitionshape, probe)
-			}
 		case *ObjectFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Object", true)
@@ -313,19 +307,6 @@ func FillUpFormFromGongstructName(
 		notestateshape := new(models.NoteStateShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(notestateshape, formGroup, probe)
-	case "NoteTransitionShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "NoteTransitionShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteTransitionShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		notetransitionshape := new(models.NoteTransitionShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(notetransitionshape, formGroup, probe)
 	case "Object":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

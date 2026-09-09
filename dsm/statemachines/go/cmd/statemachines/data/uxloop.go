@@ -117,7 +117,6 @@ This diagram show the general principal of a DSM event loop.
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = true
-	__Diagram__00000000_.IsNotesNodeExpanded = false
 
 	__Guard__00000000_.Name = `yes`
 
@@ -140,7 +139,6 @@ This diagram show the general principal of a DSM event loop.
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = true
-	__Library__00000000_.IsNotesNodeExpanded = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = true
 	__Library__00000000_.IsExpandedTmp = true
 
@@ -340,7 +338,6 @@ This diagram show the general principal of a DSM event loop.
 
 	// insertion point for setup of pointers
 	__Architecture__00000000_.StateMachines = append(__Architecture__00000000_.StateMachines, __StateMachine__00000000_)
-	__Diagram__00000000_.NotesWhoseNodeIsExpanded = append(__Diagram__00000000_.NotesWhoseNodeIsExpanded, __Note__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000011_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000003_)
@@ -360,8 +357,8 @@ This diagram show the general principal of a DSM event loop.
 	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000004_)
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
-	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
-	__Note__00000000_.States = append(__Note__00000000_.States, __State__00000000_)
+	__Note__00000000_.State = __State__00000000_
+	__State__00000000_.Notes = append(__State__00000000_.Notes, __Note__00000000_)
 	__NoteShape__00000004_.Note = __Note__00000000_
 	__NoteStateShape__00000004_.Note = __Note__00000000_
 	__NoteStateShape__00000004_.State = __State__00000000_

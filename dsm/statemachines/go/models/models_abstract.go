@@ -20,18 +20,15 @@ type Diagram struct {
 	IsEditable_    bool
 	isInRenameMode bool
 
-	IsStatesNodeExpanded     bool
-	IsNotesNodeExpanded      bool
-	NotesWhoseNodeIsExpanded []*Note
+	IsStatesNodeExpanded bool
 
 	State_Shapes              []*StateShape
 	StatesWhoseNodeIsExpanded []*State
 
 	Transition_Shapes []*Transition_Shape
 
-	Note_Shapes           []*NoteShape
-	NoteState_Shapes      []*NoteStateShape
-	NoteTransition_Shapes []*NoteTransitionShape
+	Note_Shapes      []*NoteShape
+	NoteState_Shapes []*NoteStateShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -88,7 +85,8 @@ type State struct {
 	//gong:text width:300 height:300
 	Name string
 
-	IsEndState bool
+	IsEndState     bool
+	IsDecisionNode bool
 
 	// When there are SubStates, the State is composite
 	SubStates []*State
@@ -99,8 +97,6 @@ type State struct {
 
 	Parent *State
 
-	IsDecisionNode bool
-
 	IsFictious bool
 
 	// nodes can be edited
@@ -109,6 +105,8 @@ type State struct {
 	// Diagrams where a state is present is exported
 	// in the XL file
 	Diagrams []*Diagram
+
+	Notes []*Note
 }
 
 func (state *State) IsComposite() bool {
@@ -155,11 +153,9 @@ type Note struct {
 	//gong:text width:300 height:300
 	Name string
 
-	LibraryAbstractFields
 	AbstractTypeFields
 
-	States      []*State
-	Transitions []*Transition
+	State *State
 }
 
 // Transition decribes authorized between states

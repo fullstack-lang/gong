@@ -54,10 +54,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteStateShapeCreateCallback != nil {
 			stage.OnAfterNoteStateShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *NoteTransitionShape:
-		if stage.OnAfterNoteTransitionShapeCreateCallback != nil {
-			stage.OnAfterNoteTransitionShapeCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *Object:
 		if stage.OnAfterObjectCreateCallback != nil {
 			stage.OnAfterObjectCreateCallback.OnAfterCreate(stage, target)
@@ -159,11 +155,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*NoteStateShape)
 		if stage.OnAfterNoteStateShapeUpdateCallback != nil {
 			stage.OnAfterNoteStateShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *NoteTransitionShape:
-		newTarget := any(new).(*NoteTransitionShape)
-		if stage.OnAfterNoteTransitionShapeUpdateCallback != nil {
-			stage.OnAfterNoteTransitionShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Object:
 		newTarget := any(new).(*Object)
@@ -270,11 +261,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*NoteStateShape)
 			stage.OnAfterNoteStateShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *NoteTransitionShape:
-		if stage.OnAfterNoteTransitionShapeDeleteCallback != nil {
-			staged := any(staged).(*NoteTransitionShape)
-			stage.OnAfterNoteTransitionShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *Object:
 		if stage.OnAfterObjectDeleteCallback != nil {
 			staged := any(staged).(*Object)
@@ -368,10 +354,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteStateShapeReadCallback != nil {
 			stage.OnAfterNoteStateShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *NoteTransitionShape:
-		if stage.OnAfterNoteTransitionShapeReadCallback != nil {
-			stage.OnAfterNoteTransitionShapeReadCallback.OnAfterRead(stage, target)
-		}
 	case *Object:
 		if stage.OnAfterObjectReadCallback != nil {
 			stage.OnAfterObjectReadCallback.OnAfterRead(stage, target)
@@ -435,8 +417,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
 	case *NoteStateShape:
 		stage.OnAfterNoteStateShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteStateShape])
-	case *NoteTransitionShape:
-		stage.OnAfterNoteTransitionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteTransitionShape])
 	case *Object:
 		stage.OnAfterObjectUpdateCallback = any(callback).(OnAfterUpdateInterface[Object])
 	case *Role:
@@ -482,8 +462,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
 	case *NoteStateShape:
 		stage.OnAfterNoteStateShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteStateShape])
-	case *NoteTransitionShape:
-		stage.OnAfterNoteTransitionShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteTransitionShape])
 	case *Object:
 		stage.OnAfterObjectCreateCallback = any(callback).(OnAfterCreateInterface[Object])
 	case *Role:
@@ -529,8 +507,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
 	case *NoteStateShape:
 		stage.OnAfterNoteStateShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteStateShape])
-	case *NoteTransitionShape:
-		stage.OnAfterNoteTransitionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteTransitionShape])
 	case *Object:
 		stage.OnAfterObjectDeleteCallback = any(callback).(OnAfterDeleteInterface[Object])
 	case *Role:
@@ -576,8 +552,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
 	case *NoteStateShape:
 		stage.OnAfterNoteStateShapeReadCallback = any(callback).(OnAfterReadInterface[NoteStateShape])
-	case *NoteTransitionShape:
-		stage.OnAfterNoteTransitionShapeReadCallback = any(callback).(OnAfterReadInterface[NoteTransitionShape])
 	case *Object:
 		stage.OnAfterObjectReadCallback = any(callback).(OnAfterReadInterface[Object])
 	case *Role:
