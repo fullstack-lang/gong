@@ -34,6 +34,8 @@ func _(stage *models.Stage) {
 	__Library__00000001_ := (&models.Library{Name: `Sub Lib 1`}).Stage(stage)
 	__Library__00000002_ := (&models.Library{Name: `Sub Lib 2`}).Stage(stage)
 
+	__MessageType__00000000_ := (&models.MessageType{Name: `M1`}).Stage(stage)
+
 	__Note__00000000_ := (&models.Note{Name: `Note SM1`}).Stage(stage)
 	__Note__00000003_ := (&models.Note{Name: `New Note`}).Stage(stage)
 
@@ -42,6 +44,8 @@ func _(stage *models.Stage) {
 
 	__NoteStateShape__00000000_ := (&models.NoteStateShape{Name: `Note SM1-Start SM1`}).Stage(stage)
 	__NoteStateShape__00000003_ := (&models.NoteStateShape{Name: `New Note-Start SM1`}).Stage(stage)
+
+	__Role__00000000_ := (&models.Role{Name: `R1`}).Stage(stage)
 
 	__State__00000000_ := (&models.State{Name: `Start SM1`}).Stage(stage)
 	__State__00000001_ := (&models.State{Name: `S1`}).Stage(stage)
@@ -107,6 +111,9 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsSubLibrariesNodeExpanded = false
 	__Library__00000002_.IsExpandedTmp = true
 
+	__MessageType__00000000_.Name = `M1`
+	__MessageType__00000000_.Description = ``
+
 	__Note__00000000_.Name = `Note SM1`
 	__Note__00000000_.ComputedPrefix = ``
 	__Note__00000000_.IsExpanded = false
@@ -149,6 +156,9 @@ func _(stage *models.Stage) {
 	__NoteStateShape__00000003_.CornerOffsetRatio = 1.200000
 	__NoteStateShape__00000003_.IsHidden = false
 
+	__Role__00000000_.Name = `R1`
+	__Role__00000000_.Acronym = `R1`
+
 	__State__00000000_.Name = `Start SM1`
 	__State__00000000_.IsEndState = false
 	__State__00000000_.IsDecisionNode = false
@@ -182,8 +192,8 @@ func _(stage *models.Stage) {
 	__StateShape__00000000_.IsHidden = false
 
 	__StateShape__00000001_.Name = `S1`
-	__StateShape__00000001_.X = 425.000000
-	__StateShape__00000001_.Y = 295.000000
+	__StateShape__00000001_.X = 424.000000
+	__StateShape__00000001_.Y = 266.000000
 	__StateShape__00000001_.Width = 200.000000
 	__StateShape__00000001_.Height = 80.000000
 	__StateShape__00000001_.IsHidden = false
@@ -208,8 +218,8 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000000_.IsHidden = false
 
 	__Transition_Shape__00000001_.Name = `-New Diagram`
-	__Transition_Shape__00000001_.StartRatio = 0.760488
-	__Transition_Shape__00000001_.EndRatio = 0.788897
+	__Transition_Shape__00000001_.StartRatio = 1.000000
+	__Transition_Shape__00000001_.EndRatio = 1.000000
 	__Transition_Shape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000001_.CornerOffsetRatio = 5.350433
@@ -230,8 +240,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000001_)
-	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
-	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000001_)
 	__Note__00000000_.State = __State__00000000_
 	__Note__00000003_.State = __State__00000000_
 	__NoteShape__00000000_.Note = __Note__00000000_
@@ -270,6 +278,8 @@ func _(stage *models.Stage) {
 	__Transition__00000000_.Diagrams = append(__Transition__00000000_.Diagrams, __Diagram__00000000_)
 	__Transition__00000001_.Start = __State__00000000_
 	__Transition__00000001_.End = __State__00000001_
+	__Transition__00000001_.RolesWithPermissions = append(__Transition__00000001_.RolesWithPermissions, __Role__00000000_)
+	__Transition__00000001_.GeneratedMessages = append(__Transition__00000001_.GeneratedMessages, __MessageType__00000000_)
 	__Transition__00000001_.Guard = nil
 	__Transition__00000001_.Diagrams = append(__Transition__00000001_.Diagrams, __Diagram__00000000_)
 	__Transition_Shape__00000000_.Transition = __Transition__00000000_

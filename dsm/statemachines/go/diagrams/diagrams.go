@@ -58,7 +58,6 @@ func _(stage *models.Stage) {
 
 	__GongNoteShape__00000000_ := (&models.GongNoteShape{Name: `concrete syntax-NoteOnConcreteShape`}).Stage(stage)
 
-	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-Architecture`}).Stage(stage)
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-MessageType`}).Stage(stage)
 	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-Role`}).Stage(stage)
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Default-State`}).Stage(stage)
@@ -95,6 +94,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000052_ := (&models.GongStructShape{Name: `abstract syntax-Action`}).Stage(stage)
 	__GongStructShape__00000053_ := (&models.GongStructShape{Name: `abstract syntax standard Copy-Role`}).Stage(stage)
 	__GongStructShape__00000054_ := (&models.GongStructShape{Name: `abstract syntax standard extended-MessageType`}).Stage(stage)
+	__GongStructShape__00000055_ := (&models.GongStructShape{Name: `abstract syntax-Library`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `Start`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `End`}).Stage(stage)
@@ -104,8 +104,6 @@ func _(stage *models.Stage) {
 	__LinkShape__00000005_ := (&models.LinkShape{Name: `InitialState`}).Stage(stage)
 	__LinkShape__00000006_ := (&models.LinkShape{Name: `SubStates`}).Stage(stage)
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `RolesWithSamePermissions`}).Stage(stage)
-	__LinkShape__00000008_ := (&models.LinkShape{Name: `StateMachines`}).Stage(stage)
-	__LinkShape__00000009_ := (&models.LinkShape{Name: `Roles`}).Stage(stage)
 	__LinkShape__00000010_ := (&models.LinkShape{Name: `Diagrams`}).Stage(stage)
 	__LinkShape__00000011_ := (&models.LinkShape{Name: `State_Shapes`}).Stage(stage)
 	__LinkShape__00000012_ := (&models.LinkShape{Name: `Transition_Shapes`}).Stage(stage)
@@ -146,6 +144,8 @@ func _(stage *models.Stage) {
 	__LinkShape__00000075_ := (&models.LinkShape{Name: `Guard`}).Stage(stage)
 	__LinkShape__00000076_ := (&models.LinkShape{Name: `RolesWithPermissions`}).Stage(stage)
 	__LinkShape__00000077_ := (&models.LinkShape{Name: `GeneratedMessages`}).Stage(stage)
+	__LinkShape__00000078_ := (&models.LinkShape{Name: `SubLibraries`}).Stage(stage)
+	__LinkShape__00000079_ := (&models.LinkShape{Name: `RootStateMachines`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -266,7 +266,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,true,false,false,true]`
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,true,false,true,false,false,false,false,false,false,true,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
@@ -361,14 +361,6 @@ Each concrete instance must reference an abstract instance.
 	__GongNoteShape__00000000_.Height = 101.000000
 	__GongNoteShape__00000000_.Matched = false
 	__GongNoteShape__00000000_.IsExpanded = false
-
-	__GongStructShape__00000000_.Name = `Default-Architecture`
-	__GongStructShape__00000000_.X = 91.000000
-	__GongStructShape__00000000_.Y = 35.000000
-	__GongStructShape__00000000_.IdentifierMeta = ref_models.Architecture{}
-	__GongStructShape__00000000_.Width = 903.000061
-	__GongStructShape__00000000_.Height = 70.000000
-	__GongStructShape__00000000_.IsSelected = false
 
 	__GongStructShape__00000001_.Name = `Default-MessageType`
 	__GongStructShape__00000001_.X = 1069.000000
@@ -658,6 +650,14 @@ Each concrete instance must reference an abstract instance.
 	__GongStructShape__00000054_.Height = 63.000000
 	__GongStructShape__00000054_.IsSelected = false
 
+	__GongStructShape__00000055_.Name = `abstract syntax-Library`
+	__GongStructShape__00000055_.X = 96.000000
+	__GongStructShape__00000055_.Y = 31.000000
+	__GongStructShape__00000055_.IdentifierMeta = ref_models.Library{}
+	__GongStructShape__00000055_.Width = 210.000000
+	__GongStructShape__00000055_.Height = 87.000000
+	__GongStructShape__00000055_.IsSelected = false
+
 	__LinkShape__00000000_.Name = `Start`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.Transition{}.Start
 	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.State{}
@@ -809,44 +809,6 @@ Each concrete instance must reference an abstract instance.
 	__LinkShape__00000007_.EndOrientation = models.ORIENTATION_VERTICAL
 	__LinkShape__00000007_.EndRatio = 0.468880
 	__LinkShape__00000007_.CornerOffsetRatio = 1.427005
-
-	__LinkShape__00000008_.Name = `StateMachines`
-	__LinkShape__00000008_.IdentifierMeta = ref_models.Architecture{}.StateMachines
-	__LinkShape__00000008_.FieldTypeIdentifierMeta = ref_models.StateMachine{}
-	__LinkShape__00000008_.FieldOffsetX = 0.000000
-	__LinkShape__00000008_.FieldOffsetY = 0.000000
-	__LinkShape__00000008_.TargetMultiplicity = models.MANY
-	__LinkShape__00000008_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000008_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000008_.SourceMultiplicity = models.MANY
-	__LinkShape__00000008_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000008_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000008_.X = 829.500000
-	__LinkShape__00000008_.Y = 197.499992
-	__LinkShape__00000008_.StartOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000008_.StartRatio = 0.146024
-	__LinkShape__00000008_.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000008_.EndRatio = 0.596962
-	__LinkShape__00000008_.CornerOffsetRatio = 1.442956
-
-	__LinkShape__00000009_.Name = `Roles`
-	__LinkShape__00000009_.IdentifierMeta = ref_models.Architecture{}.Roles
-	__LinkShape__00000009_.FieldTypeIdentifierMeta = ref_models.Role{}
-	__LinkShape__00000009_.FieldOffsetX = 0.000000
-	__LinkShape__00000009_.FieldOffsetY = 0.000000
-	__LinkShape__00000009_.TargetMultiplicity = models.MANY
-	__LinkShape__00000009_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000009_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000009_.SourceMultiplicity = models.MANY
-	__LinkShape__00000009_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000009_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000009_.X = 471.500000
-	__LinkShape__00000009_.Y = 254.499992
-	__LinkShape__00000009_.StartOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000009_.StartRatio = 0.927189
-	__LinkShape__00000009_.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000009_.EndRatio = 0.843880
-	__LinkShape__00000009_.CornerOffsetRatio = 1.700099
 
 	__LinkShape__00000010_.Name = `Diagrams`
 	__LinkShape__00000010_.IdentifierMeta = ref_models.StateMachine{}.Diagrams
@@ -1608,8 +1570,45 @@ Each concrete instance must reference an abstract instance.
 	__LinkShape__00000077_.EndRatio = 0.694914
 	__LinkShape__00000077_.CornerOffsetRatio = 1.276184
 
+	__LinkShape__00000078_.Name = `SubLibraries`
+	__LinkShape__00000078_.IdentifierMeta = ref_models.Library{}.SubLibraries
+	__LinkShape__00000078_.FieldTypeIdentifierMeta = ref_models.Library{}
+	__LinkShape__00000078_.FieldOffsetX = 0.000000
+	__LinkShape__00000078_.FieldOffsetY = 0.000000
+	__LinkShape__00000078_.TargetMultiplicity = models.MANY
+	__LinkShape__00000078_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000078_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000078_.SourceMultiplicity = models.MANY
+	__LinkShape__00000078_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000078_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000078_.X = 1879.499908
+	__LinkShape__00000078_.Y = 62.500000
+	__LinkShape__00000078_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000078_.StartRatio = 0.174741
+	__LinkShape__00000078_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000078_.EndRatio = 0.827686
+	__LinkShape__00000078_.CornerOffsetRatio = 2.051331
+
+	__LinkShape__00000079_.Name = `RootStateMachines`
+	__LinkShape__00000079_.IdentifierMeta = ref_models.Library{}.RootStateMachines
+	__LinkShape__00000079_.FieldTypeIdentifierMeta = ref_models.StateMachine{}
+	__LinkShape__00000079_.FieldOffsetX = 0.000000
+	__LinkShape__00000079_.FieldOffsetY = 0.000000
+	__LinkShape__00000079_.TargetMultiplicity = models.MANY
+	__LinkShape__00000079_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000079_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000079_.SourceMultiplicity = models.MANY
+	__LinkShape__00000079_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000079_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000079_.X = 1873.999908
+	__LinkShape__00000079_.Y = 146.500000
+	__LinkShape__00000079_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000079_.StartRatio = 0.846569
+	__LinkShape__00000079_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000079_.EndRatio = 0.799081
+	__LinkShape__00000079_.CornerOffsetRatio = 1.873153
+
 	// insertion point for setup of pointers
-	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
@@ -1618,6 +1617,7 @@ Each concrete instance must reference an abstract instance.
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000012_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000013_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000014_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000055_)
 	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000006_)
 	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000007_)
 	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000008_)
@@ -1655,8 +1655,6 @@ Each concrete instance must reference an abstract instance.
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
 	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000000_)
 	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000001_)
-	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000008_)
-	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000009_)
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000007_)
 	__GongStructShape__00000003_.AttributeShapes = append(__GongStructShape__00000003_.AttributeShapes, __AttributeShape__00000000_)
 	__GongStructShape__00000003_.AttributeShapes = append(__GongStructShape__00000003_.AttributeShapes, __AttributeShape__00000001_)
@@ -1723,4 +1721,6 @@ Each concrete instance must reference an abstract instance.
 	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000075_)
 	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000076_)
 	__GongStructShape__00000049_.LinkShapes = append(__GongStructShape__00000049_.LinkShapes, __LinkShape__00000077_)
+	__GongStructShape__00000055_.LinkShapes = append(__GongStructShape__00000055_.LinkShapes, __LinkShape__00000078_)
+	__GongStructShape__00000055_.LinkShapes = append(__GongStructShape__00000055_.LinkShapes, __LinkShape__00000079_)
 }
