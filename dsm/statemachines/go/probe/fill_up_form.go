@@ -50,20 +50,6 @@ func FillUpForm(
 				})
 		}
 
-	case *models.Architecture:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("StateMachines", instanceWithInferedType, &instanceWithInferedType.StateMachines, formGroup, probe)
-		AssociationSliceToForm("Roles", instanceWithInferedType, &instanceWithInferedType.Roles, formGroup, probe)
-		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
 	case *models.Diagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -176,6 +162,7 @@ func FillUpForm(
 		AssociationSliceToForm("SubLibrariesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.SubLibrariesWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsExpandedTmp", instanceWithInferedType.IsExpandedTmp, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Roles", instanceWithInferedType, &instanceWithInferedType.Roles, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -377,13 +364,13 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			AssociationReverseSliceToForm[*models.Architecture, *models.Role](
-				"Architecture",
+			AssociationReverseSliceToForm[*models.Library, *models.Role](
+				"Library",
 				"Roles",
 				instanceWithInferedType,
 				formGroup,
 				probe,
-				func(owner *models.Architecture) []*models.Role {
+				func(owner *models.Library) []*models.Role {
 					return owner.Roles
 				})
 		}
@@ -484,17 +471,6 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Architecture, *models.StateMachine](
-				"Architecture",
-				"StateMachines",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Architecture) []*models.StateMachine {
-					return owner.StateMachines
-				})
-		}
 		{
 			AssociationReverseSliceToForm[*models.Library, *models.StateMachine](
 				"Library",

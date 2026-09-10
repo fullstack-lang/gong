@@ -110,7 +110,7 @@ func (stager *Stager) svgGenerateRect(
 		stateTitleText.Content = state.Name
 
 		if availableWidth > 0 {
-			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, int(availableWidth/stager.architecture.NbPixPerCharacter))
+			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, int(availableWidth/stager.getNbPixPerCharacter()))
 		} else {
 			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, 1)
 		}
@@ -162,7 +162,7 @@ func (stager *Stager) svgGenerateRect(
 		content := "/entry " + action.Name
 
 		if availableWidth > 0 {
-			content = strutils.WrapString(content, int(availableWidth/stager.architecture.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(availableWidth/stager.getNbPixPerCharacter()))
 		} else {
 			content = strutils.WrapString(content, 1)
 		}
@@ -197,7 +197,7 @@ func (stager *Stager) svgGenerateRect(
 		content := "/do " + activity.Name
 
 		if availableWidth > 0 {
-			content = strutils.WrapString(content, int(availableWidth/stager.architecture.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(availableWidth/stager.getNbPixPerCharacter()))
 		} else {
 			content = strutils.WrapString(content, 1)
 		}
@@ -232,7 +232,7 @@ func (stager *Stager) svgGenerateRect(
 		content := "/exit " + action.Name
 
 		if availableWidth > 0 {
-			content = strutils.WrapString(content, int(availableWidth/stager.architecture.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(availableWidth/stager.getNbPixPerCharacter()))
 		} else {
 			content = strutils.WrapString(content, 1)
 		}
@@ -334,7 +334,7 @@ func (stager *Stager) svgGenerateNoteRect(
 	margin := 20.0
 	wrapWidth := rect.Width - margin
 	if wrapWidth > 0 {
-		content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/stager.architecture.NbPixPerCharacter))
+		content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/stager.getNbPixPerCharacter()))
 	}
 
 	noteTitleText.Content = content

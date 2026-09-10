@@ -32,8 +32,6 @@ func _(stage *models.Stage) {
 
 	__Activities__00000000_ := (&models.Activities{Name: `Test`}).Stage(stage)
 
-	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
-
 	__Diagram__00000000_ := (&models.Diagram{Name: `UX Loop Diagram`}).Stage(stage)
 
 	__Guard__00000000_ := (&models.Guard{Name: `yes`}).Stage(stage)
@@ -108,9 +106,6 @@ This diagram show the general principal of a DSM event loop.
 
 	__Activities__00000000_.Name = `Test`
 	__Activities__00000000_.Criticality = ""
-
-	__Architecture__00000000_.Name = `Architecture`
-	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `UX Loop Diagram`
 	__Diagram__00000000_.IsChecked = true
@@ -337,7 +332,6 @@ This diagram show the general principal of a DSM event loop.
 	__Transition_Shape__00000014_.IsHidden = false
 
 	// insertion point for setup of pointers
-	__Architecture__00000000_.StateMachines = append(__Architecture__00000000_.StateMachines, __StateMachine__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000011_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000003_)

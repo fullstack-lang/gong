@@ -25,14 +25,16 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
-
 	__Diagram__00000000_ := (&models.Diagram{Name: `SM1 state diagram`}).Stage(stage)
 	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
+	__Diagram__00000002_ := (&models.Diagram{Name: `SMx`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Top library`}).Stage(stage)
 	__Library__00000001_ := (&models.Library{Name: `Sub Lib 1`}).Stage(stage)
 	__Library__00000002_ := (&models.Library{Name: `Sub Lib 2`}).Stage(stage)
+
+	__Message__00000000_ := (&models.Message{Name: `22:44:24  -> M1`}).Stage(stage)
+	__Message__00000001_ := (&models.Message{Name: `22:44:35  -> M1`}).Stage(stage)
 
 	__MessageType__00000000_ := (&models.MessageType{Name: `M1`}).Stage(stage)
 
@@ -46,30 +48,35 @@ func _(stage *models.Stage) {
 	__NoteStateShape__00000005_ := (&models.NoteStateShape{Name: `New Note-Start SM1`}).Stage(stage)
 
 	__Object__00000000_ := (&models.Object{Name: `O`}).Stage(stage)
+	__Object__00000001_ := (&models.Object{Name: `01/MI DOF/ 2026-09-11 DEP/ 224420`}).Stage(stage)
 
 	__Role__00000000_ := (&models.Role{Name: `R1`}).Stage(stage)
 
 	__State__00000000_ := (&models.State{Name: `Start SM1`}).Stage(stage)
 	__State__00000001_ := (&models.State{Name: `S1`}).Stage(stage)
 	__State__00000002_ := (&models.State{Name: `End`}).Stage(stage)
+	__State__00000003_ := (&models.State{Name: `start`}).Stage(stage)
+	__State__00000004_ := (&models.State{Name: `SMX 1`}).Stage(stage)
 
 	__StateMachine__00000000_ := (&models.StateMachine{Name: `SM 1`}).Stage(stage)
 	__StateMachine__00000001_ := (&models.StateMachine{Name: `SM2`}).Stage(stage)
+	__StateMachine__00000002_ := (&models.StateMachine{Name: `SMx`}).Stage(stage)
 
 	__StateShape__00000000_ := (&models.StateShape{Name: `Start SM1`}).Stage(stage)
 	__StateShape__00000001_ := (&models.StateShape{Name: `S1`}).Stage(stage)
 	__StateShape__00000002_ := (&models.StateShape{Name: `End`}).Stage(stage)
+	__StateShape__00000003_ := (&models.StateShape{Name: `start`}).Stage(stage)
+	__StateShape__00000004_ := (&models.StateShape{Name: `SMX 1`}).Stage(stage)
 
 	__Transition__00000000_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000001_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000002_ := (&models.Transition{Name: ``}).Stage(stage)
 
 	__Transition_Shape__00000000_ := (&models.Transition_Shape{Name: `-New Diagram`}).Stage(stage)
 	__Transition_Shape__00000001_ := (&models.Transition_Shape{Name: `-New Diagram`}).Stage(stage)
+	__Transition_Shape__00000002_ := (&models.Transition_Shape{Name: `-SMx`}).Stage(stage)
 
 	// insertion point for initialization of values
-
-	__Architecture__00000000_.Name = `Architecture`
-	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `SM1 state diagram`
 	__Diagram__00000000_.IsChecked = true
@@ -83,6 +90,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = false
 
+	__Diagram__00000002_.Name = `SMx`
+	__Diagram__00000002_.IsChecked = false
+	__Diagram__00000002_.IsExpanded = true
+	__Diagram__00000002_.IsEditable_ = true
+	__Diagram__00000002_.IsStatesNodeExpanded = true
+
 	__Library__00000000_.Name = `Top library`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
@@ -90,7 +103,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = false
-	__Library__00000000_.IsSubLibrariesNodeExpanded = true
+	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
 	__Library__00000001_.Name = `Sub Lib 1`
@@ -112,6 +125,12 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsStateMachinesNodeExpanded = false
 	__Library__00000002_.IsSubLibrariesNodeExpanded = false
 	__Library__00000002_.IsExpandedTmp = true
+
+	__Message__00000000_.Name = `22:44:24  -> M1`
+	__Message__00000000_.IsSelected = false
+
+	__Message__00000001_.Name = `22:44:35  -> M1`
+	__Message__00000001_.IsSelected = true
 
 	__MessageType__00000000_.Name = `M1`
 	__MessageType__00000000_.Description = ``
@@ -159,9 +178,14 @@ func _(stage *models.Stage) {
 	__NoteStateShape__00000005_.IsHidden = false
 
 	__Object__00000000_.Name = `O`
-	__Object__00000000_.IsSelected = false
+	__Object__00000000_.IsSelected = true
 	__Object__00000000_.Rank = 0
 	__Object__00000000_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+
+	__Object__00000001_.Name = `01/MI DOF/ 2026-09-11 DEP/ 224420`
+	__Object__00000001_.IsSelected = false
+	__Object__00000001_.Rank = 0
+	__Object__00000001_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-11 22:44:20.946487 +0200 CEST m=+86439.057237126")
 
 	__Role__00000000_.Name = `R1`
 	__Role__00000000_.Acronym = `R1`
@@ -181,6 +205,16 @@ func _(stage *models.Stage) {
 	__State__00000002_.IsDecisionNode = false
 	__State__00000002_.IsFictious = false
 
+	__State__00000003_.Name = `start`
+	__State__00000003_.IsEndState = false
+	__State__00000003_.IsDecisionNode = false
+	__State__00000003_.IsFictious = false
+
+	__State__00000004_.Name = `SMX 1`
+	__State__00000004_.IsEndState = false
+	__State__00000004_.IsDecisionNode = false
+	__State__00000004_.IsFictious = false
+
 	__StateMachine__00000000_.Name = `SM 1`
 	__StateMachine__00000000_.IsWithTransitionNameAutonamticalyGenerated = false
 	__StateMachine__00000000_.ComputedPrefix = ``
@@ -190,6 +224,11 @@ func _(stage *models.Stage) {
 	__StateMachine__00000001_.IsWithTransitionNameAutonamticalyGenerated = false
 	__StateMachine__00000001_.ComputedPrefix = ``
 	__StateMachine__00000001_.IsExpanded = false
+
+	__StateMachine__00000002_.Name = `SMx`
+	__StateMachine__00000002_.IsWithTransitionNameAutonamticalyGenerated = false
+	__StateMachine__00000002_.ComputedPrefix = ``
+	__StateMachine__00000002_.IsExpanded = false
 
 	__StateShape__00000000_.Name = `Start SM1`
 	__StateShape__00000000_.X = 491.000000
@@ -212,9 +251,25 @@ func _(stage *models.Stage) {
 	__StateShape__00000002_.Height = 36.000000
 	__StateShape__00000002_.IsHidden = false
 
+	__StateShape__00000003_.Name = `start`
+	__StateShape__00000003_.X = 362.000000
+	__StateShape__00000003_.Y = 58.000000
+	__StateShape__00000003_.Width = 78.000000
+	__StateShape__00000003_.Height = 20.000000
+	__StateShape__00000003_.IsHidden = false
+
+	__StateShape__00000004_.Name = `SMX 1`
+	__StateShape__00000004_.X = 329.000000
+	__StateShape__00000004_.Y = 179.000000
+	__StateShape__00000004_.Width = 200.000000
+	__StateShape__00000004_.Height = 80.000000
+	__StateShape__00000004_.IsHidden = false
+
 	__Transition__00000000_.Name = ``
 
 	__Transition__00000001_.Name = ``
+
+	__Transition__00000002_.Name = ``
 
 	__Transition_Shape__00000000_.Name = `-New Diagram`
 	__Transition_Shape__00000000_.StartRatio = 0.588897
@@ -232,6 +287,14 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000001_.CornerOffsetRatio = 5.350433
 	__Transition_Shape__00000001_.IsHidden = false
 
+	__Transition_Shape__00000002_.Name = `-SMx`
+	__Transition_Shape__00000002_.StartRatio = 0.500000
+	__Transition_Shape__00000002_.EndRatio = 0.813897
+	__Transition_Shape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__Transition_Shape__00000002_.CornerOffsetRatio = 5.650433
+	__Transition_Shape__00000002_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000001_)
@@ -243,11 +306,21 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000005_)
 	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000000_)
 	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000005_)
+	__Diagram__00000002_.State_Shapes = append(__Diagram__00000002_.State_Shapes, __StateShape__00000003_)
+	__Diagram__00000002_.State_Shapes = append(__Diagram__00000002_.State_Shapes, __StateShape__00000004_)
+	__Diagram__00000002_.Transition_Shapes = append(__Diagram__00000002_.Transition_Shapes, __Transition_Shape__00000002_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
+	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000002_)
+	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000002_)
+	__Library__00000000_.Roles = append(__Library__00000000_.Roles, __Role__00000000_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000001_)
 	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
+	__Message__00000000_.MessageType = __MessageType__00000000_
+	__Message__00000000_.OriginTransition = __Transition__00000002_
+	__Message__00000001_.MessageType = __MessageType__00000000_
+	__Message__00000001_.OriginTransition = __Transition__00000001_
 	__Note__00000000_.State = __State__00000000_
 	__Note__00000005_.State = __State__00000000_
 	__NoteShape__00000000_.Note = __Note__00000000_
@@ -256,7 +329,10 @@ func _(stage *models.Stage) {
 	__NoteStateShape__00000000_.State = __State__00000000_
 	__NoteStateShape__00000005_.Note = __Note__00000005_
 	__NoteStateShape__00000005_.State = __State__00000000_
-	__Object__00000000_.State = nil
+	__Object__00000000_.State = __State__00000001_
+	__Object__00000000_.Messages = append(__Object__00000000_.Messages, __Message__00000001_)
+	__Object__00000001_.State = __State__00000004_
+	__Object__00000001_.Messages = append(__Object__00000001_.Messages, __Message__00000000_)
 	__State__00000000_.Entry = nil
 	__State__00000000_.Exit = nil
 	__State__00000000_.Parent = nil
@@ -271,6 +347,14 @@ func _(stage *models.Stage) {
 	__State__00000002_.Exit = nil
 	__State__00000002_.Parent = nil
 	__State__00000002_.Diagrams = append(__State__00000002_.Diagrams, __Diagram__00000000_)
+	__State__00000003_.Entry = nil
+	__State__00000003_.Exit = nil
+	__State__00000003_.Parent = nil
+	__State__00000003_.Diagrams = append(__State__00000003_.Diagrams, __Diagram__00000002_)
+	__State__00000004_.Entry = nil
+	__State__00000004_.Exit = nil
+	__State__00000004_.Parent = nil
+	__State__00000004_.Diagrams = append(__State__00000004_.Diagrams, __Diagram__00000002_)
 	__StateMachine__00000000_.InitialState = __State__00000000_
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000000_)
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000001_)
@@ -278,9 +362,15 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.Diagrams = append(__StateMachine__00000000_.Diagrams, __Diagram__00000000_)
 	__StateMachine__00000001_.InitialState = nil
 	__StateMachine__00000001_.Diagrams = append(__StateMachine__00000001_.Diagrams, __Diagram__00000001_)
+	__StateMachine__00000002_.InitialState = __State__00000003_
+	__StateMachine__00000002_.States = append(__StateMachine__00000002_.States, __State__00000003_)
+	__StateMachine__00000002_.States = append(__StateMachine__00000002_.States, __State__00000004_)
+	__StateMachine__00000002_.Diagrams = append(__StateMachine__00000002_.Diagrams, __Diagram__00000002_)
 	__StateShape__00000000_.State = __State__00000000_
 	__StateShape__00000001_.State = __State__00000001_
 	__StateShape__00000002_.State = __State__00000002_
+	__StateShape__00000003_.State = __State__00000003_
+	__StateShape__00000004_.State = __State__00000004_
 	__Transition__00000000_.Start = __State__00000001_
 	__Transition__00000000_.End = __State__00000002_
 	__Transition__00000000_.Guard = nil
@@ -291,6 +381,13 @@ func _(stage *models.Stage) {
 	__Transition__00000001_.GeneratedMessages = append(__Transition__00000001_.GeneratedMessages, __MessageType__00000000_)
 	__Transition__00000001_.Guard = nil
 	__Transition__00000001_.Diagrams = append(__Transition__00000001_.Diagrams, __Diagram__00000000_)
+	__Transition__00000002_.Start = __State__00000003_
+	__Transition__00000002_.End = __State__00000004_
+	__Transition__00000002_.RolesWithPermissions = append(__Transition__00000002_.RolesWithPermissions, __Role__00000000_)
+	__Transition__00000002_.GeneratedMessages = append(__Transition__00000002_.GeneratedMessages, __MessageType__00000000_)
+	__Transition__00000002_.Guard = nil
+	__Transition__00000002_.Diagrams = append(__Transition__00000002_.Diagrams, __Diagram__00000002_)
 	__Transition_Shape__00000000_.Transition = __Transition__00000000_
 	__Transition_Shape__00000001_.Transition = __Transition__00000001_
+	__Transition_Shape__00000002_.Transition = __Transition__00000002_
 }

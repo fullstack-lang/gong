@@ -338,35 +338,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(activities.GongMarshallField(stage, "Criticality"))
 	}
 
-	architectureOrdered := []*Architecture{}
-	for architecture := range stage.Architectures {
-		architectureOrdered = append(architectureOrdered, architecture)
-	}
-	sort.Slice(architectureOrdered[:], func(i, j int) bool {
-		architecturei := architectureOrdered[i]
-		architecturej := architectureOrdered[j]
-		architecturei_order, oki := stage.Architecture_stagedOrder[architecturei]
-		architecturej_order, okj := stage.Architecture_stagedOrder[architecturej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return architecturei_order < architecturej_order
-	})
-	if len(architectureOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, architecture := range architectureOrdered {
-
-		identifiersDecl.WriteString(architecture.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(architecture.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "StateMachines"))
-		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "Roles"))
-		initializerStatements.WriteString(architecture.GongMarshallField(stage, "NbPixPerCharacter"))
-	}
-
 	diagramOrdered := []*Diagram{}
 	for diagram := range stage.Diagrams {
 		diagramOrdered = append(diagramOrdered, diagram)
@@ -491,6 +462,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Roles"))
 	}
 
 	messageOrdered := []*Message{}
@@ -887,14 +859,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, architecture := range architectureOrdered {
-		_ = architecture
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, diagram := range diagramOrdered {
 		_ = diagram
 		var setPointerField string
@@ -1133,46 +1097,6 @@ func (activities *Activities) GongMarshallField(stage *Stage, fieldName string) 
 	return
 }
 
-func (architecture *Architecture) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", architecture.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(architecture.Name))
-	case "NbPixPerCharacter":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", architecture.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbPixPerCharacter")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", architecture.NbPixPerCharacter))
-
-	case "StateMachines":
-		var sb strings.Builder
-		for _, _statemachine := range architecture.StateMachines {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", architecture.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "StateMachines")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _statemachine.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	case "Roles":
-		var sb strings.Builder
-		for _, _role := range architecture.Roles {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", architecture.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Roles")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _role.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	default:
-		log.Panicf("Unknown field %s for Gongstruct Architecture", fieldName)
-	}
-	return
-}
-
 func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1384,6 +1308,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibrariesWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Roles":
+		var sb strings.Builder
+		for _, _role := range library.Roles {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Roles")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _role.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -2146,20 +2080,6 @@ func (activities *Activities) GongMarshallAllFields(stage *Stage) (initRes strin
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (architecture *Architecture) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(architecture.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "StateMachines"))
-		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "Roles"))
-		initializerStatements.WriteString(architecture.GongMarshallField(stage, "NbPixPerCharacter"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
 func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -2221,6 +2141,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Roles"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -28,8 +28,6 @@ func _(stage *models.Stage) {
 	__Activities__00000000_ := (&models.Activities{Name: `Wait for timer`}).Stage(stage)
 	__Activities__00000001_ := (&models.Activities{Name: `Flash orange light`}).Stage(stage)
 
-	__Architecture__00000000_ := (&models.Architecture{Name: `Traffic Lights of the world`}).Stage(stage)
-
 	__Diagram__00000001_ := (&models.Diagram{Name: `Traffic Light UK Diagram`}).Stage(stage)
 
 	__Guard__00000000_ := (&models.Guard{Name: `YES`}).Stage(stage)
@@ -79,9 +77,6 @@ func _(stage *models.Stage) {
 
 	__Activities__00000001_.Name = `Flash orange light`
 	__Activities__00000001_.Criticality = models.CriticalityDefault
-
-	__Architecture__00000000_.Name = `Traffic Lights of the world`
-	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000001_.Name = `Traffic Light UK Diagram`
 	__Diagram__00000001_.IsChecked = true
@@ -250,9 +245,8 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000011_.IsHidden = false
 
 	// insertion point for setup of pointers
-	__Architecture__00000000_.StateMachines = append(__Architecture__00000000_.StateMachines, __StateMachine__00000001_)
-	__Architecture__00000000_.Roles = append(__Architecture__00000000_.Roles, __Role__00000000_)
-	__Architecture__00000000_.Roles = append(__Architecture__00000000_.Roles, __Role__00000001_)
+	__Library__00000000_.Roles = append(__Library__00000000_.Roles, __Role__00000000_)
+	__Library__00000000_.Roles = append(__Library__00000000_.Roles, __Role__00000001_)
 	__Diagram__00000001_.State_Shapes = append(__Diagram__00000001_.State_Shapes, __StateShape__00000010_)
 	__Diagram__00000001_.State_Shapes = append(__Diagram__00000001_.State_Shapes, __StateShape__00000006_)
 	__Diagram__00000001_.State_Shapes = append(__Diagram__00000001_.State_Shapes, __StateShape__00000007_)

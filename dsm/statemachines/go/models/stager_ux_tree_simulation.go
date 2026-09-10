@@ -20,7 +20,7 @@ func (stager *Stager) treeSimulation() {
 	treeInstance := new(tree.Tree).Stage(stager.treeObjectsSimulationStage)
 	treeInstance.Name = string(ObjectTreeName)
 
-	for _, stateMachine := range stager.architecture.StateMachines {
+	for _, stateMachine := range GetGongstrucsSorted[*StateMachine](stager.stage) {
 
 		nodeForAddButton := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
 		nodeForAddButton.Name = stateMachine.Name

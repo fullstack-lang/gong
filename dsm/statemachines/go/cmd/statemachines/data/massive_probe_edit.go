@@ -19,7 +19,6 @@ func _(stage *models.Stage) {
 	__Activities__00000000_ := (&models.Activities{Name: `Show Muti Checkbox`}).Stage(stage)
 	__Activities__00000001_ := (&models.Activities{Name: `Hide Multi Checkbox`}).Stage(stage)
 	__Activities__00000002_ := (&models.Activities{Name: `Fill Empty Form`}).Stage(stage)
-	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
 	__Diagram__00000000_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
 	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
 	__StateMachine__00000001_ := (&models.StateMachine{Name: `New StateMachine`}).Stage(stage)
@@ -37,9 +36,6 @@ func _(stage *models.Stage) {
 	__Activities__00000001_.Criticality = ""
 	__Activities__00000002_.Name = `Fill Empty Form`
 	__Activities__00000002_.Criticality = ""
-	__Architecture__00000000_.Name = `Architecture`
-	__Architecture__00000000_.NbPixPerCharacter = 8.000000
-	__Architecture__00000000_.StateMachines = append(__Architecture__00000000_.StateMachines, __StateMachine__00000001_)
 	__Diagram__00000000_.Name = `New Diagram`
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsExpanded = true

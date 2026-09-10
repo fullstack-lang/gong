@@ -14,10 +14,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterActivitiesCreateCallback != nil {
 			stage.OnAfterActivitiesCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Architecture:
-		if stage.OnAfterArchitectureCreateCallback != nil {
-			stage.OnAfterArchitectureCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *Diagram:
 		if stage.OnAfterDiagramCreateCallback != nil {
 			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
@@ -105,11 +101,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Activities)
 		if stage.OnAfterActivitiesUpdateCallback != nil {
 			stage.OnAfterActivitiesUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Architecture:
-		newTarget := any(new).(*Architecture)
-		if stage.OnAfterArchitectureUpdateCallback != nil {
-			stage.OnAfterArchitectureUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Diagram:
 		newTarget := any(new).(*Diagram)
@@ -211,11 +202,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Activities)
 			stage.OnAfterActivitiesDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Architecture:
-		if stage.OnAfterArchitectureDeleteCallback != nil {
-			staged := any(staged).(*Architecture)
-			stage.OnAfterArchitectureDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *Diagram:
 		if stage.OnAfterDiagramDeleteCallback != nil {
 			staged := any(staged).(*Diagram)
@@ -314,10 +300,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterActivitiesReadCallback != nil {
 			stage.OnAfterActivitiesReadCallback.OnAfterRead(stage, target)
 		}
-	case *Architecture:
-		if stage.OnAfterArchitectureReadCallback != nil {
-			stage.OnAfterArchitectureReadCallback.OnAfterRead(stage, target)
-		}
 	case *Diagram:
 		if stage.OnAfterDiagramReadCallback != nil {
 			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
@@ -397,8 +379,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterActionUpdateCallback = any(callback).(OnAfterUpdateInterface[Action])
 	case *Activities:
 		stage.OnAfterActivitiesUpdateCallback = any(callback).(OnAfterUpdateInterface[Activities])
-	case *Architecture:
-		stage.OnAfterArchitectureUpdateCallback = any(callback).(OnAfterUpdateInterface[Architecture])
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
 	case *Guard:
@@ -442,8 +422,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterActionCreateCallback = any(callback).(OnAfterCreateInterface[Action])
 	case *Activities:
 		stage.OnAfterActivitiesCreateCallback = any(callback).(OnAfterCreateInterface[Activities])
-	case *Architecture:
-		stage.OnAfterArchitectureCreateCallback = any(callback).(OnAfterCreateInterface[Architecture])
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
 	case *Guard:
@@ -487,8 +465,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterActionDeleteCallback = any(callback).(OnAfterDeleteInterface[Action])
 	case *Activities:
 		stage.OnAfterActivitiesDeleteCallback = any(callback).(OnAfterDeleteInterface[Activities])
-	case *Architecture:
-		stage.OnAfterArchitectureDeleteCallback = any(callback).(OnAfterDeleteInterface[Architecture])
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
 	case *Guard:
@@ -532,8 +508,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterActionReadCallback = any(callback).(OnAfterReadInterface[Action])
 	case *Activities:
 		stage.OnAfterActivitiesReadCallback = any(callback).(OnAfterReadInterface[Activities])
-	case *Architecture:
-		stage.OnAfterArchitectureReadCallback = any(callback).(OnAfterReadInterface[Architecture])
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
 	case *Guard:

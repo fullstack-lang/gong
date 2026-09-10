@@ -26,23 +26,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Activities
 	// insertion point per field
 
-	// Compute reverse map for named struct Architecture
-	// insertion point per field
-	stage.Architecture_StateMachines_reverseMap = make(map[*StateMachine]*Architecture)
-	for architecture := range stage.Architectures {
-		_ = architecture
-		for _, _statemachine := range architecture.StateMachines {
-			stage.Architecture_StateMachines_reverseMap[_statemachine] = architecture
-		}
-	}
-	stage.Architecture_Roles_reverseMap = make(map[*Role]*Architecture)
-	for architecture := range stage.Architectures {
-		_ = architecture
-		for _, _role := range architecture.Roles {
-			stage.Architecture_Roles_reverseMap[_role] = architecture
-		}
-	}
-
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
 	stage.Diagram_State_Shapes_reverseMap = make(map[*StateShape]*Diagram)
@@ -122,6 +105,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 			stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[_library] = library
+		}
+	}
+	stage.Library_Roles_reverseMap = make(map[*Role]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _role := range library.Roles {
+			stage.Library_Roles_reverseMap[_role] = library
 		}
 	}
 
@@ -251,10 +241,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.Architectures {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.Diagrams {
 		res = append(res, instance)
 	}
@@ -332,12 +318,6 @@ func (action *Action) GongCopy() GongstructIF {
 func (activities *Activities) GongCopy() GongstructIF {
 	newInstance := new(Activities)
 	activities.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (architecture *Architecture) GongCopy() GongstructIF {
-	newInstance := new(Architecture)
-	architecture.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -455,16 +435,6 @@ func (activities *Activities) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(activities), uint64(GetOrderPointerGongstruct(stage, activities)))
-	return
-}
-
-func (architecture *Architecture) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(architecture).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(architecture), uint64(GetOrderPointerGongstruct(stage, architecture)))
 	return
 }
 
@@ -756,61 +726,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(activitiess_newInstances)
 	lenDeletedInstances += len(activitiess_deletedInstances)
-	var architectures_newInstances []*Architecture
-	var architectures_deletedInstances []*Architecture
-
-	// parse all staged instances and check if they have a reference
-	for architecture := range stage.Architectures {
-		if ref, ok := stage.Architectures_reference[architecture]; !ok {
-			architectures_newInstances = append(architectures_newInstances, architecture)
-			newInstancesSlice = append(newInstancesSlice, architecture.GongMarshallIdentifier(stage))
-			if stage.Architectures_referenceOrder == nil {
-				stage.Architectures_referenceOrder = make(map[*Architecture]uint)
-			}
-			stage.Architectures_referenceOrder[architecture] = stage.Architecture_stagedOrder[architecture]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, architecture.GongMarshallUnstaging(stage))
-			// delete(stage.Architectures_referenceOrder, architecture)
-			fieldInitializers, pointersInitializations := architecture.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Architecture_stagedOrder[ref] = stage.Architecture_stagedOrder[architecture]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := architecture.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, architecture)
-			// delete(stage.Architecture_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if architecture.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", architecture.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Architectures_reference {
-		instance := stage.Architectures_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Architectures[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			architectures_deletedInstances = append(architectures_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(architectures_newInstances)
-	lenDeletedInstances += len(architectures_deletedInstances)
 	var diagrams_newInstances []*Diagram
 	var diagrams_deletedInstances []*Diagram
 
@@ -1746,16 +1661,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Activitiess_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.Architectures_reference = make(map[*Architecture]*Architecture)
-	stage.Architectures_referenceOrder = make(map[*Architecture]uint) // diff Unstage needs the reference order
-	stage.Architectures_instance = make(map[*Architecture]*Architecture)
-	for instance := range stage.Architectures {
-		_copy := instance.GongCopy().(*Architecture)
-		stage.Architectures_reference[instance] = _copy
-		stage.Architectures_instance[_copy] = instance
-		stage.Architectures_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
 	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
 	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
@@ -1927,11 +1832,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.Architectures {
-		reference := stage.Architectures_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.Diagrams {
 		reference := stage.Diagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2042,18 +1942,6 @@ func (activities *Activities) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Activities was not staged and does not have a reference order", activities)
-		return 0
-	}
-}
-
-func (architecture *Architecture) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Architecture_stagedOrder[architecture]; ok {
-		return order
-	}
-	if order, ok := stage.Architectures_referenceOrder[architecture]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Architecture was not staged and does not have a reference order", architecture)
 		return 0
 	}
 }
@@ -2273,15 +2161,6 @@ func (activities *Activities) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", activities.GongGetGongstructName(), activities.GongGetOrder(stage))
 }
 
-func (architecture *Architecture) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", architecture.GongGetGongstructName(), architecture.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (architecture *Architecture) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", architecture.GongGetGongstructName(), architecture.GongGetOrder(stage))
-}
-
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
 }
@@ -2445,14 +2324,6 @@ func (activities *Activities) GongMarshallIdentifier(stage *Stage) (decl string)
 	return
 }
 
-func (architecture *Architecture) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", architecture.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Architecture")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(architecture.Name))
-	return
-}
-
 func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -2591,12 +2462,6 @@ func (action *Action) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (activities *Activities) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", activities.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (architecture *Architecture) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", architecture.GongGetReferenceIdentifier(stage))
 	return
 }
 

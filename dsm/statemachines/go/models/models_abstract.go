@@ -4,15 +4,6 @@ import (
 	"time"
 )
 
-type Architecture struct {
-	Name string
-
-	StateMachines []*StateMachine
-	Roles         []*Role
-
-	NbPixPerCharacter float64
-}
-
 type Diagram struct {
 	Name           string
 	IsChecked      bool

@@ -227,156 +227,6 @@ func (activitiesFormCallback *ActivitiesFormCallback) OnSave() {
 
 	activitiesFormCallback.probe.ux_tree()
 }
-func __gong__New__ArchitectureFormCallback(
-	architecture *models.Architecture,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (architectureFormCallback *ArchitectureFormCallback) {
-	architectureFormCallback = new(ArchitectureFormCallback)
-	architectureFormCallback.probe = probe
-	architectureFormCallback.architecture = architecture
-	architectureFormCallback.formGroup = formGroup
-
-	architectureFormCallback.CreationMode = (architecture == nil)
-
-	return
-}
-
-type ArchitectureFormCallback struct {
-	architecture *models.Architecture
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
-	architectureFormCallback.probe.stageOfInterest.Lock()
-	defer architectureFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ArchitectureFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	architectureFormCallback.probe.formStage.Checkout()
-
-	if architectureFormCallback.architecture == nil {
-		architectureFormCallback.architecture = new(models.Architecture).Stage(architectureFormCallback.probe.stageOfInterest)
-	}
-	architecture_ := architectureFormCallback.architecture
-	_ = architecture_
-
-	for _, formDiv := range architectureFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(architecture_.Name), formDiv)
-		case "StateMachines":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StateMachine](architectureFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.StateMachine, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.StateMachine)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					architectureFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.StateMachine](architectureFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			architecture_.StateMachines = instanceSlice
-			architectureFormCallback.probe.UpdateSliceOfPointersCallback(architecture_, "StateMachines", &architecture_.StateMachines)
-
-		case "Roles":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Role](architectureFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Role, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Role)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					architectureFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Role](architectureFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			architecture_.Roles = instanceSlice
-			architectureFormCallback.probe.UpdateSliceOfPointersCallback(architecture_, "Roles", &architecture_.Roles)
-
-		case "NbPixPerCharacter":
-			FormDivBasicFieldToField(&(architecture_.NbPixPerCharacter), formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if architectureFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		architecture_.Unstage(architectureFormCallback.probe.stageOfInterest)
-	}
-
-	architectureFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Architecture](
-		architectureFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if architectureFormCallback.CreationMode || architectureFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		architectureFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(architectureFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ArchitectureFormCallback(
-			nil,
-			architectureFormCallback.probe,
-			newFormGroup,
-		)
-		architecture := new(models.Architecture)
-		FillUpForm(architecture, newFormGroup, architectureFormCallback.probe)
-		architectureFormCallback.probe.formStage.Commit()
-	}
-
-	architectureFormCallback.probe.ux_tree()
-}
 func __gong__New__DiagramFormCallback(
 	diagram *models.Diagram,
 	probe *Probe,
@@ -1224,6 +1074,41 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
+		case "Roles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Role](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Role, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Role)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Role](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.Roles = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Roles", &library_.Roles)
+
 		case "Library:SubLibraries":
 			if formDiv.FormEditAssocButton == nil {
 				continue
@@ -2232,51 +2117,51 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 			role_.RolesWithSamePermissions = instanceSlice
 			roleFormCallback.probe.UpdateSliceOfPointersCallback(role_, "RolesWithSamePermissions", &role_.RolesWithSamePermissions)
 
-		case "Architecture:Roles":
+		case "Library:Roles":
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Architecture instances
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Architecture instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Architecture](roleFormCallback.probe.stageOfInterest)
-			targetArchitectureIDs := make(map[uint]bool)
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](roleFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetArchitectureIDs[id] = true
+					targetLibraryIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Architecture instances and update their Roles slice
-			for _architecture := range *models.GetGongstructInstancesSetFromPointerType[*models.Architecture](roleFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(roleFormCallback.probe.stageOfInterest, _architecture)
+			// 3. Iterate over all Library instances and update their Roles slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](roleFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(roleFormCallback.probe.stageOfInterest, _library)
 				
-				// if Architecture is selected
-				if targetArchitectureIDs[id] {
-					// ensure role_ is in _architecture.Roles
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure role_ is in _library.Roles
 					found := false
-					for _, _b := range _architecture.Roles {
+					for _, _b := range _library.Roles {
 						if _b == role_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_architecture.Roles = append(_architecture.Roles, role_)
-						roleFormCallback.probe.UpdateSliceOfPointersCallback(_architecture, "Roles", &_architecture.Roles)
+						_library.Roles = append(_library.Roles, role_)
+						roleFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Roles", &_library.Roles)
 					}
 				} else {
-					// ensure role_ is NOT in _architecture.Roles
-					idx := slices.Index(_architecture.Roles, role_)
+					// ensure role_ is NOT in _library.Roles
+					idx := slices.Index(_library.Roles, role_)
 					if idx != -1 {
-						_architecture.Roles = slices.Delete(_architecture.Roles, idx, idx+1)
-						roleFormCallback.probe.UpdateSliceOfPointersCallback(_architecture, "Roles", &_architecture.Roles)
+						_library.Roles = slices.Delete(_library.Roles, idx, idx+1)
+						roleFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Roles", &_library.Roles)
 					}
 				}
 			}
@@ -2906,54 +2791,6 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(statemachine_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(statemachine_.IsExpanded), formDiv)
-		case "Architecture:StateMachines":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Architecture instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Architecture instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Architecture](statemachineFormCallback.probe.stageOfInterest)
-			targetArchitectureIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetArchitectureIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Architecture instances and update their StateMachines slice
-			for _architecture := range *models.GetGongstructInstancesSetFromPointerType[*models.Architecture](statemachineFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(statemachineFormCallback.probe.stageOfInterest, _architecture)
-				
-				// if Architecture is selected
-				if targetArchitectureIDs[id] {
-					// ensure statemachine_ is in _architecture.StateMachines
-					found := false
-					for _, _b := range _architecture.StateMachines {
-						if _b == statemachine_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_architecture.StateMachines = append(_architecture.StateMachines, statemachine_)
-						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_architecture, "StateMachines", &_architecture.StateMachines)
-					}
-				} else {
-					// ensure statemachine_ is NOT in _architecture.StateMachines
-					idx := slices.Index(_architecture.StateMachines, statemachine_)
-					if idx != -1 {
-						_architecture.StateMachines = slices.Delete(_architecture.StateMachines, idx, idx+1)
-						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_architecture, "StateMachines", &_architecture.StateMachines)
-					}
-				}
-			}
 		case "Library:RootStateMachines":
 			if formDiv.FormEditAssocButton == nil {
 				continue

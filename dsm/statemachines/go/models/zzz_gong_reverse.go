@@ -27,15 +27,6 @@ func (inst *Activities) GongGetReverseFieldOwnerName(stage *Stage, reverseField 
 	return
 }
 
-func (inst *Architecture) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -205,11 +196,11 @@ func (inst *Role) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Architecture":
+	case "Library":
 		switch reverseField.Fieldname {
 		case "Roles":
-			if _architecture, ok := stage.Architecture_Roles_reverseMap[inst]; ok {
-				res = _architecture.Name
+			if _library, ok := stage.Library_Roles_reverseMap[inst]; ok {
+				res = _library.Name
 			}
 		}
 	case "Role":
@@ -265,13 +256,6 @@ func (inst *StateMachine) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Architecture":
-		switch reverseField.Fieldname {
-		case "StateMachines":
-			if _architecture, ok := stage.Architecture_StateMachines_reverseMap[inst]; ok {
-				res = _architecture.Name
-			}
-		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootStateMachines":
@@ -348,15 +332,6 @@ func (inst *Activities) GongGetReverseFieldOwner(stage *Stage, reverseField *Rev
 		case "Activities":
 			res = stage.State_Activities_reverseMap[inst]
 		}
-	}
-	return res
-}
-
-func (inst *Architecture) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
 	}
 	return res
 }
@@ -508,10 +483,10 @@ func (inst *Role) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Architecture":
+	case "Library":
 		switch reverseField.Fieldname {
 		case "Roles":
-			res = stage.Architecture_Roles_reverseMap[inst]
+			res = stage.Library_Roles_reverseMap[inst]
 		}
 	case "Role":
 		switch reverseField.Fieldname {
@@ -556,11 +531,6 @@ func (inst *StateMachine) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Architecture":
-		switch reverseField.Fieldname {
-		case "StateMachines":
-			res = stage.Architecture_StateMachines_reverseMap[inst]
-		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootStateMachines":

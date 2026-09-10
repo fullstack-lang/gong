@@ -26,7 +26,6 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*Action](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Activities](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Architecture](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Guard](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Kill](stage, f, addIDs)

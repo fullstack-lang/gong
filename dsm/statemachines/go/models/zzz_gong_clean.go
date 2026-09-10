@@ -54,15 +54,6 @@ func (activities *Activities) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Architecture
-func (architecture *Architecture) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	modified = GongCleanSlice(stage, &architecture.StateMachines) || modified
-	modified = GongCleanSlice(stage, &architecture.Roles) || modified
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -97,6 +88,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.RootStateMachines) || modified
 	modified = GongCleanSlice(stage, &library.StateMachinesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.Roles) || modified
 	// insertion point per field
 	return
 }

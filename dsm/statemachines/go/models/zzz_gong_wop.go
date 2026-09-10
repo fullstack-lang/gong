@@ -37,20 +37,6 @@ func (from *Activities) CopyBasicFields(to *Activities) {
 	to.Criticality = from.Criticality
 }
 
-type Architecture_WOP struct {
-	// insertion point
-
-	Name string
-
-	NbPixPerCharacter float64
-}
-
-func (from *Architecture) CopyBasicFields(to *Architecture) {
-	// insertion point
-	to.Name = from.Name
-	to.NbPixPerCharacter = from.NbPixPerCharacter
-}
-
 type Diagram_WOP struct {
 	// insertion point
 

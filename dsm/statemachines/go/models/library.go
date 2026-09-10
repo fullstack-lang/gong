@@ -33,4 +33,6 @@ type Library struct {
 
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
+
+	Roles []*Role
 }

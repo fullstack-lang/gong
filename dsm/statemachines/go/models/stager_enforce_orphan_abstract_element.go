@@ -61,5 +61,27 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	) {
 		needCommit = true
 	}
+
+	if root := stager.GetRootLibrary(); root != nil {
+		for _, role := range GetGongstrucsSorted[*Role](stager.stage) {
+			if !slices.Contains(root.Roles, role) {
+				root.Roles = append(root.Roles, role)
+				needCommit = true
+			}
+		}
+	}
+
+	for _, object := range GetGongstrucsSorted[*Object](stager.stage) {
+		if object.State == nil {
+			for _, sm := range GetGongstrucsSorted[*StateMachine](stager.stage) {
+				if sm.InitialState != nil {
+					object.State = sm.InitialState
+					needCommit = true
+					break
+				}
+			}
+		}
+	}
+
 	return
 }

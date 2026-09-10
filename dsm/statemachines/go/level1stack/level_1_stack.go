@@ -122,7 +122,6 @@ func NewLevel1StackDelta(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Action](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Activities](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Architecture](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Guard](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Kill](stage)

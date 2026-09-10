@@ -34,9 +34,6 @@ type Stager struct {
 
 	// maps
 
-	// singloton architecture
-	architecture *Architecture
-
 	set_StartStates map[*State]struct{}
 
 	map_state_nextStates map[*State][]*State
@@ -145,4 +142,11 @@ type OnInitCommitFromBackCallback struct {
 
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObject
+}
+
+func (stager *Stager) getNbPixPerCharacter() float64 {
+	if root := stager.getRootLibrary(); root != nil && root.NbPixPerCharacter > 0 {
+		return root.NbPixPerCharacter
+	}
+	return 8.0
 }

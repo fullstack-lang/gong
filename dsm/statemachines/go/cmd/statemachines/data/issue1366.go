@@ -25,8 +25,6 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
-
 	__Diagram__00000000_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
 
 	__Guard__00000000_ := (&models.Guard{Name: `guard1`}).Stage(stage)
@@ -69,9 +67,6 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000006_ := (&models.Transition_Shape{Name: `-New Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
-
-	__Architecture__00000000_.Name = `Architecture`
-	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `New Diagram`
 	__Diagram__00000000_.IsChecked = true

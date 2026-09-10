@@ -522,41 +522,6 @@ func (u *ActivitiesUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	return nil
 }
 
-type ArchitectureUnmarshaller struct{}
-
-func (u *ArchitectureUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Architecture)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *ArchitectureUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Architecture)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StateMachines":
-		GongUnmarshallSliceOfPointers(&instance.StateMachines, valueExpr, identifierMap)
-	case "Roles":
-		GongUnmarshallSliceOfPointers(&instance.Roles, valueExpr, identifierMap)
-	case "NbPixPerCharacter":
-		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
-	}
-	return nil
-}
-
 type DiagramUnmarshaller struct{}
 
 func (u *DiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -713,6 +678,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.SubLibrariesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsExpandedTmp":
 		instance.IsExpandedTmp = GongExtractBool(valueExpr)
+	case "Roles":
+		GongUnmarshallSliceOfPointers(&instance.Roles, valueExpr, identifierMap)
 	}
 	return nil
 }

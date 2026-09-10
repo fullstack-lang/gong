@@ -27,12 +27,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.activities, probe)
 			}
-		case *ArchitectureFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Architecture", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.architecture, probe)
-			}
 		case *DiagramFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Diagram", true)
@@ -177,19 +171,6 @@ func FillUpFormFromGongstructName(
 		activities := new(models.Activities)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(activities, formGroup, probe)
-	case "Architecture":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Architecture Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ArchitectureFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		architecture := new(models.Architecture)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(architecture, formGroup, probe)
 	case "Diagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

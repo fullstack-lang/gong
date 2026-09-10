@@ -11,10 +11,23 @@ func (stager *Stager) buttonSimulation() {
 
 	layout := new(button.Layout).Stage(stager.buttonTransitionsStage)
 
-	percentage := 100.0 / float64(len(stager.architecture.Roles))
+	var roles []*Role
+	if root := stager.getRootLibrary(); root != nil {
+		roles = root.Roles
+	}
+	if len(roles) == 0 {
+		roles = GetGongstrucsSorted[*Role](stager.stage)
+	}
+
+	if len(roles) == 0 {
+		stager.buttonTransitionsStage.Commit()
+		return
+	}
+
+	percentage := 100.0 / float64(len(roles))
 
 	map_Role_buttonGroup := make(map[*Role]*button.Group)
-	for _, role := range stager.architecture.Roles {
+	for _, role := range roles {
 		group := new(button.Group).Stage(stager.buttonTransitionsStage)
 		group.Name = role.Name
 		group.NbColumns = 3

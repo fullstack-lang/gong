@@ -13,9 +13,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Activities:
 		ok = stage.IsStagedActivities(target)
 
-	case *Architecture:
-		ok = stage.IsStagedArchitecture(target)
-
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
@@ -79,9 +76,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Activities:
 		ok = stage.IsStagedActivities(target)
-
-	case *Architecture:
-		ok = stage.IsStagedArchitecture(target)
 
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
@@ -148,13 +142,6 @@ func (stage *Stage) IsStagedAction(action *Action) (ok bool) {
 func (stage *Stage) IsStagedActivities(activities *Activities) (ok bool) {
 
 	_, ok = stage.Activitiess[activities]
-
-	return
-}
-
-func (stage *Stage) IsStagedArchitecture(architecture *Architecture) (ok bool) {
-
-	_, ok = stage.Architectures[architecture]
 
 	return
 }
@@ -285,9 +272,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Activities:
 		stage.StageBranchActivities(target)
 
-	case *Architecture:
-		stage.StageBranchArchitecture(target)
-
 	case *Diagram:
 		stage.StageBranchDiagram(target)
 
@@ -369,27 +353,6 @@ func (stage *Stage) StageBranchActivities(activities *Activities) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchArchitecture(architecture *Architecture) {
-
-	// check if instance is already staged
-	if IsStaged(stage, architecture) {
-		return
-	}
-
-	architecture.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _statemachine := range architecture.StateMachines {
-		StageBranch(stage, _statemachine)
-	}
-	for _, _role := range architecture.Roles {
-		StageBranch(stage, _role)
-	}
 
 }
 
@@ -479,6 +442,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 		StageBranch(stage, _library)
+	}
+	for _, _role := range library.Roles {
+		StageBranch(stage, _role)
 	}
 
 }
@@ -763,10 +729,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchActivities(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Architecture:
-		toT := CopyBranchArchitecture(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Diagram:
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -876,31 +838,6 @@ func CopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (
 	return
 }
 
-func CopyBranchArchitecture(mapOrigCopy map[any]any, architectureFrom *Architecture) (architectureTo *Architecture) {
-
-	// architectureFrom has already been copied
-	if _architectureTo, ok := mapOrigCopy[architectureFrom]; ok {
-		architectureTo = _architectureTo.(*Architecture)
-		return
-	}
-
-	architectureTo = new(Architecture)
-	mapOrigCopy[architectureFrom] = architectureTo
-	architectureFrom.CopyBasicFields(architectureTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _statemachine := range architectureFrom.StateMachines {
-		architectureTo.StateMachines = append(architectureTo.StateMachines, CopyBranchStateMachine(mapOrigCopy, _statemachine))
-	}
-	for _, _role := range architectureFrom.Roles {
-		architectureTo.Roles = append(architectureTo.Roles, CopyBranchRole(mapOrigCopy, _role))
-	}
-
-	return
-}
-
 func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 
 	// diagramFrom has already been copied
@@ -1002,6 +939,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
 		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+	}
+	for _, _role := range libraryFrom.Roles {
+		libraryTo.Roles = append(libraryTo.Roles, CopyBranchRole(mapOrigCopy, _role))
 	}
 
 	return
@@ -1330,9 +1270,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Activities:
 		stage.UnstageBranchActivities(target)
 
-	case *Architecture:
-		stage.UnstageBranchArchitecture(target)
-
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
 
@@ -1414,27 +1351,6 @@ func (stage *Stage) UnstageBranchActivities(activities *Activities) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchArchitecture(architecture *Architecture) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, architecture) {
-		return
-	}
-
-	architecture.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _statemachine := range architecture.StateMachines {
-		UnstageBranch(stage, _statemachine)
-	}
-	for _, _role := range architecture.Roles {
-		UnstageBranch(stage, _role)
-	}
 
 }
 
@@ -1524,6 +1440,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _library)
+	}
+	for _, _role := range library.Roles {
+		UnstageBranch(stage, _role)
 	}
 
 }
@@ -1800,19 +1719,6 @@ func (reference *Activities) GongReconstructPointersFromReferences(stage *Stage,
 	// insertion point for slice of pointers field
 }
 
-func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stage, instance *Architecture) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.StateMachines = reference.StateMachines[:0]
-	for _, _b := range instance.StateMachines {
-		reference.StateMachines = append(reference.StateMachines, stage.StateMachines_reference[_b])
-	}
-	reference.Roles = reference.Roles[:0]
-	for _, _b := range instance.Roles {
-		reference.Roles = append(reference.Roles, stage.Roles_reference[_b])
-	}
-}
-
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -1870,6 +1776,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
 		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
+	}
+	reference.Roles = reference.Roles[:0]
+	for _, _b := range instance.Roles {
+		reference.Roles = append(reference.Roles, stage.Roles_reference[_b])
 	}
 }
 
@@ -2036,25 +1946,6 @@ func (reference *Activities) GongReconstructPointersFromInstances(stage *Stage) 
 	// insertion point for slice of pointers fields
 }
 
-func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _StateMachines []*StateMachine
-	for _, _reference := range reference.StateMachines {
-		if _instance, ok := stage.StateMachines_instance[_reference]; ok {
-			_StateMachines = append(_StateMachines, _instance)
-		}
-	}
-	reference.StateMachines = _StateMachines
-	var _Roles []*Role
-	for _, _reference := range reference.Roles {
-		if _instance, ok := stage.Roles_instance[_reference]; ok {
-			_Roles = append(_Roles, _instance)
-		}
-	}
-	reference.Roles = _Roles
-}
-
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -2143,6 +2034,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubLibrariesWhoseNodeIsExpanded = _SubLibrariesWhoseNodeIsExpanded
+	var _Roles []*Role
+	for _, _reference := range reference.Roles {
+		if _instance, ok := stage.Roles_instance[_reference]; ok {
+			_Roles = append(_Roles, _instance)
+		}
+	}
+	reference.Roles = _Roles
 }
 
 func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2402,62 +2300,6 @@ func (activities *Activities) GongDiff(stage *Stage, activitiesOther *Activities
 	}
 	if activities.Criticality != activitiesOther.Criticality {
 		diffs = append(diffs, activities.GongMarshallField(stage, "Criticality"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (architecture *Architecture) GongDiff(stage *Stage, architectureOther *Architecture) (diffs []string) {
-	// insertion point for field diffs
-	if architecture.Name != architectureOther.Name {
-		diffs = append(diffs, architecture.GongMarshallField(stage, "Name"))
-	}
-	StateMachinesDifferent := false
-	if len(architecture.StateMachines) != len(architectureOther.StateMachines) {
-		StateMachinesDifferent = true
-	} else {
-		for i := range architecture.StateMachines {
-			if (architecture.StateMachines[i] == nil) != (architectureOther.StateMachines[i] == nil) {
-				StateMachinesDifferent = true
-				break
-			} else if architecture.StateMachines[i] != nil && architectureOther.StateMachines[i] != nil {
-				// this is a pointer comparaison
-				if architecture.StateMachines[i] != architectureOther.StateMachines[i] {
-					StateMachinesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if StateMachinesDifferent {
-		ops := Diff(stage, architecture, architectureOther, "StateMachines", architectureOther.StateMachines, architecture.StateMachines)
-		diffs = append(diffs, ops)
-	}
-	RolesDifferent := false
-	if len(architecture.Roles) != len(architectureOther.Roles) {
-		RolesDifferent = true
-	} else {
-		for i := range architecture.Roles {
-			if (architecture.Roles[i] == nil) != (architectureOther.Roles[i] == nil) {
-				RolesDifferent = true
-				break
-			} else if architecture.Roles[i] != nil && architectureOther.Roles[i] != nil {
-				// this is a pointer comparaison
-				if architecture.Roles[i] != architectureOther.Roles[i] {
-					RolesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RolesDifferent {
-		ops := Diff(stage, architecture, architectureOther, "Roles", architectureOther.Roles, architecture.Roles)
-		diffs = append(diffs, ops)
-	}
-	if architecture.NbPixPerCharacter != architectureOther.NbPixPerCharacter {
-		diffs = append(diffs, architecture.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
 
 	return
@@ -2748,6 +2590,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
+	RolesDifferent := false
+	if len(library.Roles) != len(libraryOther.Roles) {
+		RolesDifferent = true
+	} else {
+		for i := range library.Roles {
+			if (library.Roles[i] == nil) != (libraryOther.Roles[i] == nil) {
+				RolesDifferent = true
+				break
+			} else if library.Roles[i] != nil && libraryOther.Roles[i] != nil {
+				// this is a pointer comparaison
+				if library.Roles[i] != libraryOther.Roles[i] {
+					RolesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RolesDifferent {
+		ops := Diff(stage, library, libraryOther, "Roles", libraryOther.Roles, library.Roles)
+		diffs = append(diffs, ops)
 	}
 
 	return
