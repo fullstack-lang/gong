@@ -63,6 +63,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce state machine semantic rules", stager.enforceStateMachineSemanticRules},
 
 		// concrete semantic checks
+		{"Enforce at least one diagram per state machine", stager.enforceAtLeastOneDiagramPerStateMachine},
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce shape semantic", stager.enforceShapeSemantic},

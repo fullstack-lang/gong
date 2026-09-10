@@ -28,6 +28,7 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
+	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Top library`}).Stage(stage)
 	__Library__00000001_ := (&models.Library{Name: `Sub Lib 1`}).Stage(stage)
@@ -47,6 +48,7 @@ func _(stage *models.Stage) {
 	__State__00000002_ := (&models.State{Name: `End`}).Stage(stage)
 
 	__StateMachine__00000000_ := (&models.StateMachine{Name: `SM 1`}).Stage(stage)
+	__StateMachine__00000001_ := (&models.StateMachine{Name: `SM2`}).Stage(stage)
 
 	__StateShape__00000000_ := (&models.StateShape{Name: `Start SM1`}).Stage(stage)
 	__StateShape__00000001_ := (&models.StateShape{Name: `S1`}).Stage(stage)
@@ -64,10 +66,16 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `New Diagram`
-	__Diagram__00000000_.IsChecked = true
-	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = true
+
+	__Diagram__00000001_.Name = `New Diagram`
+	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsExpanded = true
+	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.IsStatesNodeExpanded = false
 
 	__Library__00000000_.Name = `Top library`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -161,6 +169,11 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.ComputedPrefix = ``
 	__StateMachine__00000000_.IsExpanded = false
 
+	__StateMachine__00000001_.Name = `SM2`
+	__StateMachine__00000001_.IsWithTransitionNameAutonamticalyGenerated = false
+	__StateMachine__00000001_.ComputedPrefix = ``
+	__StateMachine__00000001_.IsExpanded = false
+
 	__StateShape__00000000_.Name = `Start SM1`
 	__StateShape__00000000_.X = 491.000000
 	__StateShape__00000000_.Y = 142.000000
@@ -216,7 +229,9 @@ func _(stage *models.Stage) {
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000000_)
+	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000001_)
 	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
+	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000001_)
 	__Note__00000000_.State = __State__00000000_
 	__Note__00000003_.State = __State__00000000_
 	__NoteShape__00000000_.Note = __Note__00000000_
@@ -244,6 +259,8 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000001_)
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000002_)
 	__StateMachine__00000000_.Diagrams = append(__StateMachine__00000000_.Diagrams, __Diagram__00000000_)
+	__StateMachine__00000001_.InitialState = nil
+	__StateMachine__00000001_.Diagrams = append(__StateMachine__00000001_.Diagrams, __Diagram__00000001_)
 	__StateShape__00000000_.State = __State__00000000_
 	__StateShape__00000001_.State = __State__00000001_
 	__StateShape__00000002_.State = __State__00000002_

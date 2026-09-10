@@ -204,3 +204,52 @@ func TestEnforceStateMachineSemanticRules_OneClick(t *testing.T) {
 		}
 	})
 }
+
+func TestEnforceAtLeastOneDiagramPerStateMachine(t *testing.T) {
+	stage := NewStage("test")
+	probe := &mockProbe{}
+	stager := &Stager{
+		stage:     stage,
+		probeForm: probe,
+	}
+
+	sm := (&StateMachine{Name: "TrafficLight"}).Stage(stage)
+	if len(sm.Diagrams) != 0 {
+		t.Fatalf("expected 0 diagrams initially")
+	}
+
+	needCommit := stager.enforceAtLeastOneDiagramPerStateMachine()
+	if !needCommit {
+		t.Errorf("expected needCommit to be true")
+	}
+	if len(sm.Diagrams) != 1 {
+		t.Fatalf("expected 1 diagram after enforcement, got %d", len(sm.Diagrams))
+	}
+	if sm.Diagrams[0].Name != "New Diagram" {
+		t.Errorf("expected diagram name 'New Diagram', got %q", sm.Diagrams[0].Name)
+	}
+	if !sm.Diagrams[0].IsChecked {
+		t.Errorf("expected first diagram to be checked")
+	}
+
+	foundNotification := false
+	for _, n := range probe.notifications {
+		if strings.Contains(n, "each state machine has to have at least one diagram") {
+			foundNotification = true
+			break
+		}
+	}
+	if !foundNotification {
+		t.Errorf("expected notification about missing diagram, got: %v", probe.notifications)
+	}
+
+	// second pass should not add another diagram
+	needCommit2 := stager.enforceAtLeastOneDiagramPerStateMachine()
+	if needCommit2 {
+		t.Errorf("expected needCommit to be false on second pass")
+	}
+	if len(sm.Diagrams) != 1 {
+		t.Fatalf("expected still 1 diagram, got %d", len(sm.Diagrams))
+	}
+}
+

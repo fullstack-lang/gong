@@ -551,7 +551,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000001_.DateYOffset = 0.000000
 	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000001_.ComputedPrefix = `1`
-	__Diagram__00000001_.IsExpanded = false
+	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = true
@@ -3400,7 +3400,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000012_.IsHidden = false
 
 	// insertion point for setup of pointers
-	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000001_.ProductsWhoseNodeIsExpanded, __Product__00000007_)
 	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000001_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
 	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000001_.ProductsWhoseNodeIsExpanded, __Product__00000002_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000003_)
@@ -3452,6 +3451,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000003_)
 	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000006_)
+	__Diagram__00000003_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000003_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
 	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000003_)
 	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000004_)
 	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000005_)
