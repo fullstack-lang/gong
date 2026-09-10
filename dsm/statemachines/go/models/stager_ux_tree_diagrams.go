@@ -35,9 +35,10 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
-	if library != stager.GetRootLibrary() {
-		addRenameButton(library, libraryNode, stager)
+	if libraryNode.Menu == nil {
+		libraryNode.Menu = &tree.Menu{Name: "Menu"}
 	}
+	stager.addNodeRenameButton(libraryNode, "library", library.GetIsInRenameMode(), library.SetIsInRenameMode)
 	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsExpandedTmp)
 	libraryNode.OnNameChange = stager.onNameChange(library)
 	libraryNode.OnClick = onNodeClicked(stager, library)
@@ -126,7 +127,10 @@ func (stager *Stager) treeStateMachines(
 	}
 	parentNode.Children = append(parentNode.Children, stateMachineNode)
 
-	addRenameButton(stateMachine, stateMachineNode, stager)
+	if stateMachineNode.Menu == nil {
+		stateMachineNode.Menu = &tree.Menu{Name: "Menu"}
+	}
+	stager.addNodeRenameButton(stateMachineNode, "state machine", stateMachine.GetIsInRenameMode(), stateMachine.SetIsInRenameMode)
 	stateMachineNode.OnNameChange = stager.onNameChange(stateMachine)
 	stateMachineNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, stateMachine, stateMachinesWhoseNodeIsExpanded)
 	stateMachineNode.OnClick = onNodeClicked(stager, stateMachine)
@@ -180,32 +184,11 @@ func (stager *Stager) treeStateMachines(
 		if diagramNode.Menu == nil {
 			diagramNode.Menu = &tree.Menu{Name: "Menu"}
 		}
-		if !diagram.isInRenameMode {
-			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons,
-				&tree.Button{
-					Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					OnClick: func() {
-						diagram.isInRenameMode = true
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Rename the diagram",
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons,
-				&tree.Button{
-					Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					OnClick: func() {
-						diagram.isInRenameMode = false
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
+		stager.addNodeRenameButton(diagramNode, "diagram", diagram.isInRenameMode, func(v bool) { diagram.isInRenameMode = v })
+		diagramNode.OnNameChange = func(newName string) {
+			diagram.Name = newName
+			diagram.isInRenameMode = false
+			stager.stage.Commit()
 		}
 
 		{
@@ -296,33 +279,7 @@ func (stager *Stager) treeStateMachines(
 			diagramStateNode.IsWithPreceedingIcon = true
 			diagramStateNode.PreceedingIcon = string(buttons.BUTTON_crop_square)
 
-			if !state.isInRenameMode {
-				diagramStateNode.Buttons = append(diagramStateNode.Buttons,
-					&tree.Button{
-						Name: state.GetName() + " " + string(buttons.BUTTON_edit_note),
-						Icon: string(buttons.BUTTON_edit_note),
-						OnClick: func() {
-							state.isInRenameMode = true
-							stager.stage.Commit()
-						},
-						HasToolTip:      true,
-						ToolTipText:     "Rename the state",
-						ToolTipPosition: tree.Above,
-					})
-			} else {
-				diagramStateNode.Buttons = append(diagramStateNode.Buttons,
-					&tree.Button{
-						Name: state.GetName() + " " + string(buttons.BUTTON_edit_off),
-						Icon: string(buttons.BUTTON_edit_off),
-						OnClick: func() {
-							state.isInRenameMode = false
-							stager.stage.Commit()
-						},
-						HasToolTip:      true,
-						ToolTipText:     "Cancel renaming",
-						ToolTipPosition: tree.Above,
-					})
-			}
+			stager.addNodeRenameButton(diagramStateNode, "state", state.isInRenameMode, func(v bool) { state.isInRenameMode = v })
 
 			var stateShape *StateShape
 			var ok bool
@@ -364,32 +321,11 @@ func (stager *Stager) treeStateMachines(
 						transitionNode.IsWithPreceedingIcon = true
 						transitionNode.PreceedingIcon = string(buttons.BUTTON_arrow_forward)
 
-						if !transition_.isInRenameMode {
-							transitionNode.Buttons = append(transitionNode.Buttons,
-								&tree.Button{
-									Name: transition_.GetName() + " " + string(buttons.BUTTON_edit_note),
-									Icon: string(buttons.BUTTON_edit_note),
-									OnClick: func() {
-										transition_.isInRenameMode = true
-										stager.stage.Commit()
-									},
-									HasToolTip:      true,
-									ToolTipText:     "Rename the transition",
-									ToolTipPosition: tree.Above,
-								})
-						} else {
-							transitionNode.Buttons = append(transitionNode.Buttons,
-								&tree.Button{
-									Name: transition_.GetName() + " " + string(buttons.BUTTON_edit_off),
-									Icon: string(buttons.BUTTON_edit_off),
-									OnClick: func() {
-										transition_.isInRenameMode = false
-										stager.stage.Commit()
-									},
-									HasToolTip:      true,
-									ToolTipText:     "Cancel renaming",
-									ToolTipPosition: tree.Above,
-								})
+						stager.addNodeRenameButton(transitionNode, "transition", transition_.isInRenameMode, func(v bool) { transition_.isInRenameMode = v })
+						transitionNode.OnNameChange = func(newName string) {
+							transition_.Name = newName
+							transition_.isInRenameMode = false
+							stager.stage.Commit()
 						}
 
 						proxy := new(DiagramTree_Transition_Proxy)
@@ -496,33 +432,7 @@ func (stager *Stager) treeStateMachines(
 						noteNode.IsChecked = true
 					}
 
-					if !note.isInRenameMode {
-						noteNode.Buttons = append(noteNode.Buttons,
-							&tree.Button{
-								Name: note.GetName() + " " + string(buttons.BUTTON_edit_note),
-								Icon: string(buttons.BUTTON_edit_note),
-								OnClick: func() {
-									note.isInRenameMode = true
-									stager.stage.Commit()
-								},
-								HasToolTip:      true,
-								ToolTipText:     "Rename the note",
-								ToolTipPosition: tree.Above,
-							})
-					} else {
-						noteNode.Buttons = append(noteNode.Buttons,
-							&tree.Button{
-								Name: note.GetName() + " " + string(buttons.BUTTON_edit_off),
-								Icon: string(buttons.BUTTON_edit_off),
-								OnClick: func() {
-									note.isInRenameMode = false
-									stager.stage.Commit()
-								},
-								HasToolTip:      true,
-								ToolTipText:     "Cancel renaming",
-								ToolTipPosition: tree.Above,
-							})
-					}
+					stager.addNodeRenameButton(noteNode, "note", note.isInRenameMode, func(v bool) { note.isInRenameMode = v })
 
 					if isNoteChecked && noteShape != nil {
 						howHideButton := &tree.Button{
@@ -666,3 +576,45 @@ func (stager *Stager) treeStateMachines(
 		}
 	}
 }
+
+func (stager *Stager) addNodeRenameButton(
+	node *tree.Node,
+	typeName string,
+	isInRenameMode bool,
+	setIsInRenameMode func(bool),
+) {
+	if !isInRenameMode {
+		renameButton := &tree.Button{
+			Name:            "Rename " + typeName,
+			Icon:            string(buttons.BUTTON_edit_note),
+			HasToolTip:      true,
+			ToolTipText:     "Rename the " + typeName,
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				setIsInRenameMode(true)
+				stager.stage.Commit()
+			},
+		}
+		node.Buttons = append(node.Buttons, renameButton)
+		if node.Menu != nil {
+			node.Menu.Buttons = append(node.Menu.Buttons, renameButton)
+		}
+	} else {
+		cancelButton := &tree.Button{
+			Name:            "Cancel rename " + typeName,
+			Icon:            string(buttons.BUTTON_edit_off),
+			HasToolTip:      true,
+			ToolTipText:     "Cancel renaming",
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				setIsInRenameMode(false)
+				stager.stage.Commit()
+			},
+		}
+		node.Buttons = append(node.Buttons, cancelButton)
+		if node.Menu != nil {
+			node.Menu.Buttons = append(node.Menu.Buttons, cancelButton)
+		}
+	}
+}
+

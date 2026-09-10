@@ -66,13 +66,13 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `New Diagram`
-	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = true
 
 	__Diagram__00000001_.Name = `New Diagram`
-	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = false
@@ -118,8 +118,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.Name = `Note SM1-New Diagram`
 	__NoteShape__00000000_.OverideLayoutDirection = false
 	__NoteShape__00000000_.LayoutDirection = models.Vertical
-	__NoteShape__00000000_.X = 100.000000
-	__NoteShape__00000000_.Y = 574.000000
+	__NoteShape__00000000_.X = 141.000000
+	__NoteShape__00000000_.Y = 86.000000
 	__NoteShape__00000000_.Width = 200.000000
 	__NoteShape__00000000_.Height = 80.000000
 	__NoteShape__00000000_.IsHidden = false
@@ -127,7 +127,7 @@ func _(stage *models.Stage) {
 	__NoteShape__00000003_.Name = `New Note-New Diagram`
 	__NoteShape__00000003_.OverideLayoutDirection = false
 	__NoteShape__00000003_.LayoutDirection = models.Vertical
-	__NoteShape__00000003_.X = 741.000000
+	__NoteShape__00000003_.X = 740.000000
 	__NoteShape__00000003_.Y = 142.000000
 	__NoteShape__00000003_.Width = 200.000000
 	__NoteShape__00000003_.Height = 80.000000
@@ -182,8 +182,8 @@ func _(stage *models.Stage) {
 	__StateShape__00000000_.IsHidden = false
 
 	__StateShape__00000001_.Name = `S1`
-	__StateShape__00000001_.X = 529.000000
-	__StateShape__00000001_.Y = 255.000000
+	__StateShape__00000001_.X = 425.000000
+	__StateShape__00000001_.Y = 295.000000
 	__StateShape__00000001_.Width = 200.000000
 	__StateShape__00000001_.Height = 80.000000
 	__StateShape__00000001_.IsHidden = false
@@ -208,17 +208,18 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000000_.IsHidden = false
 
 	__Transition_Shape__00000001_.Name = `-New Diagram`
-	__Transition_Shape__00000001_.StartRatio = 0.500000
-	__Transition_Shape__00000001_.EndRatio = 0.683897
-	__Transition_Shape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__00000001_.StartRatio = 0.760488
+	__Transition_Shape__00000001_.EndRatio = 0.788897
+	__Transition_Shape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
-	__Transition_Shape__00000001_.CornerOffsetRatio = 5.300433
+	__Transition_Shape__00000001_.CornerOffsetRatio = 5.350433
 	__Transition_Shape__00000001_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000001_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000002_)
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = append(__Diagram__00000000_.StatesWhoseNodeIsExpanded, __State__00000000_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000000_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000001_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
