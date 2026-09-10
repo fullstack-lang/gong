@@ -276,6 +276,11 @@ func (stager *Stager) treeStateMachines(
 
 				newStateShapeToDiagram(newState, diagram, addButton.ClientOnY).Stage(stager.stage)
 
+				stager.stage.ComputeReverseMaps()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(newState, "State")
+				}
+
 				stager.stage.Commit()
 			}
 			statesNode.Buttons = append(statesNode.Buttons, addButton)
@@ -459,6 +464,11 @@ func (stager *Stager) treeStateMachines(
 						noteStateShape.StartRatio = 0.5
 						noteStateShape.EndRatio = 0.5
 						diagram.NoteState_Shapes = append(diagram.NoteState_Shapes, noteStateShape)
+
+						stager.stage.ComputeReverseMaps()
+						if stager.probeForm != nil {
+							stager.probeForm.FillUpFormFromGongstruct(newNote, "Note")
+						}
 
 						stager.stage.Commit()
 					},

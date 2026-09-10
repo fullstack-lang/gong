@@ -100,7 +100,7 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 	diffPosition := rect.X != frontRect.X || rect.Y != frontRect.Y
 
 	if !diffSize && !diffPosition {
-		if rect.OnSelect != nil {
+		if frontRect.IsSelected && rect.OnSelect != nil {
 			rect.OnSelect()
 		}
 	} else if diffSize {

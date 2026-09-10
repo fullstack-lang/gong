@@ -43,14 +43,14 @@ func _(stage *models.Stage) {
 	__NoteStateShape__00000001_ := (&models.NoteStateShape{Name: `New Note-Start SM1`}).Stage(stage)
 
 	__State__00000000_ := (&models.State{Name: `Start SM1`}).Stage(stage)
-	__State__00000001_ := (&models.State{Name: `New State`}).Stage(stage)
-	__State__00000002_ := (&models.State{Name: `New State`}).Stage(stage)
+	__State__00000001_ := (&models.State{Name: `S1`}).Stage(stage)
+	__State__00000002_ := (&models.State{Name: `End`}).Stage(stage)
 
 	__StateMachine__00000000_ := (&models.StateMachine{Name: `SM 1`}).Stage(stage)
 
 	__StateShape__00000000_ := (&models.StateShape{Name: `Start SM1`}).Stage(stage)
-	__StateShape__00000001_ := (&models.StateShape{Name: `New State`}).Stage(stage)
-	__StateShape__00000002_ := (&models.StateShape{Name: `New State`}).Stage(stage)
+	__StateShape__00000001_ := (&models.StateShape{Name: `S1`}).Stage(stage)
+	__StateShape__00000002_ := (&models.StateShape{Name: `End`}).Stage(stage)
 
 	__Transition__00000000_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000001_ := (&models.Transition{Name: ``}).Stage(stage)
@@ -146,12 +146,12 @@ func _(stage *models.Stage) {
 	__State__00000000_.IsDecisionNode = false
 	__State__00000000_.IsFictious = false
 
-	__State__00000001_.Name = `New State`
+	__State__00000001_.Name = `S1`
 	__State__00000001_.IsEndState = false
 	__State__00000001_.IsDecisionNode = false
 	__State__00000001_.IsFictious = false
 
-	__State__00000002_.Name = `New State`
+	__State__00000002_.Name = `End`
 	__State__00000002_.IsEndState = true
 	__State__00000002_.IsDecisionNode = false
 	__State__00000002_.IsFictious = false
@@ -168,15 +168,15 @@ func _(stage *models.Stage) {
 	__StateShape__00000000_.Height = 20.000000
 	__StateShape__00000000_.IsHidden = false
 
-	__StateShape__00000001_.Name = `New State`
+	__StateShape__00000001_.Name = `S1`
 	__StateShape__00000001_.X = 529.000000
 	__StateShape__00000001_.Y = 255.000000
 	__StateShape__00000001_.Width = 200.000000
 	__StateShape__00000001_.Height = 80.000000
 	__StateShape__00000001_.IsHidden = false
 
-	__StateShape__00000002_.Name = `New State`
-	__StateShape__00000002_.X = 560.000000
+	__StateShape__00000002_.Name = `End`
+	__StateShape__00000002_.X = 525.000000
 	__StateShape__00000002_.Y = 437.000000
 	__StateShape__00000002_.Width = 137.000000
 	__StateShape__00000002_.Height = 36.000000
@@ -188,7 +188,7 @@ func _(stage *models.Stage) {
 
 	__Transition_Shape__00000000_.Name = `-New Diagram`
 	__Transition_Shape__00000000_.StartRatio = 0.588897
-	__Transition_Shape__00000000_.EndRatio = 0.553897
+	__Transition_Shape__00000000_.EndRatio = 0.961894
 	__Transition_Shape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000000_.CornerOffsetRatio = 1.487608
