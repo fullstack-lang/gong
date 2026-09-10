@@ -26,10 +26,12 @@ func (stager *Stager) ux_tree() {
 
 func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
-		Name:            library.Name,
-		IsExpanded:      library.IsExpandedTmp,
-		IsNodeClickable: true,
-		IsInEditMode:    library.isInRenameMode,
+		Name:                 library.Name,
+		IsExpanded:           library.IsExpandedTmp,
+		IsNodeClickable:      true,
+		IsInEditMode:         library.isInRenameMode,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_local_library),
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
@@ -59,10 +61,12 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	// SubLibraries
 	//
 	subLibrariesNode := &tree.Node{
-		Name:            "Sub Libraries",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      library.IsSubLibrariesNodeExpanded,
-		IsNodeClickable: true,
+		Name:                 "Sub Libraries",
+		FontStyle:            tree.ITALIC,
+		IsExpanded:           library.IsSubLibrariesNodeExpanded,
+		IsNodeClickable:      true,
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_folder),
 	}
 	libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
 	subLibrariesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSubLibrariesNodeExpanded)
@@ -113,10 +117,12 @@ func (stager *Stager) treeStateMachines(
 	stateMachinesWhoseNodeIsExpanded *[]*StateMachine,
 ) {
 	stateMachineNode := &tree.Node{
-		Name:            stateMachine.GetName(),
-		IsExpanded:      slices.Contains(*stateMachinesWhoseNodeIsExpanded, stateMachine),
-		IsNodeClickable: true,
-		IsInEditMode:    stateMachine.GetIsInRenameMode(),
+		Name:                 stateMachine.GetName(),
+		IsExpanded:           slices.Contains(*stateMachinesWhoseNodeIsExpanded, stateMachine),
+		IsNodeClickable:      true,
+		IsInEditMode:         stateMachine.GetIsInRenameMode(),
+		IsWithPreceedingIcon: true,
+		PreceedingIcon:       string(buttons.BUTTON_account_tree),
 	}
 	parentNode.Children = append(parentNode.Children, stateMachineNode)
 
@@ -158,6 +164,8 @@ func (stager *Stager) treeStateMachines(
 		diagramNode.Name = diagram.Name
 		diagramNode.IsChecked = diagram.IsChecked
 		diagramNode.IsExpanded = diagram.IsExpanded
+		diagramNode.IsWithPreceedingIcon = true
+		diagramNode.PreceedingIcon = string(buttons.BUTTON_schema)
 
 		diagramNode.IsInEditMode = diagram.isInRenameMode
 
@@ -237,10 +245,12 @@ func (stager *Stager) treeStateMachines(
 		}
 
 		statesNode := &tree.Node{
-			Name:            "States",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      diagram.IsStatesNodeExpanded,
-			IsNodeClickable: true,
+			Name:                 "States",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           diagram.IsStatesNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
 		}
 		diagramNode.Children = append(diagramNode.Children, statesNode)
 		statesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsStatesNodeExpanded)
@@ -283,6 +293,8 @@ func (stager *Stager) treeStateMachines(
 			diagramStateNode.IsNodeClickable = true
 			diagramStateNode.IsInEditMode = state.isInRenameMode
 			diagramStateNode.IsExpanded = slices.Contains(diagram.StatesWhoseNodeIsExpanded, state)
+			diagramStateNode.IsWithPreceedingIcon = true
+			diagramStateNode.PreceedingIcon = string(buttons.BUTTON_crop_square)
 
 			if !state.isInRenameMode {
 				diagramStateNode.Buttons = append(diagramStateNode.Buttons,
@@ -349,6 +361,8 @@ func (stager *Stager) treeStateMachines(
 						transitionNode.HasCheckboxButton = true
 						transitionNode.IsNodeClickable = true
 						transitionNode.IsInEditMode = transition_.isInRenameMode
+						transitionNode.IsWithPreceedingIcon = true
+						transitionNode.PreceedingIcon = string(buttons.BUTTON_arrow_forward)
 
 						if !transition_.isInRenameMode {
 							transitionNode.Buttons = append(transitionNode.Buttons,
@@ -471,6 +485,8 @@ func (stager *Stager) treeStateMachines(
 					noteNode.HasCheckboxButton = true
 					noteNode.IsNodeClickable = true
 					noteNode.IsInEditMode = note.isInRenameMode
+					noteNode.IsWithPreceedingIcon = true
+					noteNode.PreceedingIcon = string(buttons.BUTTON_description)
 
 					var noteShape *NoteShape
 					var isNoteChecked bool
