@@ -61,20 +61,22 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	//
 	// SubLibraries
 	//
-	subLibrariesNode := &tree.Node{
-		Name:                 "Sub Libraries",
-		FontStyle:            tree.ITALIC,
-		IsExpanded:           library.IsSubLibrariesNodeExpanded,
-		IsNodeClickable:      true,
-		IsWithPreceedingIcon: true,
-		PreceedingIcon:       string(buttons.BUTTON_folder),
-	}
-	libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
-	subLibrariesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSubLibrariesNodeExpanded)
-	subLibrariesNode.OnClick = onNodeClicked(stager, library)
+	if len(library.SubLibraries) > 0 {
+		subLibrariesNode := &tree.Node{
+			Name:                 "Sub Libraries",
+			FontStyle:            tree.ITALIC,
+			IsExpanded:           library.IsSubLibrariesNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_folder),
+		}
+		libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
+		subLibrariesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSubLibrariesNodeExpanded)
+		subLibrariesNode.OnClick = onNodeClicked(stager, library)
 
-	for _, subLibrary := range library.SubLibraries {
-		stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
+		for _, subLibrary := range library.SubLibraries {
+			stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
+		}
 	}
 
 	// add sub library button
@@ -82,13 +84,21 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		Library, *Library,
 		Library, *Library,
 	]{
-		parentNode:                         subLibrariesNode,
+		parentNode:                         libraryNode,
 		sliceForNewAddedItem:               &library.SubLibraries,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsSubLibrariesNodeExpanded,
+		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
+		IsButtonInMenu:                     true,
 	}
-	addCreateItemButton(stager, confSubLibraries)
+	callbacksSubLibraries := addCreateItemButton(stager, confSubLibraries)
+	callbacksSubLibraries.OnBeforeCommit = func() {
+		library.IsSubLibrariesNodeExpanded = true
+	}
+	if len(libraryNode.Menu.Buttons) > 0 {
+		libraryNode.Menu.Buttons[0].Name = "Add Sub Library"
+		libraryNode.Menu.Buttons[0].ToolTipText = "Add a Sub Library to \"" + library.Name + "\""
+	}
 
 	// add a statemachine to the library button
 	confRootStateMachines := ItemButtonConfiguration[
@@ -277,7 +287,15 @@ func (stager *Stager) treeStateMachines(
 			diagramStateNode.IsInEditMode = state.isInRenameMode
 			diagramStateNode.IsExpanded = slices.Contains(diagram.StatesWhoseNodeIsExpanded, state)
 			diagramStateNode.IsWithPreceedingIcon = true
-			diagramStateNode.PreceedingIcon = string(buttons.BUTTON_crop_square)
+			if _, isStartState := stager.set_StartStates[state]; isStartState || stateMachine.InitialState == state {
+				diagramStateNode.PreceedingIcon = string(buttons.BUTTON_circle)
+			} else if state.IsEndState {
+				diagramStateNode.PreceedingIcon = string(buttons.BUTTON_adjust)
+			} else if state.IsDecisionNode {
+				diagramStateNode.PreceedingIcon = string(buttons.BUTTON_diamond)
+			} else {
+				diagramStateNode.PreceedingIcon = string(buttons.BUTTON_smart_button)
+			}
 
 			stager.addNodeRenameButton(diagramStateNode, "state", state.isInRenameMode, func(v bool) { state.isInRenameMode = v })
 
