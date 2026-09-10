@@ -85,34 +85,24 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	addCreateItemButton(stager, confSubLibraries)
 
-	//
-	// State Machines
-	//
-	stateMachinesNode := &tree.Node{
-		Name:            "State Machines",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      library.IsStateMachinesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	libraryNode.Children = append(libraryNode.Children, stateMachinesNode)
-	stateMachinesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsStateMachinesNodeExpanded)
-	stateMachinesNode.OnClick = onNodeClicked(stager, library)
-
 	// add a statemachine to the library button
 	confRootStateMachines := ItemButtonConfiguration[
 		StateMachine, *StateMachine,
 		Library, *Library,
 	]{
-		parentNode:                         stateMachinesNode,
+		parentNode:                         libraryNode,
 		sliceForNewAddedItem:               &library.RootStateMachines,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsStateMachinesNodeExpanded,
+		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
 	}
 	addCreateItemButton(stager, confRootStateMachines)
+	if libraryNode.Menu != nil && len(libraryNode.Buttons) > 0 {
+		libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, libraryNode.Buttons[0])
+	}
 
 	for _, stateMachine := range library.RootStateMachines {
-		stager.treeStateMachines(stateMachine, stateMachinesNode, &library.StateMachinesWhoseNodeIsExpanded)
+		stager.treeStateMachines(stateMachine, libraryNode, &library.StateMachinesWhoseNodeIsExpanded)
 	}
 
 }

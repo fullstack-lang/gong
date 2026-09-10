@@ -34,13 +34,13 @@ func _(stage *models.Stage) {
 	__Library__00000002_ := (&models.Library{Name: `Sub Lib 2`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `Note SM1`}).Stage(stage)
-	__Note__00000001_ := (&models.Note{Name: `New Note`}).Stage(stage)
+	__Note__00000003_ := (&models.Note{Name: `New Note`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `Note SM1-New Diagram`}).Stage(stage)
-	__NoteShape__00000001_ := (&models.NoteShape{Name: `New Note-New Diagram`}).Stage(stage)
+	__NoteShape__00000003_ := (&models.NoteShape{Name: `New Note-New Diagram`}).Stage(stage)
 
 	__NoteStateShape__00000000_ := (&models.NoteStateShape{Name: `Note SM1-Start SM1`}).Stage(stage)
-	__NoteStateShape__00000001_ := (&models.NoteStateShape{Name: `New Note-Start SM1`}).Stage(stage)
+	__NoteStateShape__00000003_ := (&models.NoteStateShape{Name: `New Note-Start SM1`}).Stage(stage)
 
 	__State__00000000_ := (&models.State{Name: `Start SM1`}).Stage(stage)
 	__State__00000001_ := (&models.State{Name: `S1`}).Stage(stage)
@@ -65,7 +65,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_.Name = `New Diagram`
 	__Diagram__00000000_.IsChecked = true
-	__Diagram__00000000_.IsExpanded = true
+	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = true
 
@@ -97,15 +97,15 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsRootLibrary = false
 	__Library__00000002_.IsStateMachinesNodeExpanded = false
 	__Library__00000002_.IsSubLibrariesNodeExpanded = false
-	__Library__00000002_.IsExpandedTmp = false
+	__Library__00000002_.IsExpandedTmp = true
 
 	__Note__00000000_.Name = `Note SM1`
 	__Note__00000000_.ComputedPrefix = ``
 	__Note__00000000_.IsExpanded = false
 
-	__Note__00000001_.Name = `New Note`
-	__Note__00000001_.ComputedPrefix = ``
-	__Note__00000001_.IsExpanded = false
+	__Note__00000003_.Name = `New Note`
+	__Note__00000003_.ComputedPrefix = ``
+	__Note__00000003_.IsExpanded = false
 
 	__NoteShape__00000000_.Name = `Note SM1-New Diagram`
 	__NoteShape__00000000_.OverideLayoutDirection = false
@@ -116,14 +116,14 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.Height = 80.000000
 	__NoteShape__00000000_.IsHidden = false
 
-	__NoteShape__00000001_.Name = `New Note-New Diagram`
-	__NoteShape__00000001_.OverideLayoutDirection = false
-	__NoteShape__00000001_.LayoutDirection = models.Vertical
-	__NoteShape__00000001_.X = 801.000000
-	__NoteShape__00000001_.Y = 177.000000
-	__NoteShape__00000001_.Width = 200.000000
-	__NoteShape__00000001_.Height = 80.000000
-	__NoteShape__00000001_.IsHidden = false
+	__NoteShape__00000003_.Name = `New Note-New Diagram`
+	__NoteShape__00000003_.OverideLayoutDirection = false
+	__NoteShape__00000003_.LayoutDirection = models.Vertical
+	__NoteShape__00000003_.X = 741.000000
+	__NoteShape__00000003_.Y = 142.000000
+	__NoteShape__00000003_.Width = 200.000000
+	__NoteShape__00000003_.Height = 80.000000
+	__NoteShape__00000003_.IsHidden = false
 
 	__NoteStateShape__00000000_.Name = `Note SM1-Start SM1`
 	__NoteStateShape__00000000_.StartRatio = 0.500000
@@ -133,13 +133,13 @@ func _(stage *models.Stage) {
 	__NoteStateShape__00000000_.CornerOffsetRatio = 1.200000
 	__NoteStateShape__00000000_.IsHidden = false
 
-	__NoteStateShape__00000001_.Name = `New Note-Start SM1`
-	__NoteStateShape__00000001_.StartRatio = 0.500000
-	__NoteStateShape__00000001_.EndRatio = 0.500000
-	__NoteStateShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__NoteStateShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__NoteStateShape__00000001_.CornerOffsetRatio = 1.200000
-	__NoteStateShape__00000001_.IsHidden = false
+	__NoteStateShape__00000003_.Name = `New Note-Start SM1`
+	__NoteStateShape__00000003_.StartRatio = 0.500000
+	__NoteStateShape__00000003_.EndRatio = 0.500000
+	__NoteStateShape__00000003_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__NoteStateShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__NoteStateShape__00000003_.CornerOffsetRatio = 1.200000
+	__NoteStateShape__00000003_.IsHidden = false
 
 	__State__00000000_.Name = `Start SM1`
 	__State__00000000_.IsEndState = false
@@ -210,27 +210,27 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000000_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000001_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
-	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000001_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000003_)
 	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000000_)
-	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000001_)
+	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000003_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
 	__Library__00000001_.RootStateMachines = append(__Library__00000001_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000001_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000001_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
 	__Note__00000000_.State = __State__00000000_
-	__Note__00000001_.State = __State__00000000_
+	__Note__00000003_.State = __State__00000000_
 	__NoteShape__00000000_.Note = __Note__00000000_
-	__NoteShape__00000001_.Note = __Note__00000001_
+	__NoteShape__00000003_.Note = __Note__00000003_
 	__NoteStateShape__00000000_.Note = __Note__00000000_
 	__NoteStateShape__00000000_.State = __State__00000000_
-	__NoteStateShape__00000001_.Note = __Note__00000001_
-	__NoteStateShape__00000001_.State = __State__00000000_
+	__NoteStateShape__00000003_.Note = __Note__00000003_
+	__NoteStateShape__00000003_.State = __State__00000000_
 	__State__00000000_.Entry = nil
 	__State__00000000_.Exit = nil
 	__State__00000000_.Parent = nil
 	__State__00000000_.Diagrams = append(__State__00000000_.Diagrams, __Diagram__00000000_)
 	__State__00000000_.Notes = append(__State__00000000_.Notes, __Note__00000000_)
-	__State__00000000_.Notes = append(__State__00000000_.Notes, __Note__00000001_)
+	__State__00000000_.Notes = append(__State__00000000_.Notes, __Note__00000003_)
 	__State__00000001_.Entry = nil
 	__State__00000001_.Exit = nil
 	__State__00000001_.Parent = nil
