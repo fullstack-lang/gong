@@ -181,7 +181,7 @@ func (controller *Controller) PostLayout(w http.ResponseWriter, r *http.Request)
 	layout := backRepo.BackRepoLayout.Map_LayoutDBID_LayoutPtr[layoutDB.ID]
 
 	if layout != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), layout)
+		backRepo.GetStage().AfterCreateFromFront(layout)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateLayout(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	layoutOld := backRepo.BackRepoLayout.Map_LayoutDBID_LayoutPtr[layoutDB.ID]
 	if layoutOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), layoutOld, layoutNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(layoutOld, layoutNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteLayout(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	layoutStaged := backRepo.BackRepoLayout.Map_LayoutDBID_LayoutPtr[layoutDB.ID]
 	if layoutStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), layoutStaged, layoutDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(layoutStaged, layoutDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostXlsx(w http.ResponseWriter, r *http.Request) {
 	xlsx := backRepo.BackRepoXlsx.Map_XlsxDBID_XlsxPtr[xlsxDB.ID]
 
 	if xlsx != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), xlsx)
+		backRepo.GetStage().AfterCreateFromFront(xlsx)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateXlsx(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	xlsxOld := backRepo.BackRepoXlsx.Map_XlsxDBID_XlsxPtr[xlsxDB.ID]
 	if xlsxOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), xlsxOld, xlsxNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(xlsxOld, xlsxNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteXlsx(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	xlsxStaged := backRepo.BackRepoXlsx.Map_XlsxDBID_XlsxPtr[xlsxDB.ID]
 	if xlsxStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), xlsxStaged, xlsxDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(xlsxStaged, xlsxDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

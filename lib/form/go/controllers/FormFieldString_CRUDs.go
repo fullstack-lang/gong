@@ -181,7 +181,7 @@ func (controller *Controller) PostFormFieldString(w http.ResponseWriter, r *http
 	formfieldstring := backRepo.BackRepoFormFieldString.Map_FormFieldStringDBID_FormFieldStringPtr[formfieldstringDB.ID]
 
 	if formfieldstring != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formfieldstring)
+		backRepo.GetStage().AfterCreateFromFront(formfieldstring)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormFieldString(w http.ResponseWriter, r *ht
 	// get stage instance from DB instance, and call callback function
 	formfieldstringOld := backRepo.BackRepoFormFieldString.Map_FormFieldStringDBID_FormFieldStringPtr[formfieldstringDB.ID]
 	if formfieldstringOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formfieldstringOld, formfieldstringNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(formfieldstringOld, formfieldstringNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormFieldString(w http.ResponseWriter, r *ht
 	// get stage instance from DB instance, and call callback function
 	formfieldstringStaged := backRepo.BackRepoFormFieldString.Map_FormFieldStringDBID_FormFieldStringPtr[formfieldstringDB.ID]
 	if formfieldstringStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formfieldstringStaged, formfieldstringDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(formfieldstringStaged, formfieldstringDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

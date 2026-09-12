@@ -181,7 +181,7 @@ func (controller *Controller) PostVector3(w http.ResponseWriter, r *http.Request
 	vector3 := backRepo.BackRepoVector3.Map_Vector3DBID_Vector3Ptr[vector3DB.ID]
 
 	if vector3 != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), vector3)
+		backRepo.GetStage().AfterCreateFromFront(vector3)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateVector3(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	vector3Old := backRepo.BackRepoVector3.Map_Vector3DBID_Vector3Ptr[vector3DB.ID]
 	if vector3Old != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), vector3Old, vector3New)
+		backRepo.GetStage().OnAfterUpdateFromFront(vector3Old, vector3New)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteVector3(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	vector3Staged := backRepo.BackRepoVector3.Map_Vector3DBID_Vector3Ptr[vector3DB.ID]
 	if vector3Staged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), vector3Staged, vector3Deleted)
+		backRepo.GetStage().AfterDeleteFromFront(vector3Staged, vector3Deleted)
 	}
 
 	// a DELETE generates a back repo commit increase

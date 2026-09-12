@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -115,12 +115,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -259,8 +264,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -399,354 +409,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *All:
-		if stage.OnAfterAllReadCallback != nil {
-			stage.OnAfterAllReadCallback.OnAfterRead(stage, target)
-		}
-	case *Annotation:
-		if stage.OnAfterAnnotationReadCallback != nil {
-			stage.OnAfterAnnotationReadCallback.OnAfterRead(stage, target)
-		}
-	case *Attribute:
-		if stage.OnAfterAttributeReadCallback != nil {
-			stage.OnAfterAttributeReadCallback.OnAfterRead(stage, target)
-		}
-	case *AttributeGroup:
-		if stage.OnAfterAttributeGroupReadCallback != nil {
-			stage.OnAfterAttributeGroupReadCallback.OnAfterRead(stage, target)
-		}
-	case *Choice:
-		if stage.OnAfterChoiceReadCallback != nil {
-			stage.OnAfterChoiceReadCallback.OnAfterRead(stage, target)
-		}
-	case *ComplexContent:
-		if stage.OnAfterComplexContentReadCallback != nil {
-			stage.OnAfterComplexContentReadCallback.OnAfterRead(stage, target)
-		}
-	case *ComplexType:
-		if stage.OnAfterComplexTypeReadCallback != nil {
-			stage.OnAfterComplexTypeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Documentation:
-		if stage.OnAfterDocumentationReadCallback != nil {
-			stage.OnAfterDocumentationReadCallback.OnAfterRead(stage, target)
-		}
-	case *Element:
-		if stage.OnAfterElementReadCallback != nil {
-			stage.OnAfterElementReadCallback.OnAfterRead(stage, target)
-		}
-	case *Enumeration:
-		if stage.OnAfterEnumerationReadCallback != nil {
-			stage.OnAfterEnumerationReadCallback.OnAfterRead(stage, target)
-		}
-	case *Extension:
-		if stage.OnAfterExtensionReadCallback != nil {
-			stage.OnAfterExtensionReadCallback.OnAfterRead(stage, target)
-		}
-	case *Group:
-		if stage.OnAfterGroupReadCallback != nil {
-			stage.OnAfterGroupReadCallback.OnAfterRead(stage, target)
-		}
-	case *Length:
-		if stage.OnAfterLengthReadCallback != nil {
-			stage.OnAfterLengthReadCallback.OnAfterRead(stage, target)
-		}
-	case *MaxInclusive:
-		if stage.OnAfterMaxInclusiveReadCallback != nil {
-			stage.OnAfterMaxInclusiveReadCallback.OnAfterRead(stage, target)
-		}
-	case *MaxLength:
-		if stage.OnAfterMaxLengthReadCallback != nil {
-			stage.OnAfterMaxLengthReadCallback.OnAfterRead(stage, target)
-		}
-	case *MinInclusive:
-		if stage.OnAfterMinInclusiveReadCallback != nil {
-			stage.OnAfterMinInclusiveReadCallback.OnAfterRead(stage, target)
-		}
-	case *MinLength:
-		if stage.OnAfterMinLengthReadCallback != nil {
-			stage.OnAfterMinLengthReadCallback.OnAfterRead(stage, target)
-		}
-	case *Pattern:
-		if stage.OnAfterPatternReadCallback != nil {
-			stage.OnAfterPatternReadCallback.OnAfterRead(stage, target)
-		}
-	case *Restriction:
-		if stage.OnAfterRestrictionReadCallback != nil {
-			stage.OnAfterRestrictionReadCallback.OnAfterRead(stage, target)
-		}
-	case *Schema:
-		if stage.OnAfterSchemaReadCallback != nil {
-			stage.OnAfterSchemaReadCallback.OnAfterRead(stage, target)
-		}
-	case *Sequence:
-		if stage.OnAfterSequenceReadCallback != nil {
-			stage.OnAfterSequenceReadCallback.OnAfterRead(stage, target)
-		}
-	case *SimpleContent:
-		if stage.OnAfterSimpleContentReadCallback != nil {
-			stage.OnAfterSimpleContentReadCallback.OnAfterRead(stage, target)
-		}
-	case *SimpleType:
-		if stage.OnAfterSimpleTypeReadCallback != nil {
-			stage.OnAfterSimpleTypeReadCallback.OnAfterRead(stage, target)
-		}
-	case *TotalDigit:
-		if stage.OnAfterTotalDigitReadCallback != nil {
-			stage.OnAfterTotalDigitReadCallback.OnAfterRead(stage, target)
-		}
-	case *Union:
-		if stage.OnAfterUnionReadCallback != nil {
-			stage.OnAfterUnionReadCallback.OnAfterRead(stage, target)
-		}
-	case *WhiteSpace:
-		if stage.OnAfterWhiteSpaceReadCallback != nil {
-			stage.OnAfterWhiteSpaceReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *All:
-		stage.OnAfterAllUpdateCallback = any(callback).(OnAfterUpdateInterface[All])
-	case *Annotation:
-		stage.OnAfterAnnotationUpdateCallback = any(callback).(OnAfterUpdateInterface[Annotation])
-	case *Attribute:
-		stage.OnAfterAttributeUpdateCallback = any(callback).(OnAfterUpdateInterface[Attribute])
-	case *AttributeGroup:
-		stage.OnAfterAttributeGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[AttributeGroup])
-	case *Choice:
-		stage.OnAfterChoiceUpdateCallback = any(callback).(OnAfterUpdateInterface[Choice])
-	case *ComplexContent:
-		stage.OnAfterComplexContentUpdateCallback = any(callback).(OnAfterUpdateInterface[ComplexContent])
-	case *ComplexType:
-		stage.OnAfterComplexTypeUpdateCallback = any(callback).(OnAfterUpdateInterface[ComplexType])
-	case *Documentation:
-		stage.OnAfterDocumentationUpdateCallback = any(callback).(OnAfterUpdateInterface[Documentation])
-	case *Element:
-		stage.OnAfterElementUpdateCallback = any(callback).(OnAfterUpdateInterface[Element])
-	case *Enumeration:
-		stage.OnAfterEnumerationUpdateCallback = any(callback).(OnAfterUpdateInterface[Enumeration])
-	case *Extension:
-		stage.OnAfterExtensionUpdateCallback = any(callback).(OnAfterUpdateInterface[Extension])
-	case *Group:
-		stage.OnAfterGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[Group])
-	case *Length:
-		stage.OnAfterLengthUpdateCallback = any(callback).(OnAfterUpdateInterface[Length])
-	case *MaxInclusive:
-		stage.OnAfterMaxInclusiveUpdateCallback = any(callback).(OnAfterUpdateInterface[MaxInclusive])
-	case *MaxLength:
-		stage.OnAfterMaxLengthUpdateCallback = any(callback).(OnAfterUpdateInterface[MaxLength])
-	case *MinInclusive:
-		stage.OnAfterMinInclusiveUpdateCallback = any(callback).(OnAfterUpdateInterface[MinInclusive])
-	case *MinLength:
-		stage.OnAfterMinLengthUpdateCallback = any(callback).(OnAfterUpdateInterface[MinLength])
-	case *Pattern:
-		stage.OnAfterPatternUpdateCallback = any(callback).(OnAfterUpdateInterface[Pattern])
-	case *Restriction:
-		stage.OnAfterRestrictionUpdateCallback = any(callback).(OnAfterUpdateInterface[Restriction])
-	case *Schema:
-		stage.OnAfterSchemaUpdateCallback = any(callback).(OnAfterUpdateInterface[Schema])
-	case *Sequence:
-		stage.OnAfterSequenceUpdateCallback = any(callback).(OnAfterUpdateInterface[Sequence])
-	case *SimpleContent:
-		stage.OnAfterSimpleContentUpdateCallback = any(callback).(OnAfterUpdateInterface[SimpleContent])
-	case *SimpleType:
-		stage.OnAfterSimpleTypeUpdateCallback = any(callback).(OnAfterUpdateInterface[SimpleType])
-	case *TotalDigit:
-		stage.OnAfterTotalDigitUpdateCallback = any(callback).(OnAfterUpdateInterface[TotalDigit])
-	case *Union:
-		stage.OnAfterUnionUpdateCallback = any(callback).(OnAfterUpdateInterface[Union])
-	case *WhiteSpace:
-		stage.OnAfterWhiteSpaceUpdateCallback = any(callback).(OnAfterUpdateInterface[WhiteSpace])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *All:
-		stage.OnAfterAllCreateCallback = any(callback).(OnAfterCreateInterface[All])
-	case *Annotation:
-		stage.OnAfterAnnotationCreateCallback = any(callback).(OnAfterCreateInterface[Annotation])
-	case *Attribute:
-		stage.OnAfterAttributeCreateCallback = any(callback).(OnAfterCreateInterface[Attribute])
-	case *AttributeGroup:
-		stage.OnAfterAttributeGroupCreateCallback = any(callback).(OnAfterCreateInterface[AttributeGroup])
-	case *Choice:
-		stage.OnAfterChoiceCreateCallback = any(callback).(OnAfterCreateInterface[Choice])
-	case *ComplexContent:
-		stage.OnAfterComplexContentCreateCallback = any(callback).(OnAfterCreateInterface[ComplexContent])
-	case *ComplexType:
-		stage.OnAfterComplexTypeCreateCallback = any(callback).(OnAfterCreateInterface[ComplexType])
-	case *Documentation:
-		stage.OnAfterDocumentationCreateCallback = any(callback).(OnAfterCreateInterface[Documentation])
-	case *Element:
-		stage.OnAfterElementCreateCallback = any(callback).(OnAfterCreateInterface[Element])
-	case *Enumeration:
-		stage.OnAfterEnumerationCreateCallback = any(callback).(OnAfterCreateInterface[Enumeration])
-	case *Extension:
-		stage.OnAfterExtensionCreateCallback = any(callback).(OnAfterCreateInterface[Extension])
-	case *Group:
-		stage.OnAfterGroupCreateCallback = any(callback).(OnAfterCreateInterface[Group])
-	case *Length:
-		stage.OnAfterLengthCreateCallback = any(callback).(OnAfterCreateInterface[Length])
-	case *MaxInclusive:
-		stage.OnAfterMaxInclusiveCreateCallback = any(callback).(OnAfterCreateInterface[MaxInclusive])
-	case *MaxLength:
-		stage.OnAfterMaxLengthCreateCallback = any(callback).(OnAfterCreateInterface[MaxLength])
-	case *MinInclusive:
-		stage.OnAfterMinInclusiveCreateCallback = any(callback).(OnAfterCreateInterface[MinInclusive])
-	case *MinLength:
-		stage.OnAfterMinLengthCreateCallback = any(callback).(OnAfterCreateInterface[MinLength])
-	case *Pattern:
-		stage.OnAfterPatternCreateCallback = any(callback).(OnAfterCreateInterface[Pattern])
-	case *Restriction:
-		stage.OnAfterRestrictionCreateCallback = any(callback).(OnAfterCreateInterface[Restriction])
-	case *Schema:
-		stage.OnAfterSchemaCreateCallback = any(callback).(OnAfterCreateInterface[Schema])
-	case *Sequence:
-		stage.OnAfterSequenceCreateCallback = any(callback).(OnAfterCreateInterface[Sequence])
-	case *SimpleContent:
-		stage.OnAfterSimpleContentCreateCallback = any(callback).(OnAfterCreateInterface[SimpleContent])
-	case *SimpleType:
-		stage.OnAfterSimpleTypeCreateCallback = any(callback).(OnAfterCreateInterface[SimpleType])
-	case *TotalDigit:
-		stage.OnAfterTotalDigitCreateCallback = any(callback).(OnAfterCreateInterface[TotalDigit])
-	case *Union:
-		stage.OnAfterUnionCreateCallback = any(callback).(OnAfterCreateInterface[Union])
-	case *WhiteSpace:
-		stage.OnAfterWhiteSpaceCreateCallback = any(callback).(OnAfterCreateInterface[WhiteSpace])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *All:
-		stage.OnAfterAllDeleteCallback = any(callback).(OnAfterDeleteInterface[All])
-	case *Annotation:
-		stage.OnAfterAnnotationDeleteCallback = any(callback).(OnAfterDeleteInterface[Annotation])
-	case *Attribute:
-		stage.OnAfterAttributeDeleteCallback = any(callback).(OnAfterDeleteInterface[Attribute])
-	case *AttributeGroup:
-		stage.OnAfterAttributeGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[AttributeGroup])
-	case *Choice:
-		stage.OnAfterChoiceDeleteCallback = any(callback).(OnAfterDeleteInterface[Choice])
-	case *ComplexContent:
-		stage.OnAfterComplexContentDeleteCallback = any(callback).(OnAfterDeleteInterface[ComplexContent])
-	case *ComplexType:
-		stage.OnAfterComplexTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[ComplexType])
-	case *Documentation:
-		stage.OnAfterDocumentationDeleteCallback = any(callback).(OnAfterDeleteInterface[Documentation])
-	case *Element:
-		stage.OnAfterElementDeleteCallback = any(callback).(OnAfterDeleteInterface[Element])
-	case *Enumeration:
-		stage.OnAfterEnumerationDeleteCallback = any(callback).(OnAfterDeleteInterface[Enumeration])
-	case *Extension:
-		stage.OnAfterExtensionDeleteCallback = any(callback).(OnAfterDeleteInterface[Extension])
-	case *Group:
-		stage.OnAfterGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[Group])
-	case *Length:
-		stage.OnAfterLengthDeleteCallback = any(callback).(OnAfterDeleteInterface[Length])
-	case *MaxInclusive:
-		stage.OnAfterMaxInclusiveDeleteCallback = any(callback).(OnAfterDeleteInterface[MaxInclusive])
-	case *MaxLength:
-		stage.OnAfterMaxLengthDeleteCallback = any(callback).(OnAfterDeleteInterface[MaxLength])
-	case *MinInclusive:
-		stage.OnAfterMinInclusiveDeleteCallback = any(callback).(OnAfterDeleteInterface[MinInclusive])
-	case *MinLength:
-		stage.OnAfterMinLengthDeleteCallback = any(callback).(OnAfterDeleteInterface[MinLength])
-	case *Pattern:
-		stage.OnAfterPatternDeleteCallback = any(callback).(OnAfterDeleteInterface[Pattern])
-	case *Restriction:
-		stage.OnAfterRestrictionDeleteCallback = any(callback).(OnAfterDeleteInterface[Restriction])
-	case *Schema:
-		stage.OnAfterSchemaDeleteCallback = any(callback).(OnAfterDeleteInterface[Schema])
-	case *Sequence:
-		stage.OnAfterSequenceDeleteCallback = any(callback).(OnAfterDeleteInterface[Sequence])
-	case *SimpleContent:
-		stage.OnAfterSimpleContentDeleteCallback = any(callback).(OnAfterDeleteInterface[SimpleContent])
-	case *SimpleType:
-		stage.OnAfterSimpleTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[SimpleType])
-	case *TotalDigit:
-		stage.OnAfterTotalDigitDeleteCallback = any(callback).(OnAfterDeleteInterface[TotalDigit])
-	case *Union:
-		stage.OnAfterUnionDeleteCallback = any(callback).(OnAfterDeleteInterface[Union])
-	case *WhiteSpace:
-		stage.OnAfterWhiteSpaceDeleteCallback = any(callback).(OnAfterDeleteInterface[WhiteSpace])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *All:
-		stage.OnAfterAllReadCallback = any(callback).(OnAfterReadInterface[All])
-	case *Annotation:
-		stage.OnAfterAnnotationReadCallback = any(callback).(OnAfterReadInterface[Annotation])
-	case *Attribute:
-		stage.OnAfterAttributeReadCallback = any(callback).(OnAfterReadInterface[Attribute])
-	case *AttributeGroup:
-		stage.OnAfterAttributeGroupReadCallback = any(callback).(OnAfterReadInterface[AttributeGroup])
-	case *Choice:
-		stage.OnAfterChoiceReadCallback = any(callback).(OnAfterReadInterface[Choice])
-	case *ComplexContent:
-		stage.OnAfterComplexContentReadCallback = any(callback).(OnAfterReadInterface[ComplexContent])
-	case *ComplexType:
-		stage.OnAfterComplexTypeReadCallback = any(callback).(OnAfterReadInterface[ComplexType])
-	case *Documentation:
-		stage.OnAfterDocumentationReadCallback = any(callback).(OnAfterReadInterface[Documentation])
-	case *Element:
-		stage.OnAfterElementReadCallback = any(callback).(OnAfterReadInterface[Element])
-	case *Enumeration:
-		stage.OnAfterEnumerationReadCallback = any(callback).(OnAfterReadInterface[Enumeration])
-	case *Extension:
-		stage.OnAfterExtensionReadCallback = any(callback).(OnAfterReadInterface[Extension])
-	case *Group:
-		stage.OnAfterGroupReadCallback = any(callback).(OnAfterReadInterface[Group])
-	case *Length:
-		stage.OnAfterLengthReadCallback = any(callback).(OnAfterReadInterface[Length])
-	case *MaxInclusive:
-		stage.OnAfterMaxInclusiveReadCallback = any(callback).(OnAfterReadInterface[MaxInclusive])
-	case *MaxLength:
-		stage.OnAfterMaxLengthReadCallback = any(callback).(OnAfterReadInterface[MaxLength])
-	case *MinInclusive:
-		stage.OnAfterMinInclusiveReadCallback = any(callback).(OnAfterReadInterface[MinInclusive])
-	case *MinLength:
-		stage.OnAfterMinLengthReadCallback = any(callback).(OnAfterReadInterface[MinLength])
-	case *Pattern:
-		stage.OnAfterPatternReadCallback = any(callback).(OnAfterReadInterface[Pattern])
-	case *Restriction:
-		stage.OnAfterRestrictionReadCallback = any(callback).(OnAfterReadInterface[Restriction])
-	case *Schema:
-		stage.OnAfterSchemaReadCallback = any(callback).(OnAfterReadInterface[Schema])
-	case *Sequence:
-		stage.OnAfterSequenceReadCallback = any(callback).(OnAfterReadInterface[Sequence])
-	case *SimpleContent:
-		stage.OnAfterSimpleContentReadCallback = any(callback).(OnAfterReadInterface[SimpleContent])
-	case *SimpleType:
-		stage.OnAfterSimpleTypeReadCallback = any(callback).(OnAfterReadInterface[SimpleType])
-	case *TotalDigit:
-		stage.OnAfterTotalDigitReadCallback = any(callback).(OnAfterReadInterface[TotalDigit])
-	case *Union:
-		stage.OnAfterUnionReadCallback = any(callback).(OnAfterReadInterface[Union])
-	case *WhiteSpace:
-		stage.OnAfterWhiteSpaceReadCallback = any(callback).(OnAfterReadInterface[WhiteSpace])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

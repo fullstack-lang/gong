@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -27,12 +27,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -61,8 +66,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -91,90 +101,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *Content:
-		if stage.OnAfterContentReadCallback != nil {
-			stage.OnAfterContentReadCallback.OnAfterRead(stage, target)
-		}
-	case *JpgImage:
-		if stage.OnAfterJpgImageReadCallback != nil {
-			stage.OnAfterJpgImageReadCallback.OnAfterRead(stage, target)
-		}
-	case *PngImage:
-		if stage.OnAfterPngImageReadCallback != nil {
-			stage.OnAfterPngImageReadCallback.OnAfterRead(stage, target)
-		}
-	case *SvgImage:
-		if stage.OnAfterSvgImageReadCallback != nil {
-			stage.OnAfterSvgImageReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Content:
-		stage.OnAfterContentUpdateCallback = any(callback).(OnAfterUpdateInterface[Content])
-	case *JpgImage:
-		stage.OnAfterJpgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[JpgImage])
-	case *PngImage:
-		stage.OnAfterPngImageUpdateCallback = any(callback).(OnAfterUpdateInterface[PngImage])
-	case *SvgImage:
-		stage.OnAfterSvgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[SvgImage])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Content:
-		stage.OnAfterContentCreateCallback = any(callback).(OnAfterCreateInterface[Content])
-	case *JpgImage:
-		stage.OnAfterJpgImageCreateCallback = any(callback).(OnAfterCreateInterface[JpgImage])
-	case *PngImage:
-		stage.OnAfterPngImageCreateCallback = any(callback).(OnAfterCreateInterface[PngImage])
-	case *SvgImage:
-		stage.OnAfterSvgImageCreateCallback = any(callback).(OnAfterCreateInterface[SvgImage])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Content:
-		stage.OnAfterContentDeleteCallback = any(callback).(OnAfterDeleteInterface[Content])
-	case *JpgImage:
-		stage.OnAfterJpgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[JpgImage])
-	case *PngImage:
-		stage.OnAfterPngImageDeleteCallback = any(callback).(OnAfterDeleteInterface[PngImage])
-	case *SvgImage:
-		stage.OnAfterSvgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[SvgImage])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Content:
-		stage.OnAfterContentReadCallback = any(callback).(OnAfterReadInterface[Content])
-	case *JpgImage:
-		stage.OnAfterJpgImageReadCallback = any(callback).(OnAfterReadInterface[JpgImage])
-	case *PngImage:
-		stage.OnAfterPngImageReadCallback = any(callback).(OnAfterReadInterface[PngImage])
-	case *SvgImage:
-		stage.OnAfterSvgImageReadCallback = any(callback).(OnAfterReadInterface[SvgImage])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

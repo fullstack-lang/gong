@@ -181,7 +181,7 @@ func (controller *Controller) PostView(w http.ResponseWriter, r *http.Request) {
 	view := backRepo.BackRepoView.Map_ViewDBID_ViewPtr[viewDB.ID]
 
 	if view != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), view)
+		backRepo.GetStage().AfterCreateFromFront(view)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateView(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	viewOld := backRepo.BackRepoView.Map_ViewDBID_ViewPtr[viewDB.ID]
 	if viewOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), viewOld, viewNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(viewOld, viewNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteView(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	viewStaged := backRepo.BackRepoView.Map_ViewDBID_ViewPtr[viewDB.ID]
 	if viewStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), viewStaged, viewDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(viewStaged, viewDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

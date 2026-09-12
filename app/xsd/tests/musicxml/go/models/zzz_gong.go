@@ -8446,9 +8446,9 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -11689,6 +11689,11 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 
 	}
 	return
+}
+
+// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
+func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+	return stage.GetInstancesByOrderAuto[T]()
 }
 
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -15048,7 +15053,8 @@ func NewStage(name string) (stage *Stage) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+// GetOrder is the Stage method returning the order of a gongstruct instance.
+func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *A_directive:
@@ -15518,7 +15524,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	}
 }
 
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+// GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
+func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -15989,7 +15996,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	}
 }
 
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+// GetOrder is a backward-compatible forwarder.
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *A_directive:
@@ -16457,6 +16465,16 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	default:
 		return 0 // should not happen
 	}
+}
+
+// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	return stage.GetInstanceFromOrder[Type](order)
+}
+
+// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+	return stage.GetOrder(instance)
 }
 
 func (stage *Stage) GetName() string {
@@ -40427,11 +40445,17 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	set := GetGongstructInstancesSetFromPointerType[T](stage)
+// GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
+func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+	set := stage.GetInstancesSet[T]()
 	sortedSlice = SortGongstructSetByName(*set)
 
 	return
+}
+
+// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
+	return stage.GetInstancesSorted[T]()
 }
 
 type GongstructSet interface {
@@ -40442,483 +40466,8 @@ type GongstructMapString interface {
 	map[any]any
 }
 
-// GongGetSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *Stage) *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case map[*A_directive]any:
-		return any(&stage.A_directives).(*Type)
-	case map[*A_measure]any:
-		return any(&stage.A_measures).(*Type)
-	case map[*A_measure_1]any:
-		return any(&stage.A_measure_1s).(*Type)
-	case map[*A_part]any:
-		return any(&stage.A_parts).(*Type)
-	case map[*A_part_1]any:
-		return any(&stage.A_part_1s).(*Type)
-	case map[*Accidental]any:
-		return any(&stage.Accidentals).(*Type)
-	case map[*Accidental_mark]any:
-		return any(&stage.Accidental_marks).(*Type)
-	case map[*Accidental_text]any:
-		return any(&stage.Accidental_texts).(*Type)
-	case map[*Accord]any:
-		return any(&stage.Accords).(*Type)
-	case map[*Accordion_registration]any:
-		return any(&stage.Accordion_registrations).(*Type)
-	case map[*Appearance]any:
-		return any(&stage.Appearances).(*Type)
-	case map[*Arpeggiate]any:
-		return any(&stage.Arpeggiates).(*Type)
-	case map[*Arrow]any:
-		return any(&stage.Arrows).(*Type)
-	case map[*Articulations]any:
-		return any(&stage.Articulationss).(*Type)
-	case map[*Assess]any:
-		return any(&stage.Assesss).(*Type)
-	case map[*Attributes]any:
-		return any(&stage.Attributess).(*Type)
-	case map[*Backup]any:
-		return any(&stage.Backups).(*Type)
-	case map[*Bar_style_color]any:
-		return any(&stage.Bar_style_colors).(*Type)
-	case map[*Barline]any:
-		return any(&stage.Barlines).(*Type)
-	case map[*Barre]any:
-		return any(&stage.Barres).(*Type)
-	case map[*Bass]any:
-		return any(&stage.Basss).(*Type)
-	case map[*Bass_step]any:
-		return any(&stage.Bass_steps).(*Type)
-	case map[*Beam]any:
-		return any(&stage.Beams).(*Type)
-	case map[*Beat_repeat]any:
-		return any(&stage.Beat_repeats).(*Type)
-	case map[*Beat_unit_tied]any:
-		return any(&stage.Beat_unit_tieds).(*Type)
-	case map[*Beater]any:
-		return any(&stage.Beaters).(*Type)
-	case map[*Bend]any:
-		return any(&stage.Bends).(*Type)
-	case map[*Bookmark]any:
-		return any(&stage.Bookmarks).(*Type)
-	case map[*Bracket]any:
-		return any(&stage.Brackets).(*Type)
-	case map[*Breath_mark]any:
-		return any(&stage.Breath_marks).(*Type)
-	case map[*Caesura]any:
-		return any(&stage.Caesuras).(*Type)
-	case map[*Cancel]any:
-		return any(&stage.Cancels).(*Type)
-	case map[*Clef]any:
-		return any(&stage.Clefs).(*Type)
-	case map[*Coda]any:
-		return any(&stage.Codas).(*Type)
-	case map[*Credit]any:
-		return any(&stage.Credits).(*Type)
-	case map[*Dashes]any:
-		return any(&stage.Dashess).(*Type)
-	case map[*Defaults]any:
-		return any(&stage.Defaultss).(*Type)
-	case map[*Degree]any:
-		return any(&stage.Degrees).(*Type)
-	case map[*Degree_alter]any:
-		return any(&stage.Degree_alters).(*Type)
-	case map[*Degree_type]any:
-		return any(&stage.Degree_types).(*Type)
-	case map[*Degree_value]any:
-		return any(&stage.Degree_values).(*Type)
-	case map[*Direction]any:
-		return any(&stage.Directions).(*Type)
-	case map[*Direction_type]any:
-		return any(&stage.Direction_types).(*Type)
-	case map[*Distance]any:
-		return any(&stage.Distances).(*Type)
-	case map[*Double]any:
-		return any(&stage.Doubles).(*Type)
-	case map[*Dynamics]any:
-		return any(&stage.Dynamicss).(*Type)
-	case map[*Effect]any:
-		return any(&stage.Effects).(*Type)
-	case map[*Elision]any:
-		return any(&stage.Elisions).(*Type)
-	case map[*Empty]any:
-		return any(&stage.Emptys).(*Type)
-	case map[*Empty_font]any:
-		return any(&stage.Empty_fonts).(*Type)
-	case map[*Empty_line]any:
-		return any(&stage.Empty_lines).(*Type)
-	case map[*Empty_placement]any:
-		return any(&stage.Empty_placements).(*Type)
-	case map[*Empty_placement_smufl]any:
-		return any(&stage.Empty_placement_smufls).(*Type)
-	case map[*Empty_print_object_style_align]any:
-		return any(&stage.Empty_print_object_style_aligns).(*Type)
-	case map[*Empty_print_style]any:
-		return any(&stage.Empty_print_styles).(*Type)
-	case map[*Empty_print_style_align]any:
-		return any(&stage.Empty_print_style_aligns).(*Type)
-	case map[*Empty_print_style_align_id]any:
-		return any(&stage.Empty_print_style_align_ids).(*Type)
-	case map[*Empty_trill_sound]any:
-		return any(&stage.Empty_trill_sounds).(*Type)
-	case map[*Encoding]any:
-		return any(&stage.Encodings).(*Type)
-	case map[*Ending]any:
-		return any(&stage.Endings).(*Type)
-	case map[*Extend]any:
-		return any(&stage.Extends).(*Type)
-	case map[*Feature]any:
-		return any(&stage.Features).(*Type)
-	case map[*Fermata]any:
-		return any(&stage.Fermatas).(*Type)
-	case map[*Figure]any:
-		return any(&stage.Figures).(*Type)
-	case map[*Figured_bass]any:
-		return any(&stage.Figured_basss).(*Type)
-	case map[*Fingering]any:
-		return any(&stage.Fingerings).(*Type)
-	case map[*First_fret]any:
-		return any(&stage.First_frets).(*Type)
-	case map[*For_part]any:
-		return any(&stage.For_parts).(*Type)
-	case map[*Formatted_symbol]any:
-		return any(&stage.Formatted_symbols).(*Type)
-	case map[*Formatted_symbol_id]any:
-		return any(&stage.Formatted_symbol_ids).(*Type)
-	case map[*Formatted_text]any:
-		return any(&stage.Formatted_texts).(*Type)
-	case map[*Formatted_text_id]any:
-		return any(&stage.Formatted_text_ids).(*Type)
-	case map[*Forward]any:
-		return any(&stage.Forwards).(*Type)
-	case map[*Frame]any:
-		return any(&stage.Frames).(*Type)
-	case map[*Frame_note]any:
-		return any(&stage.Frame_notes).(*Type)
-	case map[*Fret]any:
-		return any(&stage.Frets).(*Type)
-	case map[*Glass]any:
-		return any(&stage.Glasss).(*Type)
-	case map[*Glissando]any:
-		return any(&stage.Glissandos).(*Type)
-	case map[*Glyph]any:
-		return any(&stage.Glyphs).(*Type)
-	case map[*Grace]any:
-		return any(&stage.Graces).(*Type)
-	case map[*Group_barline]any:
-		return any(&stage.Group_barlines).(*Type)
-	case map[*Group_name]any:
-		return any(&stage.Group_names).(*Type)
-	case map[*Group_symbol]any:
-		return any(&stage.Group_symbols).(*Type)
-	case map[*Grouping]any:
-		return any(&stage.Groupings).(*Type)
-	case map[*Hammer_on_pull_off]any:
-		return any(&stage.Hammer_on_pull_offs).(*Type)
-	case map[*Handbell]any:
-		return any(&stage.Handbells).(*Type)
-	case map[*Harmon_closed]any:
-		return any(&stage.Harmon_closeds).(*Type)
-	case map[*Harmon_mute]any:
-		return any(&stage.Harmon_mutes).(*Type)
-	case map[*Harmonic]any:
-		return any(&stage.Harmonics).(*Type)
-	case map[*Harmony]any:
-		return any(&stage.Harmonys).(*Type)
-	case map[*Harmony_alter]any:
-		return any(&stage.Harmony_alters).(*Type)
-	case map[*Harp_pedals]any:
-		return any(&stage.Harp_pedalss).(*Type)
-	case map[*Heel_toe]any:
-		return any(&stage.Heel_toes).(*Type)
-	case map[*Hole]any:
-		return any(&stage.Holes).(*Type)
-	case map[*Hole_closed]any:
-		return any(&stage.Hole_closeds).(*Type)
-	case map[*Horizontal_turn]any:
-		return any(&stage.Horizontal_turns).(*Type)
-	case map[*Identification]any:
-		return any(&stage.Identifications).(*Type)
-	case map[*Image]any:
-		return any(&stage.Images).(*Type)
-	case map[*Instrument]any:
-		return any(&stage.Instruments).(*Type)
-	case map[*Instrument_change]any:
-		return any(&stage.Instrument_changes).(*Type)
-	case map[*Instrument_link]any:
-		return any(&stage.Instrument_links).(*Type)
-	case map[*Interchangeable]any:
-		return any(&stage.Interchangeables).(*Type)
-	case map[*Inversion]any:
-		return any(&stage.Inversions).(*Type)
-	case map[*Key]any:
-		return any(&stage.Keys).(*Type)
-	case map[*Key_accidental]any:
-		return any(&stage.Key_accidentals).(*Type)
-	case map[*Key_octave]any:
-		return any(&stage.Key_octaves).(*Type)
-	case map[*Kind]any:
-		return any(&stage.Kinds).(*Type)
-	case map[*Level]any:
-		return any(&stage.Levels).(*Type)
-	case map[*Line_detail]any:
-		return any(&stage.Line_details).(*Type)
-	case map[*Line_width]any:
-		return any(&stage.Line_widths).(*Type)
-	case map[*Link]any:
-		return any(&stage.Links).(*Type)
-	case map[*Listen]any:
-		return any(&stage.Listens).(*Type)
-	case map[*Listening]any:
-		return any(&stage.Listenings).(*Type)
-	case map[*Lyric]any:
-		return any(&stage.Lyrics).(*Type)
-	case map[*Lyric_font]any:
-		return any(&stage.Lyric_fonts).(*Type)
-	case map[*Lyric_language]any:
-		return any(&stage.Lyric_languages).(*Type)
-	case map[*Measure_layout]any:
-		return any(&stage.Measure_layouts).(*Type)
-	case map[*Measure_numbering]any:
-		return any(&stage.Measure_numberings).(*Type)
-	case map[*Measure_repeat]any:
-		return any(&stage.Measure_repeats).(*Type)
-	case map[*Measure_style]any:
-		return any(&stage.Measure_styles).(*Type)
-	case map[*Membrane]any:
-		return any(&stage.Membranes).(*Type)
-	case map[*Metal]any:
-		return any(&stage.Metals).(*Type)
-	case map[*Metronome]any:
-		return any(&stage.Metronomes).(*Type)
-	case map[*Metronome_beam]any:
-		return any(&stage.Metronome_beams).(*Type)
-	case map[*Metronome_note]any:
-		return any(&stage.Metronome_notes).(*Type)
-	case map[*Metronome_tied]any:
-		return any(&stage.Metronome_tieds).(*Type)
-	case map[*Metronome_tuplet]any:
-		return any(&stage.Metronome_tuplets).(*Type)
-	case map[*Midi_device]any:
-		return any(&stage.Midi_devices).(*Type)
-	case map[*Midi_instrument]any:
-		return any(&stage.Midi_instruments).(*Type)
-	case map[*Miscellaneous]any:
-		return any(&stage.Miscellaneouss).(*Type)
-	case map[*Miscellaneous_field]any:
-		return any(&stage.Miscellaneous_fields).(*Type)
-	case map[*Mordent]any:
-		return any(&stage.Mordents).(*Type)
-	case map[*Multiple_rest]any:
-		return any(&stage.Multiple_rests).(*Type)
-	case map[*Name_display]any:
-		return any(&stage.Name_displays).(*Type)
-	case map[*Non_arpeggiate]any:
-		return any(&stage.Non_arpeggiates).(*Type)
-	case map[*Notations]any:
-		return any(&stage.Notationss).(*Type)
-	case map[*Note]any:
-		return any(&stage.Notes).(*Type)
-	case map[*Note_size]any:
-		return any(&stage.Note_sizes).(*Type)
-	case map[*Note_type]any:
-		return any(&stage.Note_types).(*Type)
-	case map[*Notehead]any:
-		return any(&stage.Noteheads).(*Type)
-	case map[*Notehead_text]any:
-		return any(&stage.Notehead_texts).(*Type)
-	case map[*Numeral]any:
-		return any(&stage.Numerals).(*Type)
-	case map[*Numeral_key]any:
-		return any(&stage.Numeral_keys).(*Type)
-	case map[*Numeral_root]any:
-		return any(&stage.Numeral_roots).(*Type)
-	case map[*Octave_shift]any:
-		return any(&stage.Octave_shifts).(*Type)
-	case map[*Offset]any:
-		return any(&stage.Offsets).(*Type)
-	case map[*Opus]any:
-		return any(&stage.Opuss).(*Type)
-	case map[*Ornaments]any:
-		return any(&stage.Ornamentss).(*Type)
-	case map[*Other_appearance]any:
-		return any(&stage.Other_appearances).(*Type)
-	case map[*Other_direction]any:
-		return any(&stage.Other_directions).(*Type)
-	case map[*Other_listening]any:
-		return any(&stage.Other_listenings).(*Type)
-	case map[*Other_notation]any:
-		return any(&stage.Other_notations).(*Type)
-	case map[*Other_placement_text]any:
-		return any(&stage.Other_placement_texts).(*Type)
-	case map[*Other_play]any:
-		return any(&stage.Other_plays).(*Type)
-	case map[*Other_text]any:
-		return any(&stage.Other_texts).(*Type)
-	case map[*Page_layout]any:
-		return any(&stage.Page_layouts).(*Type)
-	case map[*Page_margins]any:
-		return any(&stage.Page_marginss).(*Type)
-	case map[*Part_clef]any:
-		return any(&stage.Part_clefs).(*Type)
-	case map[*Part_group]any:
-		return any(&stage.Part_groups).(*Type)
-	case map[*Part_link]any:
-		return any(&stage.Part_links).(*Type)
-	case map[*Part_list]any:
-		return any(&stage.Part_lists).(*Type)
-	case map[*Part_name]any:
-		return any(&stage.Part_names).(*Type)
-	case map[*Part_symbol]any:
-		return any(&stage.Part_symbols).(*Type)
-	case map[*Part_transpose]any:
-		return any(&stage.Part_transposes).(*Type)
-	case map[*Pedal]any:
-		return any(&stage.Pedals).(*Type)
-	case map[*Pedal_tuning]any:
-		return any(&stage.Pedal_tunings).(*Type)
-	case map[*Per_minute]any:
-		return any(&stage.Per_minutes).(*Type)
-	case map[*Percussion]any:
-		return any(&stage.Percussions).(*Type)
-	case map[*Pitch]any:
-		return any(&stage.Pitchs).(*Type)
-	case map[*Pitched]any:
-		return any(&stage.Pitcheds).(*Type)
-	case map[*Placement_text]any:
-		return any(&stage.Placement_texts).(*Type)
-	case map[*Play]any:
-		return any(&stage.Plays).(*Type)
-	case map[*Player]any:
-		return any(&stage.Players).(*Type)
-	case map[*Principal_voice]any:
-		return any(&stage.Principal_voices).(*Type)
-	case map[*Print]any:
-		return any(&stage.Prints).(*Type)
-	case map[*Release]any:
-		return any(&stage.Releases).(*Type)
-	case map[*Repeat]any:
-		return any(&stage.Repeats).(*Type)
-	case map[*Rest]any:
-		return any(&stage.Rests).(*Type)
-	case map[*Root]any:
-		return any(&stage.Roots).(*Type)
-	case map[*Root_step]any:
-		return any(&stage.Root_steps).(*Type)
-	case map[*Scaling]any:
-		return any(&stage.Scalings).(*Type)
-	case map[*Scordatura]any:
-		return any(&stage.Scordaturas).(*Type)
-	case map[*Score_instrument]any:
-		return any(&stage.Score_instruments).(*Type)
-	case map[*Score_part]any:
-		return any(&stage.Score_parts).(*Type)
-	case map[*Score_partwise]any:
-		return any(&stage.Score_partwises).(*Type)
-	case map[*Score_timewise]any:
-		return any(&stage.Score_timewises).(*Type)
-	case map[*Segno]any:
-		return any(&stage.Segnos).(*Type)
-	case map[*Slash]any:
-		return any(&stage.Slashs).(*Type)
-	case map[*Slide]any:
-		return any(&stage.Slides).(*Type)
-	case map[*Slur]any:
-		return any(&stage.Slurs).(*Type)
-	case map[*Sound]any:
-		return any(&stage.Sounds).(*Type)
-	case map[*Staff_details]any:
-		return any(&stage.Staff_detailss).(*Type)
-	case map[*Staff_divide]any:
-		return any(&stage.Staff_divides).(*Type)
-	case map[*Staff_layout]any:
-		return any(&stage.Staff_layouts).(*Type)
-	case map[*Staff_size]any:
-		return any(&stage.Staff_sizes).(*Type)
-	case map[*Staff_tuning]any:
-		return any(&stage.Staff_tunings).(*Type)
-	case map[*Stem]any:
-		return any(&stage.Stems).(*Type)
-	case map[*Stick]any:
-		return any(&stage.Sticks).(*Type)
-	case map[*String_mute]any:
-		return any(&stage.String_mutes).(*Type)
-	case map[*String_type]any:
-		return any(&stage.String_types).(*Type)
-	case map[*Strong_accent]any:
-		return any(&stage.Strong_accents).(*Type)
-	case map[*Style_text]any:
-		return any(&stage.Style_texts).(*Type)
-	case map[*Supports]any:
-		return any(&stage.Supportss).(*Type)
-	case map[*Swing]any:
-		return any(&stage.Swings).(*Type)
-	case map[*Sync]any:
-		return any(&stage.Syncs).(*Type)
-	case map[*System_dividers]any:
-		return any(&stage.System_dividerss).(*Type)
-	case map[*System_layout]any:
-		return any(&stage.System_layouts).(*Type)
-	case map[*System_margins]any:
-		return any(&stage.System_marginss).(*Type)
-	case map[*Tap]any:
-		return any(&stage.Taps).(*Type)
-	case map[*Technical]any:
-		return any(&stage.Technicals).(*Type)
-	case map[*Text_element_data]any:
-		return any(&stage.Text_element_datas).(*Type)
-	case map[*Tie]any:
-		return any(&stage.Ties).(*Type)
-	case map[*Tied]any:
-		return any(&stage.Tieds).(*Type)
-	case map[*Time]any:
-		return any(&stage.Times).(*Type)
-	case map[*Time_modification]any:
-		return any(&stage.Time_modifications).(*Type)
-	case map[*Timpani]any:
-		return any(&stage.Timpanis).(*Type)
-	case map[*Transpose]any:
-		return any(&stage.Transposes).(*Type)
-	case map[*Tremolo]any:
-		return any(&stage.Tremolos).(*Type)
-	case map[*Tuplet]any:
-		return any(&stage.Tuplets).(*Type)
-	case map[*Tuplet_dot]any:
-		return any(&stage.Tuplet_dots).(*Type)
-	case map[*Tuplet_number]any:
-		return any(&stage.Tuplet_numbers).(*Type)
-	case map[*Tuplet_portion]any:
-		return any(&stage.Tuplet_portions).(*Type)
-	case map[*Tuplet_type]any:
-		return any(&stage.Tuplet_types).(*Type)
-	case map[*Typed_text]any:
-		return any(&stage.Typed_texts).(*Type)
-	case map[*Unpitched]any:
-		return any(&stage.Unpitcheds).(*Type)
-	case map[*Virtual_instrument]any:
-		return any(&stage.Virtual_instruments).(*Type)
-	case map[*Wait]any:
-		return any(&stage.Waits).(*Type)
-	case map[*Wavy_line]any:
-		return any(&stage.Wavy_lines).(*Type)
-	case map[*Wedge]any:
-		return any(&stage.Wedges).(*Type)
-	case map[*Wood]any:
-		return any(&stage.Woods).(*Type)
-	case map[*Work]any:
-		return any(&stage.Works).(*Type)
-	default:
-		return nil
-	}
-}
-
-// GongGetMap returns the map of staged Gonstruct instance by their name
-// Can be usefull if names are unique
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+// GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
+func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -41390,9 +40939,13 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	}
 }
 
-// GetGongstructInstancesSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+	return stage.GetInstancesMapByName[Type]()
+}
+
+// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
+func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -41864,9 +41417,13 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	}
 }
 
-// GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+	return stage.GetInstancesSetFromType[Type]()
+}
+
+// GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
+func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -42338,9 +41895,13 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	}
 }
 
-// GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+	return stage.GetInstancesSet[Type]()
+}
+
+// GetInstancesMap is the Stage method returning the map of staged instances.
+func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -42810,6 +42371,11 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	default:
 		return nil
 	}
+}
+
+// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -44477,7 +44043,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is the Stage method for backtrack navigation of pointer associations.
+func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -48582,13 +48149,13 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	return nil
 }
 
-// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
-// associations (0..N) between one staged Gongstruct instances and many others
-//
-// The function provides a map with keys as instances of End and values to *Start instances
-// the map is construed by iterating over all Start instances and populating keys with End instances
-// and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is a backward-compatible package-level forwarder.
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetPointerReverseMap[Start, End](fieldname)
+}
+
+// GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.
+func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -51246,6 +50813,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	}
 	return nil
+}
+
+// GetSliceOfPointersReverseMap is a backward-compatible package-level forwarder.
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetSliceOfPointersReverseMap[Start, End](fieldname)
 }
 
 // GetPointerToGongstructName returns the name of the Gongstruct

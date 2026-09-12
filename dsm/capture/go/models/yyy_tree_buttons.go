@@ -738,7 +738,7 @@ func createBaseNode[
 					IsWithPreceedingIcon: true,
 					PreceedingIcon:       string(buttons.BUTTON_schema),
 					OnClick: func(frontNode *tree.Node) {
-						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
+						for diagram_ := range *stager.stage.GetInstancesSet[DiagramType]() {
 							diagram_.SetIsChecked(false)
 						}
 						diag.SetIsChecked(true)

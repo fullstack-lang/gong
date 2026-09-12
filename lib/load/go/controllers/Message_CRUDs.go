@@ -181,7 +181,7 @@ func (controller *Controller) PostMessage(w http.ResponseWriter, r *http.Request
 	message := backRepo.BackRepoMessage.Map_MessageDBID_MessagePtr[messageDB.ID]
 
 	if message != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), message)
+		backRepo.GetStage().AfterCreateFromFront(message)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateMessage(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	messageOld := backRepo.BackRepoMessage.Map_MessageDBID_MessagePtr[messageDB.ID]
 	if messageOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), messageOld, messageNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(messageOld, messageNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteMessage(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	messageStaged := backRepo.BackRepoMessage.Map_MessageDBID_MessagePtr[messageDB.ID]
 	if messageStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), messageStaged, messageDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(messageStaged, messageDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostLinkAnchoredPath(w http.ResponseWriter, r *htt
 	linkanchoredpath := backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr[linkanchoredpathDB.ID]
 
 	if linkanchoredpath != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), linkanchoredpath)
+		backRepo.GetStage().AfterCreateFromFront(linkanchoredpath)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateLinkAnchoredPath(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	linkanchoredpathOld := backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr[linkanchoredpathDB.ID]
 	if linkanchoredpathOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), linkanchoredpathOld, linkanchoredpathNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(linkanchoredpathOld, linkanchoredpathNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteLinkAnchoredPath(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	linkanchoredpathStaged := backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr[linkanchoredpathDB.ID]
 	if linkanchoredpathStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), linkanchoredpathStaged, linkanchoredpathDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(linkanchoredpathStaged, linkanchoredpathDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

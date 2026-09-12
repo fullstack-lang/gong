@@ -35,7 +35,8 @@ func (orchestrator *FormSortAssocButtonOrchestrator) OnAfterUpdate(
 	stagedFormSortAssocButton.OnAfterUpdate(gongsvgStage, stagedFormSortAssocButton, backRepoFormSortAssocButton)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
+// SetOrchestratorOnAfterUpdate is the Stage method for setting orchestrators.
+func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 
 	var ret Type
 
@@ -50,4 +51,9 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	}
 
+}
+
+// SetOrchestratorOnAfterUpdate is a backward-compatible package-level forwarder.
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
+	stage.SetOrchestratorOnAfterUpdate[Type]()
 }

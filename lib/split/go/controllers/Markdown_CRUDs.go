@@ -181,7 +181,7 @@ func (controller *Controller) PostMarkdown(w http.ResponseWriter, r *http.Reques
 	markdown := backRepo.BackRepoMarkdown.Map_MarkdownDBID_MarkdownPtr[markdownDB.ID]
 
 	if markdown != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), markdown)
+		backRepo.GetStage().AfterCreateFromFront(markdown)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateMarkdown(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	markdownOld := backRepo.BackRepoMarkdown.Map_MarkdownDBID_MarkdownPtr[markdownDB.ID]
 	if markdownOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), markdownOld, markdownNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(markdownOld, markdownNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteMarkdown(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	markdownStaged := backRepo.BackRepoMarkdown.Map_MarkdownDBID_MarkdownPtr[markdownDB.ID]
 	if markdownStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), markdownStaged, markdownDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(markdownStaged, markdownDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

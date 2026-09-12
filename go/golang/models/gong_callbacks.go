@@ -3,8 +3,8 @@ package models
 const ModelGongCallbacksFileTemplate = `// generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksCreate)) + `}}
@@ -13,12 +13,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksUpdate)) + `}}
@@ -27,8 +32,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksDelete)) + `}}
@@ -37,44 +47,9 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point{{` + string(rune(ModelGongCallbacksRead)) + `}}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncUpdate)) + `}}
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncCreate)) + `}}
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncDelete)) + `}}
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncRead)) + `}}
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }
 `
 
@@ -83,12 +58,7 @@ type ModelGongCallbacksStructInsertionId int
 const (
 	ModelGongCallbacksCreate ModelGongCallbacksStructInsertionId = iota
 	ModelGongCallbacksUpdate
-	ModelGongCallbacksRead
 	ModelGongCallbacksDelete
-	ModelGongCallbacksSetFuncCreate
-	ModelGongCallbacksSetFuncUpdate
-	ModelGongCallbacksSetFuncRead
-	ModelGongCallbacksSetFuncDelete
 )
 
 var ModelGongCallbacksStructSubTemplateCode map[string]string = // new line
@@ -104,27 +74,10 @@ map[string]string{
 		if stage.OnAfter{{Structname}}UpdateCallback != nil {
 			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}`,
-	string(rune(ModelGongCallbacksRead)): `
-	case *{{Structname}}:
-		if stage.OnAfter{{Structname}}ReadCallback != nil {
-			stage.OnAfter{{Structname}}ReadCallback.OnAfterRead(stage, target)
-		}`,
 	string(rune(ModelGongCallbacksDelete)): `
 	case *{{Structname}}:
 		if stage.OnAfter{{Structname}}DeleteCallback != nil {
 			staged := any(staged).(*{{Structname}})
 			stage.OnAfter{{Structname}}DeleteCallback.OnAfterDelete(stage, staged, front)
 		}`,
-	string(rune(ModelGongCallbacksSetFuncCreate)): `
-	case *{{Structname}}:
-		stage.OnAfter{{Structname}}CreateCallback = any(callback).(OnAfterCreateInterface[{{Structname}}])`,
-	string(rune(ModelGongCallbacksSetFuncUpdate)): `
-	case *{{Structname}}:
-		stage.OnAfter{{Structname}}UpdateCallback = any(callback).(OnAfterUpdateInterface[{{Structname}}])`,
-	string(rune(ModelGongCallbacksSetFuncRead)): `
-	case *{{Structname}}:
-		stage.OnAfter{{Structname}}ReadCallback = any(callback).(OnAfterReadInterface[{{Structname}}])`,
-	string(rune(ModelGongCallbacksSetFuncDelete)): `
-	case *{{Structname}}:
-		stage.OnAfter{{Structname}}DeleteCallback = any(callback).(OnAfterDeleteInterface[{{Structname}}])`,
 }

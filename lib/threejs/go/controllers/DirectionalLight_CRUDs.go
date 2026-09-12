@@ -181,7 +181,7 @@ func (controller *Controller) PostDirectionalLight(w http.ResponseWriter, r *htt
 	directionallight := backRepo.BackRepoDirectionalLight.Map_DirectionalLightDBID_DirectionalLightPtr[directionallightDB.ID]
 
 	if directionallight != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), directionallight)
+		backRepo.GetStage().AfterCreateFromFront(directionallight)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateDirectionalLight(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	directionallightOld := backRepo.BackRepoDirectionalLight.Map_DirectionalLightDBID_DirectionalLightPtr[directionallightDB.ID]
 	if directionallightOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), directionallightOld, directionallightNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(directionallightOld, directionallightNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteDirectionalLight(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	directionallightStaged := backRepo.BackRepoDirectionalLight.Map_DirectionalLightDBID_DirectionalLightPtr[directionallightDB.ID]
 	if directionallightStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), directionallightStaged, directionallightDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(directionallightStaged, directionallightDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

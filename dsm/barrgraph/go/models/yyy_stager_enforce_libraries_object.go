@@ -7,7 +7,7 @@ package models
 func (stager *Stager) enforceOwningLibraryAndObjects() {
 	stage := stager.stage
 	// Clear the objects slice of all libraries
-	for _, library := range GetGongstrucsSorted[*Library](stage) {
+	for _, library := range stage.GetInstancesSorted[*Library]() {
 		library.objects = nil
 	}
 

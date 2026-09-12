@@ -181,7 +181,7 @@ func (controller *Controller) PostTriangle(w http.ResponseWriter, r *http.Reques
 	triangle := backRepo.BackRepoTriangle.Map_TriangleDBID_TrianglePtr[triangleDB.ID]
 
 	if triangle != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), triangle)
+		backRepo.GetStage().AfterCreateFromFront(triangle)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateTriangle(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	triangleOld := backRepo.BackRepoTriangle.Map_TriangleDBID_TrianglePtr[triangleDB.ID]
 	if triangleOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), triangleOld, triangleNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(triangleOld, triangleNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteTriangle(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	triangleStaged := backRepo.BackRepoTriangle.Map_TriangleDBID_TrianglePtr[triangleDB.ID]
 	if triangleStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), triangleStaged, triangleDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(triangleStaged, triangleDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -115,12 +115,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -259,8 +264,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -399,354 +409,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *AllocatedResourceShape:
-		if stage.OnAfterAllocatedResourceShapeReadCallback != nil {
-			stage.OnAfterAllocatedResourceShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *AllocatedSystemShape:
-		if stage.OnAfterAllocatedSystemShapeReadCallback != nil {
-			stage.OnAfterAllocatedSystemShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ControlFlow:
-		if stage.OnAfterControlFlowReadCallback != nil {
-			stage.OnAfterControlFlowReadCallback.OnAfterRead(stage, target)
-		}
-	case *ControlFlowShape:
-		if stage.OnAfterControlFlowShapeReadCallback != nil {
-			stage.OnAfterControlFlowShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Data:
-		if stage.OnAfterDataReadCallback != nil {
-			stage.OnAfterDataReadCallback.OnAfterRead(stage, target)
-		}
-	case *DataFlow:
-		if stage.OnAfterDataFlowReadCallback != nil {
-			stage.OnAfterDataFlowReadCallback.OnAfterRead(stage, target)
-		}
-	case *DataFlowShape:
-		if stage.OnAfterDataFlowShapeReadCallback != nil {
-			stage.OnAfterDataFlowShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *DataShape:
-		if stage.OnAfterDataShapeReadCallback != nil {
-			stage.OnAfterDataShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *DiagramLayerState:
-		if stage.OnAfterDiagramLayerStateReadCallback != nil {
-			stage.OnAfterDiagramLayerStateReadCallback.OnAfterRead(stage, target)
-		}
-	case *DiagramStructure:
-		if stage.OnAfterDiagramStructureReadCallback != nil {
-			stage.OnAfterDiagramStructureReadCallback.OnAfterRead(stage, target)
-		}
-	case *ExternalPartShape:
-		if stage.OnAfterExternalPartShapeReadCallback != nil {
-			stage.OnAfterExternalPartShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *LayerDefinition:
-		if stage.OnAfterLayerDefinitionReadCallback != nil {
-			stage.OnAfterLayerDefinitionReadCallback.OnAfterRead(stage, target)
-		}
-	case *Library:
-		if stage.OnAfterLibraryReadCallback != nil {
-			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Note:
-		if stage.OnAfterNoteReadCallback != nil {
-			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
-		}
-	case *NotePartShape:
-		if stage.OnAfterNotePartShapeReadCallback != nil {
-			stage.OnAfterNotePartShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NotePortShape:
-		if stage.OnAfterNotePortShapeReadCallback != nil {
-			stage.OnAfterNotePortShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteShape:
-		if stage.OnAfterNoteShapeReadCallback != nil {
-			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Part:
-		if stage.OnAfterPartReadCallback != nil {
-			stage.OnAfterPartReadCallback.OnAfterRead(stage, target)
-		}
-	case *PartAnchoredPath:
-		if stage.OnAfterPartAnchoredPathReadCallback != nil {
-			stage.OnAfterPartAnchoredPathReadCallback.OnAfterRead(stage, target)
-		}
-	case *PartShape:
-		if stage.OnAfterPartShapeReadCallback != nil {
-			stage.OnAfterPartShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Port:
-		if stage.OnAfterPortReadCallback != nil {
-			stage.OnAfterPortReadCallback.OnAfterRead(stage, target)
-		}
-	case *PortShape:
-		if stage.OnAfterPortShapeReadCallback != nil {
-			stage.OnAfterPortShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Resource:
-		if stage.OnAfterResourceReadCallback != nil {
-			stage.OnAfterResourceReadCallback.OnAfterRead(stage, target)
-		}
-	case *SemanticTag:
-		if stage.OnAfterSemanticTagReadCallback != nil {
-			stage.OnAfterSemanticTagReadCallback.OnAfterRead(stage, target)
-		}
-	case *System:
-		if stage.OnAfterSystemReadCallback != nil {
-			stage.OnAfterSystemReadCallback.OnAfterRead(stage, target)
-		}
-	case *SystemShape:
-		if stage.OnAfterSystemShapeReadCallback != nil {
-			stage.OnAfterSystemShapeReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AllocatedResourceShape:
-		stage.OnAfterAllocatedResourceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedResourceShape])
-	case *AllocatedSystemShape:
-		stage.OnAfterAllocatedSystemShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedSystemShape])
-	case *ControlFlow:
-		stage.OnAfterControlFlowUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlFlow])
-	case *ControlFlowShape:
-		stage.OnAfterControlFlowShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlFlowShape])
-	case *Data:
-		stage.OnAfterDataUpdateCallback = any(callback).(OnAfterUpdateInterface[Data])
-	case *DataFlow:
-		stage.OnAfterDataFlowUpdateCallback = any(callback).(OnAfterUpdateInterface[DataFlow])
-	case *DataFlowShape:
-		stage.OnAfterDataFlowShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataFlowShape])
-	case *DataShape:
-		stage.OnAfterDataShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataShape])
-	case *DiagramLayerState:
-		stage.OnAfterDiagramLayerStateUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramLayerState])
-	case *DiagramStructure:
-		stage.OnAfterDiagramStructureUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramStructure])
-	case *ExternalPartShape:
-		stage.OnAfterExternalPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExternalPartShape])
-	case *LayerDefinition:
-		stage.OnAfterLayerDefinitionUpdateCallback = any(callback).(OnAfterUpdateInterface[LayerDefinition])
-	case *Library:
-		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
-	case *Note:
-		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
-	case *NotePartShape:
-		stage.OnAfterNotePartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NotePartShape])
-	case *NotePortShape:
-		stage.OnAfterNotePortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NotePortShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-	case *Part:
-		stage.OnAfterPartUpdateCallback = any(callback).(OnAfterUpdateInterface[Part])
-	case *PartAnchoredPath:
-		stage.OnAfterPartAnchoredPathUpdateCallback = any(callback).(OnAfterUpdateInterface[PartAnchoredPath])
-	case *PartShape:
-		stage.OnAfterPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartShape])
-	case *Port:
-		stage.OnAfterPortUpdateCallback = any(callback).(OnAfterUpdateInterface[Port])
-	case *PortShape:
-		stage.OnAfterPortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PortShape])
-	case *Resource:
-		stage.OnAfterResourceUpdateCallback = any(callback).(OnAfterUpdateInterface[Resource])
-	case *SemanticTag:
-		stage.OnAfterSemanticTagUpdateCallback = any(callback).(OnAfterUpdateInterface[SemanticTag])
-	case *System:
-		stage.OnAfterSystemUpdateCallback = any(callback).(OnAfterUpdateInterface[System])
-	case *SystemShape:
-		stage.OnAfterSystemShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SystemShape])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AllocatedResourceShape:
-		stage.OnAfterAllocatedResourceShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedResourceShape])
-	case *AllocatedSystemShape:
-		stage.OnAfterAllocatedSystemShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedSystemShape])
-	case *ControlFlow:
-		stage.OnAfterControlFlowCreateCallback = any(callback).(OnAfterCreateInterface[ControlFlow])
-	case *ControlFlowShape:
-		stage.OnAfterControlFlowShapeCreateCallback = any(callback).(OnAfterCreateInterface[ControlFlowShape])
-	case *Data:
-		stage.OnAfterDataCreateCallback = any(callback).(OnAfterCreateInterface[Data])
-	case *DataFlow:
-		stage.OnAfterDataFlowCreateCallback = any(callback).(OnAfterCreateInterface[DataFlow])
-	case *DataFlowShape:
-		stage.OnAfterDataFlowShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataFlowShape])
-	case *DataShape:
-		stage.OnAfterDataShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataShape])
-	case *DiagramLayerState:
-		stage.OnAfterDiagramLayerStateCreateCallback = any(callback).(OnAfterCreateInterface[DiagramLayerState])
-	case *DiagramStructure:
-		stage.OnAfterDiagramStructureCreateCallback = any(callback).(OnAfterCreateInterface[DiagramStructure])
-	case *ExternalPartShape:
-		stage.OnAfterExternalPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExternalPartShape])
-	case *LayerDefinition:
-		stage.OnAfterLayerDefinitionCreateCallback = any(callback).(OnAfterCreateInterface[LayerDefinition])
-	case *Library:
-		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
-	case *Note:
-		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
-	case *NotePartShape:
-		stage.OnAfterNotePartShapeCreateCallback = any(callback).(OnAfterCreateInterface[NotePartShape])
-	case *NotePortShape:
-		stage.OnAfterNotePortShapeCreateCallback = any(callback).(OnAfterCreateInterface[NotePortShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-	case *Part:
-		stage.OnAfterPartCreateCallback = any(callback).(OnAfterCreateInterface[Part])
-	case *PartAnchoredPath:
-		stage.OnAfterPartAnchoredPathCreateCallback = any(callback).(OnAfterCreateInterface[PartAnchoredPath])
-	case *PartShape:
-		stage.OnAfterPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartShape])
-	case *Port:
-		stage.OnAfterPortCreateCallback = any(callback).(OnAfterCreateInterface[Port])
-	case *PortShape:
-		stage.OnAfterPortShapeCreateCallback = any(callback).(OnAfterCreateInterface[PortShape])
-	case *Resource:
-		stage.OnAfterResourceCreateCallback = any(callback).(OnAfterCreateInterface[Resource])
-	case *SemanticTag:
-		stage.OnAfterSemanticTagCreateCallback = any(callback).(OnAfterCreateInterface[SemanticTag])
-	case *System:
-		stage.OnAfterSystemCreateCallback = any(callback).(OnAfterCreateInterface[System])
-	case *SystemShape:
-		stage.OnAfterSystemShapeCreateCallback = any(callback).(OnAfterCreateInterface[SystemShape])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AllocatedResourceShape:
-		stage.OnAfterAllocatedResourceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedResourceShape])
-	case *AllocatedSystemShape:
-		stage.OnAfterAllocatedSystemShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedSystemShape])
-	case *ControlFlow:
-		stage.OnAfterControlFlowDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlFlow])
-	case *ControlFlowShape:
-		stage.OnAfterControlFlowShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlFlowShape])
-	case *Data:
-		stage.OnAfterDataDeleteCallback = any(callback).(OnAfterDeleteInterface[Data])
-	case *DataFlow:
-		stage.OnAfterDataFlowDeleteCallback = any(callback).(OnAfterDeleteInterface[DataFlow])
-	case *DataFlowShape:
-		stage.OnAfterDataFlowShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataFlowShape])
-	case *DataShape:
-		stage.OnAfterDataShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataShape])
-	case *DiagramLayerState:
-		stage.OnAfterDiagramLayerStateDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramLayerState])
-	case *DiagramStructure:
-		stage.OnAfterDiagramStructureDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramStructure])
-	case *ExternalPartShape:
-		stage.OnAfterExternalPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExternalPartShape])
-	case *LayerDefinition:
-		stage.OnAfterLayerDefinitionDeleteCallback = any(callback).(OnAfterDeleteInterface[LayerDefinition])
-	case *Library:
-		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
-	case *Note:
-		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
-	case *NotePartShape:
-		stage.OnAfterNotePartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NotePartShape])
-	case *NotePortShape:
-		stage.OnAfterNotePortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NotePortShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-	case *Part:
-		stage.OnAfterPartDeleteCallback = any(callback).(OnAfterDeleteInterface[Part])
-	case *PartAnchoredPath:
-		stage.OnAfterPartAnchoredPathDeleteCallback = any(callback).(OnAfterDeleteInterface[PartAnchoredPath])
-	case *PartShape:
-		stage.OnAfterPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartShape])
-	case *Port:
-		stage.OnAfterPortDeleteCallback = any(callback).(OnAfterDeleteInterface[Port])
-	case *PortShape:
-		stage.OnAfterPortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PortShape])
-	case *Resource:
-		stage.OnAfterResourceDeleteCallback = any(callback).(OnAfterDeleteInterface[Resource])
-	case *SemanticTag:
-		stage.OnAfterSemanticTagDeleteCallback = any(callback).(OnAfterDeleteInterface[SemanticTag])
-	case *System:
-		stage.OnAfterSystemDeleteCallback = any(callback).(OnAfterDeleteInterface[System])
-	case *SystemShape:
-		stage.OnAfterSystemShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SystemShape])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AllocatedResourceShape:
-		stage.OnAfterAllocatedResourceShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedResourceShape])
-	case *AllocatedSystemShape:
-		stage.OnAfterAllocatedSystemShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedSystemShape])
-	case *ControlFlow:
-		stage.OnAfterControlFlowReadCallback = any(callback).(OnAfterReadInterface[ControlFlow])
-	case *ControlFlowShape:
-		stage.OnAfterControlFlowShapeReadCallback = any(callback).(OnAfterReadInterface[ControlFlowShape])
-	case *Data:
-		stage.OnAfterDataReadCallback = any(callback).(OnAfterReadInterface[Data])
-	case *DataFlow:
-		stage.OnAfterDataFlowReadCallback = any(callback).(OnAfterReadInterface[DataFlow])
-	case *DataFlowShape:
-		stage.OnAfterDataFlowShapeReadCallback = any(callback).(OnAfterReadInterface[DataFlowShape])
-	case *DataShape:
-		stage.OnAfterDataShapeReadCallback = any(callback).(OnAfterReadInterface[DataShape])
-	case *DiagramLayerState:
-		stage.OnAfterDiagramLayerStateReadCallback = any(callback).(OnAfterReadInterface[DiagramLayerState])
-	case *DiagramStructure:
-		stage.OnAfterDiagramStructureReadCallback = any(callback).(OnAfterReadInterface[DiagramStructure])
-	case *ExternalPartShape:
-		stage.OnAfterExternalPartShapeReadCallback = any(callback).(OnAfterReadInterface[ExternalPartShape])
-	case *LayerDefinition:
-		stage.OnAfterLayerDefinitionReadCallback = any(callback).(OnAfterReadInterface[LayerDefinition])
-	case *Library:
-		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
-	case *Note:
-		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
-	case *NotePartShape:
-		stage.OnAfterNotePartShapeReadCallback = any(callback).(OnAfterReadInterface[NotePartShape])
-	case *NotePortShape:
-		stage.OnAfterNotePortShapeReadCallback = any(callback).(OnAfterReadInterface[NotePortShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-	case *Part:
-		stage.OnAfterPartReadCallback = any(callback).(OnAfterReadInterface[Part])
-	case *PartAnchoredPath:
-		stage.OnAfterPartAnchoredPathReadCallback = any(callback).(OnAfterReadInterface[PartAnchoredPath])
-	case *PartShape:
-		stage.OnAfterPartShapeReadCallback = any(callback).(OnAfterReadInterface[PartShape])
-	case *Port:
-		stage.OnAfterPortReadCallback = any(callback).(OnAfterReadInterface[Port])
-	case *PortShape:
-		stage.OnAfterPortShapeReadCallback = any(callback).(OnAfterReadInterface[PortShape])
-	case *Resource:
-		stage.OnAfterResourceReadCallback = any(callback).(OnAfterReadInterface[Resource])
-	case *SemanticTag:
-		stage.OnAfterSemanticTagReadCallback = any(callback).(OnAfterReadInterface[SemanticTag])
-	case *System:
-		stage.OnAfterSystemReadCallback = any(callback).(OnAfterReadInterface[System])
-	case *SystemShape:
-		stage.OnAfterSystemShapeReadCallback = any(callback).(OnAfterReadInterface[SystemShape])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

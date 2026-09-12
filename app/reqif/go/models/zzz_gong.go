@@ -3963,9 +3963,9 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -5428,6 +5428,11 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 
 	}
 	return
+}
+
+// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
+func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+	return stage.GetInstancesByOrderAuto[T]()
 }
 
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -7009,7 +7014,8 @@ func NewStage(name string) (stage *Stage) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+// GetOrder is the Stage method returning the order of a gongstruct instance.
+func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *ALTERNATIVE_ID:
@@ -7225,7 +7231,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	}
 }
 
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+// GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
+func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -7442,7 +7449,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	}
 }
 
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+// GetOrder is a backward-compatible forwarder.
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *ALTERNATIVE_ID:
@@ -7656,6 +7664,16 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	default:
 		return 0 // should not happen
 	}
+}
+
+// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	return stage.GetInstanceFromOrder[Type](order)
+}
+
+// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+	return stage.GetOrder(instance)
 }
 
 func (stage *Stage) GetName() string {
@@ -18545,11 +18563,17 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	set := GetGongstructInstancesSetFromPointerType[T](stage)
+// GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
+func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+	set := stage.GetInstancesSet[T]()
 	sortedSlice = SortGongstructSetByName(*set)
 
 	return
+}
+
+// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
+	return stage.GetInstancesSorted[T]()
 }
 
 type GongstructSet interface {
@@ -18560,229 +18584,8 @@ type GongstructMapString interface {
 	map[any]any
 }
 
-// GongGetSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *Stage) *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case map[*ALTERNATIVE_ID]any:
-		return any(&stage.ALTERNATIVE_IDs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_BOOLEAN]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_BOOLEANs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_BOOLEAN_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_DATE]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_DATEs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_DATE_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_DATE_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_ENUMERATION]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_ENUMERATIONs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_ENUMERATION_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_INTEGER]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_INTEGERs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_INTEGER_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_REAL]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_REALs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_REAL_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_REAL_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_STRING]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_STRINGs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_STRING_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_STRING_Renderings).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_XHTML]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_XHTMLs).(*Type)
-	case map[*ATTRIBUTE_DEFINITION_XHTML_Rendering]any:
-		return any(&stage.ATTRIBUTE_DEFINITION_XHTML_Renderings).(*Type)
-	case map[*ATTRIBUTE_VALUE_BOOLEAN]any:
-		return any(&stage.ATTRIBUTE_VALUE_BOOLEANs).(*Type)
-	case map[*ATTRIBUTE_VALUE_DATE]any:
-		return any(&stage.ATTRIBUTE_VALUE_DATEs).(*Type)
-	case map[*ATTRIBUTE_VALUE_ENUMERATION]any:
-		return any(&stage.ATTRIBUTE_VALUE_ENUMERATIONs).(*Type)
-	case map[*ATTRIBUTE_VALUE_INTEGER]any:
-		return any(&stage.ATTRIBUTE_VALUE_INTEGERs).(*Type)
-	case map[*ATTRIBUTE_VALUE_REAL]any:
-		return any(&stage.ATTRIBUTE_VALUE_REALs).(*Type)
-	case map[*ATTRIBUTE_VALUE_STRING]any:
-		return any(&stage.ATTRIBUTE_VALUE_STRINGs).(*Type)
-	case map[*ATTRIBUTE_VALUE_XHTML]any:
-		return any(&stage.ATTRIBUTE_VALUE_XHTMLs).(*Type)
-	case map[*A_ALTERNATIVE_ID]any:
-		return any(&stage.A_ALTERNATIVE_IDs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_DATE_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_DATE_REFs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_INTEGER_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_REAL_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_REAL_REFs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_STRING_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_STRING_REFs).(*Type)
-	case map[*A_ATTRIBUTE_DEFINITION_XHTML_REF]any:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_BOOLEAN]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_BOOLEANs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_DATE]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_DATEs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_ENUMERATION]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_ENUMERATIONs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_INTEGER]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_INTEGERs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_REAL]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_REALs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_STRING]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_STRINGs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_XHTML]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTMLs).(*Type)
-	case map[*A_ATTRIBUTE_VALUE_XHTML_1]any:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTML_1s).(*Type)
-	case map[*A_CHILDREN]any:
-		return any(&stage.A_CHILDRENs).(*Type)
-	case map[*A_CORE_CONTENT]any:
-		return any(&stage.A_CORE_CONTENTs).(*Type)
-	case map[*A_DATATYPES]any:
-		return any(&stage.A_DATATYPESs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_BOOLEAN_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_DATE_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_DATE_REFs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_ENUMERATION_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_INTEGER_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_INTEGER_REFs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_REAL_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_REAL_REFs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_STRING_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_STRING_REFs).(*Type)
-	case map[*A_DATATYPE_DEFINITION_XHTML_REF]any:
-		return any(&stage.A_DATATYPE_DEFINITION_XHTML_REFs).(*Type)
-	case map[*A_EDITABLE_ATTS]any:
-		return any(&stage.A_EDITABLE_ATTSs).(*Type)
-	case map[*A_ENUM_VALUE_REF]any:
-		return any(&stage.A_ENUM_VALUE_REFs).(*Type)
-	case map[*A_OBJECT]any:
-		return any(&stage.A_OBJECTs).(*Type)
-	case map[*A_PROPERTIES]any:
-		return any(&stage.A_PROPERTIESs).(*Type)
-	case map[*A_RELATION_GROUP_TYPE_REF]any:
-		return any(&stage.A_RELATION_GROUP_TYPE_REFs).(*Type)
-	case map[*A_SOURCE_1]any:
-		return any(&stage.A_SOURCE_1s).(*Type)
-	case map[*A_SOURCE_SPECIFICATION_1]any:
-		return any(&stage.A_SOURCE_SPECIFICATION_1s).(*Type)
-	case map[*A_SPECIFICATIONS]any:
-		return any(&stage.A_SPECIFICATIONSs).(*Type)
-	case map[*A_SPECIFICATION_TYPE_REF]any:
-		return any(&stage.A_SPECIFICATION_TYPE_REFs).(*Type)
-	case map[*A_SPECIFIED_VALUES]any:
-		return any(&stage.A_SPECIFIED_VALUESs).(*Type)
-	case map[*A_SPEC_ATTRIBUTES]any:
-		return any(&stage.A_SPEC_ATTRIBUTESs).(*Type)
-	case map[*A_SPEC_OBJECTS]any:
-		return any(&stage.A_SPEC_OBJECTSs).(*Type)
-	case map[*A_SPEC_OBJECT_TYPE_REF]any:
-		return any(&stage.A_SPEC_OBJECT_TYPE_REFs).(*Type)
-	case map[*A_SPEC_RELATIONS]any:
-		return any(&stage.A_SPEC_RELATIONSs).(*Type)
-	case map[*A_SPEC_RELATION_GROUPS]any:
-		return any(&stage.A_SPEC_RELATION_GROUPSs).(*Type)
-	case map[*A_SPEC_RELATION_REF]any:
-		return any(&stage.A_SPEC_RELATION_REFs).(*Type)
-	case map[*A_SPEC_RELATION_TYPE_REF]any:
-		return any(&stage.A_SPEC_RELATION_TYPE_REFs).(*Type)
-	case map[*A_SPEC_TYPES]any:
-		return any(&stage.A_SPEC_TYPESs).(*Type)
-	case map[*A_THE_HEADER]any:
-		return any(&stage.A_THE_HEADERs).(*Type)
-	case map[*A_TOOL_EXTENSIONS]any:
-		return any(&stage.A_TOOL_EXTENSIONSs).(*Type)
-	case map[*DATATYPE_DEFINITION_BOOLEAN]any:
-		return any(&stage.DATATYPE_DEFINITION_BOOLEANs).(*Type)
-	case map[*DATATYPE_DEFINITION_DATE]any:
-		return any(&stage.DATATYPE_DEFINITION_DATEs).(*Type)
-	case map[*DATATYPE_DEFINITION_ENUMERATION]any:
-		return any(&stage.DATATYPE_DEFINITION_ENUMERATIONs).(*Type)
-	case map[*DATATYPE_DEFINITION_INTEGER]any:
-		return any(&stage.DATATYPE_DEFINITION_INTEGERs).(*Type)
-	case map[*DATATYPE_DEFINITION_REAL]any:
-		return any(&stage.DATATYPE_DEFINITION_REALs).(*Type)
-	case map[*DATATYPE_DEFINITION_STRING]any:
-		return any(&stage.DATATYPE_DEFINITION_STRINGs).(*Type)
-	case map[*DATATYPE_DEFINITION_XHTML]any:
-		return any(&stage.DATATYPE_DEFINITION_XHTMLs).(*Type)
-	case map[*EMBEDDED_VALUE]any:
-		return any(&stage.EMBEDDED_VALUEs).(*Type)
-	case map[*ENUM_VALUE]any:
-		return any(&stage.ENUM_VALUEs).(*Type)
-	case map[*EmbeddedJpgImage]any:
-		return any(&stage.EmbeddedJpgImages).(*Type)
-	case map[*EmbeddedPngImage]any:
-		return any(&stage.EmbeddedPngImages).(*Type)
-	case map[*EmbeddedSvgImage]any:
-		return any(&stage.EmbeddedSvgImages).(*Type)
-	case map[*Kill]any:
-		return any(&stage.Kills).(*Type)
-	case map[*Map_identifier_bool]any:
-		return any(&stage.Map_identifier_bools).(*Type)
-	case map[*RELATION_GROUP]any:
-		return any(&stage.RELATION_GROUPs).(*Type)
-	case map[*RELATION_GROUP_TYPE]any:
-		return any(&stage.RELATION_GROUP_TYPEs).(*Type)
-	case map[*REQ_IF]any:
-		return any(&stage.REQ_IFs).(*Type)
-	case map[*REQ_IF_CONTENT]any:
-		return any(&stage.REQ_IF_CONTENTs).(*Type)
-	case map[*REQ_IF_HEADER]any:
-		return any(&stage.REQ_IF_HEADERs).(*Type)
-	case map[*REQ_IF_TOOL_EXTENSION]any:
-		return any(&stage.REQ_IF_TOOL_EXTENSIONs).(*Type)
-	case map[*SPECIFICATION]any:
-		return any(&stage.SPECIFICATIONs).(*Type)
-	case map[*SPECIFICATION_Rendering]any:
-		return any(&stage.SPECIFICATION_Renderings).(*Type)
-	case map[*SPECIFICATION_TYPE]any:
-		return any(&stage.SPECIFICATION_TYPEs).(*Type)
-	case map[*SPEC_HIERARCHY]any:
-		return any(&stage.SPEC_HIERARCHYs).(*Type)
-	case map[*SPEC_OBJECT]any:
-		return any(&stage.SPEC_OBJECTs).(*Type)
-	case map[*SPEC_OBJECT_TYPE]any:
-		return any(&stage.SPEC_OBJECT_TYPEs).(*Type)
-	case map[*SPEC_OBJECT_TYPE_Rendering]any:
-		return any(&stage.SPEC_OBJECT_TYPE_Renderings).(*Type)
-	case map[*SPEC_RELATION]any:
-		return any(&stage.SPEC_RELATIONs).(*Type)
-	case map[*SPEC_RELATION_TYPE]any:
-		return any(&stage.SPEC_RELATION_TYPEs).(*Type)
-	case map[*StaticWebSite]any:
-		return any(&stage.StaticWebSites).(*Type)
-	case map[*StaticWebSiteChapter]any:
-		return any(&stage.StaticWebSiteChapters).(*Type)
-	case map[*StaticWebSiteGeneratedImage]any:
-		return any(&stage.StaticWebSiteGeneratedImages).(*Type)
-	case map[*StaticWebSiteImage]any:
-		return any(&stage.StaticWebSiteImages).(*Type)
-	case map[*StaticWebSiteParagraph]any:
-		return any(&stage.StaticWebSiteParagraphs).(*Type)
-	case map[*XHTML_CONTENT]any:
-		return any(&stage.XHTML_CONTENTs).(*Type)
-	default:
-		return nil
-	}
-}
-
-// GongGetMap returns the map of staged Gonstruct instance by their name
-// Can be usefull if names are unique
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+// GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
+func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -19000,9 +18803,13 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	}
 }
 
-// GetGongstructInstancesSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+	return stage.GetInstancesMapByName[Type]()
+}
+
+// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
+func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -19220,9 +19027,13 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	}
 }
 
-// GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+	return stage.GetInstancesSetFromType[Type]()
+}
+
+// GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
+func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -19440,9 +19251,13 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	}
 }
 
-// GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+	return stage.GetInstancesSet[Type]()
+}
+
+// GetInstancesMap is the Stage method returning the map of staged instances.
+func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -19658,6 +19473,11 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	default:
 		return nil
 	}
+}
+
+// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -20347,7 +20167,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is the Stage method for backtrack navigation of pointer associations.
+func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -22304,13 +22125,13 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	return nil
 }
 
-// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
-// associations (0..N) between one staged Gongstruct instances and many others
-//
-// The function provides a map with keys as instances of End and values to *Start instances
-// the map is construed by iterating over all Start instances and populating keys with End instances
-// and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is a backward-compatible package-level forwarder.
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetPointerReverseMap[Start, End](fieldname)
+}
+
+// GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.
+func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -23165,6 +22986,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	}
 	return nil
+}
+
+// GetSliceOfPointersReverseMap is a backward-compatible package-level forwarder.
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetSliceOfPointersReverseMap[Start, End](fieldname)
 }
 
 // GetPointerToGongstructName returns the name of the Gongstruct

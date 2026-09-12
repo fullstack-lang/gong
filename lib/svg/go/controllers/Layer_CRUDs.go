@@ -181,7 +181,7 @@ func (controller *Controller) PostLayer(w http.ResponseWriter, r *http.Request) 
 	layer := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[layerDB.ID]
 
 	if layer != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), layer)
+		backRepo.GetStage().AfterCreateFromFront(layer)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateLayer(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	layerOld := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[layerDB.ID]
 	if layerOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), layerOld, layerNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(layerOld, layerNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteLayer(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	layerStaged := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[layerDB.ID]
 	if layerStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), layerStaged, layerDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(layerStaged, layerDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

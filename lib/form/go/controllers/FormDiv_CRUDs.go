@@ -181,7 +181,7 @@ func (controller *Controller) PostFormDiv(w http.ResponseWriter, r *http.Request
 	formdiv := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[formdivDB.ID]
 
 	if formdiv != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formdiv)
+		backRepo.GetStage().AfterCreateFromFront(formdiv)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormDiv(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	formdivOld := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[formdivDB.ID]
 	if formdivOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formdivOld, formdivNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(formdivOld, formdivNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormDiv(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	formdivStaged := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[formdivDB.ID]
 	if formdivStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formdivStaged, formdivDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(formdivStaged, formdivDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

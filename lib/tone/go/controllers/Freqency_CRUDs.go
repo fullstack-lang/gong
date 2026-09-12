@@ -181,7 +181,7 @@ func (controller *Controller) PostFreqency(w http.ResponseWriter, r *http.Reques
 	freqency := backRepo.BackRepoFreqency.Map_FreqencyDBID_FreqencyPtr[freqencyDB.ID]
 
 	if freqency != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), freqency)
+		backRepo.GetStage().AfterCreateFromFront(freqency)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFreqency(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	freqencyOld := backRepo.BackRepoFreqency.Map_FreqencyDBID_FreqencyPtr[freqencyDB.ID]
 	if freqencyOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), freqencyOld, freqencyNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(freqencyOld, freqencyNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFreqency(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	freqencyStaged := backRepo.BackRepoFreqency.Map_FreqencyDBID_FreqencyPtr[freqencyDB.ID]
 	if freqencyStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), freqencyStaged, freqencyDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(freqencyStaged, freqencyDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

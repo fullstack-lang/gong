@@ -181,7 +181,7 @@ func (controller *Controller) PostRow(w http.ResponseWriter, r *http.Request) {
 	row := backRepo.BackRepoRow.Map_RowDBID_RowPtr[rowDB.ID]
 
 	if row != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), row)
+		backRepo.GetStage().AfterCreateFromFront(row)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateRow(w http.ResponseWriter, r *http.Request) 
 	// get stage instance from DB instance, and call callback function
 	rowOld := backRepo.BackRepoRow.Map_RowDBID_RowPtr[rowDB.ID]
 	if rowOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), rowOld, rowNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(rowOld, rowNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteRow(w http.ResponseWriter, r *http.Request) 
 	// get stage instance from DB instance, and call callback function
 	rowStaged := backRepo.BackRepoRow.Map_RowDBID_RowPtr[rowDB.ID]
 	if rowStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), rowStaged, rowDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(rowStaged, rowDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

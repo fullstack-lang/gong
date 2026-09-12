@@ -181,7 +181,7 @@ func (controller *Controller) PostNote(w http.ResponseWriter, r *http.Request) {
 	note := backRepo.BackRepoNote.Map_NoteDBID_NotePtr[noteDB.ID]
 
 	if note != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), note)
+		backRepo.GetStage().AfterCreateFromFront(note)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateNote(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	noteOld := backRepo.BackRepoNote.Map_NoteDBID_NotePtr[noteDB.ID]
 	if noteOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), noteOld, noteNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(noteOld, noteNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteNote(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	noteStaged := backRepo.BackRepoNote.Map_NoteDBID_NotePtr[noteDB.ID]
 	if noteStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), noteStaged, noteDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(noteStaged, noteDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

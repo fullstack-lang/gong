@@ -181,7 +181,7 @@ func (controller *Controller) PostSvgImage(w http.ResponseWriter, r *http.Reques
 	svgimage := backRepo.BackRepoSvgImage.Map_SvgImageDBID_SvgImagePtr[svgimageDB.ID]
 
 	if svgimage != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), svgimage)
+		backRepo.GetStage().AfterCreateFromFront(svgimage)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateSvgImage(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	svgimageOld := backRepo.BackRepoSvgImage.Map_SvgImageDBID_SvgImagePtr[svgimageDB.ID]
 	if svgimageOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), svgimageOld, svgimageNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(svgimageOld, svgimageNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteSvgImage(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	svgimageStaged := backRepo.BackRepoSvgImage.Map_SvgImageDBID_SvgImagePtr[svgimageDB.ID]
 	if svgimageStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), svgimageStaged, svgimageDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(svgimageStaged, svgimageDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

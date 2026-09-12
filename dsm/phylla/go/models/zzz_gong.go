@@ -5385,9 +5385,9 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -7438,6 +7438,11 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 
 	}
 	return
+}
+
+// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
+func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+	return stage.GetInstancesByOrderAuto[T]()
 }
 
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -9607,7 +9612,8 @@ func NewStage(name string) (stage *Stage) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+// GetOrder is the Stage method returning the order of a gongstruct instance.
+func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Angle0Shape:
@@ -9907,7 +9913,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	}
 }
 
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+// GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
+func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -10208,7 +10215,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	}
 }
 
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+// GetOrder is a backward-compatible forwarder.
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Angle0Shape:
@@ -10506,6 +10514,16 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	default:
 		return 0 // should not happen
 	}
+}
+
+// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	return stage.GetInstanceFromOrder[Type](order)
+}
+
+// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+	return stage.GetOrder(instance)
 }
 
 func (stage *Stage) GetName() string {
@@ -25721,11 +25739,17 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	set := GetGongstructInstancesSetFromPointerType[T](stage)
+// GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
+func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+	set := stage.GetInstancesSet[T]()
 	sortedSlice = SortGongstructSetByName(*set)
 
 	return
+}
+
+// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
+	return stage.GetInstancesSorted[T]()
 }
 
 type GongstructSet interface {
@@ -25736,313 +25760,8 @@ type GongstructMapString interface {
 	map[any]any
 }
 
-// GongGetSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *Stage) *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case map[*Angle0Shape]any:
-		return any(&stage.Angle0Shapes).(*Type)
-	case map[*ArcNormalVectorShape]any:
-		return any(&stage.ArcNormalVectorShapes).(*Type)
-	case map[*ArcNormalVectorShapeGrid]any:
-		return any(&stage.ArcNormalVectorShapeGrids).(*Type)
-	case map[*AxesShape]any:
-		return any(&stage.AxesShapes).(*Type)
-	case map[*BaseVectorShape]any:
-		return any(&stage.BaseVectorShapes).(*Type)
-	case map[*BaseVectorShapeGrid]any:
-		return any(&stage.BaseVectorShapeGrids).(*Type)
-	case map[*ChosenP1P2PairShape]any:
-		return any(&stage.ChosenP1P2PairShapes).(*Type)
-	case map[*CircleGridShape]any:
-		return any(&stage.CircleGridShapes).(*Type)
-	case map[*Circumference3DShape]any:
-		return any(&stage.Circumference3DShapes).(*Type)
-	case map[*Clock2DDiagram]any:
-		return any(&stage.Clock2DDiagrams).(*Type)
-	case map[*Clock3DDiagram]any:
-		return any(&stage.Clock3DDiagrams).(*Type)
-	case map[*ClockAbstract]any:
-		return any(&stage.ClockAbstracts).(*Type)
-	case map[*ClockTopCurveShape]any:
-		return any(&stage.ClockTopCurveShapes).(*Type)
-	case map[*CutLine3DShape]any:
-		return any(&stage.CutLine3DShapes).(*Type)
-	case map[*EndArcShape]any:
-		return any(&stage.EndArcShapes).(*Type)
-	case map[*EndArcShapeGrid]any:
-		return any(&stage.EndArcShapeGrids).(*Type)
-	case map[*EndHalfwayArcShape]any:
-		return any(&stage.EndHalfwayArcShapes).(*Type)
-	case map[*EndHalfwayArcShapeGrid]any:
-		return any(&stage.EndHalfwayArcShapeGrids).(*Type)
-	case map[*ExplanationTextShape]any:
-		return any(&stage.ExplanationTextShapes).(*Type)
-	case map[*Eye3DShape]any:
-		return any(&stage.Eye3DShapes).(*Type)
-	case map[*EyeCornersSampledPoints3DShape]any:
-		return any(&stage.EyeCornersSampledPoints3DShapes).(*Type)
-	case map[*EyeSampledPoints3DShape]any:
-		return any(&stage.EyeSampledPoints3DShapes).(*Type)
-	case map[*EyeSeatBottomCurveShape]any:
-		return any(&stage.EyeSeatBottomCurveShapes).(*Type)
-	case map[*EyeStoolBottomCurveShape]any:
-		return any(&stage.EyeStoolBottomCurveShapes).(*Type)
-	case map[*EyeVolume3DShape]any:
-		return any(&stage.EyeVolume3DShapes).(*Type)
-	case map[*GridPathShape]any:
-		return any(&stage.GridPathShapes).(*Type)
-	case map[*GrowthCurve2D]any:
-		return any(&stage.GrowthCurve2Ds).(*Type)
-	case map[*GrowthCurve2DRibbon]any:
-		return any(&stage.GrowthCurve2DRibbons).(*Type)
-	case map[*GrowthCurve2DRibbonEndShape]any:
-		return any(&stage.GrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*GrowthCurve2DRibbonStartShape]any:
-		return any(&stage.GrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*GrowthCurveRhombusGridShape]any:
-		return any(&stage.GrowthCurveRhombusGridShapes).(*Type)
-	case map[*GrowthCurveRhombusShape]any:
-		return any(&stage.GrowthCurveRhombusShapes).(*Type)
-	case map[*GrowthVectorShape]any:
-		return any(&stage.GrowthVectorShapes).(*Type)
-	case map[*InitialRhombusGridShape]any:
-		return any(&stage.InitialRhombusGridShapes).(*Type)
-	case map[*InitialRhombusShape]any:
-		return any(&stage.InitialRhombusShapes).(*Type)
-	case map[*Key3DShape]any:
-		return any(&stage.Key3DShapes).(*Type)
-	case map[*KeyHole3DShape]any:
-		return any(&stage.KeyHole3DShapes).(*Type)
-	case map[*KeyHoleShape]any:
-		return any(&stage.KeyHoleShapes).(*Type)
-	case map[*Leaves3DShape]any:
-		return any(&stage.Leaves3DShapes).(*Type)
-	case map[*Library]any:
-		return any(&stage.Librarys).(*Type)
-	case map[*MidArcVectorShape]any:
-		return any(&stage.MidArcVectorShapes).(*Type)
-	case map[*MidArcVectorShapeGrid]any:
-		return any(&stage.MidArcVectorShapeGrids).(*Type)
-	case map[*MusicAbstract]any:
-		return any(&stage.MusicAbstracts).(*Type)
-	case map[*OriginalPoints3DShape]any:
-		return any(&stage.OriginalPoints3DShapes).(*Type)
-	case map[*ParastichyMCurves3DShape]any:
-		return any(&stage.ParastichyMCurves3DShapes).(*Type)
-	case map[*ParastichyNCurves3DShape]any:
-		return any(&stage.ParastichyNCurves3DShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DRibbon]any:
-		return any(&stage.PartiallyGrowthCurve2DRibbons).(*Type)
-	case map[*PartiallyGrowthCurve2DRibbonEndShape]any:
-		return any(&stage.PartiallyGrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DRibbonStartShape]any:
-		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectory]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectorys).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryP1P2]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*Type)
-	case map[*PartiallyGrowthCurve2DTrajectoryShape]any:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*Type)
-	case map[*PartiallyRotatedSeatBottomCurveShape]any:
-		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*Type)
-	case map[*PartiallyRotatedSeatTopCurveShape]any:
-		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*Type)
-	case map[*PartiallyRotatedTorusShape]any:
-		return any(&stage.PartiallyRotatedTorusShapes).(*Type)
-	case map[*PerpendicularVector]any:
-		return any(&stage.PerpendicularVectors).(*Type)
-	case map[*PerpendicularVectorGrid]any:
-		return any(&stage.PerpendicularVectorGrids).(*Type)
-	case map[*PerpendicularVectorGridHalfway]any:
-		return any(&stage.PerpendicularVectorGridHalfways).(*Type)
-	case map[*PerpendicularVectorHalfway]any:
-		return any(&stage.PerpendicularVectorHalfways).(*Type)
-	case map[*Plant2DDiagram]any:
-		return any(&stage.Plant2DDiagrams).(*Type)
-	case map[*Plant3DDiagram]any:
-		return any(&stage.Plant3DDiagrams).(*Type)
-	case map[*PlantAbstract]any:
-		return any(&stage.PlantAbstracts).(*Type)
-	case map[*PlantCircumferenceShape]any:
-		return any(&stage.PlantCircumferenceShapes).(*Type)
-	case map[*PointsAndLines3DShape]any:
-		return any(&stage.PointsAndLines3DShapes).(*Type)
-	case map[*PxShape]any:
-		return any(&stage.PxShapes).(*Type)
-	case map[*Rendered3DShape]any:
-		return any(&stage.Rendered3DShapes).(*Type)
-	case map[*RhombusShape]any:
-		return any(&stage.RhombusShapes).(*Type)
-	case map[*RhombusStuff]any:
-		return any(&stage.RhombusStuffs).(*Type)
-	case map[*RotatedRhombusGridShape]any:
-		return any(&stage.RotatedRhombusGridShapes).(*Type)
-	case map[*RotatedRhombusShape]any:
-		return any(&stage.RotatedRhombusShapes).(*Type)
-	case map[*RotatedSampledPoints3DShape]any:
-		return any(&stage.RotatedSampledPoints3DShapes).(*Type)
-	case map[*RotatedSeatAndLegs3DShape]any:
-		return any(&stage.RotatedSeatAndLegs3DShapes).(*Type)
-	case map[*SampledPoints3DShape]any:
-		return any(&stage.SampledPoints3DShapes).(*Type)
-	case map[*Seat3DShape]any:
-		return any(&stage.Seat3DShapes).(*Type)
-	case map[*SeatAndLegs3DShape]any:
-		return any(&stage.SeatAndLegs3DShapes).(*Type)
-	case map[*SeatBottomCurveShape]any:
-		return any(&stage.SeatBottomCurveShapes).(*Type)
-	case map[*SeatTopCurveShape]any:
-		return any(&stage.SeatTopCurveShapes).(*Type)
-	case map[*ShiftedBottomTopStartArcShape]any:
-		return any(&stage.ShiftedBottomTopStartArcShapes).(*Type)
-	case map[*ShiftedBottomTopStartArcShapeGrid]any:
-		return any(&stage.ShiftedBottomTopStartArcShapeGrids).(*Type)
-	case map[*ShiftedLeftGrowthCurve2DRibbon]any:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbons).(*Type)
-	case map[*ShiftedLeftGrowthCurve2DRibbonEndShape]any:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*ShiftedLeftGrowthCurve2DRibbonStartShape]any:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*ShiftedLeftPartiallyGrowthCurve2DRibbon]any:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbons).(*Type)
-	case map[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]any:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]any:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*ShiftedLeftStackGrowthCurveEndArcShape]any:
-		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*Type)
-	case map[*ShiftedLeftStackGrowthCurveStartArcShape]any:
-		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes).(*Type)
-	case map[*ShiftedLeftStackNormalVector]any:
-		return any(&stage.ShiftedLeftStackNormalVectors).(*Type)
-	case map[*ShiftedLeftStackOfGrowthCurve]any:
-		return any(&stage.ShiftedLeftStackOfGrowthCurves).(*Type)
-	case map[*ShiftedLeftStackOfNormalVector]any:
-		return any(&stage.ShiftedLeftStackOfNormalVectors).(*Type)
-	case map[*ShiftedRightGrowthCurve2DRibbon]any:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbons).(*Type)
-	case map[*ShiftedRightGrowthCurve2DRibbonEndShape]any:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*ShiftedRightGrowthCurve2DRibbonStartShape]any:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*StackGrowthCurve2DEndHalfwayArcShape]any:
-		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes).(*Type)
-	case map[*StackGrowthCurve2DRibbonEndShape]any:
-		return any(&stage.StackGrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*StackGrowthCurve2DRibbonStartShape]any:
-		return any(&stage.StackGrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*StackGrowthCurve2DStartHalfwayArcShape]any:
-		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*Type)
-	case map[*StackOfGrowthCurve2D]any:
-		return any(&stage.StackOfGrowthCurve2Ds).(*Type)
-	case map[*StackOfGrowthCurve2DByGrowthVector]any:
-		return any(&stage.StackOfGrowthCurve2DByGrowthVectors).(*Type)
-	case map[*StackOfGrowthCurve2DRibbon]any:
-		return any(&stage.StackOfGrowthCurve2DRibbons).(*Type)
-	case map[*StackOfPartiallyRotatedTorusShape]any:
-		return any(&stage.StackOfPartiallyRotatedTorusShapes).(*Type)
-	case map[*StackOfRotatedGrowthCurve2D]any:
-		return any(&stage.StackOfRotatedGrowthCurve2Ds).(*Type)
-	case map[*StackOfRotatedGrowthCurve2DRibbon]any:
-		return any(&stage.StackOfRotatedGrowthCurve2DRibbons).(*Type)
-	case map[*StackRotatedGrowthCurve2DEndArcShape]any:
-		return any(&stage.StackRotatedGrowthCurve2DEndArcShapes).(*Type)
-	case map[*StackRotatedGrowthCurve2DRibbonEndShape]any:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonEndShapes).(*Type)
-	case map[*StackRotatedGrowthCurve2DRibbonStartShape]any:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonStartShapes).(*Type)
-	case map[*StackRotatedGrowthCurve2DStartArcShape]any:
-		return any(&stage.StackRotatedGrowthCurve2DStartArcShapes).(*Type)
-	case map[*StartArcShape]any:
-		return any(&stage.StartArcShapes).(*Type)
-	case map[*StartArcShapeGrid]any:
-		return any(&stage.StartArcShapeGrids).(*Type)
-	case map[*StartHalfwayArcShape]any:
-		return any(&stage.StartHalfwayArcShapes).(*Type)
-	case map[*StartHalfwayArcShapeGrid]any:
-		return any(&stage.StartHalfwayArcShapeGrids).(*Type)
-	case map[*StemCylinder3DShape]any:
-		return any(&stage.StemCylinder3DShapes).(*Type)
-	case map[*Stool2DDiagram]any:
-		return any(&stage.Stool2DDiagrams).(*Type)
-	case map[*Stool3DDiagram]any:
-		return any(&stage.Stool3DDiagrams).(*Type)
-	case map[*StoolAbstract]any:
-		return any(&stage.StoolAbstracts).(*Type)
-	case map[*TiledFloor3DShape]any:
-		return any(&stage.TiledFloor3DShapes).(*Type)
-	case map[*TopEndArcShape]any:
-		return any(&stage.TopEndArcShapes).(*Type)
-	case map[*TopEndArcShapeGrid]any:
-		return any(&stage.TopEndArcShapeGrids).(*Type)
-	case map[*TopEndHalfwayArcShape]any:
-		return any(&stage.TopEndHalfwayArcShapes).(*Type)
-	case map[*TopEndHalfwayArcShapeGrid]any:
-		return any(&stage.TopEndHalfwayArcShapeGrids).(*Type)
-	case map[*TopGrowthCurve2D]any:
-		return any(&stage.TopGrowthCurve2Ds).(*Type)
-	case map[*TopMidArcVectorShape]any:
-		return any(&stage.TopMidArcVectorShapes).(*Type)
-	case map[*TopMidArcVectorShapeGrid]any:
-		return any(&stage.TopMidArcVectorShapeGrids).(*Type)
-	case map[*TopStackGrowthCurve2DEndHalfwayArcShape]any:
-		return any(&stage.TopStackGrowthCurve2DEndHalfwayArcShapes).(*Type)
-	case map[*TopStackGrowthCurve2DStartHalfwayArcShape]any:
-		return any(&stage.TopStackGrowthCurve2DStartHalfwayArcShapes).(*Type)
-	case map[*TopStackOfGrowthCurve2D]any:
-		return any(&stage.TopStackOfGrowthCurve2Ds).(*Type)
-	case map[*TopStackOfRotatedGrowthCurve2D]any:
-		return any(&stage.TopStackOfRotatedGrowthCurve2Ds).(*Type)
-	case map[*TopStackOfRotatedGrowthCurve2DEndArcShape]any:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DEndArcShapes).(*Type)
-	case map[*TopStackOfRotatedGrowthCurve2DStartArcShape]any:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DStartArcShapes).(*Type)
-	case map[*TopStartArcShape]any:
-		return any(&stage.TopStartArcShapes).(*Type)
-	case map[*TopStartArcShapeGrid]any:
-		return any(&stage.TopStartArcShapeGrids).(*Type)
-	case map[*TopStartHalfwayArcShape]any:
-		return any(&stage.TopStartHalfwayArcShapes).(*Type)
-	case map[*TopStartHalfwayArcShapeGrid]any:
-		return any(&stage.TopStartHalfwayArcShapeGrids).(*Type)
-	case map[*Torus3DShape]any:
-		return any(&stage.Torus3DShapes).(*Type)
-	case map[*TorusEdge3DShape]any:
-		return any(&stage.TorusEdge3DShapes).(*Type)
-	case map[*TorusStackShape]any:
-		return any(&stage.TorusStackShapes).(*Type)
-	case map[*Vase2DDiagram]any:
-		return any(&stage.Vase2DDiagrams).(*Type)
-	case map[*Vase3DDiagram]any:
-		return any(&stage.Vase3DDiagrams).(*Type)
-	case map[*VaseAbstract]any:
-		return any(&stage.VaseAbstracts).(*Type)
-	case map[*VerticalTorusStackShape]any:
-		return any(&stage.VerticalTorusStackShapes).(*Type)
-	case map[*VolumeKey3DShape]any:
-		return any(&stage.VolumeKey3DShapes).(*Type)
-	default:
-		return nil
-	}
-}
-
-// GongGetMap returns the map of staged Gonstruct instance by their name
-// Can be usefull if names are unique
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+// GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
+func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -26344,9 +26063,13 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	}
 }
 
-// GetGongstructInstancesSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+	return stage.GetInstancesMapByName[Type]()
+}
+
+// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
+func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -26648,9 +26371,13 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	}
 }
 
-// GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+	return stage.GetInstancesSetFromType[Type]()
+}
+
+// GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
+func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -26952,9 +26679,13 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	}
 }
 
-// GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+	return stage.GetInstancesSet[Type]()
+}
+
+// GetInstancesMap is the Stage method returning the map of staged instances.
+func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -27254,6 +26985,11 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	default:
 		return nil
 	}
+}
+
+// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -28181,7 +27917,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is the Stage method for backtrack navigation of pointer associations.
+func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -30637,13 +30374,13 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	return nil
 }
 
-// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
-// associations (0..N) between one staged Gongstruct instances and many others
-//
-// The function provides a map with keys as instances of End and values to *Start instances
-// the map is construed by iterating over all Start instances and populating keys with End instances
-// and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is a backward-compatible package-level forwarder.
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetPointerReverseMap[Start, End](fieldname)
+}
+
+// GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.
+func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -31852,6 +31589,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	}
 	return nil
+}
+
+// GetSliceOfPointersReverseMap is a backward-compatible package-level forwarder.
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetSliceOfPointersReverseMap[Start, End](fieldname)
 }
 
 // GetPointerToGongstructName returns the name of the Gongstruct

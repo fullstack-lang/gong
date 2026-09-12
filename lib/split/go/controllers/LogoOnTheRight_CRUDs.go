@@ -181,7 +181,7 @@ func (controller *Controller) PostLogoOnTheRight(w http.ResponseWriter, r *http.
 	logoontheright := backRepo.BackRepoLogoOnTheRight.Map_LogoOnTheRightDBID_LogoOnTheRightPtr[logoontherightDB.ID]
 
 	if logoontheright != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), logoontheright)
+		backRepo.GetStage().AfterCreateFromFront(logoontheright)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateLogoOnTheRight(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	logoontherightOld := backRepo.BackRepoLogoOnTheRight.Map_LogoOnTheRightDBID_LogoOnTheRightPtr[logoontherightDB.ID]
 	if logoontherightOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), logoontherightOld, logoontherightNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(logoontherightOld, logoontherightNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteLogoOnTheRight(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	logoontherightStaged := backRepo.BackRepoLogoOnTheRight.Map_LogoOnTheRightDBID_LogoOnTheRightPtr[logoontherightDB.ID]
 	if logoontherightStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), logoontherightStaged, logoontherightDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(logoontherightStaged, logoontherightDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

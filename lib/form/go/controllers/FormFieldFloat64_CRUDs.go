@@ -181,7 +181,7 @@ func (controller *Controller) PostFormFieldFloat64(w http.ResponseWriter, r *htt
 	formfieldfloat64 := backRepo.BackRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64Ptr[formfieldfloat64DB.ID]
 
 	if formfieldfloat64 != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formfieldfloat64)
+		backRepo.GetStage().AfterCreateFromFront(formfieldfloat64)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormFieldFloat64(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	formfieldfloat64Old := backRepo.BackRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64Ptr[formfieldfloat64DB.ID]
 	if formfieldfloat64Old != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formfieldfloat64Old, formfieldfloat64New)
+		backRepo.GetStage().OnAfterUpdateFromFront(formfieldfloat64Old, formfieldfloat64New)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormFieldFloat64(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	formfieldfloat64Staged := backRepo.BackRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64Ptr[formfieldfloat64DB.ID]
 	if formfieldfloat64Staged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formfieldfloat64Staged, formfieldfloat64Deleted)
+		backRepo.GetStage().AfterDeleteFromFront(formfieldfloat64Staged, formfieldfloat64Deleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -24,35 +24,35 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*AnalysisNeed](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Concept](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ConceptShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Concern](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ConcernCompositionShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ConcernInputShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ConcernOutputShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ConcernShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ControlPointShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Deliverable](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*DeliverableCompositionShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*DeliverableConceptShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*DeliverableShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*DiagramShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Note](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*NoteDeliverableShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*NoteShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*NoteStakeholderShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*NoteTaskShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Requirement](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RequirementShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Stakeholder](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*StakeholderCompositionShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*StakeholderConcernShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*StakeholderShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*SupportLevel](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Tool](stage, f, addIDs)
+		stage.SerializeExcelizePointer2[*AnalysisNeed](f, addIDs)
+		stage.SerializeExcelizePointer2[*Concept](f, addIDs)
+		stage.SerializeExcelizePointer2[*ConceptShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*Concern](f, addIDs)
+		stage.SerializeExcelizePointer2[*ConcernCompositionShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*ConcernInputShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*ConcernOutputShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*ConcernShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*ControlPointShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*Deliverable](f, addIDs)
+		stage.SerializeExcelizePointer2[*DeliverableCompositionShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*DeliverableConceptShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*DeliverableShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*Diagram](f, addIDs)
+		stage.SerializeExcelizePointer2[*DiagramShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*Library](f, addIDs)
+		stage.SerializeExcelizePointer2[*Note](f, addIDs)
+		stage.SerializeExcelizePointer2[*NoteDeliverableShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*NoteShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*NoteStakeholderShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*NoteTaskShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*Requirement](f, addIDs)
+		stage.SerializeExcelizePointer2[*RequirementShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*Stakeholder](f, addIDs)
+		stage.SerializeExcelizePointer2[*StakeholderCompositionShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*StakeholderConcernShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*StakeholderShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*SupportLevel](f, addIDs)
+		stage.SerializeExcelizePointer2[*Tool](f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
@@ -232,11 +232,13 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
-	SerializeExcelizePointerToGongstruct2[Type](stage, f, false)
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
 }
 
-func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	sheetName = shortenString(sheetName)
@@ -244,7 +246,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *GetGongstructInstancesSetFromPointerType[Type](stage)
+	set := *stage.GetInstancesSet[Type]()
 
 	var sortedSlice []Type
 	for key := range set {
@@ -346,4 +348,14 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
+}
+
+// SerializeExcelizePointerToGongstruct is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
+	stage.SerializeExcelizePointer[Type](f)
+}
+
+// SerializeExcelizePointerToGongstruct2 is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+	stage.SerializeExcelizePointer2[Type](f, addIDs)
 }

@@ -181,7 +181,7 @@ func (controller *Controller) PostPath(w http.ResponseWriter, r *http.Request) {
 	path := backRepo.BackRepoPath.Map_PathDBID_PathPtr[pathDB.ID]
 
 	if path != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), path)
+		backRepo.GetStage().AfterCreateFromFront(path)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdatePath(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	pathOld := backRepo.BackRepoPath.Map_PathDBID_PathPtr[pathDB.ID]
 	if pathOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), pathOld, pathNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(pathOld, pathNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeletePath(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	pathStaged := backRepo.BackRepoPath.Map_PathDBID_PathPtr[pathDB.ID]
 	if pathStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), pathStaged, pathDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(pathStaged, pathDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

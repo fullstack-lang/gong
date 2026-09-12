@@ -181,7 +181,7 @@ func (controller *Controller) PostCamera(w http.ResponseWriter, r *http.Request)
 	camera := backRepo.BackRepoCamera.Map_CameraDBID_CameraPtr[cameraDB.ID]
 
 	if camera != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), camera)
+		backRepo.GetStage().AfterCreateFromFront(camera)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCamera(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	cameraOld := backRepo.BackRepoCamera.Map_CameraDBID_CameraPtr[cameraDB.ID]
 	if cameraOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), cameraOld, cameraNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(cameraOld, cameraNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCamera(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	cameraStaged := backRepo.BackRepoCamera.Map_CameraDBID_CameraPtr[cameraDB.ID]
 	if cameraStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), cameraStaged, cameraDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(cameraStaged, cameraDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

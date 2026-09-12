@@ -181,7 +181,7 @@ func (controller *Controller) PostRectAnchoredPngImage(w http.ResponseWriter, r 
 	rectanchoredpngimage := backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[rectanchoredpngimageDB.ID]
 
 	if rectanchoredpngimage != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), rectanchoredpngimage)
+		backRepo.GetStage().AfterCreateFromFront(rectanchoredpngimage)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateRectAnchoredPngImage(w http.ResponseWriter, 
 	// get stage instance from DB instance, and call callback function
 	rectanchoredpngimageOld := backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[rectanchoredpngimageDB.ID]
 	if rectanchoredpngimageOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), rectanchoredpngimageOld, rectanchoredpngimageNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(rectanchoredpngimageOld, rectanchoredpngimageNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteRectAnchoredPngImage(w http.ResponseWriter, 
 	// get stage instance from DB instance, and call callback function
 	rectanchoredpngimageStaged := backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[rectanchoredpngimageDB.ID]
 	if rectanchoredpngimageStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), rectanchoredpngimageStaged, rectanchoredpngimageDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(rectanchoredpngimageStaged, rectanchoredpngimageDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

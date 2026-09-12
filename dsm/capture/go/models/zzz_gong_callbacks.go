@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -127,12 +127,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -286,8 +291,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -441,390 +451,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *AnalysisNeed:
-		if stage.OnAfterAnalysisNeedReadCallback != nil {
-			stage.OnAfterAnalysisNeedReadCallback.OnAfterRead(stage, target)
-		}
-	case *Concept:
-		if stage.OnAfterConceptReadCallback != nil {
-			stage.OnAfterConceptReadCallback.OnAfterRead(stage, target)
-		}
-	case *ConceptShape:
-		if stage.OnAfterConceptShapeReadCallback != nil {
-			stage.OnAfterConceptShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Concern:
-		if stage.OnAfterConcernReadCallback != nil {
-			stage.OnAfterConcernReadCallback.OnAfterRead(stage, target)
-		}
-	case *ConcernCompositionShape:
-		if stage.OnAfterConcernCompositionShapeReadCallback != nil {
-			stage.OnAfterConcernCompositionShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ConcernInputShape:
-		if stage.OnAfterConcernInputShapeReadCallback != nil {
-			stage.OnAfterConcernInputShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ConcernOutputShape:
-		if stage.OnAfterConcernOutputShapeReadCallback != nil {
-			stage.OnAfterConcernOutputShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ConcernShape:
-		if stage.OnAfterConcernShapeReadCallback != nil {
-			stage.OnAfterConcernShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ControlPointShape:
-		if stage.OnAfterControlPointShapeReadCallback != nil {
-			stage.OnAfterControlPointShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Deliverable:
-		if stage.OnAfterDeliverableReadCallback != nil {
-			stage.OnAfterDeliverableReadCallback.OnAfterRead(stage, target)
-		}
-	case *DeliverableCompositionShape:
-		if stage.OnAfterDeliverableCompositionShapeReadCallback != nil {
-			stage.OnAfterDeliverableCompositionShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *DeliverableConceptShape:
-		if stage.OnAfterDeliverableConceptShapeReadCallback != nil {
-			stage.OnAfterDeliverableConceptShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *DeliverableShape:
-		if stage.OnAfterDeliverableShapeReadCallback != nil {
-			stage.OnAfterDeliverableShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Diagram:
-		if stage.OnAfterDiagramReadCallback != nil {
-			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
-		}
-	case *DiagramShape:
-		if stage.OnAfterDiagramShapeReadCallback != nil {
-			stage.OnAfterDiagramShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Library:
-		if stage.OnAfterLibraryReadCallback != nil {
-			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Note:
-		if stage.OnAfterNoteReadCallback != nil {
-			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteDeliverableShape:
-		if stage.OnAfterNoteDeliverableShapeReadCallback != nil {
-			stage.OnAfterNoteDeliverableShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteShape:
-		if stage.OnAfterNoteShapeReadCallback != nil {
-			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteStakeholderShape:
-		if stage.OnAfterNoteStakeholderShapeReadCallback != nil {
-			stage.OnAfterNoteStakeholderShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteTaskShape:
-		if stage.OnAfterNoteTaskShapeReadCallback != nil {
-			stage.OnAfterNoteTaskShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Requirement:
-		if stage.OnAfterRequirementReadCallback != nil {
-			stage.OnAfterRequirementReadCallback.OnAfterRead(stage, target)
-		}
-	case *RequirementShape:
-		if stage.OnAfterRequirementShapeReadCallback != nil {
-			stage.OnAfterRequirementShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Stakeholder:
-		if stage.OnAfterStakeholderReadCallback != nil {
-			stage.OnAfterStakeholderReadCallback.OnAfterRead(stage, target)
-		}
-	case *StakeholderCompositionShape:
-		if stage.OnAfterStakeholderCompositionShapeReadCallback != nil {
-			stage.OnAfterStakeholderCompositionShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *StakeholderConcernShape:
-		if stage.OnAfterStakeholderConcernShapeReadCallback != nil {
-			stage.OnAfterStakeholderConcernShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *StakeholderShape:
-		if stage.OnAfterStakeholderShapeReadCallback != nil {
-			stage.OnAfterStakeholderShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *SupportLevel:
-		if stage.OnAfterSupportLevelReadCallback != nil {
-			stage.OnAfterSupportLevelReadCallback.OnAfterRead(stage, target)
-		}
-	case *Tool:
-		if stage.OnAfterToolReadCallback != nil {
-			stage.OnAfterToolReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AnalysisNeed:
-		stage.OnAfterAnalysisNeedUpdateCallback = any(callback).(OnAfterUpdateInterface[AnalysisNeed])
-	case *Concept:
-		stage.OnAfterConceptUpdateCallback = any(callback).(OnAfterUpdateInterface[Concept])
-	case *ConceptShape:
-		stage.OnAfterConceptShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConceptShape])
-	case *Concern:
-		stage.OnAfterConcernUpdateCallback = any(callback).(OnAfterUpdateInterface[Concern])
-	case *ConcernCompositionShape:
-		stage.OnAfterConcernCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernCompositionShape])
-	case *ConcernInputShape:
-		stage.OnAfterConcernInputShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernInputShape])
-	case *ConcernOutputShape:
-		stage.OnAfterConcernOutputShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernOutputShape])
-	case *ConcernShape:
-		stage.OnAfterConcernShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlPointShape])
-	case *Deliverable:
-		stage.OnAfterDeliverableUpdateCallback = any(callback).(OnAfterUpdateInterface[Deliverable])
-	case *DeliverableCompositionShape:
-		stage.OnAfterDeliverableCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DeliverableCompositionShape])
-	case *DeliverableConceptShape:
-		stage.OnAfterDeliverableConceptShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DeliverableConceptShape])
-	case *DeliverableShape:
-		stage.OnAfterDeliverableShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DeliverableShape])
-	case *Diagram:
-		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
-	case *DiagramShape:
-		stage.OnAfterDiagramShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramShape])
-	case *Library:
-		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
-	case *Note:
-		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
-	case *NoteDeliverableShape:
-		stage.OnAfterNoteDeliverableShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteDeliverableShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-	case *NoteStakeholderShape:
-		stage.OnAfterNoteStakeholderShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteStakeholderShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteTaskShape])
-	case *Requirement:
-		stage.OnAfterRequirementUpdateCallback = any(callback).(OnAfterUpdateInterface[Requirement])
-	case *RequirementShape:
-		stage.OnAfterRequirementShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RequirementShape])
-	case *Stakeholder:
-		stage.OnAfterStakeholderUpdateCallback = any(callback).(OnAfterUpdateInterface[Stakeholder])
-	case *StakeholderCompositionShape:
-		stage.OnAfterStakeholderCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StakeholderCompositionShape])
-	case *StakeholderConcernShape:
-		stage.OnAfterStakeholderConcernShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StakeholderConcernShape])
-	case *StakeholderShape:
-		stage.OnAfterStakeholderShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StakeholderShape])
-	case *SupportLevel:
-		stage.OnAfterSupportLevelUpdateCallback = any(callback).(OnAfterUpdateInterface[SupportLevel])
-	case *Tool:
-		stage.OnAfterToolUpdateCallback = any(callback).(OnAfterUpdateInterface[Tool])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AnalysisNeed:
-		stage.OnAfterAnalysisNeedCreateCallback = any(callback).(OnAfterCreateInterface[AnalysisNeed])
-	case *Concept:
-		stage.OnAfterConceptCreateCallback = any(callback).(OnAfterCreateInterface[Concept])
-	case *ConceptShape:
-		stage.OnAfterConceptShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConceptShape])
-	case *Concern:
-		stage.OnAfterConcernCreateCallback = any(callback).(OnAfterCreateInterface[Concern])
-	case *ConcernCompositionShape:
-		stage.OnAfterConcernCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernCompositionShape])
-	case *ConcernInputShape:
-		stage.OnAfterConcernInputShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernInputShape])
-	case *ConcernOutputShape:
-		stage.OnAfterConcernOutputShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernOutputShape])
-	case *ConcernShape:
-		stage.OnAfterConcernShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeCreateCallback = any(callback).(OnAfterCreateInterface[ControlPointShape])
-	case *Deliverable:
-		stage.OnAfterDeliverableCreateCallback = any(callback).(OnAfterCreateInterface[Deliverable])
-	case *DeliverableCompositionShape:
-		stage.OnAfterDeliverableCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[DeliverableCompositionShape])
-	case *DeliverableConceptShape:
-		stage.OnAfterDeliverableConceptShapeCreateCallback = any(callback).(OnAfterCreateInterface[DeliverableConceptShape])
-	case *DeliverableShape:
-		stage.OnAfterDeliverableShapeCreateCallback = any(callback).(OnAfterCreateInterface[DeliverableShape])
-	case *Diagram:
-		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
-	case *DiagramShape:
-		stage.OnAfterDiagramShapeCreateCallback = any(callback).(OnAfterCreateInterface[DiagramShape])
-	case *Library:
-		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
-	case *Note:
-		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
-	case *NoteDeliverableShape:
-		stage.OnAfterNoteDeliverableShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteDeliverableShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-	case *NoteStakeholderShape:
-		stage.OnAfterNoteStakeholderShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteStakeholderShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteTaskShape])
-	case *Requirement:
-		stage.OnAfterRequirementCreateCallback = any(callback).(OnAfterCreateInterface[Requirement])
-	case *RequirementShape:
-		stage.OnAfterRequirementShapeCreateCallback = any(callback).(OnAfterCreateInterface[RequirementShape])
-	case *Stakeholder:
-		stage.OnAfterStakeholderCreateCallback = any(callback).(OnAfterCreateInterface[Stakeholder])
-	case *StakeholderCompositionShape:
-		stage.OnAfterStakeholderCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[StakeholderCompositionShape])
-	case *StakeholderConcernShape:
-		stage.OnAfterStakeholderConcernShapeCreateCallback = any(callback).(OnAfterCreateInterface[StakeholderConcernShape])
-	case *StakeholderShape:
-		stage.OnAfterStakeholderShapeCreateCallback = any(callback).(OnAfterCreateInterface[StakeholderShape])
-	case *SupportLevel:
-		stage.OnAfterSupportLevelCreateCallback = any(callback).(OnAfterCreateInterface[SupportLevel])
-	case *Tool:
-		stage.OnAfterToolCreateCallback = any(callback).(OnAfterCreateInterface[Tool])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AnalysisNeed:
-		stage.OnAfterAnalysisNeedDeleteCallback = any(callback).(OnAfterDeleteInterface[AnalysisNeed])
-	case *Concept:
-		stage.OnAfterConceptDeleteCallback = any(callback).(OnAfterDeleteInterface[Concept])
-	case *ConceptShape:
-		stage.OnAfterConceptShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConceptShape])
-	case *Concern:
-		stage.OnAfterConcernDeleteCallback = any(callback).(OnAfterDeleteInterface[Concern])
-	case *ConcernCompositionShape:
-		stage.OnAfterConcernCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernCompositionShape])
-	case *ConcernInputShape:
-		stage.OnAfterConcernInputShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernInputShape])
-	case *ConcernOutputShape:
-		stage.OnAfterConcernOutputShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernOutputShape])
-	case *ConcernShape:
-		stage.OnAfterConcernShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlPointShape])
-	case *Deliverable:
-		stage.OnAfterDeliverableDeleteCallback = any(callback).(OnAfterDeleteInterface[Deliverable])
-	case *DeliverableCompositionShape:
-		stage.OnAfterDeliverableCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DeliverableCompositionShape])
-	case *DeliverableConceptShape:
-		stage.OnAfterDeliverableConceptShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DeliverableConceptShape])
-	case *DeliverableShape:
-		stage.OnAfterDeliverableShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DeliverableShape])
-	case *Diagram:
-		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
-	case *DiagramShape:
-		stage.OnAfterDiagramShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramShape])
-	case *Library:
-		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
-	case *Note:
-		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
-	case *NoteDeliverableShape:
-		stage.OnAfterNoteDeliverableShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteDeliverableShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-	case *NoteStakeholderShape:
-		stage.OnAfterNoteStakeholderShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteStakeholderShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteTaskShape])
-	case *Requirement:
-		stage.OnAfterRequirementDeleteCallback = any(callback).(OnAfterDeleteInterface[Requirement])
-	case *RequirementShape:
-		stage.OnAfterRequirementShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RequirementShape])
-	case *Stakeholder:
-		stage.OnAfterStakeholderDeleteCallback = any(callback).(OnAfterDeleteInterface[Stakeholder])
-	case *StakeholderCompositionShape:
-		stage.OnAfterStakeholderCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StakeholderCompositionShape])
-	case *StakeholderConcernShape:
-		stage.OnAfterStakeholderConcernShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StakeholderConcernShape])
-	case *StakeholderShape:
-		stage.OnAfterStakeholderShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StakeholderShape])
-	case *SupportLevel:
-		stage.OnAfterSupportLevelDeleteCallback = any(callback).(OnAfterDeleteInterface[SupportLevel])
-	case *Tool:
-		stage.OnAfterToolDeleteCallback = any(callback).(OnAfterDeleteInterface[Tool])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AnalysisNeed:
-		stage.OnAfterAnalysisNeedReadCallback = any(callback).(OnAfterReadInterface[AnalysisNeed])
-	case *Concept:
-		stage.OnAfterConceptReadCallback = any(callback).(OnAfterReadInterface[Concept])
-	case *ConceptShape:
-		stage.OnAfterConceptShapeReadCallback = any(callback).(OnAfterReadInterface[ConceptShape])
-	case *Concern:
-		stage.OnAfterConcernReadCallback = any(callback).(OnAfterReadInterface[Concern])
-	case *ConcernCompositionShape:
-		stage.OnAfterConcernCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernCompositionShape])
-	case *ConcernInputShape:
-		stage.OnAfterConcernInputShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernInputShape])
-	case *ConcernOutputShape:
-		stage.OnAfterConcernOutputShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernOutputShape])
-	case *ConcernShape:
-		stage.OnAfterConcernShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeReadCallback = any(callback).(OnAfterReadInterface[ControlPointShape])
-	case *Deliverable:
-		stage.OnAfterDeliverableReadCallback = any(callback).(OnAfterReadInterface[Deliverable])
-	case *DeliverableCompositionShape:
-		stage.OnAfterDeliverableCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[DeliverableCompositionShape])
-	case *DeliverableConceptShape:
-		stage.OnAfterDeliverableConceptShapeReadCallback = any(callback).(OnAfterReadInterface[DeliverableConceptShape])
-	case *DeliverableShape:
-		stage.OnAfterDeliverableShapeReadCallback = any(callback).(OnAfterReadInterface[DeliverableShape])
-	case *Diagram:
-		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
-	case *DiagramShape:
-		stage.OnAfterDiagramShapeReadCallback = any(callback).(OnAfterReadInterface[DiagramShape])
-	case *Library:
-		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
-	case *Note:
-		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
-	case *NoteDeliverableShape:
-		stage.OnAfterNoteDeliverableShapeReadCallback = any(callback).(OnAfterReadInterface[NoteDeliverableShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-	case *NoteStakeholderShape:
-		stage.OnAfterNoteStakeholderShapeReadCallback = any(callback).(OnAfterReadInterface[NoteStakeholderShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeReadCallback = any(callback).(OnAfterReadInterface[NoteTaskShape])
-	case *Requirement:
-		stage.OnAfterRequirementReadCallback = any(callback).(OnAfterReadInterface[Requirement])
-	case *RequirementShape:
-		stage.OnAfterRequirementShapeReadCallback = any(callback).(OnAfterReadInterface[RequirementShape])
-	case *Stakeholder:
-		stage.OnAfterStakeholderReadCallback = any(callback).(OnAfterReadInterface[Stakeholder])
-	case *StakeholderCompositionShape:
-		stage.OnAfterStakeholderCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[StakeholderCompositionShape])
-	case *StakeholderConcernShape:
-		stage.OnAfterStakeholderConcernShapeReadCallback = any(callback).(OnAfterReadInterface[StakeholderConcernShape])
-	case *StakeholderShape:
-		stage.OnAfterStakeholderShapeReadCallback = any(callback).(OnAfterReadInterface[StakeholderShape])
-	case *SupportLevel:
-		stage.OnAfterSupportLevelReadCallback = any(callback).(OnAfterReadInterface[SupportLevel])
-	case *Tool:
-		stage.OnAfterToolReadCallback = any(callback).(OnAfterReadInterface[Tool])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

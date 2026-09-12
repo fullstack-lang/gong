@@ -181,7 +181,7 @@ func (controller *Controller) PostCylinderGeometry(w http.ResponseWriter, r *htt
 	cylindergeometry := backRepo.BackRepoCylinderGeometry.Map_CylinderGeometryDBID_CylinderGeometryPtr[cylindergeometryDB.ID]
 
 	if cylindergeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), cylindergeometry)
+		backRepo.GetStage().AfterCreateFromFront(cylindergeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCylinderGeometry(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	cylindergeometryOld := backRepo.BackRepoCylinderGeometry.Map_CylinderGeometryDBID_CylinderGeometryPtr[cylindergeometryDB.ID]
 	if cylindergeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), cylindergeometryOld, cylindergeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(cylindergeometryOld, cylindergeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCylinderGeometry(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	cylindergeometryStaged := backRepo.BackRepoCylinderGeometry.Map_CylinderGeometryDBID_CylinderGeometryPtr[cylindergeometryDB.ID]
 	if cylindergeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), cylindergeometryStaged, cylindergeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(cylindergeometryStaged, cylindergeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

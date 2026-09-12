@@ -181,7 +181,7 @@ func (controller *Controller) PostCellIcon(w http.ResponseWriter, r *http.Reques
 	cellicon := backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[celliconDB.ID]
 
 	if cellicon != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), cellicon)
+		backRepo.GetStage().AfterCreateFromFront(cellicon)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCellIcon(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	celliconOld := backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[celliconDB.ID]
 	if celliconOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), celliconOld, celliconNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(celliconOld, celliconNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCellIcon(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	celliconStaged := backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[celliconDB.ID]
 	if celliconStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), celliconStaged, celliconDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(celliconStaged, celliconDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

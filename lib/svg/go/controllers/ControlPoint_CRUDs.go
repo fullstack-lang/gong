@@ -181,7 +181,7 @@ func (controller *Controller) PostControlPoint(w http.ResponseWriter, r *http.Re
 	controlpoint := backRepo.BackRepoControlPoint.Map_ControlPointDBID_ControlPointPtr[controlpointDB.ID]
 
 	if controlpoint != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), controlpoint)
+		backRepo.GetStage().AfterCreateFromFront(controlpoint)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateControlPoint(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	controlpointOld := backRepo.BackRepoControlPoint.Map_ControlPointDBID_ControlPointPtr[controlpointDB.ID]
 	if controlpointOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), controlpointOld, controlpointNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(controlpointOld, controlpointNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteControlPoint(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	controlpointStaged := backRepo.BackRepoControlPoint.Map_ControlPointDBID_ControlPointPtr[controlpointDB.ID]
 	if controlpointStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), controlpointStaged, controlpointDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(controlpointStaged, controlpointDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

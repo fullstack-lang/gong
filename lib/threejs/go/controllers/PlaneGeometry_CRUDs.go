@@ -181,7 +181,7 @@ func (controller *Controller) PostPlaneGeometry(w http.ResponseWriter, r *http.R
 	planegeometry := backRepo.BackRepoPlaneGeometry.Map_PlaneGeometryDBID_PlaneGeometryPtr[planegeometryDB.ID]
 
 	if planegeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), planegeometry)
+		backRepo.GetStage().AfterCreateFromFront(planegeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdatePlaneGeometry(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	planegeometryOld := backRepo.BackRepoPlaneGeometry.Map_PlaneGeometryDBID_PlaneGeometryPtr[planegeometryDB.ID]
 	if planegeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), planegeometryOld, planegeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(planegeometryOld, planegeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeletePlaneGeometry(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	planegeometryStaged := backRepo.BackRepoPlaneGeometry.Map_PlaneGeometryDBID_PlaneGeometryPtr[planegeometryDB.ID]
 	if planegeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), planegeometryStaged, planegeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(planegeometryStaged, planegeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

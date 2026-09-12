@@ -181,7 +181,7 @@ func (controller *Controller) PostFormGroup(w http.ResponseWriter, r *http.Reque
 	formgroup := backRepo.BackRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[formgroupDB.ID]
 
 	if formgroup != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formgroup)
+		backRepo.GetStage().AfterCreateFromFront(formgroup)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormGroup(w http.ResponseWriter, r *http.Req
 	// get stage instance from DB instance, and call callback function
 	formgroupOld := backRepo.BackRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[formgroupDB.ID]
 	if formgroupOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formgroupOld, formgroupNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(formgroupOld, formgroupNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormGroup(w http.ResponseWriter, r *http.Req
 	// get stage instance from DB instance, and call callback function
 	formgroupStaged := backRepo.BackRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[formgroupDB.ID]
 	if formgroupStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formgroupStaged, formgroupDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(formgroupStaged, formgroupDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

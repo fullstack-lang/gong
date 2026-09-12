@@ -181,7 +181,7 @@ func (controller *Controller) PostDummyAgent(w http.ResponseWriter, r *http.Requ
 	dummyagent := backRepo.BackRepoDummyAgent.Map_DummyAgentDBID_DummyAgentPtr[dummyagentDB.ID]
 
 	if dummyagent != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), dummyagent)
+		backRepo.GetStage().AfterCreateFromFront(dummyagent)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateDummyAgent(w http.ResponseWriter, r *http.Re
 	// get stage instance from DB instance, and call callback function
 	dummyagentOld := backRepo.BackRepoDummyAgent.Map_DummyAgentDBID_DummyAgentPtr[dummyagentDB.ID]
 	if dummyagentOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), dummyagentOld, dummyagentNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(dummyagentOld, dummyagentNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteDummyAgent(w http.ResponseWriter, r *http.Re
 	// get stage instance from DB instance, and call callback function
 	dummyagentStaged := backRepo.BackRepoDummyAgent.Map_DummyAgentDBID_DummyAgentPtr[dummyagentDB.ID]
 	if dummyagentStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), dummyagentStaged, dummyagentDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(dummyagentStaged, dummyagentDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

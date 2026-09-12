@@ -181,7 +181,7 @@ func (controller *Controller) PostTorusGeometry(w http.ResponseWriter, r *http.R
 	torusgeometry := backRepo.BackRepoTorusGeometry.Map_TorusGeometryDBID_TorusGeometryPtr[torusgeometryDB.ID]
 
 	if torusgeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), torusgeometry)
+		backRepo.GetStage().AfterCreateFromFront(torusgeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateTorusGeometry(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	torusgeometryOld := backRepo.BackRepoTorusGeometry.Map_TorusGeometryDBID_TorusGeometryPtr[torusgeometryDB.ID]
 	if torusgeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), torusgeometryOld, torusgeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(torusgeometryOld, torusgeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteTorusGeometry(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	torusgeometryStaged := backRepo.BackRepoTorusGeometry.Map_TorusGeometryDBID_TorusGeometryPtr[torusgeometryDB.ID]
 	if torusgeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), torusgeometryStaged, torusgeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(torusgeometryStaged, torusgeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

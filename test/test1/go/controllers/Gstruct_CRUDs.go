@@ -181,7 +181,7 @@ func (controller *Controller) PostGstruct(w http.ResponseWriter, r *http.Request
 	gstruct := backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[gstructDB.ID]
 
 	if gstruct != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), gstruct)
+		backRepo.GetStage().AfterCreateFromFront(gstruct)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateGstruct(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	gstructOld := backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[gstructDB.ID]
 	if gstructOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), gstructOld, gstructNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(gstructOld, gstructNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteGstruct(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	gstructStaged := backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[gstructDB.ID]
 	if gstructStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), gstructStaged, gstructDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(gstructStaged, gstructDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

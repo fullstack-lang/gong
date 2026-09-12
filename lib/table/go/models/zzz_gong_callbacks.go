@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -55,12 +55,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -124,8 +129,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -189,174 +199,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *Button:
-		if stage.OnAfterButtonReadCallback != nil {
-			stage.OnAfterButtonReadCallback.OnAfterRead(stage, target)
-		}
-	case *Cell:
-		if stage.OnAfterCellReadCallback != nil {
-			stage.OnAfterCellReadCallback.OnAfterRead(stage, target)
-		}
-	case *CellBoolean:
-		if stage.OnAfterCellBooleanReadCallback != nil {
-			stage.OnAfterCellBooleanReadCallback.OnAfterRead(stage, target)
-		}
-	case *CellFloat64:
-		if stage.OnAfterCellFloat64ReadCallback != nil {
-			stage.OnAfterCellFloat64ReadCallback.OnAfterRead(stage, target)
-		}
-	case *CellIcon:
-		if stage.OnAfterCellIconReadCallback != nil {
-			stage.OnAfterCellIconReadCallback.OnAfterRead(stage, target)
-		}
-	case *CellInt:
-		if stage.OnAfterCellIntReadCallback != nil {
-			stage.OnAfterCellIntReadCallback.OnAfterRead(stage, target)
-		}
-	case *CellString:
-		if stage.OnAfterCellStringReadCallback != nil {
-			stage.OnAfterCellStringReadCallback.OnAfterRead(stage, target)
-		}
-	case *DisplayedColumn:
-		if stage.OnAfterDisplayedColumnReadCallback != nil {
-			stage.OnAfterDisplayedColumnReadCallback.OnAfterRead(stage, target)
-		}
-	case *Row:
-		if stage.OnAfterRowReadCallback != nil {
-			stage.OnAfterRowReadCallback.OnAfterRead(stage, target)
-		}
-	case *SVGIcon:
-		if stage.OnAfterSVGIconReadCallback != nil {
-			stage.OnAfterSVGIconReadCallback.OnAfterRead(stage, target)
-		}
-	case *Table:
-		if stage.OnAfterTableReadCallback != nil {
-			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Button:
-		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
-	case *Cell:
-		stage.OnAfterCellUpdateCallback = any(callback).(OnAfterUpdateInterface[Cell])
-	case *CellBoolean:
-		stage.OnAfterCellBooleanUpdateCallback = any(callback).(OnAfterUpdateInterface[CellBoolean])
-	case *CellFloat64:
-		stage.OnAfterCellFloat64UpdateCallback = any(callback).(OnAfterUpdateInterface[CellFloat64])
-	case *CellIcon:
-		stage.OnAfterCellIconUpdateCallback = any(callback).(OnAfterUpdateInterface[CellIcon])
-	case *CellInt:
-		stage.OnAfterCellIntUpdateCallback = any(callback).(OnAfterUpdateInterface[CellInt])
-	case *CellString:
-		stage.OnAfterCellStringUpdateCallback = any(callback).(OnAfterUpdateInterface[CellString])
-	case *DisplayedColumn:
-		stage.OnAfterDisplayedColumnUpdateCallback = any(callback).(OnAfterUpdateInterface[DisplayedColumn])
-	case *Row:
-		stage.OnAfterRowUpdateCallback = any(callback).(OnAfterUpdateInterface[Row])
-	case *SVGIcon:
-		stage.OnAfterSVGIconUpdateCallback = any(callback).(OnAfterUpdateInterface[SVGIcon])
-	case *Table:
-		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Button:
-		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
-	case *Cell:
-		stage.OnAfterCellCreateCallback = any(callback).(OnAfterCreateInterface[Cell])
-	case *CellBoolean:
-		stage.OnAfterCellBooleanCreateCallback = any(callback).(OnAfterCreateInterface[CellBoolean])
-	case *CellFloat64:
-		stage.OnAfterCellFloat64CreateCallback = any(callback).(OnAfterCreateInterface[CellFloat64])
-	case *CellIcon:
-		stage.OnAfterCellIconCreateCallback = any(callback).(OnAfterCreateInterface[CellIcon])
-	case *CellInt:
-		stage.OnAfterCellIntCreateCallback = any(callback).(OnAfterCreateInterface[CellInt])
-	case *CellString:
-		stage.OnAfterCellStringCreateCallback = any(callback).(OnAfterCreateInterface[CellString])
-	case *DisplayedColumn:
-		stage.OnAfterDisplayedColumnCreateCallback = any(callback).(OnAfterCreateInterface[DisplayedColumn])
-	case *Row:
-		stage.OnAfterRowCreateCallback = any(callback).(OnAfterCreateInterface[Row])
-	case *SVGIcon:
-		stage.OnAfterSVGIconCreateCallback = any(callback).(OnAfterCreateInterface[SVGIcon])
-	case *Table:
-		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Button:
-		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
-	case *Cell:
-		stage.OnAfterCellDeleteCallback = any(callback).(OnAfterDeleteInterface[Cell])
-	case *CellBoolean:
-		stage.OnAfterCellBooleanDeleteCallback = any(callback).(OnAfterDeleteInterface[CellBoolean])
-	case *CellFloat64:
-		stage.OnAfterCellFloat64DeleteCallback = any(callback).(OnAfterDeleteInterface[CellFloat64])
-	case *CellIcon:
-		stage.OnAfterCellIconDeleteCallback = any(callback).(OnAfterDeleteInterface[CellIcon])
-	case *CellInt:
-		stage.OnAfterCellIntDeleteCallback = any(callback).(OnAfterDeleteInterface[CellInt])
-	case *CellString:
-		stage.OnAfterCellStringDeleteCallback = any(callback).(OnAfterDeleteInterface[CellString])
-	case *DisplayedColumn:
-		stage.OnAfterDisplayedColumnDeleteCallback = any(callback).(OnAfterDeleteInterface[DisplayedColumn])
-	case *Row:
-		stage.OnAfterRowDeleteCallback = any(callback).(OnAfterDeleteInterface[Row])
-	case *SVGIcon:
-		stage.OnAfterSVGIconDeleteCallback = any(callback).(OnAfterDeleteInterface[SVGIcon])
-	case *Table:
-		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *Button:
-		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
-	case *Cell:
-		stage.OnAfterCellReadCallback = any(callback).(OnAfterReadInterface[Cell])
-	case *CellBoolean:
-		stage.OnAfterCellBooleanReadCallback = any(callback).(OnAfterReadInterface[CellBoolean])
-	case *CellFloat64:
-		stage.OnAfterCellFloat64ReadCallback = any(callback).(OnAfterReadInterface[CellFloat64])
-	case *CellIcon:
-		stage.OnAfterCellIconReadCallback = any(callback).(OnAfterReadInterface[CellIcon])
-	case *CellInt:
-		stage.OnAfterCellIntReadCallback = any(callback).(OnAfterReadInterface[CellInt])
-	case *CellString:
-		stage.OnAfterCellStringReadCallback = any(callback).(OnAfterReadInterface[CellString])
-	case *DisplayedColumn:
-		stage.OnAfterDisplayedColumnReadCallback = any(callback).(OnAfterReadInterface[DisplayedColumn])
-	case *Row:
-		stage.OnAfterRowReadCallback = any(callback).(OnAfterReadInterface[Row])
-	case *SVGIcon:
-		stage.OnAfterSVGIconReadCallback = any(callback).(OnAfterReadInterface[SVGIcon])
-	case *Table:
-		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

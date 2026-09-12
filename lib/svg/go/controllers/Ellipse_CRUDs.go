@@ -181,7 +181,7 @@ func (controller *Controller) PostEllipse(w http.ResponseWriter, r *http.Request
 	ellipse := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[ellipseDB.ID]
 
 	if ellipse != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), ellipse)
+		backRepo.GetStage().AfterCreateFromFront(ellipse)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateEllipse(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	ellipseOld := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[ellipseDB.ID]
 	if ellipseOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), ellipseOld, ellipseNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(ellipseOld, ellipseNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteEllipse(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	ellipseStaged := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[ellipseDB.ID]
 	if ellipseStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), ellipseStaged, ellipseDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(ellipseStaged, ellipseDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostSplit(w http.ResponseWriter, r *http.Request) 
 	split := backRepo.BackRepoSplit.Map_SplitDBID_SplitPtr[splitDB.ID]
 
 	if split != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), split)
+		backRepo.GetStage().AfterCreateFromFront(split)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateSplit(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	splitOld := backRepo.BackRepoSplit.Map_SplitDBID_SplitPtr[splitDB.ID]
 	if splitOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), splitOld, splitNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(splitOld, splitNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteSplit(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	splitStaged := backRepo.BackRepoSplit.Map_SplitDBID_SplitPtr[splitDB.ID]
 	if splitStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), splitStaged, splitDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(splitStaged, splitDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

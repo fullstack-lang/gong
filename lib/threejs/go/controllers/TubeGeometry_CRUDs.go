@@ -181,7 +181,7 @@ func (controller *Controller) PostTubeGeometry(w http.ResponseWriter, r *http.Re
 	tubegeometry := backRepo.BackRepoTubeGeometry.Map_TubeGeometryDBID_TubeGeometryPtr[tubegeometryDB.ID]
 
 	if tubegeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), tubegeometry)
+		backRepo.GetStage().AfterCreateFromFront(tubegeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateTubeGeometry(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	tubegeometryOld := backRepo.BackRepoTubeGeometry.Map_TubeGeometryDBID_TubeGeometryPtr[tubegeometryDB.ID]
 	if tubegeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), tubegeometryOld, tubegeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(tubegeometryOld, tubegeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteTubeGeometry(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	tubegeometryStaged := backRepo.BackRepoTubeGeometry.Map_TubeGeometryDBID_TubeGeometryPtr[tubegeometryDB.ID]
 	if tubegeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), tubegeometryStaged, tubegeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(tubegeometryStaged, tubegeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

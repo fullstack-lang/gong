@@ -181,7 +181,7 @@ func (controller *Controller) PostButtonToggle(w http.ResponseWriter, r *http.Re
 	buttontoggle := backRepo.BackRepoButtonToggle.Map_ButtonToggleDBID_ButtonTogglePtr[buttontoggleDB.ID]
 
 	if buttontoggle != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), buttontoggle)
+		backRepo.GetStage().AfterCreateFromFront(buttontoggle)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateButtonToggle(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	buttontoggleOld := backRepo.BackRepoButtonToggle.Map_ButtonToggleDBID_ButtonTogglePtr[buttontoggleDB.ID]
 	if buttontoggleOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), buttontoggleOld, buttontoggleNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(buttontoggleOld, buttontoggleNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteButtonToggle(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	buttontoggleStaged := backRepo.BackRepoButtonToggle.Map_ButtonToggleDBID_ButtonTogglePtr[buttontoggleDB.ID]
 	if buttontoggleStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), buttontoggleStaged, buttontoggleDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(buttontoggleStaged, buttontoggleDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

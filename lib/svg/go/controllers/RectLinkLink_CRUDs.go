@@ -181,7 +181,7 @@ func (controller *Controller) PostRectLinkLink(w http.ResponseWriter, r *http.Re
 	rectlinklink := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[rectlinklinkDB.ID]
 
 	if rectlinklink != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), rectlinklink)
+		backRepo.GetStage().AfterCreateFromFront(rectlinklink)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateRectLinkLink(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	rectlinklinkOld := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[rectlinklinkDB.ID]
 	if rectlinklinkOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), rectlinklinkOld, rectlinklinkNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(rectlinklinkOld, rectlinklinkNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteRectLinkLink(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	rectlinklinkStaged := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[rectlinklinkDB.ID]
 	if rectlinklinkStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), rectlinklinkStaged, rectlinklinkDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(rectlinklinkStaged, rectlinklinkDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

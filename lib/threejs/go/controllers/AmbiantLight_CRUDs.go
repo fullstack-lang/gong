@@ -181,7 +181,7 @@ func (controller *Controller) PostAmbiantLight(w http.ResponseWriter, r *http.Re
 	ambiantlight := backRepo.BackRepoAmbiantLight.Map_AmbiantLightDBID_AmbiantLightPtr[ambiantlightDB.ID]
 
 	if ambiantlight != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), ambiantlight)
+		backRepo.GetStage().AfterCreateFromFront(ambiantlight)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateAmbiantLight(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	ambiantlightOld := backRepo.BackRepoAmbiantLight.Map_AmbiantLightDBID_AmbiantLightPtr[ambiantlightDB.ID]
 	if ambiantlightOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), ambiantlightOld, ambiantlightNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(ambiantlightOld, ambiantlightNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteAmbiantLight(w http.ResponseWriter, r *http.
 	// get stage instance from DB instance, and call callback function
 	ambiantlightStaged := backRepo.BackRepoAmbiantLight.Map_AmbiantLightDBID_AmbiantLightPtr[ambiantlightDB.ID]
 	if ambiantlightStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), ambiantlightStaged, ambiantlightDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(ambiantlightStaged, ambiantlightDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

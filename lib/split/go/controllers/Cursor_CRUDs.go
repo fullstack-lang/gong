@@ -181,7 +181,7 @@ func (controller *Controller) PostCursor(w http.ResponseWriter, r *http.Request)
 	cursor := backRepo.BackRepoCursor.Map_CursorDBID_CursorPtr[cursorDB.ID]
 
 	if cursor != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), cursor)
+		backRepo.GetStage().AfterCreateFromFront(cursor)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCursor(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	cursorOld := backRepo.BackRepoCursor.Map_CursorDBID_CursorPtr[cursorDB.ID]
 	if cursorOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), cursorOld, cursorNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(cursorOld, cursorNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCursor(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	cursorStaged := backRepo.BackRepoCursor.Map_CursorDBID_CursorPtr[cursorDB.ID]
 	if cursorStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), cursorStaged, cursorDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(cursorStaged, cursorDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostFormFieldTime(w http.ResponseWriter, r *http.R
 	formfieldtime := backRepo.BackRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr[formfieldtimeDB.ID]
 
 	if formfieldtime != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formfieldtime)
+		backRepo.GetStage().AfterCreateFromFront(formfieldtime)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormFieldTime(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	formfieldtimeOld := backRepo.BackRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr[formfieldtimeDB.ID]
 	if formfieldtimeOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formfieldtimeOld, formfieldtimeNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(formfieldtimeOld, formfieldtimeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormFieldTime(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	formfieldtimeStaged := backRepo.BackRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr[formfieldtimeDB.ID]
 	if formfieldtimeStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formfieldtimeStaged, formfieldtimeDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(formfieldtimeStaged, formfieldtimeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

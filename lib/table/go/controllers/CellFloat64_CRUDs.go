@@ -181,7 +181,7 @@ func (controller *Controller) PostCellFloat64(w http.ResponseWriter, r *http.Req
 	cellfloat64 := backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[cellfloat64DB.ID]
 
 	if cellfloat64 != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), cellfloat64)
+		backRepo.GetStage().AfterCreateFromFront(cellfloat64)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCellFloat64(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	cellfloat64Old := backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[cellfloat64DB.ID]
 	if cellfloat64Old != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), cellfloat64Old, cellfloat64New)
+		backRepo.GetStage().OnAfterUpdateFromFront(cellfloat64Old, cellfloat64New)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCellFloat64(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	cellfloat64Staged := backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[cellfloat64DB.ID]
 	if cellfloat64Staged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), cellfloat64Staged, cellfloat64Deleted)
+		backRepo.GetStage().AfterDeleteFromFront(cellfloat64Staged, cellfloat64Deleted)
 	}
 
 	// a DELETE generates a back repo commit increase

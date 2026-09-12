@@ -63,7 +63,7 @@ func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
 
 func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 	stage := stager.stage
-	libraries := GetStructInstancesByOrderAuto[*Library](stage)
+	libraries := stage.GetInstancesByOrderAuto[*Library]()
 	if len(libraries) == 0 {
 		rootLibrary := (&Library{Name: "", IsRootLibrary: true}).Stage(stage)
 		if stager.probeForm != nil {
@@ -139,7 +139,7 @@ func (stager *Stager) GetRootLibrary() (rootLibrary *Library) {
 }
 
 func (stager *Stager) getRootLibrary() *Library {
-	for library := range *GetGongstructInstancesSet[Library](stager.stage) {
+	for library := range *stager.stage.GetInstancesSet[*Library]() {
 		if library.IsRootLibrary {
 			return library
 		}
@@ -207,7 +207,7 @@ func reattachToLibraryRoots[T interface {
 	}
 
 	// 2. Find all nodes and, if not in a library, reattach to root library
-	for _, object := range GetGongstrucsSorted[T](stager.stage) {
+	for _, object := range stager.stage.GetInstancesSorted[T]() {
 		if _, ok := reachable[object]; !ok {
 			if object != any(stager.getRootLibrary()) {
 				attachDirectlyToLibraryRoot(object)

@@ -181,7 +181,7 @@ func (controller *Controller) PostThreejs(w http.ResponseWriter, r *http.Request
 	threejs := backRepo.BackRepoThreejs.Map_ThreejsDBID_ThreejsPtr[threejsDB.ID]
 
 	if threejs != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), threejs)
+		backRepo.GetStage().AfterCreateFromFront(threejs)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateThreejs(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	threejsOld := backRepo.BackRepoThreejs.Map_ThreejsDBID_ThreejsPtr[threejsDB.ID]
 	if threejsOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), threejsOld, threejsNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(threejsOld, threejsNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteThreejs(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	threejsStaged := backRepo.BackRepoThreejs.Map_ThreejsDBID_ThreejsPtr[threejsDB.ID]
 	if threejsStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), threejsStaged, threejsDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(threejsStaged, threejsDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

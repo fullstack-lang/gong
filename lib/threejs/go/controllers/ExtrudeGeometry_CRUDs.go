@@ -181,7 +181,7 @@ func (controller *Controller) PostExtrudeGeometry(w http.ResponseWriter, r *http
 	extrudegeometry := backRepo.BackRepoExtrudeGeometry.Map_ExtrudeGeometryDBID_ExtrudeGeometryPtr[extrudegeometryDB.ID]
 
 	if extrudegeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), extrudegeometry)
+		backRepo.GetStage().AfterCreateFromFront(extrudegeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateExtrudeGeometry(w http.ResponseWriter, r *ht
 	// get stage instance from DB instance, and call callback function
 	extrudegeometryOld := backRepo.BackRepoExtrudeGeometry.Map_ExtrudeGeometryDBID_ExtrudeGeometryPtr[extrudegeometryDB.ID]
 	if extrudegeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), extrudegeometryOld, extrudegeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(extrudegeometryOld, extrudegeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteExtrudeGeometry(w http.ResponseWriter, r *ht
 	// get stage instance from DB instance, and call callback function
 	extrudegeometryStaged := backRepo.BackRepoExtrudeGeometry.Map_ExtrudeGeometryDBID_ExtrudeGeometryPtr[extrudegeometryDB.ID]
 	if extrudegeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), extrudegeometryStaged, extrudegeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(extrudegeometryStaged, extrudegeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

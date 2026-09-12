@@ -351,12 +351,13 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, string(gong_models.GeneratedGongDiffGoFilePath)),
 		models.ModelGongDiffFileTemplate)
 
-	if !skipCoder {
-		models.CodeGeneratorModelGongCoder(
-			modelPkg,
-			modelPkg.Name,
-			pkgPath)
-	}
+	// Coder generation is disabled since GongfieldCoder and GongfieldName are unused.
+	// if !skipCoder {
+	// 	models.CodeGeneratorModelGongCoder(
+	// 		modelPkg,
+	// 		modelPkg.Name,
+	// 		pkgPath)
+	// }
 
 	models.GongAst2(modelPkg, pkgPath)
 

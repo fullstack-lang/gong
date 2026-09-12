@@ -181,7 +181,7 @@ func (controller *Controller) PostEvent(w http.ResponseWriter, r *http.Request) 
 	event := backRepo.BackRepoEvent.Map_EventDBID_EventPtr[eventDB.ID]
 
 	if event != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), event)
+		backRepo.GetStage().AfterCreateFromFront(event)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateEvent(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	eventOld := backRepo.BackRepoEvent.Map_EventDBID_EventPtr[eventDB.ID]
 	if eventOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), eventOld, eventNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(eventOld, eventNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteEvent(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	eventStaged := backRepo.BackRepoEvent.Map_EventDBID_EventPtr[eventDB.ID]
 	if eventStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), eventStaged, eventDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(eventStaged, eventDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

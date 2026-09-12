@@ -181,7 +181,7 @@ func (controller *Controller) PostTitle(w http.ResponseWriter, r *http.Request) 
 	title := backRepo.BackRepoTitle.Map_TitleDBID_TitlePtr[titleDB.ID]
 
 	if title != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), title)
+		backRepo.GetStage().AfterCreateFromFront(title)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateTitle(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	titleOld := backRepo.BackRepoTitle.Map_TitleDBID_TitlePtr[titleDB.ID]
 	if titleOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), titleOld, titleNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(titleOld, titleNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteTitle(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	titleStaged := backRepo.BackRepoTitle.Map_TitleDBID_TitlePtr[titleDB.ID]
 	if titleStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), titleStaged, titleDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(titleStaged, titleDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostLine(w http.ResponseWriter, r *http.Request) {
 	line := backRepo.BackRepoLine.Map_LineDBID_LinePtr[lineDB.ID]
 
 	if line != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), line)
+		backRepo.GetStage().AfterCreateFromFront(line)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateLine(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	lineOld := backRepo.BackRepoLine.Map_LineDBID_LinePtr[lineDB.ID]
 	if lineOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), lineOld, lineNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(lineOld, lineNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteLine(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	lineStaged := backRepo.BackRepoLine.Map_LineDBID_LinePtr[lineDB.ID]
 	if lineStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), lineStaged, lineDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(lineStaged, lineDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

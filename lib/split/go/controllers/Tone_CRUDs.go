@@ -181,7 +181,7 @@ func (controller *Controller) PostTone(w http.ResponseWriter, r *http.Request) {
 	tone := backRepo.BackRepoTone.Map_ToneDBID_TonePtr[toneDB.ID]
 
 	if tone != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), tone)
+		backRepo.GetStage().AfterCreateFromFront(tone)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateTone(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	toneOld := backRepo.BackRepoTone.Map_ToneDBID_TonePtr[toneDB.ID]
 	if toneOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), toneOld, toneNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(toneOld, toneNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteTone(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	toneStaged := backRepo.BackRepoTone.Map_ToneDBID_TonePtr[toneDB.ID]
 	if toneStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), toneStaged, toneDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(toneStaged, toneDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

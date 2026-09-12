@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -59,12 +59,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -133,8 +138,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -203,186 +213,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *CompareAnalysis:
-		if stage.OnAfterCompareAnalysisReadCallback != nil {
-			stage.OnAfterCompareAnalysisReadCallback.OnAfterRead(stage, target)
-		}
-	case *Complexity:
-		if stage.OnAfterComplexityReadCallback != nil {
-			stage.OnAfterComplexityReadCallback.OnAfterRead(stage, target)
-		}
-	case *DiagramFlossEquation:
-		if stage.OnAfterDiagramFlossEquationReadCallback != nil {
-			stage.OnAfterDiagramFlossEquationReadCallback.OnAfterRead(stage, target)
-		}
-	case *Effort:
-		if stage.OnAfterEffortReadCallback != nil {
-			stage.OnAfterEffortReadCallback.OnAfterRead(stage, target)
-		}
-	case *Library:
-		if stage.OnAfterLibraryReadCallback != nil {
-			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Note:
-		if stage.OnAfterNoteReadCallback != nil {
-			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteComplexityShape:
-		if stage.OnAfterNoteComplexityShapeReadCallback != nil {
-			stage.OnAfterNoteComplexityShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteEffortShape:
-		if stage.OnAfterNoteEffortShapeReadCallback != nil {
-			stage.OnAfterNoteEffortShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NotePerformanceShape:
-		if stage.OnAfterNotePerformanceShapeReadCallback != nil {
-			stage.OnAfterNotePerformanceShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteShape:
-		if stage.OnAfterNoteShapeReadCallback != nil {
-			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Performance:
-		if stage.OnAfterPerformanceReadCallback != nil {
-			stage.OnAfterPerformanceReadCallback.OnAfterRead(stage, target)
-		}
-	case *System:
-		if stage.OnAfterSystemReadCallback != nil {
-			stage.OnAfterSystemReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *CompareAnalysis:
-		stage.OnAfterCompareAnalysisUpdateCallback = any(callback).(OnAfterUpdateInterface[CompareAnalysis])
-	case *Complexity:
-		stage.OnAfterComplexityUpdateCallback = any(callback).(OnAfterUpdateInterface[Complexity])
-	case *DiagramFlossEquation:
-		stage.OnAfterDiagramFlossEquationUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramFlossEquation])
-	case *Effort:
-		stage.OnAfterEffortUpdateCallback = any(callback).(OnAfterUpdateInterface[Effort])
-	case *Library:
-		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
-	case *Note:
-		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
-	case *NoteComplexityShape:
-		stage.OnAfterNoteComplexityShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteComplexityShape])
-	case *NoteEffortShape:
-		stage.OnAfterNoteEffortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteEffortShape])
-	case *NotePerformanceShape:
-		stage.OnAfterNotePerformanceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NotePerformanceShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-	case *Performance:
-		stage.OnAfterPerformanceUpdateCallback = any(callback).(OnAfterUpdateInterface[Performance])
-	case *System:
-		stage.OnAfterSystemUpdateCallback = any(callback).(OnAfterUpdateInterface[System])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *CompareAnalysis:
-		stage.OnAfterCompareAnalysisCreateCallback = any(callback).(OnAfterCreateInterface[CompareAnalysis])
-	case *Complexity:
-		stage.OnAfterComplexityCreateCallback = any(callback).(OnAfterCreateInterface[Complexity])
-	case *DiagramFlossEquation:
-		stage.OnAfterDiagramFlossEquationCreateCallback = any(callback).(OnAfterCreateInterface[DiagramFlossEquation])
-	case *Effort:
-		stage.OnAfterEffortCreateCallback = any(callback).(OnAfterCreateInterface[Effort])
-	case *Library:
-		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
-	case *Note:
-		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
-	case *NoteComplexityShape:
-		stage.OnAfterNoteComplexityShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteComplexityShape])
-	case *NoteEffortShape:
-		stage.OnAfterNoteEffortShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteEffortShape])
-	case *NotePerformanceShape:
-		stage.OnAfterNotePerformanceShapeCreateCallback = any(callback).(OnAfterCreateInterface[NotePerformanceShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-	case *Performance:
-		stage.OnAfterPerformanceCreateCallback = any(callback).(OnAfterCreateInterface[Performance])
-	case *System:
-		stage.OnAfterSystemCreateCallback = any(callback).(OnAfterCreateInterface[System])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *CompareAnalysis:
-		stage.OnAfterCompareAnalysisDeleteCallback = any(callback).(OnAfterDeleteInterface[CompareAnalysis])
-	case *Complexity:
-		stage.OnAfterComplexityDeleteCallback = any(callback).(OnAfterDeleteInterface[Complexity])
-	case *DiagramFlossEquation:
-		stage.OnAfterDiagramFlossEquationDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramFlossEquation])
-	case *Effort:
-		stage.OnAfterEffortDeleteCallback = any(callback).(OnAfterDeleteInterface[Effort])
-	case *Library:
-		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
-	case *Note:
-		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
-	case *NoteComplexityShape:
-		stage.OnAfterNoteComplexityShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteComplexityShape])
-	case *NoteEffortShape:
-		stage.OnAfterNoteEffortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteEffortShape])
-	case *NotePerformanceShape:
-		stage.OnAfterNotePerformanceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NotePerformanceShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-	case *Performance:
-		stage.OnAfterPerformanceDeleteCallback = any(callback).(OnAfterDeleteInterface[Performance])
-	case *System:
-		stage.OnAfterSystemDeleteCallback = any(callback).(OnAfterDeleteInterface[System])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *CompareAnalysis:
-		stage.OnAfterCompareAnalysisReadCallback = any(callback).(OnAfterReadInterface[CompareAnalysis])
-	case *Complexity:
-		stage.OnAfterComplexityReadCallback = any(callback).(OnAfterReadInterface[Complexity])
-	case *DiagramFlossEquation:
-		stage.OnAfterDiagramFlossEquationReadCallback = any(callback).(OnAfterReadInterface[DiagramFlossEquation])
-	case *Effort:
-		stage.OnAfterEffortReadCallback = any(callback).(OnAfterReadInterface[Effort])
-	case *Library:
-		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
-	case *Note:
-		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
-	case *NoteComplexityShape:
-		stage.OnAfterNoteComplexityShapeReadCallback = any(callback).(OnAfterReadInterface[NoteComplexityShape])
-	case *NoteEffortShape:
-		stage.OnAfterNoteEffortShapeReadCallback = any(callback).(OnAfterReadInterface[NoteEffortShape])
-	case *NotePerformanceShape:
-		stage.OnAfterNotePerformanceShapeReadCallback = any(callback).(OnAfterReadInterface[NotePerformanceShape])
-	case *NoteShape:
-		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-	case *Performance:
-		stage.OnAfterPerformanceReadCallback = any(callback).(OnAfterReadInterface[Performance])
-	case *System:
-		stage.OnAfterSystemReadCallback = any(callback).(OnAfterReadInterface[System])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

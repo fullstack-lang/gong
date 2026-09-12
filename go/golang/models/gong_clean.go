@@ -18,16 +18,15 @@ package models
 
 import "time"
 
-// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
-// T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+// CleanSlice is the Stage method that removes unstaged elements from a slice of pointers.
+func (stage *Stage) CleanSlice[T PointerToGongstruct](slice *[]T) (modified bool) {
 	if *slice == nil {
 		return false
 	}
 
 	var cleanedSlice []T
 	for _, element := range *slice {
-		if IsStagedPointerToGongstruct(stage, element) {
+		if stage.IsStaged(element) {
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
@@ -38,20 +37,29 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified b
 	return
 }
 
-// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
-// T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+// GongCleanSlice is a backward-compatible forwarder to stage.CleanSlice.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+	return stage.CleanSlice(slice)
+}
+
+// CleanPointer is the Stage method that sets the pointer to nil if the referenced element is not staged.
+func (stage *Stage) CleanPointer[T PointerToGongstruct](element *T) (modified bool) {
 	var zero T
 	if *element == zero {
 		return
 	}
 
-	if !IsStagedPointerToGongstruct(stage, *element) {
+	if !stage.IsStaged(*element) {
 		*element = zero
 		modified = true
 		return
 	}
 	return
+}
+
+// GongCleanPointer is a backward-compatible forwarder to stage.CleanPointer.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+	return stage.CleanPointer(element)
 }
 
 // insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}

@@ -24,26 +24,26 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*AsSplit](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*AsSplitArea](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Button](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Cursor](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*FavIcon](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Form](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Load](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*LogoOnTheLeft](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*LogoOnTheRight](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Markdown](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Slider](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Split](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Svg](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Table](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Threejs](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Title](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Tone](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Tree](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*View](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Xlsx](stage, f, addIDs)
+		stage.SerializeExcelizePointer2[*AsSplit](f, addIDs)
+		stage.SerializeExcelizePointer2[*AsSplitArea](f, addIDs)
+		stage.SerializeExcelizePointer2[*Button](f, addIDs)
+		stage.SerializeExcelizePointer2[*Cursor](f, addIDs)
+		stage.SerializeExcelizePointer2[*FavIcon](f, addIDs)
+		stage.SerializeExcelizePointer2[*Form](f, addIDs)
+		stage.SerializeExcelizePointer2[*Load](f, addIDs)
+		stage.SerializeExcelizePointer2[*LogoOnTheLeft](f, addIDs)
+		stage.SerializeExcelizePointer2[*LogoOnTheRight](f, addIDs)
+		stage.SerializeExcelizePointer2[*Markdown](f, addIDs)
+		stage.SerializeExcelizePointer2[*Slider](f, addIDs)
+		stage.SerializeExcelizePointer2[*Split](f, addIDs)
+		stage.SerializeExcelizePointer2[*Svg](f, addIDs)
+		stage.SerializeExcelizePointer2[*Table](f, addIDs)
+		stage.SerializeExcelizePointer2[*Threejs](f, addIDs)
+		stage.SerializeExcelizePointer2[*Title](f, addIDs)
+		stage.SerializeExcelizePointer2[*Tone](f, addIDs)
+		stage.SerializeExcelizePointer2[*Tree](f, addIDs)
+		stage.SerializeExcelizePointer2[*View](f, addIDs)
+		stage.SerializeExcelizePointer2[*Xlsx](f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
@@ -223,11 +223,13 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
-	SerializeExcelizePointerToGongstruct2[Type](stage, f, false)
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
 }
 
-func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	sheetName = shortenString(sheetName)
@@ -235,7 +237,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *GetGongstructInstancesSetFromPointerType[Type](stage)
+	set := *stage.GetInstancesSet[Type]()
 
 	var sortedSlice []Type
 	for key := range set {
@@ -337,4 +339,14 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
+}
+
+// SerializeExcelizePointerToGongstruct is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
+	stage.SerializeExcelizePointer[Type](f)
+}
+
+// SerializeExcelizePointerToGongstruct2 is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+	stage.SerializeExcelizePointer2[Type](f, addIDs)
 }

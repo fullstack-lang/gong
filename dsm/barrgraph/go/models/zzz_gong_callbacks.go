@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -63,12 +63,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -142,8 +147,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -217,198 +227,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *ArtefactType:
-		if stage.OnAfterArtefactTypeReadCallback != nil {
-			stage.OnAfterArtefactTypeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ArtefactTypeShape:
-		if stage.OnAfterArtefactTypeShapeReadCallback != nil {
-			stage.OnAfterArtefactTypeShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Artist:
-		if stage.OnAfterArtistReadCallback != nil {
-			stage.OnAfterArtistReadCallback.OnAfterRead(stage, target)
-		}
-	case *ArtistShape:
-		if stage.OnAfterArtistShapeReadCallback != nil {
-			stage.OnAfterArtistShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *ControlPointShape:
-		if stage.OnAfterControlPointShapeReadCallback != nil {
-			stage.OnAfterControlPointShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Desk:
-		if stage.OnAfterDeskReadCallback != nil {
-			stage.OnAfterDeskReadCallback.OnAfterRead(stage, target)
-		}
-	case *Diagram:
-		if stage.OnAfterDiagramReadCallback != nil {
-			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
-		}
-	case *Influence:
-		if stage.OnAfterInfluenceReadCallback != nil {
-			stage.OnAfterInfluenceReadCallback.OnAfterRead(stage, target)
-		}
-	case *InfluenceShape:
-		if stage.OnAfterInfluenceShapeReadCallback != nil {
-			stage.OnAfterInfluenceShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Library:
-		if stage.OnAfterLibraryReadCallback != nil {
-			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Movement:
-		if stage.OnAfterMovementReadCallback != nil {
-			stage.OnAfterMovementReadCallback.OnAfterRead(stage, target)
-		}
-	case *MovementShape:
-		if stage.OnAfterMovementShapeReadCallback != nil {
-			stage.OnAfterMovementShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Place:
-		if stage.OnAfterPlaceReadCallback != nil {
-			stage.OnAfterPlaceReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArtefactType])
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArtefactTypeShape])
-	case *Artist:
-		stage.OnAfterArtistUpdateCallback = any(callback).(OnAfterUpdateInterface[Artist])
-	case *ArtistShape:
-		stage.OnAfterArtistShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArtistShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlPointShape])
-	case *Desk:
-		stage.OnAfterDeskUpdateCallback = any(callback).(OnAfterUpdateInterface[Desk])
-	case *Diagram:
-		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
-	case *Influence:
-		stage.OnAfterInfluenceUpdateCallback = any(callback).(OnAfterUpdateInterface[Influence])
-	case *InfluenceShape:
-		stage.OnAfterInfluenceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InfluenceShape])
-	case *Library:
-		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
-	case *Movement:
-		stage.OnAfterMovementUpdateCallback = any(callback).(OnAfterUpdateInterface[Movement])
-	case *MovementShape:
-		stage.OnAfterMovementShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[MovementShape])
-	case *Place:
-		stage.OnAfterPlaceUpdateCallback = any(callback).(OnAfterUpdateInterface[Place])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeCreateCallback = any(callback).(OnAfterCreateInterface[ArtefactType])
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeCreateCallback = any(callback).(OnAfterCreateInterface[ArtefactTypeShape])
-	case *Artist:
-		stage.OnAfterArtistCreateCallback = any(callback).(OnAfterCreateInterface[Artist])
-	case *ArtistShape:
-		stage.OnAfterArtistShapeCreateCallback = any(callback).(OnAfterCreateInterface[ArtistShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeCreateCallback = any(callback).(OnAfterCreateInterface[ControlPointShape])
-	case *Desk:
-		stage.OnAfterDeskCreateCallback = any(callback).(OnAfterCreateInterface[Desk])
-	case *Diagram:
-		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
-	case *Influence:
-		stage.OnAfterInfluenceCreateCallback = any(callback).(OnAfterCreateInterface[Influence])
-	case *InfluenceShape:
-		stage.OnAfterInfluenceShapeCreateCallback = any(callback).(OnAfterCreateInterface[InfluenceShape])
-	case *Library:
-		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
-	case *Movement:
-		stage.OnAfterMovementCreateCallback = any(callback).(OnAfterCreateInterface[Movement])
-	case *MovementShape:
-		stage.OnAfterMovementShapeCreateCallback = any(callback).(OnAfterCreateInterface[MovementShape])
-	case *Place:
-		stage.OnAfterPlaceCreateCallback = any(callback).(OnAfterCreateInterface[Place])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtefactType])
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtefactTypeShape])
-	case *Artist:
-		stage.OnAfterArtistDeleteCallback = any(callback).(OnAfterDeleteInterface[Artist])
-	case *ArtistShape:
-		stage.OnAfterArtistShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtistShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlPointShape])
-	case *Desk:
-		stage.OnAfterDeskDeleteCallback = any(callback).(OnAfterDeleteInterface[Desk])
-	case *Diagram:
-		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
-	case *Influence:
-		stage.OnAfterInfluenceDeleteCallback = any(callback).(OnAfterDeleteInterface[Influence])
-	case *InfluenceShape:
-		stage.OnAfterInfluenceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InfluenceShape])
-	case *Library:
-		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
-	case *Movement:
-		stage.OnAfterMovementDeleteCallback = any(callback).(OnAfterDeleteInterface[Movement])
-	case *MovementShape:
-		stage.OnAfterMovementShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[MovementShape])
-	case *Place:
-		stage.OnAfterPlaceDeleteCallback = any(callback).(OnAfterDeleteInterface[Place])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeReadCallback = any(callback).(OnAfterReadInterface[ArtefactType])
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeReadCallback = any(callback).(OnAfterReadInterface[ArtefactTypeShape])
-	case *Artist:
-		stage.OnAfterArtistReadCallback = any(callback).(OnAfterReadInterface[Artist])
-	case *ArtistShape:
-		stage.OnAfterArtistShapeReadCallback = any(callback).(OnAfterReadInterface[ArtistShape])
-	case *ControlPointShape:
-		stage.OnAfterControlPointShapeReadCallback = any(callback).(OnAfterReadInterface[ControlPointShape])
-	case *Desk:
-		stage.OnAfterDeskReadCallback = any(callback).(OnAfterReadInterface[Desk])
-	case *Diagram:
-		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
-	case *Influence:
-		stage.OnAfterInfluenceReadCallback = any(callback).(OnAfterReadInterface[Influence])
-	case *InfluenceShape:
-		stage.OnAfterInfluenceShapeReadCallback = any(callback).(OnAfterReadInterface[InfluenceShape])
-	case *Library:
-		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
-	case *Movement:
-		stage.OnAfterMovementReadCallback = any(callback).(OnAfterReadInterface[Movement])
-	case *MovementShape:
-		stage.OnAfterMovementShapeReadCallback = any(callback).(OnAfterReadInterface[MovementShape])
-	case *Place:
-		stage.OnAfterPlaceReadCallback = any(callback).(OnAfterReadInterface[Place])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

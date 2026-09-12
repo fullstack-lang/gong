@@ -181,7 +181,7 @@ func (controller *Controller) PostDisplayedColumn(w http.ResponseWriter, r *http
 	displayedcolumn := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[displayedcolumnDB.ID]
 
 	if displayedcolumn != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), displayedcolumn)
+		backRepo.GetStage().AfterCreateFromFront(displayedcolumn)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateDisplayedColumn(w http.ResponseWriter, r *ht
 	// get stage instance from DB instance, and call callback function
 	displayedcolumnOld := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[displayedcolumnDB.ID]
 	if displayedcolumnOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), displayedcolumnOld, displayedcolumnNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(displayedcolumnOld, displayedcolumnNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteDisplayedColumn(w http.ResponseWriter, r *ht
 	// get stage instance from DB instance, and call callback function
 	displayedcolumnStaged := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[displayedcolumnDB.ID]
 	if displayedcolumnStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), displayedcolumnStaged, displayedcolumnDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(displayedcolumnStaged, displayedcolumnDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

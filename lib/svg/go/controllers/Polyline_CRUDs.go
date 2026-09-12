@@ -181,7 +181,7 @@ func (controller *Controller) PostPolyline(w http.ResponseWriter, r *http.Reques
 	polyline := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[polylineDB.ID]
 
 	if polyline != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), polyline)
+		backRepo.GetStage().AfterCreateFromFront(polyline)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdatePolyline(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	polylineOld := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[polylineDB.ID]
 	if polylineOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), polylineOld, polylineNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(polylineOld, polylineNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeletePolyline(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	polylineStaged := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[polylineDB.ID]
 	if polylineStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), polylineStaged, polylineDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(polylineStaged, polylineDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

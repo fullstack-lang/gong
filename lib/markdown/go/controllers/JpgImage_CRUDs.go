@@ -181,7 +181,7 @@ func (controller *Controller) PostJpgImage(w http.ResponseWriter, r *http.Reques
 	jpgimage := backRepo.BackRepoJpgImage.Map_JpgImageDBID_JpgImagePtr[jpgimageDB.ID]
 
 	if jpgimage != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), jpgimage)
+		backRepo.GetStage().AfterCreateFromFront(jpgimage)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateJpgImage(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	jpgimageOld := backRepo.BackRepoJpgImage.Map_JpgImageDBID_JpgImagePtr[jpgimageDB.ID]
 	if jpgimageOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), jpgimageOld, jpgimageNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(jpgimageOld, jpgimageNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteJpgImage(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	jpgimageStaged := backRepo.BackRepoJpgImage.Map_JpgImageDBID_JpgImagePtr[jpgimageDB.ID]
 	if jpgimageStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), jpgimageStaged, jpgimageDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(jpgimageStaged, jpgimageDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

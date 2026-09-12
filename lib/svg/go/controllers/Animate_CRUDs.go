@@ -181,7 +181,7 @@ func (controller *Controller) PostAnimate(w http.ResponseWriter, r *http.Request
 	animate := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB.ID]
 
 	if animate != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), animate)
+		backRepo.GetStage().AfterCreateFromFront(animate)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateAnimate(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	animateOld := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB.ID]
 	if animateOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), animateOld, animateNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(animateOld, animateNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteAnimate(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	animateStaged := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB.ID]
 	if animateStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), animateStaged, animateDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(animateStaged, animateDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostCheckBox(w http.ResponseWriter, r *http.Reques
 	checkbox := backRepo.BackRepoCheckBox.Map_CheckBoxDBID_CheckBoxPtr[checkboxDB.ID]
 
 	if checkbox != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), checkbox)
+		backRepo.GetStage().AfterCreateFromFront(checkbox)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCheckBox(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	checkboxOld := backRepo.BackRepoCheckBox.Map_CheckBoxDBID_CheckBoxPtr[checkboxDB.ID]
 	if checkboxOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), checkboxOld, checkboxNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(checkboxOld, checkboxNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCheckBox(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	checkboxStaged := backRepo.BackRepoCheckBox.Map_CheckBoxDBID_CheckBoxPtr[checkboxDB.ID]
 	if checkboxStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), checkboxStaged, checkboxDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(checkboxStaged, checkboxDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

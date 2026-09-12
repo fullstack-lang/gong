@@ -181,7 +181,7 @@ func (controller *Controller) PostSphereGeometry(w http.ResponseWriter, r *http.
 	spheregeometry := backRepo.BackRepoSphereGeometry.Map_SphereGeometryDBID_SphereGeometryPtr[spheregeometryDB.ID]
 
 	if spheregeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), spheregeometry)
+		backRepo.GetStage().AfterCreateFromFront(spheregeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateSphereGeometry(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	spheregeometryOld := backRepo.BackRepoSphereGeometry.Map_SphereGeometryDBID_SphereGeometryPtr[spheregeometryDB.ID]
 	if spheregeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), spheregeometryOld, spheregeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(spheregeometryOld, spheregeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteSphereGeometry(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	spheregeometryStaged := backRepo.BackRepoSphereGeometry.Map_SphereGeometryDBID_SphereGeometryPtr[spheregeometryDB.ID]
 	if spheregeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), spheregeometryStaged, spheregeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(spheregeometryStaged, spheregeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

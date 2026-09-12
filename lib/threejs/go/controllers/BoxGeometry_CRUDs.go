@@ -181,7 +181,7 @@ func (controller *Controller) PostBoxGeometry(w http.ResponseWriter, r *http.Req
 	boxgeometry := backRepo.BackRepoBoxGeometry.Map_BoxGeometryDBID_BoxGeometryPtr[boxgeometryDB.ID]
 
 	if boxgeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), boxgeometry)
+		backRepo.GetStage().AfterCreateFromFront(boxgeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateBoxGeometry(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	boxgeometryOld := backRepo.BackRepoBoxGeometry.Map_BoxGeometryDBID_BoxGeometryPtr[boxgeometryDB.ID]
 	if boxgeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), boxgeometryOld, boxgeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(boxgeometryOld, boxgeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteBoxGeometry(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	boxgeometryStaged := backRepo.BackRepoBoxGeometry.Map_BoxGeometryDBID_BoxGeometryPtr[boxgeometryDB.ID]
 	if boxgeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), boxgeometryStaged, boxgeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(boxgeometryStaged, boxgeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

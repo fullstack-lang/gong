@@ -181,7 +181,7 @@ func (controller *Controller) PostMenu(w http.ResponseWriter, r *http.Request) {
 	menu := backRepo.BackRepoMenu.Map_MenuDBID_MenuPtr[menuDB.ID]
 
 	if menu != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), menu)
+		backRepo.GetStage().AfterCreateFromFront(menu)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateMenu(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	menuOld := backRepo.BackRepoMenu.Map_MenuDBID_MenuPtr[menuDB.ID]
 	if menuOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), menuOld, menuNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(menuOld, menuNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteMenu(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	menuStaged := backRepo.BackRepoMenu.Map_MenuDBID_MenuPtr[menuDB.ID]
 	if menuStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), menuStaged, menuDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(menuStaged, menuDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

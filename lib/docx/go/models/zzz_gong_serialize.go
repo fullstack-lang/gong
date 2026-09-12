@@ -24,22 +24,22 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*Body](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Document](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Docx](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*File](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Node](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Paragraph](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ParagraphProperties](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ParagraphStyle](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Rune](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RuneProperties](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Table](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*TableColumn](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*TableProperties](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*TableRow](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*TableStyle](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Text](stage, f, addIDs)
+		stage.SerializeExcelizePointer2[*Body](f, addIDs)
+		stage.SerializeExcelizePointer2[*Document](f, addIDs)
+		stage.SerializeExcelizePointer2[*Docx](f, addIDs)
+		stage.SerializeExcelizePointer2[*File](f, addIDs)
+		stage.SerializeExcelizePointer2[*Node](f, addIDs)
+		stage.SerializeExcelizePointer2[*Paragraph](f, addIDs)
+		stage.SerializeExcelizePointer2[*ParagraphProperties](f, addIDs)
+		stage.SerializeExcelizePointer2[*ParagraphStyle](f, addIDs)
+		stage.SerializeExcelizePointer2[*Rune](f, addIDs)
+		stage.SerializeExcelizePointer2[*RuneProperties](f, addIDs)
+		stage.SerializeExcelizePointer2[*Table](f, addIDs)
+		stage.SerializeExcelizePointer2[*TableColumn](f, addIDs)
+		stage.SerializeExcelizePointer2[*TableProperties](f, addIDs)
+		stage.SerializeExcelizePointer2[*TableRow](f, addIDs)
+		stage.SerializeExcelizePointer2[*TableStyle](f, addIDs)
+		stage.SerializeExcelizePointer2[*Text](f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
@@ -219,11 +219,13 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
-	SerializeExcelizePointerToGongstruct2[Type](stage, f, false)
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
 }
 
-func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	sheetName = shortenString(sheetName)
@@ -231,7 +233,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *GetGongstructInstancesSetFromPointerType[Type](stage)
+	set := *stage.GetInstancesSet[Type]()
 
 	var sortedSlice []Type
 	for key := range set {
@@ -333,4 +335,14 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
+}
+
+// SerializeExcelizePointerToGongstruct is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
+	stage.SerializeExcelizePointer[Type](f)
+}
+
+// SerializeExcelizePointerToGongstruct2 is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+	stage.SerializeExcelizePointer2[Type](f, addIDs)
 }

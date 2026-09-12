@@ -181,7 +181,7 @@ func (controller *Controller) PostGroup(w http.ResponseWriter, r *http.Request) 
 	group := backRepo.BackRepoGroup.Map_GroupDBID_GroupPtr[groupDB.ID]
 
 	if group != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), group)
+		backRepo.GetStage().AfterCreateFromFront(group)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateGroup(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	groupOld := backRepo.BackRepoGroup.Map_GroupDBID_GroupPtr[groupDB.ID]
 	if groupOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), groupOld, groupNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(groupOld, groupNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteGroup(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	groupStaged := backRepo.BackRepoGroup.Map_GroupDBID_GroupPtr[groupDB.ID]
 	if groupStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), groupStaged, groupDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(groupStaged, groupDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostGroupToogle(w http.ResponseWriter, r *http.Req
 	grouptoogle := backRepo.BackRepoGroupToogle.Map_GroupToogleDBID_GroupTooglePtr[grouptoogleDB.ID]
 
 	if grouptoogle != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), grouptoogle)
+		backRepo.GetStage().AfterCreateFromFront(grouptoogle)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateGroupToogle(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	grouptoogleOld := backRepo.BackRepoGroupToogle.Map_GroupToogleDBID_GroupTooglePtr[grouptoogleDB.ID]
 	if grouptoogleOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), grouptoogleOld, grouptoogleNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(grouptoogleOld, grouptoogleNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteGroupToogle(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	grouptoogleStaged := backRepo.BackRepoGroupToogle.Map_GroupToogleDBID_GroupTooglePtr[grouptoogleDB.ID]
 	if grouptoogleStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), grouptoogleStaged, grouptoogleDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(grouptoogleStaged, grouptoogleDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

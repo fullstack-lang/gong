@@ -181,7 +181,7 @@ func (controller *Controller) PostFormSortAssocButton(w http.ResponseWriter, r *
 	formsortassocbutton := backRepo.BackRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr[formsortassocbuttonDB.ID]
 
 	if formsortassocbutton != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formsortassocbutton)
+		backRepo.GetStage().AfterCreateFromFront(formsortassocbutton)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormSortAssocButton(w http.ResponseWriter, r
 	// get stage instance from DB instance, and call callback function
 	formsortassocbuttonOld := backRepo.BackRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr[formsortassocbuttonDB.ID]
 	if formsortassocbuttonOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formsortassocbuttonOld, formsortassocbuttonNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(formsortassocbuttonOld, formsortassocbuttonNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormSortAssocButton(w http.ResponseWriter, r
 	// get stage instance from DB instance, and call callback function
 	formsortassocbuttonStaged := backRepo.BackRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr[formsortassocbuttonDB.ID]
 	if formsortassocbuttonStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formsortassocbuttonStaged, formsortassocbuttonDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(formsortassocbuttonStaged, formsortassocbuttonDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

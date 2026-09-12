@@ -181,7 +181,7 @@ func (controller *Controller) PostTable(w http.ResponseWriter, r *http.Request) 
 	table := backRepo.BackRepoTable.Map_TableDBID_TablePtr[tableDB.ID]
 
 	if table != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), table)
+		backRepo.GetStage().AfterCreateFromFront(table)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateTable(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	tableOld := backRepo.BackRepoTable.Map_TableDBID_TablePtr[tableDB.ID]
 	if tableOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), tableOld, tableNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(tableOld, tableNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteTable(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	tableStaged := backRepo.BackRepoTable.Map_TableDBID_TablePtr[tableDB.ID]
 	if tableStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), tableStaged, tableDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(tableStaged, tableDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostRectAnchoredRect(w http.ResponseWriter, r *htt
 	rectanchoredrect := backRepo.BackRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectPtr[rectanchoredrectDB.ID]
 
 	if rectanchoredrect != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), rectanchoredrect)
+		backRepo.GetStage().AfterCreateFromFront(rectanchoredrect)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateRectAnchoredRect(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	rectanchoredrectOld := backRepo.BackRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectPtr[rectanchoredrectDB.ID]
 	if rectanchoredrectOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), rectanchoredrectOld, rectanchoredrectNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(rectanchoredrectOld, rectanchoredrectNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteRectAnchoredRect(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	rectanchoredrectStaged := backRepo.BackRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectPtr[rectanchoredrectDB.ID]
 	if rectanchoredrectStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), rectanchoredrectStaged, rectanchoredrectDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(rectanchoredrectStaged, rectanchoredrectDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostLinkAnchoredText(w http.ResponseWriter, r *htt
 	linkanchoredtext := backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[linkanchoredtextDB.ID]
 
 	if linkanchoredtext != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), linkanchoredtext)
+		backRepo.GetStage().AfterCreateFromFront(linkanchoredtext)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateLinkAnchoredText(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	linkanchoredtextOld := backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[linkanchoredtextDB.ID]
 	if linkanchoredtextOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), linkanchoredtextOld, linkanchoredtextNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(linkanchoredtextOld, linkanchoredtextNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteLinkAnchoredText(w http.ResponseWriter, r *h
 	// get stage instance from DB instance, and call callback function
 	linkanchoredtextStaged := backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[linkanchoredtextDB.ID]
 	if linkanchoredtextStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), linkanchoredtextStaged, linkanchoredtextDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(linkanchoredtextStaged, linkanchoredtextDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostCell(w http.ResponseWriter, r *http.Request) {
 	cell := backRepo.BackRepoCell.Map_CellDBID_CellPtr[cellDB.ID]
 
 	if cell != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), cell)
+		backRepo.GetStage().AfterCreateFromFront(cell)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCell(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	cellOld := backRepo.BackRepoCell.Map_CellDBID_CellPtr[cellDB.ID]
 	if cellOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), cellOld, cellNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(cellOld, cellNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCell(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	cellStaged := backRepo.BackRepoCell.Map_CellDBID_CellPtr[cellDB.ID]
 	if cellStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), cellStaged, cellDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(cellStaged, cellDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

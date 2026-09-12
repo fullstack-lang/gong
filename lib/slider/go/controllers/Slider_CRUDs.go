@@ -181,7 +181,7 @@ func (controller *Controller) PostSlider(w http.ResponseWriter, r *http.Request)
 	slider := backRepo.BackRepoSlider.Map_SliderDBID_SliderPtr[sliderDB.ID]
 
 	if slider != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), slider)
+		backRepo.GetStage().AfterCreateFromFront(slider)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateSlider(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	sliderOld := backRepo.BackRepoSlider.Map_SliderDBID_SliderPtr[sliderDB.ID]
 	if sliderOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), sliderOld, sliderNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(sliderOld, sliderNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteSlider(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	sliderStaged := backRepo.BackRepoSlider.Map_SliderDBID_SliderPtr[sliderDB.ID]
 	if sliderStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), sliderStaged, sliderDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(sliderStaged, sliderDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

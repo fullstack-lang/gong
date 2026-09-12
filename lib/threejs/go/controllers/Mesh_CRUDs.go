@@ -181,7 +181,7 @@ func (controller *Controller) PostMesh(w http.ResponseWriter, r *http.Request) {
 	mesh := backRepo.BackRepoMesh.Map_MeshDBID_MeshPtr[meshDB.ID]
 
 	if mesh != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), mesh)
+		backRepo.GetStage().AfterCreateFromFront(mesh)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateMesh(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	meshOld := backRepo.BackRepoMesh.Map_MeshDBID_MeshPtr[meshDB.ID]
 	if meshOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), meshOld, meshNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(meshOld, meshNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteMesh(w http.ResponseWriter, r *http.Request)
 	// get stage instance from DB instance, and call callback function
 	meshStaged := backRepo.BackRepoMesh.Map_MeshDBID_MeshPtr[meshDB.ID]
 	if meshStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), meshStaged, meshDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(meshStaged, meshDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

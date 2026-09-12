@@ -3,7 +3,8 @@ package models
 
 import "fmt"
 
-func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+// IsStaged is the Stage method checking if a gongstruct instance is staged.
+func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -32,6 +33,10 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 		_ = target
 	}
 	return
+}
+
+func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+	return stage.IsStaged(instance)
 }
 
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
@@ -115,11 +120,8 @@ func (stage *Stage) IsStagedMilestone(milestone *Milestone) (ok bool) {
 	return
 }
 
-// StageBranch stages instance and apply StageBranch on all gongstruct instances that are
-// referenced by pointers or slices of pointers of the instance
-//
-// the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+// StageBranch is the Stage method that stages instance and applies StageBranch recursively.
+func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -147,6 +149,11 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	default:
 		_ = target
 	}
+}
+
+// StageBranch is a backward-compatible package-level forwarder.
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
@@ -498,7 +505,8 @@ func CopyBranchMilestone(mapOrigCopy map[any]any, milestoneFrom *Milestone) (mil
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+// UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
+func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -526,6 +534,11 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	default:
 		_ = target
 	}
+}
+
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.UnstageBranch(instance)
 }
 
 // insertion point for unstage branch per struct
@@ -1197,9 +1210,8 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 	return
 }
 
-// Diff returns the sequence of operations to transform oldSlice into newSlice.
-// It requires type T to be comparable (e.g., pointers, ints, strings).
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+// Diff is the Stage method that returns the sequence of operations to transform oldSlice into newSlice.
+func (stage *Stage) Diff[T1, T2 PointerToGongstruct](a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
 	m, n := len(oldSlice), len(newSlice)
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
@@ -1272,4 +1284,9 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	}
 
 	return ops
+}
+
+// Diff is a backward-compatible package-level forwarder to stage.Diff.
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	return stage.Diff(a, b, fieldName, oldSlice, newSlice)
 }

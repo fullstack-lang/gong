@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -91,12 +91,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -205,8 +210,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -315,282 +325,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *AmbiantLight:
-		if stage.OnAfterAmbiantLightReadCallback != nil {
-			stage.OnAfterAmbiantLightReadCallback.OnAfterRead(stage, target)
-		}
-	case *BoxGeometry:
-		if stage.OnAfterBoxGeometryReadCallback != nil {
-			stage.OnAfterBoxGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *BufferGeometry:
-		if stage.OnAfterBufferGeometryReadCallback != nil {
-			stage.OnAfterBufferGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Camera:
-		if stage.OnAfterCameraReadCallback != nil {
-			stage.OnAfterCameraReadCallback.OnAfterRead(stage, target)
-		}
-	case *Canvas:
-		if stage.OnAfterCanvasReadCallback != nil {
-			stage.OnAfterCanvasReadCallback.OnAfterRead(stage, target)
-		}
-	case *Curve:
-		if stage.OnAfterCurveReadCallback != nil {
-			stage.OnAfterCurveReadCallback.OnAfterRead(stage, target)
-		}
-	case *CylinderGeometry:
-		if stage.OnAfterCylinderGeometryReadCallback != nil {
-			stage.OnAfterCylinderGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *DirectionalLight:
-		if stage.OnAfterDirectionalLightReadCallback != nil {
-			stage.OnAfterDirectionalLightReadCallback.OnAfterRead(stage, target)
-		}
-	case *ExtrudeGeometry:
-		if stage.OnAfterExtrudeGeometryReadCallback != nil {
-			stage.OnAfterExtrudeGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Mesh:
-		if stage.OnAfterMeshReadCallback != nil {
-			stage.OnAfterMeshReadCallback.OnAfterRead(stage, target)
-		}
-	case *MeshMaterialBasic:
-		if stage.OnAfterMeshMaterialBasicReadCallback != nil {
-			stage.OnAfterMeshMaterialBasicReadCallback.OnAfterRead(stage, target)
-		}
-	case *MeshPhysicalMaterial:
-		if stage.OnAfterMeshPhysicalMaterialReadCallback != nil {
-			stage.OnAfterMeshPhysicalMaterialReadCallback.OnAfterRead(stage, target)
-		}
-	case *PlaneGeometry:
-		if stage.OnAfterPlaneGeometryReadCallback != nil {
-			stage.OnAfterPlaneGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Shape:
-		if stage.OnAfterShapeReadCallback != nil {
-			stage.OnAfterShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *SphereGeometry:
-		if stage.OnAfterSphereGeometryReadCallback != nil {
-			stage.OnAfterSphereGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *TorusGeometry:
-		if stage.OnAfterTorusGeometryReadCallback != nil {
-			stage.OnAfterTorusGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Triangle:
-		if stage.OnAfterTriangleReadCallback != nil {
-			stage.OnAfterTriangleReadCallback.OnAfterRead(stage, target)
-		}
-	case *TubeGeometry:
-		if stage.OnAfterTubeGeometryReadCallback != nil {
-			stage.OnAfterTubeGeometryReadCallback.OnAfterRead(stage, target)
-		}
-	case *Vector2:
-		if stage.OnAfterVector2ReadCallback != nil {
-			stage.OnAfterVector2ReadCallback.OnAfterRead(stage, target)
-		}
-	case *Vector3:
-		if stage.OnAfterVector3ReadCallback != nil {
-			stage.OnAfterVector3ReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AmbiantLight:
-		stage.OnAfterAmbiantLightUpdateCallback = any(callback).(OnAfterUpdateInterface[AmbiantLight])
-	case *BoxGeometry:
-		stage.OnAfterBoxGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[BoxGeometry])
-	case *BufferGeometry:
-		stage.OnAfterBufferGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[BufferGeometry])
-	case *Camera:
-		stage.OnAfterCameraUpdateCallback = any(callback).(OnAfterUpdateInterface[Camera])
-	case *Canvas:
-		stage.OnAfterCanvasUpdateCallback = any(callback).(OnAfterUpdateInterface[Canvas])
-	case *Curve:
-		stage.OnAfterCurveUpdateCallback = any(callback).(OnAfterUpdateInterface[Curve])
-	case *CylinderGeometry:
-		stage.OnAfterCylinderGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[CylinderGeometry])
-	case *DirectionalLight:
-		stage.OnAfterDirectionalLightUpdateCallback = any(callback).(OnAfterUpdateInterface[DirectionalLight])
-	case *ExtrudeGeometry:
-		stage.OnAfterExtrudeGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[ExtrudeGeometry])
-	case *Mesh:
-		stage.OnAfterMeshUpdateCallback = any(callback).(OnAfterUpdateInterface[Mesh])
-	case *MeshMaterialBasic:
-		stage.OnAfterMeshMaterialBasicUpdateCallback = any(callback).(OnAfterUpdateInterface[MeshMaterialBasic])
-	case *MeshPhysicalMaterial:
-		stage.OnAfterMeshPhysicalMaterialUpdateCallback = any(callback).(OnAfterUpdateInterface[MeshPhysicalMaterial])
-	case *PlaneGeometry:
-		stage.OnAfterPlaneGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[PlaneGeometry])
-	case *Shape:
-		stage.OnAfterShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Shape])
-	case *SphereGeometry:
-		stage.OnAfterSphereGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[SphereGeometry])
-	case *TorusGeometry:
-		stage.OnAfterTorusGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[TorusGeometry])
-	case *Triangle:
-		stage.OnAfterTriangleUpdateCallback = any(callback).(OnAfterUpdateInterface[Triangle])
-	case *TubeGeometry:
-		stage.OnAfterTubeGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[TubeGeometry])
-	case *Vector2:
-		stage.OnAfterVector2UpdateCallback = any(callback).(OnAfterUpdateInterface[Vector2])
-	case *Vector3:
-		stage.OnAfterVector3UpdateCallback = any(callback).(OnAfterUpdateInterface[Vector3])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AmbiantLight:
-		stage.OnAfterAmbiantLightCreateCallback = any(callback).(OnAfterCreateInterface[AmbiantLight])
-	case *BoxGeometry:
-		stage.OnAfterBoxGeometryCreateCallback = any(callback).(OnAfterCreateInterface[BoxGeometry])
-	case *BufferGeometry:
-		stage.OnAfterBufferGeometryCreateCallback = any(callback).(OnAfterCreateInterface[BufferGeometry])
-	case *Camera:
-		stage.OnAfterCameraCreateCallback = any(callback).(OnAfterCreateInterface[Camera])
-	case *Canvas:
-		stage.OnAfterCanvasCreateCallback = any(callback).(OnAfterCreateInterface[Canvas])
-	case *Curve:
-		stage.OnAfterCurveCreateCallback = any(callback).(OnAfterCreateInterface[Curve])
-	case *CylinderGeometry:
-		stage.OnAfterCylinderGeometryCreateCallback = any(callback).(OnAfterCreateInterface[CylinderGeometry])
-	case *DirectionalLight:
-		stage.OnAfterDirectionalLightCreateCallback = any(callback).(OnAfterCreateInterface[DirectionalLight])
-	case *ExtrudeGeometry:
-		stage.OnAfterExtrudeGeometryCreateCallback = any(callback).(OnAfterCreateInterface[ExtrudeGeometry])
-	case *Mesh:
-		stage.OnAfterMeshCreateCallback = any(callback).(OnAfterCreateInterface[Mesh])
-	case *MeshMaterialBasic:
-		stage.OnAfterMeshMaterialBasicCreateCallback = any(callback).(OnAfterCreateInterface[MeshMaterialBasic])
-	case *MeshPhysicalMaterial:
-		stage.OnAfterMeshPhysicalMaterialCreateCallback = any(callback).(OnAfterCreateInterface[MeshPhysicalMaterial])
-	case *PlaneGeometry:
-		stage.OnAfterPlaneGeometryCreateCallback = any(callback).(OnAfterCreateInterface[PlaneGeometry])
-	case *Shape:
-		stage.OnAfterShapeCreateCallback = any(callback).(OnAfterCreateInterface[Shape])
-	case *SphereGeometry:
-		stage.OnAfterSphereGeometryCreateCallback = any(callback).(OnAfterCreateInterface[SphereGeometry])
-	case *TorusGeometry:
-		stage.OnAfterTorusGeometryCreateCallback = any(callback).(OnAfterCreateInterface[TorusGeometry])
-	case *Triangle:
-		stage.OnAfterTriangleCreateCallback = any(callback).(OnAfterCreateInterface[Triangle])
-	case *TubeGeometry:
-		stage.OnAfterTubeGeometryCreateCallback = any(callback).(OnAfterCreateInterface[TubeGeometry])
-	case *Vector2:
-		stage.OnAfterVector2CreateCallback = any(callback).(OnAfterCreateInterface[Vector2])
-	case *Vector3:
-		stage.OnAfterVector3CreateCallback = any(callback).(OnAfterCreateInterface[Vector3])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AmbiantLight:
-		stage.OnAfterAmbiantLightDeleteCallback = any(callback).(OnAfterDeleteInterface[AmbiantLight])
-	case *BoxGeometry:
-		stage.OnAfterBoxGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[BoxGeometry])
-	case *BufferGeometry:
-		stage.OnAfterBufferGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[BufferGeometry])
-	case *Camera:
-		stage.OnAfterCameraDeleteCallback = any(callback).(OnAfterDeleteInterface[Camera])
-	case *Canvas:
-		stage.OnAfterCanvasDeleteCallback = any(callback).(OnAfterDeleteInterface[Canvas])
-	case *Curve:
-		stage.OnAfterCurveDeleteCallback = any(callback).(OnAfterDeleteInterface[Curve])
-	case *CylinderGeometry:
-		stage.OnAfterCylinderGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[CylinderGeometry])
-	case *DirectionalLight:
-		stage.OnAfterDirectionalLightDeleteCallback = any(callback).(OnAfterDeleteInterface[DirectionalLight])
-	case *ExtrudeGeometry:
-		stage.OnAfterExtrudeGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[ExtrudeGeometry])
-	case *Mesh:
-		stage.OnAfterMeshDeleteCallback = any(callback).(OnAfterDeleteInterface[Mesh])
-	case *MeshMaterialBasic:
-		stage.OnAfterMeshMaterialBasicDeleteCallback = any(callback).(OnAfterDeleteInterface[MeshMaterialBasic])
-	case *MeshPhysicalMaterial:
-		stage.OnAfterMeshPhysicalMaterialDeleteCallback = any(callback).(OnAfterDeleteInterface[MeshPhysicalMaterial])
-	case *PlaneGeometry:
-		stage.OnAfterPlaneGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[PlaneGeometry])
-	case *Shape:
-		stage.OnAfterShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Shape])
-	case *SphereGeometry:
-		stage.OnAfterSphereGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[SphereGeometry])
-	case *TorusGeometry:
-		stage.OnAfterTorusGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[TorusGeometry])
-	case *Triangle:
-		stage.OnAfterTriangleDeleteCallback = any(callback).(OnAfterDeleteInterface[Triangle])
-	case *TubeGeometry:
-		stage.OnAfterTubeGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[TubeGeometry])
-	case *Vector2:
-		stage.OnAfterVector2DeleteCallback = any(callback).(OnAfterDeleteInterface[Vector2])
-	case *Vector3:
-		stage.OnAfterVector3DeleteCallback = any(callback).(OnAfterDeleteInterface[Vector3])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AmbiantLight:
-		stage.OnAfterAmbiantLightReadCallback = any(callback).(OnAfterReadInterface[AmbiantLight])
-	case *BoxGeometry:
-		stage.OnAfterBoxGeometryReadCallback = any(callback).(OnAfterReadInterface[BoxGeometry])
-	case *BufferGeometry:
-		stage.OnAfterBufferGeometryReadCallback = any(callback).(OnAfterReadInterface[BufferGeometry])
-	case *Camera:
-		stage.OnAfterCameraReadCallback = any(callback).(OnAfterReadInterface[Camera])
-	case *Canvas:
-		stage.OnAfterCanvasReadCallback = any(callback).(OnAfterReadInterface[Canvas])
-	case *Curve:
-		stage.OnAfterCurveReadCallback = any(callback).(OnAfterReadInterface[Curve])
-	case *CylinderGeometry:
-		stage.OnAfterCylinderGeometryReadCallback = any(callback).(OnAfterReadInterface[CylinderGeometry])
-	case *DirectionalLight:
-		stage.OnAfterDirectionalLightReadCallback = any(callback).(OnAfterReadInterface[DirectionalLight])
-	case *ExtrudeGeometry:
-		stage.OnAfterExtrudeGeometryReadCallback = any(callback).(OnAfterReadInterface[ExtrudeGeometry])
-	case *Mesh:
-		stage.OnAfterMeshReadCallback = any(callback).(OnAfterReadInterface[Mesh])
-	case *MeshMaterialBasic:
-		stage.OnAfterMeshMaterialBasicReadCallback = any(callback).(OnAfterReadInterface[MeshMaterialBasic])
-	case *MeshPhysicalMaterial:
-		stage.OnAfterMeshPhysicalMaterialReadCallback = any(callback).(OnAfterReadInterface[MeshPhysicalMaterial])
-	case *PlaneGeometry:
-		stage.OnAfterPlaneGeometryReadCallback = any(callback).(OnAfterReadInterface[PlaneGeometry])
-	case *Shape:
-		stage.OnAfterShapeReadCallback = any(callback).(OnAfterReadInterface[Shape])
-	case *SphereGeometry:
-		stage.OnAfterSphereGeometryReadCallback = any(callback).(OnAfterReadInterface[SphereGeometry])
-	case *TorusGeometry:
-		stage.OnAfterTorusGeometryReadCallback = any(callback).(OnAfterReadInterface[TorusGeometry])
-	case *Triangle:
-		stage.OnAfterTriangleReadCallback = any(callback).(OnAfterReadInterface[Triangle])
-	case *TubeGeometry:
-		stage.OnAfterTubeGeometryReadCallback = any(callback).(OnAfterReadInterface[TubeGeometry])
-	case *Vector2:
-		stage.OnAfterVector2ReadCallback = any(callback).(OnAfterReadInterface[Vector2])
-	case *Vector3:
-		stage.OnAfterVector3ReadCallback = any(callback).(OnAfterReadInterface[Vector3])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

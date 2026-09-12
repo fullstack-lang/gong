@@ -24,30 +24,30 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*Animate](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Circle](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Condition](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ControlPoint](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Ellipse](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*FileToDownload](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Layer](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Line](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Link](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*LinkAnchoredPath](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*LinkAnchoredText](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Path](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Point](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Polygone](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Polyline](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Rect](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RectAnchoredPath](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RectAnchoredPngImage](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RectAnchoredRect](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RectAnchoredText](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*RectLinkLink](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*SVG](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*SvgText](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Text](stage, f, addIDs)
+		stage.SerializeExcelizePointer2[*Animate](f, addIDs)
+		stage.SerializeExcelizePointer2[*Circle](f, addIDs)
+		stage.SerializeExcelizePointer2[*Condition](f, addIDs)
+		stage.SerializeExcelizePointer2[*ControlPoint](f, addIDs)
+		stage.SerializeExcelizePointer2[*Ellipse](f, addIDs)
+		stage.SerializeExcelizePointer2[*FileToDownload](f, addIDs)
+		stage.SerializeExcelizePointer2[*Layer](f, addIDs)
+		stage.SerializeExcelizePointer2[*Line](f, addIDs)
+		stage.SerializeExcelizePointer2[*Link](f, addIDs)
+		stage.SerializeExcelizePointer2[*LinkAnchoredPath](f, addIDs)
+		stage.SerializeExcelizePointer2[*LinkAnchoredText](f, addIDs)
+		stage.SerializeExcelizePointer2[*Path](f, addIDs)
+		stage.SerializeExcelizePointer2[*Point](f, addIDs)
+		stage.SerializeExcelizePointer2[*Polygone](f, addIDs)
+		stage.SerializeExcelizePointer2[*Polyline](f, addIDs)
+		stage.SerializeExcelizePointer2[*Rect](f, addIDs)
+		stage.SerializeExcelizePointer2[*RectAnchoredPath](f, addIDs)
+		stage.SerializeExcelizePointer2[*RectAnchoredPngImage](f, addIDs)
+		stage.SerializeExcelizePointer2[*RectAnchoredRect](f, addIDs)
+		stage.SerializeExcelizePointer2[*RectAnchoredText](f, addIDs)
+		stage.SerializeExcelizePointer2[*RectLinkLink](f, addIDs)
+		stage.SerializeExcelizePointer2[*SVG](f, addIDs)
+		stage.SerializeExcelizePointer2[*SvgText](f, addIDs)
+		stage.SerializeExcelizePointer2[*Text](f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
@@ -227,11 +227,13 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
-	SerializeExcelizePointerToGongstruct2[Type](stage, f, false)
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
 }
 
-func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	sheetName = shortenString(sheetName)
@@ -239,7 +241,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *GetGongstructInstancesSetFromPointerType[Type](stage)
+	set := *stage.GetInstancesSet[Type]()
 
 	var sortedSlice []Type
 	for key := range set {
@@ -341,4 +343,14 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
+}
+
+// SerializeExcelizePointerToGongstruct is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
+	stage.SerializeExcelizePointer[Type](f)
+}
+
+// SerializeExcelizePointerToGongstruct2 is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+	stage.SerializeExcelizePointer2[Type](f, addIDs)
 }

@@ -181,7 +181,7 @@ func (controller *Controller) PostEngine(w http.ResponseWriter, r *http.Request)
 	engine := backRepo.BackRepoEngine.Map_EngineDBID_EnginePtr[engineDB.ID]
 
 	if engine != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), engine)
+		backRepo.GetStage().AfterCreateFromFront(engine)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateEngine(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	engineOld := backRepo.BackRepoEngine.Map_EngineDBID_EnginePtr[engineDB.ID]
 	if engineOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), engineOld, engineNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(engineOld, engineNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteEngine(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	engineStaged := backRepo.BackRepoEngine.Map_EngineDBID_EnginePtr[engineDB.ID]
 	if engineStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), engineStaged, engineDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(engineStaged, engineDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

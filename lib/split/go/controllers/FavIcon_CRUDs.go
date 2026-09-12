@@ -181,7 +181,7 @@ func (controller *Controller) PostFavIcon(w http.ResponseWriter, r *http.Request
 	favicon := backRepo.BackRepoFavIcon.Map_FavIconDBID_FavIconPtr[faviconDB.ID]
 
 	if favicon != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), favicon)
+		backRepo.GetStage().AfterCreateFromFront(favicon)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFavIcon(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	faviconOld := backRepo.BackRepoFavIcon.Map_FavIconDBID_FavIconPtr[faviconDB.ID]
 	if faviconOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), faviconOld, faviconNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(faviconOld, faviconNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFavIcon(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	faviconStaged := backRepo.BackRepoFavIcon.Map_FavIconDBID_FavIconPtr[faviconDB.ID]
 	if faviconStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), faviconStaged, faviconDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(faviconStaged, faviconDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

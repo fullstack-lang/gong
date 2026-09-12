@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -47,12 +47,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -106,8 +111,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -161,150 +171,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *AttributeShape:
-		if stage.OnAfterAttributeShapeReadCallback != nil {
-			stage.OnAfterAttributeShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Classdiagram:
-		if stage.OnAfterClassdiagramReadCallback != nil {
-			stage.OnAfterClassdiagramReadCallback.OnAfterRead(stage, target)
-		}
-	case *DiagramPackage:
-		if stage.OnAfterDiagramPackageReadCallback != nil {
-			stage.OnAfterDiagramPackageReadCallback.OnAfterRead(stage, target)
-		}
-	case *GongEnumShape:
-		if stage.OnAfterGongEnumShapeReadCallback != nil {
-			stage.OnAfterGongEnumShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *GongEnumValueShape:
-		if stage.OnAfterGongEnumValueShapeReadCallback != nil {
-			stage.OnAfterGongEnumValueShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *GongNoteLinkShape:
-		if stage.OnAfterGongNoteLinkShapeReadCallback != nil {
-			stage.OnAfterGongNoteLinkShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *GongNoteShape:
-		if stage.OnAfterGongNoteShapeReadCallback != nil {
-			stage.OnAfterGongNoteShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *GongStructShape:
-		if stage.OnAfterGongStructShapeReadCallback != nil {
-			stage.OnAfterGongStructShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *LinkShape:
-		if stage.OnAfterLinkShapeReadCallback != nil {
-			stage.OnAfterLinkShapeReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AttributeShape:
-		stage.OnAfterAttributeShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AttributeShape])
-	case *Classdiagram:
-		stage.OnAfterClassdiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Classdiagram])
-	case *DiagramPackage:
-		stage.OnAfterDiagramPackageUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramPackage])
-	case *GongEnumShape:
-		stage.OnAfterGongEnumShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumShape])
-	case *GongEnumValueShape:
-		stage.OnAfterGongEnumValueShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumValueShape])
-	case *GongNoteLinkShape:
-		stage.OnAfterGongNoteLinkShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongNoteLinkShape])
-	case *GongNoteShape:
-		stage.OnAfterGongNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongNoteShape])
-	case *GongStructShape:
-		stage.OnAfterGongStructShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongStructShape])
-	case *LinkShape:
-		stage.OnAfterLinkShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkShape])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AttributeShape:
-		stage.OnAfterAttributeShapeCreateCallback = any(callback).(OnAfterCreateInterface[AttributeShape])
-	case *Classdiagram:
-		stage.OnAfterClassdiagramCreateCallback = any(callback).(OnAfterCreateInterface[Classdiagram])
-	case *DiagramPackage:
-		stage.OnAfterDiagramPackageCreateCallback = any(callback).(OnAfterCreateInterface[DiagramPackage])
-	case *GongEnumShape:
-		stage.OnAfterGongEnumShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumShape])
-	case *GongEnumValueShape:
-		stage.OnAfterGongEnumValueShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumValueShape])
-	case *GongNoteLinkShape:
-		stage.OnAfterGongNoteLinkShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongNoteLinkShape])
-	case *GongNoteShape:
-		stage.OnAfterGongNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongNoteShape])
-	case *GongStructShape:
-		stage.OnAfterGongStructShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongStructShape])
-	case *LinkShape:
-		stage.OnAfterLinkShapeCreateCallback = any(callback).(OnAfterCreateInterface[LinkShape])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AttributeShape:
-		stage.OnAfterAttributeShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AttributeShape])
-	case *Classdiagram:
-		stage.OnAfterClassdiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Classdiagram])
-	case *DiagramPackage:
-		stage.OnAfterDiagramPackageDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramPackage])
-	case *GongEnumShape:
-		stage.OnAfterGongEnumShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumShape])
-	case *GongEnumValueShape:
-		stage.OnAfterGongEnumValueShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumValueShape])
-	case *GongNoteLinkShape:
-		stage.OnAfterGongNoteLinkShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongNoteLinkShape])
-	case *GongNoteShape:
-		stage.OnAfterGongNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongNoteShape])
-	case *GongStructShape:
-		stage.OnAfterGongStructShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongStructShape])
-	case *LinkShape:
-		stage.OnAfterLinkShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkShape])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *AttributeShape:
-		stage.OnAfterAttributeShapeReadCallback = any(callback).(OnAfterReadInterface[AttributeShape])
-	case *Classdiagram:
-		stage.OnAfterClassdiagramReadCallback = any(callback).(OnAfterReadInterface[Classdiagram])
-	case *DiagramPackage:
-		stage.OnAfterDiagramPackageReadCallback = any(callback).(OnAfterReadInterface[DiagramPackage])
-	case *GongEnumShape:
-		stage.OnAfterGongEnumShapeReadCallback = any(callback).(OnAfterReadInterface[GongEnumShape])
-	case *GongEnumValueShape:
-		stage.OnAfterGongEnumValueShapeReadCallback = any(callback).(OnAfterReadInterface[GongEnumValueShape])
-	case *GongNoteLinkShape:
-		stage.OnAfterGongNoteLinkShapeReadCallback = any(callback).(OnAfterReadInterface[GongNoteLinkShape])
-	case *GongNoteShape:
-		stage.OnAfterGongNoteShapeReadCallback = any(callback).(OnAfterReadInterface[GongNoteShape])
-	case *GongStructShape:
-		stage.OnAfterGongStructShapeReadCallback = any(callback).(OnAfterReadInterface[GongStructShape])
-	case *LinkShape:
-		stage.OnAfterLinkShapeReadCallback = any(callback).(OnAfterReadInterface[LinkShape])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

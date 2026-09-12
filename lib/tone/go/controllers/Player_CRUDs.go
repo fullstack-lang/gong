@@ -181,7 +181,7 @@ func (controller *Controller) PostPlayer(w http.ResponseWriter, r *http.Request)
 	player := backRepo.BackRepoPlayer.Map_PlayerDBID_PlayerPtr[playerDB.ID]
 
 	if player != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), player)
+		backRepo.GetStage().AfterCreateFromFront(player)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdatePlayer(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	playerOld := backRepo.BackRepoPlayer.Map_PlayerDBID_PlayerPtr[playerDB.ID]
 	if playerOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), playerOld, playerNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(playerOld, playerNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeletePlayer(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	playerStaged := backRepo.BackRepoPlayer.Map_PlayerDBID_PlayerPtr[playerDB.ID]
 	if playerStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), playerStaged, playerDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(playerStaged, playerDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

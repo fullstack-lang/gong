@@ -181,7 +181,7 @@ func (controller *Controller) PostPolygone(w http.ResponseWriter, r *http.Reques
 	polygone := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[polygoneDB.ID]
 
 	if polygone != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), polygone)
+		backRepo.GetStage().AfterCreateFromFront(polygone)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdatePolygone(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	polygoneOld := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[polygoneDB.ID]
 	if polygoneOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), polygoneOld, polygoneNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(polygoneOld, polygoneNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeletePolygone(w http.ResponseWriter, r *http.Requ
 	// get stage instance from DB instance, and call callback function
 	polygoneStaged := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[polygoneDB.ID]
 	if polygoneStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), polygoneStaged, polygoneDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(polygoneStaged, polygoneDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

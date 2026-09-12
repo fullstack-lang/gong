@@ -181,7 +181,7 @@ func (controller *Controller) PostOption(w http.ResponseWriter, r *http.Request)
 	option := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[optionDB.ID]
 
 	if option != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), option)
+		backRepo.GetStage().AfterCreateFromFront(option)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateOption(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	optionOld := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[optionDB.ID]
 	if optionOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), optionOld, optionNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(optionOld, optionNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteOption(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	optionStaged := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[optionDB.ID]
 	if optionStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), optionStaged, optionDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(optionStaged, optionDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

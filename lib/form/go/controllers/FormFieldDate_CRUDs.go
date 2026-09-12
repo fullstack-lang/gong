@@ -181,7 +181,7 @@ func (controller *Controller) PostFormFieldDate(w http.ResponseWriter, r *http.R
 	formfielddate := backRepo.BackRepoFormFieldDate.Map_FormFieldDateDBID_FormFieldDatePtr[formfielddateDB.ID]
 
 	if formfielddate != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), formfielddate)
+		backRepo.GetStage().AfterCreateFromFront(formfielddate)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFormFieldDate(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	formfielddateOld := backRepo.BackRepoFormFieldDate.Map_FormFieldDateDBID_FormFieldDatePtr[formfielddateDB.ID]
 	if formfielddateOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), formfielddateOld, formfielddateNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(formfielddateOld, formfielddateNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFormFieldDate(w http.ResponseWriter, r *http
 	// get stage instance from DB instance, and call callback function
 	formfielddateStaged := backRepo.BackRepoFormFieldDate.Map_FormFieldDateDBID_FormFieldDatePtr[formfielddateDB.ID]
 	if formfielddateStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), formfielddateStaged, formfielddateDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(formfielddateStaged, formfielddateDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

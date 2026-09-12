@@ -181,7 +181,7 @@ func (controller *Controller) PostCircle(w http.ResponseWriter, r *http.Request)
 	circle := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[circleDB.ID]
 
 	if circle != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), circle)
+		backRepo.GetStage().AfterCreateFromFront(circle)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCircle(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	circleOld := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[circleDB.ID]
 	if circleOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), circleOld, circleNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(circleOld, circleNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCircle(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	circleStaged := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[circleDB.ID]
 	if circleStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), circleStaged, circleDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(circleStaged, circleDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

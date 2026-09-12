@@ -181,7 +181,7 @@ func (controller *Controller) PostCondition(w http.ResponseWriter, r *http.Reque
 	condition := backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[conditionDB.ID]
 
 	if condition != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), condition)
+		backRepo.GetStage().AfterCreateFromFront(condition)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCondition(w http.ResponseWriter, r *http.Req
 	// get stage instance from DB instance, and call callback function
 	conditionOld := backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[conditionDB.ID]
 	if conditionOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), conditionOld, conditionNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(conditionOld, conditionNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCondition(w http.ResponseWriter, r *http.Req
 	// get stage instance from DB instance, and call callback function
 	conditionStaged := backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[conditionDB.ID]
 	if conditionStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), conditionStaged, conditionDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(conditionStaged, conditionDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

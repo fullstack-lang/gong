@@ -181,7 +181,7 @@ func (controller *Controller) PostCurve(w http.ResponseWriter, r *http.Request) 
 	curve := backRepo.BackRepoCurve.Map_CurveDBID_CurvePtr[curveDB.ID]
 
 	if curve != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), curve)
+		backRepo.GetStage().AfterCreateFromFront(curve)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCurve(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	curveOld := backRepo.BackRepoCurve.Map_CurveDBID_CurvePtr[curveDB.ID]
 	if curveOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), curveOld, curveNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(curveOld, curveNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCurve(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	curveStaged := backRepo.BackRepoCurve.Map_CurveDBID_CurvePtr[curveDB.ID]
 	if curveStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), curveStaged, curveDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(curveStaged, curveDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

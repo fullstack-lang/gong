@@ -181,7 +181,7 @@ func (controller *Controller) PostDstruct(w http.ResponseWriter, r *http.Request
 	dstruct := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 
 	if dstruct != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), dstruct)
+		backRepo.GetStage().AfterCreateFromFront(dstruct)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateDstruct(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	dstructOld := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if dstructOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), dstructOld, dstructNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(dstructOld, dstructNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteDstruct(w http.ResponseWriter, r *http.Reque
 	// get stage instance from DB instance, and call callback function
 	dstructStaged := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if dstructStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), dstructStaged, dstructDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(dstructStaged, dstructDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

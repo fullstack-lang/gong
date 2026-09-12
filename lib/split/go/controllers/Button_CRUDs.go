@@ -181,7 +181,7 @@ func (controller *Controller) PostButton(w http.ResponseWriter, r *http.Request)
 	button := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB.ID]
 
 	if button != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), button)
+		backRepo.GetStage().AfterCreateFromFront(button)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateButton(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	buttonOld := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB.ID]
 	if buttonOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), buttonOld, buttonNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(buttonOld, buttonNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteButton(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	buttonStaged := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB.ID]
 	if buttonStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), buttonStaged, buttonDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(buttonStaged, buttonDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostCellBoolean(w http.ResponseWriter, r *http.Req
 	cellboolean := backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[cellbooleanDB.ID]
 
 	if cellboolean != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), cellboolean)
+		backRepo.GetStage().AfterCreateFromFront(cellboolean)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCellBoolean(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	cellbooleanOld := backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[cellbooleanDB.ID]
 	if cellbooleanOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), cellbooleanOld, cellbooleanNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(cellbooleanOld, cellbooleanNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCellBoolean(w http.ResponseWriter, r *http.R
 	// get stage instance from DB instance, and call callback function
 	cellbooleanStaged := backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[cellbooleanDB.ID]
 	if cellbooleanStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), cellbooleanStaged, cellbooleanDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(cellbooleanStaged, cellbooleanDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

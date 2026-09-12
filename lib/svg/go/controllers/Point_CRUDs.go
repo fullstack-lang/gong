@@ -181,7 +181,7 @@ func (controller *Controller) PostPoint(w http.ResponseWriter, r *http.Request) 
 	point := backRepo.BackRepoPoint.Map_PointDBID_PointPtr[pointDB.ID]
 
 	if point != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), point)
+		backRepo.GetStage().AfterCreateFromFront(point)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdatePoint(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	pointOld := backRepo.BackRepoPoint.Map_PointDBID_PointPtr[pointDB.ID]
 	if pointOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), pointOld, pointNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(pointOld, pointNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeletePoint(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	pointStaged := backRepo.BackRepoPoint.Map_PointDBID_PointPtr[pointDB.ID]
 	if pointStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), pointStaged, pointDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(pointStaged, pointDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

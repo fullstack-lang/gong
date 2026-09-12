@@ -181,7 +181,7 @@ func (controller *Controller) PostMeshMaterialBasic(w http.ResponseWriter, r *ht
 	meshmaterialbasic := backRepo.BackRepoMeshMaterialBasic.Map_MeshMaterialBasicDBID_MeshMaterialBasicPtr[meshmaterialbasicDB.ID]
 
 	if meshmaterialbasic != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), meshmaterialbasic)
+		backRepo.GetStage().AfterCreateFromFront(meshmaterialbasic)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateMeshMaterialBasic(w http.ResponseWriter, r *
 	// get stage instance from DB instance, and call callback function
 	meshmaterialbasicOld := backRepo.BackRepoMeshMaterialBasic.Map_MeshMaterialBasicDBID_MeshMaterialBasicPtr[meshmaterialbasicDB.ID]
 	if meshmaterialbasicOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), meshmaterialbasicOld, meshmaterialbasicNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(meshmaterialbasicOld, meshmaterialbasicNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteMeshMaterialBasic(w http.ResponseWriter, r *
 	// get stage instance from DB instance, and call callback function
 	meshmaterialbasicStaged := backRepo.BackRepoMeshMaterialBasic.Map_MeshMaterialBasicDBID_MeshMaterialBasicPtr[meshmaterialbasicDB.ID]
 	if meshmaterialbasicStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), meshmaterialbasicStaged, meshmaterialbasicDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(meshmaterialbasicStaged, meshmaterialbasicDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

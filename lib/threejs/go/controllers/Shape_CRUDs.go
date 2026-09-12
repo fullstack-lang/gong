@@ -181,7 +181,7 @@ func (controller *Controller) PostShape(w http.ResponseWriter, r *http.Request) 
 	shape := backRepo.BackRepoShape.Map_ShapeDBID_ShapePtr[shapeDB.ID]
 
 	if shape != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), shape)
+		backRepo.GetStage().AfterCreateFromFront(shape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateShape(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	shapeOld := backRepo.BackRepoShape.Map_ShapeDBID_ShapePtr[shapeDB.ID]
 	if shapeOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), shapeOld, shapeNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(shapeOld, shapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteShape(w http.ResponseWriter, r *http.Request
 	// get stage instance from DB instance, and call callback function
 	shapeStaged := backRepo.BackRepoShape.Map_ShapeDBID_ShapePtr[shapeDB.ID]
 	if shapeStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), shapeStaged, shapeDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(shapeStaged, shapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -1,8 +1,8 @@
 // generated code - do not edit
 package models
 
-// AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+// AfterCreateFromFront is the Stage method called after a create from front.
+func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
@@ -23,12 +23,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
+// AfterCreateFromFront is a backward-compatible package-level forwarder.
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
+	stage.AfterCreateFromFront(instance)
+}
+
 type Gong__MouseEvent struct {
 	ShiftKey bool
 }
 
-// OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+// OnAfterUpdateFromFront is the Stage method called after an update from front.
+func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
@@ -52,8 +57,13 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 	}
 }
 
-// AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+// OnAfterUpdateFromFront is a backward-compatible package-level forwarder.
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+	stage.OnAfterUpdateFromFront(old, new)
+}
+
+// AfterDeleteFromFront is the Stage method called after a delete from front.
+func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
@@ -77,78 +87,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 	}
 }
 
-// AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *A:
-		if stage.OnAfterAReadCallback != nil {
-			stage.OnAfterAReadCallback.OnAfterRead(stage, target)
-		}
-	case *B:
-		if stage.OnAfterBReadCallback != nil {
-			stage.OnAfterBReadCallback.OnAfterRead(stage, target)
-		}
-	case *C:
-		if stage.OnAfterCReadCallback != nil {
-			stage.OnAfterCReadCallback.OnAfterRead(stage, target)
-		}
-	default:
-		_ = target
-	}
-}
-
-// SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *A:
-		stage.OnAfterAUpdateCallback = any(callback).(OnAfterUpdateInterface[A])
-	case *B:
-		stage.OnAfterBUpdateCallback = any(callback).(OnAfterUpdateInterface[B])
-	case *C:
-		stage.OnAfterCUpdateCallback = any(callback).(OnAfterUpdateInterface[C])
-	}
-}
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *A:
-		stage.OnAfterACreateCallback = any(callback).(OnAfterCreateInterface[A])
-	case *B:
-		stage.OnAfterBCreateCallback = any(callback).(OnAfterCreateInterface[B])
-	case *C:
-		stage.OnAfterCCreateCallback = any(callback).(OnAfterCreateInterface[C])
-	}
-}
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *A:
-		stage.OnAfterADeleteCallback = any(callback).(OnAfterDeleteInterface[A])
-	case *B:
-		stage.OnAfterBDeleteCallback = any(callback).(OnAfterDeleteInterface[B])
-	case *C:
-		stage.OnAfterCDeleteCallback = any(callback).(OnAfterDeleteInterface[C])
-	}
-}
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
-
-	var instance Type
-	switch any(instance).(type) {
-	// insertion point
-	case *A:
-		stage.OnAfterAReadCallback = any(callback).(OnAfterReadInterface[A])
-	case *B:
-		stage.OnAfterBReadCallback = any(callback).(OnAfterReadInterface[B])
-	case *C:
-		stage.OnAfterCReadCallback = any(callback).(OnAfterReadInterface[C])
-	}
+// AfterDeleteFromFront is a backward-compatible package-level forwarder.
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
+	stage.AfterDeleteFromFront(staged, front)
 }

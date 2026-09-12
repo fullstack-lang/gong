@@ -24,14 +24,14 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*Chapter](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Content](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*DownloadableFile](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*JpgImage](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Page](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*PngImage](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Section](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*SvgImage](stage, f, addIDs)
+		stage.SerializeExcelizePointer2[*Chapter](f, addIDs)
+		stage.SerializeExcelizePointer2[*Content](f, addIDs)
+		stage.SerializeExcelizePointer2[*DownloadableFile](f, addIDs)
+		stage.SerializeExcelizePointer2[*JpgImage](f, addIDs)
+		stage.SerializeExcelizePointer2[*Page](f, addIDs)
+		stage.SerializeExcelizePointer2[*PngImage](f, addIDs)
+		stage.SerializeExcelizePointer2[*Section](f, addIDs)
+		stage.SerializeExcelizePointer2[*SvgImage](f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
@@ -211,11 +211,13 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
-	SerializeExcelizePointerToGongstruct2[Type](stage, f, false)
+// SerializeExcelizePointer is the Stage method for Excel serialization.
+func (stage *Stage) SerializeExcelizePointer[Type PointerToGongstruct](f *excelize.File) {
+	stage.SerializeExcelizePointer2[Type](f, false)
 }
 
-func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+// SerializeExcelizePointer2 is the Stage method for Excel serialization with optional IDs.
+func (stage *Stage) SerializeExcelizePointer2[Type PointerToGongstruct](f *excelize.File, addIDs bool) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	sheetName = shortenString(sheetName)
@@ -223,7 +225,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *GetGongstructInstancesSetFromPointerType[Type](stage)
+	set := *stage.GetInstancesSet[Type]()
 
 	var sortedSlice []Type
 	for key := range set {
@@ -325,4 +327,14 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
+}
+
+// SerializeExcelizePointerToGongstruct is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
+	stage.SerializeExcelizePointer[Type](f)
+}
+
+// SerializeExcelizePointerToGongstruct2 is a backward-compatible forwarder.
+func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
+	stage.SerializeExcelizePointer2[Type](f, addIDs)
 }

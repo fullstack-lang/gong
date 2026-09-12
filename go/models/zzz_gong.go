@@ -824,9 +824,9 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
@@ -987,6 +987,11 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 
 	}
 	return
+}
+
+// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
+func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+	return stage.GetInstancesByOrderAuto[T]()
 }
 
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
@@ -1266,7 +1271,8 @@ func NewStage(name string) (stage *Stage) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+// GetOrder is the Stage method returning the order of a gongstruct instance.
+func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *GongBasicField:
@@ -1296,7 +1302,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	}
 }
 
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+// GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
+func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (res Type) {
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
@@ -1327,7 +1334,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	}
 }
 
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+// GetOrder is a backward-compatible forwarder.
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *GongBasicField:
@@ -1355,6 +1363,16 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	default:
 		return 0 // should not happen
 	}
+}
+
+// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	return stage.GetInstanceFromOrder[Type](order)
+}
+
+// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+	return stage.GetOrder(instance)
 }
 
 func (stage *Stage) GetName() string {
@@ -2665,11 +2683,17 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	set := GetGongstructInstancesSetFromPointerType[T](stage)
+// GetInstancesSorted is the Stage method returning sorted instances of a gongstruct.
+func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T) {
+	set := stage.GetInstancesSet[T]()
 	sortedSlice = SortGongstructSetByName(*set)
 
 	return
+}
+
+// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
+	return stage.GetInstancesSorted[T]()
 }
 
 type GongstructSet interface {
@@ -2680,43 +2704,8 @@ type GongstructMapString interface {
 	map[any]any
 }
 
-// GongGetSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *Stage) *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case map[*GongBasicField]any:
-		return any(&stage.GongBasicFields).(*Type)
-	case map[*GongEnum]any:
-		return any(&stage.GongEnums).(*Type)
-	case map[*GongEnumValue]any:
-		return any(&stage.GongEnumValues).(*Type)
-	case map[*GongLink]any:
-		return any(&stage.GongLinks).(*Type)
-	case map[*GongNote]any:
-		return any(&stage.GongNotes).(*Type)
-	case map[*GongStruct]any:
-		return any(&stage.GongStructs).(*Type)
-	case map[*GongTimeField]any:
-		return any(&stage.GongTimeFields).(*Type)
-	case map[*MetaReference]any:
-		return any(&stage.MetaReferences).(*Type)
-	case map[*ModelPkg]any:
-		return any(&stage.ModelPkgs).(*Type)
-	case map[*PointerToGongStructField]any:
-		return any(&stage.PointerToGongStructFields).(*Type)
-	case map[*SliceOfPointerToGongStructField]any:
-		return any(&stage.SliceOfPointerToGongStructFields).(*Type)
-	default:
-		return nil
-	}
-}
-
-// GongGetMap returns the map of staged Gonstruct instance by their name
-// Can be usefull if names are unique
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+// GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
+func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -2748,9 +2737,13 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	}
 }
 
-// GetGongstructInstancesSet returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+	return stage.GetInstancesMapByName[Type]()
+}
+
+// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
+func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -2782,9 +2775,13 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	}
 }
 
-// GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+	return stage.GetInstancesSetFromType[Type]()
+}
+
+// GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
+func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -2816,9 +2813,13 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	}
 }
 
-// GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+	return stage.GetInstancesSet[Type]()
+}
+
+// GetInstancesMap is the Stage method returning the map of staged instances.
+func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -2848,6 +2849,11 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	default:
 		return nil
 	}
+}
+
+// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -2933,7 +2939,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is the Stage method for backtrack navigation of pointer associations.
+func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -3048,13 +3055,13 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	return nil
 }
 
-// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
-// associations (0..N) between one staged Gongstruct instances and many others
-//
-// The function provides a map with keys as instances of End and values to *Start instances
-// the map is construed by iterating over all Start instances and populating keys with End instances
-// and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+// GetPointerReverseMap is a backward-compatible package-level forwarder.
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetPointerReverseMap[Start, End](fieldname)
+}
+
+// GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.
+func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -3164,6 +3171,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	}
 	return nil
+}
+
+// GetSliceOfPointersReverseMap is a backward-compatible package-level forwarder.
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	return stage.GetSliceOfPointersReverseMap[Start, End](fieldname)
 }
 
 // GetPointerToGongstructName returns the name of the Gongstruct

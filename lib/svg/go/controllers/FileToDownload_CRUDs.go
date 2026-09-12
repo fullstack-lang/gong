@@ -181,7 +181,7 @@ func (controller *Controller) PostFileToDownload(w http.ResponseWriter, r *http.
 	filetodownload := backRepo.BackRepoFileToDownload.Map_FileToDownloadDBID_FileToDownloadPtr[filetodownloadDB.ID]
 
 	if filetodownload != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), filetodownload)
+		backRepo.GetStage().AfterCreateFromFront(filetodownload)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateFileToDownload(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	filetodownloadOld := backRepo.BackRepoFileToDownload.Map_FileToDownloadDBID_FileToDownloadPtr[filetodownloadDB.ID]
 	if filetodownloadOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), filetodownloadOld, filetodownloadNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(filetodownloadOld, filetodownloadNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteFileToDownload(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	filetodownloadStaged := backRepo.BackRepoFileToDownload.Map_FileToDownloadDBID_FileToDownloadPtr[filetodownloadDB.ID]
 	if filetodownloadStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), filetodownloadStaged, filetodownloadDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(filetodownloadStaged, filetodownloadDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

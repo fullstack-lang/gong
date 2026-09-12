@@ -181,7 +181,7 @@ func (controller *Controller) PostBufferGeometry(w http.ResponseWriter, r *http.
 	buffergeometry := backRepo.BackRepoBufferGeometry.Map_BufferGeometryDBID_BufferGeometryPtr[buffergeometryDB.ID]
 
 	if buffergeometry != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), buffergeometry)
+		backRepo.GetStage().AfterCreateFromFront(buffergeometry)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateBufferGeometry(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	buffergeometryOld := backRepo.BackRepoBufferGeometry.Map_BufferGeometryDBID_BufferGeometryPtr[buffergeometryDB.ID]
 	if buffergeometryOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), buffergeometryOld, buffergeometryNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(buffergeometryOld, buffergeometryNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteBufferGeometry(w http.ResponseWriter, r *htt
 	// get stage instance from DB instance, and call callback function
 	buffergeometryStaged := backRepo.BackRepoBufferGeometry.Map_BufferGeometryDBID_BufferGeometryPtr[buffergeometryDB.ID]
 	if buffergeometryStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), buffergeometryStaged, buffergeometryDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(buffergeometryStaged, buffergeometryDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -181,7 +181,7 @@ func (controller *Controller) PostCanvas(w http.ResponseWriter, r *http.Request)
 	canvas := backRepo.BackRepoCanvas.Map_CanvasDBID_CanvasPtr[canvasDB.ID]
 
 	if canvas != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), canvas)
+		backRepo.GetStage().AfterCreateFromFront(canvas)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -329,7 +329,7 @@ func (controller *Controller) UpdateCanvas(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	canvasOld := backRepo.BackRepoCanvas.Map_CanvasDBID_CanvasPtr[canvasDB.ID]
 	if canvasOld != nil {
-		models.OnAfterUpdateFromFront(backRepo.GetStage(), canvasOld, canvasNew)
+		backRepo.GetStage().OnAfterUpdateFromFront(canvasOld, canvasNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -400,7 +400,7 @@ func (controller *Controller) DeleteCanvas(w http.ResponseWriter, r *http.Reques
 	// get stage instance from DB instance, and call callback function
 	canvasStaged := backRepo.BackRepoCanvas.Map_CanvasDBID_CanvasPtr[canvasDB.ID]
 	if canvasStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), canvasStaged, canvasDeleted)
+		backRepo.GetStage().AfterDeleteFromFront(canvasStaged, canvasDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
