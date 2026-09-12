@@ -61,6 +61,9 @@ func _(stage *models.Stage) {
 
 	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `PBS+WBS-gather all uses of gong generated generic function-list of generic function in go < 1.27`}).Stage(stage)
 
+	__TaskPredecessorShape__00000002_ := (&models.TaskPredecessorShape{Name: `PBS+WBS-do not generate non use generic functions-find idiomatic names for stage methods`}).Stage(stage)
+	__TaskPredecessorShape__00000003_ := (&models.TaskPredecessorShape{Name: `PBS+WBS-find idiomatic names for stage methods-migrate function to methods`}).Stage(stage)
+
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `PBS+WBS-gather all uses of gong generated generic function`}).Stage(stage)
 	__TaskShape__00000001_ := (&models.TaskShape{Name: `PBS+WBS-do not generate non use generic functions`}).Stage(stage)
 	__TaskShape__00000002_ := (&models.TaskShape{Name: `PBS+WBS-migrate function to methods`}).Stage(stage)
@@ -108,13 +111,13 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.IsInAutoLayoutMode = false
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
+	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
@@ -154,7 +157,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000001_.ComputedPrefix = `2`
 	__Diagram__00000001_.IsExpanded = true
-	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
 	__Diagram__00000001_.IsInAutoLayoutMode = true
@@ -259,13 +262,13 @@ func _(stage *models.Stage) {
 	__Task__00000000_.Description = ``
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 01:00:00 +0000 UTC")
+	__Task__00000000_.IsStartDateComputedFromPredecessors = false
 	__Task__00000000_.DurationYears = 0.000000
 	__Task__00000000_.DurationMonths = 0.000000
 	__Task__00000000_.DurationWeeks = 0.000000
 	__Task__00000000_.DurationDays = 0.000000
 	__Task__00000000_.DurationHours = 1.000000
 	__Task__00000000_.IsEndDateComputedFromDuration = true
-	__Task__00000000_.IsStartDateComputedFromPredecessors = false
 	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
@@ -284,13 +287,13 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Description = ``
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 01:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 02:00:00 +0000 UTC")
+	__Task__00000001_.IsStartDateComputedFromPredecessors = true
 	__Task__00000001_.DurationYears = 0.000000
 	__Task__00000001_.DurationMonths = 0.000000
 	__Task__00000001_.DurationWeeks = 0.000000
 	__Task__00000001_.DurationDays = 0.000000
 	__Task__00000001_.DurationHours = 1.000000
 	__Task__00000001_.IsEndDateComputedFromDuration = true
-	__Task__00000001_.IsStartDateComputedFromPredecessors = true
 	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
@@ -309,13 +312,13 @@ func _(stage *models.Stage) {
 	__Task__00000002_.Description = ``
 	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 03:00:00 +0000 UTC")
 	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 04:00:00 +0000 UTC")
+	__Task__00000002_.IsStartDateComputedFromPredecessors = true
 	__Task__00000002_.DurationYears = 0.000000
 	__Task__00000002_.DurationMonths = 0.000000
 	__Task__00000002_.DurationWeeks = 0.000000
 	__Task__00000002_.DurationDays = 0.000000
 	__Task__00000002_.DurationHours = 1.000000
 	__Task__00000002_.IsEndDateComputedFromDuration = true
-	__Task__00000002_.IsStartDateComputedFromPredecessors = true
 	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
@@ -334,13 +337,13 @@ func _(stage *models.Stage) {
 	__Task__00000003_.Description = ``
 	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 02:00:00 +0000 UTC")
 	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 03:00:00 +0000 UTC")
+	__Task__00000003_.IsStartDateComputedFromPredecessors = true
 	__Task__00000003_.DurationYears = 0.000000
 	__Task__00000003_.DurationMonths = 0.000000
 	__Task__00000003_.DurationWeeks = 0.000000
 	__Task__00000003_.DurationDays = 0.000000
 	__Task__00000003_.DurationHours = 1.000000
 	__Task__00000003_.IsEndDateComputedFromDuration = true
-	__Task__00000003_.IsStartDateComputedFromPredecessors = true
 	__Task__00000003_.IsMilestone = false
 	__Task__00000003_.IsWithCompletion = false
 	__Task__00000003_.Completion = ""
@@ -393,6 +396,22 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000000_.CornerOffsetRatio = 1.007143
 	__TaskOutputShape__00000000_.IsHidden = false
 
+	__TaskPredecessorShape__00000002_.Name = `PBS+WBS-do not generate non use generic functions-find idiomatic names for stage methods`
+	__TaskPredecessorShape__00000002_.StartRatio = 0.500000
+	__TaskPredecessorShape__00000002_.EndRatio = 0.500000
+	__TaskPredecessorShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskPredecessorShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskPredecessorShape__00000002_.CornerOffsetRatio = 1.680000
+	__TaskPredecessorShape__00000002_.IsHidden = false
+
+	__TaskPredecessorShape__00000003_.Name = `PBS+WBS-find idiomatic names for stage methods-migrate function to methods`
+	__TaskPredecessorShape__00000003_.StartRatio = 0.500000
+	__TaskPredecessorShape__00000003_.EndRatio = 0.500000
+	__TaskPredecessorShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskPredecessorShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskPredecessorShape__00000003_.CornerOffsetRatio = 1.680000
+	__TaskPredecessorShape__00000003_.IsHidden = false
+
 	__TaskShape__00000000_.Name = `PBS+WBS-gather all uses of gong generated generic function`
 	__TaskShape__00000000_.IsShowDate = false
 	__TaskShape__00000000_.OverideLayoutDirection = false
@@ -417,8 +436,8 @@ func _(stage *models.Stage) {
 	__TaskShape__00000002_.IsShowDate = false
 	__TaskShape__00000002_.OverideLayoutDirection = false
 	__TaskShape__00000002_.LayoutDirection = models.Vertical
-	__TaskShape__00000002_.X = 772.746098
-	__TaskShape__00000002_.Y = 660.000000
+	__TaskShape__00000002_.X = 951.746037
+	__TaskShape__00000002_.Y = 558.000000
 	__TaskShape__00000002_.Width = 250.000000
 	__TaskShape__00000002_.Height = 70.000000
 	__TaskShape__00000002_.IsHidden = false
@@ -483,8 +502,15 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000002_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000003_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000003_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000002_)
+	__Diagram__00000000_.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseInputNodeIsExpanded, __Task__00000001_)
+	__Diagram__00000000_.TasksWhosePredecessorNodeIsExpanded = append(__Diagram__00000000_.TasksWhosePredecessorNodeIsExpanded, __Task__00000003_)
+	__Diagram__00000000_.TasksWhosePredecessorNodeIsExpanded = append(__Diagram__00000000_.TasksWhosePredecessorNodeIsExpanded, __Task__00000002_)
 	__Diagram__00000000_.TaskInputShapes = append(__Diagram__00000000_.TaskInputShapes, __TaskInputShape__00000000_)
 	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
+	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000002_)
+	__Diagram__00000000_.TaskPredecessorShapes = append(__Diagram__00000000_.TaskPredecessorShapes, __TaskPredecessorShape__00000003_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Diagram__00000000_.NoteProductShapes = append(__Diagram__00000000_.NoteProductShapes, __NoteProductShape__00000000_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000005_)
@@ -531,14 +557,18 @@ func _(stage *models.Stage) {
 	__Task__00000003_.ReferencedTask = nil
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000000_)
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000001_)
-	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000003_)
-	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000002_)
+	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000003_)
+	__TaskGroup__00000001_.Tasks = append(__TaskGroup__00000001_.Tasks, __Task__00000002_)
 	__TaskGroupShape__00000000_.TaskGroup = __TaskGroup__00000000_
 	__TaskGroupShape__00000001_.TaskGroup = __TaskGroup__00000001_
 	__TaskInputShape__00000000_.Product = __Product__00000002_
 	__TaskInputShape__00000000_.Task = __Task__00000001_
 	__TaskOutputShape__00000000_.Task = __Task__00000000_
 	__TaskOutputShape__00000000_.Product = __Product__00000002_
+	__TaskPredecessorShape__00000002_.Predecessor = __Task__00000001_
+	__TaskPredecessorShape__00000002_.Task = __Task__00000003_
+	__TaskPredecessorShape__00000003_.Predecessor = __Task__00000003_
+	__TaskPredecessorShape__00000003_.Task = __Task__00000002_
 	__TaskShape__00000000_.Task = __Task__00000000_
 	__TaskShape__00000001_.Task = __Task__00000001_
 	__TaskShape__00000002_.Task = __Task__00000002_

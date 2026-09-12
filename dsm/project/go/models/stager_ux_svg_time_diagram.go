@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -193,31 +194,73 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *svg.Rect) {
 	barText := new(svg.RectAnchoredText)
 	barText.Name = task.Name
-	barText.Content = task.Name
-	barText.X_Offset = diagram.XLeftText + task.XOffset
-	barText.Y_Offset = task.YOffset
+
+	content := task.Name
+	if diagram != nil && diagram.GetIsShowPrefix() {
+		content = task.GetComputedPrefix() + " " + content
+	}
+	if task.IsImport && task.ReferencedTask != nil {
+		content = "🔗 " + task.ReferencedTask.Name
+		if diagram != nil && diagram.GetIsShowPrefix() {
+			content = task.GetComputedPrefix() + " " + content
+		}
+	}
+
+	root := stager.getRootLibrary()
+	nbPixPerChar := 8.0
+	if root != nil && root.NbPixPerCharacter > 0 {
+		nbPixPerChar = root.NbPixPerCharacter
+	}
 
 	switch task.TextPosition {
 	case TEXT_POSITION_TOP:
 		barText.RectAnchorType = svg.RECT_TOP
 		barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		barText.X_Offset = task.XOffset
 	case TEXT_POSITION_BOTTOM:
 		barText.RectAnchorType = svg.RECT_BOTTOM
 		barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		barText.X_Offset = task.XOffset
 	case TEXT_POSITION_LEFT:
 		barText.RectAnchorType = svg.RECT_LEFT
 		barText.TextAnchorType = svg.TEXT_ANCHOR_END
+		barText.X_Offset = -diagram.XLeftText + task.XOffset
 	case TEXT_POSITION_RIGHT:
 		barText.RectAnchorType = svg.RECT_RIGHT
 		barText.TextAnchorType = svg.TEXT_ANCHOR_START
+		barText.X_Offset = diagram.XLeftText + task.XOffset
 	case TEXT_POSITION_CENTER:
 		barText.RectAnchorType = svg.RECT_CENTER_MIDDLE
 		barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		barText.DominantBaseline = svg.DominantBaselineCentral
+		barText.X_Offset = task.XOffset
 	default:
-		barText.RectAnchorType = svg.RECT_LEFT
+		barText.RectAnchorType = svg.RECT_LEFT_MIDDLE
 		barText.TextAnchorType = svg.TEXT_ANCHOR_START
+		barText.DominantBaseline = svg.DominantBaselineCentral
+		barText.X_Offset = diagram.XLeftText + task.XOffset
+	}
+	barText.Y_Offset = task.YOffset
+
+	// Wrap text for tasks where text is positioned inside or aligned with the bar
+	if task.TextPosition != TEXT_POSITION_LEFT && task.TextPosition != TEXT_POSITION_RIGHT {
+		margin := 2 * diagram.XLeftText
+		if margin <= 0 {
+			margin = 20.0
+		}
+		availableWidth := rect4Bar.Width - margin
+		if availableWidth <= 0 && rect4Bar.Width > 0 {
+			availableWidth = rect4Bar.Width
+		}
+		if availableWidth > 0 && nbPixPerChar > 0 {
+			cutoff := int(availableWidth / nbPixPerChar)
+			if cutoff > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, cutoff)
+			}
+		}
 	}
 
+	barText.Content = content
 	barText.Color = "black"
 	barText.FillOpacity = 1.0
 	rect4Bar.RectAnchoredTexts = append(rect4Bar.RectAnchoredTexts, barText)
