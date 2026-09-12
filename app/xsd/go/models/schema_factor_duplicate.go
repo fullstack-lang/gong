@@ -3,11 +3,9 @@ package models
 import (
 	"cmp"
 	"log"
+	"maps"
 	"slices"
-	"sort"
 	"strconv"
-
-	"golang.org/x/exp/maps"
 )
 
 // FactorDuplicates performs a simplification of the xsd schema.
@@ -113,8 +111,7 @@ func (schema *Schema) extractMapOfElementsWithinAll(map_Elements map[elementId][
 }
 
 func (*Schema) analyseMapOfElementWithinAlls(map_Elements map[elementId][]*Element) {
-	elementIds := maps.Keys(map_Elements)
-	slices.SortFunc(elementIds, func(a, b elementId) int {
+	elementIds := slices.SortedFunc(maps.Keys(map_Elements), func(a, b elementId) int {
 		return cmp.Compare(a.choiceElementName, b.choiceElementName)
 	})
 
@@ -128,8 +125,7 @@ func (*Schema) analyseMapOfElementWithinAlls(map_Elements map[elementId][]*Eleme
 
 func (*Schema) factorElementsWithinAlls(map_ElementsWithinAlls map[elementId][]*Element) {
 
-	elements := maps.Keys(map_ElementsWithinAlls)
-	slices.SortFunc(elements, func(a, b elementId) int {
+	elements := slices.SortedFunc(maps.Keys(map_ElementsWithinAlls), func(a, b elementId) int {
 		return cmp.Compare(a.choiceElementName, b.choiceElementName)
 	})
 
@@ -209,8 +205,7 @@ func (schema *Schema) extractMapOfComplexTypesWithinElements(map_ComplexTypes ma
 }
 
 func (*Schema) analyseMapOfComplexTypes(map_ComplexTypes map[complexTypeId][]*ComplexType) {
-	complextypes := maps.Keys(map_ComplexTypes)
-	slices.SortFunc(complextypes, func(a, b complexTypeId) int {
+	complextypes := slices.SortedFunc(maps.Keys(map_ComplexTypes), func(a, b complexTypeId) int {
 		return cmp.Compare(a.choiceElementName, b.choiceElementName)
 	})
 
@@ -222,8 +217,7 @@ func (*Schema) analyseMapOfComplexTypes(map_ComplexTypes map[complexTypeId][]*Co
 
 func (*Schema) factorComplexTypesWithinElements(map_ComplexTypes map[complexTypeId][]*ComplexType) {
 
-	complextypes := maps.Keys(map_ComplexTypes)
-	slices.SortFunc(complextypes, func(a, b complexTypeId) int {
+	complextypes := slices.SortedFunc(maps.Keys(map_ComplexTypes), func(a, b complexTypeId) int {
 		return cmp.Compare(a.choiceElementName, b.choiceElementName)
 	})
 
@@ -301,8 +295,7 @@ func (schema *Schema) extractMapOfChoicesWithinComplexTypes(map_Choices map[choi
 }
 
 func (*Schema) analyseMapOfChoices(map_Choices map[choiceId][]*Choice) {
-	choices := maps.Keys(map_Choices)
-	slices.SortFunc(choices, func(a, b choiceId) int {
+	choices := slices.SortedFunc(maps.Keys(map_Choices), func(a, b choiceId) int {
 		return cmp.Compare(a.choiceElementName, b.choiceElementName)
 	})
 
@@ -371,8 +364,7 @@ func (schema *Schema) extractMapOfElementsWithinChoice(map_Elements map[string]m
 }
 
 func (*Schema) analyseMapOfElements(map_NameXSD_Type_Element map[string]map[string][]*Element) {
-	elementsNames := maps.Keys(map_NameXSD_Type_Element)
-	sort.Strings(elementsNames)
+	elementsNames := slices.Sorted(maps.Keys(map_NameXSD_Type_Element))
 
 	for _, elementName := range elementsNames {
 

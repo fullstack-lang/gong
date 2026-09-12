@@ -164,9 +164,6 @@ github.com/yuin/goldmark-meta
 ## explicit; go 1.26.0
 golang.org/x/crypto/md4
 golang.org/x/crypto/ripemd160
-# golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba
-## explicit; go 1.26.0
-golang.org/x/exp/maps
 # golang.org/x/mod v0.41.0
 ## explicit; go 1.26.0
 golang.org/x/mod/internal/lazyregexp
