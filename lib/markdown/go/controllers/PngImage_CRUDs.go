@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/markdown/go/models"
 	"github.com/fullstack-lang/gong/lib/markdown/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type PngImageInput struct {
 // default: genericError
 //
 //	200: pngimageDBResponse
-func (controller *Controller) GetPngImages(c *gin.Context) {
+func (controller *Controller) GetPngImages(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var pngimageDBs []orm.PngImageDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetPngImages(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetPngImages(c *gin.Context) {
 		pngimageAPIs = append(pngimageAPIs, pngimageAPI)
 	}
 
-	c.JSON(http.StatusOK, pngimageAPIs)
+	writeJSON(w, http.StatusOK, pngimageAPIs)
 }
 
 // PostPngImage
@@ -122,12 +121,12 @@ func (controller *Controller) GetPngImages(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostPngImage(c *gin.Context) {
+func (controller *Controller) PostPngImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexPngImage.Lock()
 	defer mutexPngImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostPngImage(c *gin.Context) {
 	// Validate input
 	var input orm.PngImageAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostPngImage(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostPngImage(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, pngimageDB)
+	writeJSON(w, http.StatusOK, pngimageDB)
 }
 
 // GetPngImage
@@ -202,9 +201,9 @@ func (controller *Controller) PostPngImage(c *gin.Context) {
 // default: genericError
 //
 //	200: pngimageDBResponse
-func (controller *Controller) GetPngImage(c *gin.Context) {
+func (controller *Controller) GetPngImage(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetPngImage(c *gin.Context) {
 
 	// Get pngimageDB in DB
 	var pngimageDB orm.PngImageDB
-	if _, err := db.First(&pngimageDB, c.Param("id")); err != nil {
+	if _, err := db.First(&pngimageDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetPngImage(c *gin.Context) {
 	pngimageAPI.PngImagePointersEncoding = pngimageDB.PngImagePointersEncoding
 	pngimageDB.CopyBasicFieldsToPngImage_WOP(&pngimageAPI.PngImage_WOP)
 
-	c.JSON(http.StatusOK, pngimageAPI)
+	writeJSON(w, http.StatusOK, pngimageAPI)
 }
 
 // UpdatePngImage
@@ -255,12 +254,12 @@ func (controller *Controller) GetPngImage(c *gin.Context) {
 // default: genericError
 //
 //	200: pngimageDBResponse
-func (controller *Controller) UpdatePngImage(c *gin.Context) {
+func (controller *Controller) UpdatePngImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexPngImage.Lock()
 	defer mutexPngImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdatePngImage(c *gin.Context) {
 
 	// Validate input
 	var input orm.PngImageAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdatePngImage(c *gin.Context) {
 	var pngimageDB orm.PngImageDB
 
 	// fetch the pngimage
-	_, err := db.First(&pngimageDB, c.Param("id"))
+	_, err := db.First(&pngimageDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdatePngImage(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdatePngImage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the pngimageDB
-	c.JSON(http.StatusOK, pngimageDB)
+	writeJSON(w, http.StatusOK, pngimageDB)
 }
 
 // DeletePngImage
@@ -352,12 +351,12 @@ func (controller *Controller) UpdatePngImage(c *gin.Context) {
 // default: genericError
 //
 //	200: pngimageDBResponse
-func (controller *Controller) DeletePngImage(c *gin.Context) {
+func (controller *Controller) DeletePngImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexPngImage.Lock()
 	defer mutexPngImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeletePngImage(c *gin.Context) {
 
 	// Get model if exist
 	var pngimageDB orm.PngImageDB
-	if _, err := db.First(&pngimageDB, c.Param("id")); err != nil {
+	if _, err := db.First(&pngimageDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeletePngImage(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

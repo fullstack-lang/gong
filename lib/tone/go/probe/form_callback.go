@@ -67,6 +67,9 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(freqency_.Name), formDiv)
 		case "Note:Frequencies":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -190,6 +193,9 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
 		case "Frequencies":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Freqency](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Freqency, 0)
 

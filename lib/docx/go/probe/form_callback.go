@@ -67,6 +67,9 @@ func (bodyFormCallback *BodyFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(body_.Name), formDiv)
 		case "Paragraphs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Paragraph](bodyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Paragraph, 0)
 
@@ -99,6 +102,9 @@ func (bodyFormCallback *BodyFormCallback) OnSave() {
 			bodyFormCallback.probe.UpdateSliceOfPointersCallback(body_, "Paragraphs", &body_.Paragraphs)
 
 		case "Tables":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Table](bodyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Table, 0)
 
@@ -295,6 +301,9 @@ func (docxFormCallback *DocxFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(docx_.Name), formDiv)
 		case "Files":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.File](docxFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.File, 0)
 
@@ -407,6 +416,9 @@ func (fileFormCallback *FileFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(file_.Name), formDiv)
 		case "Docx:Files":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Docx instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -530,6 +542,9 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(node_.Name), formDiv)
 		case "Nodes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Node](nodeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Node, 0)
 
@@ -562,6 +577,9 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			nodeFormCallback.probe.UpdateSliceOfPointersCallback(node_, "Nodes", &node_.Nodes)
 
 		case "Node:Nodes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Node instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -691,6 +709,9 @@ func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
 		case "ParagraphProperties":
 			FormDivSelectFieldToField(&(paragraph_.ParagraphProperties), paragraphFormCallback.probe.stageOfInterest, formDiv)
 		case "Runes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rune](paragraphFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Rune, 0)
 
@@ -733,6 +754,9 @@ func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
 		case "EnclosingTableColumn":
 			FormDivSelectFieldToField(&(paragraph_.EnclosingTableColumn), paragraphFormCallback.probe.stageOfInterest, formDiv)
 		case "Body:Paragraphs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Body instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -778,6 +802,9 @@ func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
 				}
 			}
 		case "TableColumn:Paragraphs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TableColumn instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1079,6 +1106,9 @@ func (runeFormCallback *RuneFormCallback) OnSave() {
 		case "EnclosingParagraph":
 			FormDivSelectFieldToField(&(rune_.EnclosingParagraph), runeFormCallback.probe.stageOfInterest, formDiv)
 		case "Paragraph:Runes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Paragraph instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1296,6 +1326,9 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 		case "TableProperties":
 			FormDivSelectFieldToField(&(table_.TableProperties), tableFormCallback.probe.stageOfInterest, formDiv)
 		case "TableRows":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TableRow](tableFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TableRow, 0)
 
@@ -1328,6 +1361,9 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			tableFormCallback.probe.UpdateSliceOfPointersCallback(table_, "TableRows", &table_.TableRows)
 
 		case "Body:Tables":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Body instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1455,6 +1491,9 @@ func (tablecolumnFormCallback *TableColumnFormCallback) OnSave() {
 		case "Node":
 			FormDivSelectFieldToField(&(tablecolumn_.Node), tablecolumnFormCallback.probe.stageOfInterest, formDiv)
 		case "Paragraphs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Paragraph](tablecolumnFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Paragraph, 0)
 
@@ -1487,6 +1526,9 @@ func (tablecolumnFormCallback *TableColumnFormCallback) OnSave() {
 			tablecolumnFormCallback.probe.UpdateSliceOfPointersCallback(tablecolumn_, "Paragraphs", &tablecolumn_.Paragraphs)
 
 		case "TableRow:TableColumns":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the TableRow instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1698,6 +1740,9 @@ func (tablerowFormCallback *TableRowFormCallback) OnSave() {
 		case "Node":
 			FormDivSelectFieldToField(&(tablerow_.Node), tablerowFormCallback.probe.stageOfInterest, formDiv)
 		case "TableColumns":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TableColumn](tablerowFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TableColumn, 0)
 
@@ -1730,6 +1775,9 @@ func (tablerowFormCallback *TableRowFormCallback) OnSave() {
 			tablerowFormCallback.probe.UpdateSliceOfPointersCallback(tablerow_, "TableColumns", &tablerow_.TableColumns)
 
 		case "Table:TableRows":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Table instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

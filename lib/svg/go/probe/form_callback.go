@@ -79,6 +79,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 		case "RepeatCount":
 			FormDivBasicFieldToField(&(animate_.RepeatCount), formDiv)
 		case "Circle:Animations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Circle instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -124,6 +127,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Ellipse:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Ellipse instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -169,6 +175,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Line:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Line instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -214,6 +223,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "LinkAnchoredText:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the LinkAnchoredText instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -259,6 +271,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Path:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Path instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -304,6 +319,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Polygone:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Polygone instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -349,6 +367,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Polyline:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Polyline instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -394,6 +415,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Rect:Animations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -439,6 +463,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "RectAnchoredText:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the RectAnchoredText instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -484,6 +511,9 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Text:Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Text instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -629,6 +659,9 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(circle_.Transform), formDiv)
 		case "Animations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](circleFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -661,6 +694,9 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			circleFormCallback.probe.UpdateSliceOfPointersCallback(circle_, "Animations", &circle_.Animations)
 
 		case "Layer:Circles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -784,6 +820,9 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(condition_.Name), formDiv)
 		case "Rect:HoveringTrigger":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -829,6 +868,9 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 				}
 			}
 		case "Rect:DisplayConditions":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -958,6 +1000,9 @@ func (controlpointFormCallback *ControlPointFormCallback) OnSave() {
 		case "ClosestRect":
 			FormDivSelectFieldToField(&(controlpoint_.ClosestRect), controlpointFormCallback.probe.stageOfInterest, formDiv)
 		case "Link:ControlPoints":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1105,6 +1150,9 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(ellipse_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](ellipseFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -1137,6 +1185,9 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			ellipseFormCallback.probe.UpdateSliceOfPointersCallback(ellipse_, "Animates", &ellipse_.Animates)
 
 		case "Layer:Ellipses":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1340,6 +1391,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
 		case "Rects":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Rect, 0)
 
@@ -1372,6 +1426,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Rects", &layer_.Rects)
 
 		case "Texts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Text](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Text, 0)
 
@@ -1404,6 +1461,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Texts", &layer_.Texts)
 
 		case "Circles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Circle](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Circle, 0)
 
@@ -1436,6 +1496,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Circles", &layer_.Circles)
 
 		case "Lines":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Line](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Line, 0)
 
@@ -1468,6 +1531,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Lines", &layer_.Lines)
 
 		case "Ellipses":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Ellipse](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Ellipse, 0)
 
@@ -1500,6 +1566,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Ellipses", &layer_.Ellipses)
 
 		case "Polylines":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polyline](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Polyline, 0)
 
@@ -1532,6 +1601,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Polylines", &layer_.Polylines)
 
 		case "Polygones":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polygone](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Polygone, 0)
 
@@ -1564,6 +1636,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Polygones", &layer_.Polygones)
 
 		case "Paths":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Path](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Path, 0)
 
@@ -1596,6 +1671,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Paths", &layer_.Paths)
 
 		case "Links":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Link, 0)
 
@@ -1628,6 +1706,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Links", &layer_.Links)
 
 		case "RectLinkLinks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectLinkLink](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectLinkLink, 0)
 
@@ -1660,6 +1741,9 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "RectLinkLinks", &layer_.RectLinkLinks)
 
 		case "SVG:Layers":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the SVG instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1807,6 +1891,9 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(line_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](lineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -1843,6 +1930,9 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 		case "MouseClickY":
 			FormDivBasicFieldToField(&(line_.MouseClickY), formDiv)
 		case "Layer:Lines":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2002,6 +2092,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 		case "StartArrowOffset":
 			FormDivBasicFieldToField(&(link_.StartArrowOffset), formDiv)
 		case "TextAtArrowStart":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
@@ -2034,6 +2127,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "TextAtArrowStart", &link_.TextAtArrowStart)
 
 		case "TextAtArrowEnd":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
@@ -2066,6 +2162,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "TextAtArrowEnd", &link_.TextAtArrowEnd)
 
 		case "TextAtCorner":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
@@ -2098,6 +2197,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "TextAtCorner", &link_.TextAtCorner)
 
 		case "PathAtArrowStart":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredPath, 0)
 
@@ -2130,6 +2232,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "PathAtArrowStart", &link_.PathAtArrowStart)
 
 		case "PathAtArrowEnd":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredPath, 0)
 
@@ -2162,6 +2267,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "PathAtArrowEnd", &link_.PathAtArrowEnd)
 
 		case "PathAtCorner":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredPath, 0)
 
@@ -2194,6 +2302,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "PathAtCorner", &link_.PathAtCorner)
 
 		case "ControlPoints":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPoint](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlPoint, 0)
 
@@ -2248,6 +2359,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 		case "MouseEventKey":
 			FormDivEnumStringFieldToField(&(link_.MouseEventKey), formDiv)
 		case "Layer:Links":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2397,6 +2511,9 @@ func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredpath_.Transform), formDiv)
 		case "Link:PathAtArrowStart":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2442,6 +2559,9 @@ func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
 				}
 			}
 		case "Link:PathAtArrowEnd":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2487,6 +2607,9 @@ func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
 				}
 			}
 		case "Link:PathAtCorner":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2648,6 +2771,9 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](linkanchoredtextFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2680,6 +2806,9 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			linkanchoredtextFormCallback.probe.UpdateSliceOfPointersCallback(linkanchoredtext_, "Animates", &linkanchoredtext_.Animates)
 
 		case "Link:TextAtArrowStart":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2725,6 +2854,9 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				}
 			}
 		case "Link:TextAtArrowEnd":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2770,6 +2902,9 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				}
 			}
 		case "Link:TextAtCorner":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Link instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2911,6 +3046,9 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(path_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](pathFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2943,6 +3081,9 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			pathFormCallback.probe.UpdateSliceOfPointersCallback(path_, "Animates", &path_.Animates)
 
 		case "Layer:Paths":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3166,6 +3307,9 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(polygone_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polygoneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -3198,6 +3342,9 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			polygoneFormCallback.probe.UpdateSliceOfPointersCallback(polygone_, "Animates", &polygone_.Animates)
 
 		case "Layer:Polygones":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3339,6 +3486,9 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(polyline_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polylineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -3371,6 +3521,9 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			polylineFormCallback.probe.UpdateSliceOfPointersCallback(polyline_, "Animates", &polyline_.Animates)
 
 		case "Layer:Polylines":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3504,6 +3657,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		case "RX":
 			FormDivBasicFieldToField(&(rect_.RX), formDiv)
 		case "Peers":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Rect, 0)
 
@@ -3538,6 +3694,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		case "EnclosingRect":
 			FormDivSelectFieldToField(&(rect_.EnclosingRect), rectFormCallback.probe.stageOfInterest, formDiv)
 		case "Obstacles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Rect, 0)
 
@@ -3588,6 +3747,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rect_.Transform), formDiv)
 		case "HoveringTrigger":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Condition, 0)
 
@@ -3620,6 +3782,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "HoveringTrigger", &rect_.HoveringTrigger)
 
 		case "DisplayConditions":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Condition, 0)
 
@@ -3652,6 +3817,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "DisplayConditions", &rect_.DisplayConditions)
 
 		case "Animations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -3710,6 +3878,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		case "CanMoveVerticaly":
 			FormDivBasicFieldToField(&(rect_.CanMoveVerticaly), formDiv)
 		case "RectAnchoredTexts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredText](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredText, 0)
 
@@ -3742,6 +3913,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredTexts", &rect_.RectAnchoredTexts)
 
 		case "RectAnchoredRects":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredRect](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredRect, 0)
 
@@ -3774,6 +3948,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredRects", &rect_.RectAnchoredRects)
 
 		case "RectAnchoredPaths":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPath](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredPath, 0)
 
@@ -3806,6 +3983,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredPaths", &rect_.RectAnchoredPaths)
 
 		case "RectAnchoredPngImages":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPngImage](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredPngImage, 0)
 
@@ -3864,6 +4044,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		case "URLTarget":
 			FormDivEnumStringFieldToField(&(rect_.URLTarget), formDiv)
 		case "Layer:Rects":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3909,6 +4092,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 		case "Rect:Peers":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3954,6 +4140,9 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 		case "Rect:Obstacles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4105,6 +4294,9 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredpath_.Transform), formDiv)
 		case "Rect:RectAnchoredPaths":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4246,6 +4438,9 @@ func (rectanchoredpngimageFormCallback *RectAnchoredPngImageFormCallback) OnSave
 		case "Base64Content":
 			FormDivBasicFieldToField(&(rectanchoredpngimage_.Base64Content), formDiv)
 		case "Rect:RectAnchoredPngImages":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4409,6 +4604,9 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredrect_.Transform), formDiv)
 		case "Rect:RectAnchoredRects":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4574,6 +4772,9 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredtext_.Transform), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectanchoredtextFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -4610,6 +4811,9 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 		case "URLTarget":
 			FormDivEnumStringFieldToField(&(rectanchoredtext_.URLTarget), formDiv)
 		case "Rect:RectAnchoredTexts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Rect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4755,6 +4959,9 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectlinklink_.Transform), formDiv)
 		case "Layer:RectLinkLinks":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4878,6 +5085,9 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(svg_.Name), formDiv)
 		case "Layers":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Layer](svgFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Layer, 0)
 
@@ -5132,6 +5342,9 @@ func (textFormCallback *TextFormCallback) OnSave() {
 		case "WhiteSpace":
 			FormDivEnumStringFieldToField(&(text_.WhiteSpace), formDiv)
 		case "Animates":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -5164,6 +5377,9 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			textFormCallback.probe.UpdateSliceOfPointersCallback(text_, "Animates", &text_.Animates)
 
 		case "Layer:Texts":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layer instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -5,10 +5,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
-
-	"github.com/gin-gonic/gin"
 
 	// gongtable_data "github.com/fullstack-lang/gong/lib/table/go/data"
 
@@ -154,16 +153,15 @@ func executeServer(args []string) {
 
 	splitStage.Commit()
 
-	log.Printf("Server ready serve on localhost:" + strconv.Itoa(port))
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := r.Run(":" + strconv.Itoa(port))
+	err := gongtable_static.RunServer(r, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
 }
 
 type OnAssocEditon struct {
-	r           *gin.Engine
+	r           *http.ServeMux
 	sourceStack *gongtable_models.Stage
 }
 
@@ -184,7 +182,7 @@ func (onAssocEditon *OnAssocEditon) OnButtonPressed() {
 }
 
 type OnSortEditon struct {
-	r           *gin.Engine
+	r           *http.ServeMux
 	sourceStack *gongtable_models.Stage
 }
 

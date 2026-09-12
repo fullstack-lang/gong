@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
 	"github.com/fullstack-lang/gong/lib/sim/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type UpdateStateInput struct {
 // default: genericError
 //
 //	200: updatestateDBResponse
-func (controller *Controller) GetUpdateStates(c *gin.Context) {
+func (controller *Controller) GetUpdateStates(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var updatestateDBs []orm.UpdateStateDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetUpdateStates(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetUpdateStates(c *gin.Context) {
 		updatestateAPIs = append(updatestateAPIs, updatestateAPI)
 	}
 
-	c.JSON(http.StatusOK, updatestateAPIs)
+	writeJSON(w, http.StatusOK, updatestateAPIs)
 }
 
 // PostUpdateState
@@ -122,12 +121,12 @@ func (controller *Controller) GetUpdateStates(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostUpdateState(c *gin.Context) {
+func (controller *Controller) PostUpdateState(w http.ResponseWriter, r *http.Request) {
 
 	mutexUpdateState.Lock()
 	defer mutexUpdateState.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostUpdateState(c *gin.Context) {
 	// Validate input
 	var input orm.UpdateStateAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostUpdateState(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostUpdateState(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, updatestateDB)
+	writeJSON(w, http.StatusOK, updatestateDB)
 }
 
 // GetUpdateState
@@ -202,9 +201,9 @@ func (controller *Controller) PostUpdateState(c *gin.Context) {
 // default: genericError
 //
 //	200: updatestateDBResponse
-func (controller *Controller) GetUpdateState(c *gin.Context) {
+func (controller *Controller) GetUpdateState(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetUpdateState(c *gin.Context) {
 
 	// Get updatestateDB in DB
 	var updatestateDB orm.UpdateStateDB
-	if _, err := db.First(&updatestateDB, c.Param("id")); err != nil {
+	if _, err := db.First(&updatestateDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetUpdateState(c *gin.Context) {
 	updatestateAPI.UpdateStatePointersEncoding = updatestateDB.UpdateStatePointersEncoding
 	updatestateDB.CopyBasicFieldsToUpdateState_WOP(&updatestateAPI.UpdateState_WOP)
 
-	c.JSON(http.StatusOK, updatestateAPI)
+	writeJSON(w, http.StatusOK, updatestateAPI)
 }
 
 // UpdateUpdateState
@@ -255,12 +254,12 @@ func (controller *Controller) GetUpdateState(c *gin.Context) {
 // default: genericError
 //
 //	200: updatestateDBResponse
-func (controller *Controller) UpdateUpdateState(c *gin.Context) {
+func (controller *Controller) UpdateUpdateState(w http.ResponseWriter, r *http.Request) {
 
 	mutexUpdateState.Lock()
 	defer mutexUpdateState.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateUpdateState(c *gin.Context) {
 
 	// Validate input
 	var input orm.UpdateStateAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateUpdateState(c *gin.Context) {
 	var updatestateDB orm.UpdateStateDB
 
 	// fetch the updatestate
-	_, err := db.First(&updatestateDB, c.Param("id"))
+	_, err := db.First(&updatestateDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateUpdateState(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateUpdateState(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the updatestateDB
-	c.JSON(http.StatusOK, updatestateDB)
+	writeJSON(w, http.StatusOK, updatestateDB)
 }
 
 // DeleteUpdateState
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateUpdateState(c *gin.Context) {
 // default: genericError
 //
 //	200: updatestateDBResponse
-func (controller *Controller) DeleteUpdateState(c *gin.Context) {
+func (controller *Controller) DeleteUpdateState(w http.ResponseWriter, r *http.Request) {
 
 	mutexUpdateState.Lock()
 	defer mutexUpdateState.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteUpdateState(c *gin.Context) {
 
 	// Get model if exist
 	var updatestateDB orm.UpdateStateDB
-	if _, err := db.First(&updatestateDB, c.Param("id")); err != nil {
+	if _, err := db.First(&updatestateDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteUpdateState(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -71,6 +71,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 		case "OuterElementName":
 			FormDivBasicFieldToField(&(all_.OuterElementName), formDiv)
 		case "Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](allFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Sequence, 0)
 
@@ -103,6 +106,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Sequences", &all_.Sequences)
 
 		case "Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](allFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.All, 0)
 
@@ -135,6 +141,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Alls", &all_.Alls)
 
 		case "Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](allFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Choice, 0)
 
@@ -167,6 +176,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Choices", &all_.Choices)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](allFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -199,6 +211,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Groups", &all_.Groups)
 
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](allFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -239,6 +254,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 		case "MaxOccurs":
 			FormDivBasicFieldToField(&(all_.MaxOccurs), formDiv)
 		case "All:Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the All instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -284,6 +302,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 		case "Choice:Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Choice instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -329,6 +350,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -374,6 +398,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 		case "Extension:Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -419,6 +446,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 		case "Group:Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -464,6 +494,9 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 		case "Sequence:Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Sequence instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -587,6 +620,9 @@ func (annotationFormCallback *AnnotationFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(annotation_.Name), formDiv)
 		case "Documentations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Documentation](annotationFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Documentation, 0)
 
@@ -723,6 +759,9 @@ func (attributeFormCallback *AttributeFormCallback) OnSave() {
 		case "IDXSD":
 			FormDivBasicFieldToField(&(attribute_.IDXSD), formDiv)
 		case "AttributeGroup:Attributes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the AttributeGroup instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -768,6 +807,9 @@ func (attributeFormCallback *AttributeFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:Attributes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -813,6 +855,9 @@ func (attributeFormCallback *AttributeFormCallback) OnSave() {
 				}
 			}
 		case "Extension:Attributes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -944,6 +989,9 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 		case "GoIdentifier":
 			FormDivBasicFieldToField(&(attributegroup_.GoIdentifier), formDiv)
 		case "AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](attributegroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
@@ -978,6 +1026,9 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 		case "Ref":
 			FormDivBasicFieldToField(&(attributegroup_.Ref), formDiv)
 		case "Attributes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attribute](attributegroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Attribute, 0)
 
@@ -1014,6 +1065,9 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 		case "Depth":
 			FormDivBasicFieldToField(&(attributegroup_.Depth), formDiv)
 		case "AttributeGroup:AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the AttributeGroup instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1059,6 +1113,9 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1104,6 +1161,9 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 				}
 			}
 		case "Extension:AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1149,6 +1209,9 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 				}
 			}
 		case "Schema:AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Schema instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1276,6 +1339,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 		case "OuterElementName":
 			FormDivBasicFieldToField(&(choice_.OuterElementName), formDiv)
 		case "Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](choiceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Sequence, 0)
 
@@ -1308,6 +1374,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Sequences", &choice_.Sequences)
 
 		case "Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](choiceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.All, 0)
 
@@ -1340,6 +1409,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Alls", &choice_.Alls)
 
 		case "Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](choiceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Choice, 0)
 
@@ -1372,6 +1444,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Choices", &choice_.Choices)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](choiceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -1404,6 +1479,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Groups", &choice_.Groups)
 
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](choiceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -1446,6 +1524,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 		case "IsDuplicatedInXSD":
 			FormDivBasicFieldToField(&(choice_.IsDuplicatedInXSD), formDiv)
 		case "All:Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the All instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1491,6 +1572,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 		case "Choice:Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Choice instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1536,6 +1620,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1581,6 +1668,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 		case "Extension:Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1626,6 +1716,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 		case "Group:Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1671,6 +1764,9 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 		case "Sequence:Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Sequence instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1886,6 +1982,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 		case "OuterElementName":
 			FormDivBasicFieldToField(&(complextype_.OuterElementName), formDiv)
 		case "Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Sequence, 0)
 
@@ -1918,6 +2017,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Sequences", &complextype_.Sequences)
 
 		case "Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.All, 0)
 
@@ -1950,6 +2052,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Alls", &complextype_.Alls)
 
 		case "Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Choice, 0)
 
@@ -1982,6 +2087,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Choices", &complextype_.Choices)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -2014,6 +2122,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Groups", &complextype_.Groups)
 
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -2060,6 +2171,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 		case "ComplexContent":
 			FormDivSelectFieldToField(&(complextype_.ComplexContent), complextypeFormCallback.probe.stageOfInterest, formDiv)
 		case "Attributes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attribute](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Attribute, 0)
 
@@ -2092,6 +2206,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Attributes", &complextype_.Attributes)
 
 		case "AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](complextypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
@@ -2126,6 +2243,9 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 		case "IsDuplicatedInXSD":
 			FormDivBasicFieldToField(&(complextype_.IsDuplicatedInXSD), formDiv)
 		case "Schema:ComplexTypes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Schema instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2255,6 +2375,9 @@ func (documentationFormCallback *DocumentationFormCallback) OnSave() {
 		case "Lang":
 			FormDivBasicFieldToField(&(documentation_.Lang), formDiv)
 		case "Annotation:Documentations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Annotation instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2416,6 +2539,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 		case "ComplexType":
 			FormDivSelectFieldToField(&(element_.ComplexType), elementFormCallback.probe.stageOfInterest, formDiv)
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](elementFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -2450,6 +2576,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 		case "IsDuplicatedInXSD":
 			FormDivBasicFieldToField(&(element_.IsDuplicatedInXSD), formDiv)
 		case "All:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the All instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2495,6 +2624,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 		case "Choice:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Choice instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2540,6 +2672,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2585,6 +2720,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 		case "Extension:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2630,6 +2768,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 		case "Group:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2675,6 +2816,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 		case "Schema:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Schema instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2720,6 +2864,9 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 		case "Sequence:Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Sequence instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2847,6 +2994,9 @@ func (enumerationFormCallback *EnumerationFormCallback) OnSave() {
 		case "Value":
 			FormDivBasicFieldToField(&(enumeration_.Value), formDiv)
 		case "Restriction:Enumerations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Restriction instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2972,6 +3122,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 		case "OuterElementName":
 			FormDivBasicFieldToField(&(extension_.OuterElementName), formDiv)
 		case "Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Sequence, 0)
 
@@ -3004,6 +3157,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Sequences", &extension_.Sequences)
 
 		case "Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.All, 0)
 
@@ -3036,6 +3192,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Alls", &extension_.Alls)
 
 		case "Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Choice, 0)
 
@@ -3068,6 +3227,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Choices", &extension_.Choices)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -3100,6 +3262,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Groups", &extension_.Groups)
 
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -3144,6 +3309,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 		case "Ref":
 			FormDivBasicFieldToField(&(extension_.Ref), formDiv)
 		case "Attributes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attribute](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Attribute, 0)
 
@@ -3176,6 +3344,9 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Attributes", &extension_.Attributes)
 
 		case "AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](extensionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
@@ -3302,6 +3473,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "OuterElementName":
 			FormDivBasicFieldToField(&(group_.OuterElementName), formDiv)
 		case "Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Sequence, 0)
 
@@ -3334,6 +3508,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Sequences", &group_.Sequences)
 
 		case "Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.All, 0)
 
@@ -3366,6 +3543,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Alls", &group_.Alls)
 
 		case "Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Choice, 0)
 
@@ -3398,6 +3578,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Choices", &group_.Choices)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -3430,6 +3613,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Groups", &group_.Groups)
 
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -3470,6 +3656,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "MaxOccurs":
 			FormDivBasicFieldToField(&(group_.MaxOccurs), formDiv)
 		case "All:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the All instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3515,6 +3704,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "Choice:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Choice instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3560,6 +3752,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3605,6 +3800,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "Element:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Element instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3650,6 +3848,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "Extension:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3695,6 +3896,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "Group:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3740,6 +3944,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "Schema:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Schema instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3785,6 +3992,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 		case "Sequence:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Sequence instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4404,6 +4614,9 @@ func (restrictionFormCallback *RestrictionFormCallback) OnSave() {
 		case "Base":
 			FormDivBasicFieldToField(&(restriction_.Base), formDiv)
 		case "Enumerations":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Enumeration](restrictionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Enumeration, 0)
 
@@ -4534,6 +4747,9 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 		case "Annotation":
 			FormDivSelectFieldToField(&(schema_.Annotation), schemaFormCallback.probe.stageOfInterest, formDiv)
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](schemaFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -4566,6 +4782,9 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "Elements", &schema_.Elements)
 
 		case "SimpleTypes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SimpleType](schemaFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SimpleType, 0)
 
@@ -4598,6 +4817,9 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "SimpleTypes", &schema_.SimpleTypes)
 
 		case "ComplexTypes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](schemaFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ComplexType, 0)
 
@@ -4630,6 +4852,9 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "ComplexTypes", &schema_.ComplexTypes)
 
 		case "AttributeGroups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](schemaFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
@@ -4662,6 +4887,9 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "AttributeGroups", &schema_.AttributeGroups)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](schemaFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -4780,6 +5008,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 		case "OuterElementName":
 			FormDivBasicFieldToField(&(sequence_.OuterElementName), formDiv)
 		case "Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](sequenceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Sequence, 0)
 
@@ -4812,6 +5043,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Sequences", &sequence_.Sequences)
 
 		case "Alls":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](sequenceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.All, 0)
 
@@ -4844,6 +5078,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Alls", &sequence_.Alls)
 
 		case "Choices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](sequenceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Choice, 0)
 
@@ -4876,6 +5113,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Choices", &sequence_.Choices)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](sequenceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -4908,6 +5148,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Groups", &sequence_.Groups)
 
 		case "Elements":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](sequenceFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Element, 0)
 
@@ -4948,6 +5191,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 		case "MaxOccurs":
 			FormDivBasicFieldToField(&(sequence_.MaxOccurs), formDiv)
 		case "All:Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the All instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4993,6 +5239,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 		case "Choice:Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Choice instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5038,6 +5287,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 		case "ComplexType:Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ComplexType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5083,6 +5335,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 		case "Extension:Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Extension instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5128,6 +5383,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 		case "Group:Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5173,6 +5431,9 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 		case "Sequence:Sequences":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Sequence instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -5390,6 +5651,9 @@ func (simpletypeFormCallback *SimpleTypeFormCallback) OnSave() {
 		case "Depth":
 			FormDivBasicFieldToField(&(simpletype_.Depth), formDiv)
 		case "Schema:SimpleTypes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Schema instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

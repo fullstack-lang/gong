@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type OptionInput struct {
 // default: genericError
 //
 //	200: optionDBResponse
-func (controller *Controller) GetOptions(c *gin.Context) {
+func (controller *Controller) GetOptions(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var optionDBs []orm.OptionDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetOptions(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetOptions(c *gin.Context) {
 		optionAPIs = append(optionAPIs, optionAPI)
 	}
 
-	c.JSON(http.StatusOK, optionAPIs)
+	writeJSON(w, http.StatusOK, optionAPIs)
 }
 
 // PostOption
@@ -122,12 +121,12 @@ func (controller *Controller) GetOptions(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostOption(c *gin.Context) {
+func (controller *Controller) PostOption(w http.ResponseWriter, r *http.Request) {
 
 	mutexOption.Lock()
 	defer mutexOption.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostOption(c *gin.Context) {
 	// Validate input
 	var input orm.OptionAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostOption(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostOption(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, optionDB)
+	writeJSON(w, http.StatusOK, optionDB)
 }
 
 // GetOption
@@ -202,9 +201,9 @@ func (controller *Controller) PostOption(c *gin.Context) {
 // default: genericError
 //
 //	200: optionDBResponse
-func (controller *Controller) GetOption(c *gin.Context) {
+func (controller *Controller) GetOption(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetOption(c *gin.Context) {
 
 	// Get optionDB in DB
 	var optionDB orm.OptionDB
-	if _, err := db.First(&optionDB, c.Param("id")); err != nil {
+	if _, err := db.First(&optionDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetOption(c *gin.Context) {
 	optionAPI.OptionPointersEncoding = optionDB.OptionPointersEncoding
 	optionDB.CopyBasicFieldsToOption_WOP(&optionAPI.Option_WOP)
 
-	c.JSON(http.StatusOK, optionAPI)
+	writeJSON(w, http.StatusOK, optionAPI)
 }
 
 // UpdateOption
@@ -255,12 +254,12 @@ func (controller *Controller) GetOption(c *gin.Context) {
 // default: genericError
 //
 //	200: optionDBResponse
-func (controller *Controller) UpdateOption(c *gin.Context) {
+func (controller *Controller) UpdateOption(w http.ResponseWriter, r *http.Request) {
 
 	mutexOption.Lock()
 	defer mutexOption.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 
 	// Validate input
 	var input orm.OptionAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 	var optionDB orm.OptionDB
 
 	// fetch the option
-	_, err := db.First(&optionDB, c.Param("id"))
+	_, err := db.First(&optionDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the optionDB
-	c.JSON(http.StatusOK, optionDB)
+	writeJSON(w, http.StatusOK, optionDB)
 }
 
 // DeleteOption
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 // default: genericError
 //
 //	200: optionDBResponse
-func (controller *Controller) DeleteOption(c *gin.Context) {
+func (controller *Controller) DeleteOption(w http.ResponseWriter, r *http.Request) {
 
 	mutexOption.Lock()
 	defer mutexOption.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteOption(c *gin.Context) {
 
 	// Get model if exist
 	var optionDB orm.OptionDB
-	if _, err := db.First(&optionDB, c.Param("id")); err != nil {
+	if _, err := db.First(&optionDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteOption(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

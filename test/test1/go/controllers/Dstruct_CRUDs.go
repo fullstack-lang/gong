@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test1/go/models"
 	"github.com/fullstack-lang/gong/test/test1/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type DstructInput struct {
 // default: genericError
 //
 //	200: dstructDBResponse
-func (controller *Controller) GetDstructs(c *gin.Context) {
+func (controller *Controller) GetDstructs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var dstructDBs []orm.DstructDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 		dstructAPIs = append(dstructAPIs, dstructAPI)
 	}
 
-	c.JSON(http.StatusOK, dstructAPIs)
+	writeJSON(w, http.StatusOK, dstructAPIs)
 }
 
 // PostDstruct
@@ -122,12 +121,12 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostDstruct(c *gin.Context) {
+func (controller *Controller) PostDstruct(w http.ResponseWriter, r *http.Request) {
 
 	mutexDstruct.Lock()
 	defer mutexDstruct.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 	// Validate input
 	var input orm.DstructAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, dstructDB)
+	writeJSON(w, http.StatusOK, dstructDB)
 }
 
 // GetDstruct
@@ -202,9 +201,9 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func (controller *Controller) GetDstruct(c *gin.Context) {
+func (controller *Controller) GetDstruct(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 
 	// Get dstructDB in DB
 	var dstructDB orm.DstructDB
-	if _, err := db.First(&dstructDB, c.Param("id")); err != nil {
+	if _, err := db.First(&dstructDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 	dstructAPI.DstructPointersEncoding = dstructDB.DstructPointersEncoding
 	dstructDB.CopyBasicFieldsToDstruct_WOP(&dstructAPI.Dstruct_WOP)
 
-	c.JSON(http.StatusOK, dstructAPI)
+	writeJSON(w, http.StatusOK, dstructAPI)
 }
 
 // UpdateDstruct
@@ -255,12 +254,12 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func (controller *Controller) UpdateDstruct(c *gin.Context) {
+func (controller *Controller) UpdateDstruct(w http.ResponseWriter, r *http.Request) {
 
 	mutexDstruct.Lock()
 	defer mutexDstruct.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 
 	// Validate input
 	var input orm.DstructAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	var dstructDB orm.DstructDB
 
 	// fetch the dstruct
-	_, err := db.First(&dstructDB, c.Param("id"))
+	_, err := db.First(&dstructDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the dstructDB
-	c.JSON(http.StatusOK, dstructDB)
+	writeJSON(w, http.StatusOK, dstructDB)
 }
 
 // DeleteDstruct
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func (controller *Controller) DeleteDstruct(c *gin.Context) {
+func (controller *Controller) DeleteDstruct(w http.ResponseWriter, r *http.Request) {
 
 	mutexDstruct.Lock()
 	defer mutexDstruct.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 
 	// Get model if exist
 	var dstructDB orm.DstructDB
-	if _, err := db.First(&dstructDB, c.Param("id")); err != nil {
+	if _, err := db.First(&dstructDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

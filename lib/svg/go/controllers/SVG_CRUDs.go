@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type SVGInput struct {
 // default: genericError
 //
 //	200: svgDBResponse
-func (controller *Controller) GetSVGs(c *gin.Context) {
+func (controller *Controller) GetSVGs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var svgDBs []orm.SVGDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 		svgAPIs = append(svgAPIs, svgAPI)
 	}
 
-	c.JSON(http.StatusOK, svgAPIs)
+	writeJSON(w, http.StatusOK, svgAPIs)
 }
 
 // PostSVG
@@ -122,12 +121,12 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostSVG(c *gin.Context) {
+func (controller *Controller) PostSVG(w http.ResponseWriter, r *http.Request) {
 
 	mutexSVG.Lock()
 	defer mutexSVG.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 	// Validate input
 	var input orm.SVGAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, svgDB)
+	writeJSON(w, http.StatusOK, svgDB)
 }
 
 // GetSVG
@@ -202,9 +201,9 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 // default: genericError
 //
 //	200: svgDBResponse
-func (controller *Controller) GetSVG(c *gin.Context) {
+func (controller *Controller) GetSVG(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 
 	// Get svgDB in DB
 	var svgDB orm.SVGDB
-	if _, err := db.First(&svgDB, c.Param("id")); err != nil {
+	if _, err := db.First(&svgDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 	svgAPI.SVGPointersEncoding = svgDB.SVGPointersEncoding
 	svgDB.CopyBasicFieldsToSVG_WOP(&svgAPI.SVG_WOP)
 
-	c.JSON(http.StatusOK, svgAPI)
+	writeJSON(w, http.StatusOK, svgAPI)
 }
 
 // UpdateSVG
@@ -255,12 +254,12 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 // default: genericError
 //
 //	200: svgDBResponse
-func (controller *Controller) UpdateSVG(c *gin.Context) {
+func (controller *Controller) UpdateSVG(w http.ResponseWriter, r *http.Request) {
 
 	mutexSVG.Lock()
 	defer mutexSVG.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 
 	// Validate input
 	var input orm.SVGAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	var svgDB orm.SVGDB
 
 	// fetch the svg
-	_, err := db.First(&svgDB, c.Param("id"))
+	_, err := db.First(&svgDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the svgDB
-	c.JSON(http.StatusOK, svgDB)
+	writeJSON(w, http.StatusOK, svgDB)
 }
 
 // DeleteSVG
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 // default: genericError
 //
 //	200: svgDBResponse
-func (controller *Controller) DeleteSVG(c *gin.Context) {
+func (controller *Controller) DeleteSVG(w http.ResponseWriter, r *http.Request) {
 
 	mutexSVG.Lock()
 	defer mutexSVG.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteSVG(c *gin.Context) {
 
 	// Get model if exist
 	var svgDB orm.SVGDB
-	if _, err := db.First(&svgDB, c.Param("id")); err != nil {
+	if _, err := db.First(&svgDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteSVG(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

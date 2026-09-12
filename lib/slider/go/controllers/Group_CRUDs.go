@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 	"github.com/fullstack-lang/gong/lib/slider/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type GroupInput struct {
 // default: genericError
 //
 //	200: groupDBResponse
-func (controller *Controller) GetGroups(c *gin.Context) {
+func (controller *Controller) GetGroups(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var groupDBs []orm.GroupDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetGroups(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetGroups(c *gin.Context) {
 		groupAPIs = append(groupAPIs, groupAPI)
 	}
 
-	c.JSON(http.StatusOK, groupAPIs)
+	writeJSON(w, http.StatusOK, groupAPIs)
 }
 
 // PostGroup
@@ -122,12 +121,12 @@ func (controller *Controller) GetGroups(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostGroup(c *gin.Context) {
+func (controller *Controller) PostGroup(w http.ResponseWriter, r *http.Request) {
 
 	mutexGroup.Lock()
 	defer mutexGroup.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostGroup(c *gin.Context) {
 	// Validate input
 	var input orm.GroupAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostGroup(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostGroup(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, groupDB)
+	writeJSON(w, http.StatusOK, groupDB)
 }
 
 // GetGroup
@@ -202,9 +201,9 @@ func (controller *Controller) PostGroup(c *gin.Context) {
 // default: genericError
 //
 //	200: groupDBResponse
-func (controller *Controller) GetGroup(c *gin.Context) {
+func (controller *Controller) GetGroup(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetGroup(c *gin.Context) {
 
 	// Get groupDB in DB
 	var groupDB orm.GroupDB
-	if _, err := db.First(&groupDB, c.Param("id")); err != nil {
+	if _, err := db.First(&groupDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetGroup(c *gin.Context) {
 	groupAPI.GroupPointersEncoding = groupDB.GroupPointersEncoding
 	groupDB.CopyBasicFieldsToGroup_WOP(&groupAPI.Group_WOP)
 
-	c.JSON(http.StatusOK, groupAPI)
+	writeJSON(w, http.StatusOK, groupAPI)
 }
 
 // UpdateGroup
@@ -255,12 +254,12 @@ func (controller *Controller) GetGroup(c *gin.Context) {
 // default: genericError
 //
 //	200: groupDBResponse
-func (controller *Controller) UpdateGroup(c *gin.Context) {
+func (controller *Controller) UpdateGroup(w http.ResponseWriter, r *http.Request) {
 
 	mutexGroup.Lock()
 	defer mutexGroup.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateGroup(c *gin.Context) {
 
 	// Validate input
 	var input orm.GroupAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateGroup(c *gin.Context) {
 	var groupDB orm.GroupDB
 
 	// fetch the group
-	_, err := db.First(&groupDB, c.Param("id"))
+	_, err := db.First(&groupDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateGroup(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateGroup(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the groupDB
-	c.JSON(http.StatusOK, groupDB)
+	writeJSON(w, http.StatusOK, groupDB)
 }
 
 // DeleteGroup
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateGroup(c *gin.Context) {
 // default: genericError
 //
 //	200: groupDBResponse
-func (controller *Controller) DeleteGroup(c *gin.Context) {
+func (controller *Controller) DeleteGroup(w http.ResponseWriter, r *http.Request) {
 
 	mutexGroup.Lock()
 	defer mutexGroup.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteGroup(c *gin.Context) {
 
 	// Get model if exist
 	var groupDB orm.GroupDB
-	if _, err := db.First(&groupDB, c.Param("id")); err != nil {
+	if _, err := db.First(&groupDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteGroup(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

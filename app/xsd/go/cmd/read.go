@@ -18,7 +18,7 @@ var readCmd = &cobra.Command{
 	Long:  `...`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		r, stack := process(args)
+		_, stack := process(args)
 
 		stack.Stage.Commit()
 		stack.Probe.Refresh()
@@ -29,8 +29,8 @@ var readCmd = &cobra.Command{
 
 		// models.SerializeStage(stack.Stage, xlFilePath)
 
-		log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
-		err := r.Run(":" + strconv.Itoa(*port))
+		log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
+		err := stack.Run(":" + strconv.Itoa(*port))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CircleInput struct {
 // default: genericError
 //
 //	200: circleDBResponse
-func (controller *Controller) GetCircles(c *gin.Context) {
+func (controller *Controller) GetCircles(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var circleDBs []orm.CircleDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 		circleAPIs = append(circleAPIs, circleAPI)
 	}
 
-	c.JSON(http.StatusOK, circleAPIs)
+	writeJSON(w, http.StatusOK, circleAPIs)
 }
 
 // PostCircle
@@ -122,12 +121,12 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCircle(c *gin.Context) {
+func (controller *Controller) PostCircle(w http.ResponseWriter, r *http.Request) {
 
 	mutexCircle.Lock()
 	defer mutexCircle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 	// Validate input
 	var input orm.CircleAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, circleDB)
+	writeJSON(w, http.StatusOK, circleDB)
 }
 
 // GetCircle
@@ -202,9 +201,9 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 // default: genericError
 //
 //	200: circleDBResponse
-func (controller *Controller) GetCircle(c *gin.Context) {
+func (controller *Controller) GetCircle(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 
 	// Get circleDB in DB
 	var circleDB orm.CircleDB
-	if _, err := db.First(&circleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&circleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 	circleAPI.CirclePointersEncoding = circleDB.CirclePointersEncoding
 	circleDB.CopyBasicFieldsToCircle_WOP(&circleAPI.Circle_WOP)
 
-	c.JSON(http.StatusOK, circleAPI)
+	writeJSON(w, http.StatusOK, circleAPI)
 }
 
 // UpdateCircle
@@ -255,12 +254,12 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 // default: genericError
 //
 //	200: circleDBResponse
-func (controller *Controller) UpdateCircle(c *gin.Context) {
+func (controller *Controller) UpdateCircle(w http.ResponseWriter, r *http.Request) {
 
 	mutexCircle.Lock()
 	defer mutexCircle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 
 	// Validate input
 	var input orm.CircleAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 	var circleDB orm.CircleDB
 
 	// fetch the circle
-	_, err := db.First(&circleDB, c.Param("id"))
+	_, err := db.First(&circleDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the circleDB
-	c.JSON(http.StatusOK, circleDB)
+	writeJSON(w, http.StatusOK, circleDB)
 }
 
 // DeleteCircle
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 // default: genericError
 //
 //	200: circleDBResponse
-func (controller *Controller) DeleteCircle(c *gin.Context) {
+func (controller *Controller) DeleteCircle(w http.ResponseWriter, r *http.Request) {
 
 	mutexCircle.Lock()
 	defer mutexCircle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCircle(c *gin.Context) {
 
 	// Get model if exist
 	var circleDB orm.CircleDB
-	if _, err := db.First(&circleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&circleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCircle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

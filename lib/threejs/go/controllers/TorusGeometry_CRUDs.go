@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type TorusGeometryInput struct {
 // default: genericError
 //
 //	200: torusgeometryDBResponse
-func (controller *Controller) GetTorusGeometrys(c *gin.Context) {
+func (controller *Controller) GetTorusGeometrys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var torusgeometryDBs []orm.TorusGeometryDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTorusGeometrys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTorusGeometrys(c *gin.Context) {
 		torusgeometryAPIs = append(torusgeometryAPIs, torusgeometryAPI)
 	}
 
-	c.JSON(http.StatusOK, torusgeometryAPIs)
+	writeJSON(w, http.StatusOK, torusgeometryAPIs)
 }
 
 // PostTorusGeometry
@@ -122,12 +121,12 @@ func (controller *Controller) GetTorusGeometrys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostTorusGeometry(c *gin.Context) {
+func (controller *Controller) PostTorusGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexTorusGeometry.Lock()
 	defer mutexTorusGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostTorusGeometry(c *gin.Context) {
 	// Validate input
 	var input orm.TorusGeometryAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostTorusGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostTorusGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, torusgeometryDB)
+	writeJSON(w, http.StatusOK, torusgeometryDB)
 }
 
 // GetTorusGeometry
@@ -202,9 +201,9 @@ func (controller *Controller) PostTorusGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: torusgeometryDBResponse
-func (controller *Controller) GetTorusGeometry(c *gin.Context) {
+func (controller *Controller) GetTorusGeometry(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetTorusGeometry(c *gin.Context) {
 
 	// Get torusgeometryDB in DB
 	var torusgeometryDB orm.TorusGeometryDB
-	if _, err := db.First(&torusgeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&torusgeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetTorusGeometry(c *gin.Context) {
 	torusgeometryAPI.TorusGeometryPointersEncoding = torusgeometryDB.TorusGeometryPointersEncoding
 	torusgeometryDB.CopyBasicFieldsToTorusGeometry_WOP(&torusgeometryAPI.TorusGeometry_WOP)
 
-	c.JSON(http.StatusOK, torusgeometryAPI)
+	writeJSON(w, http.StatusOK, torusgeometryAPI)
 }
 
 // UpdateTorusGeometry
@@ -255,12 +254,12 @@ func (controller *Controller) GetTorusGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: torusgeometryDBResponse
-func (controller *Controller) UpdateTorusGeometry(c *gin.Context) {
+func (controller *Controller) UpdateTorusGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexTorusGeometry.Lock()
 	defer mutexTorusGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateTorusGeometry(c *gin.Context) {
 
 	// Validate input
 	var input orm.TorusGeometryAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateTorusGeometry(c *gin.Context) {
 	var torusgeometryDB orm.TorusGeometryDB
 
 	// fetch the torusgeometry
-	_, err := db.First(&torusgeometryDB, c.Param("id"))
+	_, err := db.First(&torusgeometryDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateTorusGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateTorusGeometry(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the torusgeometryDB
-	c.JSON(http.StatusOK, torusgeometryDB)
+	writeJSON(w, http.StatusOK, torusgeometryDB)
 }
 
 // DeleteTorusGeometry
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateTorusGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: torusgeometryDBResponse
-func (controller *Controller) DeleteTorusGeometry(c *gin.Context) {
+func (controller *Controller) DeleteTorusGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexTorusGeometry.Lock()
 	defer mutexTorusGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteTorusGeometry(c *gin.Context) {
 
 	// Get model if exist
 	var torusgeometryDB orm.TorusGeometryDB
-	if _, err := db.First(&torusgeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&torusgeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteTorusGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

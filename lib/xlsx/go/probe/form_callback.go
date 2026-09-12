@@ -153,6 +153,9 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(xlcell_.Y), formDiv)
 		case "XLRow:Cells":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the XLRow instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -198,6 +201,9 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 				}
 			}
 		case "XLSheet:SheetCells":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the XLSheet instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -323,6 +329,9 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 		case "NbSheets":
 			FormDivBasicFieldToField(&(xlfile_.NbSheets), formDiv)
 		case "Sheets":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlfileFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLSheet, 0)
 
@@ -435,6 +444,9 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 		case "RowIndex":
 			FormDivBasicFieldToField(&(xlrow_.RowIndex), formDiv)
 		case "Cells":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlrowFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLCell, 0)
 
@@ -467,6 +479,9 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			xlrowFormCallback.probe.UpdateSliceOfPointersCallback(xlrow_, "Cells", &xlrow_.Cells)
 
 		case "XLSheet:Rows":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the XLSheet instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -596,6 +611,9 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 		case "NbRows":
 			FormDivBasicFieldToField(&(xlsheet_.NbRows), formDiv)
 		case "Rows":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](xlsheetFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLRow, 0)
 
@@ -628,6 +646,9 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(xlsheet_, "Rows", &xlsheet_.Rows)
 
 		case "SheetCells":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlsheetFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLCell, 0)
 
@@ -660,6 +681,9 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(xlsheet_, "SheetCells", &xlsheet_.SheetCells)
 
 		case "XLFile:Sheets":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the XLFile instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

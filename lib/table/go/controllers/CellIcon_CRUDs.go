@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 	"github.com/fullstack-lang/gong/lib/table/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CellIconInput struct {
 // default: genericError
 //
 //	200: celliconDBResponse
-func (controller *Controller) GetCellIcons(c *gin.Context) {
+func (controller *Controller) GetCellIcons(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var celliconDBs []orm.CellIconDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 		celliconAPIs = append(celliconAPIs, celliconAPI)
 	}
 
-	c.JSON(http.StatusOK, celliconAPIs)
+	writeJSON(w, http.StatusOK, celliconAPIs)
 }
 
 // PostCellIcon
@@ -122,12 +121,12 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCellIcon(c *gin.Context) {
+func (controller *Controller) PostCellIcon(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellIcon.Lock()
 	defer mutexCellIcon.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 	// Validate input
 	var input orm.CellIconAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, celliconDB)
+	writeJSON(w, http.StatusOK, celliconDB)
 }
 
 // GetCellIcon
@@ -202,9 +201,9 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 // default: genericError
 //
 //	200: celliconDBResponse
-func (controller *Controller) GetCellIcon(c *gin.Context) {
+func (controller *Controller) GetCellIcon(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 
 	// Get celliconDB in DB
 	var celliconDB orm.CellIconDB
-	if _, err := db.First(&celliconDB, c.Param("id")); err != nil {
+	if _, err := db.First(&celliconDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 	celliconAPI.CellIconPointersEncoding = celliconDB.CellIconPointersEncoding
 	celliconDB.CopyBasicFieldsToCellIcon_WOP(&celliconAPI.CellIcon_WOP)
 
-	c.JSON(http.StatusOK, celliconAPI)
+	writeJSON(w, http.StatusOK, celliconAPI)
 }
 
 // UpdateCellIcon
@@ -255,12 +254,12 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 // default: genericError
 //
 //	200: celliconDBResponse
-func (controller *Controller) UpdateCellIcon(c *gin.Context) {
+func (controller *Controller) UpdateCellIcon(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellIcon.Lock()
 	defer mutexCellIcon.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 
 	// Validate input
 	var input orm.CellIconAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	var celliconDB orm.CellIconDB
 
 	// fetch the cellicon
-	_, err := db.First(&celliconDB, c.Param("id"))
+	_, err := db.First(&celliconDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the celliconDB
-	c.JSON(http.StatusOK, celliconDB)
+	writeJSON(w, http.StatusOK, celliconDB)
 }
 
 // DeleteCellIcon
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 // default: genericError
 //
 //	200: celliconDBResponse
-func (controller *Controller) DeleteCellIcon(c *gin.Context) {
+func (controller *Controller) DeleteCellIcon(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellIcon.Lock()
 	defer mutexCellIcon.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 
 	// Get model if exist
 	var celliconDB orm.CellIconDB
-	if _, err := db.First(&celliconDB, c.Param("id")); err != nil {
+	if _, err := db.First(&celliconDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

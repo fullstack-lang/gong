@@ -15,8 +15,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -53,159 +51,156 @@ type ValidationError struct {
 }
 
 // registerControllers register controllers
-func registerControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/threejs/go")
-	{ // insertion point for registrations
-		v1.GET("/v1/ambiantlights", GetController().GetAmbiantLights)
-		v1.GET("/v1/ambiantlights/:id", GetController().GetAmbiantLight)
-		v1.POST("/v1/ambiantlights", GetController().PostAmbiantLight)
-		v1.PATCH("/v1/ambiantlights/:id", GetController().UpdateAmbiantLight)
-		v1.PUT("/v1/ambiantlights/:id", GetController().UpdateAmbiantLight)
-		v1.DELETE("/v1/ambiantlights/:id", GetController().DeleteAmbiantLight)
+func registerControllers(mux *http.ServeMux) {
+	base := "/api/github.com/fullstack-lang/gong/lib/threejs/go/v1"
 
-		v1.GET("/v1/boxgeometrys", GetController().GetBoxGeometrys)
-		v1.GET("/v1/boxgeometrys/:id", GetController().GetBoxGeometry)
-		v1.POST("/v1/boxgeometrys", GetController().PostBoxGeometry)
-		v1.PATCH("/v1/boxgeometrys/:id", GetController().UpdateBoxGeometry)
-		v1.PUT("/v1/boxgeometrys/:id", GetController().UpdateBoxGeometry)
-		v1.DELETE("/v1/boxgeometrys/:id", GetController().DeleteBoxGeometry)
+	mux.HandleFunc("GET " + base + "/ambiantlights", GetController().GetAmbiantLights)
+	mux.HandleFunc("GET " + base + "/ambiantlights/{id}", GetController().GetAmbiantLight)
+	mux.HandleFunc("POST " + base + "/ambiantlights", GetController().PostAmbiantLight)
+	mux.HandleFunc("PATCH " + base + "/ambiantlights/{id}", GetController().UpdateAmbiantLight)
+	mux.HandleFunc("PUT " + base + "/ambiantlights/{id}", GetController().UpdateAmbiantLight)
+	mux.HandleFunc("DELETE " + base + "/ambiantlights/{id}", GetController().DeleteAmbiantLight)
 
-		v1.GET("/v1/buffergeometrys", GetController().GetBufferGeometrys)
-		v1.GET("/v1/buffergeometrys/:id", GetController().GetBufferGeometry)
-		v1.POST("/v1/buffergeometrys", GetController().PostBufferGeometry)
-		v1.PATCH("/v1/buffergeometrys/:id", GetController().UpdateBufferGeometry)
-		v1.PUT("/v1/buffergeometrys/:id", GetController().UpdateBufferGeometry)
-		v1.DELETE("/v1/buffergeometrys/:id", GetController().DeleteBufferGeometry)
+	mux.HandleFunc("GET " + base + "/boxgeometrys", GetController().GetBoxGeometrys)
+	mux.HandleFunc("GET " + base + "/boxgeometrys/{id}", GetController().GetBoxGeometry)
+	mux.HandleFunc("POST " + base + "/boxgeometrys", GetController().PostBoxGeometry)
+	mux.HandleFunc("PATCH " + base + "/boxgeometrys/{id}", GetController().UpdateBoxGeometry)
+	mux.HandleFunc("PUT " + base + "/boxgeometrys/{id}", GetController().UpdateBoxGeometry)
+	mux.HandleFunc("DELETE " + base + "/boxgeometrys/{id}", GetController().DeleteBoxGeometry)
 
-		v1.GET("/v1/cameras", GetController().GetCameras)
-		v1.GET("/v1/cameras/:id", GetController().GetCamera)
-		v1.POST("/v1/cameras", GetController().PostCamera)
-		v1.PATCH("/v1/cameras/:id", GetController().UpdateCamera)
-		v1.PUT("/v1/cameras/:id", GetController().UpdateCamera)
-		v1.DELETE("/v1/cameras/:id", GetController().DeleteCamera)
+	mux.HandleFunc("GET " + base + "/buffergeometrys", GetController().GetBufferGeometrys)
+	mux.HandleFunc("GET " + base + "/buffergeometrys/{id}", GetController().GetBufferGeometry)
+	mux.HandleFunc("POST " + base + "/buffergeometrys", GetController().PostBufferGeometry)
+	mux.HandleFunc("PATCH " + base + "/buffergeometrys/{id}", GetController().UpdateBufferGeometry)
+	mux.HandleFunc("PUT " + base + "/buffergeometrys/{id}", GetController().UpdateBufferGeometry)
+	mux.HandleFunc("DELETE " + base + "/buffergeometrys/{id}", GetController().DeleteBufferGeometry)
 
-		v1.GET("/v1/canvass", GetController().GetCanvass)
-		v1.GET("/v1/canvass/:id", GetController().GetCanvas)
-		v1.POST("/v1/canvass", GetController().PostCanvas)
-		v1.PATCH("/v1/canvass/:id", GetController().UpdateCanvas)
-		v1.PUT("/v1/canvass/:id", GetController().UpdateCanvas)
-		v1.DELETE("/v1/canvass/:id", GetController().DeleteCanvas)
+	mux.HandleFunc("GET " + base + "/cameras", GetController().GetCameras)
+	mux.HandleFunc("GET " + base + "/cameras/{id}", GetController().GetCamera)
+	mux.HandleFunc("POST " + base + "/cameras", GetController().PostCamera)
+	mux.HandleFunc("PATCH " + base + "/cameras/{id}", GetController().UpdateCamera)
+	mux.HandleFunc("PUT " + base + "/cameras/{id}", GetController().UpdateCamera)
+	mux.HandleFunc("DELETE " + base + "/cameras/{id}", GetController().DeleteCamera)
 
-		v1.GET("/v1/curves", GetController().GetCurves)
-		v1.GET("/v1/curves/:id", GetController().GetCurve)
-		v1.POST("/v1/curves", GetController().PostCurve)
-		v1.PATCH("/v1/curves/:id", GetController().UpdateCurve)
-		v1.PUT("/v1/curves/:id", GetController().UpdateCurve)
-		v1.DELETE("/v1/curves/:id", GetController().DeleteCurve)
+	mux.HandleFunc("GET " + base + "/canvass", GetController().GetCanvass)
+	mux.HandleFunc("GET " + base + "/canvass/{id}", GetController().GetCanvas)
+	mux.HandleFunc("POST " + base + "/canvass", GetController().PostCanvas)
+	mux.HandleFunc("PATCH " + base + "/canvass/{id}", GetController().UpdateCanvas)
+	mux.HandleFunc("PUT " + base + "/canvass/{id}", GetController().UpdateCanvas)
+	mux.HandleFunc("DELETE " + base + "/canvass/{id}", GetController().DeleteCanvas)
 
-		v1.GET("/v1/cylindergeometrys", GetController().GetCylinderGeometrys)
-		v1.GET("/v1/cylindergeometrys/:id", GetController().GetCylinderGeometry)
-		v1.POST("/v1/cylindergeometrys", GetController().PostCylinderGeometry)
-		v1.PATCH("/v1/cylindergeometrys/:id", GetController().UpdateCylinderGeometry)
-		v1.PUT("/v1/cylindergeometrys/:id", GetController().UpdateCylinderGeometry)
-		v1.DELETE("/v1/cylindergeometrys/:id", GetController().DeleteCylinderGeometry)
+	mux.HandleFunc("GET " + base + "/curves", GetController().GetCurves)
+	mux.HandleFunc("GET " + base + "/curves/{id}", GetController().GetCurve)
+	mux.HandleFunc("POST " + base + "/curves", GetController().PostCurve)
+	mux.HandleFunc("PATCH " + base + "/curves/{id}", GetController().UpdateCurve)
+	mux.HandleFunc("PUT " + base + "/curves/{id}", GetController().UpdateCurve)
+	mux.HandleFunc("DELETE " + base + "/curves/{id}", GetController().DeleteCurve)
 
-		v1.GET("/v1/directionallights", GetController().GetDirectionalLights)
-		v1.GET("/v1/directionallights/:id", GetController().GetDirectionalLight)
-		v1.POST("/v1/directionallights", GetController().PostDirectionalLight)
-		v1.PATCH("/v1/directionallights/:id", GetController().UpdateDirectionalLight)
-		v1.PUT("/v1/directionallights/:id", GetController().UpdateDirectionalLight)
-		v1.DELETE("/v1/directionallights/:id", GetController().DeleteDirectionalLight)
+	mux.HandleFunc("GET " + base + "/cylindergeometrys", GetController().GetCylinderGeometrys)
+	mux.HandleFunc("GET " + base + "/cylindergeometrys/{id}", GetController().GetCylinderGeometry)
+	mux.HandleFunc("POST " + base + "/cylindergeometrys", GetController().PostCylinderGeometry)
+	mux.HandleFunc("PATCH " + base + "/cylindergeometrys/{id}", GetController().UpdateCylinderGeometry)
+	mux.HandleFunc("PUT " + base + "/cylindergeometrys/{id}", GetController().UpdateCylinderGeometry)
+	mux.HandleFunc("DELETE " + base + "/cylindergeometrys/{id}", GetController().DeleteCylinderGeometry)
 
-		v1.GET("/v1/extrudegeometrys", GetController().GetExtrudeGeometrys)
-		v1.GET("/v1/extrudegeometrys/:id", GetController().GetExtrudeGeometry)
-		v1.POST("/v1/extrudegeometrys", GetController().PostExtrudeGeometry)
-		v1.PATCH("/v1/extrudegeometrys/:id", GetController().UpdateExtrudeGeometry)
-		v1.PUT("/v1/extrudegeometrys/:id", GetController().UpdateExtrudeGeometry)
-		v1.DELETE("/v1/extrudegeometrys/:id", GetController().DeleteExtrudeGeometry)
+	mux.HandleFunc("GET " + base + "/directionallights", GetController().GetDirectionalLights)
+	mux.HandleFunc("GET " + base + "/directionallights/{id}", GetController().GetDirectionalLight)
+	mux.HandleFunc("POST " + base + "/directionallights", GetController().PostDirectionalLight)
+	mux.HandleFunc("PATCH " + base + "/directionallights/{id}", GetController().UpdateDirectionalLight)
+	mux.HandleFunc("PUT " + base + "/directionallights/{id}", GetController().UpdateDirectionalLight)
+	mux.HandleFunc("DELETE " + base + "/directionallights/{id}", GetController().DeleteDirectionalLight)
 
-		v1.GET("/v1/meshs", GetController().GetMeshs)
-		v1.GET("/v1/meshs/:id", GetController().GetMesh)
-		v1.POST("/v1/meshs", GetController().PostMesh)
-		v1.PATCH("/v1/meshs/:id", GetController().UpdateMesh)
-		v1.PUT("/v1/meshs/:id", GetController().UpdateMesh)
-		v1.DELETE("/v1/meshs/:id", GetController().DeleteMesh)
+	mux.HandleFunc("GET " + base + "/extrudegeometrys", GetController().GetExtrudeGeometrys)
+	mux.HandleFunc("GET " + base + "/extrudegeometrys/{id}", GetController().GetExtrudeGeometry)
+	mux.HandleFunc("POST " + base + "/extrudegeometrys", GetController().PostExtrudeGeometry)
+	mux.HandleFunc("PATCH " + base + "/extrudegeometrys/{id}", GetController().UpdateExtrudeGeometry)
+	mux.HandleFunc("PUT " + base + "/extrudegeometrys/{id}", GetController().UpdateExtrudeGeometry)
+	mux.HandleFunc("DELETE " + base + "/extrudegeometrys/{id}", GetController().DeleteExtrudeGeometry)
 
-		v1.GET("/v1/meshmaterialbasics", GetController().GetMeshMaterialBasics)
-		v1.GET("/v1/meshmaterialbasics/:id", GetController().GetMeshMaterialBasic)
-		v1.POST("/v1/meshmaterialbasics", GetController().PostMeshMaterialBasic)
-		v1.PATCH("/v1/meshmaterialbasics/:id", GetController().UpdateMeshMaterialBasic)
-		v1.PUT("/v1/meshmaterialbasics/:id", GetController().UpdateMeshMaterialBasic)
-		v1.DELETE("/v1/meshmaterialbasics/:id", GetController().DeleteMeshMaterialBasic)
+	mux.HandleFunc("GET " + base + "/meshs", GetController().GetMeshs)
+	mux.HandleFunc("GET " + base + "/meshs/{id}", GetController().GetMesh)
+	mux.HandleFunc("POST " + base + "/meshs", GetController().PostMesh)
+	mux.HandleFunc("PATCH " + base + "/meshs/{id}", GetController().UpdateMesh)
+	mux.HandleFunc("PUT " + base + "/meshs/{id}", GetController().UpdateMesh)
+	mux.HandleFunc("DELETE " + base + "/meshs/{id}", GetController().DeleteMesh)
 
-		v1.GET("/v1/meshphysicalmaterials", GetController().GetMeshPhysicalMaterials)
-		v1.GET("/v1/meshphysicalmaterials/:id", GetController().GetMeshPhysicalMaterial)
-		v1.POST("/v1/meshphysicalmaterials", GetController().PostMeshPhysicalMaterial)
-		v1.PATCH("/v1/meshphysicalmaterials/:id", GetController().UpdateMeshPhysicalMaterial)
-		v1.PUT("/v1/meshphysicalmaterials/:id", GetController().UpdateMeshPhysicalMaterial)
-		v1.DELETE("/v1/meshphysicalmaterials/:id", GetController().DeleteMeshPhysicalMaterial)
+	mux.HandleFunc("GET " + base + "/meshmaterialbasics", GetController().GetMeshMaterialBasics)
+	mux.HandleFunc("GET " + base + "/meshmaterialbasics/{id}", GetController().GetMeshMaterialBasic)
+	mux.HandleFunc("POST " + base + "/meshmaterialbasics", GetController().PostMeshMaterialBasic)
+	mux.HandleFunc("PATCH " + base + "/meshmaterialbasics/{id}", GetController().UpdateMeshMaterialBasic)
+	mux.HandleFunc("PUT " + base + "/meshmaterialbasics/{id}", GetController().UpdateMeshMaterialBasic)
+	mux.HandleFunc("DELETE " + base + "/meshmaterialbasics/{id}", GetController().DeleteMeshMaterialBasic)
 
-		v1.GET("/v1/planegeometrys", GetController().GetPlaneGeometrys)
-		v1.GET("/v1/planegeometrys/:id", GetController().GetPlaneGeometry)
-		v1.POST("/v1/planegeometrys", GetController().PostPlaneGeometry)
-		v1.PATCH("/v1/planegeometrys/:id", GetController().UpdatePlaneGeometry)
-		v1.PUT("/v1/planegeometrys/:id", GetController().UpdatePlaneGeometry)
-		v1.DELETE("/v1/planegeometrys/:id", GetController().DeletePlaneGeometry)
+	mux.HandleFunc("GET " + base + "/meshphysicalmaterials", GetController().GetMeshPhysicalMaterials)
+	mux.HandleFunc("GET " + base + "/meshphysicalmaterials/{id}", GetController().GetMeshPhysicalMaterial)
+	mux.HandleFunc("POST " + base + "/meshphysicalmaterials", GetController().PostMeshPhysicalMaterial)
+	mux.HandleFunc("PATCH " + base + "/meshphysicalmaterials/{id}", GetController().UpdateMeshPhysicalMaterial)
+	mux.HandleFunc("PUT " + base + "/meshphysicalmaterials/{id}", GetController().UpdateMeshPhysicalMaterial)
+	mux.HandleFunc("DELETE " + base + "/meshphysicalmaterials/{id}", GetController().DeleteMeshPhysicalMaterial)
 
-		v1.GET("/v1/shapes", GetController().GetShapes)
-		v1.GET("/v1/shapes/:id", GetController().GetShape)
-		v1.POST("/v1/shapes", GetController().PostShape)
-		v1.PATCH("/v1/shapes/:id", GetController().UpdateShape)
-		v1.PUT("/v1/shapes/:id", GetController().UpdateShape)
-		v1.DELETE("/v1/shapes/:id", GetController().DeleteShape)
+	mux.HandleFunc("GET " + base + "/planegeometrys", GetController().GetPlaneGeometrys)
+	mux.HandleFunc("GET " + base + "/planegeometrys/{id}", GetController().GetPlaneGeometry)
+	mux.HandleFunc("POST " + base + "/planegeometrys", GetController().PostPlaneGeometry)
+	mux.HandleFunc("PATCH " + base + "/planegeometrys/{id}", GetController().UpdatePlaneGeometry)
+	mux.HandleFunc("PUT " + base + "/planegeometrys/{id}", GetController().UpdatePlaneGeometry)
+	mux.HandleFunc("DELETE " + base + "/planegeometrys/{id}", GetController().DeletePlaneGeometry)
 
-		v1.GET("/v1/spheregeometrys", GetController().GetSphereGeometrys)
-		v1.GET("/v1/spheregeometrys/:id", GetController().GetSphereGeometry)
-		v1.POST("/v1/spheregeometrys", GetController().PostSphereGeometry)
-		v1.PATCH("/v1/spheregeometrys/:id", GetController().UpdateSphereGeometry)
-		v1.PUT("/v1/spheregeometrys/:id", GetController().UpdateSphereGeometry)
-		v1.DELETE("/v1/spheregeometrys/:id", GetController().DeleteSphereGeometry)
+	mux.HandleFunc("GET " + base + "/shapes", GetController().GetShapes)
+	mux.HandleFunc("GET " + base + "/shapes/{id}", GetController().GetShape)
+	mux.HandleFunc("POST " + base + "/shapes", GetController().PostShape)
+	mux.HandleFunc("PATCH " + base + "/shapes/{id}", GetController().UpdateShape)
+	mux.HandleFunc("PUT " + base + "/shapes/{id}", GetController().UpdateShape)
+	mux.HandleFunc("DELETE " + base + "/shapes/{id}", GetController().DeleteShape)
 
-		v1.GET("/v1/torusgeometrys", GetController().GetTorusGeometrys)
-		v1.GET("/v1/torusgeometrys/:id", GetController().GetTorusGeometry)
-		v1.POST("/v1/torusgeometrys", GetController().PostTorusGeometry)
-		v1.PATCH("/v1/torusgeometrys/:id", GetController().UpdateTorusGeometry)
-		v1.PUT("/v1/torusgeometrys/:id", GetController().UpdateTorusGeometry)
-		v1.DELETE("/v1/torusgeometrys/:id", GetController().DeleteTorusGeometry)
+	mux.HandleFunc("GET " + base + "/spheregeometrys", GetController().GetSphereGeometrys)
+	mux.HandleFunc("GET " + base + "/spheregeometrys/{id}", GetController().GetSphereGeometry)
+	mux.HandleFunc("POST " + base + "/spheregeometrys", GetController().PostSphereGeometry)
+	mux.HandleFunc("PATCH " + base + "/spheregeometrys/{id}", GetController().UpdateSphereGeometry)
+	mux.HandleFunc("PUT " + base + "/spheregeometrys/{id}", GetController().UpdateSphereGeometry)
+	mux.HandleFunc("DELETE " + base + "/spheregeometrys/{id}", GetController().DeleteSphereGeometry)
 
-		v1.GET("/v1/triangles", GetController().GetTriangles)
-		v1.GET("/v1/triangles/:id", GetController().GetTriangle)
-		v1.POST("/v1/triangles", GetController().PostTriangle)
-		v1.PATCH("/v1/triangles/:id", GetController().UpdateTriangle)
-		v1.PUT("/v1/triangles/:id", GetController().UpdateTriangle)
-		v1.DELETE("/v1/triangles/:id", GetController().DeleteTriangle)
+	mux.HandleFunc("GET " + base + "/torusgeometrys", GetController().GetTorusGeometrys)
+	mux.HandleFunc("GET " + base + "/torusgeometrys/{id}", GetController().GetTorusGeometry)
+	mux.HandleFunc("POST " + base + "/torusgeometrys", GetController().PostTorusGeometry)
+	mux.HandleFunc("PATCH " + base + "/torusgeometrys/{id}", GetController().UpdateTorusGeometry)
+	mux.HandleFunc("PUT " + base + "/torusgeometrys/{id}", GetController().UpdateTorusGeometry)
+	mux.HandleFunc("DELETE " + base + "/torusgeometrys/{id}", GetController().DeleteTorusGeometry)
 
-		v1.GET("/v1/tubegeometrys", GetController().GetTubeGeometrys)
-		v1.GET("/v1/tubegeometrys/:id", GetController().GetTubeGeometry)
-		v1.POST("/v1/tubegeometrys", GetController().PostTubeGeometry)
-		v1.PATCH("/v1/tubegeometrys/:id", GetController().UpdateTubeGeometry)
-		v1.PUT("/v1/tubegeometrys/:id", GetController().UpdateTubeGeometry)
-		v1.DELETE("/v1/tubegeometrys/:id", GetController().DeleteTubeGeometry)
+	mux.HandleFunc("GET " + base + "/triangles", GetController().GetTriangles)
+	mux.HandleFunc("GET " + base + "/triangles/{id}", GetController().GetTriangle)
+	mux.HandleFunc("POST " + base + "/triangles", GetController().PostTriangle)
+	mux.HandleFunc("PATCH " + base + "/triangles/{id}", GetController().UpdateTriangle)
+	mux.HandleFunc("PUT " + base + "/triangles/{id}", GetController().UpdateTriangle)
+	mux.HandleFunc("DELETE " + base + "/triangles/{id}", GetController().DeleteTriangle)
 
-		v1.GET("/v1/vector2s", GetController().GetVector2s)
-		v1.GET("/v1/vector2s/:id", GetController().GetVector2)
-		v1.POST("/v1/vector2s", GetController().PostVector2)
-		v1.PATCH("/v1/vector2s/:id", GetController().UpdateVector2)
-		v1.PUT("/v1/vector2s/:id", GetController().UpdateVector2)
-		v1.DELETE("/v1/vector2s/:id", GetController().DeleteVector2)
+	mux.HandleFunc("GET " + base + "/tubegeometrys", GetController().GetTubeGeometrys)
+	mux.HandleFunc("GET " + base + "/tubegeometrys/{id}", GetController().GetTubeGeometry)
+	mux.HandleFunc("POST " + base + "/tubegeometrys", GetController().PostTubeGeometry)
+	mux.HandleFunc("PATCH " + base + "/tubegeometrys/{id}", GetController().UpdateTubeGeometry)
+	mux.HandleFunc("PUT " + base + "/tubegeometrys/{id}", GetController().UpdateTubeGeometry)
+	mux.HandleFunc("DELETE " + base + "/tubegeometrys/{id}", GetController().DeleteTubeGeometry)
 
-		v1.GET("/v1/vector3s", GetController().GetVector3s)
-		v1.GET("/v1/vector3s/:id", GetController().GetVector3)
-		v1.POST("/v1/vector3s", GetController().PostVector3)
-		v1.PATCH("/v1/vector3s/:id", GetController().UpdateVector3)
-		v1.PUT("/v1/vector3s/:id", GetController().UpdateVector3)
-		v1.DELETE("/v1/vector3s/:id", GetController().DeleteVector3)
+	mux.HandleFunc("GET " + base + "/vector2s", GetController().GetVector2s)
+	mux.HandleFunc("GET " + base + "/vector2s/{id}", GetController().GetVector2)
+	mux.HandleFunc("POST " + base + "/vector2s", GetController().PostVector2)
+	mux.HandleFunc("PATCH " + base + "/vector2s/{id}", GetController().UpdateVector2)
+	mux.HandleFunc("PUT " + base + "/vector2s/{id}", GetController().UpdateVector2)
+	mux.HandleFunc("DELETE " + base + "/vector2s/{id}", GetController().DeleteVector2)
 
-		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/vector3s", GetController().GetVector3s)
+	mux.HandleFunc("GET " + base + "/vector3s/{id}", GetController().GetVector3)
+	mux.HandleFunc("POST " + base + "/vector3s", GetController().PostVector3)
+	mux.HandleFunc("PATCH " + base + "/vector3s/{id}", GetController().UpdateVector3)
+	mux.HandleFunc("PUT " + base + "/vector3s/{id}", GetController().UpdateVector3)
+	mux.HandleFunc("DELETE " + base + "/vector3s/{id}", GetController().DeleteVector3)
 
-		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
-
-		v1.GET("/v1/stacks", GetController().stacks)
-	}
+	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+	mux.HandleFunc("GET " + base + "/stacks", GetController().stacks)
 }
 
-func (controller *Controller) stacks(c *gin.Context) {
+func (controller *Controller) stacks(w http.ResponseWriter, r *http.Request) {
 
 	var res []string
 
@@ -213,7 +208,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 		res = append(res, k)
 	}
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -223,7 +218,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it subscribe to the backend commit number broadcaster
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
-func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
+func (controller *Controller) onWebSocketRequestForBackRepoContent(w http.ResponseWriter, r *http.Request) {
 
 	// log.Println("Stack github.com/fullstack-lang/gong/lib/threejs/go, onWebSocketRequestForBackRepoContent")
 
@@ -245,7 +240,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		},
 	}
 
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	wsConnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -253,10 +248,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	defer wsConnection.Close()
 
 	// Create a context that is canceled when the connection is closed
-	ctx, cancel := context.WithCancel(c.Request.Context())
+	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	values := c.Request.URL.Query()
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -437,8 +432,8 @@ func formatBytes(size int) string {
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastCommitFromBackNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -460,12 +455,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastCommitFromBackNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastPushFromFrontNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -487,5 +482,5 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastPushFromFrontNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }

@@ -75,6 +75,9 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 		case "OptionnalStroke":
 			FormDivBasicFieldToField(&(arrow_.OptionnalStroke), formDiv)
 		case "Gantt:Arrows":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -214,6 +217,9 @@ func (barFormCallback *BarFormCallback) OnSave() {
 		case "StrokeDashArray":
 			FormDivBasicFieldToField(&(bar_.StrokeDashArray), formDiv)
 		case "Lane:Bars":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Lane instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -385,6 +391,9 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 		case "AlignOnStartEndOnYearStart":
 			FormDivBasicFieldToField(&(gantt_.AlignOnStartEndOnYearStart), formDiv)
 		case "Lanes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Lane, 0)
 
@@ -417,6 +426,9 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Lanes", &gantt_.Lanes)
 
 		case "Milestones":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Milestone, 0)
 
@@ -449,6 +461,9 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Milestones", &gantt_.Milestones)
 
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -481,6 +496,9 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Groups", &gantt_.Groups)
 
 		case "Arrows":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Arrow, 0)
 
@@ -591,6 +609,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(group_.Name), formDiv)
 		case "GroupLanes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Lane, 0)
 
@@ -623,6 +644,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "GroupLanes", &group_.GroupLanes)
 
 		case "Gantt:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -748,6 +772,9 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 		case "Order":
 			FormDivBasicFieldToField(&(lane_.Order), formDiv)
 		case "Bars":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bar](laneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bar, 0)
 
@@ -780,6 +807,9 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			laneFormCallback.probe.UpdateSliceOfPointersCallback(lane_, "Bars", &lane_.Bars)
 
 		case "Gantt:Lanes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -825,6 +855,9 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 				}
 			}
 		case "Group:GroupLanes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -870,6 +903,9 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 				}
 			}
 		case "Milestone:LanesToDisplay":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Milestone instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1077,6 +1113,9 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
 		case "LanesToDisplay":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](milestoneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Lane, 0)
 
@@ -1109,6 +1148,9 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			milestoneFormCallback.probe.UpdateSliceOfPointersCallback(milestone_, "LanesToDisplay", &milestone_.LanesToDisplay)
 
 		case "Gantt:Milestones":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Gantt instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

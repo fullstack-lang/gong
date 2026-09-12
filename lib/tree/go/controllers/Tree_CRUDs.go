@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 	"github.com/fullstack-lang/gong/lib/tree/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type TreeInput struct {
 // default: genericError
 //
 //	200: treeDBResponse
-func (controller *Controller) GetTrees(c *gin.Context) {
+func (controller *Controller) GetTrees(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var treeDBs []orm.TreeDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 		treeAPIs = append(treeAPIs, treeAPI)
 	}
 
-	c.JSON(http.StatusOK, treeAPIs)
+	writeJSON(w, http.StatusOK, treeAPIs)
 }
 
 // PostTree
@@ -122,12 +121,12 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostTree(c *gin.Context) {
+func (controller *Controller) PostTree(w http.ResponseWriter, r *http.Request) {
 
 	mutexTree.Lock()
 	defer mutexTree.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostTree(c *gin.Context) {
 	// Validate input
 	var input orm.TreeAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostTree(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostTree(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, treeDB)
+	writeJSON(w, http.StatusOK, treeDB)
 }
 
 // GetTree
@@ -202,9 +201,9 @@ func (controller *Controller) PostTree(c *gin.Context) {
 // default: genericError
 //
 //	200: treeDBResponse
-func (controller *Controller) GetTree(c *gin.Context) {
+func (controller *Controller) GetTree(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetTree(c *gin.Context) {
 
 	// Get treeDB in DB
 	var treeDB orm.TreeDB
-	if _, err := db.First(&treeDB, c.Param("id")); err != nil {
+	if _, err := db.First(&treeDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetTree(c *gin.Context) {
 	treeAPI.TreePointersEncoding = treeDB.TreePointersEncoding
 	treeDB.CopyBasicFieldsToTree_WOP(&treeAPI.Tree_WOP)
 
-	c.JSON(http.StatusOK, treeAPI)
+	writeJSON(w, http.StatusOK, treeAPI)
 }
 
 // UpdateTree
@@ -255,12 +254,12 @@ func (controller *Controller) GetTree(c *gin.Context) {
 // default: genericError
 //
 //	200: treeDBResponse
-func (controller *Controller) UpdateTree(c *gin.Context) {
+func (controller *Controller) UpdateTree(w http.ResponseWriter, r *http.Request) {
 
 	mutexTree.Lock()
 	defer mutexTree.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 
 	// Validate input
 	var input orm.TreeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	var treeDB orm.TreeDB
 
 	// fetch the tree
-	_, err := db.First(&treeDB, c.Param("id"))
+	_, err := db.First(&treeDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the treeDB
-	c.JSON(http.StatusOK, treeDB)
+	writeJSON(w, http.StatusOK, treeDB)
 }
 
 // DeleteTree
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 // default: genericError
 //
 //	200: treeDBResponse
-func (controller *Controller) DeleteTree(c *gin.Context) {
+func (controller *Controller) DeleteTree(w http.ResponseWriter, r *http.Request) {
 
 	mutexTree.Lock()
 	defer mutexTree.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 
 	// Get model if exist
 	var treeDB orm.TreeDB
-	if _, err := db.First(&treeDB, c.Param("id")); err != nil {
+	if _, err := db.First(&treeDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

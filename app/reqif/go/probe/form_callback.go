@@ -163,6 +163,9 @@ func (attribute_definition_booleanFormCallback *ATTRIBUTE_DEFINITION_BOOLEANForm
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_boolean_.TYPE), attribute_definition_booleanFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -388,6 +391,9 @@ func (attribute_definition_dateFormCallback *ATTRIBUTE_DEFINITION_DATEFormCallba
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_date_.TYPE), attribute_definition_dateFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -615,6 +621,9 @@ func (attribute_definition_enumerationFormCallback *ATTRIBUTE_DEFINITION_ENUMERA
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_enumeration_.TYPE), attribute_definition_enumerationFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -840,6 +849,9 @@ func (attribute_definition_integerFormCallback *ATTRIBUTE_DEFINITION_INTEGERForm
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_integer_.TYPE), attribute_definition_integerFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1065,6 +1077,9 @@ func (attribute_definition_realFormCallback *ATTRIBUTE_DEFINITION_REALFormCallba
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_real_.TYPE), attribute_definition_realFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1376,6 +1391,9 @@ func (attribute_definition_stringFormCallback *ATTRIBUTE_DEFINITION_STRINGFormCa
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_string_.TYPE), attribute_definition_stringFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1601,6 +1619,9 @@ func (attribute_definition_xhtmlFormCallback *ATTRIBUTE_DEFINITION_XHTMLFormCall
 		case "TYPE":
 			FormDivSelectFieldToField(&(attribute_definition_xhtml_.TYPE), attribute_definition_xhtmlFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_ATTRIBUTES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1814,6 +1835,9 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 		case "THE_VALUE":
 			FormDivBasicFieldToField(&(attribute_value_boolean_.THE_VALUE), formDiv)
 		case "A_ATTRIBUTE_VALUE_BOOLEAN:ATTRIBUTE_VALUE_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_BOOLEAN instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1859,6 +1883,9 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1986,6 +2013,9 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 		case "THE_VALUE":
 			FormDivBasicFieldToField(&(attribute_value_date_.THE_VALUE), formDiv)
 		case "A_ATTRIBUTE_VALUE_DATE:ATTRIBUTE_VALUE_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_DATE instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2031,6 +2061,9 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2158,6 +2191,9 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 		case "VALUES":
 			FormDivSelectFieldToField(&(attribute_value_enumeration_.VALUES), attribute_value_enumerationFormCallback.probe.stageOfInterest, formDiv)
 		case "A_ATTRIBUTE_VALUE_ENUMERATION:ATTRIBUTE_VALUE_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_ENUMERATION instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2203,6 +2239,9 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2330,6 +2369,9 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 		case "THE_VALUE":
 			FormDivBasicFieldToField(&(attribute_value_integer_.THE_VALUE), formDiv)
 		case "A_ATTRIBUTE_VALUE_INTEGER:ATTRIBUTE_VALUE_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_INTEGER instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2375,6 +2417,9 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2502,6 +2547,9 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 		case "THE_VALUE":
 			FormDivBasicFieldToField(&(attribute_value_real_.THE_VALUE), formDiv)
 		case "A_ATTRIBUTE_VALUE_REAL:ATTRIBUTE_VALUE_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_REAL instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2547,6 +2595,9 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2674,6 +2725,9 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 		case "THE_VALUE":
 			FormDivBasicFieldToField(&(attribute_value_string_.THE_VALUE), formDiv)
 		case "A_ATTRIBUTE_VALUE_STRING:ATTRIBUTE_VALUE_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_STRING instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2719,6 +2773,9 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2850,6 +2907,9 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 		case "THE_ORIGINAL_VALUE":
 			FormDivSelectFieldToField(&(attribute_value_xhtml_.THE_ORIGINAL_VALUE), attribute_value_xhtmlFormCallback.probe.stageOfInterest, formDiv)
 		case "A_ATTRIBUTE_VALUE_XHTML:ATTRIBUTE_VALUE_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2895,6 +2955,9 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 				}
 			}
 		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_ATTRIBUTE_VALUE_XHTML_1 instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -3658,6 +3721,9 @@ func (a_attribute_value_booleanFormCallback *A_ATTRIBUTE_VALUE_BOOLEANFormCallba
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_boolean_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_BOOLEAN](a_attribute_value_booleanFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_BOOLEAN, 0)
 
@@ -3768,6 +3834,9 @@ func (a_attribute_value_dateFormCallback *A_ATTRIBUTE_VALUE_DATEFormCallback) On
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_date_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_DATE](a_attribute_value_dateFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_DATE, 0)
 
@@ -3878,6 +3947,9 @@ func (a_attribute_value_enumerationFormCallback *A_ATTRIBUTE_VALUE_ENUMERATIONFo
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_enumeration_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_ENUMERATION](a_attribute_value_enumerationFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_ENUMERATION, 0)
 
@@ -3988,6 +4060,9 @@ func (a_attribute_value_integerFormCallback *A_ATTRIBUTE_VALUE_INTEGERFormCallba
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_integer_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_INTEGER](a_attribute_value_integerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_INTEGER, 0)
 
@@ -4098,6 +4173,9 @@ func (a_attribute_value_realFormCallback *A_ATTRIBUTE_VALUE_REALFormCallback) On
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_real_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_REAL](a_attribute_value_realFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_REAL, 0)
 
@@ -4208,6 +4286,9 @@ func (a_attribute_value_stringFormCallback *A_ATTRIBUTE_VALUE_STRINGFormCallback
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_string_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_STRING](a_attribute_value_stringFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_STRING, 0)
 
@@ -4318,6 +4399,9 @@ func (a_attribute_value_xhtmlFormCallback *A_ATTRIBUTE_VALUE_XHTMLFormCallback) 
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_xhtml_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_XHTML](a_attribute_value_xhtmlFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_XHTML, 0)
 
@@ -4428,6 +4512,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 		case "Name":
 			FormDivBasicFieldToField(&(a_attribute_value_xhtml_1_.Name), formDiv)
 		case "ATTRIBUTE_VALUE_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_BOOLEAN](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_BOOLEAN, 0)
 
@@ -4460,6 +4547,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_BOOLEAN", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_BOOLEAN)
 
 		case "ATTRIBUTE_VALUE_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_DATE](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_DATE, 0)
 
@@ -4492,6 +4582,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_DATE", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_DATE)
 
 		case "ATTRIBUTE_VALUE_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_ENUMERATION](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_ENUMERATION, 0)
 
@@ -4524,6 +4617,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_ENUMERATION", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_ENUMERATION)
 
 		case "ATTRIBUTE_VALUE_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_INTEGER](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_INTEGER, 0)
 
@@ -4556,6 +4652,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_INTEGER", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_INTEGER)
 
 		case "ATTRIBUTE_VALUE_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_REAL](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_REAL, 0)
 
@@ -4588,6 +4687,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_REAL", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_REAL)
 
 		case "ATTRIBUTE_VALUE_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_STRING](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_STRING, 0)
 
@@ -4620,6 +4722,9 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_STRING", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_STRING)
 
 		case "ATTRIBUTE_VALUE_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_XHTML](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_XHTML, 0)
 
@@ -4730,6 +4835,9 @@ func (a_childrenFormCallback *A_CHILDRENFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_children_.Name), formDiv)
 		case "SPEC_HIERARCHY":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_HIERARCHY](a_childrenFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPEC_HIERARCHY, 0)
 
@@ -4920,6 +5028,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_datatypes_.Name), formDiv)
 		case "DATATYPE_DEFINITION_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_BOOLEAN](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_BOOLEAN, 0)
 
@@ -4952,6 +5063,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_BOOLEAN", &a_datatypes_.DATATYPE_DEFINITION_BOOLEAN)
 
 		case "DATATYPE_DEFINITION_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_DATE](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_DATE, 0)
 
@@ -4984,6 +5098,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_DATE", &a_datatypes_.DATATYPE_DEFINITION_DATE)
 
 		case "DATATYPE_DEFINITION_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_ENUMERATION](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_ENUMERATION, 0)
 
@@ -5016,6 +5133,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_ENUMERATION", &a_datatypes_.DATATYPE_DEFINITION_ENUMERATION)
 
 		case "DATATYPE_DEFINITION_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_INTEGER](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_INTEGER, 0)
 
@@ -5048,6 +5168,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_INTEGER", &a_datatypes_.DATATYPE_DEFINITION_INTEGER)
 
 		case "DATATYPE_DEFINITION_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_REAL](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_REAL, 0)
 
@@ -5080,6 +5203,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_REAL", &a_datatypes_.DATATYPE_DEFINITION_REAL)
 
 		case "DATATYPE_DEFINITION_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_STRING](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_STRING, 0)
 
@@ -5112,6 +5238,9 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_STRING", &a_datatypes_.DATATYPE_DEFINITION_STRING)
 
 		case "DATATYPE_DEFINITION_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_XHTML](a_datatypesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_XHTML, 0)
 
@@ -6354,6 +6483,9 @@ func (a_specificationsFormCallback *A_SPECIFICATIONSFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_specifications_.Name), formDiv)
 		case "SPECIFICATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION](a_specificationsFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPECIFICATION, 0)
 
@@ -6544,6 +6676,9 @@ func (a_specified_valuesFormCallback *A_SPECIFIED_VALUESFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_specified_values_.Name), formDiv)
 		case "ENUM_VALUE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ENUM_VALUE](a_specified_valuesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ENUM_VALUE, 0)
 
@@ -6654,6 +6789,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_spec_attributes_.Name), formDiv)
 		case "ATTRIBUTE_DEFINITION_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_BOOLEAN](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_BOOLEAN, 0)
 
@@ -6686,6 +6824,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_BOOLEAN", &a_spec_attributes_.ATTRIBUTE_DEFINITION_BOOLEAN)
 
 		case "ATTRIBUTE_DEFINITION_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_DATE](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_DATE, 0)
 
@@ -6718,6 +6859,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_DATE", &a_spec_attributes_.ATTRIBUTE_DEFINITION_DATE)
 
 		case "ATTRIBUTE_DEFINITION_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_ENUMERATION](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_ENUMERATION, 0)
 
@@ -6750,6 +6894,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_ENUMERATION", &a_spec_attributes_.ATTRIBUTE_DEFINITION_ENUMERATION)
 
 		case "ATTRIBUTE_DEFINITION_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_INTEGER](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_INTEGER, 0)
 
@@ -6782,6 +6929,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_INTEGER", &a_spec_attributes_.ATTRIBUTE_DEFINITION_INTEGER)
 
 		case "ATTRIBUTE_DEFINITION_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_REAL](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_REAL, 0)
 
@@ -6814,6 +6964,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_REAL", &a_spec_attributes_.ATTRIBUTE_DEFINITION_REAL)
 
 		case "ATTRIBUTE_DEFINITION_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_STRING](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_STRING, 0)
 
@@ -6846,6 +6999,9 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_STRING", &a_spec_attributes_.ATTRIBUTE_DEFINITION_STRING)
 
 		case "ATTRIBUTE_DEFINITION_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_XHTML](a_spec_attributesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_XHTML, 0)
 
@@ -6956,6 +7112,9 @@ func (a_spec_objectsFormCallback *A_SPEC_OBJECTSFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_spec_objects_.Name), formDiv)
 		case "SPEC_OBJECT":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_OBJECT](a_spec_objectsFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPEC_OBJECT, 0)
 
@@ -7146,6 +7305,9 @@ func (a_spec_relationsFormCallback *A_SPEC_RELATIONSFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_spec_relations_.Name), formDiv)
 		case "SPEC_RELATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_RELATION](a_spec_relationsFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPEC_RELATION, 0)
 
@@ -7256,6 +7418,9 @@ func (a_spec_relation_groupsFormCallback *A_SPEC_RELATION_GROUPSFormCallback) On
 		case "Name":
 			FormDivBasicFieldToField(&(a_spec_relation_groups_.Name), formDiv)
 		case "RELATION_GROUP":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RELATION_GROUP](a_spec_relation_groupsFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RELATION_GROUP, 0)
 
@@ -7526,6 +7691,9 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_spec_types_.Name), formDiv)
 		case "RELATION_GROUP_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RELATION_GROUP_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RELATION_GROUP_TYPE, 0)
 
@@ -7558,6 +7726,9 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "RELATION_GROUP_TYPE", &a_spec_types_.RELATION_GROUP_TYPE)
 
 		case "SPEC_OBJECT_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_OBJECT_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPEC_OBJECT_TYPE, 0)
 
@@ -7590,6 +7761,9 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "SPEC_OBJECT_TYPE", &a_spec_types_.SPEC_OBJECT_TYPE)
 
 		case "SPEC_RELATION_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_RELATION_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPEC_RELATION_TYPE, 0)
 
@@ -7622,6 +7796,9 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "SPEC_RELATION_TYPE", &a_spec_types_.SPEC_RELATION_TYPE)
 
 		case "SPECIFICATION_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SPECIFICATION_TYPE, 0)
 
@@ -7812,6 +7989,9 @@ func (a_tool_extensionsFormCallback *A_TOOL_EXTENSIONSFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_tool_extensions_.Name), formDiv)
 		case "REQ_IF_TOOL_EXTENSION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.REQ_IF_TOOL_EXTENSION](a_tool_extensionsFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.REQ_IF_TOOL_EXTENSION, 0)
 
@@ -7932,6 +8112,9 @@ func (datatype_definition_booleanFormCallback *DATATYPE_DEFINITION_BOOLEANFormCa
 		case "ALTERNATIVE_ID":
 			FormDivSelectFieldToField(&(datatype_definition_boolean_.ALTERNATIVE_ID), datatype_definition_booleanFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_BOOLEAN":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8065,6 +8248,9 @@ func (datatype_definition_dateFormCallback *DATATYPE_DEFINITION_DATEFormCallback
 		case "ALTERNATIVE_ID":
 			FormDivSelectFieldToField(&(datatype_definition_date_.ALTERNATIVE_ID), datatype_definition_dateFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_DATE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8200,6 +8386,9 @@ func (datatype_definition_enumerationFormCallback *DATATYPE_DEFINITION_ENUMERATI
 		case "SPECIFIED_VALUES":
 			FormDivSelectFieldToField(&(datatype_definition_enumeration_.SPECIFIED_VALUES), datatype_definition_enumerationFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_ENUMERATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8337,6 +8526,9 @@ func (datatype_definition_integerFormCallback *DATATYPE_DEFINITION_INTEGERFormCa
 		case "ALTERNATIVE_ID":
 			FormDivSelectFieldToField(&(datatype_definition_integer_.ALTERNATIVE_ID), datatype_definition_integerFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_INTEGER":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8476,6 +8668,9 @@ func (datatype_definition_realFormCallback *DATATYPE_DEFINITION_REALFormCallback
 		case "ALTERNATIVE_ID":
 			FormDivSelectFieldToField(&(datatype_definition_real_.ALTERNATIVE_ID), datatype_definition_realFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_REAL":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8611,6 +8806,9 @@ func (datatype_definition_stringFormCallback *DATATYPE_DEFINITION_STRINGFormCall
 		case "ALTERNATIVE_ID":
 			FormDivSelectFieldToField(&(datatype_definition_string_.ALTERNATIVE_ID), datatype_definition_stringFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_STRING":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8744,6 +8942,9 @@ func (datatype_definition_xhtmlFormCallback *DATATYPE_DEFINITION_XHTMLFormCallba
 		case "ALTERNATIVE_ID":
 			FormDivSelectFieldToField(&(datatype_definition_xhtml_.ALTERNATIVE_ID), datatype_definition_xhtmlFormCallback.probe.stageOfInterest, formDiv)
 		case "A_DATATYPES:DATATYPE_DEFINITION_XHTML":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_DATATYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -8961,6 +9162,9 @@ func (enum_valueFormCallback *ENUM_VALUEFormCallback) OnSave() {
 		case "PROPERTIES":
 			FormDivSelectFieldToField(&(enum_value_.PROPERTIES), enum_valueFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPECIFIED_VALUES:ENUM_VALUE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPECIFIED_VALUES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -9500,6 +9704,9 @@ func (relation_groupFormCallback *RELATION_GROUPFormCallback) OnSave() {
 		case "TYPE":
 			FormDivSelectFieldToField(&(relation_group_.TYPE), relation_groupFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_RELATION_GROUPS:RELATION_GROUP":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_RELATION_GROUPS instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -9635,6 +9842,9 @@ func (relation_group_typeFormCallback *RELATION_GROUP_TYPEFormCallback) OnSave()
 		case "SPEC_ATTRIBUTES":
 			FormDivSelectFieldToField(&(relation_group_type_.SPEC_ATTRIBUTES), relation_group_typeFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_TYPES:RELATION_GROUP_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_TYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10028,6 +10238,9 @@ func (req_if_tool_extensionFormCallback *REQ_IF_TOOL_EXTENSIONFormCallback) OnSa
 		case "Name":
 			FormDivBasicFieldToField(&(req_if_tool_extension_.Name), formDiv)
 		case "A_TOOL_EXTENSIONS:REQ_IF_TOOL_EXTENSION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_TOOL_EXTENSIONS instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10167,6 +10380,9 @@ func (specificationFormCallback *SPECIFICATIONFormCallback) OnSave() {
 		case "VALUES":
 			FormDivSelectFieldToField(&(specification_.VALUES), specificationFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPECIFICATIONS:SPECIFICATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPECIFICATIONS instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10386,6 +10602,9 @@ func (specification_typeFormCallback *SPECIFICATION_TYPEFormCallback) OnSave() {
 		case "SPEC_ATTRIBUTES":
 			FormDivSelectFieldToField(&(specification_type_.SPEC_ATTRIBUTES), specification_typeFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_TYPES:SPECIFICATION_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_TYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10529,6 +10748,9 @@ func (spec_hierarchyFormCallback *SPEC_HIERARCHYFormCallback) OnSave() {
 		case "EDITABLE_ATTS":
 			FormDivSelectFieldToField(&(spec_hierarchy_.EDITABLE_ATTS), spec_hierarchyFormCallback.probe.stageOfInterest, formDiv)
 		case "A_CHILDREN:SPEC_HIERARCHY":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_CHILDREN instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10666,6 +10888,9 @@ func (spec_objectFormCallback *SPEC_OBJECTFormCallback) OnSave() {
 		case "TYPE":
 			FormDivSelectFieldToField(&(spec_object_.TYPE), spec_objectFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_OBJECTS:SPEC_OBJECT":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_OBJECTS instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -10801,6 +11026,9 @@ func (spec_object_typeFormCallback *SPEC_OBJECT_TYPEFormCallback) OnSave() {
 		case "SPEC_ATTRIBUTES":
 			FormDivSelectFieldToField(&(spec_object_type_.SPEC_ATTRIBUTES), spec_object_typeFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_TYPES:SPEC_OBJECT_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_TYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11030,6 +11258,9 @@ func (spec_relationFormCallback *SPEC_RELATIONFormCallback) OnSave() {
 		case "TYPE":
 			FormDivSelectFieldToField(&(spec_relation_.TYPE), spec_relationFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_RELATIONS:SPEC_RELATION":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_RELATIONS instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11165,6 +11396,9 @@ func (spec_relation_typeFormCallback *SPEC_RELATION_TYPEFormCallback) OnSave() {
 		case "SPEC_ATTRIBUTES":
 			FormDivSelectFieldToField(&(spec_relation_type_.SPEC_ATTRIBUTES), spec_relation_typeFormCallback.probe.stageOfInterest, formDiv)
 		case "A_SPEC_TYPES:SPEC_RELATION_TYPE":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A_SPEC_TYPES instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11290,6 +11524,9 @@ func (staticwebsiteFormCallback *StaticWebSiteFormCallback) OnSave() {
 		case "MarkdownContent":
 			FormDivBasicFieldToField(&(staticwebsite_.MarkdownContent), formDiv)
 		case "Chapters":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StaticWebSiteChapter](staticwebsiteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StaticWebSiteChapter, 0)
 
@@ -11408,6 +11645,9 @@ func (staticwebsitechapterFormCallback *StaticWebSiteChapterFormCallback) OnSave
 		case "MarkdownContent":
 			FormDivBasicFieldToField(&(staticwebsitechapter_.MarkdownContent), formDiv)
 		case "Paragraphs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StaticWebSiteParagraph](staticwebsitechapterFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StaticWebSiteParagraph, 0)
 
@@ -11440,6 +11680,9 @@ func (staticwebsitechapterFormCallback *StaticWebSiteChapterFormCallback) OnSave
 			staticwebsitechapterFormCallback.probe.UpdateSliceOfPointersCallback(staticwebsitechapter_, "Paragraphs", &staticwebsitechapter_.Paragraphs)
 
 		case "StaticWebSite:Chapters":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StaticWebSite instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -11735,6 +11978,9 @@ func (staticwebsiteparagraphFormCallback *StaticWebSiteParagraphFormCallback) On
 		case "Image":
 			FormDivSelectFieldToField(&(staticwebsiteparagraph_.Image), staticwebsiteparagraphFormCallback.probe.stageOfInterest, formDiv)
 		case "StaticWebSiteChapter:Paragraphs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the StaticWebSiteChapter instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -39,7 +39,7 @@ func executeServer(args []string) {
 	)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := stack.R.Run(":" + strconv.Itoa(port))
+	err := stack.Run(":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

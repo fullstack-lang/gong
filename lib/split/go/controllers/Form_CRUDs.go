@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormInput struct {
 // default: genericError
 //
 //	200: formDBResponse
-func (controller *Controller) GetForms(c *gin.Context) {
+func (controller *Controller) GetForms(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formDBs []orm.FormDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetForms(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetForms(c *gin.Context) {
 		formAPIs = append(formAPIs, formAPI)
 	}
 
-	c.JSON(http.StatusOK, formAPIs)
+	writeJSON(w, http.StatusOK, formAPIs)
 }
 
 // PostForm
@@ -122,12 +121,12 @@ func (controller *Controller) GetForms(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostForm(c *gin.Context) {
+func (controller *Controller) PostForm(w http.ResponseWriter, r *http.Request) {
 
 	mutexForm.Lock()
 	defer mutexForm.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostForm(c *gin.Context) {
 	// Validate input
 	var input orm.FormAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostForm(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostForm(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formDB)
+	writeJSON(w, http.StatusOK, formDB)
 }
 
 // GetForm
@@ -202,9 +201,9 @@ func (controller *Controller) PostForm(c *gin.Context) {
 // default: genericError
 //
 //	200: formDBResponse
-func (controller *Controller) GetForm(c *gin.Context) {
+func (controller *Controller) GetForm(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetForm(c *gin.Context) {
 
 	// Get formDB in DB
 	var formDB orm.FormDB
-	if _, err := db.First(&formDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetForm(c *gin.Context) {
 	formAPI.FormPointersEncoding = formDB.FormPointersEncoding
 	formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
 
-	c.JSON(http.StatusOK, formAPI)
+	writeJSON(w, http.StatusOK, formAPI)
 }
 
 // UpdateForm
@@ -255,12 +254,12 @@ func (controller *Controller) GetForm(c *gin.Context) {
 // default: genericError
 //
 //	200: formDBResponse
-func (controller *Controller) UpdateForm(c *gin.Context) {
+func (controller *Controller) UpdateForm(w http.ResponseWriter, r *http.Request) {
 
 	mutexForm.Lock()
 	defer mutexForm.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateForm(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateForm(c *gin.Context) {
 	var formDB orm.FormDB
 
 	// fetch the form
-	_, err := db.First(&formDB, c.Param("id"))
+	_, err := db.First(&formDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateForm(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateForm(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formDB
-	c.JSON(http.StatusOK, formDB)
+	writeJSON(w, http.StatusOK, formDB)
 }
 
 // DeleteForm
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateForm(c *gin.Context) {
 // default: genericError
 //
 //	200: formDBResponse
-func (controller *Controller) DeleteForm(c *gin.Context) {
+func (controller *Controller) DeleteForm(w http.ResponseWriter, r *http.Request) {
 
 	mutexForm.Lock()
 	defer mutexForm.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteForm(c *gin.Context) {
 
 	// Get model if exist
 	var formDB orm.FormDB
-	if _, err := db.First(&formDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteForm(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 	"github.com/fullstack-lang/gong/lib/table/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CellStringInput struct {
 // default: genericError
 //
 //	200: cellstringDBResponse
-func (controller *Controller) GetCellStrings(c *gin.Context) {
+func (controller *Controller) GetCellStrings(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var cellstringDBs []orm.CellStringDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCellStrings(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCellStrings(c *gin.Context) {
 		cellstringAPIs = append(cellstringAPIs, cellstringAPI)
 	}
 
-	c.JSON(http.StatusOK, cellstringAPIs)
+	writeJSON(w, http.StatusOK, cellstringAPIs)
 }
 
 // PostCellString
@@ -122,12 +121,12 @@ func (controller *Controller) GetCellStrings(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCellString(c *gin.Context) {
+func (controller *Controller) PostCellString(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellString.Lock()
 	defer mutexCellString.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCellString(c *gin.Context) {
 	// Validate input
 	var input orm.CellStringAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCellString(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCellString(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, cellstringDB)
+	writeJSON(w, http.StatusOK, cellstringDB)
 }
 
 // GetCellString
@@ -202,9 +201,9 @@ func (controller *Controller) PostCellString(c *gin.Context) {
 // default: genericError
 //
 //	200: cellstringDBResponse
-func (controller *Controller) GetCellString(c *gin.Context) {
+func (controller *Controller) GetCellString(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCellString(c *gin.Context) {
 
 	// Get cellstringDB in DB
 	var cellstringDB orm.CellStringDB
-	if _, err := db.First(&cellstringDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cellstringDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCellString(c *gin.Context) {
 	cellstringAPI.CellStringPointersEncoding = cellstringDB.CellStringPointersEncoding
 	cellstringDB.CopyBasicFieldsToCellString_WOP(&cellstringAPI.CellString_WOP)
 
-	c.JSON(http.StatusOK, cellstringAPI)
+	writeJSON(w, http.StatusOK, cellstringAPI)
 }
 
 // UpdateCellString
@@ -255,12 +254,12 @@ func (controller *Controller) GetCellString(c *gin.Context) {
 // default: genericError
 //
 //	200: cellstringDBResponse
-func (controller *Controller) UpdateCellString(c *gin.Context) {
+func (controller *Controller) UpdateCellString(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellString.Lock()
 	defer mutexCellString.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 
 	// Validate input
 	var input orm.CellStringAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 	var cellstringDB orm.CellStringDB
 
 	// fetch the cellstring
-	_, err := db.First(&cellstringDB, c.Param("id"))
+	_, err := db.First(&cellstringDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the cellstringDB
-	c.JSON(http.StatusOK, cellstringDB)
+	writeJSON(w, http.StatusOK, cellstringDB)
 }
 
 // DeleteCellString
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 // default: genericError
 //
 //	200: cellstringDBResponse
-func (controller *Controller) DeleteCellString(c *gin.Context) {
+func (controller *Controller) DeleteCellString(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellString.Lock()
 	defer mutexCellString.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCellString(c *gin.Context) {
 
 	// Get model if exist
 	var cellstringDB orm.CellStringDB
-	if _, err := db.First(&cellstringDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cellstringDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCellString(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

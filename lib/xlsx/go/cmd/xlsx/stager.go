@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	// insertion point for models import
 	xlsx_models "github.com/fullstack-lang/gong/lib/xlsx/go/models"
@@ -17,7 +17,7 @@ type Stager struct {
 	splitStage *split.Stage
 }
 
-func NewStager(r *gin.Engine, stage *xlsx_models.Stage) (stager *Stager) {
+func NewStager(r *http.ServeMux, stage *xlsx_models.Stage) (stager *Stager) {
 
 	stager = new(Stager)
 

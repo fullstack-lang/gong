@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/button/go/models"
 	"github.com/fullstack-lang/gong/lib/button/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type GroupToogleInput struct {
 // default: genericError
 //
 //	200: grouptoogleDBResponse
-func (controller *Controller) GetGroupToogles(c *gin.Context) {
+func (controller *Controller) GetGroupToogles(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var grouptoogleDBs []orm.GroupToogleDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetGroupToogles(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetGroupToogles(c *gin.Context) {
 		grouptoogleAPIs = append(grouptoogleAPIs, grouptoogleAPI)
 	}
 
-	c.JSON(http.StatusOK, grouptoogleAPIs)
+	writeJSON(w, http.StatusOK, grouptoogleAPIs)
 }
 
 // PostGroupToogle
@@ -122,12 +121,12 @@ func (controller *Controller) GetGroupToogles(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostGroupToogle(c *gin.Context) {
+func (controller *Controller) PostGroupToogle(w http.ResponseWriter, r *http.Request) {
 
 	mutexGroupToogle.Lock()
 	defer mutexGroupToogle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostGroupToogle(c *gin.Context) {
 	// Validate input
 	var input orm.GroupToogleAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostGroupToogle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostGroupToogle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, grouptoogleDB)
+	writeJSON(w, http.StatusOK, grouptoogleDB)
 }
 
 // GetGroupToogle
@@ -202,9 +201,9 @@ func (controller *Controller) PostGroupToogle(c *gin.Context) {
 // default: genericError
 //
 //	200: grouptoogleDBResponse
-func (controller *Controller) GetGroupToogle(c *gin.Context) {
+func (controller *Controller) GetGroupToogle(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetGroupToogle(c *gin.Context) {
 
 	// Get grouptoogleDB in DB
 	var grouptoogleDB orm.GroupToogleDB
-	if _, err := db.First(&grouptoogleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&grouptoogleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetGroupToogle(c *gin.Context) {
 	grouptoogleAPI.GroupTooglePointersEncoding = grouptoogleDB.GroupTooglePointersEncoding
 	grouptoogleDB.CopyBasicFieldsToGroupToogle_WOP(&grouptoogleAPI.GroupToogle_WOP)
 
-	c.JSON(http.StatusOK, grouptoogleAPI)
+	writeJSON(w, http.StatusOK, grouptoogleAPI)
 }
 
 // UpdateGroupToogle
@@ -255,12 +254,12 @@ func (controller *Controller) GetGroupToogle(c *gin.Context) {
 // default: genericError
 //
 //	200: grouptoogleDBResponse
-func (controller *Controller) UpdateGroupToogle(c *gin.Context) {
+func (controller *Controller) UpdateGroupToogle(w http.ResponseWriter, r *http.Request) {
 
 	mutexGroupToogle.Lock()
 	defer mutexGroupToogle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateGroupToogle(c *gin.Context) {
 
 	// Validate input
 	var input orm.GroupToogleAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateGroupToogle(c *gin.Context) {
 	var grouptoogleDB orm.GroupToogleDB
 
 	// fetch the grouptoogle
-	_, err := db.First(&grouptoogleDB, c.Param("id"))
+	_, err := db.First(&grouptoogleDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateGroupToogle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateGroupToogle(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the grouptoogleDB
-	c.JSON(http.StatusOK, grouptoogleDB)
+	writeJSON(w, http.StatusOK, grouptoogleDB)
 }
 
 // DeleteGroupToogle
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateGroupToogle(c *gin.Context) {
 // default: genericError
 //
 //	200: grouptoogleDBResponse
-func (controller *Controller) DeleteGroupToogle(c *gin.Context) {
+func (controller *Controller) DeleteGroupToogle(w http.ResponseWriter, r *http.Request) {
 
 	mutexGroupToogle.Lock()
 	defer mutexGroupToogle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteGroupToogle(c *gin.Context) {
 
 	// Get model if exist
 	var grouptoogleDB orm.GroupToogleDB
-	if _, err := db.First(&grouptoogleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&grouptoogleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteGroupToogle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

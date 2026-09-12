@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type Vector3Input struct {
 // default: genericError
 //
 //	200: vector3DBResponse
-func (controller *Controller) GetVector3s(c *gin.Context) {
+func (controller *Controller) GetVector3s(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var vector3DBs []orm.Vector3DB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetVector3s(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetVector3s(c *gin.Context) {
 		vector3APIs = append(vector3APIs, vector3API)
 	}
 
-	c.JSON(http.StatusOK, vector3APIs)
+	writeJSON(w, http.StatusOK, vector3APIs)
 }
 
 // PostVector3
@@ -122,12 +121,12 @@ func (controller *Controller) GetVector3s(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostVector3(c *gin.Context) {
+func (controller *Controller) PostVector3(w http.ResponseWriter, r *http.Request) {
 
 	mutexVector3.Lock()
 	defer mutexVector3.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostVector3(c *gin.Context) {
 	// Validate input
 	var input orm.Vector3API
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostVector3(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostVector3(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, vector3DB)
+	writeJSON(w, http.StatusOK, vector3DB)
 }
 
 // GetVector3
@@ -202,9 +201,9 @@ func (controller *Controller) PostVector3(c *gin.Context) {
 // default: genericError
 //
 //	200: vector3DBResponse
-func (controller *Controller) GetVector3(c *gin.Context) {
+func (controller *Controller) GetVector3(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetVector3(c *gin.Context) {
 
 	// Get vector3DB in DB
 	var vector3DB orm.Vector3DB
-	if _, err := db.First(&vector3DB, c.Param("id")); err != nil {
+	if _, err := db.First(&vector3DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetVector3(c *gin.Context) {
 	vector3API.Vector3PointersEncoding = vector3DB.Vector3PointersEncoding
 	vector3DB.CopyBasicFieldsToVector3_WOP(&vector3API.Vector3_WOP)
 
-	c.JSON(http.StatusOK, vector3API)
+	writeJSON(w, http.StatusOK, vector3API)
 }
 
 // UpdateVector3
@@ -255,12 +254,12 @@ func (controller *Controller) GetVector3(c *gin.Context) {
 // default: genericError
 //
 //	200: vector3DBResponse
-func (controller *Controller) UpdateVector3(c *gin.Context) {
+func (controller *Controller) UpdateVector3(w http.ResponseWriter, r *http.Request) {
 
 	mutexVector3.Lock()
 	defer mutexVector3.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateVector3(c *gin.Context) {
 
 	// Validate input
 	var input orm.Vector3API
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateVector3(c *gin.Context) {
 	var vector3DB orm.Vector3DB
 
 	// fetch the vector3
-	_, err := db.First(&vector3DB, c.Param("id"))
+	_, err := db.First(&vector3DB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateVector3(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateVector3(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the vector3DB
-	c.JSON(http.StatusOK, vector3DB)
+	writeJSON(w, http.StatusOK, vector3DB)
 }
 
 // DeleteVector3
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateVector3(c *gin.Context) {
 // default: genericError
 //
 //	200: vector3DBResponse
-func (controller *Controller) DeleteVector3(c *gin.Context) {
+func (controller *Controller) DeleteVector3(w http.ResponseWriter, r *http.Request) {
 
 	mutexVector3.Lock()
 	defer mutexVector3.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteVector3(c *gin.Context) {
 
 	// Get model if exist
 	var vector3DB orm.Vector3DB
-	if _, err := db.First(&vector3DB, c.Param("id")); err != nil {
+	if _, err := db.First(&vector3DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteVector3(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

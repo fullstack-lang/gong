@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type DirectionalLightInput struct {
 // default: genericError
 //
 //	200: directionallightDBResponse
-func (controller *Controller) GetDirectionalLights(c *gin.Context) {
+func (controller *Controller) GetDirectionalLights(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var directionallightDBs []orm.DirectionalLightDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetDirectionalLights(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetDirectionalLights(c *gin.Context) {
 		directionallightAPIs = append(directionallightAPIs, directionallightAPI)
 	}
 
-	c.JSON(http.StatusOK, directionallightAPIs)
+	writeJSON(w, http.StatusOK, directionallightAPIs)
 }
 
 // PostDirectionalLight
@@ -122,12 +121,12 @@ func (controller *Controller) GetDirectionalLights(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostDirectionalLight(c *gin.Context) {
+func (controller *Controller) PostDirectionalLight(w http.ResponseWriter, r *http.Request) {
 
 	mutexDirectionalLight.Lock()
 	defer mutexDirectionalLight.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostDirectionalLight(c *gin.Context) {
 	// Validate input
 	var input orm.DirectionalLightAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostDirectionalLight(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostDirectionalLight(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, directionallightDB)
+	writeJSON(w, http.StatusOK, directionallightDB)
 }
 
 // GetDirectionalLight
@@ -202,9 +201,9 @@ func (controller *Controller) PostDirectionalLight(c *gin.Context) {
 // default: genericError
 //
 //	200: directionallightDBResponse
-func (controller *Controller) GetDirectionalLight(c *gin.Context) {
+func (controller *Controller) GetDirectionalLight(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetDirectionalLight(c *gin.Context) {
 
 	// Get directionallightDB in DB
 	var directionallightDB orm.DirectionalLightDB
-	if _, err := db.First(&directionallightDB, c.Param("id")); err != nil {
+	if _, err := db.First(&directionallightDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetDirectionalLight(c *gin.Context) {
 	directionallightAPI.DirectionalLightPointersEncoding = directionallightDB.DirectionalLightPointersEncoding
 	directionallightDB.CopyBasicFieldsToDirectionalLight_WOP(&directionallightAPI.DirectionalLight_WOP)
 
-	c.JSON(http.StatusOK, directionallightAPI)
+	writeJSON(w, http.StatusOK, directionallightAPI)
 }
 
 // UpdateDirectionalLight
@@ -255,12 +254,12 @@ func (controller *Controller) GetDirectionalLight(c *gin.Context) {
 // default: genericError
 //
 //	200: directionallightDBResponse
-func (controller *Controller) UpdateDirectionalLight(c *gin.Context) {
+func (controller *Controller) UpdateDirectionalLight(w http.ResponseWriter, r *http.Request) {
 
 	mutexDirectionalLight.Lock()
 	defer mutexDirectionalLight.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateDirectionalLight(c *gin.Context) {
 
 	// Validate input
 	var input orm.DirectionalLightAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateDirectionalLight(c *gin.Context) {
 	var directionallightDB orm.DirectionalLightDB
 
 	// fetch the directionallight
-	_, err := db.First(&directionallightDB, c.Param("id"))
+	_, err := db.First(&directionallightDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateDirectionalLight(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateDirectionalLight(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the directionallightDB
-	c.JSON(http.StatusOK, directionallightDB)
+	writeJSON(w, http.StatusOK, directionallightDB)
 }
 
 // DeleteDirectionalLight
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateDirectionalLight(c *gin.Context) {
 // default: genericError
 //
 //	200: directionallightDBResponse
-func (controller *Controller) DeleteDirectionalLight(c *gin.Context) {
+func (controller *Controller) DeleteDirectionalLight(w http.ResponseWriter, r *http.Request) {
 
 	mutexDirectionalLight.Lock()
 	defer mutexDirectionalLight.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteDirectionalLight(c *gin.Context) {
 
 	// Get model if exist
 	var directionallightDB orm.DirectionalLightDB
-	if _, err := db.First(&directionallightDB, c.Param("id")); err != nil {
+	if _, err := db.First(&directionallightDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteDirectionalLight(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

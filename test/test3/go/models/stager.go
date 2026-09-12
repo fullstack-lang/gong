@@ -3,9 +3,8 @@
 package models
 
 import (
+	"net/http"
 	"time"
-
-	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -18,7 +17,7 @@ type Stager struct {
 }
 
 func NewStager(
-	r *gin.Engine,
+	r *http.ServeMux,
 	stage *Stage,
 	probeForm ProbeIF,
 ) (stager *Stager) {

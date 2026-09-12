@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type PolylineInput struct {
 // default: genericError
 //
 //	200: polylineDBResponse
-func (controller *Controller) GetPolylines(c *gin.Context) {
+func (controller *Controller) GetPolylines(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var polylineDBs []orm.PolylineDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 		polylineAPIs = append(polylineAPIs, polylineAPI)
 	}
 
-	c.JSON(http.StatusOK, polylineAPIs)
+	writeJSON(w, http.StatusOK, polylineAPIs)
 }
 
 // PostPolyline
@@ -122,12 +121,12 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostPolyline(c *gin.Context) {
+func (controller *Controller) PostPolyline(w http.ResponseWriter, r *http.Request) {
 
 	mutexPolyline.Lock()
 	defer mutexPolyline.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 	// Validate input
 	var input orm.PolylineAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, polylineDB)
+	writeJSON(w, http.StatusOK, polylineDB)
 }
 
 // GetPolyline
@@ -202,9 +201,9 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 // default: genericError
 //
 //	200: polylineDBResponse
-func (controller *Controller) GetPolyline(c *gin.Context) {
+func (controller *Controller) GetPolyline(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 
 	// Get polylineDB in DB
 	var polylineDB orm.PolylineDB
-	if _, err := db.First(&polylineDB, c.Param("id")); err != nil {
+	if _, err := db.First(&polylineDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 	polylineAPI.PolylinePointersEncoding = polylineDB.PolylinePointersEncoding
 	polylineDB.CopyBasicFieldsToPolyline_WOP(&polylineAPI.Polyline_WOP)
 
-	c.JSON(http.StatusOK, polylineAPI)
+	writeJSON(w, http.StatusOK, polylineAPI)
 }
 
 // UpdatePolyline
@@ -255,12 +254,12 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 // default: genericError
 //
 //	200: polylineDBResponse
-func (controller *Controller) UpdatePolyline(c *gin.Context) {
+func (controller *Controller) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
 
 	mutexPolyline.Lock()
 	defer mutexPolyline.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 
 	// Validate input
 	var input orm.PolylineAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	var polylineDB orm.PolylineDB
 
 	// fetch the polyline
-	_, err := db.First(&polylineDB, c.Param("id"))
+	_, err := db.First(&polylineDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the polylineDB
-	c.JSON(http.StatusOK, polylineDB)
+	writeJSON(w, http.StatusOK, polylineDB)
 }
 
 // DeletePolyline
@@ -352,12 +351,12 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 // default: genericError
 //
 //	200: polylineDBResponse
-func (controller *Controller) DeletePolyline(c *gin.Context) {
+func (controller *Controller) DeletePolyline(w http.ResponseWriter, r *http.Request) {
 
 	mutexPolyline.Lock()
 	defer mutexPolyline.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 
 	// Get model if exist
 	var polylineDB orm.PolylineDB
-	if _, err := db.First(&polylineDB, c.Param("id")); err != nil {
+	if _, err := db.First(&polylineDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

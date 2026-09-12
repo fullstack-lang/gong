@@ -73,6 +73,9 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 		case "Fieldtypename":
 			FormDivBasicFieldToField(&(attributeshape_.Fieldtypename), formDiv)
 		case "GongStructShape:AttributeShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStructShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -200,6 +203,9 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		case "IsIncludedInStaticWebSite":
 			FormDivBasicFieldToField(&(classdiagram_.IsIncludedInStaticWebSite), formDiv)
 		case "GongStructShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongStructShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongStructShape, 0)
 
@@ -232,6 +238,9 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongStructShapes", &classdiagram_.GongStructShapes)
 
 		case "GongEnumShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumShape, 0)
 
@@ -264,6 +273,9 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongEnumShapes", &classdiagram_.GongEnumShapes)
 
 		case "GongNoteShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongNoteShape, 0)
 
@@ -318,6 +330,9 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		case "NodeGongNoteNodeExpansion":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongNoteNodeExpansion), formDiv)
 		case "DiagramPackage:Classdiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramPackage instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -445,6 +460,9 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 		case "GongModelPath":
 			FormDivBasicFieldToField(&(diagrampackage_.GongModelPath), formDiv)
 		case "Classdiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Classdiagram](diagrampackageFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Classdiagram, 0)
 
@@ -563,6 +581,9 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
 		case "GongEnumValueShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValueShape](gongenumshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumValueShape, 0)
 
@@ -601,6 +622,9 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongenumshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongEnumShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Classdiagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -724,6 +748,9 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(gongenumvalueshape_.Name), formDiv)
 		case "GongEnumShape:GongEnumValueShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongEnumShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -851,6 +878,9 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 		case "Type":
 			FormDivEnumStringFieldToField(&(gongnotelinkshape_.Type), formDiv)
 		case "GongNoteShape:GongNoteLinkShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongNoteShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -990,6 +1020,9 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 		case "Matched":
 			FormDivBasicFieldToField(&(gongnoteshape_.Matched), formDiv)
 		case "GongNoteLinkShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteLinkShape](gongnoteshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongNoteLinkShape, 0)
 
@@ -1024,6 +1057,9 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongnoteshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongNoteShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Classdiagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1151,6 +1187,9 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(gongstructshape_.Y), formDiv)
 		case "AttributeShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeShape](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeShape, 0)
 
@@ -1183,6 +1222,9 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongstructshape_, "AttributeShapes", &gongstructshape_.AttributeShapes)
 
 		case "LinkShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkShape](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkShape, 0)
 
@@ -1221,6 +1263,9 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 		case "IsSelected":
 			FormDivBasicFieldToField(&(gongstructshape_.IsSelected), formDiv)
 		case "Classdiagram:GongStructShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Classdiagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1374,6 +1419,9 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 		case "CornerOffsetRatio":
 			FormDivBasicFieldToField(&(linkshape_.CornerOffsetRatio), formDiv)
 		case "GongStructShape:LinkShapes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStructShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -69,6 +69,9 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 		case "Value":
 			FormDivBasicFieldToField(&(checkbox_.Value), formDiv)
 		case "FormDiv:CheckBoxs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the FormDiv instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -192,6 +195,9 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(formdiv_.Name), formDiv)
 		case "FormFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormField](formdivFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.FormField, 0)
 
@@ -224,6 +230,9 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			formdivFormCallback.probe.UpdateSliceOfPointersCallback(formdiv_, "FormFields", &formdiv_.FormFields)
 
 		case "CheckBoxs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CheckBox](formdivFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.CheckBox, 0)
 
@@ -268,6 +277,9 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 		case "IsAEndAccordionGroup":
 			FormDivBasicFieldToField(&(formdiv_.IsAEndAccordionGroup), formDiv)
 		case "FormGroup:FormDivs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the FormGroup instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -511,6 +523,9 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 		case "BespokeHeightPx":
 			FormDivBasicFieldToField(&(formfield_.BespokeHeightPx), formDiv)
 		case "FormDiv:FormFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the FormDiv instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -972,6 +987,9 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 		case "Value":
 			FormDivSelectFieldToField(&(formfieldselect_.Value), formfieldselectFormCallback.probe.stageOfInterest, formDiv)
 		case "Options":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Option](formfieldselectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Option, 0)
 
@@ -1254,6 +1272,9 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 		case "TypeLabel":
 			FormDivBasicFieldToField(&(formgroup_.TypeLabel), formDiv)
 		case "FormDivs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](formgroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.FormDiv, 0)
 
@@ -1456,6 +1477,9 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(option_.Name), formDiv)
 		case "FormFieldSelect:Options":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the FormFieldSelect instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormGroupInput struct {
 // default: genericError
 //
 //	200: formgroupDBResponse
-func (controller *Controller) GetFormGroups(c *gin.Context) {
+func (controller *Controller) GetFormGroups(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formgroupDBs []orm.FormGroupDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormGroups(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormGroups(c *gin.Context) {
 		formgroupAPIs = append(formgroupAPIs, formgroupAPI)
 	}
 
-	c.JSON(http.StatusOK, formgroupAPIs)
+	writeJSON(w, http.StatusOK, formgroupAPIs)
 }
 
 // PostFormGroup
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormGroups(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormGroup(c *gin.Context) {
+func (controller *Controller) PostFormGroup(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormGroup.Lock()
 	defer mutexFormGroup.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 	// Validate input
 	var input orm.FormGroupAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formgroupDB)
+	writeJSON(w, http.StatusOK, formgroupDB)
 }
 
 // GetFormGroup
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 // default: genericError
 //
 //	200: formgroupDBResponse
-func (controller *Controller) GetFormGroup(c *gin.Context) {
+func (controller *Controller) GetFormGroup(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormGroup(c *gin.Context) {
 
 	// Get formgroupDB in DB
 	var formgroupDB orm.FormGroupDB
-	if _, err := db.First(&formgroupDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formgroupDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormGroup(c *gin.Context) {
 	formgroupAPI.FormGroupPointersEncoding = formgroupDB.FormGroupPointersEncoding
 	formgroupDB.CopyBasicFieldsToFormGroup_WOP(&formgroupAPI.FormGroup_WOP)
 
-	c.JSON(http.StatusOK, formgroupAPI)
+	writeJSON(w, http.StatusOK, formgroupAPI)
 }
 
 // UpdateFormGroup
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormGroup(c *gin.Context) {
 // default: genericError
 //
 //	200: formgroupDBResponse
-func (controller *Controller) UpdateFormGroup(c *gin.Context) {
+func (controller *Controller) UpdateFormGroup(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormGroup.Lock()
 	defer mutexFormGroup.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormGroupAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 	var formgroupDB orm.FormGroupDB
 
 	// fetch the formgroup
-	_, err := db.First(&formgroupDB, c.Param("id"))
+	_, err := db.First(&formgroupDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formgroupDB
-	c.JSON(http.StatusOK, formgroupDB)
+	writeJSON(w, http.StatusOK, formgroupDB)
 }
 
 // DeleteFormGroup
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 // default: genericError
 //
 //	200: formgroupDBResponse
-func (controller *Controller) DeleteFormGroup(c *gin.Context) {
+func (controller *Controller) DeleteFormGroup(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormGroup.Lock()
 	defer mutexFormGroup.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormGroup(c *gin.Context) {
 
 	// Get model if exist
 	var formgroupDB orm.FormGroupDB
-	if _, err := db.First(&formgroupDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formgroupDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormGroup(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

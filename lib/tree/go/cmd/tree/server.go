@@ -23,7 +23,7 @@ func executeServer(args []string) {
 	NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := r.Run(":" + strconv.Itoa(port))
+	err := tree_static.RunServer(r, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

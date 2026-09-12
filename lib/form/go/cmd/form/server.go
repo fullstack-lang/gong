@@ -5,14 +5,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 
 	// insertion point for models import{{modelsImportDirective}}
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 	form_static "github.com/fullstack-lang/gong/lib/form/go/static"
-
-	"github.com/gin-gonic/gin"
 
 	// form_models "github.com/fullstack-lang/gong/lib/form/go/models"
 
@@ -95,14 +94,14 @@ func executeServer(args []string) {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := r.Run(":" + strconv.Itoa(port))
+	err := form_static.RunServer(r, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
 }
 
 type OnAssocEditon struct {
-	r               *gin.Engine
+	r               *http.ServeMux
 	sourceStackName string
 }
 
@@ -123,7 +122,7 @@ func (onAssocEditon *OnAssocEditon) OnButtonPressed() {
 }
 
 type OnSortEditon struct {
-	r                *gin.Engine
+	r                *http.ServeMux
 	sourceStackNName string
 }
 

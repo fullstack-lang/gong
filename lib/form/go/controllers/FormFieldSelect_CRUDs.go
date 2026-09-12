@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormFieldSelectInput struct {
 // default: genericError
 //
 //	200: formfieldselectDBResponse
-func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
+func (controller *Controller) GetFormFieldSelects(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formfieldselectDBs []orm.FormFieldSelectDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
 		formfieldselectAPIs = append(formfieldselectAPIs, formfieldselectAPI)
 	}
 
-	c.JSON(http.StatusOK, formfieldselectAPIs)
+	writeJSON(w, http.StatusOK, formfieldselectAPIs)
 }
 
 // PostFormFieldSelect
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
+func (controller *Controller) PostFormFieldSelect(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldSelect.Lock()
 	defer mutexFormFieldSelect.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 	// Validate input
 	var input orm.FormFieldSelectAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formfieldselectDB)
+	writeJSON(w, http.StatusOK, formfieldselectDB)
 }
 
 // GetFormFieldSelect
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldselectDBResponse
-func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
+func (controller *Controller) GetFormFieldSelect(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
 
 	// Get formfieldselectDB in DB
 	var formfieldselectDB orm.FormFieldSelectDB
-	if _, err := db.First(&formfieldselectDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfieldselectDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
 	formfieldselectAPI.FormFieldSelectPointersEncoding = formfieldselectDB.FormFieldSelectPointersEncoding
 	formfieldselectDB.CopyBasicFieldsToFormFieldSelect_WOP(&formfieldselectAPI.FormFieldSelect_WOP)
 
-	c.JSON(http.StatusOK, formfieldselectAPI)
+	writeJSON(w, http.StatusOK, formfieldselectAPI)
 }
 
 // UpdateFormFieldSelect
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldselectDBResponse
-func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
+func (controller *Controller) UpdateFormFieldSelect(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldSelect.Lock()
 	defer mutexFormFieldSelect.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormFieldSelectAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 	var formfieldselectDB orm.FormFieldSelectDB
 
 	// fetch the formfieldselect
-	_, err := db.First(&formfieldselectDB, c.Param("id"))
+	_, err := db.First(&formfieldselectDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formfieldselectDB
-	c.JSON(http.StatusOK, formfieldselectDB)
+	writeJSON(w, http.StatusOK, formfieldselectDB)
 }
 
 // DeleteFormFieldSelect
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldselectDBResponse
-func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
+func (controller *Controller) DeleteFormFieldSelect(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldSelect.Lock()
 	defer mutexFormFieldSelect.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
 
 	// Get model if exist
 	var formfieldselectDB orm.FormFieldSelectDB
-	if _, err := db.First(&formfieldselectDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfieldselectDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -13,8 +13,7 @@ import (
 
 	"go/parser"
 	"go/token"
-
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
@@ -38,7 +37,7 @@ import (
 )
 
 type Probe struct {
-	r                      *gin.Engine
+	r                      *http.ServeMux
 	stageOfInterest        *models.Stage
 	gongStage              *gong_models.Stage
 	treeStage              *tree.Stage
@@ -112,7 +111,7 @@ func (probe *Probe) GetProbeLoadStageName() string {
 
 
 func NewProbe(
-	r *gin.Engine,
+	r *http.ServeMux,
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
 	embeddedDiagrams bool,

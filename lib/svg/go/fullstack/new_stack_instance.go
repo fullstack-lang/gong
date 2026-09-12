@@ -2,11 +2,11 @@
 package fullstack
 
 import (
+	"net/http"
+
 	"github.com/fullstack-lang/gong/lib/svg/go/controllers"
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
@@ -21,7 +21,7 @@ import (
 // - the optional parameter filenames is for the name of the database filename
 // if filenames is omitted, the database is persisted in memory
 func NewStackInstance(
-	r *gin.Engine,
+	r any,
 	stackPath string,
 	// filesnames is an optional parameter for the name of the database
 	filenames ...string) (
@@ -38,7 +38,9 @@ func NewStackInstance(
 
 	controllers.GetController().AddBackRepo(backRepo, stackPath)
 
-	controllers.Register(r)
+	if mux, ok := r.(*http.ServeMux); ok {
+		controllers.Register(mux)
+	}
 
 	// Attempt to register the WASM socket. 
     // On Mac/Linux, this does absolutely nothing.

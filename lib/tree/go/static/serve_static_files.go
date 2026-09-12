@@ -3,63 +3,80 @@ package static
 
 import (
 	"embed"
-	"fmt"
+	"io"
 	"io/fs"
 	"net/http"
-	"os"
+	"strings"
+	"time"
 
 	// this package contains ...
 	"github.com/fullstack-lang/gong/lib/tree"
-
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
-	"github.com/gin-gonic/gin"
 )
 
-func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
+func CorsHandler(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization")
 
-	// setup controlers
-	if !logGINFlag {
-		myfile, _ := os.Create("/tmp/server.log")
-		gin.DefaultWriter = myfile
-	}
-	r = gin.Default()
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"*"} // Allow requests from localhost:8080 and localhost:4200
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
 
-	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"} // Allow specific HTTP methods
-
-	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"} // Allow specific headers
-
-	r.Use(cors.New(config))
-
-	// insertion point for serving the static file
-	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(tree.NgDistNg, "ng-github.com-fullstack-lang-gong-lib-tree/dist/ng-github.com-fullstack-lang-gong-lib-tree/browser")))
-	r.NoRoute(func(c *gin.Context) {
-		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
-		c.Redirect(http.StatusMovedPermanently, "/")
-		c.Abort()
+		next.ServeHTTP(w, r)
 	})
-
-	return
 }
 
-type embedFileSystem struct {
-	http.FileSystem
+func ServeStaticFiles(logFlag bool) (r *http.ServeMux) {
+	r = http.NewServeMux()
+
+	handler := EmbedFolder(tree.NgDistNg, "ng-github.com-fullstack-lang-gong-lib-tree/dist/ng-github.com-fullstack-lang-gong-lib-tree/browser")
+	r.Handle("/", handler)
+
+	return r
 }
 
-func (e embedFileSystem) Exists(prefix string, path string) bool {
-	_, err := e.Open(path)
-	return err == nil
-}
-
-func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
+func EmbedFolder(fsEmbed embed.FS, targetPath string) http.Handler {
 	fsys, err := fs.Sub(fsEmbed, targetPath)
 	if err != nil {
 		panic(err)
 	}
-	return embedFileSystem{
-		FileSystem: http.FS(fsys),
-	}
+	fileServer := http.FileServer(http.FS(fsys))
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/api/") {
+			http.NotFound(w, r)
+			return
+		}
+
+		path := strings.TrimPrefix(r.URL.Path, "/")
+		if path == "" {
+			path = "index.html"
+		}
+
+		f, err := fsys.Open(path)
+		if err != nil {
+			indexFile, err := fsys.Open("index.html")
+			if err != nil {
+				http.NotFound(w, r)
+				return
+			}
+			defer indexFile.Close()
+			if seeker, ok := indexFile.(io.ReadSeeker); ok {
+				http.ServeContent(w, r, "index.html", time.Time{}, seeker)
+			} else {
+				data, _ := io.ReadAll(indexFile)
+				http.ServeContent(w, r, "index.html", time.Time{}, strings.NewReader(string(data)))
+			}
+			return
+		}
+		f.Close()
+
+		fileServer.ServeHTTP(w, r)
+	})
+}
+
+func RunServer(mux *http.ServeMux, addr string) error {
+	return http.ListenAndServe(addr, CorsHandler(mux))
 }

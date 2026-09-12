@@ -85,6 +85,9 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		case "ToolTipPosition":
 			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
 		case "Group:Buttons":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -216,6 +219,9 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 		case "IsChecked":
 			FormDivBasicFieldToField(&(buttontoggle_.IsChecked), formDiv)
 		case "GroupToogle:ButtonToggles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GroupToogle instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -341,6 +347,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "Percentage":
 			FormDivBasicFieldToField(&(group_.Percentage), formDiv)
 		case "Buttons":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Button, 0)
 
@@ -375,6 +384,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "NbColumns":
 			FormDivBasicFieldToField(&(group_.NbColumns), formDiv)
 		case "Layout:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layout instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -500,6 +512,9 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 		case "Percentage":
 			FormDivBasicFieldToField(&(grouptoogle_.Percentage), formDiv)
 		case "ButtonToggles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ButtonToggle](grouptoogleFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ButtonToggle, 0)
 
@@ -534,6 +549,9 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 		case "IsSingleSelector":
 			FormDivBasicFieldToField(&(grouptoogle_.IsSingleSelector), formDiv)
 		case "Layout:GroupToogles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layout instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -657,6 +675,9 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(layout_.Name), formDiv)
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](layoutFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -689,6 +710,9 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 			layoutFormCallback.probe.UpdateSliceOfPointersCallback(layout_, "Groups", &layout_.Groups)
 
 		case "GroupToogles":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](layoutFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GroupToogle, 0)
 

@@ -4,10 +4,9 @@ import (
 	"embed"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
-
-	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 
@@ -50,7 +49,7 @@ func (beforeCommitImplementation *beforeCommitImplementation) BeforeCommit(stage
 }
 
 func Prepare(
-	r *gin.Engine,
+	r *http.ServeMux,
 	embeddedDiagrams bool,
 	docStackName string,
 	goModelsDir embed.FS,

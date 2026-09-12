@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type TitleInput struct {
 // default: genericError
 //
 //	200: titleDBResponse
-func (controller *Controller) GetTitles(c *gin.Context) {
+func (controller *Controller) GetTitles(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var titleDBs []orm.TitleDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTitles(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTitles(c *gin.Context) {
 		titleAPIs = append(titleAPIs, titleAPI)
 	}
 
-	c.JSON(http.StatusOK, titleAPIs)
+	writeJSON(w, http.StatusOK, titleAPIs)
 }
 
 // PostTitle
@@ -122,12 +121,12 @@ func (controller *Controller) GetTitles(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostTitle(c *gin.Context) {
+func (controller *Controller) PostTitle(w http.ResponseWriter, r *http.Request) {
 
 	mutexTitle.Lock()
 	defer mutexTitle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostTitle(c *gin.Context) {
 	// Validate input
 	var input orm.TitleAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostTitle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostTitle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, titleDB)
+	writeJSON(w, http.StatusOK, titleDB)
 }
 
 // GetTitle
@@ -202,9 +201,9 @@ func (controller *Controller) PostTitle(c *gin.Context) {
 // default: genericError
 //
 //	200: titleDBResponse
-func (controller *Controller) GetTitle(c *gin.Context) {
+func (controller *Controller) GetTitle(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetTitle(c *gin.Context) {
 
 	// Get titleDB in DB
 	var titleDB orm.TitleDB
-	if _, err := db.First(&titleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&titleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetTitle(c *gin.Context) {
 	titleAPI.TitlePointersEncoding = titleDB.TitlePointersEncoding
 	titleDB.CopyBasicFieldsToTitle_WOP(&titleAPI.Title_WOP)
 
-	c.JSON(http.StatusOK, titleAPI)
+	writeJSON(w, http.StatusOK, titleAPI)
 }
 
 // UpdateTitle
@@ -255,12 +254,12 @@ func (controller *Controller) GetTitle(c *gin.Context) {
 // default: genericError
 //
 //	200: titleDBResponse
-func (controller *Controller) UpdateTitle(c *gin.Context) {
+func (controller *Controller) UpdateTitle(w http.ResponseWriter, r *http.Request) {
 
 	mutexTitle.Lock()
 	defer mutexTitle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateTitle(c *gin.Context) {
 
 	// Validate input
 	var input orm.TitleAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateTitle(c *gin.Context) {
 	var titleDB orm.TitleDB
 
 	// fetch the title
-	_, err := db.First(&titleDB, c.Param("id"))
+	_, err := db.First(&titleDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateTitle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateTitle(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the titleDB
-	c.JSON(http.StatusOK, titleDB)
+	writeJSON(w, http.StatusOK, titleDB)
 }
 
 // DeleteTitle
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateTitle(c *gin.Context) {
 // default: genericError
 //
 //	200: titleDBResponse
-func (controller *Controller) DeleteTitle(c *gin.Context) {
+func (controller *Controller) DeleteTitle(w http.ResponseWriter, r *http.Request) {
 
 	mutexTitle.Lock()
 	defer mutexTitle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteTitle(c *gin.Context) {
 
 	// Get model if exist
 	var titleDB orm.TitleDB
-	if _, err := db.First(&titleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&titleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteTitle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -4,9 +4,9 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
-	"github.com/gin-gonic/gin"
 
 	// insertion point for models import{{modelsImportDirective}}
 	tone_models "github.com/fullstack-lang/gong/lib/tone/go/models"
@@ -24,7 +24,7 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
-	r := gin.Default()
+	r := http.NewServeMux()
 
 	// setup model stack with its probe
 	stack := tone_stack.NewStack(r, "tone", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)

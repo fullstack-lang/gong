@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test1/go/models"
 	"github.com/fullstack-lang/gong/test/test1/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type AstructInput struct {
 // default: genericError
 //
 //	200: astructDBResponse
-func (controller *Controller) GetAstructs(c *gin.Context) {
+func (controller *Controller) GetAstructs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var astructDBs []orm.AstructDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 		astructAPIs = append(astructAPIs, astructAPI)
 	}
 
-	c.JSON(http.StatusOK, astructAPIs)
+	writeJSON(w, http.StatusOK, astructAPIs)
 }
 
 // PostAstruct
@@ -122,12 +121,12 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostAstruct(c *gin.Context) {
+func (controller *Controller) PostAstruct(w http.ResponseWriter, r *http.Request) {
 
 	mutexAstruct.Lock()
 	defer mutexAstruct.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 	// Validate input
 	var input orm.AstructAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, astructDB)
+	writeJSON(w, http.StatusOK, astructDB)
 }
 
 // GetAstruct
@@ -202,9 +201,9 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: astructDBResponse
-func (controller *Controller) GetAstruct(c *gin.Context) {
+func (controller *Controller) GetAstruct(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 
 	// Get astructDB in DB
 	var astructDB orm.AstructDB
-	if _, err := db.First(&astructDB, c.Param("id")); err != nil {
+	if _, err := db.First(&astructDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 	astructAPI.AstructPointersEncoding = astructDB.AstructPointersEncoding
 	astructDB.CopyBasicFieldsToAstruct_WOP(&astructAPI.Astruct_WOP)
 
-	c.JSON(http.StatusOK, astructAPI)
+	writeJSON(w, http.StatusOK, astructAPI)
 }
 
 // UpdateAstruct
@@ -255,12 +254,12 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: astructDBResponse
-func (controller *Controller) UpdateAstruct(c *gin.Context) {
+func (controller *Controller) UpdateAstruct(w http.ResponseWriter, r *http.Request) {
 
 	mutexAstruct.Lock()
 	defer mutexAstruct.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	// Validate input
 	var input orm.AstructAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 	var astructDB orm.AstructDB
 
 	// fetch the astruct
-	_, err := db.First(&astructDB, c.Param("id"))
+	_, err := db.First(&astructDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the astructDB
-	c.JSON(http.StatusOK, astructDB)
+	writeJSON(w, http.StatusOK, astructDB)
 }
 
 // DeleteAstruct
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: astructDBResponse
-func (controller *Controller) DeleteAstruct(c *gin.Context) {
+func (controller *Controller) DeleteAstruct(w http.ResponseWriter, r *http.Request) {
 
 	mutexAstruct.Lock()
 	defer mutexAstruct.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteAstruct(c *gin.Context) {
 
 	// Get model if exist
 	var astructDB orm.AstructDB
-	if _, err := db.First(&astructDB, c.Param("id")); err != nil {
+	if _, err := db.First(&astructDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteAstruct(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

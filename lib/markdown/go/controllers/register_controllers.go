@@ -15,8 +15,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/markdown/go/orm"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -53,47 +51,44 @@ type ValidationError struct {
 }
 
 // registerControllers register controllers
-func registerControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/markdown/go")
-	{ // insertion point for registrations
-		v1.GET("/v1/contents", GetController().GetContents)
-		v1.GET("/v1/contents/:id", GetController().GetContent)
-		v1.POST("/v1/contents", GetController().PostContent)
-		v1.PATCH("/v1/contents/:id", GetController().UpdateContent)
-		v1.PUT("/v1/contents/:id", GetController().UpdateContent)
-		v1.DELETE("/v1/contents/:id", GetController().DeleteContent)
+func registerControllers(mux *http.ServeMux) {
+	base := "/api/github.com/fullstack-lang/gong/lib/markdown/go/v1"
 
-		v1.GET("/v1/jpgimages", GetController().GetJpgImages)
-		v1.GET("/v1/jpgimages/:id", GetController().GetJpgImage)
-		v1.POST("/v1/jpgimages", GetController().PostJpgImage)
-		v1.PATCH("/v1/jpgimages/:id", GetController().UpdateJpgImage)
-		v1.PUT("/v1/jpgimages/:id", GetController().UpdateJpgImage)
-		v1.DELETE("/v1/jpgimages/:id", GetController().DeleteJpgImage)
+	mux.HandleFunc("GET " + base + "/contents", GetController().GetContents)
+	mux.HandleFunc("GET " + base + "/contents/{id}", GetController().GetContent)
+	mux.HandleFunc("POST " + base + "/contents", GetController().PostContent)
+	mux.HandleFunc("PATCH " + base + "/contents/{id}", GetController().UpdateContent)
+	mux.HandleFunc("PUT " + base + "/contents/{id}", GetController().UpdateContent)
+	mux.HandleFunc("DELETE " + base + "/contents/{id}", GetController().DeleteContent)
 
-		v1.GET("/v1/pngimages", GetController().GetPngImages)
-		v1.GET("/v1/pngimages/:id", GetController().GetPngImage)
-		v1.POST("/v1/pngimages", GetController().PostPngImage)
-		v1.PATCH("/v1/pngimages/:id", GetController().UpdatePngImage)
-		v1.PUT("/v1/pngimages/:id", GetController().UpdatePngImage)
-		v1.DELETE("/v1/pngimages/:id", GetController().DeletePngImage)
+	mux.HandleFunc("GET " + base + "/jpgimages", GetController().GetJpgImages)
+	mux.HandleFunc("GET " + base + "/jpgimages/{id}", GetController().GetJpgImage)
+	mux.HandleFunc("POST " + base + "/jpgimages", GetController().PostJpgImage)
+	mux.HandleFunc("PATCH " + base + "/jpgimages/{id}", GetController().UpdateJpgImage)
+	mux.HandleFunc("PUT " + base + "/jpgimages/{id}", GetController().UpdateJpgImage)
+	mux.HandleFunc("DELETE " + base + "/jpgimages/{id}", GetController().DeleteJpgImage)
 
-		v1.GET("/v1/svgimages", GetController().GetSvgImages)
-		v1.GET("/v1/svgimages/:id", GetController().GetSvgImage)
-		v1.POST("/v1/svgimages", GetController().PostSvgImage)
-		v1.PATCH("/v1/svgimages/:id", GetController().UpdateSvgImage)
-		v1.PUT("/v1/svgimages/:id", GetController().UpdateSvgImage)
-		v1.DELETE("/v1/svgimages/:id", GetController().DeleteSvgImage)
+	mux.HandleFunc("GET " + base + "/pngimages", GetController().GetPngImages)
+	mux.HandleFunc("GET " + base + "/pngimages/{id}", GetController().GetPngImage)
+	mux.HandleFunc("POST " + base + "/pngimages", GetController().PostPngImage)
+	mux.HandleFunc("PATCH " + base + "/pngimages/{id}", GetController().UpdatePngImage)
+	mux.HandleFunc("PUT " + base + "/pngimages/{id}", GetController().UpdatePngImage)
+	mux.HandleFunc("DELETE " + base + "/pngimages/{id}", GetController().DeletePngImage)
 
-		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/svgimages", GetController().GetSvgImages)
+	mux.HandleFunc("GET " + base + "/svgimages/{id}", GetController().GetSvgImage)
+	mux.HandleFunc("POST " + base + "/svgimages", GetController().PostSvgImage)
+	mux.HandleFunc("PATCH " + base + "/svgimages/{id}", GetController().UpdateSvgImage)
+	mux.HandleFunc("PUT " + base + "/svgimages/{id}", GetController().UpdateSvgImage)
+	mux.HandleFunc("DELETE " + base + "/svgimages/{id}", GetController().DeleteSvgImage)
 
-		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
-
-		v1.GET("/v1/stacks", GetController().stacks)
-	}
+	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+	mux.HandleFunc("GET " + base + "/stacks", GetController().stacks)
 }
 
-func (controller *Controller) stacks(c *gin.Context) {
+func (controller *Controller) stacks(w http.ResponseWriter, r *http.Request) {
 
 	var res []string
 
@@ -101,7 +96,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 		res = append(res, k)
 	}
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -111,7 +106,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it subscribe to the backend commit number broadcaster
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
-func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
+func (controller *Controller) onWebSocketRequestForBackRepoContent(w http.ResponseWriter, r *http.Request) {
 
 	// log.Println("Stack github.com/fullstack-lang/gong/lib/markdown/go, onWebSocketRequestForBackRepoContent")
 
@@ -133,7 +128,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		},
 	}
 
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	wsConnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -141,10 +136,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	defer wsConnection.Close()
 
 	// Create a context that is canceled when the connection is closed
-	ctx, cancel := context.WithCancel(c.Request.Context())
+	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	values := c.Request.URL.Query()
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -325,8 +320,8 @@ func formatBytes(size int) string {
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastCommitFromBackNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -348,12 +343,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastCommitFromBackNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastPushFromFrontNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -375,5 +370,5 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastPushFromFrontNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }

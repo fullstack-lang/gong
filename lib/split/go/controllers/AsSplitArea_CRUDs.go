@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type AsSplitAreaInput struct {
 // default: genericError
 //
 //	200: assplitareaDBResponse
-func (controller *Controller) GetAsSplitAreas(c *gin.Context) {
+func (controller *Controller) GetAsSplitAreas(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var assplitareaDBs []orm.AsSplitAreaDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetAsSplitAreas(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetAsSplitAreas(c *gin.Context) {
 		assplitareaAPIs = append(assplitareaAPIs, assplitareaAPI)
 	}
 
-	c.JSON(http.StatusOK, assplitareaAPIs)
+	writeJSON(w, http.StatusOK, assplitareaAPIs)
 }
 
 // PostAsSplitArea
@@ -122,12 +121,12 @@ func (controller *Controller) GetAsSplitAreas(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostAsSplitArea(c *gin.Context) {
+func (controller *Controller) PostAsSplitArea(w http.ResponseWriter, r *http.Request) {
 
 	mutexAsSplitArea.Lock()
 	defer mutexAsSplitArea.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostAsSplitArea(c *gin.Context) {
 	// Validate input
 	var input orm.AsSplitAreaAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostAsSplitArea(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostAsSplitArea(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, assplitareaDB)
+	writeJSON(w, http.StatusOK, assplitareaDB)
 }
 
 // GetAsSplitArea
@@ -202,9 +201,9 @@ func (controller *Controller) PostAsSplitArea(c *gin.Context) {
 // default: genericError
 //
 //	200: assplitareaDBResponse
-func (controller *Controller) GetAsSplitArea(c *gin.Context) {
+func (controller *Controller) GetAsSplitArea(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetAsSplitArea(c *gin.Context) {
 
 	// Get assplitareaDB in DB
 	var assplitareaDB orm.AsSplitAreaDB
-	if _, err := db.First(&assplitareaDB, c.Param("id")); err != nil {
+	if _, err := db.First(&assplitareaDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetAsSplitArea(c *gin.Context) {
 	assplitareaAPI.AsSplitAreaPointersEncoding = assplitareaDB.AsSplitAreaPointersEncoding
 	assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
 
-	c.JSON(http.StatusOK, assplitareaAPI)
+	writeJSON(w, http.StatusOK, assplitareaAPI)
 }
 
 // UpdateAsSplitArea
@@ -255,12 +254,12 @@ func (controller *Controller) GetAsSplitArea(c *gin.Context) {
 // default: genericError
 //
 //	200: assplitareaDBResponse
-func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
+func (controller *Controller) UpdateAsSplitArea(w http.ResponseWriter, r *http.Request) {
 
 	mutexAsSplitArea.Lock()
 	defer mutexAsSplitArea.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
 
 	// Validate input
 	var input orm.AsSplitAreaAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
 	var assplitareaDB orm.AsSplitAreaDB
 
 	// fetch the assplitarea
-	_, err := db.First(&assplitareaDB, c.Param("id"))
+	_, err := db.First(&assplitareaDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the assplitareaDB
-	c.JSON(http.StatusOK, assplitareaDB)
+	writeJSON(w, http.StatusOK, assplitareaDB)
 }
 
 // DeleteAsSplitArea
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
 // default: genericError
 //
 //	200: assplitareaDBResponse
-func (controller *Controller) DeleteAsSplitArea(c *gin.Context) {
+func (controller *Controller) DeleteAsSplitArea(w http.ResponseWriter, r *http.Request) {
 
 	mutexAsSplitArea.Lock()
 	defer mutexAsSplitArea.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteAsSplitArea(c *gin.Context) {
 
 	// Get model if exist
 	var assplitareaDB orm.AsSplitAreaDB
-	if _, err := db.First(&assplitareaDB, c.Param("id")); err != nil {
+	if _, err := db.First(&assplitareaDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteAsSplitArea(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

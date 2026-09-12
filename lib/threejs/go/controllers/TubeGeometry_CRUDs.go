@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type TubeGeometryInput struct {
 // default: genericError
 //
 //	200: tubegeometryDBResponse
-func (controller *Controller) GetTubeGeometrys(c *gin.Context) {
+func (controller *Controller) GetTubeGeometrys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var tubegeometryDBs []orm.TubeGeometryDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTubeGeometrys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTubeGeometrys(c *gin.Context) {
 		tubegeometryAPIs = append(tubegeometryAPIs, tubegeometryAPI)
 	}
 
-	c.JSON(http.StatusOK, tubegeometryAPIs)
+	writeJSON(w, http.StatusOK, tubegeometryAPIs)
 }
 
 // PostTubeGeometry
@@ -122,12 +121,12 @@ func (controller *Controller) GetTubeGeometrys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostTubeGeometry(c *gin.Context) {
+func (controller *Controller) PostTubeGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexTubeGeometry.Lock()
 	defer mutexTubeGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostTubeGeometry(c *gin.Context) {
 	// Validate input
 	var input orm.TubeGeometryAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostTubeGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostTubeGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, tubegeometryDB)
+	writeJSON(w, http.StatusOK, tubegeometryDB)
 }
 
 // GetTubeGeometry
@@ -202,9 +201,9 @@ func (controller *Controller) PostTubeGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: tubegeometryDBResponse
-func (controller *Controller) GetTubeGeometry(c *gin.Context) {
+func (controller *Controller) GetTubeGeometry(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetTubeGeometry(c *gin.Context) {
 
 	// Get tubegeometryDB in DB
 	var tubegeometryDB orm.TubeGeometryDB
-	if _, err := db.First(&tubegeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&tubegeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetTubeGeometry(c *gin.Context) {
 	tubegeometryAPI.TubeGeometryPointersEncoding = tubegeometryDB.TubeGeometryPointersEncoding
 	tubegeometryDB.CopyBasicFieldsToTubeGeometry_WOP(&tubegeometryAPI.TubeGeometry_WOP)
 
-	c.JSON(http.StatusOK, tubegeometryAPI)
+	writeJSON(w, http.StatusOK, tubegeometryAPI)
 }
 
 // UpdateTubeGeometry
@@ -255,12 +254,12 @@ func (controller *Controller) GetTubeGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: tubegeometryDBResponse
-func (controller *Controller) UpdateTubeGeometry(c *gin.Context) {
+func (controller *Controller) UpdateTubeGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexTubeGeometry.Lock()
 	defer mutexTubeGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateTubeGeometry(c *gin.Context) {
 
 	// Validate input
 	var input orm.TubeGeometryAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateTubeGeometry(c *gin.Context) {
 	var tubegeometryDB orm.TubeGeometryDB
 
 	// fetch the tubegeometry
-	_, err := db.First(&tubegeometryDB, c.Param("id"))
+	_, err := db.First(&tubegeometryDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateTubeGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateTubeGeometry(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the tubegeometryDB
-	c.JSON(http.StatusOK, tubegeometryDB)
+	writeJSON(w, http.StatusOK, tubegeometryDB)
 }
 
 // DeleteTubeGeometry
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateTubeGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: tubegeometryDBResponse
-func (controller *Controller) DeleteTubeGeometry(c *gin.Context) {
+func (controller *Controller) DeleteTubeGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexTubeGeometry.Lock()
 	defer mutexTubeGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteTubeGeometry(c *gin.Context) {
 
 	// Get model if exist
 	var tubegeometryDB orm.TubeGeometryDB
-	if _, err := db.First(&tubegeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&tubegeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteTubeGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type ToneInput struct {
 // default: genericError
 //
 //	200: toneDBResponse
-func (controller *Controller) GetTones(c *gin.Context) {
+func (controller *Controller) GetTones(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var toneDBs []orm.ToneDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTones(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTones(c *gin.Context) {
 		toneAPIs = append(toneAPIs, toneAPI)
 	}
 
-	c.JSON(http.StatusOK, toneAPIs)
+	writeJSON(w, http.StatusOK, toneAPIs)
 }
 
 // PostTone
@@ -122,12 +121,12 @@ func (controller *Controller) GetTones(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostTone(c *gin.Context) {
+func (controller *Controller) PostTone(w http.ResponseWriter, r *http.Request) {
 
 	mutexTone.Lock()
 	defer mutexTone.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostTone(c *gin.Context) {
 	// Validate input
 	var input orm.ToneAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostTone(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostTone(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, toneDB)
+	writeJSON(w, http.StatusOK, toneDB)
 }
 
 // GetTone
@@ -202,9 +201,9 @@ func (controller *Controller) PostTone(c *gin.Context) {
 // default: genericError
 //
 //	200: toneDBResponse
-func (controller *Controller) GetTone(c *gin.Context) {
+func (controller *Controller) GetTone(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetTone(c *gin.Context) {
 
 	// Get toneDB in DB
 	var toneDB orm.ToneDB
-	if _, err := db.First(&toneDB, c.Param("id")); err != nil {
+	if _, err := db.First(&toneDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetTone(c *gin.Context) {
 	toneAPI.TonePointersEncoding = toneDB.TonePointersEncoding
 	toneDB.CopyBasicFieldsToTone_WOP(&toneAPI.Tone_WOP)
 
-	c.JSON(http.StatusOK, toneAPI)
+	writeJSON(w, http.StatusOK, toneAPI)
 }
 
 // UpdateTone
@@ -255,12 +254,12 @@ func (controller *Controller) GetTone(c *gin.Context) {
 // default: genericError
 //
 //	200: toneDBResponse
-func (controller *Controller) UpdateTone(c *gin.Context) {
+func (controller *Controller) UpdateTone(w http.ResponseWriter, r *http.Request) {
 
 	mutexTone.Lock()
 	defer mutexTone.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateTone(c *gin.Context) {
 
 	// Validate input
 	var input orm.ToneAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateTone(c *gin.Context) {
 	var toneDB orm.ToneDB
 
 	// fetch the tone
-	_, err := db.First(&toneDB, c.Param("id"))
+	_, err := db.First(&toneDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateTone(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateTone(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the toneDB
-	c.JSON(http.StatusOK, toneDB)
+	writeJSON(w, http.StatusOK, toneDB)
 }
 
 // DeleteTone
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateTone(c *gin.Context) {
 // default: genericError
 //
 //	200: toneDBResponse
-func (controller *Controller) DeleteTone(c *gin.Context) {
+func (controller *Controller) DeleteTone(w http.ResponseWriter, r *http.Request) {
 
 	mutexTone.Lock()
 	defer mutexTone.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteTone(c *gin.Context) {
 
 	// Get model if exist
 	var toneDB orm.ToneDB
-	if _, err := db.First(&toneDB, c.Param("id")); err != nil {
+	if _, err := db.First(&toneDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteTone(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

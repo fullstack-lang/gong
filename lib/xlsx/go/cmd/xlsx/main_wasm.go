@@ -4,11 +4,11 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/xlsx/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
-	r := gin.Default()
+	r := http.NewServeMux()
 
 	// setup
 	// - model level1 stack with its probe

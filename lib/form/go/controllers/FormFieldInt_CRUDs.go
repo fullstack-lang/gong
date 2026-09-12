@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormFieldIntInput struct {
 // default: genericError
 //
 //	200: formfieldintDBResponse
-func (controller *Controller) GetFormFieldInts(c *gin.Context) {
+func (controller *Controller) GetFormFieldInts(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formfieldintDBs []orm.FormFieldIntDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormFieldInts(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormFieldInts(c *gin.Context) {
 		formfieldintAPIs = append(formfieldintAPIs, formfieldintAPI)
 	}
 
-	c.JSON(http.StatusOK, formfieldintAPIs)
+	writeJSON(w, http.StatusOK, formfieldintAPIs)
 }
 
 // PostFormFieldInt
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormFieldInts(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormFieldInt(c *gin.Context) {
+func (controller *Controller) PostFormFieldInt(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldInt.Lock()
 	defer mutexFormFieldInt.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 	// Validate input
 	var input orm.FormFieldIntAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formfieldintDB)
+	writeJSON(w, http.StatusOK, formfieldintDB)
 }
 
 // GetFormFieldInt
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldintDBResponse
-func (controller *Controller) GetFormFieldInt(c *gin.Context) {
+func (controller *Controller) GetFormFieldInt(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormFieldInt(c *gin.Context) {
 
 	// Get formfieldintDB in DB
 	var formfieldintDB orm.FormFieldIntDB
-	if _, err := db.First(&formfieldintDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfieldintDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormFieldInt(c *gin.Context) {
 	formfieldintAPI.FormFieldIntPointersEncoding = formfieldintDB.FormFieldIntPointersEncoding
 	formfieldintDB.CopyBasicFieldsToFormFieldInt_WOP(&formfieldintAPI.FormFieldInt_WOP)
 
-	c.JSON(http.StatusOK, formfieldintAPI)
+	writeJSON(w, http.StatusOK, formfieldintAPI)
 }
 
 // UpdateFormFieldInt
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormFieldInt(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldintDBResponse
-func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
+func (controller *Controller) UpdateFormFieldInt(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldInt.Lock()
 	defer mutexFormFieldInt.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormFieldIntAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 	var formfieldintDB orm.FormFieldIntDB
 
 	// fetch the formfieldint
-	_, err := db.First(&formfieldintDB, c.Param("id"))
+	_, err := db.First(&formfieldintDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formfieldintDB
-	c.JSON(http.StatusOK, formfieldintDB)
+	writeJSON(w, http.StatusOK, formfieldintDB)
 }
 
 // DeleteFormFieldInt
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldintDBResponse
-func (controller *Controller) DeleteFormFieldInt(c *gin.Context) {
+func (controller *Controller) DeleteFormFieldInt(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldInt.Lock()
 	defer mutexFormFieldInt.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormFieldInt(c *gin.Context) {
 
 	// Get model if exist
 	var formfieldintDB orm.FormFieldIntDB
-	if _, err := db.First(&formfieldintDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfieldintDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormFieldInt(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

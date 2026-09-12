@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type TextInput struct {
 // default: genericError
 //
 //	200: textDBResponse
-func (controller *Controller) GetTexts(c *gin.Context) {
+func (controller *Controller) GetTexts(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var textDBs []orm.TextDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 		textAPIs = append(textAPIs, textAPI)
 	}
 
-	c.JSON(http.StatusOK, textAPIs)
+	writeJSON(w, http.StatusOK, textAPIs)
 }
 
 // PostText
@@ -122,12 +121,12 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostText(c *gin.Context) {
+func (controller *Controller) PostText(w http.ResponseWriter, r *http.Request) {
 
 	mutexText.Lock()
 	defer mutexText.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostText(c *gin.Context) {
 	// Validate input
 	var input orm.TextAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostText(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostText(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, textDB)
+	writeJSON(w, http.StatusOK, textDB)
 }
 
 // GetText
@@ -202,9 +201,9 @@ func (controller *Controller) PostText(c *gin.Context) {
 // default: genericError
 //
 //	200: textDBResponse
-func (controller *Controller) GetText(c *gin.Context) {
+func (controller *Controller) GetText(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetText(c *gin.Context) {
 
 	// Get textDB in DB
 	var textDB orm.TextDB
-	if _, err := db.First(&textDB, c.Param("id")); err != nil {
+	if _, err := db.First(&textDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetText(c *gin.Context) {
 	textAPI.TextPointersEncoding = textDB.TextPointersEncoding
 	textDB.CopyBasicFieldsToText_WOP(&textAPI.Text_WOP)
 
-	c.JSON(http.StatusOK, textAPI)
+	writeJSON(w, http.StatusOK, textAPI)
 }
 
 // UpdateText
@@ -255,12 +254,12 @@ func (controller *Controller) GetText(c *gin.Context) {
 // default: genericError
 //
 //	200: textDBResponse
-func (controller *Controller) UpdateText(c *gin.Context) {
+func (controller *Controller) UpdateText(w http.ResponseWriter, r *http.Request) {
 
 	mutexText.Lock()
 	defer mutexText.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 
 	// Validate input
 	var input orm.TextAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 	var textDB orm.TextDB
 
 	// fetch the text
-	_, err := db.First(&textDB, c.Param("id"))
+	_, err := db.First(&textDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the textDB
-	c.JSON(http.StatusOK, textDB)
+	writeJSON(w, http.StatusOK, textDB)
 }
 
 // DeleteText
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 // default: genericError
 //
 //	200: textDBResponse
-func (controller *Controller) DeleteText(c *gin.Context) {
+func (controller *Controller) DeleteText(w http.ResponseWriter, r *http.Request) {
 
 	mutexText.Lock()
 	defer mutexText.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteText(c *gin.Context) {
 
 	// Get model if exist
 	var textDB orm.TextDB
-	if _, err := db.First(&textDB, c.Param("id")); err != nil {
+	if _, err := db.First(&textDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteText(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

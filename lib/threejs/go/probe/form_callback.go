@@ -237,6 +237,9 @@ func (buffergeometryFormCallback *BufferGeometryFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(buffergeometry_.Name), formDiv)
 		case "Vertices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector3](buffergeometryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Vector3, 0)
 
@@ -269,6 +272,9 @@ func (buffergeometryFormCallback *BufferGeometryFormCallback) OnSave() {
 			buffergeometryFormCallback.probe.UpdateSliceOfPointersCallback(buffergeometry_, "Vertices", &buffergeometry_.Vertices)
 
 		case "Faces":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Triangle](buffergeometryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Triangle, 0)
 
@@ -471,6 +477,9 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(canvas_.Name), formDiv)
 		case "DirectionalLights":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DirectionalLight](canvasFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DirectionalLight, 0)
 
@@ -505,6 +514,9 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 		case "AmbiantLight":
 			FormDivSelectFieldToField(&(canvas_.AmbiantLight), canvasFormCallback.probe.stageOfInterest, formDiv)
 		case "Meshs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Mesh](canvasFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Mesh, 0)
 
@@ -623,6 +635,9 @@ func (curveFormCallback *CurveFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(curve_.Name), formDiv)
 		case "Points":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector3](curveFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Vector3, 0)
 
@@ -837,6 +852,9 @@ func (directionallightFormCallback *DirectionalLightFormCallback) OnSave() {
 		case "IsWithCastShadow":
 			FormDivBasicFieldToField(&(directionallight_.IsWithCastShadow), formDiv)
 		case "Canvas:DirectionalLights":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Canvas instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1070,6 +1088,9 @@ func (meshFormCallback *MeshFormCallback) OnSave() {
 		case "BufferGeometry":
 			FormDivSelectFieldToField(&(mesh_.BufferGeometry), meshFormCallback.probe.stageOfInterest, formDiv)
 		case "Canvas:Meshs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Canvas instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1447,6 +1468,9 @@ func (shapeFormCallback *ShapeFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(shape_.Name), formDiv)
 		case "Points":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector2](shapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Vector2, 0)
 
@@ -1743,6 +1767,9 @@ func (triangleFormCallback *TriangleFormCallback) OnSave() {
 		case "V3":
 			FormDivBasicFieldToField(&(triangle_.V3), formDiv)
 		case "BufferGeometry:Faces":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the BufferGeometry instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1958,6 +1985,9 @@ func (vector2FormCallback *Vector2FormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(vector2_.Y), formDiv)
 		case "Shape:Points":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Shape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2087,6 +2117,9 @@ func (vector3FormCallback *Vector3FormCallback) OnSave() {
 		case "Z":
 			FormDivBasicFieldToField(&(vector3_.Z), formDiv)
 		case "BufferGeometry:Vertices":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the BufferGeometry instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2132,6 +2165,9 @@ func (vector3FormCallback *Vector3FormCallback) OnSave() {
 				}
 			}
 		case "Curve:Points":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Curve instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

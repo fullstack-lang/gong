@@ -73,6 +73,9 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 		case "LabelForFalse":
 			FormDivBasicFieldToField(&(checkbox_.LabelForFalse), formDiv)
 		case "Group:Checkboxes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -198,6 +201,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "Percentage":
 			FormDivBasicFieldToField(&(group_.Percentage), formDiv)
 		case "Sliders":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Slider](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Slider, 0)
 
@@ -230,6 +236,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Sliders", &group_.Sliders)
 
 		case "Checkboxes":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Checkbox](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Checkbox, 0)
 
@@ -262,6 +271,9 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Checkboxes", &group_.Checkboxes)
 
 		case "Layout:Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Layout instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -385,6 +397,9 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(layout_.Name), formDiv)
 		case "Groups":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](layoutFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -521,6 +536,9 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 		case "IsDisabled":
 			FormDivBasicFieldToField(&(slider_.IsDisabled), formDiv)
 		case "Group:Sliders":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

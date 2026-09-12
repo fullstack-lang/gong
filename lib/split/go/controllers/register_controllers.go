@@ -15,8 +15,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -53,159 +51,156 @@ type ValidationError struct {
 }
 
 // registerControllers register controllers
-func registerControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/split/go")
-	{ // insertion point for registrations
-		v1.GET("/v1/assplits", GetController().GetAsSplits)
-		v1.GET("/v1/assplits/:id", GetController().GetAsSplit)
-		v1.POST("/v1/assplits", GetController().PostAsSplit)
-		v1.PATCH("/v1/assplits/:id", GetController().UpdateAsSplit)
-		v1.PUT("/v1/assplits/:id", GetController().UpdateAsSplit)
-		v1.DELETE("/v1/assplits/:id", GetController().DeleteAsSplit)
+func registerControllers(mux *http.ServeMux) {
+	base := "/api/github.com/fullstack-lang/gong/lib/split/go/v1"
 
-		v1.GET("/v1/assplitareas", GetController().GetAsSplitAreas)
-		v1.GET("/v1/assplitareas/:id", GetController().GetAsSplitArea)
-		v1.POST("/v1/assplitareas", GetController().PostAsSplitArea)
-		v1.PATCH("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
-		v1.PUT("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
-		v1.DELETE("/v1/assplitareas/:id", GetController().DeleteAsSplitArea)
+	mux.HandleFunc("GET " + base + "/assplits", GetController().GetAsSplits)
+	mux.HandleFunc("GET " + base + "/assplits/{id}", GetController().GetAsSplit)
+	mux.HandleFunc("POST " + base + "/assplits", GetController().PostAsSplit)
+	mux.HandleFunc("PATCH " + base + "/assplits/{id}", GetController().UpdateAsSplit)
+	mux.HandleFunc("PUT " + base + "/assplits/{id}", GetController().UpdateAsSplit)
+	mux.HandleFunc("DELETE " + base + "/assplits/{id}", GetController().DeleteAsSplit)
 
-		v1.GET("/v1/buttons", GetController().GetButtons)
-		v1.GET("/v1/buttons/:id", GetController().GetButton)
-		v1.POST("/v1/buttons", GetController().PostButton)
-		v1.PATCH("/v1/buttons/:id", GetController().UpdateButton)
-		v1.PUT("/v1/buttons/:id", GetController().UpdateButton)
-		v1.DELETE("/v1/buttons/:id", GetController().DeleteButton)
+	mux.HandleFunc("GET " + base + "/assplitareas", GetController().GetAsSplitAreas)
+	mux.HandleFunc("GET " + base + "/assplitareas/{id}", GetController().GetAsSplitArea)
+	mux.HandleFunc("POST " + base + "/assplitareas", GetController().PostAsSplitArea)
+	mux.HandleFunc("PATCH " + base + "/assplitareas/{id}", GetController().UpdateAsSplitArea)
+	mux.HandleFunc("PUT " + base + "/assplitareas/{id}", GetController().UpdateAsSplitArea)
+	mux.HandleFunc("DELETE " + base + "/assplitareas/{id}", GetController().DeleteAsSplitArea)
 
-		v1.GET("/v1/cursors", GetController().GetCursors)
-		v1.GET("/v1/cursors/:id", GetController().GetCursor)
-		v1.POST("/v1/cursors", GetController().PostCursor)
-		v1.PATCH("/v1/cursors/:id", GetController().UpdateCursor)
-		v1.PUT("/v1/cursors/:id", GetController().UpdateCursor)
-		v1.DELETE("/v1/cursors/:id", GetController().DeleteCursor)
+	mux.HandleFunc("GET " + base + "/buttons", GetController().GetButtons)
+	mux.HandleFunc("GET " + base + "/buttons/{id}", GetController().GetButton)
+	mux.HandleFunc("POST " + base + "/buttons", GetController().PostButton)
+	mux.HandleFunc("PATCH " + base + "/buttons/{id}", GetController().UpdateButton)
+	mux.HandleFunc("PUT " + base + "/buttons/{id}", GetController().UpdateButton)
+	mux.HandleFunc("DELETE " + base + "/buttons/{id}", GetController().DeleteButton)
 
-		v1.GET("/v1/favicons", GetController().GetFavIcons)
-		v1.GET("/v1/favicons/:id", GetController().GetFavIcon)
-		v1.POST("/v1/favicons", GetController().PostFavIcon)
-		v1.PATCH("/v1/favicons/:id", GetController().UpdateFavIcon)
-		v1.PUT("/v1/favicons/:id", GetController().UpdateFavIcon)
-		v1.DELETE("/v1/favicons/:id", GetController().DeleteFavIcon)
+	mux.HandleFunc("GET " + base + "/cursors", GetController().GetCursors)
+	mux.HandleFunc("GET " + base + "/cursors/{id}", GetController().GetCursor)
+	mux.HandleFunc("POST " + base + "/cursors", GetController().PostCursor)
+	mux.HandleFunc("PATCH " + base + "/cursors/{id}", GetController().UpdateCursor)
+	mux.HandleFunc("PUT " + base + "/cursors/{id}", GetController().UpdateCursor)
+	mux.HandleFunc("DELETE " + base + "/cursors/{id}", GetController().DeleteCursor)
 
-		v1.GET("/v1/forms", GetController().GetForms)
-		v1.GET("/v1/forms/:id", GetController().GetForm)
-		v1.POST("/v1/forms", GetController().PostForm)
-		v1.PATCH("/v1/forms/:id", GetController().UpdateForm)
-		v1.PUT("/v1/forms/:id", GetController().UpdateForm)
-		v1.DELETE("/v1/forms/:id", GetController().DeleteForm)
+	mux.HandleFunc("GET " + base + "/favicons", GetController().GetFavIcons)
+	mux.HandleFunc("GET " + base + "/favicons/{id}", GetController().GetFavIcon)
+	mux.HandleFunc("POST " + base + "/favicons", GetController().PostFavIcon)
+	mux.HandleFunc("PATCH " + base + "/favicons/{id}", GetController().UpdateFavIcon)
+	mux.HandleFunc("PUT " + base + "/favicons/{id}", GetController().UpdateFavIcon)
+	mux.HandleFunc("DELETE " + base + "/favicons/{id}", GetController().DeleteFavIcon)
 
-		v1.GET("/v1/loads", GetController().GetLoads)
-		v1.GET("/v1/loads/:id", GetController().GetLoad)
-		v1.POST("/v1/loads", GetController().PostLoad)
-		v1.PATCH("/v1/loads/:id", GetController().UpdateLoad)
-		v1.PUT("/v1/loads/:id", GetController().UpdateLoad)
-		v1.DELETE("/v1/loads/:id", GetController().DeleteLoad)
+	mux.HandleFunc("GET " + base + "/forms", GetController().GetForms)
+	mux.HandleFunc("GET " + base + "/forms/{id}", GetController().GetForm)
+	mux.HandleFunc("POST " + base + "/forms", GetController().PostForm)
+	mux.HandleFunc("PATCH " + base + "/forms/{id}", GetController().UpdateForm)
+	mux.HandleFunc("PUT " + base + "/forms/{id}", GetController().UpdateForm)
+	mux.HandleFunc("DELETE " + base + "/forms/{id}", GetController().DeleteForm)
 
-		v1.GET("/v1/logoonthelefts", GetController().GetLogoOnTheLefts)
-		v1.GET("/v1/logoonthelefts/:id", GetController().GetLogoOnTheLeft)
-		v1.POST("/v1/logoonthelefts", GetController().PostLogoOnTheLeft)
-		v1.PATCH("/v1/logoonthelefts/:id", GetController().UpdateLogoOnTheLeft)
-		v1.PUT("/v1/logoonthelefts/:id", GetController().UpdateLogoOnTheLeft)
-		v1.DELETE("/v1/logoonthelefts/:id", GetController().DeleteLogoOnTheLeft)
+	mux.HandleFunc("GET " + base + "/loads", GetController().GetLoads)
+	mux.HandleFunc("GET " + base + "/loads/{id}", GetController().GetLoad)
+	mux.HandleFunc("POST " + base + "/loads", GetController().PostLoad)
+	mux.HandleFunc("PATCH " + base + "/loads/{id}", GetController().UpdateLoad)
+	mux.HandleFunc("PUT " + base + "/loads/{id}", GetController().UpdateLoad)
+	mux.HandleFunc("DELETE " + base + "/loads/{id}", GetController().DeleteLoad)
 
-		v1.GET("/v1/logoontherights", GetController().GetLogoOnTheRights)
-		v1.GET("/v1/logoontherights/:id", GetController().GetLogoOnTheRight)
-		v1.POST("/v1/logoontherights", GetController().PostLogoOnTheRight)
-		v1.PATCH("/v1/logoontherights/:id", GetController().UpdateLogoOnTheRight)
-		v1.PUT("/v1/logoontherights/:id", GetController().UpdateLogoOnTheRight)
-		v1.DELETE("/v1/logoontherights/:id", GetController().DeleteLogoOnTheRight)
+	mux.HandleFunc("GET " + base + "/logoonthelefts", GetController().GetLogoOnTheLefts)
+	mux.HandleFunc("GET " + base + "/logoonthelefts/{id}", GetController().GetLogoOnTheLeft)
+	mux.HandleFunc("POST " + base + "/logoonthelefts", GetController().PostLogoOnTheLeft)
+	mux.HandleFunc("PATCH " + base + "/logoonthelefts/{id}", GetController().UpdateLogoOnTheLeft)
+	mux.HandleFunc("PUT " + base + "/logoonthelefts/{id}", GetController().UpdateLogoOnTheLeft)
+	mux.HandleFunc("DELETE " + base + "/logoonthelefts/{id}", GetController().DeleteLogoOnTheLeft)
 
-		v1.GET("/v1/markdowns", GetController().GetMarkdowns)
-		v1.GET("/v1/markdowns/:id", GetController().GetMarkdown)
-		v1.POST("/v1/markdowns", GetController().PostMarkdown)
-		v1.PATCH("/v1/markdowns/:id", GetController().UpdateMarkdown)
-		v1.PUT("/v1/markdowns/:id", GetController().UpdateMarkdown)
-		v1.DELETE("/v1/markdowns/:id", GetController().DeleteMarkdown)
+	mux.HandleFunc("GET " + base + "/logoontherights", GetController().GetLogoOnTheRights)
+	mux.HandleFunc("GET " + base + "/logoontherights/{id}", GetController().GetLogoOnTheRight)
+	mux.HandleFunc("POST " + base + "/logoontherights", GetController().PostLogoOnTheRight)
+	mux.HandleFunc("PATCH " + base + "/logoontherights/{id}", GetController().UpdateLogoOnTheRight)
+	mux.HandleFunc("PUT " + base + "/logoontherights/{id}", GetController().UpdateLogoOnTheRight)
+	mux.HandleFunc("DELETE " + base + "/logoontherights/{id}", GetController().DeleteLogoOnTheRight)
 
-		v1.GET("/v1/sliders", GetController().GetSliders)
-		v1.GET("/v1/sliders/:id", GetController().GetSlider)
-		v1.POST("/v1/sliders", GetController().PostSlider)
-		v1.PATCH("/v1/sliders/:id", GetController().UpdateSlider)
-		v1.PUT("/v1/sliders/:id", GetController().UpdateSlider)
-		v1.DELETE("/v1/sliders/:id", GetController().DeleteSlider)
+	mux.HandleFunc("GET " + base + "/markdowns", GetController().GetMarkdowns)
+	mux.HandleFunc("GET " + base + "/markdowns/{id}", GetController().GetMarkdown)
+	mux.HandleFunc("POST " + base + "/markdowns", GetController().PostMarkdown)
+	mux.HandleFunc("PATCH " + base + "/markdowns/{id}", GetController().UpdateMarkdown)
+	mux.HandleFunc("PUT " + base + "/markdowns/{id}", GetController().UpdateMarkdown)
+	mux.HandleFunc("DELETE " + base + "/markdowns/{id}", GetController().DeleteMarkdown)
 
-		v1.GET("/v1/splits", GetController().GetSplits)
-		v1.GET("/v1/splits/:id", GetController().GetSplit)
-		v1.POST("/v1/splits", GetController().PostSplit)
-		v1.PATCH("/v1/splits/:id", GetController().UpdateSplit)
-		v1.PUT("/v1/splits/:id", GetController().UpdateSplit)
-		v1.DELETE("/v1/splits/:id", GetController().DeleteSplit)
+	mux.HandleFunc("GET " + base + "/sliders", GetController().GetSliders)
+	mux.HandleFunc("GET " + base + "/sliders/{id}", GetController().GetSlider)
+	mux.HandleFunc("POST " + base + "/sliders", GetController().PostSlider)
+	mux.HandleFunc("PATCH " + base + "/sliders/{id}", GetController().UpdateSlider)
+	mux.HandleFunc("PUT " + base + "/sliders/{id}", GetController().UpdateSlider)
+	mux.HandleFunc("DELETE " + base + "/sliders/{id}", GetController().DeleteSlider)
 
-		v1.GET("/v1/svgs", GetController().GetSvgs)
-		v1.GET("/v1/svgs/:id", GetController().GetSvg)
-		v1.POST("/v1/svgs", GetController().PostSvg)
-		v1.PATCH("/v1/svgs/:id", GetController().UpdateSvg)
-		v1.PUT("/v1/svgs/:id", GetController().UpdateSvg)
-		v1.DELETE("/v1/svgs/:id", GetController().DeleteSvg)
+	mux.HandleFunc("GET " + base + "/splits", GetController().GetSplits)
+	mux.HandleFunc("GET " + base + "/splits/{id}", GetController().GetSplit)
+	mux.HandleFunc("POST " + base + "/splits", GetController().PostSplit)
+	mux.HandleFunc("PATCH " + base + "/splits/{id}", GetController().UpdateSplit)
+	mux.HandleFunc("PUT " + base + "/splits/{id}", GetController().UpdateSplit)
+	mux.HandleFunc("DELETE " + base + "/splits/{id}", GetController().DeleteSplit)
 
-		v1.GET("/v1/tables", GetController().GetTables)
-		v1.GET("/v1/tables/:id", GetController().GetTable)
-		v1.POST("/v1/tables", GetController().PostTable)
-		v1.PATCH("/v1/tables/:id", GetController().UpdateTable)
-		v1.PUT("/v1/tables/:id", GetController().UpdateTable)
-		v1.DELETE("/v1/tables/:id", GetController().DeleteTable)
+	mux.HandleFunc("GET " + base + "/svgs", GetController().GetSvgs)
+	mux.HandleFunc("GET " + base + "/svgs/{id}", GetController().GetSvg)
+	mux.HandleFunc("POST " + base + "/svgs", GetController().PostSvg)
+	mux.HandleFunc("PATCH " + base + "/svgs/{id}", GetController().UpdateSvg)
+	mux.HandleFunc("PUT " + base + "/svgs/{id}", GetController().UpdateSvg)
+	mux.HandleFunc("DELETE " + base + "/svgs/{id}", GetController().DeleteSvg)
 
-		v1.GET("/v1/threejss", GetController().GetThreejss)
-		v1.GET("/v1/threejss/:id", GetController().GetThreejs)
-		v1.POST("/v1/threejss", GetController().PostThreejs)
-		v1.PATCH("/v1/threejss/:id", GetController().UpdateThreejs)
-		v1.PUT("/v1/threejss/:id", GetController().UpdateThreejs)
-		v1.DELETE("/v1/threejss/:id", GetController().DeleteThreejs)
+	mux.HandleFunc("GET " + base + "/tables", GetController().GetTables)
+	mux.HandleFunc("GET " + base + "/tables/{id}", GetController().GetTable)
+	mux.HandleFunc("POST " + base + "/tables", GetController().PostTable)
+	mux.HandleFunc("PATCH " + base + "/tables/{id}", GetController().UpdateTable)
+	mux.HandleFunc("PUT " + base + "/tables/{id}", GetController().UpdateTable)
+	mux.HandleFunc("DELETE " + base + "/tables/{id}", GetController().DeleteTable)
 
-		v1.GET("/v1/titles", GetController().GetTitles)
-		v1.GET("/v1/titles/:id", GetController().GetTitle)
-		v1.POST("/v1/titles", GetController().PostTitle)
-		v1.PATCH("/v1/titles/:id", GetController().UpdateTitle)
-		v1.PUT("/v1/titles/:id", GetController().UpdateTitle)
-		v1.DELETE("/v1/titles/:id", GetController().DeleteTitle)
+	mux.HandleFunc("GET " + base + "/threejss", GetController().GetThreejss)
+	mux.HandleFunc("GET " + base + "/threejss/{id}", GetController().GetThreejs)
+	mux.HandleFunc("POST " + base + "/threejss", GetController().PostThreejs)
+	mux.HandleFunc("PATCH " + base + "/threejss/{id}", GetController().UpdateThreejs)
+	mux.HandleFunc("PUT " + base + "/threejss/{id}", GetController().UpdateThreejs)
+	mux.HandleFunc("DELETE " + base + "/threejss/{id}", GetController().DeleteThreejs)
 
-		v1.GET("/v1/tones", GetController().GetTones)
-		v1.GET("/v1/tones/:id", GetController().GetTone)
-		v1.POST("/v1/tones", GetController().PostTone)
-		v1.PATCH("/v1/tones/:id", GetController().UpdateTone)
-		v1.PUT("/v1/tones/:id", GetController().UpdateTone)
-		v1.DELETE("/v1/tones/:id", GetController().DeleteTone)
+	mux.HandleFunc("GET " + base + "/titles", GetController().GetTitles)
+	mux.HandleFunc("GET " + base + "/titles/{id}", GetController().GetTitle)
+	mux.HandleFunc("POST " + base + "/titles", GetController().PostTitle)
+	mux.HandleFunc("PATCH " + base + "/titles/{id}", GetController().UpdateTitle)
+	mux.HandleFunc("PUT " + base + "/titles/{id}", GetController().UpdateTitle)
+	mux.HandleFunc("DELETE " + base + "/titles/{id}", GetController().DeleteTitle)
 
-		v1.GET("/v1/trees", GetController().GetTrees)
-		v1.GET("/v1/trees/:id", GetController().GetTree)
-		v1.POST("/v1/trees", GetController().PostTree)
-		v1.PATCH("/v1/trees/:id", GetController().UpdateTree)
-		v1.PUT("/v1/trees/:id", GetController().UpdateTree)
-		v1.DELETE("/v1/trees/:id", GetController().DeleteTree)
+	mux.HandleFunc("GET " + base + "/tones", GetController().GetTones)
+	mux.HandleFunc("GET " + base + "/tones/{id}", GetController().GetTone)
+	mux.HandleFunc("POST " + base + "/tones", GetController().PostTone)
+	mux.HandleFunc("PATCH " + base + "/tones/{id}", GetController().UpdateTone)
+	mux.HandleFunc("PUT " + base + "/tones/{id}", GetController().UpdateTone)
+	mux.HandleFunc("DELETE " + base + "/tones/{id}", GetController().DeleteTone)
 
-		v1.GET("/v1/views", GetController().GetViews)
-		v1.GET("/v1/views/:id", GetController().GetView)
-		v1.POST("/v1/views", GetController().PostView)
-		v1.PATCH("/v1/views/:id", GetController().UpdateView)
-		v1.PUT("/v1/views/:id", GetController().UpdateView)
-		v1.DELETE("/v1/views/:id", GetController().DeleteView)
+	mux.HandleFunc("GET " + base + "/trees", GetController().GetTrees)
+	mux.HandleFunc("GET " + base + "/trees/{id}", GetController().GetTree)
+	mux.HandleFunc("POST " + base + "/trees", GetController().PostTree)
+	mux.HandleFunc("PATCH " + base + "/trees/{id}", GetController().UpdateTree)
+	mux.HandleFunc("PUT " + base + "/trees/{id}", GetController().UpdateTree)
+	mux.HandleFunc("DELETE " + base + "/trees/{id}", GetController().DeleteTree)
 
-		v1.GET("/v1/xlsxs", GetController().GetXlsxs)
-		v1.GET("/v1/xlsxs/:id", GetController().GetXlsx)
-		v1.POST("/v1/xlsxs", GetController().PostXlsx)
-		v1.PATCH("/v1/xlsxs/:id", GetController().UpdateXlsx)
-		v1.PUT("/v1/xlsxs/:id", GetController().UpdateXlsx)
-		v1.DELETE("/v1/xlsxs/:id", GetController().DeleteXlsx)
+	mux.HandleFunc("GET " + base + "/views", GetController().GetViews)
+	mux.HandleFunc("GET " + base + "/views/{id}", GetController().GetView)
+	mux.HandleFunc("POST " + base + "/views", GetController().PostView)
+	mux.HandleFunc("PATCH " + base + "/views/{id}", GetController().UpdateView)
+	mux.HandleFunc("PUT " + base + "/views/{id}", GetController().UpdateView)
+	mux.HandleFunc("DELETE " + base + "/views/{id}", GetController().DeleteView)
 
-		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/xlsxs", GetController().GetXlsxs)
+	mux.HandleFunc("GET " + base + "/xlsxs/{id}", GetController().GetXlsx)
+	mux.HandleFunc("POST " + base + "/xlsxs", GetController().PostXlsx)
+	mux.HandleFunc("PATCH " + base + "/xlsxs/{id}", GetController().UpdateXlsx)
+	mux.HandleFunc("PUT " + base + "/xlsxs/{id}", GetController().UpdateXlsx)
+	mux.HandleFunc("DELETE " + base + "/xlsxs/{id}", GetController().DeleteXlsx)
 
-		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
-
-		v1.GET("/v1/stacks", GetController().stacks)
-	}
+	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+	mux.HandleFunc("GET " + base + "/stacks", GetController().stacks)
 }
 
-func (controller *Controller) stacks(c *gin.Context) {
+func (controller *Controller) stacks(w http.ResponseWriter, r *http.Request) {
 
 	var res []string
 
@@ -213,7 +208,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 		res = append(res, k)
 	}
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -223,7 +218,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it subscribe to the backend commit number broadcaster
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
-func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
+func (controller *Controller) onWebSocketRequestForBackRepoContent(w http.ResponseWriter, r *http.Request) {
 
 	// log.Println("Stack github.com/fullstack-lang/gong/lib/split/go, onWebSocketRequestForBackRepoContent")
 
@@ -245,7 +240,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		},
 	}
 
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	wsConnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -253,10 +248,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	defer wsConnection.Close()
 
 	// Create a context that is canceled when the connection is closed
-	ctx, cancel := context.WithCancel(c.Request.Context())
+	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	values := c.Request.URL.Query()
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -437,8 +432,8 @@ func formatBytes(size int) string {
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastCommitFromBackNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -460,12 +455,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastCommitFromBackNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastPushFromFrontNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -487,5 +482,5 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastPushFromFrontNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }

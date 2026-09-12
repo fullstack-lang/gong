@@ -69,6 +69,9 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 		case "MardownContent":
 			FormDivBasicFieldToField(&(chapter_.MardownContent), formDiv)
 		case "Sections":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Section](chapterFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Section, 0)
 
@@ -101,6 +104,9 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			chapterFormCallback.probe.UpdateSliceOfPointersCallback(chapter_, "Sections", &chapter_.Sections)
 
 		case "Pages":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Page](chapterFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Page, 0)
 
@@ -133,6 +139,9 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			chapterFormCallback.probe.UpdateSliceOfPointersCallback(chapter_, "Pages", &chapter_.Pages)
 
 		case "SubChapters":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](chapterFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Chapter, 0)
 
@@ -165,6 +174,9 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			chapterFormCallback.probe.UpdateSliceOfPointersCallback(chapter_, "SubChapters", &chapter_.SubChapters)
 
 		case "Chapter:SubChapters":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Chapter instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -210,6 +222,9 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 				}
 			}
 		case "Content:Chapters":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Content instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -353,6 +368,9 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 		case "Target":
 			FormDivEnumStringFieldToField(&(content_.Target), formDiv)
 		case "Chapters":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](contentFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Chapter, 0)
 
@@ -627,6 +645,9 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 		case "MardownContent":
 			FormDivBasicFieldToField(&(page_.MardownContent), formDiv)
 		case "Sections":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Section](pageFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Section, 0)
 
@@ -659,6 +680,9 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 			pageFormCallback.probe.UpdateSliceOfPointersCallback(page_, "Sections", &page_.Sections)
 
 		case "Chapter:Pages":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Chapter instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -876,6 +900,9 @@ func (sectionFormCallback *SectionFormCallback) OnSave() {
 		case "DownloadableFile":
 			FormDivSelectFieldToField(&(section_.DownloadableFile), sectionFormCallback.probe.stageOfInterest, formDiv)
 		case "Chapter:Sections":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Chapter instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -921,6 +948,9 @@ func (sectionFormCallback *SectionFormCallback) OnSave() {
 				}
 			}
 		case "Page:Sections":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Page instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

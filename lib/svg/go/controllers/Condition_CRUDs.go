@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type ConditionInput struct {
 // default: genericError
 //
 //	200: conditionDBResponse
-func (controller *Controller) GetConditions(c *gin.Context) {
+func (controller *Controller) GetConditions(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var conditionDBs []orm.ConditionDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetConditions(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetConditions(c *gin.Context) {
 		conditionAPIs = append(conditionAPIs, conditionAPI)
 	}
 
-	c.JSON(http.StatusOK, conditionAPIs)
+	writeJSON(w, http.StatusOK, conditionAPIs)
 }
 
 // PostCondition
@@ -122,12 +121,12 @@ func (controller *Controller) GetConditions(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCondition(c *gin.Context) {
+func (controller *Controller) PostCondition(w http.ResponseWriter, r *http.Request) {
 
 	mutexCondition.Lock()
 	defer mutexCondition.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCondition(c *gin.Context) {
 	// Validate input
 	var input orm.ConditionAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCondition(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCondition(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, conditionDB)
+	writeJSON(w, http.StatusOK, conditionDB)
 }
 
 // GetCondition
@@ -202,9 +201,9 @@ func (controller *Controller) PostCondition(c *gin.Context) {
 // default: genericError
 //
 //	200: conditionDBResponse
-func (controller *Controller) GetCondition(c *gin.Context) {
+func (controller *Controller) GetCondition(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCondition(c *gin.Context) {
 
 	// Get conditionDB in DB
 	var conditionDB orm.ConditionDB
-	if _, err := db.First(&conditionDB, c.Param("id")); err != nil {
+	if _, err := db.First(&conditionDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCondition(c *gin.Context) {
 	conditionAPI.ConditionPointersEncoding = conditionDB.ConditionPointersEncoding
 	conditionDB.CopyBasicFieldsToCondition_WOP(&conditionAPI.Condition_WOP)
 
-	c.JSON(http.StatusOK, conditionAPI)
+	writeJSON(w, http.StatusOK, conditionAPI)
 }
 
 // UpdateCondition
@@ -255,12 +254,12 @@ func (controller *Controller) GetCondition(c *gin.Context) {
 // default: genericError
 //
 //	200: conditionDBResponse
-func (controller *Controller) UpdateCondition(c *gin.Context) {
+func (controller *Controller) UpdateCondition(w http.ResponseWriter, r *http.Request) {
 
 	mutexCondition.Lock()
 	defer mutexCondition.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCondition(c *gin.Context) {
 
 	// Validate input
 	var input orm.ConditionAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCondition(c *gin.Context) {
 	var conditionDB orm.ConditionDB
 
 	// fetch the condition
-	_, err := db.First(&conditionDB, c.Param("id"))
+	_, err := db.First(&conditionDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCondition(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCondition(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the conditionDB
-	c.JSON(http.StatusOK, conditionDB)
+	writeJSON(w, http.StatusOK, conditionDB)
 }
 
 // DeleteCondition
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCondition(c *gin.Context) {
 // default: genericError
 //
 //	200: conditionDBResponse
-func (controller *Controller) DeleteCondition(c *gin.Context) {
+func (controller *Controller) DeleteCondition(w http.ResponseWriter, r *http.Request) {
 
 	mutexCondition.Lock()
 	defer mutexCondition.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCondition(c *gin.Context) {
 
 	// Get model if exist
 	var conditionDB orm.ConditionDB
-	if _, err := db.First(&conditionDB, c.Param("id")); err != nil {
+	if _, err := db.First(&conditionDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCondition(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

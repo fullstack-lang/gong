@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type PathInput struct {
 // default: genericError
 //
 //	200: pathDBResponse
-func (controller *Controller) GetPaths(c *gin.Context) {
+func (controller *Controller) GetPaths(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var pathDBs []orm.PathDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 		pathAPIs = append(pathAPIs, pathAPI)
 	}
 
-	c.JSON(http.StatusOK, pathAPIs)
+	writeJSON(w, http.StatusOK, pathAPIs)
 }
 
 // PostPath
@@ -122,12 +121,12 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostPath(c *gin.Context) {
+func (controller *Controller) PostPath(w http.ResponseWriter, r *http.Request) {
 
 	mutexPath.Lock()
 	defer mutexPath.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostPath(c *gin.Context) {
 	// Validate input
 	var input orm.PathAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostPath(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostPath(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, pathDB)
+	writeJSON(w, http.StatusOK, pathDB)
 }
 
 // GetPath
@@ -202,9 +201,9 @@ func (controller *Controller) PostPath(c *gin.Context) {
 // default: genericError
 //
 //	200: pathDBResponse
-func (controller *Controller) GetPath(c *gin.Context) {
+func (controller *Controller) GetPath(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetPath(c *gin.Context) {
 
 	// Get pathDB in DB
 	var pathDB orm.PathDB
-	if _, err := db.First(&pathDB, c.Param("id")); err != nil {
+	if _, err := db.First(&pathDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetPath(c *gin.Context) {
 	pathAPI.PathPointersEncoding = pathDB.PathPointersEncoding
 	pathDB.CopyBasicFieldsToPath_WOP(&pathAPI.Path_WOP)
 
-	c.JSON(http.StatusOK, pathAPI)
+	writeJSON(w, http.StatusOK, pathAPI)
 }
 
 // UpdatePath
@@ -255,12 +254,12 @@ func (controller *Controller) GetPath(c *gin.Context) {
 // default: genericError
 //
 //	200: pathDBResponse
-func (controller *Controller) UpdatePath(c *gin.Context) {
+func (controller *Controller) UpdatePath(w http.ResponseWriter, r *http.Request) {
 
 	mutexPath.Lock()
 	defer mutexPath.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 
 	// Validate input
 	var input orm.PathAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	var pathDB orm.PathDB
 
 	// fetch the path
-	_, err := db.First(&pathDB, c.Param("id"))
+	_, err := db.First(&pathDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the pathDB
-	c.JSON(http.StatusOK, pathDB)
+	writeJSON(w, http.StatusOK, pathDB)
 }
 
 // DeletePath
@@ -352,12 +351,12 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 // default: genericError
 //
 //	200: pathDBResponse
-func (controller *Controller) DeletePath(c *gin.Context) {
+func (controller *Controller) DeletePath(w http.ResponseWriter, r *http.Request) {
 
 	mutexPath.Lock()
 	defer mutexPath.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 
 	// Get model if exist
 	var pathDB orm.PathDB
-	if _, err := db.First(&pathDB, c.Param("id")); err != nil {
+	if _, err := db.First(&pathDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

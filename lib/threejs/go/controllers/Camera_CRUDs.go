@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CameraInput struct {
 // default: genericError
 //
 //	200: cameraDBResponse
-func (controller *Controller) GetCameras(c *gin.Context) {
+func (controller *Controller) GetCameras(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var cameraDBs []orm.CameraDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCameras(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCameras(c *gin.Context) {
 		cameraAPIs = append(cameraAPIs, cameraAPI)
 	}
 
-	c.JSON(http.StatusOK, cameraAPIs)
+	writeJSON(w, http.StatusOK, cameraAPIs)
 }
 
 // PostCamera
@@ -122,12 +121,12 @@ func (controller *Controller) GetCameras(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCamera(c *gin.Context) {
+func (controller *Controller) PostCamera(w http.ResponseWriter, r *http.Request) {
 
 	mutexCamera.Lock()
 	defer mutexCamera.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCamera(c *gin.Context) {
 	// Validate input
 	var input orm.CameraAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCamera(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCamera(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, cameraDB)
+	writeJSON(w, http.StatusOK, cameraDB)
 }
 
 // GetCamera
@@ -202,9 +201,9 @@ func (controller *Controller) PostCamera(c *gin.Context) {
 // default: genericError
 //
 //	200: cameraDBResponse
-func (controller *Controller) GetCamera(c *gin.Context) {
+func (controller *Controller) GetCamera(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCamera(c *gin.Context) {
 
 	// Get cameraDB in DB
 	var cameraDB orm.CameraDB
-	if _, err := db.First(&cameraDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cameraDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCamera(c *gin.Context) {
 	cameraAPI.CameraPointersEncoding = cameraDB.CameraPointersEncoding
 	cameraDB.CopyBasicFieldsToCamera_WOP(&cameraAPI.Camera_WOP)
 
-	c.JSON(http.StatusOK, cameraAPI)
+	writeJSON(w, http.StatusOK, cameraAPI)
 }
 
 // UpdateCamera
@@ -255,12 +254,12 @@ func (controller *Controller) GetCamera(c *gin.Context) {
 // default: genericError
 //
 //	200: cameraDBResponse
-func (controller *Controller) UpdateCamera(c *gin.Context) {
+func (controller *Controller) UpdateCamera(w http.ResponseWriter, r *http.Request) {
 
 	mutexCamera.Lock()
 	defer mutexCamera.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCamera(c *gin.Context) {
 
 	// Validate input
 	var input orm.CameraAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCamera(c *gin.Context) {
 	var cameraDB orm.CameraDB
 
 	// fetch the camera
-	_, err := db.First(&cameraDB, c.Param("id"))
+	_, err := db.First(&cameraDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCamera(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCamera(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the cameraDB
-	c.JSON(http.StatusOK, cameraDB)
+	writeJSON(w, http.StatusOK, cameraDB)
 }
 
 // DeleteCamera
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCamera(c *gin.Context) {
 // default: genericError
 //
 //	200: cameraDBResponse
-func (controller *Controller) DeleteCamera(c *gin.Context) {
+func (controller *Controller) DeleteCamera(w http.ResponseWriter, r *http.Request) {
 
 	mutexCamera.Lock()
 	defer mutexCamera.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCamera(c *gin.Context) {
 
 	// Get model if exist
 	var cameraDB orm.CameraDB
-	if _, err := db.First(&cameraDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cameraDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCamera(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

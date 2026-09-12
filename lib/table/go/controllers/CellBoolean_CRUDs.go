@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 	"github.com/fullstack-lang/gong/lib/table/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CellBooleanInput struct {
 // default: genericError
 //
 //	200: cellbooleanDBResponse
-func (controller *Controller) GetCellBooleans(c *gin.Context) {
+func (controller *Controller) GetCellBooleans(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var cellbooleanDBs []orm.CellBooleanDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCellBooleans(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCellBooleans(c *gin.Context) {
 		cellbooleanAPIs = append(cellbooleanAPIs, cellbooleanAPI)
 	}
 
-	c.JSON(http.StatusOK, cellbooleanAPIs)
+	writeJSON(w, http.StatusOK, cellbooleanAPIs)
 }
 
 // PostCellBoolean
@@ -122,12 +121,12 @@ func (controller *Controller) GetCellBooleans(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCellBoolean(c *gin.Context) {
+func (controller *Controller) PostCellBoolean(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellBoolean.Lock()
 	defer mutexCellBoolean.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCellBoolean(c *gin.Context) {
 	// Validate input
 	var input orm.CellBooleanAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCellBoolean(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCellBoolean(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, cellbooleanDB)
+	writeJSON(w, http.StatusOK, cellbooleanDB)
 }
 
 // GetCellBoolean
@@ -202,9 +201,9 @@ func (controller *Controller) PostCellBoolean(c *gin.Context) {
 // default: genericError
 //
 //	200: cellbooleanDBResponse
-func (controller *Controller) GetCellBoolean(c *gin.Context) {
+func (controller *Controller) GetCellBoolean(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCellBoolean(c *gin.Context) {
 
 	// Get cellbooleanDB in DB
 	var cellbooleanDB orm.CellBooleanDB
-	if _, err := db.First(&cellbooleanDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cellbooleanDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCellBoolean(c *gin.Context) {
 	cellbooleanAPI.CellBooleanPointersEncoding = cellbooleanDB.CellBooleanPointersEncoding
 	cellbooleanDB.CopyBasicFieldsToCellBoolean_WOP(&cellbooleanAPI.CellBoolean_WOP)
 
-	c.JSON(http.StatusOK, cellbooleanAPI)
+	writeJSON(w, http.StatusOK, cellbooleanAPI)
 }
 
 // UpdateCellBoolean
@@ -255,12 +254,12 @@ func (controller *Controller) GetCellBoolean(c *gin.Context) {
 // default: genericError
 //
 //	200: cellbooleanDBResponse
-func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
+func (controller *Controller) UpdateCellBoolean(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellBoolean.Lock()
 	defer mutexCellBoolean.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 
 	// Validate input
 	var input orm.CellBooleanAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 	var cellbooleanDB orm.CellBooleanDB
 
 	// fetch the cellboolean
-	_, err := db.First(&cellbooleanDB, c.Param("id"))
+	_, err := db.First(&cellbooleanDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the cellbooleanDB
-	c.JSON(http.StatusOK, cellbooleanDB)
+	writeJSON(w, http.StatusOK, cellbooleanDB)
 }
 
 // DeleteCellBoolean
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 // default: genericError
 //
 //	200: cellbooleanDBResponse
-func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
+func (controller *Controller) DeleteCellBoolean(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellBoolean.Lock()
 	defer mutexCellBoolean.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
 
 	// Get model if exist
 	var cellbooleanDB orm.CellBooleanDB
-	if _, err := db.First(&cellbooleanDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cellbooleanDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

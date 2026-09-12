@@ -5,9 +5,8 @@ package models
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"time"
-
-	"github.com/gin-gonic/gin"
 
 	gong "github.com/fullstack-lang/gong/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
@@ -40,7 +39,7 @@ type Stager struct {
 }
 
 func NewStager(
-	r *gin.Engine,
+	r *http.ServeMux,
 	receivingAsSplitArea *split.AsSplitArea,
 	stage *Stage,
 	treeStage *tree.Stage,

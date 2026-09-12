@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 	"github.com/fullstack-lang/gong/lib/table/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type DisplayedColumnInput struct {
 // default: genericError
 //
 //	200: displayedcolumnDBResponse
-func (controller *Controller) GetDisplayedColumns(c *gin.Context) {
+func (controller *Controller) GetDisplayedColumns(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var displayedcolumnDBs []orm.DisplayedColumnDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetDisplayedColumns(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetDisplayedColumns(c *gin.Context) {
 		displayedcolumnAPIs = append(displayedcolumnAPIs, displayedcolumnAPI)
 	}
 
-	c.JSON(http.StatusOK, displayedcolumnAPIs)
+	writeJSON(w, http.StatusOK, displayedcolumnAPIs)
 }
 
 // PostDisplayedColumn
@@ -122,12 +121,12 @@ func (controller *Controller) GetDisplayedColumns(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
+func (controller *Controller) PostDisplayedColumn(w http.ResponseWriter, r *http.Request) {
 
 	mutexDisplayedColumn.Lock()
 	defer mutexDisplayedColumn.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 	// Validate input
 	var input orm.DisplayedColumnAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, displayedcolumnDB)
+	writeJSON(w, http.StatusOK, displayedcolumnDB)
 }
 
 // GetDisplayedColumn
@@ -202,9 +201,9 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 // default: genericError
 //
 //	200: displayedcolumnDBResponse
-func (controller *Controller) GetDisplayedColumn(c *gin.Context) {
+func (controller *Controller) GetDisplayedColumn(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetDisplayedColumn(c *gin.Context) {
 
 	// Get displayedcolumnDB in DB
 	var displayedcolumnDB orm.DisplayedColumnDB
-	if _, err := db.First(&displayedcolumnDB, c.Param("id")); err != nil {
+	if _, err := db.First(&displayedcolumnDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetDisplayedColumn(c *gin.Context) {
 	displayedcolumnAPI.DisplayedColumnPointersEncoding = displayedcolumnDB.DisplayedColumnPointersEncoding
 	displayedcolumnDB.CopyBasicFieldsToDisplayedColumn_WOP(&displayedcolumnAPI.DisplayedColumn_WOP)
 
-	c.JSON(http.StatusOK, displayedcolumnAPI)
+	writeJSON(w, http.StatusOK, displayedcolumnAPI)
 }
 
 // UpdateDisplayedColumn
@@ -255,12 +254,12 @@ func (controller *Controller) GetDisplayedColumn(c *gin.Context) {
 // default: genericError
 //
 //	200: displayedcolumnDBResponse
-func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
+func (controller *Controller) UpdateDisplayedColumn(w http.ResponseWriter, r *http.Request) {
 
 	mutexDisplayedColumn.Lock()
 	defer mutexDisplayedColumn.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 
 	// Validate input
 	var input orm.DisplayedColumnAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 	var displayedcolumnDB orm.DisplayedColumnDB
 
 	// fetch the displayedcolumn
-	_, err := db.First(&displayedcolumnDB, c.Param("id"))
+	_, err := db.First(&displayedcolumnDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the displayedcolumnDB
-	c.JSON(http.StatusOK, displayedcolumnDB)
+	writeJSON(w, http.StatusOK, displayedcolumnDB)
 }
 
 // DeleteDisplayedColumn
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 // default: genericError
 //
 //	200: displayedcolumnDBResponse
-func (controller *Controller) DeleteDisplayedColumn(c *gin.Context) {
+func (controller *Controller) DeleteDisplayedColumn(w http.ResponseWriter, r *http.Request) {
 
 	mutexDisplayedColumn.Lock()
 	defer mutexDisplayedColumn.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteDisplayedColumn(c *gin.Context) {
 
 	// Get model if exist
 	var displayedcolumnDB orm.DisplayedColumnDB
-	if _, err := db.First(&displayedcolumnDB, c.Param("id")); err != nil {
+	if _, err := db.First(&displayedcolumnDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteDisplayedColumn(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

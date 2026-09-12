@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type LinkAnchoredPathInput struct {
 // default: genericError
 //
 //	200: linkanchoredpathDBResponse
-func (controller *Controller) GetLinkAnchoredPaths(c *gin.Context) {
+func (controller *Controller) GetLinkAnchoredPaths(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var linkanchoredpathDBs []orm.LinkAnchoredPathDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetLinkAnchoredPaths(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetLinkAnchoredPaths(c *gin.Context) {
 		linkanchoredpathAPIs = append(linkanchoredpathAPIs, linkanchoredpathAPI)
 	}
 
-	c.JSON(http.StatusOK, linkanchoredpathAPIs)
+	writeJSON(w, http.StatusOK, linkanchoredpathAPIs)
 }
 
 // PostLinkAnchoredPath
@@ -122,12 +121,12 @@ func (controller *Controller) GetLinkAnchoredPaths(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostLinkAnchoredPath(c *gin.Context) {
+func (controller *Controller) PostLinkAnchoredPath(w http.ResponseWriter, r *http.Request) {
 
 	mutexLinkAnchoredPath.Lock()
 	defer mutexLinkAnchoredPath.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostLinkAnchoredPath(c *gin.Context) {
 	// Validate input
 	var input orm.LinkAnchoredPathAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostLinkAnchoredPath(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostLinkAnchoredPath(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, linkanchoredpathDB)
+	writeJSON(w, http.StatusOK, linkanchoredpathDB)
 }
 
 // GetLinkAnchoredPath
@@ -202,9 +201,9 @@ func (controller *Controller) PostLinkAnchoredPath(c *gin.Context) {
 // default: genericError
 //
 //	200: linkanchoredpathDBResponse
-func (controller *Controller) GetLinkAnchoredPath(c *gin.Context) {
+func (controller *Controller) GetLinkAnchoredPath(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetLinkAnchoredPath(c *gin.Context) {
 
 	// Get linkanchoredpathDB in DB
 	var linkanchoredpathDB orm.LinkAnchoredPathDB
-	if _, err := db.First(&linkanchoredpathDB, c.Param("id")); err != nil {
+	if _, err := db.First(&linkanchoredpathDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetLinkAnchoredPath(c *gin.Context) {
 	linkanchoredpathAPI.LinkAnchoredPathPointersEncoding = linkanchoredpathDB.LinkAnchoredPathPointersEncoding
 	linkanchoredpathDB.CopyBasicFieldsToLinkAnchoredPath_WOP(&linkanchoredpathAPI.LinkAnchoredPath_WOP)
 
-	c.JSON(http.StatusOK, linkanchoredpathAPI)
+	writeJSON(w, http.StatusOK, linkanchoredpathAPI)
 }
 
 // UpdateLinkAnchoredPath
@@ -255,12 +254,12 @@ func (controller *Controller) GetLinkAnchoredPath(c *gin.Context) {
 // default: genericError
 //
 //	200: linkanchoredpathDBResponse
-func (controller *Controller) UpdateLinkAnchoredPath(c *gin.Context) {
+func (controller *Controller) UpdateLinkAnchoredPath(w http.ResponseWriter, r *http.Request) {
 
 	mutexLinkAnchoredPath.Lock()
 	defer mutexLinkAnchoredPath.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateLinkAnchoredPath(c *gin.Context) {
 
 	// Validate input
 	var input orm.LinkAnchoredPathAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateLinkAnchoredPath(c *gin.Context) {
 	var linkanchoredpathDB orm.LinkAnchoredPathDB
 
 	// fetch the linkanchoredpath
-	_, err := db.First(&linkanchoredpathDB, c.Param("id"))
+	_, err := db.First(&linkanchoredpathDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateLinkAnchoredPath(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateLinkAnchoredPath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the linkanchoredpathDB
-	c.JSON(http.StatusOK, linkanchoredpathDB)
+	writeJSON(w, http.StatusOK, linkanchoredpathDB)
 }
 
 // DeleteLinkAnchoredPath
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateLinkAnchoredPath(c *gin.Context) {
 // default: genericError
 //
 //	200: linkanchoredpathDBResponse
-func (controller *Controller) DeleteLinkAnchoredPath(c *gin.Context) {
+func (controller *Controller) DeleteLinkAnchoredPath(w http.ResponseWriter, r *http.Request) {
 
 	mutexLinkAnchoredPath.Lock()
 	defer mutexLinkAnchoredPath.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteLinkAnchoredPath(c *gin.Context) {
 
 	// Get model if exist
 	var linkanchoredpathDB orm.LinkAnchoredPathDB
-	if _, err := db.First(&linkanchoredpathDB, c.Param("id")); err != nil {
+	if _, err := db.First(&linkanchoredpathDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteLinkAnchoredPath(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

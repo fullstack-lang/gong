@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type SplitInput struct {
 // default: genericError
 //
 //	200: splitDBResponse
-func (controller *Controller) GetSplits(c *gin.Context) {
+func (controller *Controller) GetSplits(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var splitDBs []orm.SplitDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetSplits(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetSplits(c *gin.Context) {
 		splitAPIs = append(splitAPIs, splitAPI)
 	}
 
-	c.JSON(http.StatusOK, splitAPIs)
+	writeJSON(w, http.StatusOK, splitAPIs)
 }
 
 // PostSplit
@@ -122,12 +121,12 @@ func (controller *Controller) GetSplits(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostSplit(c *gin.Context) {
+func (controller *Controller) PostSplit(w http.ResponseWriter, r *http.Request) {
 
 	mutexSplit.Lock()
 	defer mutexSplit.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostSplit(c *gin.Context) {
 	// Validate input
 	var input orm.SplitAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostSplit(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostSplit(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, splitDB)
+	writeJSON(w, http.StatusOK, splitDB)
 }
 
 // GetSplit
@@ -202,9 +201,9 @@ func (controller *Controller) PostSplit(c *gin.Context) {
 // default: genericError
 //
 //	200: splitDBResponse
-func (controller *Controller) GetSplit(c *gin.Context) {
+func (controller *Controller) GetSplit(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetSplit(c *gin.Context) {
 
 	// Get splitDB in DB
 	var splitDB orm.SplitDB
-	if _, err := db.First(&splitDB, c.Param("id")); err != nil {
+	if _, err := db.First(&splitDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetSplit(c *gin.Context) {
 	splitAPI.SplitPointersEncoding = splitDB.SplitPointersEncoding
 	splitDB.CopyBasicFieldsToSplit_WOP(&splitAPI.Split_WOP)
 
-	c.JSON(http.StatusOK, splitAPI)
+	writeJSON(w, http.StatusOK, splitAPI)
 }
 
 // UpdateSplit
@@ -255,12 +254,12 @@ func (controller *Controller) GetSplit(c *gin.Context) {
 // default: genericError
 //
 //	200: splitDBResponse
-func (controller *Controller) UpdateSplit(c *gin.Context) {
+func (controller *Controller) UpdateSplit(w http.ResponseWriter, r *http.Request) {
 
 	mutexSplit.Lock()
 	defer mutexSplit.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateSplit(c *gin.Context) {
 
 	// Validate input
 	var input orm.SplitAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateSplit(c *gin.Context) {
 	var splitDB orm.SplitDB
 
 	// fetch the split
-	_, err := db.First(&splitDB, c.Param("id"))
+	_, err := db.First(&splitDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateSplit(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateSplit(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the splitDB
-	c.JSON(http.StatusOK, splitDB)
+	writeJSON(w, http.StatusOK, splitDB)
 }
 
 // DeleteSplit
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateSplit(c *gin.Context) {
 // default: genericError
 //
 //	200: splitDBResponse
-func (controller *Controller) DeleteSplit(c *gin.Context) {
+func (controller *Controller) DeleteSplit(w http.ResponseWriter, r *http.Request) {
 
 	mutexSplit.Lock()
 	defer mutexSplit.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteSplit(c *gin.Context) {
 
 	// Get model if exist
 	var splitDB orm.SplitDB
-	if _, err := db.First(&splitDB, c.Param("id")); err != nil {
+	if _, err := db.First(&splitDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteSplit(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

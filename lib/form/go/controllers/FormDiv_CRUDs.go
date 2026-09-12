@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormDivInput struct {
 // default: genericError
 //
 //	200: formdivDBResponse
-func (controller *Controller) GetFormDivs(c *gin.Context) {
+func (controller *Controller) GetFormDivs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formdivDBs []orm.FormDivDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormDivs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormDivs(c *gin.Context) {
 		formdivAPIs = append(formdivAPIs, formdivAPI)
 	}
 
-	c.JSON(http.StatusOK, formdivAPIs)
+	writeJSON(w, http.StatusOK, formdivAPIs)
 }
 
 // PostFormDiv
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormDivs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormDiv(c *gin.Context) {
+func (controller *Controller) PostFormDiv(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormDiv.Lock()
 	defer mutexFormDiv.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 	// Validate input
 	var input orm.FormDivAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formdivDB)
+	writeJSON(w, http.StatusOK, formdivDB)
 }
 
 // GetFormDiv
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 // default: genericError
 //
 //	200: formdivDBResponse
-func (controller *Controller) GetFormDiv(c *gin.Context) {
+func (controller *Controller) GetFormDiv(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormDiv(c *gin.Context) {
 
 	// Get formdivDB in DB
 	var formdivDB orm.FormDivDB
-	if _, err := db.First(&formdivDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formdivDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormDiv(c *gin.Context) {
 	formdivAPI.FormDivPointersEncoding = formdivDB.FormDivPointersEncoding
 	formdivDB.CopyBasicFieldsToFormDiv_WOP(&formdivAPI.FormDiv_WOP)
 
-	c.JSON(http.StatusOK, formdivAPI)
+	writeJSON(w, http.StatusOK, formdivAPI)
 }
 
 // UpdateFormDiv
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormDiv(c *gin.Context) {
 // default: genericError
 //
 //	200: formdivDBResponse
-func (controller *Controller) UpdateFormDiv(c *gin.Context) {
+func (controller *Controller) UpdateFormDiv(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormDiv.Lock()
 	defer mutexFormDiv.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormDivAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	var formdivDB orm.FormDivDB
 
 	// fetch the formdiv
-	_, err := db.First(&formdivDB, c.Param("id"))
+	_, err := db.First(&formdivDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formdivDB
-	c.JSON(http.StatusOK, formdivDB)
+	writeJSON(w, http.StatusOK, formdivDB)
 }
 
 // DeleteFormDiv
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 // default: genericError
 //
 //	200: formdivDBResponse
-func (controller *Controller) DeleteFormDiv(c *gin.Context) {
+func (controller *Controller) DeleteFormDiv(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormDiv.Lock()
 	defer mutexFormDiv.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 
 	// Get model if exist
 	var formdivDB orm.FormDivDB
-	if _, err := db.First(&formdivDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formdivDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

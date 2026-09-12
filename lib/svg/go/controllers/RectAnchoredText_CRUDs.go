@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type RectAnchoredTextInput struct {
 // default: genericError
 //
 //	200: rectanchoredtextDBResponse
-func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
+func (controller *Controller) GetRectAnchoredTexts(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var rectanchoredtextDBs []orm.RectAnchoredTextDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 		rectanchoredtextAPIs = append(rectanchoredtextAPIs, rectanchoredtextAPI)
 	}
 
-	c.JSON(http.StatusOK, rectanchoredtextAPIs)
+	writeJSON(w, http.StatusOK, rectanchoredtextAPIs)
 }
 
 // PostRectAnchoredText
@@ -122,12 +121,12 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
+func (controller *Controller) PostRectAnchoredText(w http.ResponseWriter, r *http.Request) {
 
 	mutexRectAnchoredText.Lock()
 	defer mutexRectAnchoredText.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 	// Validate input
 	var input orm.RectAnchoredTextAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, rectanchoredtextDB)
+	writeJSON(w, http.StatusOK, rectanchoredtextDB)
 }
 
 // GetRectAnchoredText
@@ -202,9 +201,9 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 // default: genericError
 //
 //	200: rectanchoredtextDBResponse
-func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
+func (controller *Controller) GetRectAnchoredText(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 
 	// Get rectanchoredtextDB in DB
 	var rectanchoredtextDB orm.RectAnchoredTextDB
-	if _, err := db.First(&rectanchoredtextDB, c.Param("id")); err != nil {
+	if _, err := db.First(&rectanchoredtextDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 	rectanchoredtextAPI.RectAnchoredTextPointersEncoding = rectanchoredtextDB.RectAnchoredTextPointersEncoding
 	rectanchoredtextDB.CopyBasicFieldsToRectAnchoredText_WOP(&rectanchoredtextAPI.RectAnchoredText_WOP)
 
-	c.JSON(http.StatusOK, rectanchoredtextAPI)
+	writeJSON(w, http.StatusOK, rectanchoredtextAPI)
 }
 
 // UpdateRectAnchoredText
@@ -255,12 +254,12 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 // default: genericError
 //
 //	200: rectanchoredtextDBResponse
-func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
+func (controller *Controller) UpdateRectAnchoredText(w http.ResponseWriter, r *http.Request) {
 
 	mutexRectAnchoredText.Lock()
 	defer mutexRectAnchoredText.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 
 	// Validate input
 	var input orm.RectAnchoredTextAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	var rectanchoredtextDB orm.RectAnchoredTextDB
 
 	// fetch the rectanchoredtext
-	_, err := db.First(&rectanchoredtextDB, c.Param("id"))
+	_, err := db.First(&rectanchoredtextDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the rectanchoredtextDB
-	c.JSON(http.StatusOK, rectanchoredtextDB)
+	writeJSON(w, http.StatusOK, rectanchoredtextDB)
 }
 
 // DeleteRectAnchoredText
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 // default: genericError
 //
 //	200: rectanchoredtextDBResponse
-func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
+func (controller *Controller) DeleteRectAnchoredText(w http.ResponseWriter, r *http.Request) {
 
 	mutexRectAnchoredText.Lock()
 	defer mutexRectAnchoredText.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 
 	// Get model if exist
 	var rectanchoredtextDB orm.RectAnchoredTextDB
-	if _, err := db.First(&rectanchoredtextDB, c.Param("id")); err != nil {
+	if _, err := db.First(&rectanchoredtextDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

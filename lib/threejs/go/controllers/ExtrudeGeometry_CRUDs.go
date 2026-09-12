@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type ExtrudeGeometryInput struct {
 // default: genericError
 //
 //	200: extrudegeometryDBResponse
-func (controller *Controller) GetExtrudeGeometrys(c *gin.Context) {
+func (controller *Controller) GetExtrudeGeometrys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var extrudegeometryDBs []orm.ExtrudeGeometryDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetExtrudeGeometrys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetExtrudeGeometrys(c *gin.Context) {
 		extrudegeometryAPIs = append(extrudegeometryAPIs, extrudegeometryAPI)
 	}
 
-	c.JSON(http.StatusOK, extrudegeometryAPIs)
+	writeJSON(w, http.StatusOK, extrudegeometryAPIs)
 }
 
 // PostExtrudeGeometry
@@ -122,12 +121,12 @@ func (controller *Controller) GetExtrudeGeometrys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostExtrudeGeometry(c *gin.Context) {
+func (controller *Controller) PostExtrudeGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexExtrudeGeometry.Lock()
 	defer mutexExtrudeGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostExtrudeGeometry(c *gin.Context) {
 	// Validate input
 	var input orm.ExtrudeGeometryAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostExtrudeGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostExtrudeGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, extrudegeometryDB)
+	writeJSON(w, http.StatusOK, extrudegeometryDB)
 }
 
 // GetExtrudeGeometry
@@ -202,9 +201,9 @@ func (controller *Controller) PostExtrudeGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: extrudegeometryDBResponse
-func (controller *Controller) GetExtrudeGeometry(c *gin.Context) {
+func (controller *Controller) GetExtrudeGeometry(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetExtrudeGeometry(c *gin.Context) {
 
 	// Get extrudegeometryDB in DB
 	var extrudegeometryDB orm.ExtrudeGeometryDB
-	if _, err := db.First(&extrudegeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&extrudegeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetExtrudeGeometry(c *gin.Context) {
 	extrudegeometryAPI.ExtrudeGeometryPointersEncoding = extrudegeometryDB.ExtrudeGeometryPointersEncoding
 	extrudegeometryDB.CopyBasicFieldsToExtrudeGeometry_WOP(&extrudegeometryAPI.ExtrudeGeometry_WOP)
 
-	c.JSON(http.StatusOK, extrudegeometryAPI)
+	writeJSON(w, http.StatusOK, extrudegeometryAPI)
 }
 
 // UpdateExtrudeGeometry
@@ -255,12 +254,12 @@ func (controller *Controller) GetExtrudeGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: extrudegeometryDBResponse
-func (controller *Controller) UpdateExtrudeGeometry(c *gin.Context) {
+func (controller *Controller) UpdateExtrudeGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexExtrudeGeometry.Lock()
 	defer mutexExtrudeGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateExtrudeGeometry(c *gin.Context) {
 
 	// Validate input
 	var input orm.ExtrudeGeometryAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateExtrudeGeometry(c *gin.Context) {
 	var extrudegeometryDB orm.ExtrudeGeometryDB
 
 	// fetch the extrudegeometry
-	_, err := db.First(&extrudegeometryDB, c.Param("id"))
+	_, err := db.First(&extrudegeometryDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateExtrudeGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateExtrudeGeometry(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the extrudegeometryDB
-	c.JSON(http.StatusOK, extrudegeometryDB)
+	writeJSON(w, http.StatusOK, extrudegeometryDB)
 }
 
 // DeleteExtrudeGeometry
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateExtrudeGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: extrudegeometryDBResponse
-func (controller *Controller) DeleteExtrudeGeometry(c *gin.Context) {
+func (controller *Controller) DeleteExtrudeGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexExtrudeGeometry.Lock()
 	defer mutexExtrudeGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteExtrudeGeometry(c *gin.Context) {
 
 	// Get model if exist
 	var extrudegeometryDB orm.ExtrudeGeometryDB
-	if _, err := db.First(&extrudegeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&extrudegeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteExtrudeGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

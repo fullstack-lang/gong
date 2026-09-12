@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	// insertion point for models import{{modelsImportDirective}}
 	form_models "github.com/fullstack-lang/gong/lib/form/go/models"
@@ -24,7 +24,7 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
-	r := gin.Default()
+	r := http.NewServeMux()
 
 	// setup model stack with its probe
 	stack := form_stack.NewStack(r, "form", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)

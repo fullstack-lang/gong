@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	// insertion point for models import
 	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -17,7 +17,7 @@ type Stager struct {
 	splitStage *split.Stage
 }
 
-func NewStager(r *gin.Engine, stage *tree_models.Stage) (stager *Stager) {
+func NewStager(r *http.ServeMux, stage *tree_models.Stage) (stager *Stager) {
 
 	stager = new(Stager)
 

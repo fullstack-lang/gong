@@ -14,7 +14,7 @@ import (
 
 	tone_go "github.com/fullstack-lang/gong/lib/tone/go"
 
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 // hook marhalling to stage
@@ -60,7 +60,7 @@ type Stack struct {
 // The function returns a pointer to the initialized Stage.
 //
 // Parameters:
-//   - r *gin.Engine: A Gin engine instance for handling HTTP requests.
+//   - r *http.ServeMux: An HTTP serve mux instance for handling HTTP requests.
 //   - stackPath string: A unique identifier for the stack instance, used for differentiating
 //     between different instances if needed.
 //   - unmarshallFromCode string: File path of a Go source code file. If provided, the function
@@ -89,7 +89,7 @@ type Stack struct {
 //     and visualization.
 //  5. Configure Orchestration: Configures orchestration for various model structures.
 func NewStack(
-	r *gin.Engine,
+	r *http.ServeMux,
 	stackPath string,
 	unmarshallFromCode string,
 	marshallOnCommit string,
@@ -159,7 +159,7 @@ func NewStack(
 	return
 }
 
-func NewTranscientStack(r *gin.Engine, stackPath string, withProbe bool) (stack *Stack) {
+func NewTranscientStack(r *http.ServeMux, stackPath string, withProbe bool) (stack *Stack) {
 
 	return NewStack(r, stackPath, "", "", "", true, withProbe)
 }

@@ -15,8 +15,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -53,117 +51,114 @@ type ValidationError struct {
 }
 
 // registerControllers register controllers
-func registerControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/form/go")
-	{ // insertion point for registrations
-		v1.GET("/v1/checkboxs", GetController().GetCheckBoxs)
-		v1.GET("/v1/checkboxs/:id", GetController().GetCheckBox)
-		v1.POST("/v1/checkboxs", GetController().PostCheckBox)
-		v1.PATCH("/v1/checkboxs/:id", GetController().UpdateCheckBox)
-		v1.PUT("/v1/checkboxs/:id", GetController().UpdateCheckBox)
-		v1.DELETE("/v1/checkboxs/:id", GetController().DeleteCheckBox)
+func registerControllers(mux *http.ServeMux) {
+	base := "/api/github.com/fullstack-lang/gong/lib/form/go/v1"
 
-		v1.GET("/v1/formdivs", GetController().GetFormDivs)
-		v1.GET("/v1/formdivs/:id", GetController().GetFormDiv)
-		v1.POST("/v1/formdivs", GetController().PostFormDiv)
-		v1.PATCH("/v1/formdivs/:id", GetController().UpdateFormDiv)
-		v1.PUT("/v1/formdivs/:id", GetController().UpdateFormDiv)
-		v1.DELETE("/v1/formdivs/:id", GetController().DeleteFormDiv)
+	mux.HandleFunc("GET " + base + "/checkboxs", GetController().GetCheckBoxs)
+	mux.HandleFunc("GET " + base + "/checkboxs/{id}", GetController().GetCheckBox)
+	mux.HandleFunc("POST " + base + "/checkboxs", GetController().PostCheckBox)
+	mux.HandleFunc("PATCH " + base + "/checkboxs/{id}", GetController().UpdateCheckBox)
+	mux.HandleFunc("PUT " + base + "/checkboxs/{id}", GetController().UpdateCheckBox)
+	mux.HandleFunc("DELETE " + base + "/checkboxs/{id}", GetController().DeleteCheckBox)
 
-		v1.GET("/v1/formeditassocbuttons", GetController().GetFormEditAssocButtons)
-		v1.GET("/v1/formeditassocbuttons/:id", GetController().GetFormEditAssocButton)
-		v1.POST("/v1/formeditassocbuttons", GetController().PostFormEditAssocButton)
-		v1.PATCH("/v1/formeditassocbuttons/:id", GetController().UpdateFormEditAssocButton)
-		v1.PUT("/v1/formeditassocbuttons/:id", GetController().UpdateFormEditAssocButton)
-		v1.DELETE("/v1/formeditassocbuttons/:id", GetController().DeleteFormEditAssocButton)
+	mux.HandleFunc("GET " + base + "/formdivs", GetController().GetFormDivs)
+	mux.HandleFunc("GET " + base + "/formdivs/{id}", GetController().GetFormDiv)
+	mux.HandleFunc("POST " + base + "/formdivs", GetController().PostFormDiv)
+	mux.HandleFunc("PATCH " + base + "/formdivs/{id}", GetController().UpdateFormDiv)
+	mux.HandleFunc("PUT " + base + "/formdivs/{id}", GetController().UpdateFormDiv)
+	mux.HandleFunc("DELETE " + base + "/formdivs/{id}", GetController().DeleteFormDiv)
 
-		v1.GET("/v1/formfields", GetController().GetFormFields)
-		v1.GET("/v1/formfields/:id", GetController().GetFormField)
-		v1.POST("/v1/formfields", GetController().PostFormField)
-		v1.PATCH("/v1/formfields/:id", GetController().UpdateFormField)
-		v1.PUT("/v1/formfields/:id", GetController().UpdateFormField)
-		v1.DELETE("/v1/formfields/:id", GetController().DeleteFormField)
+	mux.HandleFunc("GET " + base + "/formeditassocbuttons", GetController().GetFormEditAssocButtons)
+	mux.HandleFunc("GET " + base + "/formeditassocbuttons/{id}", GetController().GetFormEditAssocButton)
+	mux.HandleFunc("POST " + base + "/formeditassocbuttons", GetController().PostFormEditAssocButton)
+	mux.HandleFunc("PATCH " + base + "/formeditassocbuttons/{id}", GetController().UpdateFormEditAssocButton)
+	mux.HandleFunc("PUT " + base + "/formeditassocbuttons/{id}", GetController().UpdateFormEditAssocButton)
+	mux.HandleFunc("DELETE " + base + "/formeditassocbuttons/{id}", GetController().DeleteFormEditAssocButton)
 
-		v1.GET("/v1/formfielddates", GetController().GetFormFieldDates)
-		v1.GET("/v1/formfielddates/:id", GetController().GetFormFieldDate)
-		v1.POST("/v1/formfielddates", GetController().PostFormFieldDate)
-		v1.PATCH("/v1/formfielddates/:id", GetController().UpdateFormFieldDate)
-		v1.PUT("/v1/formfielddates/:id", GetController().UpdateFormFieldDate)
-		v1.DELETE("/v1/formfielddates/:id", GetController().DeleteFormFieldDate)
+	mux.HandleFunc("GET " + base + "/formfields", GetController().GetFormFields)
+	mux.HandleFunc("GET " + base + "/formfields/{id}", GetController().GetFormField)
+	mux.HandleFunc("POST " + base + "/formfields", GetController().PostFormField)
+	mux.HandleFunc("PATCH " + base + "/formfields/{id}", GetController().UpdateFormField)
+	mux.HandleFunc("PUT " + base + "/formfields/{id}", GetController().UpdateFormField)
+	mux.HandleFunc("DELETE " + base + "/formfields/{id}", GetController().DeleteFormField)
 
-		v1.GET("/v1/formfielddatetimes", GetController().GetFormFieldDateTimes)
-		v1.GET("/v1/formfielddatetimes/:id", GetController().GetFormFieldDateTime)
-		v1.POST("/v1/formfielddatetimes", GetController().PostFormFieldDateTime)
-		v1.PATCH("/v1/formfielddatetimes/:id", GetController().UpdateFormFieldDateTime)
-		v1.PUT("/v1/formfielddatetimes/:id", GetController().UpdateFormFieldDateTime)
-		v1.DELETE("/v1/formfielddatetimes/:id", GetController().DeleteFormFieldDateTime)
+	mux.HandleFunc("GET " + base + "/formfielddates", GetController().GetFormFieldDates)
+	mux.HandleFunc("GET " + base + "/formfielddates/{id}", GetController().GetFormFieldDate)
+	mux.HandleFunc("POST " + base + "/formfielddates", GetController().PostFormFieldDate)
+	mux.HandleFunc("PATCH " + base + "/formfielddates/{id}", GetController().UpdateFormFieldDate)
+	mux.HandleFunc("PUT " + base + "/formfielddates/{id}", GetController().UpdateFormFieldDate)
+	mux.HandleFunc("DELETE " + base + "/formfielddates/{id}", GetController().DeleteFormFieldDate)
 
-		v1.GET("/v1/formfieldfloat64s", GetController().GetFormFieldFloat64s)
-		v1.GET("/v1/formfieldfloat64s/:id", GetController().GetFormFieldFloat64)
-		v1.POST("/v1/formfieldfloat64s", GetController().PostFormFieldFloat64)
-		v1.PATCH("/v1/formfieldfloat64s/:id", GetController().UpdateFormFieldFloat64)
-		v1.PUT("/v1/formfieldfloat64s/:id", GetController().UpdateFormFieldFloat64)
-		v1.DELETE("/v1/formfieldfloat64s/:id", GetController().DeleteFormFieldFloat64)
+	mux.HandleFunc("GET " + base + "/formfielddatetimes", GetController().GetFormFieldDateTimes)
+	mux.HandleFunc("GET " + base + "/formfielddatetimes/{id}", GetController().GetFormFieldDateTime)
+	mux.HandleFunc("POST " + base + "/formfielddatetimes", GetController().PostFormFieldDateTime)
+	mux.HandleFunc("PATCH " + base + "/formfielddatetimes/{id}", GetController().UpdateFormFieldDateTime)
+	mux.HandleFunc("PUT " + base + "/formfielddatetimes/{id}", GetController().UpdateFormFieldDateTime)
+	mux.HandleFunc("DELETE " + base + "/formfielddatetimes/{id}", GetController().DeleteFormFieldDateTime)
 
-		v1.GET("/v1/formfieldints", GetController().GetFormFieldInts)
-		v1.GET("/v1/formfieldints/:id", GetController().GetFormFieldInt)
-		v1.POST("/v1/formfieldints", GetController().PostFormFieldInt)
-		v1.PATCH("/v1/formfieldints/:id", GetController().UpdateFormFieldInt)
-		v1.PUT("/v1/formfieldints/:id", GetController().UpdateFormFieldInt)
-		v1.DELETE("/v1/formfieldints/:id", GetController().DeleteFormFieldInt)
+	mux.HandleFunc("GET " + base + "/formfieldfloat64s", GetController().GetFormFieldFloat64s)
+	mux.HandleFunc("GET " + base + "/formfieldfloat64s/{id}", GetController().GetFormFieldFloat64)
+	mux.HandleFunc("POST " + base + "/formfieldfloat64s", GetController().PostFormFieldFloat64)
+	mux.HandleFunc("PATCH " + base + "/formfieldfloat64s/{id}", GetController().UpdateFormFieldFloat64)
+	mux.HandleFunc("PUT " + base + "/formfieldfloat64s/{id}", GetController().UpdateFormFieldFloat64)
+	mux.HandleFunc("DELETE " + base + "/formfieldfloat64s/{id}", GetController().DeleteFormFieldFloat64)
 
-		v1.GET("/v1/formfieldselects", GetController().GetFormFieldSelects)
-		v1.GET("/v1/formfieldselects/:id", GetController().GetFormFieldSelect)
-		v1.POST("/v1/formfieldselects", GetController().PostFormFieldSelect)
-		v1.PATCH("/v1/formfieldselects/:id", GetController().UpdateFormFieldSelect)
-		v1.PUT("/v1/formfieldselects/:id", GetController().UpdateFormFieldSelect)
-		v1.DELETE("/v1/formfieldselects/:id", GetController().DeleteFormFieldSelect)
+	mux.HandleFunc("GET " + base + "/formfieldints", GetController().GetFormFieldInts)
+	mux.HandleFunc("GET " + base + "/formfieldints/{id}", GetController().GetFormFieldInt)
+	mux.HandleFunc("POST " + base + "/formfieldints", GetController().PostFormFieldInt)
+	mux.HandleFunc("PATCH " + base + "/formfieldints/{id}", GetController().UpdateFormFieldInt)
+	mux.HandleFunc("PUT " + base + "/formfieldints/{id}", GetController().UpdateFormFieldInt)
+	mux.HandleFunc("DELETE " + base + "/formfieldints/{id}", GetController().DeleteFormFieldInt)
 
-		v1.GET("/v1/formfieldstrings", GetController().GetFormFieldStrings)
-		v1.GET("/v1/formfieldstrings/:id", GetController().GetFormFieldString)
-		v1.POST("/v1/formfieldstrings", GetController().PostFormFieldString)
-		v1.PATCH("/v1/formfieldstrings/:id", GetController().UpdateFormFieldString)
-		v1.PUT("/v1/formfieldstrings/:id", GetController().UpdateFormFieldString)
-		v1.DELETE("/v1/formfieldstrings/:id", GetController().DeleteFormFieldString)
+	mux.HandleFunc("GET " + base + "/formfieldselects", GetController().GetFormFieldSelects)
+	mux.HandleFunc("GET " + base + "/formfieldselects/{id}", GetController().GetFormFieldSelect)
+	mux.HandleFunc("POST " + base + "/formfieldselects", GetController().PostFormFieldSelect)
+	mux.HandleFunc("PATCH " + base + "/formfieldselects/{id}", GetController().UpdateFormFieldSelect)
+	mux.HandleFunc("PUT " + base + "/formfieldselects/{id}", GetController().UpdateFormFieldSelect)
+	mux.HandleFunc("DELETE " + base + "/formfieldselects/{id}", GetController().DeleteFormFieldSelect)
 
-		v1.GET("/v1/formfieldtimes", GetController().GetFormFieldTimes)
-		v1.GET("/v1/formfieldtimes/:id", GetController().GetFormFieldTime)
-		v1.POST("/v1/formfieldtimes", GetController().PostFormFieldTime)
-		v1.PATCH("/v1/formfieldtimes/:id", GetController().UpdateFormFieldTime)
-		v1.PUT("/v1/formfieldtimes/:id", GetController().UpdateFormFieldTime)
-		v1.DELETE("/v1/formfieldtimes/:id", GetController().DeleteFormFieldTime)
+	mux.HandleFunc("GET " + base + "/formfieldstrings", GetController().GetFormFieldStrings)
+	mux.HandleFunc("GET " + base + "/formfieldstrings/{id}", GetController().GetFormFieldString)
+	mux.HandleFunc("POST " + base + "/formfieldstrings", GetController().PostFormFieldString)
+	mux.HandleFunc("PATCH " + base + "/formfieldstrings/{id}", GetController().UpdateFormFieldString)
+	mux.HandleFunc("PUT " + base + "/formfieldstrings/{id}", GetController().UpdateFormFieldString)
+	mux.HandleFunc("DELETE " + base + "/formfieldstrings/{id}", GetController().DeleteFormFieldString)
 
-		v1.GET("/v1/formgroups", GetController().GetFormGroups)
-		v1.GET("/v1/formgroups/:id", GetController().GetFormGroup)
-		v1.POST("/v1/formgroups", GetController().PostFormGroup)
-		v1.PATCH("/v1/formgroups/:id", GetController().UpdateFormGroup)
-		v1.PUT("/v1/formgroups/:id", GetController().UpdateFormGroup)
-		v1.DELETE("/v1/formgroups/:id", GetController().DeleteFormGroup)
+	mux.HandleFunc("GET " + base + "/formfieldtimes", GetController().GetFormFieldTimes)
+	mux.HandleFunc("GET " + base + "/formfieldtimes/{id}", GetController().GetFormFieldTime)
+	mux.HandleFunc("POST " + base + "/formfieldtimes", GetController().PostFormFieldTime)
+	mux.HandleFunc("PATCH " + base + "/formfieldtimes/{id}", GetController().UpdateFormFieldTime)
+	mux.HandleFunc("PUT " + base + "/formfieldtimes/{id}", GetController().UpdateFormFieldTime)
+	mux.HandleFunc("DELETE " + base + "/formfieldtimes/{id}", GetController().DeleteFormFieldTime)
 
-		v1.GET("/v1/formsortassocbuttons", GetController().GetFormSortAssocButtons)
-		v1.GET("/v1/formsortassocbuttons/:id", GetController().GetFormSortAssocButton)
-		v1.POST("/v1/formsortassocbuttons", GetController().PostFormSortAssocButton)
-		v1.PATCH("/v1/formsortassocbuttons/:id", GetController().UpdateFormSortAssocButton)
-		v1.PUT("/v1/formsortassocbuttons/:id", GetController().UpdateFormSortAssocButton)
-		v1.DELETE("/v1/formsortassocbuttons/:id", GetController().DeleteFormSortAssocButton)
+	mux.HandleFunc("GET " + base + "/formgroups", GetController().GetFormGroups)
+	mux.HandleFunc("GET " + base + "/formgroups/{id}", GetController().GetFormGroup)
+	mux.HandleFunc("POST " + base + "/formgroups", GetController().PostFormGroup)
+	mux.HandleFunc("PATCH " + base + "/formgroups/{id}", GetController().UpdateFormGroup)
+	mux.HandleFunc("PUT " + base + "/formgroups/{id}", GetController().UpdateFormGroup)
+	mux.HandleFunc("DELETE " + base + "/formgroups/{id}", GetController().DeleteFormGroup)
 
-		v1.GET("/v1/options", GetController().GetOptions)
-		v1.GET("/v1/options/:id", GetController().GetOption)
-		v1.POST("/v1/options", GetController().PostOption)
-		v1.PATCH("/v1/options/:id", GetController().UpdateOption)
-		v1.PUT("/v1/options/:id", GetController().UpdateOption)
-		v1.DELETE("/v1/options/:id", GetController().DeleteOption)
+	mux.HandleFunc("GET " + base + "/formsortassocbuttons", GetController().GetFormSortAssocButtons)
+	mux.HandleFunc("GET " + base + "/formsortassocbuttons/{id}", GetController().GetFormSortAssocButton)
+	mux.HandleFunc("POST " + base + "/formsortassocbuttons", GetController().PostFormSortAssocButton)
+	mux.HandleFunc("PATCH " + base + "/formsortassocbuttons/{id}", GetController().UpdateFormSortAssocButton)
+	mux.HandleFunc("PUT " + base + "/formsortassocbuttons/{id}", GetController().UpdateFormSortAssocButton)
+	mux.HandleFunc("DELETE " + base + "/formsortassocbuttons/{id}", GetController().DeleteFormSortAssocButton)
 
-		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/options", GetController().GetOptions)
+	mux.HandleFunc("GET " + base + "/options/{id}", GetController().GetOption)
+	mux.HandleFunc("POST " + base + "/options", GetController().PostOption)
+	mux.HandleFunc("PATCH " + base + "/options/{id}", GetController().UpdateOption)
+	mux.HandleFunc("PUT " + base + "/options/{id}", GetController().UpdateOption)
+	mux.HandleFunc("DELETE " + base + "/options/{id}", GetController().DeleteOption)
 
-		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
-
-		v1.GET("/v1/stacks", GetController().stacks)
-	}
+	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+	mux.HandleFunc("GET " + base + "/stacks", GetController().stacks)
 }
 
-func (controller *Controller) stacks(c *gin.Context) {
+func (controller *Controller) stacks(w http.ResponseWriter, r *http.Request) {
 
 	var res []string
 
@@ -171,7 +166,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 		res = append(res, k)
 	}
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -181,7 +176,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it subscribe to the backend commit number broadcaster
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
-func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
+func (controller *Controller) onWebSocketRequestForBackRepoContent(w http.ResponseWriter, r *http.Request) {
 
 	// log.Println("Stack github.com/fullstack-lang/gong/lib/form/go, onWebSocketRequestForBackRepoContent")
 
@@ -203,7 +198,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		},
 	}
 
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	wsConnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -211,10 +206,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	defer wsConnection.Close()
 
 	// Create a context that is canceled when the connection is closed
-	ctx, cancel := context.WithCancel(c.Request.Context())
+	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	values := c.Request.URL.Query()
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -395,8 +390,8 @@ func formatBytes(size int) string {
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastCommitFromBackNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -418,12 +413,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastCommitFromBackNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastPushFromFrontNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -445,5 +440,5 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastPushFromFrontNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }

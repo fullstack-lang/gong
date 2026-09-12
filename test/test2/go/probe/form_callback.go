@@ -71,6 +71,9 @@ func (aFormCallback *AFormCallback) OnSave() {
 		case "B":
 			FormDivSelectFieldToField(&(a_.B), aFormCallback.probe.stageOfInterest, formDiv)
 		case "Bs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.B](aFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.B, 0)
 
@@ -181,6 +184,9 @@ func (bFormCallback *BFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(b_.Name), formDiv)
 		case "A:Bs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the A instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

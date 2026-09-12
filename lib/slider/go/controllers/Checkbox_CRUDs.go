@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 	"github.com/fullstack-lang/gong/lib/slider/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CheckboxInput struct {
 // default: genericError
 //
 //	200: checkboxDBResponse
-func (controller *Controller) GetCheckboxs(c *gin.Context) {
+func (controller *Controller) GetCheckboxs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var checkboxDBs []orm.CheckboxDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCheckboxs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCheckboxs(c *gin.Context) {
 		checkboxAPIs = append(checkboxAPIs, checkboxAPI)
 	}
 
-	c.JSON(http.StatusOK, checkboxAPIs)
+	writeJSON(w, http.StatusOK, checkboxAPIs)
 }
 
 // PostCheckbox
@@ -122,12 +121,12 @@ func (controller *Controller) GetCheckboxs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCheckbox(c *gin.Context) {
+func (controller *Controller) PostCheckbox(w http.ResponseWriter, r *http.Request) {
 
 	mutexCheckbox.Lock()
 	defer mutexCheckbox.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCheckbox(c *gin.Context) {
 	// Validate input
 	var input orm.CheckboxAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCheckbox(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCheckbox(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, checkboxDB)
+	writeJSON(w, http.StatusOK, checkboxDB)
 }
 
 // GetCheckbox
@@ -202,9 +201,9 @@ func (controller *Controller) PostCheckbox(c *gin.Context) {
 // default: genericError
 //
 //	200: checkboxDBResponse
-func (controller *Controller) GetCheckbox(c *gin.Context) {
+func (controller *Controller) GetCheckbox(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCheckbox(c *gin.Context) {
 
 	// Get checkboxDB in DB
 	var checkboxDB orm.CheckboxDB
-	if _, err := db.First(&checkboxDB, c.Param("id")); err != nil {
+	if _, err := db.First(&checkboxDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCheckbox(c *gin.Context) {
 	checkboxAPI.CheckboxPointersEncoding = checkboxDB.CheckboxPointersEncoding
 	checkboxDB.CopyBasicFieldsToCheckbox_WOP(&checkboxAPI.Checkbox_WOP)
 
-	c.JSON(http.StatusOK, checkboxAPI)
+	writeJSON(w, http.StatusOK, checkboxAPI)
 }
 
 // UpdateCheckbox
@@ -255,12 +254,12 @@ func (controller *Controller) GetCheckbox(c *gin.Context) {
 // default: genericError
 //
 //	200: checkboxDBResponse
-func (controller *Controller) UpdateCheckbox(c *gin.Context) {
+func (controller *Controller) UpdateCheckbox(w http.ResponseWriter, r *http.Request) {
 
 	mutexCheckbox.Lock()
 	defer mutexCheckbox.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 
 	// Validate input
 	var input orm.CheckboxAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 	var checkboxDB orm.CheckboxDB
 
 	// fetch the checkbox
-	_, err := db.First(&checkboxDB, c.Param("id"))
+	_, err := db.First(&checkboxDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the checkboxDB
-	c.JSON(http.StatusOK, checkboxDB)
+	writeJSON(w, http.StatusOK, checkboxDB)
 }
 
 // DeleteCheckbox
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 // default: genericError
 //
 //	200: checkboxDBResponse
-func (controller *Controller) DeleteCheckbox(c *gin.Context) {
+func (controller *Controller) DeleteCheckbox(w http.ResponseWriter, r *http.Request) {
 
 	mutexCheckbox.Lock()
 	defer mutexCheckbox.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCheckbox(c *gin.Context) {
 
 	// Get model if exist
 	var checkboxDB orm.CheckboxDB
-	if _, err := db.First(&checkboxDB, c.Param("id")); err != nil {
+	if _, err := db.First(&checkboxDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCheckbox(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

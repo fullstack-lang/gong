@@ -11,7 +11,7 @@ import (
 
 	embeddedgo "github.com/fullstack-lang/gong/app/xsd/tests/books/go"
 
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
@@ -47,7 +47,11 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 type Level1Stack struct {
 	Stage *models.Stage
 	Probe *probe.Probe
-	R     *gin.Engine
+	R     *http.ServeMux
+}
+
+func (stack *Level1Stack) Run(addr string) error {
+	return split_static.RunServer(stack.R, addr)
 }
 
 func NewLevel1Stack(

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type ThreejsInput struct {
 // default: genericError
 //
 //	200: threejsDBResponse
-func (controller *Controller) GetThreejss(c *gin.Context) {
+func (controller *Controller) GetThreejss(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var threejsDBs []orm.ThreejsDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetThreejss(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetThreejss(c *gin.Context) {
 		threejsAPIs = append(threejsAPIs, threejsAPI)
 	}
 
-	c.JSON(http.StatusOK, threejsAPIs)
+	writeJSON(w, http.StatusOK, threejsAPIs)
 }
 
 // PostThreejs
@@ -122,12 +121,12 @@ func (controller *Controller) GetThreejss(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostThreejs(c *gin.Context) {
+func (controller *Controller) PostThreejs(w http.ResponseWriter, r *http.Request) {
 
 	mutexThreejs.Lock()
 	defer mutexThreejs.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostThreejs(c *gin.Context) {
 	// Validate input
 	var input orm.ThreejsAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostThreejs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostThreejs(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, threejsDB)
+	writeJSON(w, http.StatusOK, threejsDB)
 }
 
 // GetThreejs
@@ -202,9 +201,9 @@ func (controller *Controller) PostThreejs(c *gin.Context) {
 // default: genericError
 //
 //	200: threejsDBResponse
-func (controller *Controller) GetThreejs(c *gin.Context) {
+func (controller *Controller) GetThreejs(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetThreejs(c *gin.Context) {
 
 	// Get threejsDB in DB
 	var threejsDB orm.ThreejsDB
-	if _, err := db.First(&threejsDB, c.Param("id")); err != nil {
+	if _, err := db.First(&threejsDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetThreejs(c *gin.Context) {
 	threejsAPI.ThreejsPointersEncoding = threejsDB.ThreejsPointersEncoding
 	threejsDB.CopyBasicFieldsToThreejs_WOP(&threejsAPI.Threejs_WOP)
 
-	c.JSON(http.StatusOK, threejsAPI)
+	writeJSON(w, http.StatusOK, threejsAPI)
 }
 
 // UpdateThreejs
@@ -255,12 +254,12 @@ func (controller *Controller) GetThreejs(c *gin.Context) {
 // default: genericError
 //
 //	200: threejsDBResponse
-func (controller *Controller) UpdateThreejs(c *gin.Context) {
+func (controller *Controller) UpdateThreejs(w http.ResponseWriter, r *http.Request) {
 
 	mutexThreejs.Lock()
 	defer mutexThreejs.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateThreejs(c *gin.Context) {
 
 	// Validate input
 	var input orm.ThreejsAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateThreejs(c *gin.Context) {
 	var threejsDB orm.ThreejsDB
 
 	// fetch the threejs
-	_, err := db.First(&threejsDB, c.Param("id"))
+	_, err := db.First(&threejsDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateThreejs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateThreejs(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the threejsDB
-	c.JSON(http.StatusOK, threejsDB)
+	writeJSON(w, http.StatusOK, threejsDB)
 }
 
 // DeleteThreejs
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateThreejs(c *gin.Context) {
 // default: genericError
 //
 //	200: threejsDBResponse
-func (controller *Controller) DeleteThreejs(c *gin.Context) {
+func (controller *Controller) DeleteThreejs(w http.ResponseWriter, r *http.Request) {
 
 	mutexThreejs.Lock()
 	defer mutexThreejs.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteThreejs(c *gin.Context) {
 
 	// Get model if exist
 	var threejsDB orm.ThreejsDB
-	if _, err := db.First(&threejsDB, c.Param("id")); err != nil {
+	if _, err := db.First(&threejsDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteThreejs(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -11,7 +11,7 @@ import (
 
 	"github.com/fullstack-lang/gong/app/reqif/go/icons"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	table_stack "github.com/fullstack-lang/gong/lib/table/go/stack"
@@ -260,7 +260,7 @@ func (stager *Stager) SetModelGenerator(modelGenerator ModelGeneratorInterface) 
 }
 
 func NewStager(
-	r *gin.Engine,
+	r *http.ServeMux,
 	stage *Stage,
 	pathToReqifFile string,
 	pathToRenderingConf string,

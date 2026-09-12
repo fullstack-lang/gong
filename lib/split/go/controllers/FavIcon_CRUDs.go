@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FavIconInput struct {
 // default: genericError
 //
 //	200: faviconDBResponse
-func (controller *Controller) GetFavIcons(c *gin.Context) {
+func (controller *Controller) GetFavIcons(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var faviconDBs []orm.FavIconDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFavIcons(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFavIcons(c *gin.Context) {
 		faviconAPIs = append(faviconAPIs, faviconAPI)
 	}
 
-	c.JSON(http.StatusOK, faviconAPIs)
+	writeJSON(w, http.StatusOK, faviconAPIs)
 }
 
 // PostFavIcon
@@ -122,12 +121,12 @@ func (controller *Controller) GetFavIcons(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFavIcon(c *gin.Context) {
+func (controller *Controller) PostFavIcon(w http.ResponseWriter, r *http.Request) {
 
 	mutexFavIcon.Lock()
 	defer mutexFavIcon.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFavIcon(c *gin.Context) {
 	// Validate input
 	var input orm.FavIconAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFavIcon(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFavIcon(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, faviconDB)
+	writeJSON(w, http.StatusOK, faviconDB)
 }
 
 // GetFavIcon
@@ -202,9 +201,9 @@ func (controller *Controller) PostFavIcon(c *gin.Context) {
 // default: genericError
 //
 //	200: faviconDBResponse
-func (controller *Controller) GetFavIcon(c *gin.Context) {
+func (controller *Controller) GetFavIcon(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFavIcon(c *gin.Context) {
 
 	// Get faviconDB in DB
 	var faviconDB orm.FavIconDB
-	if _, err := db.First(&faviconDB, c.Param("id")); err != nil {
+	if _, err := db.First(&faviconDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFavIcon(c *gin.Context) {
 	faviconAPI.FavIconPointersEncoding = faviconDB.FavIconPointersEncoding
 	faviconDB.CopyBasicFieldsToFavIcon_WOP(&faviconAPI.FavIcon_WOP)
 
-	c.JSON(http.StatusOK, faviconAPI)
+	writeJSON(w, http.StatusOK, faviconAPI)
 }
 
 // UpdateFavIcon
@@ -255,12 +254,12 @@ func (controller *Controller) GetFavIcon(c *gin.Context) {
 // default: genericError
 //
 //	200: faviconDBResponse
-func (controller *Controller) UpdateFavIcon(c *gin.Context) {
+func (controller *Controller) UpdateFavIcon(w http.ResponseWriter, r *http.Request) {
 
 	mutexFavIcon.Lock()
 	defer mutexFavIcon.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFavIcon(c *gin.Context) {
 
 	// Validate input
 	var input orm.FavIconAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFavIcon(c *gin.Context) {
 	var faviconDB orm.FavIconDB
 
 	// fetch the favicon
-	_, err := db.First(&faviconDB, c.Param("id"))
+	_, err := db.First(&faviconDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFavIcon(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFavIcon(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the faviconDB
-	c.JSON(http.StatusOK, faviconDB)
+	writeJSON(w, http.StatusOK, faviconDB)
 }
 
 // DeleteFavIcon
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFavIcon(c *gin.Context) {
 // default: genericError
 //
 //	200: faviconDBResponse
-func (controller *Controller) DeleteFavIcon(c *gin.Context) {
+func (controller *Controller) DeleteFavIcon(w http.ResponseWriter, r *http.Request) {
 
 	mutexFavIcon.Lock()
 	defer mutexFavIcon.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFavIcon(c *gin.Context) {
 
 	// Get model if exist
 	var faviconDB orm.FavIconDB
-	if _, err := db.First(&faviconDB, c.Param("id")); err != nil {
+	if _, err := db.First(&faviconDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFavIcon(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

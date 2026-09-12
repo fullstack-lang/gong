@@ -69,6 +69,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Associationtob":
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Anarrayofb":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bstruct, 0)
 
@@ -133,6 +136,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Dstruct4":
 			FormDivSelectFieldToField(&(astruct_.Dstruct4), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Dstruct4s":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Dstruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Dstruct, 0)
 
@@ -173,6 +179,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Duration1":
 			FormDivBasicFieldToField(&(astruct_.Duration1), formDiv)
 		case "Anarrayofa":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Astruct, 0)
 
@@ -205,6 +214,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Anarrayofa", &astruct_.Anarrayofa)
 
 		case "Anotherarrayofb":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bstruct, 0)
 
@@ -237,6 +249,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Anotherarrayofb", &astruct_.Anotherarrayofb)
 
 		case "AnarrayofbUse":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstructUse](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AstructBstructUse, 0)
 
@@ -269,6 +284,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "AnarrayofbUse", &astruct_.AnarrayofbUse)
 
 		case "Anarrayofb2Use":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstruct2Use](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AstructBstruct2Use, 0)
 
@@ -307,6 +325,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "TextArea":
 			FormDivBasicFieldToField(&(astruct_.TextArea), formDiv)
 		case "Astruct:Anarrayofa":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -432,6 +453,9 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		case "Bstrcut2":
 			FormDivSelectFieldToField(&(astructbstruct2use_.Bstrcut2), astructbstruct2useFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Anarrayofb2Use":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -557,6 +581,9 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		case "Bstruct2":
 			FormDivSelectFieldToField(&(astructbstructuse_.Bstruct2), astructbstructuseFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:AnarrayofbUse":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -686,6 +713,9 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		case "Intfield":
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		case "Astruct:Anarrayofb":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -731,6 +761,9 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				}
 			}
 		case "Astruct:Anotherarrayofb":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -776,6 +809,9 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				}
 			}
 		case "Dstruct:Anarrayofb":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Dstruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -899,6 +935,9 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(dstruct_.Name), formDiv)
 		case "Anarrayofb":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](dstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bstruct, 0)
 
@@ -933,6 +972,9 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		case "Gstruct":
 			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
 		case "Gstructs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Gstruct](dstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Gstruct, 0)
 
@@ -965,6 +1007,9 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 			dstructFormCallback.probe.UpdateSliceOfPointersCallback(dstruct_, "Gstructs", &dstruct_.Gstructs)
 
 		case "Astruct:Dstruct4s":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1174,6 +1219,9 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 		case "Intfield":
 			FormDivBasicFieldToField(&(gstruct_.Intfield), formDiv)
 		case "Dstruct:Gstructs":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Dstruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -13,7 +13,7 @@ import (
 
 	embeddedgo "{{PkgPathRoot}}"
 
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
@@ -51,7 +51,11 @@ const stackInstanceTemplateEpilogue = `
 type Level1Stack struct {
 	Stage *models.Stage
 	Probe *probe.Probe
-	R     *gin.Engine
+	R     *http.ServeMux
+}
+
+func (stack *Level1Stack) Run(addr string) error {
+	return split_static.RunServer(stack.R, addr)
 }
 
 func NewLevel1Stack(

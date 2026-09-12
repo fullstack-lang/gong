@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type AnimateInput struct {
 // default: genericError
 //
 //	200: animateDBResponse
-func (controller *Controller) GetAnimates(c *gin.Context) {
+func (controller *Controller) GetAnimates(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var animateDBs []orm.AnimateDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 		animateAPIs = append(animateAPIs, animateAPI)
 	}
 
-	c.JSON(http.StatusOK, animateAPIs)
+	writeJSON(w, http.StatusOK, animateAPIs)
 }
 
 // PostAnimate
@@ -122,12 +121,12 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostAnimate(c *gin.Context) {
+func (controller *Controller) PostAnimate(w http.ResponseWriter, r *http.Request) {
 
 	mutexAnimate.Lock()
 	defer mutexAnimate.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 	// Validate input
 	var input orm.AnimateAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, animateDB)
+	writeJSON(w, http.StatusOK, animateDB)
 }
 
 // GetAnimate
@@ -202,9 +201,9 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 // default: genericError
 //
 //	200: animateDBResponse
-func (controller *Controller) GetAnimate(c *gin.Context) {
+func (controller *Controller) GetAnimate(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 
 	// Get animateDB in DB
 	var animateDB orm.AnimateDB
-	if _, err := db.First(&animateDB, c.Param("id")); err != nil {
+	if _, err := db.First(&animateDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 	animateAPI.AnimatePointersEncoding = animateDB.AnimatePointersEncoding
 	animateDB.CopyBasicFieldsToAnimate_WOP(&animateAPI.Animate_WOP)
 
-	c.JSON(http.StatusOK, animateAPI)
+	writeJSON(w, http.StatusOK, animateAPI)
 }
 
 // UpdateAnimate
@@ -255,12 +254,12 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 // default: genericError
 //
 //	200: animateDBResponse
-func (controller *Controller) UpdateAnimate(c *gin.Context) {
+func (controller *Controller) UpdateAnimate(w http.ResponseWriter, r *http.Request) {
 
 	mutexAnimate.Lock()
 	defer mutexAnimate.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 
 	// Validate input
 	var input orm.AnimateAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 	var animateDB orm.AnimateDB
 
 	// fetch the animate
-	_, err := db.First(&animateDB, c.Param("id"))
+	_, err := db.First(&animateDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the animateDB
-	c.JSON(http.StatusOK, animateDB)
+	writeJSON(w, http.StatusOK, animateDB)
 }
 
 // DeleteAnimate
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 // default: genericError
 //
 //	200: animateDBResponse
-func (controller *Controller) DeleteAnimate(c *gin.Context) {
+func (controller *Controller) DeleteAnimate(w http.ResponseWriter, r *http.Request) {
 
 	mutexAnimate.Lock()
 	defer mutexAnimate.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 
 	// Get model if exist
 	var animateDB orm.AnimateDB
-	if _, err := db.First(&animateDB, c.Param("id")); err != nil {
+	if _, err := db.First(&animateDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

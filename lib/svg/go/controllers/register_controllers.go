@@ -15,8 +15,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -53,187 +51,184 @@ type ValidationError struct {
 }
 
 // registerControllers register controllers
-func registerControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/svg/go")
-	{ // insertion point for registrations
-		v1.GET("/v1/animates", GetController().GetAnimates)
-		v1.GET("/v1/animates/:id", GetController().GetAnimate)
-		v1.POST("/v1/animates", GetController().PostAnimate)
-		v1.PATCH("/v1/animates/:id", GetController().UpdateAnimate)
-		v1.PUT("/v1/animates/:id", GetController().UpdateAnimate)
-		v1.DELETE("/v1/animates/:id", GetController().DeleteAnimate)
+func registerControllers(mux *http.ServeMux) {
+	base := "/api/github.com/fullstack-lang/gong/lib/svg/go/v1"
 
-		v1.GET("/v1/circles", GetController().GetCircles)
-		v1.GET("/v1/circles/:id", GetController().GetCircle)
-		v1.POST("/v1/circles", GetController().PostCircle)
-		v1.PATCH("/v1/circles/:id", GetController().UpdateCircle)
-		v1.PUT("/v1/circles/:id", GetController().UpdateCircle)
-		v1.DELETE("/v1/circles/:id", GetController().DeleteCircle)
+	mux.HandleFunc("GET " + base + "/animates", GetController().GetAnimates)
+	mux.HandleFunc("GET " + base + "/animates/{id}", GetController().GetAnimate)
+	mux.HandleFunc("POST " + base + "/animates", GetController().PostAnimate)
+	mux.HandleFunc("PATCH " + base + "/animates/{id}", GetController().UpdateAnimate)
+	mux.HandleFunc("PUT " + base + "/animates/{id}", GetController().UpdateAnimate)
+	mux.HandleFunc("DELETE " + base + "/animates/{id}", GetController().DeleteAnimate)
 
-		v1.GET("/v1/conditions", GetController().GetConditions)
-		v1.GET("/v1/conditions/:id", GetController().GetCondition)
-		v1.POST("/v1/conditions", GetController().PostCondition)
-		v1.PATCH("/v1/conditions/:id", GetController().UpdateCondition)
-		v1.PUT("/v1/conditions/:id", GetController().UpdateCondition)
-		v1.DELETE("/v1/conditions/:id", GetController().DeleteCondition)
+	mux.HandleFunc("GET " + base + "/circles", GetController().GetCircles)
+	mux.HandleFunc("GET " + base + "/circles/{id}", GetController().GetCircle)
+	mux.HandleFunc("POST " + base + "/circles", GetController().PostCircle)
+	mux.HandleFunc("PATCH " + base + "/circles/{id}", GetController().UpdateCircle)
+	mux.HandleFunc("PUT " + base + "/circles/{id}", GetController().UpdateCircle)
+	mux.HandleFunc("DELETE " + base + "/circles/{id}", GetController().DeleteCircle)
 
-		v1.GET("/v1/controlpoints", GetController().GetControlPoints)
-		v1.GET("/v1/controlpoints/:id", GetController().GetControlPoint)
-		v1.POST("/v1/controlpoints", GetController().PostControlPoint)
-		v1.PATCH("/v1/controlpoints/:id", GetController().UpdateControlPoint)
-		v1.PUT("/v1/controlpoints/:id", GetController().UpdateControlPoint)
-		v1.DELETE("/v1/controlpoints/:id", GetController().DeleteControlPoint)
+	mux.HandleFunc("GET " + base + "/conditions", GetController().GetConditions)
+	mux.HandleFunc("GET " + base + "/conditions/{id}", GetController().GetCondition)
+	mux.HandleFunc("POST " + base + "/conditions", GetController().PostCondition)
+	mux.HandleFunc("PATCH " + base + "/conditions/{id}", GetController().UpdateCondition)
+	mux.HandleFunc("PUT " + base + "/conditions/{id}", GetController().UpdateCondition)
+	mux.HandleFunc("DELETE " + base + "/conditions/{id}", GetController().DeleteCondition)
 
-		v1.GET("/v1/ellipses", GetController().GetEllipses)
-		v1.GET("/v1/ellipses/:id", GetController().GetEllipse)
-		v1.POST("/v1/ellipses", GetController().PostEllipse)
-		v1.PATCH("/v1/ellipses/:id", GetController().UpdateEllipse)
-		v1.PUT("/v1/ellipses/:id", GetController().UpdateEllipse)
-		v1.DELETE("/v1/ellipses/:id", GetController().DeleteEllipse)
+	mux.HandleFunc("GET " + base + "/controlpoints", GetController().GetControlPoints)
+	mux.HandleFunc("GET " + base + "/controlpoints/{id}", GetController().GetControlPoint)
+	mux.HandleFunc("POST " + base + "/controlpoints", GetController().PostControlPoint)
+	mux.HandleFunc("PATCH " + base + "/controlpoints/{id}", GetController().UpdateControlPoint)
+	mux.HandleFunc("PUT " + base + "/controlpoints/{id}", GetController().UpdateControlPoint)
+	mux.HandleFunc("DELETE " + base + "/controlpoints/{id}", GetController().DeleteControlPoint)
 
-		v1.GET("/v1/filetodownloads", GetController().GetFileToDownloads)
-		v1.GET("/v1/filetodownloads/:id", GetController().GetFileToDownload)
-		v1.POST("/v1/filetodownloads", GetController().PostFileToDownload)
-		v1.PATCH("/v1/filetodownloads/:id", GetController().UpdateFileToDownload)
-		v1.PUT("/v1/filetodownloads/:id", GetController().UpdateFileToDownload)
-		v1.DELETE("/v1/filetodownloads/:id", GetController().DeleteFileToDownload)
+	mux.HandleFunc("GET " + base + "/ellipses", GetController().GetEllipses)
+	mux.HandleFunc("GET " + base + "/ellipses/{id}", GetController().GetEllipse)
+	mux.HandleFunc("POST " + base + "/ellipses", GetController().PostEllipse)
+	mux.HandleFunc("PATCH " + base + "/ellipses/{id}", GetController().UpdateEllipse)
+	mux.HandleFunc("PUT " + base + "/ellipses/{id}", GetController().UpdateEllipse)
+	mux.HandleFunc("DELETE " + base + "/ellipses/{id}", GetController().DeleteEllipse)
 
-		v1.GET("/v1/layers", GetController().GetLayers)
-		v1.GET("/v1/layers/:id", GetController().GetLayer)
-		v1.POST("/v1/layers", GetController().PostLayer)
-		v1.PATCH("/v1/layers/:id", GetController().UpdateLayer)
-		v1.PUT("/v1/layers/:id", GetController().UpdateLayer)
-		v1.DELETE("/v1/layers/:id", GetController().DeleteLayer)
+	mux.HandleFunc("GET " + base + "/filetodownloads", GetController().GetFileToDownloads)
+	mux.HandleFunc("GET " + base + "/filetodownloads/{id}", GetController().GetFileToDownload)
+	mux.HandleFunc("POST " + base + "/filetodownloads", GetController().PostFileToDownload)
+	mux.HandleFunc("PATCH " + base + "/filetodownloads/{id}", GetController().UpdateFileToDownload)
+	mux.HandleFunc("PUT " + base + "/filetodownloads/{id}", GetController().UpdateFileToDownload)
+	mux.HandleFunc("DELETE " + base + "/filetodownloads/{id}", GetController().DeleteFileToDownload)
 
-		v1.GET("/v1/lines", GetController().GetLines)
-		v1.GET("/v1/lines/:id", GetController().GetLine)
-		v1.POST("/v1/lines", GetController().PostLine)
-		v1.PATCH("/v1/lines/:id", GetController().UpdateLine)
-		v1.PUT("/v1/lines/:id", GetController().UpdateLine)
-		v1.DELETE("/v1/lines/:id", GetController().DeleteLine)
+	mux.HandleFunc("GET " + base + "/layers", GetController().GetLayers)
+	mux.HandleFunc("GET " + base + "/layers/{id}", GetController().GetLayer)
+	mux.HandleFunc("POST " + base + "/layers", GetController().PostLayer)
+	mux.HandleFunc("PATCH " + base + "/layers/{id}", GetController().UpdateLayer)
+	mux.HandleFunc("PUT " + base + "/layers/{id}", GetController().UpdateLayer)
+	mux.HandleFunc("DELETE " + base + "/layers/{id}", GetController().DeleteLayer)
 
-		v1.GET("/v1/links", GetController().GetLinks)
-		v1.GET("/v1/links/:id", GetController().GetLink)
-		v1.POST("/v1/links", GetController().PostLink)
-		v1.PATCH("/v1/links/:id", GetController().UpdateLink)
-		v1.PUT("/v1/links/:id", GetController().UpdateLink)
-		v1.DELETE("/v1/links/:id", GetController().DeleteLink)
+	mux.HandleFunc("GET " + base + "/lines", GetController().GetLines)
+	mux.HandleFunc("GET " + base + "/lines/{id}", GetController().GetLine)
+	mux.HandleFunc("POST " + base + "/lines", GetController().PostLine)
+	mux.HandleFunc("PATCH " + base + "/lines/{id}", GetController().UpdateLine)
+	mux.HandleFunc("PUT " + base + "/lines/{id}", GetController().UpdateLine)
+	mux.HandleFunc("DELETE " + base + "/lines/{id}", GetController().DeleteLine)
 
-		v1.GET("/v1/linkanchoredpaths", GetController().GetLinkAnchoredPaths)
-		v1.GET("/v1/linkanchoredpaths/:id", GetController().GetLinkAnchoredPath)
-		v1.POST("/v1/linkanchoredpaths", GetController().PostLinkAnchoredPath)
-		v1.PATCH("/v1/linkanchoredpaths/:id", GetController().UpdateLinkAnchoredPath)
-		v1.PUT("/v1/linkanchoredpaths/:id", GetController().UpdateLinkAnchoredPath)
-		v1.DELETE("/v1/linkanchoredpaths/:id", GetController().DeleteLinkAnchoredPath)
+	mux.HandleFunc("GET " + base + "/links", GetController().GetLinks)
+	mux.HandleFunc("GET " + base + "/links/{id}", GetController().GetLink)
+	mux.HandleFunc("POST " + base + "/links", GetController().PostLink)
+	mux.HandleFunc("PATCH " + base + "/links/{id}", GetController().UpdateLink)
+	mux.HandleFunc("PUT " + base + "/links/{id}", GetController().UpdateLink)
+	mux.HandleFunc("DELETE " + base + "/links/{id}", GetController().DeleteLink)
 
-		v1.GET("/v1/linkanchoredtexts", GetController().GetLinkAnchoredTexts)
-		v1.GET("/v1/linkanchoredtexts/:id", GetController().GetLinkAnchoredText)
-		v1.POST("/v1/linkanchoredtexts", GetController().PostLinkAnchoredText)
-		v1.PATCH("/v1/linkanchoredtexts/:id", GetController().UpdateLinkAnchoredText)
-		v1.PUT("/v1/linkanchoredtexts/:id", GetController().UpdateLinkAnchoredText)
-		v1.DELETE("/v1/linkanchoredtexts/:id", GetController().DeleteLinkAnchoredText)
+	mux.HandleFunc("GET " + base + "/linkanchoredpaths", GetController().GetLinkAnchoredPaths)
+	mux.HandleFunc("GET " + base + "/linkanchoredpaths/{id}", GetController().GetLinkAnchoredPath)
+	mux.HandleFunc("POST " + base + "/linkanchoredpaths", GetController().PostLinkAnchoredPath)
+	mux.HandleFunc("PATCH " + base + "/linkanchoredpaths/{id}", GetController().UpdateLinkAnchoredPath)
+	mux.HandleFunc("PUT " + base + "/linkanchoredpaths/{id}", GetController().UpdateLinkAnchoredPath)
+	mux.HandleFunc("DELETE " + base + "/linkanchoredpaths/{id}", GetController().DeleteLinkAnchoredPath)
 
-		v1.GET("/v1/paths", GetController().GetPaths)
-		v1.GET("/v1/paths/:id", GetController().GetPath)
-		v1.POST("/v1/paths", GetController().PostPath)
-		v1.PATCH("/v1/paths/:id", GetController().UpdatePath)
-		v1.PUT("/v1/paths/:id", GetController().UpdatePath)
-		v1.DELETE("/v1/paths/:id", GetController().DeletePath)
+	mux.HandleFunc("GET " + base + "/linkanchoredtexts", GetController().GetLinkAnchoredTexts)
+	mux.HandleFunc("GET " + base + "/linkanchoredtexts/{id}", GetController().GetLinkAnchoredText)
+	mux.HandleFunc("POST " + base + "/linkanchoredtexts", GetController().PostLinkAnchoredText)
+	mux.HandleFunc("PATCH " + base + "/linkanchoredtexts/{id}", GetController().UpdateLinkAnchoredText)
+	mux.HandleFunc("PUT " + base + "/linkanchoredtexts/{id}", GetController().UpdateLinkAnchoredText)
+	mux.HandleFunc("DELETE " + base + "/linkanchoredtexts/{id}", GetController().DeleteLinkAnchoredText)
 
-		v1.GET("/v1/points", GetController().GetPoints)
-		v1.GET("/v1/points/:id", GetController().GetPoint)
-		v1.POST("/v1/points", GetController().PostPoint)
-		v1.PATCH("/v1/points/:id", GetController().UpdatePoint)
-		v1.PUT("/v1/points/:id", GetController().UpdatePoint)
-		v1.DELETE("/v1/points/:id", GetController().DeletePoint)
+	mux.HandleFunc("GET " + base + "/paths", GetController().GetPaths)
+	mux.HandleFunc("GET " + base + "/paths/{id}", GetController().GetPath)
+	mux.HandleFunc("POST " + base + "/paths", GetController().PostPath)
+	mux.HandleFunc("PATCH " + base + "/paths/{id}", GetController().UpdatePath)
+	mux.HandleFunc("PUT " + base + "/paths/{id}", GetController().UpdatePath)
+	mux.HandleFunc("DELETE " + base + "/paths/{id}", GetController().DeletePath)
 
-		v1.GET("/v1/polygones", GetController().GetPolygones)
-		v1.GET("/v1/polygones/:id", GetController().GetPolygone)
-		v1.POST("/v1/polygones", GetController().PostPolygone)
-		v1.PATCH("/v1/polygones/:id", GetController().UpdatePolygone)
-		v1.PUT("/v1/polygones/:id", GetController().UpdatePolygone)
-		v1.DELETE("/v1/polygones/:id", GetController().DeletePolygone)
+	mux.HandleFunc("GET " + base + "/points", GetController().GetPoints)
+	mux.HandleFunc("GET " + base + "/points/{id}", GetController().GetPoint)
+	mux.HandleFunc("POST " + base + "/points", GetController().PostPoint)
+	mux.HandleFunc("PATCH " + base + "/points/{id}", GetController().UpdatePoint)
+	mux.HandleFunc("PUT " + base + "/points/{id}", GetController().UpdatePoint)
+	mux.HandleFunc("DELETE " + base + "/points/{id}", GetController().DeletePoint)
 
-		v1.GET("/v1/polylines", GetController().GetPolylines)
-		v1.GET("/v1/polylines/:id", GetController().GetPolyline)
-		v1.POST("/v1/polylines", GetController().PostPolyline)
-		v1.PATCH("/v1/polylines/:id", GetController().UpdatePolyline)
-		v1.PUT("/v1/polylines/:id", GetController().UpdatePolyline)
-		v1.DELETE("/v1/polylines/:id", GetController().DeletePolyline)
+	mux.HandleFunc("GET " + base + "/polygones", GetController().GetPolygones)
+	mux.HandleFunc("GET " + base + "/polygones/{id}", GetController().GetPolygone)
+	mux.HandleFunc("POST " + base + "/polygones", GetController().PostPolygone)
+	mux.HandleFunc("PATCH " + base + "/polygones/{id}", GetController().UpdatePolygone)
+	mux.HandleFunc("PUT " + base + "/polygones/{id}", GetController().UpdatePolygone)
+	mux.HandleFunc("DELETE " + base + "/polygones/{id}", GetController().DeletePolygone)
 
-		v1.GET("/v1/rects", GetController().GetRects)
-		v1.GET("/v1/rects/:id", GetController().GetRect)
-		v1.POST("/v1/rects", GetController().PostRect)
-		v1.PATCH("/v1/rects/:id", GetController().UpdateRect)
-		v1.PUT("/v1/rects/:id", GetController().UpdateRect)
-		v1.DELETE("/v1/rects/:id", GetController().DeleteRect)
+	mux.HandleFunc("GET " + base + "/polylines", GetController().GetPolylines)
+	mux.HandleFunc("GET " + base + "/polylines/{id}", GetController().GetPolyline)
+	mux.HandleFunc("POST " + base + "/polylines", GetController().PostPolyline)
+	mux.HandleFunc("PATCH " + base + "/polylines/{id}", GetController().UpdatePolyline)
+	mux.HandleFunc("PUT " + base + "/polylines/{id}", GetController().UpdatePolyline)
+	mux.HandleFunc("DELETE " + base + "/polylines/{id}", GetController().DeletePolyline)
 
-		v1.GET("/v1/rectanchoredpaths", GetController().GetRectAnchoredPaths)
-		v1.GET("/v1/rectanchoredpaths/:id", GetController().GetRectAnchoredPath)
-		v1.POST("/v1/rectanchoredpaths", GetController().PostRectAnchoredPath)
-		v1.PATCH("/v1/rectanchoredpaths/:id", GetController().UpdateRectAnchoredPath)
-		v1.PUT("/v1/rectanchoredpaths/:id", GetController().UpdateRectAnchoredPath)
-		v1.DELETE("/v1/rectanchoredpaths/:id", GetController().DeleteRectAnchoredPath)
+	mux.HandleFunc("GET " + base + "/rects", GetController().GetRects)
+	mux.HandleFunc("GET " + base + "/rects/{id}", GetController().GetRect)
+	mux.HandleFunc("POST " + base + "/rects", GetController().PostRect)
+	mux.HandleFunc("PATCH " + base + "/rects/{id}", GetController().UpdateRect)
+	mux.HandleFunc("PUT " + base + "/rects/{id}", GetController().UpdateRect)
+	mux.HandleFunc("DELETE " + base + "/rects/{id}", GetController().DeleteRect)
 
-		v1.GET("/v1/rectanchoredpngimages", GetController().GetRectAnchoredPngImages)
-		v1.GET("/v1/rectanchoredpngimages/:id", GetController().GetRectAnchoredPngImage)
-		v1.POST("/v1/rectanchoredpngimages", GetController().PostRectAnchoredPngImage)
-		v1.PATCH("/v1/rectanchoredpngimages/:id", GetController().UpdateRectAnchoredPngImage)
-		v1.PUT("/v1/rectanchoredpngimages/:id", GetController().UpdateRectAnchoredPngImage)
-		v1.DELETE("/v1/rectanchoredpngimages/:id", GetController().DeleteRectAnchoredPngImage)
+	mux.HandleFunc("GET " + base + "/rectanchoredpaths", GetController().GetRectAnchoredPaths)
+	mux.HandleFunc("GET " + base + "/rectanchoredpaths/{id}", GetController().GetRectAnchoredPath)
+	mux.HandleFunc("POST " + base + "/rectanchoredpaths", GetController().PostRectAnchoredPath)
+	mux.HandleFunc("PATCH " + base + "/rectanchoredpaths/{id}", GetController().UpdateRectAnchoredPath)
+	mux.HandleFunc("PUT " + base + "/rectanchoredpaths/{id}", GetController().UpdateRectAnchoredPath)
+	mux.HandleFunc("DELETE " + base + "/rectanchoredpaths/{id}", GetController().DeleteRectAnchoredPath)
 
-		v1.GET("/v1/rectanchoredrects", GetController().GetRectAnchoredRects)
-		v1.GET("/v1/rectanchoredrects/:id", GetController().GetRectAnchoredRect)
-		v1.POST("/v1/rectanchoredrects", GetController().PostRectAnchoredRect)
-		v1.PATCH("/v1/rectanchoredrects/:id", GetController().UpdateRectAnchoredRect)
-		v1.PUT("/v1/rectanchoredrects/:id", GetController().UpdateRectAnchoredRect)
-		v1.DELETE("/v1/rectanchoredrects/:id", GetController().DeleteRectAnchoredRect)
+	mux.HandleFunc("GET " + base + "/rectanchoredpngimages", GetController().GetRectAnchoredPngImages)
+	mux.HandleFunc("GET " + base + "/rectanchoredpngimages/{id}", GetController().GetRectAnchoredPngImage)
+	mux.HandleFunc("POST " + base + "/rectanchoredpngimages", GetController().PostRectAnchoredPngImage)
+	mux.HandleFunc("PATCH " + base + "/rectanchoredpngimages/{id}", GetController().UpdateRectAnchoredPngImage)
+	mux.HandleFunc("PUT " + base + "/rectanchoredpngimages/{id}", GetController().UpdateRectAnchoredPngImage)
+	mux.HandleFunc("DELETE " + base + "/rectanchoredpngimages/{id}", GetController().DeleteRectAnchoredPngImage)
 
-		v1.GET("/v1/rectanchoredtexts", GetController().GetRectAnchoredTexts)
-		v1.GET("/v1/rectanchoredtexts/:id", GetController().GetRectAnchoredText)
-		v1.POST("/v1/rectanchoredtexts", GetController().PostRectAnchoredText)
-		v1.PATCH("/v1/rectanchoredtexts/:id", GetController().UpdateRectAnchoredText)
-		v1.PUT("/v1/rectanchoredtexts/:id", GetController().UpdateRectAnchoredText)
-		v1.DELETE("/v1/rectanchoredtexts/:id", GetController().DeleteRectAnchoredText)
+	mux.HandleFunc("GET " + base + "/rectanchoredrects", GetController().GetRectAnchoredRects)
+	mux.HandleFunc("GET " + base + "/rectanchoredrects/{id}", GetController().GetRectAnchoredRect)
+	mux.HandleFunc("POST " + base + "/rectanchoredrects", GetController().PostRectAnchoredRect)
+	mux.HandleFunc("PATCH " + base + "/rectanchoredrects/{id}", GetController().UpdateRectAnchoredRect)
+	mux.HandleFunc("PUT " + base + "/rectanchoredrects/{id}", GetController().UpdateRectAnchoredRect)
+	mux.HandleFunc("DELETE " + base + "/rectanchoredrects/{id}", GetController().DeleteRectAnchoredRect)
 
-		v1.GET("/v1/rectlinklinks", GetController().GetRectLinkLinks)
-		v1.GET("/v1/rectlinklinks/:id", GetController().GetRectLinkLink)
-		v1.POST("/v1/rectlinklinks", GetController().PostRectLinkLink)
-		v1.PATCH("/v1/rectlinklinks/:id", GetController().UpdateRectLinkLink)
-		v1.PUT("/v1/rectlinklinks/:id", GetController().UpdateRectLinkLink)
-		v1.DELETE("/v1/rectlinklinks/:id", GetController().DeleteRectLinkLink)
+	mux.HandleFunc("GET " + base + "/rectanchoredtexts", GetController().GetRectAnchoredTexts)
+	mux.HandleFunc("GET " + base + "/rectanchoredtexts/{id}", GetController().GetRectAnchoredText)
+	mux.HandleFunc("POST " + base + "/rectanchoredtexts", GetController().PostRectAnchoredText)
+	mux.HandleFunc("PATCH " + base + "/rectanchoredtexts/{id}", GetController().UpdateRectAnchoredText)
+	mux.HandleFunc("PUT " + base + "/rectanchoredtexts/{id}", GetController().UpdateRectAnchoredText)
+	mux.HandleFunc("DELETE " + base + "/rectanchoredtexts/{id}", GetController().DeleteRectAnchoredText)
 
-		v1.GET("/v1/svgs", GetController().GetSVGs)
-		v1.GET("/v1/svgs/:id", GetController().GetSVG)
-		v1.POST("/v1/svgs", GetController().PostSVG)
-		v1.PATCH("/v1/svgs/:id", GetController().UpdateSVG)
-		v1.PUT("/v1/svgs/:id", GetController().UpdateSVG)
-		v1.DELETE("/v1/svgs/:id", GetController().DeleteSVG)
+	mux.HandleFunc("GET " + base + "/rectlinklinks", GetController().GetRectLinkLinks)
+	mux.HandleFunc("GET " + base + "/rectlinklinks/{id}", GetController().GetRectLinkLink)
+	mux.HandleFunc("POST " + base + "/rectlinklinks", GetController().PostRectLinkLink)
+	mux.HandleFunc("PATCH " + base + "/rectlinklinks/{id}", GetController().UpdateRectLinkLink)
+	mux.HandleFunc("PUT " + base + "/rectlinklinks/{id}", GetController().UpdateRectLinkLink)
+	mux.HandleFunc("DELETE " + base + "/rectlinklinks/{id}", GetController().DeleteRectLinkLink)
 
-		v1.GET("/v1/svgtexts", GetController().GetSvgTexts)
-		v1.GET("/v1/svgtexts/:id", GetController().GetSvgText)
-		v1.POST("/v1/svgtexts", GetController().PostSvgText)
-		v1.PATCH("/v1/svgtexts/:id", GetController().UpdateSvgText)
-		v1.PUT("/v1/svgtexts/:id", GetController().UpdateSvgText)
-		v1.DELETE("/v1/svgtexts/:id", GetController().DeleteSvgText)
+	mux.HandleFunc("GET " + base + "/svgs", GetController().GetSVGs)
+	mux.HandleFunc("GET " + base + "/svgs/{id}", GetController().GetSVG)
+	mux.HandleFunc("POST " + base + "/svgs", GetController().PostSVG)
+	mux.HandleFunc("PATCH " + base + "/svgs/{id}", GetController().UpdateSVG)
+	mux.HandleFunc("PUT " + base + "/svgs/{id}", GetController().UpdateSVG)
+	mux.HandleFunc("DELETE " + base + "/svgs/{id}", GetController().DeleteSVG)
 
-		v1.GET("/v1/texts", GetController().GetTexts)
-		v1.GET("/v1/texts/:id", GetController().GetText)
-		v1.POST("/v1/texts", GetController().PostText)
-		v1.PATCH("/v1/texts/:id", GetController().UpdateText)
-		v1.PUT("/v1/texts/:id", GetController().UpdateText)
-		v1.DELETE("/v1/texts/:id", GetController().DeleteText)
+	mux.HandleFunc("GET " + base + "/svgtexts", GetController().GetSvgTexts)
+	mux.HandleFunc("GET " + base + "/svgtexts/{id}", GetController().GetSvgText)
+	mux.HandleFunc("POST " + base + "/svgtexts", GetController().PostSvgText)
+	mux.HandleFunc("PATCH " + base + "/svgtexts/{id}", GetController().UpdateSvgText)
+	mux.HandleFunc("PUT " + base + "/svgtexts/{id}", GetController().UpdateSvgText)
+	mux.HandleFunc("DELETE " + base + "/svgtexts/{id}", GetController().DeleteSvgText)
 
-		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/texts", GetController().GetTexts)
+	mux.HandleFunc("GET " + base + "/texts/{id}", GetController().GetText)
+	mux.HandleFunc("POST " + base + "/texts", GetController().PostText)
+	mux.HandleFunc("PATCH " + base + "/texts/{id}", GetController().UpdateText)
+	mux.HandleFunc("PUT " + base + "/texts/{id}", GetController().UpdateText)
+	mux.HandleFunc("DELETE " + base + "/texts/{id}", GetController().DeleteText)
 
-		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
-
-		v1.GET("/v1/stacks", GetController().stacks)
-	}
+	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+	mux.HandleFunc("GET " + base + "/stacks", GetController().stacks)
 }
 
-func (controller *Controller) stacks(c *gin.Context) {
+func (controller *Controller) stacks(w http.ResponseWriter, r *http.Request) {
 
 	var res []string
 
@@ -241,7 +236,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 		res = append(res, k)
 	}
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -251,7 +246,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it subscribe to the backend commit number broadcaster
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
-func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
+func (controller *Controller) onWebSocketRequestForBackRepoContent(w http.ResponseWriter, r *http.Request) {
 
 	// log.Println("Stack github.com/fullstack-lang/gong/lib/svg/go, onWebSocketRequestForBackRepoContent")
 
@@ -273,7 +268,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		},
 	}
 
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	wsConnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -281,10 +276,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	defer wsConnection.Close()
 
 	// Create a context that is canceled when the connection is closed
-	ctx, cancel := context.WithCancel(c.Request.Context())
+	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	values := c.Request.URL.Query()
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -465,8 +460,8 @@ func formatBytes(size int) string {
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastCommitFromBackNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -488,12 +483,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastCommitFromBackNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastPushFromFrontNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -515,5 +510,5 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastPushFromFrontNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }

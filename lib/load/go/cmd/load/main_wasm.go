@@ -3,10 +3,10 @@
 package main
 
 import (
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
-	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 
 	// insertion point for models import{{modelsImportDirective}}
@@ -25,7 +25,7 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
-	r := gin.Default()
+	r := http.NewServeMux()
 
 	// setup model stack with its probe
 	stack := load_stack.NewStack(r, "load", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)

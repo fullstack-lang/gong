@@ -15,8 +15,6 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test1/go/orm"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -53,68 +51,65 @@ type ValidationError struct {
 }
 
 // registerControllers register controllers
-func registerControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong/test/test1/go")
-	{ // insertion point for registrations
-		v1.GET("/v1/astructs", GetController().GetAstructs)
-		v1.GET("/v1/astructs/:id", GetController().GetAstruct)
-		v1.POST("/v1/astructs", GetController().PostAstruct)
-		v1.PATCH("/v1/astructs/:id", GetController().UpdateAstruct)
-		v1.PUT("/v1/astructs/:id", GetController().UpdateAstruct)
-		v1.DELETE("/v1/astructs/:id", GetController().DeleteAstruct)
+func registerControllers(mux *http.ServeMux) {
+	base := "/api/github.com/fullstack-lang/gong/test/test1/go/v1"
 
-		v1.GET("/v1/astructbstruct2uses", GetController().GetAstructBstruct2Uses)
-		v1.GET("/v1/astructbstruct2uses/:id", GetController().GetAstructBstruct2Use)
-		v1.POST("/v1/astructbstruct2uses", GetController().PostAstructBstruct2Use)
-		v1.PATCH("/v1/astructbstruct2uses/:id", GetController().UpdateAstructBstruct2Use)
-		v1.PUT("/v1/astructbstruct2uses/:id", GetController().UpdateAstructBstruct2Use)
-		v1.DELETE("/v1/astructbstruct2uses/:id", GetController().DeleteAstructBstruct2Use)
+	mux.HandleFunc("GET " + base + "/astructs", GetController().GetAstructs)
+	mux.HandleFunc("GET " + base + "/astructs/{id}", GetController().GetAstruct)
+	mux.HandleFunc("POST " + base + "/astructs", GetController().PostAstruct)
+	mux.HandleFunc("PATCH " + base + "/astructs/{id}", GetController().UpdateAstruct)
+	mux.HandleFunc("PUT " + base + "/astructs/{id}", GetController().UpdateAstruct)
+	mux.HandleFunc("DELETE " + base + "/astructs/{id}", GetController().DeleteAstruct)
 
-		v1.GET("/v1/astructbstructuses", GetController().GetAstructBstructUses)
-		v1.GET("/v1/astructbstructuses/:id", GetController().GetAstructBstructUse)
-		v1.POST("/v1/astructbstructuses", GetController().PostAstructBstructUse)
-		v1.PATCH("/v1/astructbstructuses/:id", GetController().UpdateAstructBstructUse)
-		v1.PUT("/v1/astructbstructuses/:id", GetController().UpdateAstructBstructUse)
-		v1.DELETE("/v1/astructbstructuses/:id", GetController().DeleteAstructBstructUse)
+	mux.HandleFunc("GET " + base + "/astructbstruct2uses", GetController().GetAstructBstruct2Uses)
+	mux.HandleFunc("GET " + base + "/astructbstruct2uses/{id}", GetController().GetAstructBstruct2Use)
+	mux.HandleFunc("POST " + base + "/astructbstruct2uses", GetController().PostAstructBstruct2Use)
+	mux.HandleFunc("PATCH " + base + "/astructbstruct2uses/{id}", GetController().UpdateAstructBstruct2Use)
+	mux.HandleFunc("PUT " + base + "/astructbstruct2uses/{id}", GetController().UpdateAstructBstruct2Use)
+	mux.HandleFunc("DELETE " + base + "/astructbstruct2uses/{id}", GetController().DeleteAstructBstruct2Use)
 
-		v1.GET("/v1/bstructs", GetController().GetBstructs)
-		v1.GET("/v1/bstructs/:id", GetController().GetBstruct)
-		v1.POST("/v1/bstructs", GetController().PostBstruct)
-		v1.PATCH("/v1/bstructs/:id", GetController().UpdateBstruct)
-		v1.PUT("/v1/bstructs/:id", GetController().UpdateBstruct)
-		v1.DELETE("/v1/bstructs/:id", GetController().DeleteBstruct)
+	mux.HandleFunc("GET " + base + "/astructbstructuses", GetController().GetAstructBstructUses)
+	mux.HandleFunc("GET " + base + "/astructbstructuses/{id}", GetController().GetAstructBstructUse)
+	mux.HandleFunc("POST " + base + "/astructbstructuses", GetController().PostAstructBstructUse)
+	mux.HandleFunc("PATCH " + base + "/astructbstructuses/{id}", GetController().UpdateAstructBstructUse)
+	mux.HandleFunc("PUT " + base + "/astructbstructuses/{id}", GetController().UpdateAstructBstructUse)
+	mux.HandleFunc("DELETE " + base + "/astructbstructuses/{id}", GetController().DeleteAstructBstructUse)
 
-		v1.GET("/v1/dstructs", GetController().GetDstructs)
-		v1.GET("/v1/dstructs/:id", GetController().GetDstruct)
-		v1.POST("/v1/dstructs", GetController().PostDstruct)
-		v1.PATCH("/v1/dstructs/:id", GetController().UpdateDstruct)
-		v1.PUT("/v1/dstructs/:id", GetController().UpdateDstruct)
-		v1.DELETE("/v1/dstructs/:id", GetController().DeleteDstruct)
+	mux.HandleFunc("GET " + base + "/bstructs", GetController().GetBstructs)
+	mux.HandleFunc("GET " + base + "/bstructs/{id}", GetController().GetBstruct)
+	mux.HandleFunc("POST " + base + "/bstructs", GetController().PostBstruct)
+	mux.HandleFunc("PATCH " + base + "/bstructs/{id}", GetController().UpdateBstruct)
+	mux.HandleFunc("PUT " + base + "/bstructs/{id}", GetController().UpdateBstruct)
+	mux.HandleFunc("DELETE " + base + "/bstructs/{id}", GetController().DeleteBstruct)
 
-		v1.GET("/v1/f0123456789012345678901234567890s", GetController().GetF0123456789012345678901234567890s)
-		v1.GET("/v1/f0123456789012345678901234567890s/:id", GetController().GetF0123456789012345678901234567890)
-		v1.POST("/v1/f0123456789012345678901234567890s", GetController().PostF0123456789012345678901234567890)
-		v1.PATCH("/v1/f0123456789012345678901234567890s/:id", GetController().UpdateF0123456789012345678901234567890)
-		v1.PUT("/v1/f0123456789012345678901234567890s/:id", GetController().UpdateF0123456789012345678901234567890)
-		v1.DELETE("/v1/f0123456789012345678901234567890s/:id", GetController().DeleteF0123456789012345678901234567890)
+	mux.HandleFunc("GET " + base + "/dstructs", GetController().GetDstructs)
+	mux.HandleFunc("GET " + base + "/dstructs/{id}", GetController().GetDstruct)
+	mux.HandleFunc("POST " + base + "/dstructs", GetController().PostDstruct)
+	mux.HandleFunc("PATCH " + base + "/dstructs/{id}", GetController().UpdateDstruct)
+	mux.HandleFunc("PUT " + base + "/dstructs/{id}", GetController().UpdateDstruct)
+	mux.HandleFunc("DELETE " + base + "/dstructs/{id}", GetController().DeleteDstruct)
 
-		v1.GET("/v1/gstructs", GetController().GetGstructs)
-		v1.GET("/v1/gstructs/:id", GetController().GetGstruct)
-		v1.POST("/v1/gstructs", GetController().PostGstruct)
-		v1.PATCH("/v1/gstructs/:id", GetController().UpdateGstruct)
-		v1.PUT("/v1/gstructs/:id", GetController().UpdateGstruct)
-		v1.DELETE("/v1/gstructs/:id", GetController().DeleteGstruct)
+	mux.HandleFunc("GET " + base + "/f0123456789012345678901234567890s", GetController().GetF0123456789012345678901234567890s)
+	mux.HandleFunc("GET " + base + "/f0123456789012345678901234567890s/{id}", GetController().GetF0123456789012345678901234567890)
+	mux.HandleFunc("POST " + base + "/f0123456789012345678901234567890s", GetController().PostF0123456789012345678901234567890)
+	mux.HandleFunc("PATCH " + base + "/f0123456789012345678901234567890s/{id}", GetController().UpdateF0123456789012345678901234567890)
+	mux.HandleFunc("PUT " + base + "/f0123456789012345678901234567890s/{id}", GetController().UpdateF0123456789012345678901234567890)
+	mux.HandleFunc("DELETE " + base + "/f0123456789012345678901234567890s/{id}", GetController().DeleteF0123456789012345678901234567890)
 
-		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/gstructs", GetController().GetGstructs)
+	mux.HandleFunc("GET " + base + "/gstructs/{id}", GetController().GetGstruct)
+	mux.HandleFunc("POST " + base + "/gstructs", GetController().PostGstruct)
+	mux.HandleFunc("PATCH " + base + "/gstructs/{id}", GetController().UpdateGstruct)
+	mux.HandleFunc("PUT " + base + "/gstructs/{id}", GetController().UpdateGstruct)
+	mux.HandleFunc("DELETE " + base + "/gstructs/{id}", GetController().DeleteGstruct)
 
-		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
-
-		v1.GET("/v1/stacks", GetController().stacks)
-	}
+	mux.HandleFunc("GET " + base + "/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+	mux.HandleFunc("GET " + base + "/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
+	mux.HandleFunc("GET " + base + "/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+	mux.HandleFunc("GET " + base + "/stacks", GetController().stacks)
 }
 
-func (controller *Controller) stacks(c *gin.Context) {
+func (controller *Controller) stacks(w http.ResponseWriter, r *http.Request) {
 
 	var res []string
 
@@ -122,7 +117,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 		res = append(res, k)
 	}
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -132,7 +127,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it subscribe to the backend commit number broadcaster
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
-func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
+func (controller *Controller) onWebSocketRequestForBackRepoContent(w http.ResponseWriter, r *http.Request) {
 
 	// log.Println("Stack github.com/fullstack-lang/gong/test/test1/go, onWebSocketRequestForBackRepoContent")
 
@@ -154,7 +149,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		},
 	}
 
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	wsConnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -162,10 +157,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	defer wsConnection.Close()
 
 	// Create a context that is canceled when the connection is closed
-	ctx, cancel := context.WithCancel(c.Request.Context())
+	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	values := c.Request.URL.Query()
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -346,8 +341,8 @@ func formatBytes(size int) string {
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastCommitFromBackNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -369,12 +364,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastCommitFromBackNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	values := c.Request.URL.Query()
+func (controller *Controller) GetLastPushFromFrontNb(w http.ResponseWriter, r *http.Request) {
+	values := r.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
 		value := values["Name"]
@@ -396,5 +391,5 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	res := backRepo.GetLastPushFromFrontNb()
 
-	c.JSON(http.StatusOK, res)
+	writeJSON(w, http.StatusOK, res)
 }

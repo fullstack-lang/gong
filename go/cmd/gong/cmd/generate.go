@@ -34,6 +34,7 @@ var (
 	addr              string
 	run               bool
 	skipGoModCommands bool
+	skipGoBuild       bool
 	skipNpmInstall    bool
 	compileForDebug   bool
 	dbLite            bool
@@ -432,7 +433,7 @@ var generateCmd = &cobra.Command{
 		}
 
 		// go build
-		if true {
+		if !skipGoBuild {
 			start := time.Now()
 			var cmd *exec.Cmd
 			if !compileForDebug {
@@ -500,6 +501,7 @@ func init() {
 	generateCmd.Flags().StringVar(&addr, "addr", "localhost:8080/api", "network address addr where the angular generated service will lookup the server")
 	generateCmd.Flags().BoolVar(&run, "run", false, "run 'go run main.go' after compilation")
 	generateCmd.Flags().BoolVar(&skipGoModCommands, "skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
+	generateCmd.Flags().BoolVar(&skipGoBuild, "skipGoBuild", false, "skip go build command at the end of generation")
 	generateCmd.Flags().BoolVar(&skipNpmInstall, "skipNpmInstall", false, "skip the npm install command")
 	generateCmd.Flags().BoolVar(&compileForDebug, "compileForDebug", false, "The go debugger can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
 	generateCmd.Flags().BoolVar(&dbLite, "dbLite", true, "If true, the database in all stack instances are purely in memory. If false, it is sqlite and can be persisted to a sqlite file")

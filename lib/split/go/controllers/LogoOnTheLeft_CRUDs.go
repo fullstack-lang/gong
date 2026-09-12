@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/split/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type LogoOnTheLeftInput struct {
 // default: genericError
 //
 //	200: logoontheleftDBResponse
-func (controller *Controller) GetLogoOnTheLefts(c *gin.Context) {
+func (controller *Controller) GetLogoOnTheLefts(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var logoontheleftDBs []orm.LogoOnTheLeftDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetLogoOnTheLefts(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetLogoOnTheLefts(c *gin.Context) {
 		logoontheleftAPIs = append(logoontheleftAPIs, logoontheleftAPI)
 	}
 
-	c.JSON(http.StatusOK, logoontheleftAPIs)
+	writeJSON(w, http.StatusOK, logoontheleftAPIs)
 }
 
 // PostLogoOnTheLeft
@@ -122,12 +121,12 @@ func (controller *Controller) GetLogoOnTheLefts(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostLogoOnTheLeft(c *gin.Context) {
+func (controller *Controller) PostLogoOnTheLeft(w http.ResponseWriter, r *http.Request) {
 
 	mutexLogoOnTheLeft.Lock()
 	defer mutexLogoOnTheLeft.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostLogoOnTheLeft(c *gin.Context) {
 	// Validate input
 	var input orm.LogoOnTheLeftAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostLogoOnTheLeft(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostLogoOnTheLeft(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, logoontheleftDB)
+	writeJSON(w, http.StatusOK, logoontheleftDB)
 }
 
 // GetLogoOnTheLeft
@@ -202,9 +201,9 @@ func (controller *Controller) PostLogoOnTheLeft(c *gin.Context) {
 // default: genericError
 //
 //	200: logoontheleftDBResponse
-func (controller *Controller) GetLogoOnTheLeft(c *gin.Context) {
+func (controller *Controller) GetLogoOnTheLeft(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetLogoOnTheLeft(c *gin.Context) {
 
 	// Get logoontheleftDB in DB
 	var logoontheleftDB orm.LogoOnTheLeftDB
-	if _, err := db.First(&logoontheleftDB, c.Param("id")); err != nil {
+	if _, err := db.First(&logoontheleftDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetLogoOnTheLeft(c *gin.Context) {
 	logoontheleftAPI.LogoOnTheLeftPointersEncoding = logoontheleftDB.LogoOnTheLeftPointersEncoding
 	logoontheleftDB.CopyBasicFieldsToLogoOnTheLeft_WOP(&logoontheleftAPI.LogoOnTheLeft_WOP)
 
-	c.JSON(http.StatusOK, logoontheleftAPI)
+	writeJSON(w, http.StatusOK, logoontheleftAPI)
 }
 
 // UpdateLogoOnTheLeft
@@ -255,12 +254,12 @@ func (controller *Controller) GetLogoOnTheLeft(c *gin.Context) {
 // default: genericError
 //
 //	200: logoontheleftDBResponse
-func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
+func (controller *Controller) UpdateLogoOnTheLeft(w http.ResponseWriter, r *http.Request) {
 
 	mutexLogoOnTheLeft.Lock()
 	defer mutexLogoOnTheLeft.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
 
 	// Validate input
 	var input orm.LogoOnTheLeftAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
 	var logoontheleftDB orm.LogoOnTheLeftDB
 
 	// fetch the logoontheleft
-	_, err := db.First(&logoontheleftDB, c.Param("id"))
+	_, err := db.First(&logoontheleftDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the logoontheleftDB
-	c.JSON(http.StatusOK, logoontheleftDB)
+	writeJSON(w, http.StatusOK, logoontheleftDB)
 }
 
 // DeleteLogoOnTheLeft
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
 // default: genericError
 //
 //	200: logoontheleftDBResponse
-func (controller *Controller) DeleteLogoOnTheLeft(c *gin.Context) {
+func (controller *Controller) DeleteLogoOnTheLeft(w http.ResponseWriter, r *http.Request) {
 
 	mutexLogoOnTheLeft.Lock()
 	defer mutexLogoOnTheLeft.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteLogoOnTheLeft(c *gin.Context) {
 
 	// Get model if exist
 	var logoontheleftDB orm.LogoOnTheLeftDB
-	if _, err := db.First(&logoontheleftDB, c.Param("id")); err != nil {
+	if _, err := db.First(&logoontheleftDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteLogoOnTheLeft(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormFieldDateTimeInput struct {
 // default: genericError
 //
 //	200: formfielddatetimeDBResponse
-func (controller *Controller) GetFormFieldDateTimes(c *gin.Context) {
+func (controller *Controller) GetFormFieldDateTimes(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formfielddatetimeDBs []orm.FormFieldDateTimeDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormFieldDateTimes(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormFieldDateTimes(c *gin.Context) {
 		formfielddatetimeAPIs = append(formfielddatetimeAPIs, formfielddatetimeAPI)
 	}
 
-	c.JSON(http.StatusOK, formfielddatetimeAPIs)
+	writeJSON(w, http.StatusOK, formfielddatetimeAPIs)
 }
 
 // PostFormFieldDateTime
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormFieldDateTimes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
+func (controller *Controller) PostFormFieldDateTime(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldDateTime.Lock()
 	defer mutexFormFieldDateTime.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 	// Validate input
 	var input orm.FormFieldDateTimeAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formfielddatetimeDB)
+	writeJSON(w, http.StatusOK, formfielddatetimeDB)
 }
 
 // GetFormFieldDateTime
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 // default: genericError
 //
 //	200: formfielddatetimeDBResponse
-func (controller *Controller) GetFormFieldDateTime(c *gin.Context) {
+func (controller *Controller) GetFormFieldDateTime(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormFieldDateTime(c *gin.Context) {
 
 	// Get formfielddatetimeDB in DB
 	var formfielddatetimeDB orm.FormFieldDateTimeDB
-	if _, err := db.First(&formfielddatetimeDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfielddatetimeDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormFieldDateTime(c *gin.Context) {
 	formfielddatetimeAPI.FormFieldDateTimePointersEncoding = formfielddatetimeDB.FormFieldDateTimePointersEncoding
 	formfielddatetimeDB.CopyBasicFieldsToFormFieldDateTime_WOP(&formfielddatetimeAPI.FormFieldDateTime_WOP)
 
-	c.JSON(http.StatusOK, formfielddatetimeAPI)
+	writeJSON(w, http.StatusOK, formfielddatetimeAPI)
 }
 
 // UpdateFormFieldDateTime
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormFieldDateTime(c *gin.Context) {
 // default: genericError
 //
 //	200: formfielddatetimeDBResponse
-func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
+func (controller *Controller) UpdateFormFieldDateTime(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldDateTime.Lock()
 	defer mutexFormFieldDateTime.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormFieldDateTimeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 	var formfielddatetimeDB orm.FormFieldDateTimeDB
 
 	// fetch the formfielddatetime
-	_, err := db.First(&formfielddatetimeDB, c.Param("id"))
+	_, err := db.First(&formfielddatetimeDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formfielddatetimeDB
-	c.JSON(http.StatusOK, formfielddatetimeDB)
+	writeJSON(w, http.StatusOK, formfielddatetimeDB)
 }
 
 // DeleteFormFieldDateTime
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 // default: genericError
 //
 //	200: formfielddatetimeDBResponse
-func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
+func (controller *Controller) DeleteFormFieldDateTime(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldDateTime.Lock()
 	defer mutexFormFieldDateTime.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
 
 	// Get model if exist
 	var formfielddatetimeDB orm.FormFieldDateTimeDB
-	if _, err := db.First(&formfielddatetimeDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfielddatetimeDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

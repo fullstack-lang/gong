@@ -3,7 +3,7 @@
 package models
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
@@ -53,7 +53,7 @@ type Stager struct {
 }
 
 func NewStager(
-	r *gin.Engine,
+	r *http.ServeMux,
 	stage *Stage,
 	probeForm ProbeIF,
 	persistanceFile string,

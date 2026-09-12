@@ -5,7 +5,7 @@ const StagerFileTemplate = `// generated boilerplate code
 package models
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -18,7 +18,7 @@ type Stager struct {
 }
 
 func NewStager(
-	r *gin.Engine,
+	r *http.ServeMux,
 	stage *Stage,
 	probeForm ProbeIF,
 ) (stager *Stager) {

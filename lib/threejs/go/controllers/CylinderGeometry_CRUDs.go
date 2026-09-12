@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CylinderGeometryInput struct {
 // default: genericError
 //
 //	200: cylindergeometryDBResponse
-func (controller *Controller) GetCylinderGeometrys(c *gin.Context) {
+func (controller *Controller) GetCylinderGeometrys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var cylindergeometryDBs []orm.CylinderGeometryDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCylinderGeometrys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCylinderGeometrys(c *gin.Context) {
 		cylindergeometryAPIs = append(cylindergeometryAPIs, cylindergeometryAPI)
 	}
 
-	c.JSON(http.StatusOK, cylindergeometryAPIs)
+	writeJSON(w, http.StatusOK, cylindergeometryAPIs)
 }
 
 // PostCylinderGeometry
@@ -122,12 +121,12 @@ func (controller *Controller) GetCylinderGeometrys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCylinderGeometry(c *gin.Context) {
+func (controller *Controller) PostCylinderGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexCylinderGeometry.Lock()
 	defer mutexCylinderGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCylinderGeometry(c *gin.Context) {
 	// Validate input
 	var input orm.CylinderGeometryAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCylinderGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCylinderGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, cylindergeometryDB)
+	writeJSON(w, http.StatusOK, cylindergeometryDB)
 }
 
 // GetCylinderGeometry
@@ -202,9 +201,9 @@ func (controller *Controller) PostCylinderGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: cylindergeometryDBResponse
-func (controller *Controller) GetCylinderGeometry(c *gin.Context) {
+func (controller *Controller) GetCylinderGeometry(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCylinderGeometry(c *gin.Context) {
 
 	// Get cylindergeometryDB in DB
 	var cylindergeometryDB orm.CylinderGeometryDB
-	if _, err := db.First(&cylindergeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cylindergeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCylinderGeometry(c *gin.Context) {
 	cylindergeometryAPI.CylinderGeometryPointersEncoding = cylindergeometryDB.CylinderGeometryPointersEncoding
 	cylindergeometryDB.CopyBasicFieldsToCylinderGeometry_WOP(&cylindergeometryAPI.CylinderGeometry_WOP)
 
-	c.JSON(http.StatusOK, cylindergeometryAPI)
+	writeJSON(w, http.StatusOK, cylindergeometryAPI)
 }
 
 // UpdateCylinderGeometry
@@ -255,12 +254,12 @@ func (controller *Controller) GetCylinderGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: cylindergeometryDBResponse
-func (controller *Controller) UpdateCylinderGeometry(c *gin.Context) {
+func (controller *Controller) UpdateCylinderGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexCylinderGeometry.Lock()
 	defer mutexCylinderGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCylinderGeometry(c *gin.Context) {
 
 	// Validate input
 	var input orm.CylinderGeometryAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCylinderGeometry(c *gin.Context) {
 	var cylindergeometryDB orm.CylinderGeometryDB
 
 	// fetch the cylindergeometry
-	_, err := db.First(&cylindergeometryDB, c.Param("id"))
+	_, err := db.First(&cylindergeometryDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCylinderGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCylinderGeometry(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the cylindergeometryDB
-	c.JSON(http.StatusOK, cylindergeometryDB)
+	writeJSON(w, http.StatusOK, cylindergeometryDB)
 }
 
 // DeleteCylinderGeometry
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCylinderGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: cylindergeometryDBResponse
-func (controller *Controller) DeleteCylinderGeometry(c *gin.Context) {
+func (controller *Controller) DeleteCylinderGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexCylinderGeometry.Lock()
 	defer mutexCylinderGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCylinderGeometry(c *gin.Context) {
 
 	// Get model if exist
 	var cylindergeometryDB orm.CylinderGeometryDB
-	if _, err := db.First(&cylindergeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cylindergeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCylinderGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

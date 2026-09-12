@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type ShapeInput struct {
 // default: genericError
 //
 //	200: shapeDBResponse
-func (controller *Controller) GetShapes(c *gin.Context) {
+func (controller *Controller) GetShapes(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var shapeDBs []orm.ShapeDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetShapes(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetShapes(c *gin.Context) {
 		shapeAPIs = append(shapeAPIs, shapeAPI)
 	}
 
-	c.JSON(http.StatusOK, shapeAPIs)
+	writeJSON(w, http.StatusOK, shapeAPIs)
 }
 
 // PostShape
@@ -122,12 +121,12 @@ func (controller *Controller) GetShapes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostShape(c *gin.Context) {
+func (controller *Controller) PostShape(w http.ResponseWriter, r *http.Request) {
 
 	mutexShape.Lock()
 	defer mutexShape.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostShape(c *gin.Context) {
 	// Validate input
 	var input orm.ShapeAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostShape(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostShape(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, shapeDB)
+	writeJSON(w, http.StatusOK, shapeDB)
 }
 
 // GetShape
@@ -202,9 +201,9 @@ func (controller *Controller) PostShape(c *gin.Context) {
 // default: genericError
 //
 //	200: shapeDBResponse
-func (controller *Controller) GetShape(c *gin.Context) {
+func (controller *Controller) GetShape(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetShape(c *gin.Context) {
 
 	// Get shapeDB in DB
 	var shapeDB orm.ShapeDB
-	if _, err := db.First(&shapeDB, c.Param("id")); err != nil {
+	if _, err := db.First(&shapeDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetShape(c *gin.Context) {
 	shapeAPI.ShapePointersEncoding = shapeDB.ShapePointersEncoding
 	shapeDB.CopyBasicFieldsToShape_WOP(&shapeAPI.Shape_WOP)
 
-	c.JSON(http.StatusOK, shapeAPI)
+	writeJSON(w, http.StatusOK, shapeAPI)
 }
 
 // UpdateShape
@@ -255,12 +254,12 @@ func (controller *Controller) GetShape(c *gin.Context) {
 // default: genericError
 //
 //	200: shapeDBResponse
-func (controller *Controller) UpdateShape(c *gin.Context) {
+func (controller *Controller) UpdateShape(w http.ResponseWriter, r *http.Request) {
 
 	mutexShape.Lock()
 	defer mutexShape.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateShape(c *gin.Context) {
 
 	// Validate input
 	var input orm.ShapeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateShape(c *gin.Context) {
 	var shapeDB orm.ShapeDB
 
 	// fetch the shape
-	_, err := db.First(&shapeDB, c.Param("id"))
+	_, err := db.First(&shapeDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateShape(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateShape(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the shapeDB
-	c.JSON(http.StatusOK, shapeDB)
+	writeJSON(w, http.StatusOK, shapeDB)
 }
 
 // DeleteShape
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateShape(c *gin.Context) {
 // default: genericError
 //
 //	200: shapeDBResponse
-func (controller *Controller) DeleteShape(c *gin.Context) {
+func (controller *Controller) DeleteShape(w http.ResponseWriter, r *http.Request) {
 
 	mutexShape.Lock()
 	defer mutexShape.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteShape(c *gin.Context) {
 
 	// Get model if exist
 	var shapeDB orm.ShapeDB
-	if _, err := db.First(&shapeDB, c.Param("id")); err != nil {
+	if _, err := db.First(&shapeDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteShape(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

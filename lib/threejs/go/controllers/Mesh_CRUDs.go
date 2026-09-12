@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type MeshInput struct {
 // default: genericError
 //
 //	200: meshDBResponse
-func (controller *Controller) GetMeshs(c *gin.Context) {
+func (controller *Controller) GetMeshs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var meshDBs []orm.MeshDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetMeshs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetMeshs(c *gin.Context) {
 		meshAPIs = append(meshAPIs, meshAPI)
 	}
 
-	c.JSON(http.StatusOK, meshAPIs)
+	writeJSON(w, http.StatusOK, meshAPIs)
 }
 
 // PostMesh
@@ -122,12 +121,12 @@ func (controller *Controller) GetMeshs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostMesh(c *gin.Context) {
+func (controller *Controller) PostMesh(w http.ResponseWriter, r *http.Request) {
 
 	mutexMesh.Lock()
 	defer mutexMesh.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostMesh(c *gin.Context) {
 	// Validate input
 	var input orm.MeshAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostMesh(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostMesh(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, meshDB)
+	writeJSON(w, http.StatusOK, meshDB)
 }
 
 // GetMesh
@@ -202,9 +201,9 @@ func (controller *Controller) PostMesh(c *gin.Context) {
 // default: genericError
 //
 //	200: meshDBResponse
-func (controller *Controller) GetMesh(c *gin.Context) {
+func (controller *Controller) GetMesh(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetMesh(c *gin.Context) {
 
 	// Get meshDB in DB
 	var meshDB orm.MeshDB
-	if _, err := db.First(&meshDB, c.Param("id")); err != nil {
+	if _, err := db.First(&meshDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetMesh(c *gin.Context) {
 	meshAPI.MeshPointersEncoding = meshDB.MeshPointersEncoding
 	meshDB.CopyBasicFieldsToMesh_WOP(&meshAPI.Mesh_WOP)
 
-	c.JSON(http.StatusOK, meshAPI)
+	writeJSON(w, http.StatusOK, meshAPI)
 }
 
 // UpdateMesh
@@ -255,12 +254,12 @@ func (controller *Controller) GetMesh(c *gin.Context) {
 // default: genericError
 //
 //	200: meshDBResponse
-func (controller *Controller) UpdateMesh(c *gin.Context) {
+func (controller *Controller) UpdateMesh(w http.ResponseWriter, r *http.Request) {
 
 	mutexMesh.Lock()
 	defer mutexMesh.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateMesh(c *gin.Context) {
 
 	// Validate input
 	var input orm.MeshAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateMesh(c *gin.Context) {
 	var meshDB orm.MeshDB
 
 	// fetch the mesh
-	_, err := db.First(&meshDB, c.Param("id"))
+	_, err := db.First(&meshDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateMesh(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateMesh(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the meshDB
-	c.JSON(http.StatusOK, meshDB)
+	writeJSON(w, http.StatusOK, meshDB)
 }
 
 // DeleteMesh
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateMesh(c *gin.Context) {
 // default: genericError
 //
 //	200: meshDBResponse
-func (controller *Controller) DeleteMesh(c *gin.Context) {
+func (controller *Controller) DeleteMesh(w http.ResponseWriter, r *http.Request) {
 
 	mutexMesh.Lock()
 	defer mutexMesh.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteMesh(c *gin.Context) {
 
 	// Get model if exist
 	var meshDB orm.MeshDB
-	if _, err := db.First(&meshDB, c.Param("id")); err != nil {
+	if _, err := db.First(&meshDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteMesh(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/load/go/models"
 	"github.com/fullstack-lang/gong/lib/load/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FileToDownloadInput struct {
 // default: genericError
 //
 //	200: filetodownloadDBResponse
-func (controller *Controller) GetFileToDownloads(c *gin.Context) {
+func (controller *Controller) GetFileToDownloads(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var filetodownloadDBs []orm.FileToDownloadDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFileToDownloads(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFileToDownloads(c *gin.Context) {
 		filetodownloadAPIs = append(filetodownloadAPIs, filetodownloadAPI)
 	}
 
-	c.JSON(http.StatusOK, filetodownloadAPIs)
+	writeJSON(w, http.StatusOK, filetodownloadAPIs)
 }
 
 // PostFileToDownload
@@ -122,12 +121,12 @@ func (controller *Controller) GetFileToDownloads(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFileToDownload(c *gin.Context) {
+func (controller *Controller) PostFileToDownload(w http.ResponseWriter, r *http.Request) {
 
 	mutexFileToDownload.Lock()
 	defer mutexFileToDownload.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFileToDownload(c *gin.Context) {
 	// Validate input
 	var input orm.FileToDownloadAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFileToDownload(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFileToDownload(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, filetodownloadDB)
+	writeJSON(w, http.StatusOK, filetodownloadDB)
 }
 
 // GetFileToDownload
@@ -202,9 +201,9 @@ func (controller *Controller) PostFileToDownload(c *gin.Context) {
 // default: genericError
 //
 //	200: filetodownloadDBResponse
-func (controller *Controller) GetFileToDownload(c *gin.Context) {
+func (controller *Controller) GetFileToDownload(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFileToDownload(c *gin.Context) {
 
 	// Get filetodownloadDB in DB
 	var filetodownloadDB orm.FileToDownloadDB
-	if _, err := db.First(&filetodownloadDB, c.Param("id")); err != nil {
+	if _, err := db.First(&filetodownloadDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFileToDownload(c *gin.Context) {
 	filetodownloadAPI.FileToDownloadPointersEncoding = filetodownloadDB.FileToDownloadPointersEncoding
 	filetodownloadDB.CopyBasicFieldsToFileToDownload_WOP(&filetodownloadAPI.FileToDownload_WOP)
 
-	c.JSON(http.StatusOK, filetodownloadAPI)
+	writeJSON(w, http.StatusOK, filetodownloadAPI)
 }
 
 // UpdateFileToDownload
@@ -255,12 +254,12 @@ func (controller *Controller) GetFileToDownload(c *gin.Context) {
 // default: genericError
 //
 //	200: filetodownloadDBResponse
-func (controller *Controller) UpdateFileToDownload(c *gin.Context) {
+func (controller *Controller) UpdateFileToDownload(w http.ResponseWriter, r *http.Request) {
 
 	mutexFileToDownload.Lock()
 	defer mutexFileToDownload.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFileToDownload(c *gin.Context) {
 
 	// Validate input
 	var input orm.FileToDownloadAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFileToDownload(c *gin.Context) {
 	var filetodownloadDB orm.FileToDownloadDB
 
 	// fetch the filetodownload
-	_, err := db.First(&filetodownloadDB, c.Param("id"))
+	_, err := db.First(&filetodownloadDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFileToDownload(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFileToDownload(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the filetodownloadDB
-	c.JSON(http.StatusOK, filetodownloadDB)
+	writeJSON(w, http.StatusOK, filetodownloadDB)
 }
 
 // DeleteFileToDownload
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFileToDownload(c *gin.Context) {
 // default: genericError
 //
 //	200: filetodownloadDBResponse
-func (controller *Controller) DeleteFileToDownload(c *gin.Context) {
+func (controller *Controller) DeleteFileToDownload(w http.ResponseWriter, r *http.Request) {
 
 	mutexFileToDownload.Lock()
 	defer mutexFileToDownload.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFileToDownload(c *gin.Context) {
 
 	// Get model if exist
 	var filetodownloadDB orm.FileToDownloadDB
-	if _, err := db.First(&filetodownloadDB, c.Param("id")); err != nil {
+	if _, err := db.First(&filetodownloadDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFileToDownload(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

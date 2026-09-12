@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/tone/go/models"
 	"github.com/fullstack-lang/gong/lib/tone/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type PlayerInput struct {
 // default: genericError
 //
 //	200: playerDBResponse
-func (controller *Controller) GetPlayers(c *gin.Context) {
+func (controller *Controller) GetPlayers(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var playerDBs []orm.PlayerDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetPlayers(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetPlayers(c *gin.Context) {
 		playerAPIs = append(playerAPIs, playerAPI)
 	}
 
-	c.JSON(http.StatusOK, playerAPIs)
+	writeJSON(w, http.StatusOK, playerAPIs)
 }
 
 // PostPlayer
@@ -122,12 +121,12 @@ func (controller *Controller) GetPlayers(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostPlayer(c *gin.Context) {
+func (controller *Controller) PostPlayer(w http.ResponseWriter, r *http.Request) {
 
 	mutexPlayer.Lock()
 	defer mutexPlayer.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostPlayer(c *gin.Context) {
 	// Validate input
 	var input orm.PlayerAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostPlayer(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostPlayer(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, playerDB)
+	writeJSON(w, http.StatusOK, playerDB)
 }
 
 // GetPlayer
@@ -202,9 +201,9 @@ func (controller *Controller) PostPlayer(c *gin.Context) {
 // default: genericError
 //
 //	200: playerDBResponse
-func (controller *Controller) GetPlayer(c *gin.Context) {
+func (controller *Controller) GetPlayer(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetPlayer(c *gin.Context) {
 
 	// Get playerDB in DB
 	var playerDB orm.PlayerDB
-	if _, err := db.First(&playerDB, c.Param("id")); err != nil {
+	if _, err := db.First(&playerDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetPlayer(c *gin.Context) {
 	playerAPI.PlayerPointersEncoding = playerDB.PlayerPointersEncoding
 	playerDB.CopyBasicFieldsToPlayer_WOP(&playerAPI.Player_WOP)
 
-	c.JSON(http.StatusOK, playerAPI)
+	writeJSON(w, http.StatusOK, playerAPI)
 }
 
 // UpdatePlayer
@@ -255,12 +254,12 @@ func (controller *Controller) GetPlayer(c *gin.Context) {
 // default: genericError
 //
 //	200: playerDBResponse
-func (controller *Controller) UpdatePlayer(c *gin.Context) {
+func (controller *Controller) UpdatePlayer(w http.ResponseWriter, r *http.Request) {
 
 	mutexPlayer.Lock()
 	defer mutexPlayer.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdatePlayer(c *gin.Context) {
 
 	// Validate input
 	var input orm.PlayerAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdatePlayer(c *gin.Context) {
 	var playerDB orm.PlayerDB
 
 	// fetch the player
-	_, err := db.First(&playerDB, c.Param("id"))
+	_, err := db.First(&playerDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdatePlayer(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdatePlayer(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the playerDB
-	c.JSON(http.StatusOK, playerDB)
+	writeJSON(w, http.StatusOK, playerDB)
 }
 
 // DeletePlayer
@@ -352,12 +351,12 @@ func (controller *Controller) UpdatePlayer(c *gin.Context) {
 // default: genericError
 //
 //	200: playerDBResponse
-func (controller *Controller) DeletePlayer(c *gin.Context) {
+func (controller *Controller) DeletePlayer(w http.ResponseWriter, r *http.Request) {
 
 	mutexPlayer.Lock()
 	defer mutexPlayer.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeletePlayer(c *gin.Context) {
 
 	// Get model if exist
 	var playerDB orm.PlayerDB
-	if _, err := db.First(&playerDB, c.Param("id")); err != nil {
+	if _, err := db.First(&playerDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeletePlayer(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

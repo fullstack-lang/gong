@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/load/go/models"
 	"github.com/fullstack-lang/gong/lib/load/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FileToUploadInput struct {
 // default: genericError
 //
 //	200: filetouploadDBResponse
-func (controller *Controller) GetFileToUploads(c *gin.Context) {
+func (controller *Controller) GetFileToUploads(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var filetouploadDBs []orm.FileToUploadDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFileToUploads(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFileToUploads(c *gin.Context) {
 		filetouploadAPIs = append(filetouploadAPIs, filetouploadAPI)
 	}
 
-	c.JSON(http.StatusOK, filetouploadAPIs)
+	writeJSON(w, http.StatusOK, filetouploadAPIs)
 }
 
 // PostFileToUpload
@@ -122,12 +121,12 @@ func (controller *Controller) GetFileToUploads(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFileToUpload(c *gin.Context) {
+func (controller *Controller) PostFileToUpload(w http.ResponseWriter, r *http.Request) {
 
 	mutexFileToUpload.Lock()
 	defer mutexFileToUpload.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFileToUpload(c *gin.Context) {
 	// Validate input
 	var input orm.FileToUploadAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFileToUpload(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFileToUpload(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, filetouploadDB)
+	writeJSON(w, http.StatusOK, filetouploadDB)
 }
 
 // GetFileToUpload
@@ -202,9 +201,9 @@ func (controller *Controller) PostFileToUpload(c *gin.Context) {
 // default: genericError
 //
 //	200: filetouploadDBResponse
-func (controller *Controller) GetFileToUpload(c *gin.Context) {
+func (controller *Controller) GetFileToUpload(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFileToUpload(c *gin.Context) {
 
 	// Get filetouploadDB in DB
 	var filetouploadDB orm.FileToUploadDB
-	if _, err := db.First(&filetouploadDB, c.Param("id")); err != nil {
+	if _, err := db.First(&filetouploadDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFileToUpload(c *gin.Context) {
 	filetouploadAPI.FileToUploadPointersEncoding = filetouploadDB.FileToUploadPointersEncoding
 	filetouploadDB.CopyBasicFieldsToFileToUpload_WOP(&filetouploadAPI.FileToUpload_WOP)
 
-	c.JSON(http.StatusOK, filetouploadAPI)
+	writeJSON(w, http.StatusOK, filetouploadAPI)
 }
 
 // UpdateFileToUpload
@@ -255,12 +254,12 @@ func (controller *Controller) GetFileToUpload(c *gin.Context) {
 // default: genericError
 //
 //	200: filetouploadDBResponse
-func (controller *Controller) UpdateFileToUpload(c *gin.Context) {
+func (controller *Controller) UpdateFileToUpload(w http.ResponseWriter, r *http.Request) {
 
 	mutexFileToUpload.Lock()
 	defer mutexFileToUpload.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFileToUpload(c *gin.Context) {
 
 	// Validate input
 	var input orm.FileToUploadAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFileToUpload(c *gin.Context) {
 	var filetouploadDB orm.FileToUploadDB
 
 	// fetch the filetoupload
-	_, err := db.First(&filetouploadDB, c.Param("id"))
+	_, err := db.First(&filetouploadDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFileToUpload(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFileToUpload(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the filetouploadDB
-	c.JSON(http.StatusOK, filetouploadDB)
+	writeJSON(w, http.StatusOK, filetouploadDB)
 }
 
 // DeleteFileToUpload
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFileToUpload(c *gin.Context) {
 // default: genericError
 //
 //	200: filetouploadDBResponse
-func (controller *Controller) DeleteFileToUpload(c *gin.Context) {
+func (controller *Controller) DeleteFileToUpload(w http.ResponseWriter, r *http.Request) {
 
 	mutexFileToUpload.Lock()
 	defer mutexFileToUpload.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFileToUpload(c *gin.Context) {
 
 	// Get model if exist
 	var filetouploadDB orm.FileToUploadDB
-	if _, err := db.First(&filetouploadDB, c.Param("id")); err != nil {
+	if _, err := db.First(&filetouploadDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFileToUpload(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

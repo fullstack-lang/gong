@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormSortAssocButtonInput struct {
 // default: genericError
 //
 //	200: formsortassocbuttonDBResponse
-func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
+func (controller *Controller) GetFormSortAssocButtons(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formsortassocbuttonDBs []orm.FormSortAssocButtonDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 		formsortassocbuttonAPIs = append(formsortassocbuttonAPIs, formsortassocbuttonAPI)
 	}
 
-	c.JSON(http.StatusOK, formsortassocbuttonAPIs)
+	writeJSON(w, http.StatusOK, formsortassocbuttonAPIs)
 }
 
 // PostFormSortAssocButton
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
+func (controller *Controller) PostFormSortAssocButton(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormSortAssocButton.Lock()
 	defer mutexFormSortAssocButton.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 	// Validate input
 	var input orm.FormSortAssocButtonAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formsortassocbuttonDB)
+	writeJSON(w, http.StatusOK, formsortassocbuttonDB)
 }
 
 // GetFormSortAssocButton
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 // default: genericError
 //
 //	200: formsortassocbuttonDBResponse
-func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
+func (controller *Controller) GetFormSortAssocButton(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 
 	// Get formsortassocbuttonDB in DB
 	var formsortassocbuttonDB orm.FormSortAssocButtonDB
-	if _, err := db.First(&formsortassocbuttonDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formsortassocbuttonDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 	formsortassocbuttonAPI.FormSortAssocButtonPointersEncoding = formsortassocbuttonDB.FormSortAssocButtonPointersEncoding
 	formsortassocbuttonDB.CopyBasicFieldsToFormSortAssocButton_WOP(&formsortassocbuttonAPI.FormSortAssocButton_WOP)
 
-	c.JSON(http.StatusOK, formsortassocbuttonAPI)
+	writeJSON(w, http.StatusOK, formsortassocbuttonAPI)
 }
 
 // UpdateFormSortAssocButton
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 // default: genericError
 //
 //	200: formsortassocbuttonDBResponse
-func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
+func (controller *Controller) UpdateFormSortAssocButton(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormSortAssocButton.Lock()
 	defer mutexFormSortAssocButton.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormSortAssocButtonAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	var formsortassocbuttonDB orm.FormSortAssocButtonDB
 
 	// fetch the formsortassocbutton
-	_, err := db.First(&formsortassocbuttonDB, c.Param("id"))
+	_, err := db.First(&formsortassocbuttonDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formsortassocbuttonDB
-	c.JSON(http.StatusOK, formsortassocbuttonDB)
+	writeJSON(w, http.StatusOK, formsortassocbuttonDB)
 }
 
 // DeleteFormSortAssocButton
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 // default: genericError
 //
 //	200: formsortassocbuttonDBResponse
-func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
+func (controller *Controller) DeleteFormSortAssocButton(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormSortAssocButton.Lock()
 	defer mutexFormSortAssocButton.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 
 	// Get model if exist
 	var formsortassocbuttonDB orm.FormSortAssocButtonDB
-	if _, err := db.First(&formsortassocbuttonDB, c.Param("id")); err != nil {
+	if _, err := db.First(&formsortassocbuttonDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

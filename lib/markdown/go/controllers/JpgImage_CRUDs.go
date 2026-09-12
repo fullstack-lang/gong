@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/markdown/go/models"
 	"github.com/fullstack-lang/gong/lib/markdown/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type JpgImageInput struct {
 // default: genericError
 //
 //	200: jpgimageDBResponse
-func (controller *Controller) GetJpgImages(c *gin.Context) {
+func (controller *Controller) GetJpgImages(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var jpgimageDBs []orm.JpgImageDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetJpgImages(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetJpgImages(c *gin.Context) {
 		jpgimageAPIs = append(jpgimageAPIs, jpgimageAPI)
 	}
 
-	c.JSON(http.StatusOK, jpgimageAPIs)
+	writeJSON(w, http.StatusOK, jpgimageAPIs)
 }
 
 // PostJpgImage
@@ -122,12 +121,12 @@ func (controller *Controller) GetJpgImages(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostJpgImage(c *gin.Context) {
+func (controller *Controller) PostJpgImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexJpgImage.Lock()
 	defer mutexJpgImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostJpgImage(c *gin.Context) {
 	// Validate input
 	var input orm.JpgImageAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostJpgImage(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostJpgImage(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, jpgimageDB)
+	writeJSON(w, http.StatusOK, jpgimageDB)
 }
 
 // GetJpgImage
@@ -202,9 +201,9 @@ func (controller *Controller) PostJpgImage(c *gin.Context) {
 // default: genericError
 //
 //	200: jpgimageDBResponse
-func (controller *Controller) GetJpgImage(c *gin.Context) {
+func (controller *Controller) GetJpgImage(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetJpgImage(c *gin.Context) {
 
 	// Get jpgimageDB in DB
 	var jpgimageDB orm.JpgImageDB
-	if _, err := db.First(&jpgimageDB, c.Param("id")); err != nil {
+	if _, err := db.First(&jpgimageDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetJpgImage(c *gin.Context) {
 	jpgimageAPI.JpgImagePointersEncoding = jpgimageDB.JpgImagePointersEncoding
 	jpgimageDB.CopyBasicFieldsToJpgImage_WOP(&jpgimageAPI.JpgImage_WOP)
 
-	c.JSON(http.StatusOK, jpgimageAPI)
+	writeJSON(w, http.StatusOK, jpgimageAPI)
 }
 
 // UpdateJpgImage
@@ -255,12 +254,12 @@ func (controller *Controller) GetJpgImage(c *gin.Context) {
 // default: genericError
 //
 //	200: jpgimageDBResponse
-func (controller *Controller) UpdateJpgImage(c *gin.Context) {
+func (controller *Controller) UpdateJpgImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexJpgImage.Lock()
 	defer mutexJpgImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateJpgImage(c *gin.Context) {
 
 	// Validate input
 	var input orm.JpgImageAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateJpgImage(c *gin.Context) {
 	var jpgimageDB orm.JpgImageDB
 
 	// fetch the jpgimage
-	_, err := db.First(&jpgimageDB, c.Param("id"))
+	_, err := db.First(&jpgimageDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateJpgImage(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateJpgImage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the jpgimageDB
-	c.JSON(http.StatusOK, jpgimageDB)
+	writeJSON(w, http.StatusOK, jpgimageDB)
 }
 
 // DeleteJpgImage
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateJpgImage(c *gin.Context) {
 // default: genericError
 //
 //	200: jpgimageDBResponse
-func (controller *Controller) DeleteJpgImage(c *gin.Context) {
+func (controller *Controller) DeleteJpgImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexJpgImage.Lock()
 	defer mutexJpgImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteJpgImage(c *gin.Context) {
 
 	// Get model if exist
 	var jpgimageDB orm.JpgImageDB
-	if _, err := db.First(&jpgimageDB, c.Param("id")); err != nil {
+	if _, err := db.First(&jpgimageDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteJpgImage(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

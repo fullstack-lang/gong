@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type EllipseInput struct {
 // default: genericError
 //
 //	200: ellipseDBResponse
-func (controller *Controller) GetEllipses(c *gin.Context) {
+func (controller *Controller) GetEllipses(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var ellipseDBs []orm.EllipseDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetEllipses(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetEllipses(c *gin.Context) {
 		ellipseAPIs = append(ellipseAPIs, ellipseAPI)
 	}
 
-	c.JSON(http.StatusOK, ellipseAPIs)
+	writeJSON(w, http.StatusOK, ellipseAPIs)
 }
 
 // PostEllipse
@@ -122,12 +121,12 @@ func (controller *Controller) GetEllipses(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostEllipse(c *gin.Context) {
+func (controller *Controller) PostEllipse(w http.ResponseWriter, r *http.Request) {
 
 	mutexEllipse.Lock()
 	defer mutexEllipse.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 	// Validate input
 	var input orm.EllipseAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, ellipseDB)
+	writeJSON(w, http.StatusOK, ellipseDB)
 }
 
 // GetEllipse
@@ -202,9 +201,9 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 // default: genericError
 //
 //	200: ellipseDBResponse
-func (controller *Controller) GetEllipse(c *gin.Context) {
+func (controller *Controller) GetEllipse(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetEllipse(c *gin.Context) {
 
 	// Get ellipseDB in DB
 	var ellipseDB orm.EllipseDB
-	if _, err := db.First(&ellipseDB, c.Param("id")); err != nil {
+	if _, err := db.First(&ellipseDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetEllipse(c *gin.Context) {
 	ellipseAPI.EllipsePointersEncoding = ellipseDB.EllipsePointersEncoding
 	ellipseDB.CopyBasicFieldsToEllipse_WOP(&ellipseAPI.Ellipse_WOP)
 
-	c.JSON(http.StatusOK, ellipseAPI)
+	writeJSON(w, http.StatusOK, ellipseAPI)
 }
 
 // UpdateEllipse
@@ -255,12 +254,12 @@ func (controller *Controller) GetEllipse(c *gin.Context) {
 // default: genericError
 //
 //	200: ellipseDBResponse
-func (controller *Controller) UpdateEllipse(c *gin.Context) {
+func (controller *Controller) UpdateEllipse(w http.ResponseWriter, r *http.Request) {
 
 	mutexEllipse.Lock()
 	defer mutexEllipse.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 
 	// Validate input
 	var input orm.EllipseAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	var ellipseDB orm.EllipseDB
 
 	// fetch the ellipse
-	_, err := db.First(&ellipseDB, c.Param("id"))
+	_, err := db.First(&ellipseDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the ellipseDB
-	c.JSON(http.StatusOK, ellipseDB)
+	writeJSON(w, http.StatusOK, ellipseDB)
 }
 
 // DeleteEllipse
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 // default: genericError
 //
 //	200: ellipseDBResponse
-func (controller *Controller) DeleteEllipse(c *gin.Context) {
+func (controller *Controller) DeleteEllipse(w http.ResponseWriter, r *http.Request) {
 
 	mutexEllipse.Lock()
 	defer mutexEllipse.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteEllipse(c *gin.Context) {
 
 	// Get model if exist
 	var ellipseDB orm.EllipseDB
-	if _, err := db.First(&ellipseDB, c.Param("id")); err != nil {
+	if _, err := db.First(&ellipseDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteEllipse(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

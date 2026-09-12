@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type LineInput struct {
 // default: genericError
 //
 //	200: lineDBResponse
-func (controller *Controller) GetLines(c *gin.Context) {
+func (controller *Controller) GetLines(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var lineDBs []orm.LineDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetLines(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetLines(c *gin.Context) {
 		lineAPIs = append(lineAPIs, lineAPI)
 	}
 
-	c.JSON(http.StatusOK, lineAPIs)
+	writeJSON(w, http.StatusOK, lineAPIs)
 }
 
 // PostLine
@@ -122,12 +121,12 @@ func (controller *Controller) GetLines(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostLine(c *gin.Context) {
+func (controller *Controller) PostLine(w http.ResponseWriter, r *http.Request) {
 
 	mutexLine.Lock()
 	defer mutexLine.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostLine(c *gin.Context) {
 	// Validate input
 	var input orm.LineAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostLine(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostLine(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, lineDB)
+	writeJSON(w, http.StatusOK, lineDB)
 }
 
 // GetLine
@@ -202,9 +201,9 @@ func (controller *Controller) PostLine(c *gin.Context) {
 // default: genericError
 //
 //	200: lineDBResponse
-func (controller *Controller) GetLine(c *gin.Context) {
+func (controller *Controller) GetLine(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetLine(c *gin.Context) {
 
 	// Get lineDB in DB
 	var lineDB orm.LineDB
-	if _, err := db.First(&lineDB, c.Param("id")); err != nil {
+	if _, err := db.First(&lineDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetLine(c *gin.Context) {
 	lineAPI.LinePointersEncoding = lineDB.LinePointersEncoding
 	lineDB.CopyBasicFieldsToLine_WOP(&lineAPI.Line_WOP)
 
-	c.JSON(http.StatusOK, lineAPI)
+	writeJSON(w, http.StatusOK, lineAPI)
 }
 
 // UpdateLine
@@ -255,12 +254,12 @@ func (controller *Controller) GetLine(c *gin.Context) {
 // default: genericError
 //
 //	200: lineDBResponse
-func (controller *Controller) UpdateLine(c *gin.Context) {
+func (controller *Controller) UpdateLine(w http.ResponseWriter, r *http.Request) {
 
 	mutexLine.Lock()
 	defer mutexLine.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 
 	// Validate input
 	var input orm.LineAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 	var lineDB orm.LineDB
 
 	// fetch the line
-	_, err := db.First(&lineDB, c.Param("id"))
+	_, err := db.First(&lineDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the lineDB
-	c.JSON(http.StatusOK, lineDB)
+	writeJSON(w, http.StatusOK, lineDB)
 }
 
 // DeleteLine
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 // default: genericError
 //
 //	200: lineDBResponse
-func (controller *Controller) DeleteLine(c *gin.Context) {
+func (controller *Controller) DeleteLine(w http.ResponseWriter, r *http.Request) {
 
 	mutexLine.Lock()
 	defer mutexLine.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteLine(c *gin.Context) {
 
 	// Get model if exist
 	var lineDB orm.LineDB
-	if _, err := db.First(&lineDB, c.Param("id")); err != nil {
+	if _, err := db.First(&lineDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteLine(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

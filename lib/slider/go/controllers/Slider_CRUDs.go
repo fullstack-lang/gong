@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 	"github.com/fullstack-lang/gong/lib/slider/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type SliderInput struct {
 // default: genericError
 //
 //	200: sliderDBResponse
-func (controller *Controller) GetSliders(c *gin.Context) {
+func (controller *Controller) GetSliders(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var sliderDBs []orm.SliderDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetSliders(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetSliders(c *gin.Context) {
 		sliderAPIs = append(sliderAPIs, sliderAPI)
 	}
 
-	c.JSON(http.StatusOK, sliderAPIs)
+	writeJSON(w, http.StatusOK, sliderAPIs)
 }
 
 // PostSlider
@@ -122,12 +121,12 @@ func (controller *Controller) GetSliders(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostSlider(c *gin.Context) {
+func (controller *Controller) PostSlider(w http.ResponseWriter, r *http.Request) {
 
 	mutexSlider.Lock()
 	defer mutexSlider.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostSlider(c *gin.Context) {
 	// Validate input
 	var input orm.SliderAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostSlider(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostSlider(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, sliderDB)
+	writeJSON(w, http.StatusOK, sliderDB)
 }
 
 // GetSlider
@@ -202,9 +201,9 @@ func (controller *Controller) PostSlider(c *gin.Context) {
 // default: genericError
 //
 //	200: sliderDBResponse
-func (controller *Controller) GetSlider(c *gin.Context) {
+func (controller *Controller) GetSlider(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetSlider(c *gin.Context) {
 
 	// Get sliderDB in DB
 	var sliderDB orm.SliderDB
-	if _, err := db.First(&sliderDB, c.Param("id")); err != nil {
+	if _, err := db.First(&sliderDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetSlider(c *gin.Context) {
 	sliderAPI.SliderPointersEncoding = sliderDB.SliderPointersEncoding
 	sliderDB.CopyBasicFieldsToSlider_WOP(&sliderAPI.Slider_WOP)
 
-	c.JSON(http.StatusOK, sliderAPI)
+	writeJSON(w, http.StatusOK, sliderAPI)
 }
 
 // UpdateSlider
@@ -255,12 +254,12 @@ func (controller *Controller) GetSlider(c *gin.Context) {
 // default: genericError
 //
 //	200: sliderDBResponse
-func (controller *Controller) UpdateSlider(c *gin.Context) {
+func (controller *Controller) UpdateSlider(w http.ResponseWriter, r *http.Request) {
 
 	mutexSlider.Lock()
 	defer mutexSlider.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateSlider(c *gin.Context) {
 
 	// Validate input
 	var input orm.SliderAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateSlider(c *gin.Context) {
 	var sliderDB orm.SliderDB
 
 	// fetch the slider
-	_, err := db.First(&sliderDB, c.Param("id"))
+	_, err := db.First(&sliderDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateSlider(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateSlider(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the sliderDB
-	c.JSON(http.StatusOK, sliderDB)
+	writeJSON(w, http.StatusOK, sliderDB)
 }
 
 // DeleteSlider
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateSlider(c *gin.Context) {
 // default: genericError
 //
 //	200: sliderDBResponse
-func (controller *Controller) DeleteSlider(c *gin.Context) {
+func (controller *Controller) DeleteSlider(w http.ResponseWriter, r *http.Request) {
 
 	mutexSlider.Lock()
 	defer mutexSlider.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteSlider(c *gin.Context) {
 
 	// Get model if exist
 	var sliderDB orm.SliderDB
-	if _, err := db.First(&sliderDB, c.Param("id")); err != nil {
+	if _, err := db.First(&sliderDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteSlider(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

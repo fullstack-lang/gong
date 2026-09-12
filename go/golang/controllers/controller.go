@@ -4,12 +4,23 @@ const ControllerTemplate = `// generated code - do not edit
 package controllers
 
 import (
+	"encoding/json"
+	"log"
+	"net/http"
 	"sync"
 
 	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
-
-	"github.com/gin-gonic/gin"
 )
+
+type H map[string]any
+
+func writeJSON(w http.ResponseWriter, status int, v any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	if err := json.NewEncoder(w).Encode(v); err != nil {
+		log.Printf("writeJSON error: %v", err)
+	}
+}
 
 // A Controller is the handler of all API REST calls matching the stack model
 // It forwards API requests to the stack instance identified by the Name parameters in the request
@@ -25,12 +36,12 @@ type Controller struct {
 var _controllerSingloton *Controller
 var doRegisterOnce sync.Once
 
-func Register(r *gin.Engine) {
-	if r == nil {
+func Register(mux *http.ServeMux) {
+	if mux == nil {
 		return
 	}
 	doRegisterOnce.Do(func() {
-		registerControllers(r)
+		registerControllers(mux)
 	})
 }
 

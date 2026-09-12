@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 	"github.com/fullstack-lang/gong/lib/tree/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type ButtonInput struct {
 // default: genericError
 //
 //	200: buttonDBResponse
-func (controller *Controller) GetButtons(c *gin.Context) {
+func (controller *Controller) GetButtons(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var buttonDBs []orm.ButtonDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 		buttonAPIs = append(buttonAPIs, buttonAPI)
 	}
 
-	c.JSON(http.StatusOK, buttonAPIs)
+	writeJSON(w, http.StatusOK, buttonAPIs)
 }
 
 // PostButton
@@ -122,12 +121,12 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostButton(c *gin.Context) {
+func (controller *Controller) PostButton(w http.ResponseWriter, r *http.Request) {
 
 	mutexButton.Lock()
 	defer mutexButton.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	// Validate input
 	var input orm.ButtonAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostButton(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, buttonDB)
+	writeJSON(w, http.StatusOK, buttonDB)
 }
 
 // GetButton
@@ -202,9 +201,9 @@ func (controller *Controller) PostButton(c *gin.Context) {
 // default: genericError
 //
 //	200: buttonDBResponse
-func (controller *Controller) GetButton(c *gin.Context) {
+func (controller *Controller) GetButton(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetButton(c *gin.Context) {
 
 	// Get buttonDB in DB
 	var buttonDB orm.ButtonDB
-	if _, err := db.First(&buttonDB, c.Param("id")); err != nil {
+	if _, err := db.First(&buttonDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetButton(c *gin.Context) {
 	buttonAPI.ButtonPointersEncoding = buttonDB.ButtonPointersEncoding
 	buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
 
-	c.JSON(http.StatusOK, buttonAPI)
+	writeJSON(w, http.StatusOK, buttonAPI)
 }
 
 // UpdateButton
@@ -255,12 +254,12 @@ func (controller *Controller) GetButton(c *gin.Context) {
 // default: genericError
 //
 //	200: buttonDBResponse
-func (controller *Controller) UpdateButton(c *gin.Context) {
+func (controller *Controller) UpdateButton(w http.ResponseWriter, r *http.Request) {
 
 	mutexButton.Lock()
 	defer mutexButton.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 
 	// Validate input
 	var input orm.ButtonAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	var buttonDB orm.ButtonDB
 
 	// fetch the button
-	_, err := db.First(&buttonDB, c.Param("id"))
+	_, err := db.First(&buttonDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the buttonDB
-	c.JSON(http.StatusOK, buttonDB)
+	writeJSON(w, http.StatusOK, buttonDB)
 }
 
 // DeleteButton
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 // default: genericError
 //
 //	200: buttonDBResponse
-func (controller *Controller) DeleteButton(c *gin.Context) {
+func (controller *Controller) DeleteButton(w http.ResponseWriter, r *http.Request) {
 
 	mutexButton.Lock()
 	defer mutexButton.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 
 	// Get model if exist
 	var buttonDB orm.ButtonDB
-	if _, err := db.First(&buttonDB, c.Param("id")); err != nil {
+	if _, err := db.First(&buttonDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

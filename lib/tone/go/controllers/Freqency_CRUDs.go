@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/tone/go/models"
 	"github.com/fullstack-lang/gong/lib/tone/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FreqencyInput struct {
 // default: genericError
 //
 //	200: freqencyDBResponse
-func (controller *Controller) GetFreqencys(c *gin.Context) {
+func (controller *Controller) GetFreqencys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var freqencyDBs []orm.FreqencyDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFreqencys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFreqencys(c *gin.Context) {
 		freqencyAPIs = append(freqencyAPIs, freqencyAPI)
 	}
 
-	c.JSON(http.StatusOK, freqencyAPIs)
+	writeJSON(w, http.StatusOK, freqencyAPIs)
 }
 
 // PostFreqency
@@ -122,12 +121,12 @@ func (controller *Controller) GetFreqencys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFreqency(c *gin.Context) {
+func (controller *Controller) PostFreqency(w http.ResponseWriter, r *http.Request) {
 
 	mutexFreqency.Lock()
 	defer mutexFreqency.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFreqency(c *gin.Context) {
 	// Validate input
 	var input orm.FreqencyAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFreqency(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFreqency(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, freqencyDB)
+	writeJSON(w, http.StatusOK, freqencyDB)
 }
 
 // GetFreqency
@@ -202,9 +201,9 @@ func (controller *Controller) PostFreqency(c *gin.Context) {
 // default: genericError
 //
 //	200: freqencyDBResponse
-func (controller *Controller) GetFreqency(c *gin.Context) {
+func (controller *Controller) GetFreqency(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFreqency(c *gin.Context) {
 
 	// Get freqencyDB in DB
 	var freqencyDB orm.FreqencyDB
-	if _, err := db.First(&freqencyDB, c.Param("id")); err != nil {
+	if _, err := db.First(&freqencyDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFreqency(c *gin.Context) {
 	freqencyAPI.FreqencyPointersEncoding = freqencyDB.FreqencyPointersEncoding
 	freqencyDB.CopyBasicFieldsToFreqency_WOP(&freqencyAPI.Freqency_WOP)
 
-	c.JSON(http.StatusOK, freqencyAPI)
+	writeJSON(w, http.StatusOK, freqencyAPI)
 }
 
 // UpdateFreqency
@@ -255,12 +254,12 @@ func (controller *Controller) GetFreqency(c *gin.Context) {
 // default: genericError
 //
 //	200: freqencyDBResponse
-func (controller *Controller) UpdateFreqency(c *gin.Context) {
+func (controller *Controller) UpdateFreqency(w http.ResponseWriter, r *http.Request) {
 
 	mutexFreqency.Lock()
 	defer mutexFreqency.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFreqency(c *gin.Context) {
 
 	// Validate input
 	var input orm.FreqencyAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFreqency(c *gin.Context) {
 	var freqencyDB orm.FreqencyDB
 
 	// fetch the freqency
-	_, err := db.First(&freqencyDB, c.Param("id"))
+	_, err := db.First(&freqencyDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFreqency(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFreqency(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the freqencyDB
-	c.JSON(http.StatusOK, freqencyDB)
+	writeJSON(w, http.StatusOK, freqencyDB)
 }
 
 // DeleteFreqency
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFreqency(c *gin.Context) {
 // default: genericError
 //
 //	200: freqencyDBResponse
-func (controller *Controller) DeleteFreqency(c *gin.Context) {
+func (controller *Controller) DeleteFreqency(w http.ResponseWriter, r *http.Request) {
 
 	mutexFreqency.Lock()
 	defer mutexFreqency.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFreqency(c *gin.Context) {
 
 	// Get model if exist
 	var freqencyDB orm.FreqencyDB
-	if _, err := db.First(&freqencyDB, c.Param("id")); err != nil {
+	if _, err := db.First(&freqencyDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFreqency(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

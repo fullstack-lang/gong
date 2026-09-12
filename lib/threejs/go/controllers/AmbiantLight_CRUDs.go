@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type AmbiantLightInput struct {
 // default: genericError
 //
 //	200: ambiantlightDBResponse
-func (controller *Controller) GetAmbiantLights(c *gin.Context) {
+func (controller *Controller) GetAmbiantLights(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var ambiantlightDBs []orm.AmbiantLightDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetAmbiantLights(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetAmbiantLights(c *gin.Context) {
 		ambiantlightAPIs = append(ambiantlightAPIs, ambiantlightAPI)
 	}
 
-	c.JSON(http.StatusOK, ambiantlightAPIs)
+	writeJSON(w, http.StatusOK, ambiantlightAPIs)
 }
 
 // PostAmbiantLight
@@ -122,12 +121,12 @@ func (controller *Controller) GetAmbiantLights(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostAmbiantLight(c *gin.Context) {
+func (controller *Controller) PostAmbiantLight(w http.ResponseWriter, r *http.Request) {
 
 	mutexAmbiantLight.Lock()
 	defer mutexAmbiantLight.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostAmbiantLight(c *gin.Context) {
 	// Validate input
 	var input orm.AmbiantLightAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostAmbiantLight(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostAmbiantLight(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, ambiantlightDB)
+	writeJSON(w, http.StatusOK, ambiantlightDB)
 }
 
 // GetAmbiantLight
@@ -202,9 +201,9 @@ func (controller *Controller) PostAmbiantLight(c *gin.Context) {
 // default: genericError
 //
 //	200: ambiantlightDBResponse
-func (controller *Controller) GetAmbiantLight(c *gin.Context) {
+func (controller *Controller) GetAmbiantLight(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetAmbiantLight(c *gin.Context) {
 
 	// Get ambiantlightDB in DB
 	var ambiantlightDB orm.AmbiantLightDB
-	if _, err := db.First(&ambiantlightDB, c.Param("id")); err != nil {
+	if _, err := db.First(&ambiantlightDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetAmbiantLight(c *gin.Context) {
 	ambiantlightAPI.AmbiantLightPointersEncoding = ambiantlightDB.AmbiantLightPointersEncoding
 	ambiantlightDB.CopyBasicFieldsToAmbiantLight_WOP(&ambiantlightAPI.AmbiantLight_WOP)
 
-	c.JSON(http.StatusOK, ambiantlightAPI)
+	writeJSON(w, http.StatusOK, ambiantlightAPI)
 }
 
 // UpdateAmbiantLight
@@ -255,12 +254,12 @@ func (controller *Controller) GetAmbiantLight(c *gin.Context) {
 // default: genericError
 //
 //	200: ambiantlightDBResponse
-func (controller *Controller) UpdateAmbiantLight(c *gin.Context) {
+func (controller *Controller) UpdateAmbiantLight(w http.ResponseWriter, r *http.Request) {
 
 	mutexAmbiantLight.Lock()
 	defer mutexAmbiantLight.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateAmbiantLight(c *gin.Context) {
 
 	// Validate input
 	var input orm.AmbiantLightAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateAmbiantLight(c *gin.Context) {
 	var ambiantlightDB orm.AmbiantLightDB
 
 	// fetch the ambiantlight
-	_, err := db.First(&ambiantlightDB, c.Param("id"))
+	_, err := db.First(&ambiantlightDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateAmbiantLight(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateAmbiantLight(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the ambiantlightDB
-	c.JSON(http.StatusOK, ambiantlightDB)
+	writeJSON(w, http.StatusOK, ambiantlightDB)
 }
 
 // DeleteAmbiantLight
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateAmbiantLight(c *gin.Context) {
 // default: genericError
 //
 //	200: ambiantlightDBResponse
-func (controller *Controller) DeleteAmbiantLight(c *gin.Context) {
+func (controller *Controller) DeleteAmbiantLight(w http.ResponseWriter, r *http.Request) {
 
 	mutexAmbiantLight.Lock()
 	defer mutexAmbiantLight.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteAmbiantLight(c *gin.Context) {
 
 	// Get model if exist
 	var ambiantlightDB orm.AmbiantLightDB
-	if _, err := db.First(&ambiantlightDB, c.Param("id")); err != nil {
+	if _, err := db.First(&ambiantlightDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteAmbiantLight(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

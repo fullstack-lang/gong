@@ -12,10 +12,10 @@ import (
 	// insertion point for models import
 	xsd_models "github.com/fullstack-lang/gong/app/xsd/go/models"
 
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-func process(args []string) (r *gin.Engine, stack *xsd_level1stack.Level1Stack) {
+func process(args []string) (r *http.ServeMux, stack *xsd_level1stack.Level1Stack) {
 	start := time.Now()
 	if Verbose {
 		fmt.Printf("generate start\n")

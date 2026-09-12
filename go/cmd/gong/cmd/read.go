@@ -102,7 +102,7 @@ var readCmd = &cobra.Command{
 		splitStage.Commit()
 
 		log.Println("Server ready serve on localhost:" + strconv.Itoa(readPort))
-		err = r.Run(":" + strconv.Itoa(readPort))
+		err = split_static.RunServer(r, ":" + strconv.Itoa(readPort))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}

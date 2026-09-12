@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type PointInput struct {
 // default: genericError
 //
 //	200: pointDBResponse
-func (controller *Controller) GetPoints(c *gin.Context) {
+func (controller *Controller) GetPoints(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var pointDBs []orm.PointDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 		pointAPIs = append(pointAPIs, pointAPI)
 	}
 
-	c.JSON(http.StatusOK, pointAPIs)
+	writeJSON(w, http.StatusOK, pointAPIs)
 }
 
 // PostPoint
@@ -122,12 +121,12 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostPoint(c *gin.Context) {
+func (controller *Controller) PostPoint(w http.ResponseWriter, r *http.Request) {
 
 	mutexPoint.Lock()
 	defer mutexPoint.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	// Validate input
 	var input orm.PointAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, pointDB)
+	writeJSON(w, http.StatusOK, pointDB)
 }
 
 // GetPoint
@@ -202,9 +201,9 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 // default: genericError
 //
 //	200: pointDBResponse
-func (controller *Controller) GetPoint(c *gin.Context) {
+func (controller *Controller) GetPoint(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 
 	// Get pointDB in DB
 	var pointDB orm.PointDB
-	if _, err := db.First(&pointDB, c.Param("id")); err != nil {
+	if _, err := db.First(&pointDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 	pointAPI.PointPointersEncoding = pointDB.PointPointersEncoding
 	pointDB.CopyBasicFieldsToPoint_WOP(&pointAPI.Point_WOP)
 
-	c.JSON(http.StatusOK, pointAPI)
+	writeJSON(w, http.StatusOK, pointAPI)
 }
 
 // UpdatePoint
@@ -255,12 +254,12 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 // default: genericError
 //
 //	200: pointDBResponse
-func (controller *Controller) UpdatePoint(c *gin.Context) {
+func (controller *Controller) UpdatePoint(w http.ResponseWriter, r *http.Request) {
 
 	mutexPoint.Lock()
 	defer mutexPoint.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 
 	// Validate input
 	var input orm.PointAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	var pointDB orm.PointDB
 
 	// fetch the point
-	_, err := db.First(&pointDB, c.Param("id"))
+	_, err := db.First(&pointDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the pointDB
-	c.JSON(http.StatusOK, pointDB)
+	writeJSON(w, http.StatusOK, pointDB)
 }
 
 // DeletePoint
@@ -352,12 +351,12 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 // default: genericError
 //
 //	200: pointDBResponse
-func (controller *Controller) DeletePoint(c *gin.Context) {
+func (controller *Controller) DeletePoint(w http.ResponseWriter, r *http.Request) {
 
 	mutexPoint.Lock()
 	defer mutexPoint.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 
 	// Get model if exist
 	var pointDB orm.PointDB
-	if _, err := db.First(&pointDB, c.Param("id")); err != nil {
+	if _, err := db.First(&pointDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

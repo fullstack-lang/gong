@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type BoxGeometryInput struct {
 // default: genericError
 //
 //	200: boxgeometryDBResponse
-func (controller *Controller) GetBoxGeometrys(c *gin.Context) {
+func (controller *Controller) GetBoxGeometrys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var boxgeometryDBs []orm.BoxGeometryDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetBoxGeometrys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetBoxGeometrys(c *gin.Context) {
 		boxgeometryAPIs = append(boxgeometryAPIs, boxgeometryAPI)
 	}
 
-	c.JSON(http.StatusOK, boxgeometryAPIs)
+	writeJSON(w, http.StatusOK, boxgeometryAPIs)
 }
 
 // PostBoxGeometry
@@ -122,12 +121,12 @@ func (controller *Controller) GetBoxGeometrys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostBoxGeometry(c *gin.Context) {
+func (controller *Controller) PostBoxGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexBoxGeometry.Lock()
 	defer mutexBoxGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostBoxGeometry(c *gin.Context) {
 	// Validate input
 	var input orm.BoxGeometryAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostBoxGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostBoxGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, boxgeometryDB)
+	writeJSON(w, http.StatusOK, boxgeometryDB)
 }
 
 // GetBoxGeometry
@@ -202,9 +201,9 @@ func (controller *Controller) PostBoxGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: boxgeometryDBResponse
-func (controller *Controller) GetBoxGeometry(c *gin.Context) {
+func (controller *Controller) GetBoxGeometry(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetBoxGeometry(c *gin.Context) {
 
 	// Get boxgeometryDB in DB
 	var boxgeometryDB orm.BoxGeometryDB
-	if _, err := db.First(&boxgeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&boxgeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetBoxGeometry(c *gin.Context) {
 	boxgeometryAPI.BoxGeometryPointersEncoding = boxgeometryDB.BoxGeometryPointersEncoding
 	boxgeometryDB.CopyBasicFieldsToBoxGeometry_WOP(&boxgeometryAPI.BoxGeometry_WOP)
 
-	c.JSON(http.StatusOK, boxgeometryAPI)
+	writeJSON(w, http.StatusOK, boxgeometryAPI)
 }
 
 // UpdateBoxGeometry
@@ -255,12 +254,12 @@ func (controller *Controller) GetBoxGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: boxgeometryDBResponse
-func (controller *Controller) UpdateBoxGeometry(c *gin.Context) {
+func (controller *Controller) UpdateBoxGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexBoxGeometry.Lock()
 	defer mutexBoxGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateBoxGeometry(c *gin.Context) {
 
 	// Validate input
 	var input orm.BoxGeometryAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateBoxGeometry(c *gin.Context) {
 	var boxgeometryDB orm.BoxGeometryDB
 
 	// fetch the boxgeometry
-	_, err := db.First(&boxgeometryDB, c.Param("id"))
+	_, err := db.First(&boxgeometryDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateBoxGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateBoxGeometry(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the boxgeometryDB
-	c.JSON(http.StatusOK, boxgeometryDB)
+	writeJSON(w, http.StatusOK, boxgeometryDB)
 }
 
 // DeleteBoxGeometry
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateBoxGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: boxgeometryDBResponse
-func (controller *Controller) DeleteBoxGeometry(c *gin.Context) {
+func (controller *Controller) DeleteBoxGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexBoxGeometry.Lock()
 	defer mutexBoxGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteBoxGeometry(c *gin.Context) {
 
 	// Get model if exist
 	var boxgeometryDB orm.BoxGeometryDB
-	if _, err := db.First(&boxgeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&boxgeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteBoxGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

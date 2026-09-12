@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type SphereGeometryInput struct {
 // default: genericError
 //
 //	200: spheregeometryDBResponse
-func (controller *Controller) GetSphereGeometrys(c *gin.Context) {
+func (controller *Controller) GetSphereGeometrys(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var spheregeometryDBs []orm.SphereGeometryDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetSphereGeometrys(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetSphereGeometrys(c *gin.Context) {
 		spheregeometryAPIs = append(spheregeometryAPIs, spheregeometryAPI)
 	}
 
-	c.JSON(http.StatusOK, spheregeometryAPIs)
+	writeJSON(w, http.StatusOK, spheregeometryAPIs)
 }
 
 // PostSphereGeometry
@@ -122,12 +121,12 @@ func (controller *Controller) GetSphereGeometrys(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostSphereGeometry(c *gin.Context) {
+func (controller *Controller) PostSphereGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexSphereGeometry.Lock()
 	defer mutexSphereGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostSphereGeometry(c *gin.Context) {
 	// Validate input
 	var input orm.SphereGeometryAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostSphereGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostSphereGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, spheregeometryDB)
+	writeJSON(w, http.StatusOK, spheregeometryDB)
 }
 
 // GetSphereGeometry
@@ -202,9 +201,9 @@ func (controller *Controller) PostSphereGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: spheregeometryDBResponse
-func (controller *Controller) GetSphereGeometry(c *gin.Context) {
+func (controller *Controller) GetSphereGeometry(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetSphereGeometry(c *gin.Context) {
 
 	// Get spheregeometryDB in DB
 	var spheregeometryDB orm.SphereGeometryDB
-	if _, err := db.First(&spheregeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&spheregeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetSphereGeometry(c *gin.Context) {
 	spheregeometryAPI.SphereGeometryPointersEncoding = spheregeometryDB.SphereGeometryPointersEncoding
 	spheregeometryDB.CopyBasicFieldsToSphereGeometry_WOP(&spheregeometryAPI.SphereGeometry_WOP)
 
-	c.JSON(http.StatusOK, spheregeometryAPI)
+	writeJSON(w, http.StatusOK, spheregeometryAPI)
 }
 
 // UpdateSphereGeometry
@@ -255,12 +254,12 @@ func (controller *Controller) GetSphereGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: spheregeometryDBResponse
-func (controller *Controller) UpdateSphereGeometry(c *gin.Context) {
+func (controller *Controller) UpdateSphereGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexSphereGeometry.Lock()
 	defer mutexSphereGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateSphereGeometry(c *gin.Context) {
 
 	// Validate input
 	var input orm.SphereGeometryAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateSphereGeometry(c *gin.Context) {
 	var spheregeometryDB orm.SphereGeometryDB
 
 	// fetch the spheregeometry
-	_, err := db.First(&spheregeometryDB, c.Param("id"))
+	_, err := db.First(&spheregeometryDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateSphereGeometry(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateSphereGeometry(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the spheregeometryDB
-	c.JSON(http.StatusOK, spheregeometryDB)
+	writeJSON(w, http.StatusOK, spheregeometryDB)
 }
 
 // DeleteSphereGeometry
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateSphereGeometry(c *gin.Context) {
 // default: genericError
 //
 //	200: spheregeometryDBResponse
-func (controller *Controller) DeleteSphereGeometry(c *gin.Context) {
+func (controller *Controller) DeleteSphereGeometry(w http.ResponseWriter, r *http.Request) {
 
 	mutexSphereGeometry.Lock()
 	defer mutexSphereGeometry.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteSphereGeometry(c *gin.Context) {
 
 	// Get model if exist
 	var spheregeometryDB orm.SphereGeometryDB
-	if _, err := db.First(&spheregeometryDB, c.Param("id")); err != nil {
+	if _, err := db.First(&spheregeometryDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteSphereGeometry(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

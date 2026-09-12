@@ -25,7 +25,7 @@ func executeServer(args []string) {
 	tone_models.NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := r.Run(":" + strconv.Itoa(port))
+	err := tone_static.RunServer(r, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

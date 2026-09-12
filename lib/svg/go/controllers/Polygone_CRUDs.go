@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type PolygoneInput struct {
 // default: genericError
 //
 //	200: polygoneDBResponse
-func (controller *Controller) GetPolygones(c *gin.Context) {
+func (controller *Controller) GetPolygones(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var polygoneDBs []orm.PolygoneDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetPolygones(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetPolygones(c *gin.Context) {
 		polygoneAPIs = append(polygoneAPIs, polygoneAPI)
 	}
 
-	c.JSON(http.StatusOK, polygoneAPIs)
+	writeJSON(w, http.StatusOK, polygoneAPIs)
 }
 
 // PostPolygone
@@ -122,12 +121,12 @@ func (controller *Controller) GetPolygones(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostPolygone(c *gin.Context) {
+func (controller *Controller) PostPolygone(w http.ResponseWriter, r *http.Request) {
 
 	mutexPolygone.Lock()
 	defer mutexPolygone.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 	// Validate input
 	var input orm.PolygoneAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, polygoneDB)
+	writeJSON(w, http.StatusOK, polygoneDB)
 }
 
 // GetPolygone
@@ -202,9 +201,9 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 // default: genericError
 //
 //	200: polygoneDBResponse
-func (controller *Controller) GetPolygone(c *gin.Context) {
+func (controller *Controller) GetPolygone(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetPolygone(c *gin.Context) {
 
 	// Get polygoneDB in DB
 	var polygoneDB orm.PolygoneDB
-	if _, err := db.First(&polygoneDB, c.Param("id")); err != nil {
+	if _, err := db.First(&polygoneDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetPolygone(c *gin.Context) {
 	polygoneAPI.PolygonePointersEncoding = polygoneDB.PolygonePointersEncoding
 	polygoneDB.CopyBasicFieldsToPolygone_WOP(&polygoneAPI.Polygone_WOP)
 
-	c.JSON(http.StatusOK, polygoneAPI)
+	writeJSON(w, http.StatusOK, polygoneAPI)
 }
 
 // UpdatePolygone
@@ -255,12 +254,12 @@ func (controller *Controller) GetPolygone(c *gin.Context) {
 // default: genericError
 //
 //	200: polygoneDBResponse
-func (controller *Controller) UpdatePolygone(c *gin.Context) {
+func (controller *Controller) UpdatePolygone(w http.ResponseWriter, r *http.Request) {
 
 	mutexPolygone.Lock()
 	defer mutexPolygone.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 
 	// Validate input
 	var input orm.PolygoneAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	var polygoneDB orm.PolygoneDB
 
 	// fetch the polygone
-	_, err := db.First(&polygoneDB, c.Param("id"))
+	_, err := db.First(&polygoneDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the polygoneDB
-	c.JSON(http.StatusOK, polygoneDB)
+	writeJSON(w, http.StatusOK, polygoneDB)
 }
 
 // DeletePolygone
@@ -352,12 +351,12 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 // default: genericError
 //
 //	200: polygoneDBResponse
-func (controller *Controller) DeletePolygone(c *gin.Context) {
+func (controller *Controller) DeletePolygone(w http.ResponseWriter, r *http.Request) {
 
 	mutexPolygone.Lock()
 	defer mutexPolygone.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeletePolygone(c *gin.Context) {
 
 	// Get model if exist
 	var polygoneDB orm.PolygoneDB
-	if _, err := db.First(&polygoneDB, c.Param("id")); err != nil {
+	if _, err := db.First(&polygoneDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeletePolygone(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

@@ -3,12 +3,12 @@
 package main
 
 import (
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
-	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 
 	"github.com/fullstack-lang/gong/lib/gantt/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/gantt/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
@@ -23,7 +23,7 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
-	r := gin.Default()
+	r := http.NewServeMux()
 
 	// setup
 	// - model level1 stack with its probe

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test1/go/models"
 	"github.com/fullstack-lang/gong/test/test1/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type F0123456789012345678901234567890Input struct {
 // default: genericError
 //
 //	200: f0123456789012345678901234567890DBResponse
-func (controller *Controller) GetF0123456789012345678901234567890s(c *gin.Context) {
+func (controller *Controller) GetF0123456789012345678901234567890s(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var f0123456789012345678901234567890DBs []orm.F0123456789012345678901234567890DB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetF0123456789012345678901234567890s(c *gin.Contex
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetF0123456789012345678901234567890s(c *gin.Contex
 		f0123456789012345678901234567890APIs = append(f0123456789012345678901234567890APIs, f0123456789012345678901234567890API)
 	}
 
-	c.JSON(http.StatusOK, f0123456789012345678901234567890APIs)
+	writeJSON(w, http.StatusOK, f0123456789012345678901234567890APIs)
 }
 
 // PostF0123456789012345678901234567890
@@ -122,12 +121,12 @@ func (controller *Controller) GetF0123456789012345678901234567890s(c *gin.Contex
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostF0123456789012345678901234567890(c *gin.Context) {
+func (controller *Controller) PostF0123456789012345678901234567890(w http.ResponseWriter, r *http.Request) {
 
 	mutexF0123456789012345678901234567890.Lock()
 	defer mutexF0123456789012345678901234567890.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostF0123456789012345678901234567890(c *gin.Contex
 	// Validate input
 	var input orm.F0123456789012345678901234567890API
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostF0123456789012345678901234567890(c *gin.Contex
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostF0123456789012345678901234567890(c *gin.Contex
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, f0123456789012345678901234567890DB)
+	writeJSON(w, http.StatusOK, f0123456789012345678901234567890DB)
 }
 
 // GetF0123456789012345678901234567890
@@ -202,9 +201,9 @@ func (controller *Controller) PostF0123456789012345678901234567890(c *gin.Contex
 // default: genericError
 //
 //	200: f0123456789012345678901234567890DBResponse
-func (controller *Controller) GetF0123456789012345678901234567890(c *gin.Context) {
+func (controller *Controller) GetF0123456789012345678901234567890(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetF0123456789012345678901234567890(c *gin.Context
 
 	// Get f0123456789012345678901234567890DB in DB
 	var f0123456789012345678901234567890DB orm.F0123456789012345678901234567890DB
-	if _, err := db.First(&f0123456789012345678901234567890DB, c.Param("id")); err != nil {
+	if _, err := db.First(&f0123456789012345678901234567890DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetF0123456789012345678901234567890(c *gin.Context
 	f0123456789012345678901234567890API.F0123456789012345678901234567890PointersEncoding = f0123456789012345678901234567890DB.F0123456789012345678901234567890PointersEncoding
 	f0123456789012345678901234567890DB.CopyBasicFieldsToF0123456789012345678901234567890_WOP(&f0123456789012345678901234567890API.F0123456789012345678901234567890_WOP)
 
-	c.JSON(http.StatusOK, f0123456789012345678901234567890API)
+	writeJSON(w, http.StatusOK, f0123456789012345678901234567890API)
 }
 
 // UpdateF0123456789012345678901234567890
@@ -255,12 +254,12 @@ func (controller *Controller) GetF0123456789012345678901234567890(c *gin.Context
 // default: genericError
 //
 //	200: f0123456789012345678901234567890DBResponse
-func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Context) {
+func (controller *Controller) UpdateF0123456789012345678901234567890(w http.ResponseWriter, r *http.Request) {
 
 	mutexF0123456789012345678901234567890.Lock()
 	defer mutexF0123456789012345678901234567890.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 
 	// Validate input
 	var input orm.F0123456789012345678901234567890API
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 	var f0123456789012345678901234567890DB orm.F0123456789012345678901234567890DB
 
 	// fetch the f0123456789012345678901234567890
-	_, err := db.First(&f0123456789012345678901234567890DB, c.Param("id"))
+	_, err := db.First(&f0123456789012345678901234567890DB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the f0123456789012345678901234567890DB
-	c.JSON(http.StatusOK, f0123456789012345678901234567890DB)
+	writeJSON(w, http.StatusOK, f0123456789012345678901234567890DB)
 }
 
 // DeleteF0123456789012345678901234567890
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 // default: genericError
 //
 //	200: f0123456789012345678901234567890DBResponse
-func (controller *Controller) DeleteF0123456789012345678901234567890(c *gin.Context) {
+func (controller *Controller) DeleteF0123456789012345678901234567890(w http.ResponseWriter, r *http.Request) {
 
 	mutexF0123456789012345678901234567890.Lock()
 	defer mutexF0123456789012345678901234567890.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteF0123456789012345678901234567890(c *gin.Cont
 
 	// Get model if exist
 	var f0123456789012345678901234567890DB orm.F0123456789012345678901234567890DB
-	if _, err := db.First(&f0123456789012345678901234567890DB, c.Param("id")); err != nil {
+	if _, err := db.First(&f0123456789012345678901234567890DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteF0123456789012345678901234567890(c *gin.Cont
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

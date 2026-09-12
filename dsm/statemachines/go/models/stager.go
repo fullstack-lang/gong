@@ -3,9 +3,8 @@
 package models
 
 import (
+	"net/http"
 	"os"
-
-	"github.com/gin-gonic/gin"
 
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -71,7 +70,7 @@ func (stager *Stager) GetButtonsStage() *button.Stage {
 }
 
 func NewStager(
-	r *gin.Engine,
+	r *http.ServeMux,
 	stage *Stage,
 	probeForm ProbeIF,
 	fileName string,

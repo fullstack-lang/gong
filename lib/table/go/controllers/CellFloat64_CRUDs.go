@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 	"github.com/fullstack-lang/gong/lib/table/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CellFloat64Input struct {
 // default: genericError
 //
 //	200: cellfloat64DBResponse
-func (controller *Controller) GetCellFloat64s(c *gin.Context) {
+func (controller *Controller) GetCellFloat64s(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var cellfloat64DBs []orm.CellFloat64DB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCellFloat64s(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCellFloat64s(c *gin.Context) {
 		cellfloat64APIs = append(cellfloat64APIs, cellfloat64API)
 	}
 
-	c.JSON(http.StatusOK, cellfloat64APIs)
+	writeJSON(w, http.StatusOK, cellfloat64APIs)
 }
 
 // PostCellFloat64
@@ -122,12 +121,12 @@ func (controller *Controller) GetCellFloat64s(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCellFloat64(c *gin.Context) {
+func (controller *Controller) PostCellFloat64(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellFloat64.Lock()
 	defer mutexCellFloat64.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 	// Validate input
 	var input orm.CellFloat64API
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, cellfloat64DB)
+	writeJSON(w, http.StatusOK, cellfloat64DB)
 }
 
 // GetCellFloat64
@@ -202,9 +201,9 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 // default: genericError
 //
 //	200: cellfloat64DBResponse
-func (controller *Controller) GetCellFloat64(c *gin.Context) {
+func (controller *Controller) GetCellFloat64(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCellFloat64(c *gin.Context) {
 
 	// Get cellfloat64DB in DB
 	var cellfloat64DB orm.CellFloat64DB
-	if _, err := db.First(&cellfloat64DB, c.Param("id")); err != nil {
+	if _, err := db.First(&cellfloat64DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCellFloat64(c *gin.Context) {
 	cellfloat64API.CellFloat64PointersEncoding = cellfloat64DB.CellFloat64PointersEncoding
 	cellfloat64DB.CopyBasicFieldsToCellFloat64_WOP(&cellfloat64API.CellFloat64_WOP)
 
-	c.JSON(http.StatusOK, cellfloat64API)
+	writeJSON(w, http.StatusOK, cellfloat64API)
 }
 
 // UpdateCellFloat64
@@ -255,12 +254,12 @@ func (controller *Controller) GetCellFloat64(c *gin.Context) {
 // default: genericError
 //
 //	200: cellfloat64DBResponse
-func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
+func (controller *Controller) UpdateCellFloat64(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellFloat64.Lock()
 	defer mutexCellFloat64.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 
 	// Validate input
 	var input orm.CellFloat64API
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	var cellfloat64DB orm.CellFloat64DB
 
 	// fetch the cellfloat64
-	_, err := db.First(&cellfloat64DB, c.Param("id"))
+	_, err := db.First(&cellfloat64DB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the cellfloat64DB
-	c.JSON(http.StatusOK, cellfloat64DB)
+	writeJSON(w, http.StatusOK, cellfloat64DB)
 }
 
 // DeleteCellFloat64
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 // default: genericError
 //
 //	200: cellfloat64DBResponse
-func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
+func (controller *Controller) DeleteCellFloat64(w http.ResponseWriter, r *http.Request) {
 
 	mutexCellFloat64.Lock()
 	defer mutexCellFloat64.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 
 	// Get model if exist
 	var cellfloat64DB orm.CellFloat64DB
-	if _, err := db.First(&cellfloat64DB, c.Param("id")); err != nil {
+	if _, err := db.First(&cellfloat64DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

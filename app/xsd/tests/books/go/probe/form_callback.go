@@ -81,6 +81,9 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 		case "Format":
 			FormDivBasicFieldToField(&(booktype_.Format), formDiv)
 		case "Credit":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Credit](booktypeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Credit, 0)
 
@@ -113,6 +116,9 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 			booktypeFormCallback.probe.UpdateSliceOfPointersCallback(booktype_, "Credit", &booktype_.Credit)
 
 		case "Books:Book":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Books instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -236,6 +242,9 @@ func (booksFormCallback *BooksFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(books_.Name), formDiv)
 		case "Book":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.BookType](booksFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.BookType, 0)
 
@@ -350,6 +359,9 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 		case "Credit_type":
 			FormDivBasicFieldToField(&(credit_.Credit_type), formDiv)
 		case "Link":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](creditFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Link, 0)
 
@@ -386,6 +398,9 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 		case "Credit_symbol":
 			FormDivBasicFieldToField(&(credit_.Credit_symbol), formDiv)
 		case "BookType:Credit":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the BookType instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -513,6 +528,9 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 		case "EnclosedText":
 			FormDivBasicFieldToField(&(link_.EnclosedText), formDiv)
 		case "Credit:Link":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Credit instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

@@ -37,7 +37,7 @@ func TestCommitNavigation(t *testing.T) {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(8080))
-	err := stack.R.Run(":" + strconv.Itoa(8080))
+	err := stack.Run(":" + strconv.Itoa(8080))
 	if err != nil {
 		t.Errorf("failed to run server: %v", err)
 	}

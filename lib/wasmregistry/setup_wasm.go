@@ -8,13 +8,12 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"net/http/httptest"
 	"syscall/js"
-
-	"github.com/gin-gonic/gin"
 )
 
-var ginEngine *gin.Engine
+var httpHandler http.Handler
 
 // ConsoleWriter redirects writes to the browser's console.log.
 type ConsoleWriter struct{}
@@ -25,15 +24,11 @@ func (cw *ConsoleWriter) Write(p []byte) (n int, err error) {
 }
 
 // SetupWasmHooks exposes the HTTP and Socket bridges to the Angular frontend.
-func SetupWasmHooks(r *gin.Engine) {
-	ginEngine = r
+func SetupWasmHooks(r *http.ServeMux) {
+	httpHandler = r
 
 	// Redirect standard log package output to browser console
 	log.SetOutput(&ConsoleWriter{})
-
-	// Redirect Gin logging to browser console
-	gin.DefaultWriter = &ConsoleWriter{}
-	gin.DefaultErrorWriter = &ConsoleWriter{}
 
 	js.Global().Set("wasmFetch", js.FuncOf(wasmFetch))
 	js.Global().Set("openWasmSocket", js.FuncOf(openWasmSocket))
@@ -109,12 +104,12 @@ func wasmFetch(this js.Value, args []js.Value) any {
 		body = bytes.NewBufferString(reqData.Body)
 	}
 
-	// Pass the fake request to the Gin Engine
+	// Pass the fake request to the HTTP Handler
 	req := httptest.NewRequest(reqData.Method, reqData.URL, body)
 	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
 
-	ginEngine.ServeHTTP(w, req)
+	httpHandler.ServeHTTP(w, req)
 
 	res := map[string]any{
 		"status": w.Code,

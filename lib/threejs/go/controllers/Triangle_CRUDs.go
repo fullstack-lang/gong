@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type TriangleInput struct {
 // default: genericError
 //
 //	200: triangleDBResponse
-func (controller *Controller) GetTriangles(c *gin.Context) {
+func (controller *Controller) GetTriangles(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var triangleDBs []orm.TriangleDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetTriangles(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetTriangles(c *gin.Context) {
 		triangleAPIs = append(triangleAPIs, triangleAPI)
 	}
 
-	c.JSON(http.StatusOK, triangleAPIs)
+	writeJSON(w, http.StatusOK, triangleAPIs)
 }
 
 // PostTriangle
@@ -122,12 +121,12 @@ func (controller *Controller) GetTriangles(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostTriangle(c *gin.Context) {
+func (controller *Controller) PostTriangle(w http.ResponseWriter, r *http.Request) {
 
 	mutexTriangle.Lock()
 	defer mutexTriangle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostTriangle(c *gin.Context) {
 	// Validate input
 	var input orm.TriangleAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostTriangle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostTriangle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, triangleDB)
+	writeJSON(w, http.StatusOK, triangleDB)
 }
 
 // GetTriangle
@@ -202,9 +201,9 @@ func (controller *Controller) PostTriangle(c *gin.Context) {
 // default: genericError
 //
 //	200: triangleDBResponse
-func (controller *Controller) GetTriangle(c *gin.Context) {
+func (controller *Controller) GetTriangle(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetTriangle(c *gin.Context) {
 
 	// Get triangleDB in DB
 	var triangleDB orm.TriangleDB
-	if _, err := db.First(&triangleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&triangleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetTriangle(c *gin.Context) {
 	triangleAPI.TrianglePointersEncoding = triangleDB.TrianglePointersEncoding
 	triangleDB.CopyBasicFieldsToTriangle_WOP(&triangleAPI.Triangle_WOP)
 
-	c.JSON(http.StatusOK, triangleAPI)
+	writeJSON(w, http.StatusOK, triangleAPI)
 }
 
 // UpdateTriangle
@@ -255,12 +254,12 @@ func (controller *Controller) GetTriangle(c *gin.Context) {
 // default: genericError
 //
 //	200: triangleDBResponse
-func (controller *Controller) UpdateTriangle(c *gin.Context) {
+func (controller *Controller) UpdateTriangle(w http.ResponseWriter, r *http.Request) {
 
 	mutexTriangle.Lock()
 	defer mutexTriangle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateTriangle(c *gin.Context) {
 
 	// Validate input
 	var input orm.TriangleAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateTriangle(c *gin.Context) {
 	var triangleDB orm.TriangleDB
 
 	// fetch the triangle
-	_, err := db.First(&triangleDB, c.Param("id"))
+	_, err := db.First(&triangleDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateTriangle(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateTriangle(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the triangleDB
-	c.JSON(http.StatusOK, triangleDB)
+	writeJSON(w, http.StatusOK, triangleDB)
 }
 
 // DeleteTriangle
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateTriangle(c *gin.Context) {
 // default: genericError
 //
 //	200: triangleDBResponse
-func (controller *Controller) DeleteTriangle(c *gin.Context) {
+func (controller *Controller) DeleteTriangle(w http.ResponseWriter, r *http.Request) {
 
 	mutexTriangle.Lock()
 	defer mutexTriangle.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteTriangle(c *gin.Context) {
 
 	// Get model if exist
 	var triangleDB orm.TriangleDB
-	if _, err := db.First(&triangleDB, c.Param("id")); err != nil {
+	if _, err := db.First(&triangleDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteTriangle(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

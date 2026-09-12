@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/cursor/go/models"
 	"github.com/fullstack-lang/gong/lib/cursor/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type CursorInput struct {
 // default: genericError
 //
 //	200: cursorDBResponse
-func (controller *Controller) GetCursors(c *gin.Context) {
+func (controller *Controller) GetCursors(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var cursorDBs []orm.CursorDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetCursors(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetCursors(c *gin.Context) {
 		cursorAPIs = append(cursorAPIs, cursorAPI)
 	}
 
-	c.JSON(http.StatusOK, cursorAPIs)
+	writeJSON(w, http.StatusOK, cursorAPIs)
 }
 
 // PostCursor
@@ -122,12 +121,12 @@ func (controller *Controller) GetCursors(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostCursor(c *gin.Context) {
+func (controller *Controller) PostCursor(w http.ResponseWriter, r *http.Request) {
 
 	mutexCursor.Lock()
 	defer mutexCursor.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostCursor(c *gin.Context) {
 	// Validate input
 	var input orm.CursorAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostCursor(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostCursor(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, cursorDB)
+	writeJSON(w, http.StatusOK, cursorDB)
 }
 
 // GetCursor
@@ -202,9 +201,9 @@ func (controller *Controller) PostCursor(c *gin.Context) {
 // default: genericError
 //
 //	200: cursorDBResponse
-func (controller *Controller) GetCursor(c *gin.Context) {
+func (controller *Controller) GetCursor(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetCursor(c *gin.Context) {
 
 	// Get cursorDB in DB
 	var cursorDB orm.CursorDB
-	if _, err := db.First(&cursorDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cursorDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetCursor(c *gin.Context) {
 	cursorAPI.CursorPointersEncoding = cursorDB.CursorPointersEncoding
 	cursorDB.CopyBasicFieldsToCursor_WOP(&cursorAPI.Cursor_WOP)
 
-	c.JSON(http.StatusOK, cursorAPI)
+	writeJSON(w, http.StatusOK, cursorAPI)
 }
 
 // UpdateCursor
@@ -255,12 +254,12 @@ func (controller *Controller) GetCursor(c *gin.Context) {
 // default: genericError
 //
 //	200: cursorDBResponse
-func (controller *Controller) UpdateCursor(c *gin.Context) {
+func (controller *Controller) UpdateCursor(w http.ResponseWriter, r *http.Request) {
 
 	mutexCursor.Lock()
 	defer mutexCursor.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateCursor(c *gin.Context) {
 
 	// Validate input
 	var input orm.CursorAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateCursor(c *gin.Context) {
 	var cursorDB orm.CursorDB
 
 	// fetch the cursor
-	_, err := db.First(&cursorDB, c.Param("id"))
+	_, err := db.First(&cursorDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateCursor(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateCursor(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the cursorDB
-	c.JSON(http.StatusOK, cursorDB)
+	writeJSON(w, http.StatusOK, cursorDB)
 }
 
 // DeleteCursor
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateCursor(c *gin.Context) {
 // default: genericError
 //
 //	200: cursorDBResponse
-func (controller *Controller) DeleteCursor(c *gin.Context) {
+func (controller *Controller) DeleteCursor(w http.ResponseWriter, r *http.Request) {
 
 	mutexCursor.Lock()
 	defer mutexCursor.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteCursor(c *gin.Context) {
 
 	// Get model if exist
 	var cursorDB orm.CursorDB
-	if _, err := db.First(&cursorDB, c.Param("id")); err != nil {
+	if _, err := db.First(&cursorDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteCursor(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

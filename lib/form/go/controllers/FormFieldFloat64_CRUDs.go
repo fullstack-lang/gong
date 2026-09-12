@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 	"github.com/fullstack-lang/gong/lib/form/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type FormFieldFloat64Input struct {
 // default: genericError
 //
 //	200: formfieldfloat64DBResponse
-func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
+func (controller *Controller) GetFormFieldFloat64s(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var formfieldfloat64DBs []orm.FormFieldFloat64DB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 		formfieldfloat64APIs = append(formfieldfloat64APIs, formfieldfloat64API)
 	}
 
-	c.JSON(http.StatusOK, formfieldfloat64APIs)
+	writeJSON(w, http.StatusOK, formfieldfloat64APIs)
 }
 
 // PostFormFieldFloat64
@@ -122,12 +121,12 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
+func (controller *Controller) PostFormFieldFloat64(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldFloat64.Lock()
 	defer mutexFormFieldFloat64.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 	// Validate input
 	var input orm.FormFieldFloat64API
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, formfieldfloat64DB)
+	writeJSON(w, http.StatusOK, formfieldfloat64DB)
 }
 
 // GetFormFieldFloat64
@@ -202,9 +201,9 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldfloat64DBResponse
-func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
+func (controller *Controller) GetFormFieldFloat64(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 
 	// Get formfieldfloat64DB in DB
 	var formfieldfloat64DB orm.FormFieldFloat64DB
-	if _, err := db.First(&formfieldfloat64DB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfieldfloat64DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 	formfieldfloat64API.FormFieldFloat64PointersEncoding = formfieldfloat64DB.FormFieldFloat64PointersEncoding
 	formfieldfloat64DB.CopyBasicFieldsToFormFieldFloat64_WOP(&formfieldfloat64API.FormFieldFloat64_WOP)
 
-	c.JSON(http.StatusOK, formfieldfloat64API)
+	writeJSON(w, http.StatusOK, formfieldfloat64API)
 }
 
 // UpdateFormFieldFloat64
@@ -255,12 +254,12 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldfloat64DBResponse
-func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
+func (controller *Controller) UpdateFormFieldFloat64(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldFloat64.Lock()
 	defer mutexFormFieldFloat64.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 
 	// Validate input
 	var input orm.FormFieldFloat64API
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	var formfieldfloat64DB orm.FormFieldFloat64DB
 
 	// fetch the formfieldfloat64
-	_, err := db.First(&formfieldfloat64DB, c.Param("id"))
+	_, err := db.First(&formfieldfloat64DB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the formfieldfloat64DB
-	c.JSON(http.StatusOK, formfieldfloat64DB)
+	writeJSON(w, http.StatusOK, formfieldfloat64DB)
 }
 
 // DeleteFormFieldFloat64
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 // default: genericError
 //
 //	200: formfieldfloat64DBResponse
-func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
+func (controller *Controller) DeleteFormFieldFloat64(w http.ResponseWriter, r *http.Request) {
 
 	mutexFormFieldFloat64.Lock()
 	defer mutexFormFieldFloat64.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 
 	// Get model if exist
 	var formfieldfloat64DB orm.FormFieldFloat64DB
-	if _, err := db.First(&formfieldfloat64DB, c.Param("id")); err != nil {
+	if _, err := db.First(&formfieldfloat64DB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

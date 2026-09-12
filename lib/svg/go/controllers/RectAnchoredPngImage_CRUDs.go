@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type RectAnchoredPngImageInput struct {
 // default: genericError
 //
 //	200: rectanchoredpngimageDBResponse
-func (controller *Controller) GetRectAnchoredPngImages(c *gin.Context) {
+func (controller *Controller) GetRectAnchoredPngImages(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var rectanchoredpngimageDBs []orm.RectAnchoredPngImageDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetRectAnchoredPngImages(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetRectAnchoredPngImages(c *gin.Context) {
 		rectanchoredpngimageAPIs = append(rectanchoredpngimageAPIs, rectanchoredpngimageAPI)
 	}
 
-	c.JSON(http.StatusOK, rectanchoredpngimageAPIs)
+	writeJSON(w, http.StatusOK, rectanchoredpngimageAPIs)
 }
 
 // PostRectAnchoredPngImage
@@ -122,12 +121,12 @@ func (controller *Controller) GetRectAnchoredPngImages(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostRectAnchoredPngImage(c *gin.Context) {
+func (controller *Controller) PostRectAnchoredPngImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexRectAnchoredPngImage.Lock()
 	defer mutexRectAnchoredPngImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostRectAnchoredPngImage(c *gin.Context) {
 	// Validate input
 	var input orm.RectAnchoredPngImageAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostRectAnchoredPngImage(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostRectAnchoredPngImage(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, rectanchoredpngimageDB)
+	writeJSON(w, http.StatusOK, rectanchoredpngimageDB)
 }
 
 // GetRectAnchoredPngImage
@@ -202,9 +201,9 @@ func (controller *Controller) PostRectAnchoredPngImage(c *gin.Context) {
 // default: genericError
 //
 //	200: rectanchoredpngimageDBResponse
-func (controller *Controller) GetRectAnchoredPngImage(c *gin.Context) {
+func (controller *Controller) GetRectAnchoredPngImage(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetRectAnchoredPngImage(c *gin.Context) {
 
 	// Get rectanchoredpngimageDB in DB
 	var rectanchoredpngimageDB orm.RectAnchoredPngImageDB
-	if _, err := db.First(&rectanchoredpngimageDB, c.Param("id")); err != nil {
+	if _, err := db.First(&rectanchoredpngimageDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetRectAnchoredPngImage(c *gin.Context) {
 	rectanchoredpngimageAPI.RectAnchoredPngImagePointersEncoding = rectanchoredpngimageDB.RectAnchoredPngImagePointersEncoding
 	rectanchoredpngimageDB.CopyBasicFieldsToRectAnchoredPngImage_WOP(&rectanchoredpngimageAPI.RectAnchoredPngImage_WOP)
 
-	c.JSON(http.StatusOK, rectanchoredpngimageAPI)
+	writeJSON(w, http.StatusOK, rectanchoredpngimageAPI)
 }
 
 // UpdateRectAnchoredPngImage
@@ -255,12 +254,12 @@ func (controller *Controller) GetRectAnchoredPngImage(c *gin.Context) {
 // default: genericError
 //
 //	200: rectanchoredpngimageDBResponse
-func (controller *Controller) UpdateRectAnchoredPngImage(c *gin.Context) {
+func (controller *Controller) UpdateRectAnchoredPngImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexRectAnchoredPngImage.Lock()
 	defer mutexRectAnchoredPngImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateRectAnchoredPngImage(c *gin.Context) {
 
 	// Validate input
 	var input orm.RectAnchoredPngImageAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateRectAnchoredPngImage(c *gin.Context) {
 	var rectanchoredpngimageDB orm.RectAnchoredPngImageDB
 
 	// fetch the rectanchoredpngimage
-	_, err := db.First(&rectanchoredpngimageDB, c.Param("id"))
+	_, err := db.First(&rectanchoredpngimageDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateRectAnchoredPngImage(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateRectAnchoredPngImage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the rectanchoredpngimageDB
-	c.JSON(http.StatusOK, rectanchoredpngimageDB)
+	writeJSON(w, http.StatusOK, rectanchoredpngimageDB)
 }
 
 // DeleteRectAnchoredPngImage
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateRectAnchoredPngImage(c *gin.Context) {
 // default: genericError
 //
 //	200: rectanchoredpngimageDBResponse
-func (controller *Controller) DeleteRectAnchoredPngImage(c *gin.Context) {
+func (controller *Controller) DeleteRectAnchoredPngImage(w http.ResponseWriter, r *http.Request) {
 
 	mutexRectAnchoredPngImage.Lock()
 	defer mutexRectAnchoredPngImage.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteRectAnchoredPngImage(c *gin.Context) {
 
 	// Get model if exist
 	var rectanchoredpngimageDB orm.RectAnchoredPngImageDB
-	if _, err := db.First(&rectanchoredpngimageDB, c.Param("id")); err != nil {
+	if _, err := db.First(&rectanchoredpngimageDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteRectAnchoredPngImage(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

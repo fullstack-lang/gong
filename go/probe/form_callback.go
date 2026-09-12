@@ -93,6 +93,9 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 		case "BespokeHeight":
 			FormDivBasicFieldToField(&(gongbasicfield_.BespokeHeight), formDiv)
 		case "GongStruct:GongBasicFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -218,6 +221,9 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 		case "Type":
 			FormDivEnumIntFieldToField(&(gongenum_.Type), formDiv)
 		case "GongEnumValues":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValue](gongenumFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumValue, 0)
 
@@ -330,6 +336,9 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 		case "Value":
 			FormDivBasicFieldToField(&(gongenumvalue_.Value), formDiv)
 		case "GongEnum:GongEnumValues":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongEnum instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -457,6 +466,9 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 		case "ImportPath":
 			FormDivBasicFieldToField(&(gonglink_.ImportPath), formDiv)
 		case "GongNote:Links":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongNote instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -584,6 +596,9 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 		case "BodyHTML":
 			FormDivBasicFieldToField(&(gongnote_.BodyHTML), formDiv)
 		case "Links":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongLink](gongnoteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongLink, 0)
 
@@ -694,6 +709,9 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(gongstruct_.Name), formDiv)
 		case "GongBasicFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongBasicField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongBasicField, 0)
 
@@ -726,6 +744,9 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "GongBasicFields", &gongstruct_.GongBasicFields)
 
 		case "GongTimeFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongTimeField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongTimeField, 0)
 
@@ -758,6 +779,9 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "GongTimeFields", &gongstruct_.GongTimeFields)
 
 		case "PointerToGongStructFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PointerToGongStructField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PointerToGongStructField, 0)
 
@@ -790,6 +814,9 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "PointerToGongStructFields", &gongstruct_.PointerToGongStructFields)
 
 		case "SliceOfPointerToGongStructFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SliceOfPointerToGongStructField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SliceOfPointerToGongStructField, 0)
 
@@ -920,6 +947,9 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 		case "TimeFormOnly":
 			FormDivBasicFieldToField(&(gongtimefield_.TimeFormOnly), formDiv)
 		case "GongStruct:GongTimeFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1247,6 +1277,9 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 		case "IsType":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.IsType), formDiv)
 		case "GongStruct:PointerToGongStructFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -1382,6 +1415,9 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 		case "IsAccordionEnd":
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.IsAccordionEnd), formDiv)
 		case "GongStruct:SliceOfPointerToGongStructFields":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {

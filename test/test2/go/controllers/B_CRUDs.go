@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 	"github.com/fullstack-lang/gong/test/test2/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type BInput struct {
 // default: genericError
 //
 //	200: bDBResponse
-func (controller *Controller) GetBs(c *gin.Context) {
+func (controller *Controller) GetBs(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var bDBs []orm.BDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetBs(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetBs(c *gin.Context) {
 		bAPIs = append(bAPIs, bAPI)
 	}
 
-	c.JSON(http.StatusOK, bAPIs)
+	writeJSON(w, http.StatusOK, bAPIs)
 }
 
 // PostB
@@ -122,12 +121,12 @@ func (controller *Controller) GetBs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostB(c *gin.Context) {
+func (controller *Controller) PostB(w http.ResponseWriter, r *http.Request) {
 
 	mutexB.Lock()
 	defer mutexB.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostB(c *gin.Context) {
 	// Validate input
 	var input orm.BAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostB(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostB(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, bDB)
+	writeJSON(w, http.StatusOK, bDB)
 }
 
 // GetB
@@ -202,9 +201,9 @@ func (controller *Controller) PostB(c *gin.Context) {
 // default: genericError
 //
 //	200: bDBResponse
-func (controller *Controller) GetB(c *gin.Context) {
+func (controller *Controller) GetB(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetB(c *gin.Context) {
 
 	// Get bDB in DB
 	var bDB orm.BDB
-	if _, err := db.First(&bDB, c.Param("id")); err != nil {
+	if _, err := db.First(&bDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetB(c *gin.Context) {
 	bAPI.BPointersEncoding = bDB.BPointersEncoding
 	bDB.CopyBasicFieldsToB_WOP(&bAPI.B_WOP)
 
-	c.JSON(http.StatusOK, bAPI)
+	writeJSON(w, http.StatusOK, bAPI)
 }
 
 // UpdateB
@@ -255,12 +254,12 @@ func (controller *Controller) GetB(c *gin.Context) {
 // default: genericError
 //
 //	200: bDBResponse
-func (controller *Controller) UpdateB(c *gin.Context) {
+func (controller *Controller) UpdateB(w http.ResponseWriter, r *http.Request) {
 
 	mutexB.Lock()
 	defer mutexB.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 
 	// Validate input
 	var input orm.BAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 	var bDB orm.BDB
 
 	// fetch the b
-	_, err := db.First(&bDB, c.Param("id"))
+	_, err := db.First(&bDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the bDB
-	c.JSON(http.StatusOK, bDB)
+	writeJSON(w, http.StatusOK, bDB)
 }
 
 // DeleteB
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 // default: genericError
 //
 //	200: bDBResponse
-func (controller *Controller) DeleteB(c *gin.Context) {
+func (controller *Controller) DeleteB(w http.ResponseWriter, r *http.Request) {
 
 	mutexB.Lock()
 	defer mutexB.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteB(c *gin.Context) {
 
 	// Get model if exist
 	var bDB orm.BDB
-	if _, err := db.First(&bDB, c.Param("id")); err != nil {
+	if _, err := db.First(&bDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteB(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

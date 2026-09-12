@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
 	"github.com/fullstack-lang/gong/lib/threejs/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type MeshMaterialBasicInput struct {
 // default: genericError
 //
 //	200: meshmaterialbasicDBResponse
-func (controller *Controller) GetMeshMaterialBasics(c *gin.Context) {
+func (controller *Controller) GetMeshMaterialBasics(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var meshmaterialbasicDBs []orm.MeshMaterialBasicDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetMeshMaterialBasics(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetMeshMaterialBasics(c *gin.Context) {
 		meshmaterialbasicAPIs = append(meshmaterialbasicAPIs, meshmaterialbasicAPI)
 	}
 
-	c.JSON(http.StatusOK, meshmaterialbasicAPIs)
+	writeJSON(w, http.StatusOK, meshmaterialbasicAPIs)
 }
 
 // PostMeshMaterialBasic
@@ -122,12 +121,12 @@ func (controller *Controller) GetMeshMaterialBasics(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostMeshMaterialBasic(c *gin.Context) {
+func (controller *Controller) PostMeshMaterialBasic(w http.ResponseWriter, r *http.Request) {
 
 	mutexMeshMaterialBasic.Lock()
 	defer mutexMeshMaterialBasic.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostMeshMaterialBasic(c *gin.Context) {
 	// Validate input
 	var input orm.MeshMaterialBasicAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostMeshMaterialBasic(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostMeshMaterialBasic(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, meshmaterialbasicDB)
+	writeJSON(w, http.StatusOK, meshmaterialbasicDB)
 }
 
 // GetMeshMaterialBasic
@@ -202,9 +201,9 @@ func (controller *Controller) PostMeshMaterialBasic(c *gin.Context) {
 // default: genericError
 //
 //	200: meshmaterialbasicDBResponse
-func (controller *Controller) GetMeshMaterialBasic(c *gin.Context) {
+func (controller *Controller) GetMeshMaterialBasic(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetMeshMaterialBasic(c *gin.Context) {
 
 	// Get meshmaterialbasicDB in DB
 	var meshmaterialbasicDB orm.MeshMaterialBasicDB
-	if _, err := db.First(&meshmaterialbasicDB, c.Param("id")); err != nil {
+	if _, err := db.First(&meshmaterialbasicDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetMeshMaterialBasic(c *gin.Context) {
 	meshmaterialbasicAPI.MeshMaterialBasicPointersEncoding = meshmaterialbasicDB.MeshMaterialBasicPointersEncoding
 	meshmaterialbasicDB.CopyBasicFieldsToMeshMaterialBasic_WOP(&meshmaterialbasicAPI.MeshMaterialBasic_WOP)
 
-	c.JSON(http.StatusOK, meshmaterialbasicAPI)
+	writeJSON(w, http.StatusOK, meshmaterialbasicAPI)
 }
 
 // UpdateMeshMaterialBasic
@@ -255,12 +254,12 @@ func (controller *Controller) GetMeshMaterialBasic(c *gin.Context) {
 // default: genericError
 //
 //	200: meshmaterialbasicDBResponse
-func (controller *Controller) UpdateMeshMaterialBasic(c *gin.Context) {
+func (controller *Controller) UpdateMeshMaterialBasic(w http.ResponseWriter, r *http.Request) {
 
 	mutexMeshMaterialBasic.Lock()
 	defer mutexMeshMaterialBasic.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateMeshMaterialBasic(c *gin.Context) {
 
 	// Validate input
 	var input orm.MeshMaterialBasicAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateMeshMaterialBasic(c *gin.Context) {
 	var meshmaterialbasicDB orm.MeshMaterialBasicDB
 
 	// fetch the meshmaterialbasic
-	_, err := db.First(&meshmaterialbasicDB, c.Param("id"))
+	_, err := db.First(&meshmaterialbasicDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateMeshMaterialBasic(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateMeshMaterialBasic(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the meshmaterialbasicDB
-	c.JSON(http.StatusOK, meshmaterialbasicDB)
+	writeJSON(w, http.StatusOK, meshmaterialbasicDB)
 }
 
 // DeleteMeshMaterialBasic
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateMeshMaterialBasic(c *gin.Context) {
 // default: genericError
 //
 //	200: meshmaterialbasicDBResponse
-func (controller *Controller) DeleteMeshMaterialBasic(c *gin.Context) {
+func (controller *Controller) DeleteMeshMaterialBasic(w http.ResponseWriter, r *http.Request) {
 
 	mutexMeshMaterialBasic.Lock()
 	defer mutexMeshMaterialBasic.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteMeshMaterialBasic(c *gin.Context) {
 
 	// Get model if exist
 	var meshmaterialbasicDB orm.MeshMaterialBasicDB
-	if _, err := db.First(&meshmaterialbasicDB, c.Param("id")); err != nil {
+	if _, err := db.First(&meshmaterialbasicDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteMeshMaterialBasic(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

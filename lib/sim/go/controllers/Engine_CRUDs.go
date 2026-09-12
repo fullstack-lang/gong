@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
 	"github.com/fullstack-lang/gong/lib/sim/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type EngineInput struct {
 // default: genericError
 //
 //	200: engineDBResponse
-func (controller *Controller) GetEngines(c *gin.Context) {
+func (controller *Controller) GetEngines(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var engineDBs []orm.EngineDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetEngines(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetEngines(c *gin.Context) {
 		engineAPIs = append(engineAPIs, engineAPI)
 	}
 
-	c.JSON(http.StatusOK, engineAPIs)
+	writeJSON(w, http.StatusOK, engineAPIs)
 }
 
 // PostEngine
@@ -122,12 +121,12 @@ func (controller *Controller) GetEngines(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostEngine(c *gin.Context) {
+func (controller *Controller) PostEngine(w http.ResponseWriter, r *http.Request) {
 
 	mutexEngine.Lock()
 	defer mutexEngine.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostEngine(c *gin.Context) {
 	// Validate input
 	var input orm.EngineAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostEngine(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostEngine(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, engineDB)
+	writeJSON(w, http.StatusOK, engineDB)
 }
 
 // GetEngine
@@ -202,9 +201,9 @@ func (controller *Controller) PostEngine(c *gin.Context) {
 // default: genericError
 //
 //	200: engineDBResponse
-func (controller *Controller) GetEngine(c *gin.Context) {
+func (controller *Controller) GetEngine(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetEngine(c *gin.Context) {
 
 	// Get engineDB in DB
 	var engineDB orm.EngineDB
-	if _, err := db.First(&engineDB, c.Param("id")); err != nil {
+	if _, err := db.First(&engineDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetEngine(c *gin.Context) {
 	engineAPI.EnginePointersEncoding = engineDB.EnginePointersEncoding
 	engineDB.CopyBasicFieldsToEngine_WOP(&engineAPI.Engine_WOP)
 
-	c.JSON(http.StatusOK, engineAPI)
+	writeJSON(w, http.StatusOK, engineAPI)
 }
 
 // UpdateEngine
@@ -255,12 +254,12 @@ func (controller *Controller) GetEngine(c *gin.Context) {
 // default: genericError
 //
 //	200: engineDBResponse
-func (controller *Controller) UpdateEngine(c *gin.Context) {
+func (controller *Controller) UpdateEngine(w http.ResponseWriter, r *http.Request) {
 
 	mutexEngine.Lock()
 	defer mutexEngine.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateEngine(c *gin.Context) {
 
 	// Validate input
 	var input orm.EngineAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateEngine(c *gin.Context) {
 	var engineDB orm.EngineDB
 
 	// fetch the engine
-	_, err := db.First(&engineDB, c.Param("id"))
+	_, err := db.First(&engineDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateEngine(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateEngine(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the engineDB
-	c.JSON(http.StatusOK, engineDB)
+	writeJSON(w, http.StatusOK, engineDB)
 }
 
 // DeleteEngine
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateEngine(c *gin.Context) {
 // default: genericError
 //
 //	200: engineDBResponse
-func (controller *Controller) DeleteEngine(c *gin.Context) {
+func (controller *Controller) DeleteEngine(w http.ResponseWriter, r *http.Request) {
 
 	mutexEngine.Lock()
 	defer mutexEngine.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteEngine(c *gin.Context) {
 
 	// Get model if exist
 	var engineDB orm.EngineDB
-	if _, err := db.First(&engineDB, c.Param("id")); err != nil {
+	if _, err := db.First(&engineDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteEngine(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

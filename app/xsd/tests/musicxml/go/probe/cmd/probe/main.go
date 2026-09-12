@@ -14,6 +14,7 @@ import (
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -61,7 +62,7 @@ func executeServer() {
 	rootSplitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := stack.R.Run(":" + strconv.Itoa(port))
+	err := split_static.RunServer(stack.R, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

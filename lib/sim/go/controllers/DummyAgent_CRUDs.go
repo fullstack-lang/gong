@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
 	"github.com/fullstack-lang/gong/lib/sim/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type DummyAgentInput struct {
 // default: genericError
 //
 //	200: dummyagentDBResponse
-func (controller *Controller) GetDummyAgents(c *gin.Context) {
+func (controller *Controller) GetDummyAgents(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var dummyagentDBs []orm.DummyAgentDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetDummyAgents(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetDummyAgents(c *gin.Context) {
 		dummyagentAPIs = append(dummyagentAPIs, dummyagentAPI)
 	}
 
-	c.JSON(http.StatusOK, dummyagentAPIs)
+	writeJSON(w, http.StatusOK, dummyagentAPIs)
 }
 
 // PostDummyAgent
@@ -122,12 +121,12 @@ func (controller *Controller) GetDummyAgents(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostDummyAgent(c *gin.Context) {
+func (controller *Controller) PostDummyAgent(w http.ResponseWriter, r *http.Request) {
 
 	mutexDummyAgent.Lock()
 	defer mutexDummyAgent.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostDummyAgent(c *gin.Context) {
 	// Validate input
 	var input orm.DummyAgentAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostDummyAgent(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostDummyAgent(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, dummyagentDB)
+	writeJSON(w, http.StatusOK, dummyagentDB)
 }
 
 // GetDummyAgent
@@ -202,9 +201,9 @@ func (controller *Controller) PostDummyAgent(c *gin.Context) {
 // default: genericError
 //
 //	200: dummyagentDBResponse
-func (controller *Controller) GetDummyAgent(c *gin.Context) {
+func (controller *Controller) GetDummyAgent(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetDummyAgent(c *gin.Context) {
 
 	// Get dummyagentDB in DB
 	var dummyagentDB orm.DummyAgentDB
-	if _, err := db.First(&dummyagentDB, c.Param("id")); err != nil {
+	if _, err := db.First(&dummyagentDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetDummyAgent(c *gin.Context) {
 	dummyagentAPI.DummyAgentPointersEncoding = dummyagentDB.DummyAgentPointersEncoding
 	dummyagentDB.CopyBasicFieldsToDummyAgent_WOP(&dummyagentAPI.DummyAgent_WOP)
 
-	c.JSON(http.StatusOK, dummyagentAPI)
+	writeJSON(w, http.StatusOK, dummyagentAPI)
 }
 
 // UpdateDummyAgent
@@ -255,12 +254,12 @@ func (controller *Controller) GetDummyAgent(c *gin.Context) {
 // default: genericError
 //
 //	200: dummyagentDBResponse
-func (controller *Controller) UpdateDummyAgent(c *gin.Context) {
+func (controller *Controller) UpdateDummyAgent(w http.ResponseWriter, r *http.Request) {
 
 	mutexDummyAgent.Lock()
 	defer mutexDummyAgent.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateDummyAgent(c *gin.Context) {
 
 	// Validate input
 	var input orm.DummyAgentAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateDummyAgent(c *gin.Context) {
 	var dummyagentDB orm.DummyAgentDB
 
 	// fetch the dummyagent
-	_, err := db.First(&dummyagentDB, c.Param("id"))
+	_, err := db.First(&dummyagentDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateDummyAgent(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateDummyAgent(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the dummyagentDB
-	c.JSON(http.StatusOK, dummyagentDB)
+	writeJSON(w, http.StatusOK, dummyagentDB)
 }
 
 // DeleteDummyAgent
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateDummyAgent(c *gin.Context) {
 // default: genericError
 //
 //	200: dummyagentDBResponse
-func (controller *Controller) DeleteDummyAgent(c *gin.Context) {
+func (controller *Controller) DeleteDummyAgent(w http.ResponseWriter, r *http.Request) {
 
 	mutexDummyAgent.Lock()
 	defer mutexDummyAgent.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteDummyAgent(c *gin.Context) {
 
 	// Get model if exist
 	var dummyagentDB orm.DummyAgentDB
-	if _, err := db.First(&dummyagentDB, c.Param("id")); err != nil {
+	if _, err := db.First(&dummyagentDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteDummyAgent(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }

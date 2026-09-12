@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
 	"github.com/fullstack-lang/gong/lib/sim/go/orm"
-
-	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
@@ -52,12 +51,12 @@ type EventInput struct {
 // default: genericError
 //
 //	200: eventDBResponse
-func (controller *Controller) GetEvents(c *gin.Context) {
+func (controller *Controller) GetEvents(w http.ResponseWriter, r *http.Request) {
 
 	// source slice
 	var eventDBs []orm.EventDB
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -85,7 +84,7 @@ func (controller *Controller) GetEvents(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -105,7 +104,7 @@ func (controller *Controller) GetEvents(c *gin.Context) {
 		eventAPIs = append(eventAPIs, eventAPI)
 	}
 
-	c.JSON(http.StatusOK, eventAPIs)
+	writeJSON(w, http.StatusOK, eventAPIs)
 }
 
 // PostEvent
@@ -122,12 +121,12 @@ func (controller *Controller) GetEvents(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostEvent(c *gin.Context) {
+func (controller *Controller) PostEvent(w http.ResponseWriter, r *http.Request) {
 
 	mutexEvent.Lock()
 	defer mutexEvent.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -152,13 +151,13 @@ func (controller *Controller) PostEvent(c *gin.Context) {
 	// Validate input
 	var input orm.EventAPI
 
-	err := c.ShouldBindJSON(&input)
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -173,7 +172,7 @@ func (controller *Controller) PostEvent(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -189,7 +188,7 @@ func (controller *Controller) PostEvent(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, eventDB)
+	writeJSON(w, http.StatusOK, eventDB)
 }
 
 // GetEvent
@@ -202,9 +201,9 @@ func (controller *Controller) PostEvent(c *gin.Context) {
 // default: genericError
 //
 //	200: eventDBResponse
-func (controller *Controller) GetEvent(c *gin.Context) {
+func (controller *Controller) GetEvent(w http.ResponseWriter, r *http.Request) {
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -228,12 +227,12 @@ func (controller *Controller) GetEvent(c *gin.Context) {
 
 	// Get eventDB in DB
 	var eventDB orm.EventDB
-	if _, err := db.First(&eventDB, c.Param("id")); err != nil {
+	if _, err := db.First(&eventDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -242,7 +241,7 @@ func (controller *Controller) GetEvent(c *gin.Context) {
 	eventAPI.EventPointersEncoding = eventDB.EventPointersEncoding
 	eventDB.CopyBasicFieldsToEvent_WOP(&eventAPI.Event_WOP)
 
-	c.JSON(http.StatusOK, eventAPI)
+	writeJSON(w, http.StatusOK, eventAPI)
 }
 
 // UpdateEvent
@@ -255,12 +254,12 @@ func (controller *Controller) GetEvent(c *gin.Context) {
 // default: genericError
 //
 //	200: eventDBResponse
-func (controller *Controller) UpdateEvent(c *gin.Context) {
+func (controller *Controller) UpdateEvent(w http.ResponseWriter, r *http.Request) {
 
 	mutexEvent.Lock()
 	defer mutexEvent.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
@@ -284,9 +283,9 @@ func (controller *Controller) UpdateEvent(c *gin.Context) {
 
 	// Validate input
 	var input orm.EventAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, H{"error": err.Error()})
 		return
 	}
 
@@ -294,14 +293,14 @@ func (controller *Controller) UpdateEvent(c *gin.Context) {
 	var eventDB orm.EventDB
 
 	// fetch the event
-	_, err := db.First(&eventDB, c.Param("id"))
+	_, err := db.First(&eventDB, r.PathValue("id"))
 
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -316,7 +315,7 @@ func (controller *Controller) UpdateEvent(c *gin.Context) {
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -340,7 +339,7 @@ func (controller *Controller) UpdateEvent(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the eventDB
-	c.JSON(http.StatusOK, eventDB)
+	writeJSON(w, http.StatusOK, eventDB)
 }
 
 // DeleteEvent
@@ -352,12 +351,12 @@ func (controller *Controller) UpdateEvent(c *gin.Context) {
 // default: genericError
 //
 //	200: eventDBResponse
-func (controller *Controller) DeleteEvent(c *gin.Context) {
+func (controller *Controller) DeleteEvent(w http.ResponseWriter, r *http.Request) {
 
 	mutexEvent.Lock()
 	defer mutexEvent.Unlock()
 
-	_values := c.Request.URL.Query()
+	_values := r.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
 		value := _values["Name"]
@@ -381,12 +380,12 @@ func (controller *Controller) DeleteEvent(c *gin.Context) {
 
 	// Get model if exist
 	var eventDB orm.EventDB
-	if _, err := db.First(&eventDB, c.Param("id")); err != nil {
+	if _, err := db.First(&eventDB, r.PathValue("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
 		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, returnError.Body)
+		writeJSON(w, http.StatusBadRequest, returnError.Body)
 		return
 	}
 
@@ -408,5 +407,5 @@ func (controller *Controller) DeleteEvent(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	writeJSON(w, http.StatusOK, H{"data": true})
 }
