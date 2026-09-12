@@ -35,6 +35,28 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 	addCreateItemButton(stager, confSubLibraries)
 
+	confTaskGroups := ItemButtonConfiguration[
+		TaskGroup, *TaskGroup, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootTaskGroups,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+		IsButtonInMenu:                     true,
+	}
+	callbacksTaskGroups := addCreateItemButton(stager, confTaskGroups)
+	callbacksTaskGroups.OnBeforeCommit = func() {
+		for _, diagram := range library.Diagrams {
+			diagram.IsTaskGroupsNodeExpanded = true
+		}
+	}
+	if len(libraryNode.Menu.Buttons) > 0 {
+		libraryNode.Menu.Buttons[0].Name = "Add Task Group"
+		libraryNode.Menu.Buttons[0].ToolTipText = "Add a Task Group to \"" + library.Name + "\""
+	}
+
 	confDiagrams := ItemButtonConfiguration[
 		Diagram, *Diagram, // AT, PAT (Added Element)
 		Library, *Library, // ParentAT, PParentAT (Parent Element)
