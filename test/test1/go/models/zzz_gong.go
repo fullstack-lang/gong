@@ -2152,6 +2152,20 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			// field is initialized with an instance of Bstruct with the name of the field
 			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
+			// field is initialized with an instance of Bstruct with the name of the field
+			Bstruct: &Bstruct{Name: "Bstruct"},
+			// field is initialized with an instance of Bstruct with the name of the field
+			Bstruct2: &Bstruct{Name: "Bstruct2"},
+			// field is initialized with an instance of Dstruct with the name of the field
+			Dstruct: &Dstruct{Name: "Dstruct"},
+			// field is initialized with an instance of Dstruct with the name of the field
+			Dstruct2: &Dstruct{Name: "Dstruct2"},
+			// field is initialized with an instance of Dstruct with the name of the field
+			Dstruct3: &Dstruct{Name: "Dstruct3"},
+			// field is initialized with an instance of Dstruct with the name of the field
+			Dstruct4: &Dstruct{Name: "Dstruct4"},
+			// field is initialized with an instance of Dstruct with the name of the field
+			Dstruct4s: []*Dstruct{{Name: "Dstruct4s"}},
 			// field is initialized with an instance of Astruct with the name of the field
 			Anarrayofa: []*Astruct{{Name: "Anarrayofa"}},
 			// field is initialized with an instance of Bstruct with the name of the field
@@ -2162,10 +2176,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
 			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
-			// field is initialized with Cstruct problem with composites
-
-			// field is initialized with Estruct problem with composites
-
 		}).(*Type)
 	case AstructBstruct2Use:
 		return any(&AstructBstruct2Use{
@@ -2189,9 +2199,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Bstruct with the name of the field
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			// field is initialized with an instance of Gstruct with the name of the field
-			Gstruct: &Gstruct{Bstruct: Bstruct{Name: "Gstruct"}},
+			Gstruct: &Gstruct{Name: "Gstruct"},
 			// field is initialized with an instance of Gstruct with the name of the field
-			Gstructs: []*Gstruct{{Bstruct: Bstruct{Name: "Gstructs"}}},
+			Gstructs: []*Gstruct{{Name: "Gstructs"}},
 		}).(*Type)
 	case F0123456789012345678901234567890:
 		return any(&F0123456789012345678901234567890{

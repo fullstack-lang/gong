@@ -5384,6 +5384,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Obstacles: []*Rect{{Name: "Obstacles"}},
 			// field is initialized with an instance of Rect with the name of the field
 			AnchoredTo: &Rect{Name: "AnchoredTo"},
+			// field is initialized with an instance of Condition with the name of the field
+			HoveringTrigger: []*Condition{{Name: "HoveringTrigger"}},
+			// field is initialized with an instance of Condition with the name of the field
+			DisplayConditions: []*Condition{{Name: "DisplayConditions"}},
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
 			// field is initialized with an instance of RectAnchoredText with the name of the field

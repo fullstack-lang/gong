@@ -12262,7 +12262,7 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongMarshallId
 }
 
 func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_boolean_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_BOOLEAN_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_boolean_rendering.Name))
@@ -12278,7 +12278,7 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongMarshallIdentifi
 }
 
 func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_date_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_DATE_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_date_rendering.Name))
@@ -12294,7 +12294,7 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 }
 
 func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_enumeration_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_ENUMERATION_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_enumeration_rendering.Name))
@@ -12310,7 +12310,7 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongMarshallId
 }
 
 func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_integer_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_INTEGER_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_integer_rendering.Name))
@@ -12326,7 +12326,7 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongMarshallIdentifi
 }
 
 func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_real_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_REAL_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_real_rendering.Name))
@@ -12350,7 +12350,7 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongMarshallIden
 }
 
 func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_string_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_STRING_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_string_rendering.Name))
@@ -12366,7 +12366,7 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongMarshallIdenti
 }
 
 func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attribute_definition_xhtml_rendering.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ATTRIBUTE_DEFINITION_XHTML_Rendering")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attribute_definition_xhtml_rendering.Name))

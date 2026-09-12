@@ -25,18 +25,59 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__Diagram__00000000_ := (&models.Diagram{Name: `PBS+WBS`}).Stage(stage)
+	__Diagram__00000001_ := (&models.Diagram{Name: `Time diagram`}).Stage(stage)
 
-	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `go 1.27 opportunity`}).Stage(stage)
+
+	__Note__00000000_ := (&models.Note{Name: `gong prior to 1.27 has a lot of generic function with non optimized names`}).Stage(stage)
+
+	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `PBS+WBS-gong prior to 1.27 has a lot of generic function with non optimized names-gong with generic method opportunities`}).Stage(stage)
+
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `PBS+WBS-gong prior to 1.27 has a lot of generic function with non optimized names`}).Stage(stage)
+
+	__Product__00000000_ := (&models.Product{Name: `gong simplified with go 1.27`}).Stage(stage)
+	__Product__00000001_ := (&models.Product{Name: `gong with generic method opportunities`}).Stage(stage)
+	__Product__00000002_ := (&models.Product{Name: `list of generic function in go < 1.27`}).Stage(stage)
+
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `PBS+WBS-gong simplified with go 1.27-gong with generic method opportunities`}).Stage(stage)
+
+	__ProductShape__00000000_ := (&models.ProductShape{Name: `PBS+WBS-gong simplified with go 1.27`}).Stage(stage)
+	__ProductShape__00000001_ := (&models.ProductShape{Name: `PBS+WBS-gong with generic method opportunities`}).Stage(stage)
+	__ProductShape__00000002_ := (&models.ProductShape{Name: `PBS+WBS-list of generic function in go < 1.27`}).Stage(stage)
+
+	__Task__00000000_ := (&models.Task{Name: `gather all uses of gong generated generic function`}).Stage(stage)
+	__Task__00000001_ := (&models.Task{Name: `do not generate non use generic functions`}).Stage(stage)
+	__Task__00000002_ := (&models.Task{Name: `migrate function to methods`}).Stage(stage)
+	__Task__00000003_ := (&models.Task{Name: `find idiomatic names for stage methods`}).Stage(stage)
+
+	__TaskGroup__00000000_ := (&models.TaskGroup{Name: `generic methods`}).Stage(stage)
+	__TaskGroup__00000001_ := (&models.TaskGroup{Name: `Second TG`}).Stage(stage)
+
+	__TaskGroupShape__00000000_ := (&models.TaskGroupShape{Name: `Time diagram-generic methods`}).Stage(stage)
+	__TaskGroupShape__00000001_ := (&models.TaskGroupShape{Name: `Time diagram-Second TG`}).Stage(stage)
+
+	__TaskInputShape__00000000_ := (&models.TaskInputShape{Name: `PBS+WBS-list of generic function in go < 1.27-do not generate non use generic functions`}).Stage(stage)
+
+	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `PBS+WBS-gather all uses of gong generated generic function-list of generic function in go < 1.27`}).Stage(stage)
+
+	__TaskShape__00000000_ := (&models.TaskShape{Name: `PBS+WBS-gather all uses of gong generated generic function`}).Stage(stage)
+	__TaskShape__00000001_ := (&models.TaskShape{Name: `PBS+WBS-do not generate non use generic functions`}).Stage(stage)
+	__TaskShape__00000002_ := (&models.TaskShape{Name: `PBS+WBS-migrate function to methods`}).Stage(stage)
+	__TaskShape__00000003_ := (&models.TaskShape{Name: `PBS+WBS-find idiomatic names for stage methods`}).Stage(stage)
+	__TaskShape__00000005_ := (&models.TaskShape{Name: `Time diagram-gather all uses of gong generated generic function`}).Stage(stage)
+	__TaskShape__00000006_ := (&models.TaskShape{Name: `Time diagram-do not generate non use generic functions`}).Stage(stage)
+	__TaskShape__00000007_ := (&models.TaskShape{Name: `Time diagram-find idiomatic names for stage methods`}).Stage(stage)
+	__TaskShape__00000008_ := (&models.TaskShape{Name: `Time diagram-migrate function to methods`}).Stage(stage)
 
 	// insertion point for initialization of values
 
-	__Diagram__00000000_.Name = `Default Diagram`
+	__Diagram__00000000_.Name = `PBS+WBS`
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.DateFormat = ``
-	__Diagram__00000000_.Width = 100.000000
-	__Diagram__00000000_.Height = 100.000000
+	__Diagram__00000000_.Width = 1122.746098
+	__Diagram__00000000_.Height = 830.000000
 	__Diagram__00000000_.IsTimeDiagram = false
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -67,23 +108,443 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
-	__Diagram__00000000_.IsInAutoLayoutMode = true
-	__Diagram__00000000_.IsPBSNodeExpanded = false
-	__Diagram__00000000_.IsWBSNodeExpanded = false
+	__Diagram__00000000_.IsInAutoLayoutMode = false
+	__Diagram__00000000_.IsPBSNodeExpanded = true
+	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
-	__Library__00000000_.Name = ``
+	__Diagram__00000001_.Name = `Time diagram`
+	__Diagram__00000001_.DefaultBoxWidth = 250.000000
+	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000001_.DateFormat = ``
+	__Diagram__00000001_.Width = 1300.000000
+	__Diagram__00000001_.Height = 355.000000
+	__Diagram__00000001_.IsTimeDiagram = true
+	__Diagram__00000001_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 00:00:00 +0000 UTC")
+	__Diagram__00000001_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 04:00:00 +0000 UTC")
+	__Diagram__00000001_.ComputedDuration = 14400000000000
+	__Diagram__00000001_.UseManualStartAndEndDates = false
+	__Diagram__00000001_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000001_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000001_.TimeStep = 1
+	__Diagram__00000001_.TimeStepScale = models.MONTHS
+	__Diagram__00000001_.LaneHeight = 100.000000
+	__Diagram__00000001_.RatioBarToLaneHeight = 0.800000
+	__Diagram__00000001_.YTopMargin = 40.000000
+	__Diagram__00000001_.XLeftText = 10.000000
+	__Diagram__00000001_.TextHeight = 15.000000
+	__Diagram__00000001_.XLeftLanes = 200.000000
+	__Diagram__00000001_.XRightMargin = 1000.000000
+	__Diagram__00000001_.ArrowLengthToTheRightOfStartBar = 15.000000
+	__Diagram__00000001_.ArrowTipLenght = 5.000000
+	__Diagram__00000001_.TimeLine_Color = `grey`
+	__Diagram__00000001_.TimeLine_FillOpacity = 0.100000
+	__Diagram__00000001_.TimeLine_Stroke = `grey`
+	__Diagram__00000001_.TimeLine_StrokeWidth = 1.000000
+	__Diagram__00000001_.DrawVerticalTimeLines = false
+	__Diagram__00000001_.Group_Stroke = `black`
+	__Diagram__00000001_.Group_StrokeWidth = 1.000000
+	__Diagram__00000001_.Group_StrokeDashArray = `2 2`
+	__Diagram__00000001_.DateYOffset = 15.000000
+	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000001_.ComputedPrefix = `2`
+	__Diagram__00000001_.IsExpanded = true
+	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.IsShowPrefix = false
+	__Diagram__00000001_.IsInAutoLayoutMode = true
+	__Diagram__00000001_.IsPBSNodeExpanded = false
+	__Diagram__00000001_.IsWBSNodeExpanded = true
+	__Diagram__00000001_.IsTaskGroupsNodeExpanded = true
+	__Diagram__00000001_.IsNotesNodeExpanded = false
+	__Diagram__00000001_.IsResourcesNodeExpanded = false
+
+	__Library__00000000_.Name = `go 1.27 opportunity`
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
+	__Note__00000000_.Name = `gong prior to 1.27 has a lot of generic function with non optimized names`
+	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
+
+	__NoteProductShape__00000000_.Name = `PBS+WBS-gong prior to 1.27 has a lot of generic function with non optimized names-gong with generic method opportunities`
+	__NoteProductShape__00000000_.StartRatio = 0.500000
+	__NoteProductShape__00000000_.EndRatio = 0.500000
+	__NoteProductShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000000_.CornerOffsetRatio = 1.680000
+	__NoteProductShape__00000000_.IsHidden = false
+
+	__NoteShape__00000000_.Name = `PBS+WBS-gong prior to 1.27 has a lot of generic function with non optimized names`
+	__NoteShape__00000000_.OverideLayoutDirection = false
+	__NoteShape__00000000_.LayoutDirection = models.Vertical
+	__NoteShape__00000000_.X = 238.354116
+	__NoteShape__00000000_.Y = 343.000000
+	__NoteShape__00000000_.Width = 250.000000
+	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.IsHidden = false
+
+	__Product__00000000_.Name = `gong simplified with go 1.27`
+	__Product__00000000_.Description = ``
+	__Product__00000000_.IsProducersNodeExpanded = false
+	__Product__00000000_.IsConsumersNodeExpanded = false
+	__Product__00000000_.IsImport = false
+	__Product__00000000_.ComputedPrefix = `1`
+	__Product__00000000_.IsExpanded = false
+	__Product__00000000_.LayoutDirection = models.Vertical
+
+	__Product__00000001_.Name = `gong with generic method opportunities`
+	__Product__00000001_.Description = ``
+	__Product__00000001_.IsProducersNodeExpanded = false
+	__Product__00000001_.IsConsumersNodeExpanded = false
+	__Product__00000001_.IsImport = false
+	__Product__00000001_.ComputedPrefix = `1.1`
+	__Product__00000001_.IsExpanded = false
+	__Product__00000001_.LayoutDirection = models.Vertical
+
+	__Product__00000002_.Name = `list of generic function in go < 1.27`
+	__Product__00000002_.Description = ``
+	__Product__00000002_.IsProducersNodeExpanded = false
+	__Product__00000002_.IsConsumersNodeExpanded = false
+	__Product__00000002_.IsImport = false
+	__Product__00000002_.ComputedPrefix = `2`
+	__Product__00000002_.IsExpanded = false
+	__Product__00000002_.LayoutDirection = models.Vertical
+
+	__ProductCompositionShape__00000000_.Name = `PBS+WBS-gong simplified with go 1.27-gong with generic method opportunities`
+	__ProductCompositionShape__00000000_.StartRatio = 0.500000
+	__ProductCompositionShape__00000000_.EndRatio = 0.500000
+	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.500000
+	__ProductCompositionShape__00000000_.IsHidden = false
+
+	__ProductShape__00000000_.Name = `PBS+WBS-gong simplified with go 1.27`
+	__ProductShape__00000000_.OverideLayoutDirection = false
+	__ProductShape__00000000_.LayoutDirection = models.Vertical
+	__ProductShape__00000000_.X = 50.000000
+	__ProductShape__00000000_.Y = 50.000000
+	__ProductShape__00000000_.Width = 250.000000
+	__ProductShape__00000000_.Height = 70.000000
+	__ProductShape__00000000_.IsHidden = false
+
+	__ProductShape__00000001_.Name = `PBS+WBS-gong with generic method opportunities`
+	__ProductShape__00000001_.OverideLayoutDirection = false
+	__ProductShape__00000001_.LayoutDirection = models.Vertical
+	__ProductShape__00000001_.X = 50.000000
+	__ProductShape__00000001_.Y = 190.000000
+	__ProductShape__00000001_.Width = 250.000000
+	__ProductShape__00000001_.Height = 70.000000
+	__ProductShape__00000001_.IsHidden = false
+
+	__ProductShape__00000002_.Name = `PBS+WBS-list of generic function in go < 1.27`
+	__ProductShape__00000002_.OverideLayoutDirection = false
+	__ProductShape__00000002_.LayoutDirection = models.Vertical
+	__ProductShape__00000002_.X = 302.000000
+	__ProductShape__00000002_.Y = 581.000000
+	__ProductShape__00000002_.Width = 250.000000
+	__ProductShape__00000002_.Height = 70.000000
+	__ProductShape__00000002_.IsHidden = false
+
+	__Task__00000000_.Name = `gather all uses of gong generated generic function`
+	__Task__00000000_.Description = ``
+	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 00:00:00 +0000 UTC")
+	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 01:00:00 +0000 UTC")
+	__Task__00000000_.DurationYears = 0.000000
+	__Task__00000000_.DurationMonths = 0.000000
+	__Task__00000000_.DurationWeeks = 0.000000
+	__Task__00000000_.DurationDays = 0.000000
+	__Task__00000000_.DurationHours = 1.000000
+	__Task__00000000_.IsEndDateComputedFromDuration = true
+	__Task__00000000_.IsStartDateComputedFromPredecessors = false
+	__Task__00000000_.IsMilestone = false
+	__Task__00000000_.IsWithCompletion = false
+	__Task__00000000_.Completion = ""
+	__Task__00000000_.DisplayVerticalBar = false
+	__Task__00000000_.TextPosition = ""
+	__Task__00000000_.XOffset = 0.000000
+	__Task__00000000_.YOffset = 0.000000
+	__Task__00000000_.IsImport = false
+	__Task__00000000_.IsInputsNodeExpanded = false
+	__Task__00000000_.IsOutputsNodeExpanded = false
+	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsExpanded = false
+	__Task__00000000_.LayoutDirection = models.Vertical
+
+	__Task__00000001_.Name = `do not generate non use generic functions`
+	__Task__00000001_.Description = ``
+	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 01:00:00 +0000 UTC")
+	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 02:00:00 +0000 UTC")
+	__Task__00000001_.DurationYears = 0.000000
+	__Task__00000001_.DurationMonths = 0.000000
+	__Task__00000001_.DurationWeeks = 0.000000
+	__Task__00000001_.DurationDays = 0.000000
+	__Task__00000001_.DurationHours = 1.000000
+	__Task__00000001_.IsEndDateComputedFromDuration = true
+	__Task__00000001_.IsStartDateComputedFromPredecessors = true
+	__Task__00000001_.IsMilestone = false
+	__Task__00000001_.IsWithCompletion = false
+	__Task__00000001_.Completion = ""
+	__Task__00000001_.DisplayVerticalBar = false
+	__Task__00000001_.TextPosition = ""
+	__Task__00000001_.XOffset = 0.000000
+	__Task__00000001_.YOffset = 0.000000
+	__Task__00000001_.IsImport = false
+	__Task__00000001_.IsInputsNodeExpanded = false
+	__Task__00000001_.IsOutputsNodeExpanded = false
+	__Task__00000001_.ComputedPrefix = `2`
+	__Task__00000001_.IsExpanded = false
+	__Task__00000001_.LayoutDirection = models.Vertical
+
+	__Task__00000002_.Name = `migrate function to methods`
+	__Task__00000002_.Description = ``
+	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 03:00:00 +0000 UTC")
+	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 04:00:00 +0000 UTC")
+	__Task__00000002_.DurationYears = 0.000000
+	__Task__00000002_.DurationMonths = 0.000000
+	__Task__00000002_.DurationWeeks = 0.000000
+	__Task__00000002_.DurationDays = 0.000000
+	__Task__00000002_.DurationHours = 1.000000
+	__Task__00000002_.IsEndDateComputedFromDuration = true
+	__Task__00000002_.IsStartDateComputedFromPredecessors = true
+	__Task__00000002_.IsMilestone = false
+	__Task__00000002_.IsWithCompletion = false
+	__Task__00000002_.Completion = ""
+	__Task__00000002_.DisplayVerticalBar = false
+	__Task__00000002_.TextPosition = ""
+	__Task__00000002_.XOffset = 0.000000
+	__Task__00000002_.YOffset = 0.000000
+	__Task__00000002_.IsImport = false
+	__Task__00000002_.IsInputsNodeExpanded = false
+	__Task__00000002_.IsOutputsNodeExpanded = false
+	__Task__00000002_.ComputedPrefix = `4`
+	__Task__00000002_.IsExpanded = false
+	__Task__00000002_.LayoutDirection = models.Vertical
+
+	__Task__00000003_.Name = `find idiomatic names for stage methods`
+	__Task__00000003_.Description = ``
+	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 02:00:00 +0000 UTC")
+	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-09-12 03:00:00 +0000 UTC")
+	__Task__00000003_.DurationYears = 0.000000
+	__Task__00000003_.DurationMonths = 0.000000
+	__Task__00000003_.DurationWeeks = 0.000000
+	__Task__00000003_.DurationDays = 0.000000
+	__Task__00000003_.DurationHours = 1.000000
+	__Task__00000003_.IsEndDateComputedFromDuration = true
+	__Task__00000003_.IsStartDateComputedFromPredecessors = true
+	__Task__00000003_.IsMilestone = false
+	__Task__00000003_.IsWithCompletion = false
+	__Task__00000003_.Completion = ""
+	__Task__00000003_.DisplayVerticalBar = false
+	__Task__00000003_.TextPosition = ""
+	__Task__00000003_.XOffset = 0.000000
+	__Task__00000003_.YOffset = 0.000000
+	__Task__00000003_.IsImport = false
+	__Task__00000003_.IsInputsNodeExpanded = false
+	__Task__00000003_.IsOutputsNodeExpanded = false
+	__Task__00000003_.ComputedPrefix = `3`
+	__Task__00000003_.IsExpanded = false
+	__Task__00000003_.LayoutDirection = models.Vertical
+
+	__TaskGroup__00000000_.Name = `generic methods`
+	__TaskGroup__00000000_.ComputedPrefix = ``
+	__TaskGroup__00000000_.IsExpanded = false
+
+	__TaskGroup__00000001_.Name = `Second TG`
+	__TaskGroup__00000001_.ComputedPrefix = ``
+	__TaskGroup__00000001_.IsExpanded = false
+
+	__TaskGroupShape__00000000_.Name = `Time diagram-generic methods`
+	__TaskGroupShape__00000000_.X = 127.808671
+	__TaskGroupShape__00000000_.Y = 572.000000
+	__TaskGroupShape__00000000_.Width = 250.000000
+	__TaskGroupShape__00000000_.Height = 70.000000
+	__TaskGroupShape__00000000_.IsHidden = false
+
+	__TaskGroupShape__00000001_.Name = `Time diagram-Second TG`
+	__TaskGroupShape__00000001_.X = 177.939442
+	__TaskGroupShape__00000001_.Y = 291.000000
+	__TaskGroupShape__00000001_.Width = 250.000000
+	__TaskGroupShape__00000001_.Height = 70.000000
+	__TaskGroupShape__00000001_.IsHidden = false
+
+	__TaskInputShape__00000000_.Name = `PBS+WBS-list of generic function in go < 1.27-do not generate non use generic functions`
+	__TaskInputShape__00000000_.StartRatio = 0.500000
+	__TaskInputShape__00000000_.EndRatio = 0.464286
+	__TaskInputShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskInputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000000_.CornerOffsetRatio = 0.616000
+	__TaskInputShape__00000000_.IsHidden = false
+
+	__TaskOutputShape__00000000_.Name = `PBS+WBS-gather all uses of gong generated generic function-list of generic function in go < 1.27`
+	__TaskOutputShape__00000000_.StartRatio = 0.160000
+	__TaskOutputShape__00000000_.EndRatio = 0.035714
+	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000000_.CornerOffsetRatio = 1.007143
+	__TaskOutputShape__00000000_.IsHidden = false
+
+	__TaskShape__00000000_.Name = `PBS+WBS-gather all uses of gong generated generic function`
+	__TaskShape__00000000_.IsShowDate = false
+	__TaskShape__00000000_.OverideLayoutDirection = false
+	__TaskShape__00000000_.LayoutDirection = models.Vertical
+	__TaskShape__00000000_.X = 137.000000
+	__TaskShape__00000000_.Y = 419.000000
+	__TaskShape__00000000_.Width = 250.000000
+	__TaskShape__00000000_.Height = 70.000000
+	__TaskShape__00000000_.IsHidden = false
+
+	__TaskShape__00000001_.Name = `PBS+WBS-do not generate non use generic functions`
+	__TaskShape__00000001_.IsShowDate = false
+	__TaskShape__00000001_.OverideLayoutDirection = false
+	__TaskShape__00000001_.LayoutDirection = models.Vertical
+	__TaskShape__00000001_.X = 552.000000
+	__TaskShape__00000001_.Y = 417.000000
+	__TaskShape__00000001_.Width = 250.000000
+	__TaskShape__00000001_.Height = 70.000000
+	__TaskShape__00000001_.IsHidden = false
+
+	__TaskShape__00000002_.Name = `PBS+WBS-migrate function to methods`
+	__TaskShape__00000002_.IsShowDate = false
+	__TaskShape__00000002_.OverideLayoutDirection = false
+	__TaskShape__00000002_.LayoutDirection = models.Vertical
+	__TaskShape__00000002_.X = 772.746098
+	__TaskShape__00000002_.Y = 660.000000
+	__TaskShape__00000002_.Width = 250.000000
+	__TaskShape__00000002_.Height = 70.000000
+	__TaskShape__00000002_.IsHidden = false
+
+	__TaskShape__00000003_.Name = `PBS+WBS-find idiomatic names for stage methods`
+	__TaskShape__00000003_.IsShowDate = false
+	__TaskShape__00000003_.OverideLayoutDirection = false
+	__TaskShape__00000003_.LayoutDirection = models.Vertical
+	__TaskShape__00000003_.X = 650.284604
+	__TaskShape__00000003_.Y = 564.000000
+	__TaskShape__00000003_.Width = 250.000000
+	__TaskShape__00000003_.Height = 70.000000
+	__TaskShape__00000003_.IsHidden = false
+
+	__TaskShape__00000005_.Name = `Time diagram-gather all uses of gong generated generic function`
+	__TaskShape__00000005_.IsShowDate = false
+	__TaskShape__00000005_.OverideLayoutDirection = false
+	__TaskShape__00000005_.LayoutDirection = models.Vertical
+	__TaskShape__00000005_.X = 50.000000
+	__TaskShape__00000005_.Y = 50.000000
+	__TaskShape__00000005_.Width = 250.000000
+	__TaskShape__00000005_.Height = 70.000000
+	__TaskShape__00000005_.IsHidden = false
+
+	__TaskShape__00000006_.Name = `Time diagram-do not generate non use generic functions`
+	__TaskShape__00000006_.IsShowDate = false
+	__TaskShape__00000006_.OverideLayoutDirection = false
+	__TaskShape__00000006_.LayoutDirection = models.Vertical
+	__TaskShape__00000006_.X = 350.000000
+	__TaskShape__00000006_.Y = 50.000000
+	__TaskShape__00000006_.Width = 250.000000
+	__TaskShape__00000006_.Height = 70.000000
+	__TaskShape__00000006_.IsHidden = false
+
+	__TaskShape__00000007_.Name = `Time diagram-find idiomatic names for stage methods`
+	__TaskShape__00000007_.IsShowDate = false
+	__TaskShape__00000007_.OverideLayoutDirection = false
+	__TaskShape__00000007_.LayoutDirection = models.Vertical
+	__TaskShape__00000007_.X = 650.000000
+	__TaskShape__00000007_.Y = 50.000000
+	__TaskShape__00000007_.Width = 250.000000
+	__TaskShape__00000007_.Height = 70.000000
+	__TaskShape__00000007_.IsHidden = false
+
+	__TaskShape__00000008_.Name = `Time diagram-migrate function to methods`
+	__TaskShape__00000008_.IsShowDate = false
+	__TaskShape__00000008_.OverideLayoutDirection = false
+	__TaskShape__00000008_.LayoutDirection = models.Vertical
+	__TaskShape__00000008_.X = 950.000000
+	__TaskShape__00000008_.Y = 50.000000
+	__TaskShape__00000008_.Width = 250.000000
+	__TaskShape__00000008_.Height = 70.000000
+	__TaskShape__00000008_.IsHidden = false
+
 	// insertion point for setup of pointers
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000002_)
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000002_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000003_)
+	__Diagram__00000000_.TaskInputShapes = append(__Diagram__00000000_.TaskInputShapes, __TaskInputShape__00000000_)
+	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__Diagram__00000000_.NoteProductShapes = append(__Diagram__00000000_.NoteProductShapes, __NoteProductShape__00000000_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000005_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000006_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000007_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000008_)
+	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000001_)
+	__Diagram__00000001_.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseInputNodeIsExpanded, __Task__00000001_)
+	__Diagram__00000001_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseOutputNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000001_.TaskGroupShapes = append(__Diagram__00000001_.TaskGroupShapes, __TaskGroupShape__00000000_)
+	__Diagram__00000001_.TaskGroupShapes = append(__Diagram__00000001_.TaskGroupShapes, __TaskGroupShape__00000001_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000002_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000001_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000003_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000002_)
+	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000000_)
+	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000001_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
+	__Note__00000000_.Products = append(__Note__00000000_.Products, __Product__00000001_)
+	__NoteProductShape__00000000_.Note = __Note__00000000_
+	__NoteProductShape__00000000_.Product = __Product__00000001_
+	__NoteShape__00000000_.Note = __Note__00000000_
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
+	__Product__00000000_.ReferencedProduct = nil
+	__Product__00000001_.ReferencedProduct = nil
+	__Product__00000002_.ReferencedProduct = nil
+	__ProductCompositionShape__00000000_.Product = __Product__00000001_
+	__ProductShape__00000000_.Product = __Product__00000000_
+	__ProductShape__00000001_.Product = __Product__00000001_
+	__ProductShape__00000002_.Product = __Product__00000002_
+	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000002_)
+	__Task__00000000_.ReferencedTask = nil
+	__Task__00000001_.Predecessors = append(__Task__00000001_.Predecessors, __Task__00000000_)
+	__Task__00000001_.Inputs = append(__Task__00000001_.Inputs, __Product__00000002_)
+	__Task__00000001_.ReferencedTask = nil
+	__Task__00000002_.Predecessors = append(__Task__00000002_.Predecessors, __Task__00000003_)
+	__Task__00000002_.ReferencedTask = nil
+	__Task__00000003_.Predecessors = append(__Task__00000003_.Predecessors, __Task__00000001_)
+	__Task__00000003_.ReferencedTask = nil
+	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000000_)
+	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000001_)
+	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000003_)
+	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000002_)
+	__TaskGroupShape__00000000_.TaskGroup = __TaskGroup__00000000_
+	__TaskGroupShape__00000001_.TaskGroup = __TaskGroup__00000001_
+	__TaskInputShape__00000000_.Product = __Product__00000002_
+	__TaskInputShape__00000000_.Task = __Task__00000001_
+	__TaskOutputShape__00000000_.Task = __Task__00000000_
+	__TaskOutputShape__00000000_.Product = __Product__00000002_
+	__TaskShape__00000000_.Task = __Task__00000000_
+	__TaskShape__00000001_.Task = __Task__00000001_
+	__TaskShape__00000002_.Task = __Task__00000002_
+	__TaskShape__00000003_.Task = __Task__00000003_
+	__TaskShape__00000005_.Task = __Task__00000000_
+	__TaskShape__00000006_.Task = __Task__00000001_
+	__TaskShape__00000007_.Task = __Task__00000003_
+	__TaskShape__00000008_.Task = __Task__00000002_
 }

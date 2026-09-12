@@ -452,10 +452,6 @@ const (
 
 	GongFileFieldSubTmplAssociationNamePointerField
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField
-	GongFileFieldSubTmplAssociationPromotedNamePointerField
-	GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField
-	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField
-	GongFileFieldSubTmplAssociationNameCompositePointerField
 
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction
@@ -678,26 +674,6 @@ map[GongFilePerStructSubTemplateId]string{
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},`,
 
-	GongFileFieldSubTmplAssociationPromotedNamePointerField: `
-			// field is initialized with an instance of {{AssocStructName}} with the name of the field
-			{{FieldName}}: &{{AssocStructName}}{{{CompositeAssocStructName}}: {{CompositeAssocStructName}}{Name: "{{FieldName}}"}},`,
-
-	GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField: `
-			// field is initialized with an instance of {{AssocStructName}} with the name of the field
-			{{FieldName}}: []*{{AssocStructName}}{{{{CompositeAssocStructName}}: {{CompositeAssocStructName}}{Name: "{{FieldName}}"}}},`,
-
-	// GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
-	// 		// field is initialized with {{AssocCompositeStructName}} as it is a composite
-	// 		{{AssocCompositeStructName}}: {{AssocCompositeStructName}}{
-	// 			// per field init{{PerCompositeFieldInit}}
-	// 		},`,
-	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
-			// field is initialized with {{AssocCompositeStructName}} problem with composites
-`,
-	GongFileFieldSubTmplAssociationNameCompositePointerField: `
-				//
-				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
-
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction: `
 		case "{{FieldName}}":
 			res := make(map[*{{AssocStructName}}][]*{{Structname}})
@@ -776,8 +752,6 @@ func CodeGeneratorModelGong(
 			fieldReverseSliceOfPointersAssociationMapCode := ``
 			associationFieldInitialization := ``
 			sliceOfPointersReverseMapStorageCode := ``
-
-			associationFieldInitializationPerCompositeStruct := make(map[string]string, 0)
 
 			for idx, field := range gongStruct.Fields {
 
@@ -908,40 +882,12 @@ func CodeGeneratorModelGong(
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 
-					// for the case where the "Name" is a promoted field, one cannot generate
-					// the code (cf. waiting for https://github.com/golang/go/issues/9859)
-					var assocStructNameHasNameAsPromotedField bool
-					var assocCompositeStrucName string
-					for _, __field := range field.GongStruct.Fields {
-						if __field.GetName() == "Name" && __field.GetCompositeStructName() != "" {
-							assocStructNameHasNameAsPromotedField = true
-							assocCompositeStrucName = __field.GetCompositeStructName()
-						}
-					}
-					if field.CompositeStructName == "" && !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
+					if !isWithinAnonymousStruct {
 						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					} else {
-						if !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
-							associationFieldInitializationPerCompositeStruct[field.CompositeStructName] += models.Replace4(
-								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
-								"{{FieldName}}", field.Name,
-								"{{AssocStructName}}", field.GongStruct.Name,
-								"{{AssocCompositeStructName}}", field.CompositeStructName,
-								"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-						}
-					}
-					if assocStructNameHasNameAsPromotedField {
-						associationFieldInitialization += models.Replace4(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationPromotedNamePointerField],
-							"{{FieldName}}", field.Name,
-							"{{AssocStructName}}", field.GongStruct.Name,
-							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name),
-							"{{CompositeAssocStructName}}", assocCompositeStrucName,
-						)
 					}
 					fieldHeaders += models.Replace2(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderPointerField],
@@ -967,31 +913,12 @@ func CodeGeneratorModelGong(
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 
-					// for the case where the "Name" is a promoted field, one cannot generate
-					// the code (cf. waiting for https://github.com/golang/go/issues/9859)
-					var assocStructNameHasNameAsPromotedField bool
-					var assocCompositeStrucName string
-					for _, __field := range field.GongStruct.Fields {
-						if __field.GetName() == "Name" && __field.GetCompositeStructName() != "" {
-							assocStructNameHasNameAsPromotedField = true
-							assocCompositeStrucName = __field.GetCompositeStructName()
-						}
-					}
-					if field.CompositeStructName == "" && !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
+					if !isWithinAnonymousStruct {
 						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					}
-					if assocStructNameHasNameAsPromotedField {
-						associationFieldInitialization += models.Replace4(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField],
-							"{{FieldName}}", field.Name,
-							"{{AssocStructName}}", field.GongStruct.Name,
-							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name),
-							"{{CompositeAssocStructName}}", assocCompositeStrucName,
-						)
 					}
 					fieldHeaders += models.Replace2(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderSliceOfPointersField],
@@ -1050,22 +977,6 @@ func CodeGeneratorModelGong(
 			fieldHeaders += `
 	}`
 
-			// The generation has to be be reproductible, therefore the map
-			// associationFieldInitializationPerCompositeStruct has to be ordered
-			keys := make([]string, 0)
-			for k := range associationFieldInitializationPerCompositeStruct {
-				keys = append(keys, k)
-			}
-
-			// sort the keys in alphabetical order
-			sort.Strings(keys)
-
-			for _, compositeStructName := range keys {
-				associationFieldInitialization += models.Replace2(
-					GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField],
-					"{{AssocCompositeStructName}}", compositeStructName,
-					"{{PerCompositeFieldInit}}", associationFieldInitializationPerCompositeStruct[compositeStructName])
-			}
 
 			generatedCodeFromSubTemplate := models.Replace11(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),

@@ -42828,6 +42828,34 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case A_measure:
 		return any(&A_measure{
 			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: []*Note{{Name: "Note"}},
+			// field is initialized with an instance of Backup with the name of the field
+			Backup: []*Backup{{Name: "Backup"}},
+			// field is initialized with an instance of Forward with the name of the field
+			Forward: []*Forward{{Name: "Forward"}},
+			// field is initialized with an instance of Direction with the name of the field
+			Direction: []*Direction{{Name: "Direction"}},
+			// field is initialized with an instance of Attributes with the name of the field
+			Attributes: []*Attributes{{Name: "Attributes"}},
+			// field is initialized with an instance of Harmony with the name of the field
+			Harmony: []*Harmony{{Name: "Harmony"}},
+			// field is initialized with an instance of Figured_bass with the name of the field
+			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
+			// field is initialized with an instance of Print with the name of the field
+			Print: []*Print{{Name: "Print"}},
+			// field is initialized with an instance of Sound with the name of the field
+			Sound: []*Sound{{Name: "Sound"}},
+			// field is initialized with an instance of Listening with the name of the field
+			Listening: []*Listening{{Name: "Listening"}},
+			// field is initialized with an instance of Barline with the name of the field
+			Barline: []*Barline{{Name: "Barline"}},
+			// field is initialized with an instance of Grouping with the name of the field
+			Grouping: []*Grouping{{Name: "Grouping"}},
+			// field is initialized with an instance of Link with the name of the field
+			Link: []*Link{{Name: "Link"}},
+			// field is initialized with an instance of Bookmark with the name of the field
+			Bookmark: []*Bookmark{{Name: "Bookmark"}},
 		}).(*Type)
 	case A_measure_1:
 		return any(&A_measure_1{
@@ -42844,6 +42872,34 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case A_part_1:
 		return any(&A_part_1{
 			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: []*Note{{Name: "Note"}},
+			// field is initialized with an instance of Backup with the name of the field
+			Backup: []*Backup{{Name: "Backup"}},
+			// field is initialized with an instance of Forward with the name of the field
+			Forward: []*Forward{{Name: "Forward"}},
+			// field is initialized with an instance of Direction with the name of the field
+			Direction: []*Direction{{Name: "Direction"}},
+			// field is initialized with an instance of Attributes with the name of the field
+			Attributes: []*Attributes{{Name: "Attributes"}},
+			// field is initialized with an instance of Harmony with the name of the field
+			Harmony: []*Harmony{{Name: "Harmony"}},
+			// field is initialized with an instance of Figured_bass with the name of the field
+			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
+			// field is initialized with an instance of Print with the name of the field
+			Print: []*Print{{Name: "Print"}},
+			// field is initialized with an instance of Sound with the name of the field
+			Sound: []*Sound{{Name: "Sound"}},
+			// field is initialized with an instance of Listening with the name of the field
+			Listening: []*Listening{{Name: "Listening"}},
+			// field is initialized with an instance of Barline with the name of the field
+			Barline: []*Barline{{Name: "Barline"}},
+			// field is initialized with an instance of Grouping with the name of the field
+			Grouping: []*Grouping{{Name: "Grouping"}},
+			// field is initialized with an instance of Link with the name of the field
+			Link: []*Link{{Name: "Link"}},
+			// field is initialized with an instance of Bookmark with the name of the field
+			Bookmark: []*Bookmark{{Name: "Bookmark"}},
 		}).(*Type)
 	case Accidental:
 		return any(&Accidental{
@@ -42932,6 +42988,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Attributes:
 		return any(&Attributes{
 			// Initialisation of associations
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 			// field is initialized with an instance of Key with the name of the field
 			Key: []*Key{{Name: "Key"}},
 			// field is initialized with an instance of Time with the name of the field
@@ -42950,18 +43010,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Directive: []*A_directive{{Name: "Directive"}},
 			// field is initialized with an instance of Measure_style with the name of the field
 			Measure_style: []*Measure_style{{Name: "Measure_style"}},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
 		}).(*Type)
 	case Backup:
 		return any(&Backup{
 			// Initialisation of associations
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Bar_style_color:
 		return any(&Bar_style_color{
@@ -42972,6 +43028,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Bar_style_color with the name of the field
 			Bar_style: &Bar_style_color{Name: "Bar_style"},
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 			// field is initialized with an instance of Wavy_line with the name of the field
 			Wavy_line: &Wavy_line{Name: "Wavy_line"},
 			// field is initialized with an instance of Segno with the name of the field
@@ -42984,10 +43044,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Ending: &Ending{Name: "Ending"},
 			// field is initialized with an instance of Repeat with the name of the field
 			Repeat: &Repeat{Name: "Repeat"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
 		}).(*Type)
 	case Barre:
 		return any(&Barre{
@@ -43082,6 +43138,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Scaling with the name of the field
 			Scaling: &Scaling{Name: "Scaling"},
+			// field is initialized with an instance of Page_layout with the name of the field
+			Page_layout: &Page_layout{Name: "Page_layout"},
+			// field is initialized with an instance of System_layout with the name of the field
+			System_layout: &System_layout{Name: "System_layout"},
+			// field is initialized with an instance of Staff_layout with the name of the field
+			Staff_layout: []*Staff_layout{{Name: "Staff_layout"}},
 			// field is initialized with an instance of Appearance with the name of the field
 			Appearance: &Appearance{Name: "Appearance"},
 			// field is initialized with an instance of Empty_font with the name of the field
@@ -43092,8 +43154,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Lyric_font: []*Lyric_font{{Name: "Lyric_font"}},
 			// field is initialized with an instance of Lyric_language with the name of the field
 			Lyric_language: []*Lyric_language{{Name: "Lyric_language"}},
-			// field is initialized with Group_layout problem with composites
-
 		}).(*Type)
 	case Degree:
 		return any(&Degree{
@@ -43124,14 +43184,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Direction_type: []*Direction_type{{Name: "Direction_type"}},
 			// field is initialized with an instance of Offset with the name of the field
 			Offset: &Offset{Name: "Offset"},
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 			// field is initialized with an instance of Sound with the name of the field
 			Sound: &Sound{Name: "Sound"},
 			// field is initialized with an instance of Listening with the name of the field
 			Listening: &Listening{Name: "Listening"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
 		}).(*Type)
 	case Direction_type:
 		return any(&Direction_type{
@@ -43282,20 +43342,20 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Suffix: &Style_text{Name: "Suffix"},
 			// field is initialized with an instance of Extend with the name of the field
 			Extend: &Extend{Name: "Extend"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Figured_bass:
 		return any(&Figured_bass{
 			// Initialisation of associations
 			// field is initialized with an instance of Figure with the name of the field
 			Figure: []*Figure{{Name: "Figure"}},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Fingering:
 		return any(&Fingering{
@@ -43332,10 +43392,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Forward:
 		return any(&Forward{
 			// Initialisation of associations
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Frame:
 		return any(&Frame{
@@ -43420,16 +43480,28 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Harmony:
 		return any(&Harmony{
 			// Initialisation of associations
+			// field is initialized with an instance of Root with the name of the field
+			Root: &Root{Name: "Root"},
+			// field is initialized with an instance of Numeral with the name of the field
+			Numeral: &Numeral{Name: "Numeral"},
+			// field is initialized with an instance of Style_text with the name of the field
+			Function: &Style_text{Name: "Function"},
+			// field is initialized with an instance of Kind with the name of the field
+			Kind: &Kind{Name: "Kind"},
+			// field is initialized with an instance of Inversion with the name of the field
+			Inversion: &Inversion{Name: "Inversion"},
+			// field is initialized with an instance of Bass with the name of the field
+			Bass: &Bass{Name: "Bass"},
+			// field is initialized with an instance of Degree with the name of the field
+			Degree: []*Degree{{Name: "Degree"}},
 			// field is initialized with an instance of Frame with the name of the field
 			Frame: &Frame{Name: "Frame"},
 			// field is initialized with an instance of Offset with the name of the field
 			Offset: &Offset{Name: "Offset"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_harmony_chord problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Harmony_alter:
 		return any(&Harmony_alter{
@@ -43484,8 +43556,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Instrument_change:
 		return any(&Instrument_change{
 			// Initialisation of associations
-			// field is initialized with Group_virtual_instrument_data problem with composites
-
+			// field is initialized with an instance of Virtual_instrument with the name of the field
+			Virtual_instrument: &Virtual_instrument{Name: "Virtual_instrument"},
 		}).(*Type)
 	case Instrument_link:
 		return any(&Instrument_link{
@@ -43502,12 +43574,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Key:
 		return any(&Key{
 			// Initialisation of associations
+			// field is initialized with an instance of Cancel with the name of the field
+			Cancel: &Cancel{Name: "Cancel"},
+			// field is initialized with an instance of Key_accidental with the name of the field
+			Key_accidental: &Key_accidental{Name: "Key_accidental"},
 			// field is initialized with an instance of Key_octave with the name of the field
 			Key_octave: []*Key_octave{{Name: "Key_octave"}},
-			// field is initialized with Group_non_traditional_key problem with composites
-
-			// field is initialized with Group_traditional_key problem with composites
-
 		}).(*Type)
 	case Key_accidental:
 		return any(&Key_accidental{
@@ -43566,10 +43638,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Text: []*Text_element_data{{Name: "Text"}},
 			// field is initialized with an instance of Extend with the name of the field
 			Extend: &Extend{Name: "Extend"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Lyric_font:
 		return any(&Lyric_font{
@@ -43684,6 +43756,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Notations:
 		return any(&Notations{
 			// Initialisation of associations
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 			// field is initialized with an instance of Tied with the name of the field
 			Tied: []*Tied{{Name: "Tied"}},
 			// field is initialized with an instance of Slur with the name of the field
@@ -43712,20 +43788,26 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Accidental_mark: []*Accidental_mark{{Name: "Accidental_mark"}},
 			// field is initialized with an instance of Other_notation with the name of the field
 			Other_notation: []*Other_notation{{Name: "Other_notation"}},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
 		}).(*Type)
 	case Note:
 		return any(&Note{
 			// Initialisation of associations
 			// field is initialized with an instance of Grace with the name of the field
 			Grace: &Grace{Name: "Grace"},
+			// field is initialized with an instance of Pitch with the name of the field
+			Pitch: &Pitch{Name: "Pitch"},
+			// field is initialized with an instance of Unpitched with the name of the field
+			Unpitched: &Unpitched{Name: "Unpitched"},
+			// field is initialized with an instance of Rest with the name of the field
+			Rest: &Rest{Name: "Rest"},
 			// field is initialized with an instance of Tie with the name of the field
 			Tie: &Tie{Name: "Tie"},
 			// field is initialized with an instance of Instrument with the name of the field
 			Instrument: []*Instrument{{Name: "Instrument"}},
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 			// field is initialized with an instance of Note_type with the name of the field
 			Type: &Note_type{Name: "Type"},
 			// field is initialized with an instance of Empty_placement with the name of the field
@@ -43750,12 +43832,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Play: &Play{Name: "Play"},
 			// field is initialized with an instance of Listen with the name of the field
 			Listen: &Listen{Name: "Listen"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_full_note problem with composites
-
-			// field is initialized with Group_level problem with composites
-
 		}).(*Type)
 	case Note_size:
 		return any(&Note_size{
@@ -43900,10 +43976,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Group_symbol: &Group_symbol{Name: "Group_symbol"},
 			// field is initialized with an instance of Group_barline with the name of the field
 			Group_barline: &Group_barline{Name: "Group_barline"},
-			// field is initialized with Group_footnote problem with composites
-
-			// field is initialized with Group_level problem with composites
-
+			// field is initialized with an instance of Formatted_text with the name of the field
+			Footnote: &Formatted_text{Name: "Footnote"},
+			// field is initialized with an instance of Level with the name of the field
+			Level: &Level{Name: "Level"},
 		}).(*Type)
 	case Part_link:
 		return any(&Part_link{
@@ -43914,10 +43990,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Part_list:
 		return any(&Part_list{
 			// Initialisation of associations
-			// field is initialized with Group_part_group problem with composites
-
-			// field is initialized with Group_score_part problem with composites
-
+			// field is initialized with an instance of Part_group with the name of the field
+			Part_group: &Part_group{Name: "Part_group"},
+			// field is initialized with an instance of Score_part with the name of the field
+			Score_part: &Score_part{Name: "Score_part"},
 		}).(*Type)
 	case Part_name:
 		return any(&Part_name{
@@ -43996,6 +44072,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Print:
 		return any(&Print{
 			// Initialisation of associations
+			// field is initialized with an instance of Page_layout with the name of the field
+			Page_layout: &Page_layout{Name: "Page_layout"},
+			// field is initialized with an instance of System_layout with the name of the field
+			System_layout: &System_layout{Name: "System_layout"},
+			// field is initialized with an instance of Staff_layout with the name of the field
+			Staff_layout: []*Staff_layout{{Name: "Staff_layout"}},
 			// field is initialized with an instance of Measure_layout with the name of the field
 			Measure_layout: &Measure_layout{Name: "Measure_layout"},
 			// field is initialized with an instance of Measure_numbering with the name of the field
@@ -44004,8 +44086,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Part_name_display: &Name_display{Name: "Part_name_display"},
 			// field is initialized with an instance of Name_display with the name of the field
 			Part_abbreviation_display: &Name_display{Name: "Part_abbreviation_display"},
-			// field is initialized with Group_layout problem with composites
-
 		}).(*Type)
 	case Release:
 		return any(&Release{
@@ -44044,8 +44124,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Score_instrument:
 		return any(&Score_instrument{
 			// Initialisation of associations
-			// field is initialized with Group_virtual_instrument_data problem with composites
-
+			// field is initialized with an instance of Virtual_instrument with the name of the field
+			Virtual_instrument: &Virtual_instrument{Name: "Virtual_instrument"},
 		}).(*Type)
 	case Score_part:
 		return any(&Score_part{
@@ -44074,18 +44154,34 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Score_partwise:
 		return any(&Score_partwise{
 			// Initialisation of associations
+			// field is initialized with an instance of Work with the name of the field
+			Work: &Work{Name: "Work"},
+			// field is initialized with an instance of Identification with the name of the field
+			Identification: &Identification{Name: "Identification"},
+			// field is initialized with an instance of Defaults with the name of the field
+			Defaults: &Defaults{Name: "Defaults"},
+			// field is initialized with an instance of Credit with the name of the field
+			Credit: []*Credit{{Name: "Credit"}},
+			// field is initialized with an instance of Part_list with the name of the field
+			Part_list: &Part_list{Name: "Part_list"},
 			// field is initialized with an instance of A_part with the name of the field
 			Part: []*A_part{{Name: "Part"}},
-			// field is initialized with Group_score_header problem with composites
-
 		}).(*Type)
 	case Score_timewise:
 		return any(&Score_timewise{
 			// Initialisation of associations
+			// field is initialized with an instance of Work with the name of the field
+			Work: &Work{Name: "Work"},
+			// field is initialized with an instance of Identification with the name of the field
+			Identification: &Identification{Name: "Identification"},
+			// field is initialized with an instance of Defaults with the name of the field
+			Defaults: &Defaults{Name: "Defaults"},
+			// field is initialized with an instance of Credit with the name of the field
+			Credit: []*Credit{{Name: "Credit"}},
+			// field is initialized with an instance of Part_list with the name of the field
+			Part_list: &Part_list{Name: "Part_list"},
 			// field is initialized with an instance of A_measure_1 with the name of the field
 			Measure: []*A_measure_1{{Name: "Measure"}},
-			// field is initialized with Group_score_header problem with composites
-
 		}).(*Type)
 	case Segno:
 		return any(&Segno{

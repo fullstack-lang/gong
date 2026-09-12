@@ -5638,8 +5638,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case All:
 		return any(&All{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
+			// field is initialized with an instance of Sequence with the name of the field
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			// field is initialized with an instance of All with the name of the field
+			Alls: []*All{{Name: "Alls"}},
+			// field is initialized with an instance of Choice with the name of the field
+			Choices: []*Choice{{Name: "Choices"}},
+			// field is initialized with an instance of Group with the name of the field
+			Groups: []*Group{{Name: "Groups"}},
+			// field is initialized with an instance of Element with the name of the field
+			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case Annotation:
 		return any(&Annotation{
@@ -5650,24 +5660,34 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Attribute:
 		return any(&Attribute{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case AttributeGroup:
 		return any(&AttributeGroup{
 			// Initialisation of associations
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 			// field is initialized with an instance of AttributeGroup with the name of the field
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 			// field is initialized with an instance of Attribute with the name of the field
 			Attributes: []*Attribute{{Name: "Attributes"}},
-			// field is initialized with Annotated problem with composites
-
 		}).(*Type)
 	case Choice:
 		return any(&Choice{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
+			// field is initialized with an instance of Sequence with the name of the field
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			// field is initialized with an instance of All with the name of the field
+			Alls: []*All{{Name: "Alls"}},
+			// field is initialized with an instance of Choice with the name of the field
+			Choices: []*Choice{{Name: "Choices"}},
+			// field is initialized with an instance of Group with the name of the field
+			Groups: []*Group{{Name: "Groups"}},
+			// field is initialized with an instance of Element with the name of the field
+			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case ComplexContent:
 		return any(&ComplexContent{
@@ -5678,6 +5698,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Element with the name of the field
 			OuterElement: &Element{Name: "OuterElement"},
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
+			// field is initialized with an instance of Sequence with the name of the field
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			// field is initialized with an instance of All with the name of the field
+			Alls: []*All{{Name: "Alls"}},
+			// field is initialized with an instance of Choice with the name of the field
+			Choices: []*Choice{{Name: "Choices"}},
+			// field is initialized with an instance of Group with the name of the field
+			Groups: []*Group{{Name: "Groups"}},
+			// field is initialized with an instance of Element with the name of the field
+			Elements: []*Element{{Name: "Elements"}},
 			// field is initialized with an instance of Extension with the name of the field
 			Extension: &Extension{Name: "Extension"},
 			// field is initialized with an instance of SimpleContent with the name of the field
@@ -5688,8 +5720,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Attributes: []*Attribute{{Name: "Attributes"}},
 			// field is initialized with an instance of AttributeGroup with the name of the field
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
-			// field is initialized with Annotated problem with composites
-
 		}).(*Type)
 	case Documentation:
 		return any(&Documentation{
@@ -5698,24 +5728,34 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Element:
 		return any(&Element{
 			// Initialisation of associations
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 			// field is initialized with an instance of SimpleType with the name of the field
 			SimpleType: &SimpleType{Name: "SimpleType"},
 			// field is initialized with an instance of ComplexType with the name of the field
 			ComplexType: &ComplexType{Name: "ComplexType"},
 			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with Annotated problem with composites
-
 		}).(*Type)
 	case Enumeration:
 		return any(&Enumeration{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Extension:
 		return any(&Extension{
 			// Initialisation of associations
+			// field is initialized with an instance of Sequence with the name of the field
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			// field is initialized with an instance of All with the name of the field
+			Alls: []*All{{Name: "Alls"}},
+			// field is initialized with an instance of Choice with the name of the field
+			Choices: []*Choice{{Name: "Choices"}},
+			// field is initialized with an instance of Group with the name of the field
+			Groups: []*Group{{Name: "Groups"}},
+			// field is initialized with an instance of Element with the name of the field
+			Elements: []*Element{{Name: "Elements"}},
 			// field is initialized with an instance of Attribute with the name of the field
 			Attributes: []*Attribute{{Name: "Attributes"}},
 			// field is initialized with an instance of AttributeGroup with the name of the field
@@ -5724,50 +5764,62 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Group:
 		return any(&Group{
 			// Initialisation of associations
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 			// field is initialized with an instance of Element with the name of the field
 			OuterElement: &Element{Name: "OuterElement"},
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Sequence with the name of the field
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			// field is initialized with an instance of All with the name of the field
+			Alls: []*All{{Name: "Alls"}},
+			// field is initialized with an instance of Choice with the name of the field
+			Choices: []*Choice{{Name: "Choices"}},
+			// field is initialized with an instance of Group with the name of the field
+			Groups: []*Group{{Name: "Groups"}},
+			// field is initialized with an instance of Element with the name of the field
+			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case Length:
 		return any(&Length{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MaxInclusive:
 		return any(&MaxInclusive{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MaxLength:
 		return any(&MaxLength{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MinInclusive:
 		return any(&MinInclusive{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case MinLength:
 		return any(&MinLength{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Pattern:
 		return any(&Pattern{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Restriction:
 		return any(&Restriction{
 			// Initialisation of associations
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 			// field is initialized with an instance of Enumeration with the name of the field
 			Enumerations: []*Enumeration{{Name: "Enumerations"}},
 			// field is initialized with an instance of MinInclusive with the name of the field
@@ -5786,12 +5838,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Length: &Length{Name: "Length"},
 			// field is initialized with an instance of TotalDigit with the name of the field
 			TotalDigit: &TotalDigit{Name: "TotalDigit"},
-			// field is initialized with Annotated problem with composites
-
 		}).(*Type)
 	case Schema:
 		return any(&Schema{
 			// Initialisation of associations
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 			// field is initialized with an instance of Element with the name of the field
 			Elements: []*Element{{Name: "Elements"}},
 			// field is initialized with an instance of SimpleType with the name of the field
@@ -5802,14 +5854,22 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 			// field is initialized with an instance of Group with the name of the field
 			Groups: []*Group{{Name: "Groups"}},
-			// field is initialized with Annotated problem with composites
-
 		}).(*Type)
 	case Sequence:
 		return any(&Sequence{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
+			// field is initialized with an instance of Sequence with the name of the field
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			// field is initialized with an instance of All with the name of the field
+			Alls: []*All{{Name: "Alls"}},
+			// field is initialized with an instance of Choice with the name of the field
+			Choices: []*Choice{{Name: "Choices"}},
+			// field is initialized with an instance of Group with the name of the field
+			Groups: []*Group{{Name: "Groups"}},
+			// field is initialized with an instance of Element with the name of the field
+			Elements: []*Element{{Name: "Elements"}},
 		}).(*Type)
 	case SimpleContent:
 		return any(&SimpleContent{
@@ -5822,30 +5882,30 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case SimpleType:
 		return any(&SimpleType{
 			// Initialisation of associations
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 			// field is initialized with an instance of Restriction with the name of the field
 			Restriction: &Restriction{Name: "Restriction"},
 			// field is initialized with an instance of Union with the name of the field
 			Union: &Union{Name: "Union"},
-			// field is initialized with Annotated problem with composites
-
 		}).(*Type)
 	case TotalDigit:
 		return any(&TotalDigit{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case Union:
 		return any(&Union{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	case WhiteSpace:
 		return any(&WhiteSpace{
 			// Initialisation of associations
-			// field is initialized with Annotated problem with composites
-
+			// field is initialized with an instance of Annotation with the name of the field
+			Annotation: &Annotation{Name: "Annotation"},
 		}).(*Type)
 	default:
 		return nil

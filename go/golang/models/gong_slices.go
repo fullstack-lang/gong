@@ -465,21 +465,6 @@ func CodeGeneratorModelGongSlice(
 				"{{perFieldCode}}", perFieldCode,
 				"{{sliceOfPointerFieldReverseMapComputationCode}}", sliceOfPointerFieldReverseMapComputationCode)
 
-			// case where the i
-			if GongSliceMarshallDeclaration == subStructTemplate {
-				// find the "Name" field
-				nameFieldIsEmbedded := false
-				for _, field := range gongStruct.Fields {
-					if field.GetName() == "Name" && field.GetCompositeStructName() != "" {
-						nameFieldIsEmbedded = true
-					}
-				}
-				if nameFieldIsEmbedded {
-					// go does not hanldledirect reference to embedded fields in struct literals (https://github.com/golang/go/issues/9859)
-					// therefore, we simplify the code generation
-					generatedCodeFromSubTemplate = strings.ReplaceAll(generatedCodeFromSubTemplate, "GongIdentifiersDecls", "IdentifiersDeclsWithoutNameInit")
-				}
-			}
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
