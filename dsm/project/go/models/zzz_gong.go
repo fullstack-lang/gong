@@ -7347,6 +7347,15 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
+			Name:                 "Predecessors",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsStartDateComputedFromPredecessors",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "DurationYears",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -7368,15 +7377,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsEndDateComputedFromDuration",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "Predecessors",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:               "IsStartDateComputedFromPredecessors",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -8865,6 +8865,20 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Start.String()
 	case "End":
 		res.valueString = task.End.String()
+	case "Predecessors":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.Predecessors {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsStartDateComputedFromPredecessors":
+		res.valueString = fmt.Sprintf("%t", task.IsStartDateComputedFromPredecessors)
+		res.valueBool = task.IsStartDateComputedFromPredecessors
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DurationYears":
 		res.valueString = fmt.Sprintf("%f", task.DurationYears)
 		res.valueFloat = task.DurationYears
@@ -8888,20 +8902,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "IsEndDateComputedFromDuration":
 		res.valueString = fmt.Sprintf("%t", task.IsEndDateComputedFromDuration)
 		res.valueBool = task.IsEndDateComputedFromDuration
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Predecessors":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range task.Predecessors {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsStartDateComputedFromPredecessors":
-		res.valueString = fmt.Sprintf("%t", task.IsStartDateComputedFromPredecessors)
-		res.valueBool = task.IsStartDateComputedFromPredecessors
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsMilestone":
 		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
@@ -10340,18 +10340,6 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.Name = value.GetValueString()
 	case "Description":
 		task.Description = value.GetValueString()
-	case "DurationYears":
-		task.DurationYears = value.GetValueFloat()
-	case "DurationMonths":
-		task.DurationMonths = value.GetValueFloat()
-	case "DurationWeeks":
-		task.DurationWeeks = value.GetValueFloat()
-	case "DurationDays":
-		task.DurationDays = value.GetValueFloat()
-	case "DurationHours":
-		task.DurationHours = value.GetValueFloat()
-	case "IsEndDateComputedFromDuration":
-		task.IsEndDateComputedFromDuration = value.GetValueBool()
 	case "Predecessors":
 		task.Predecessors = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
@@ -10368,6 +10356,18 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		}
 	case "IsStartDateComputedFromPredecessors":
 		task.IsStartDateComputedFromPredecessors = value.GetValueBool()
+	case "DurationYears":
+		task.DurationYears = value.GetValueFloat()
+	case "DurationMonths":
+		task.DurationMonths = value.GetValueFloat()
+	case "DurationWeeks":
+		task.DurationWeeks = value.GetValueFloat()
+	case "DurationDays":
+		task.DurationDays = value.GetValueFloat()
+	case "DurationHours":
+		task.DurationHours = value.GetValueFloat()
+	case "IsEndDateComputedFromDuration":
+		task.IsEndDateComputedFromDuration = value.GetValueBool()
 	case "IsMilestone":
 		task.IsMilestone = value.GetValueBool()
 	case "Inputs":

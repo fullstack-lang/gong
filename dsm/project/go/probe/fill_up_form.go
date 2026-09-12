@@ -706,6 +706,18 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
 			IsAStartAccordionGroup: true,
+			AccordionGroupName: "Predecessors",
+		}).Stage(probe.formStage))
+		AssociationSliceToForm("Predecessors", instanceWithInferedType, &instanceWithInferedType.Predecessors, formGroup, probe)
+		BasicFieldtoForm("IsStartDateComputedFromPredecessors", instanceWithInferedType.IsStartDateComputedFromPredecessors, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Duration",
 		}).Stage(probe.formStage))
 		BasicFieldtoForm("DurationYears", instanceWithInferedType.DurationYears, instanceWithInferedType, probe.formStage, formGroup,
@@ -719,18 +731,6 @@ func FillUpForm(
 		BasicFieldtoForm("DurationHours", instanceWithInferedType.DurationHours, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsEndDateComputedFromDuration", instanceWithInferedType.IsEndDateComputedFromDuration, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "",
-			IsAEndAccordionGroup:   true,
-		}).Stage(probe.formStage))
-		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
-			Name:       "",
-			IsAStartAccordionGroup: true,
-			AccordionGroupName: "Predecessors",
-		}).Stage(probe.formStage))
-		AssociationSliceToForm("Predecessors", instanceWithInferedType, &instanceWithInferedType.Predecessors, formGroup, probe)
-		BasicFieldtoForm("IsStartDateComputedFromPredecessors", instanceWithInferedType.IsStartDateComputedFromPredecessors, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",

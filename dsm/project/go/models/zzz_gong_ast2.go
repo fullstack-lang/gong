@@ -1277,6 +1277,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 				}
 			}
 		}
+	case "Predecessors":
+		GongUnmarshallSliceOfPointers(&instance.Predecessors, valueExpr, identifierMap)
+	case "IsStartDateComputedFromPredecessors":
+		instance.IsStartDateComputedFromPredecessors = GongExtractBool(valueExpr)
 	case "DurationYears":
 		instance.DurationYears = GongExtractFloat(valueExpr)
 	case "DurationMonths":
@@ -1289,10 +1293,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.DurationHours = GongExtractFloat(valueExpr)
 	case "IsEndDateComputedFromDuration":
 		instance.IsEndDateComputedFromDuration = GongExtractBool(valueExpr)
-	case "Predecessors":
-		GongUnmarshallSliceOfPointers(&instance.Predecessors, valueExpr, identifierMap)
-	case "IsStartDateComputedFromPredecessors":
-		instance.IsStartDateComputedFromPredecessors = GongExtractBool(valueExpr)
 	case "IsMilestone":
 		instance.IsMilestone = GongExtractBool(valueExpr)
 	case "Inputs":

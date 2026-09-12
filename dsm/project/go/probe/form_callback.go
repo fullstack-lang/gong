@@ -3800,18 +3800,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivTimeFieldToField(&(task_.Start), formDiv, true)
 		case "End":
 			FormDivTimeFieldToField(&(task_.End), formDiv, true)
-		case "DurationYears":
-			FormDivBasicFieldToField(&(task_.DurationYears), formDiv)
-		case "DurationMonths":
-			FormDivBasicFieldToField(&(task_.DurationMonths), formDiv)
-		case "DurationWeeks":
-			FormDivBasicFieldToField(&(task_.DurationWeeks), formDiv)
-		case "DurationDays":
-			FormDivBasicFieldToField(&(task_.DurationDays), formDiv)
-		case "DurationHours":
-			FormDivBasicFieldToField(&(task_.DurationHours), formDiv)
-		case "IsEndDateComputedFromDuration":
-			FormDivBasicFieldToField(&(task_.IsEndDateComputedFromDuration), formDiv)
 		case "Predecessors":
 			if formDiv.FormEditAssocButton == nil {
 				continue
@@ -3849,6 +3837,18 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 		case "IsStartDateComputedFromPredecessors":
 			FormDivBasicFieldToField(&(task_.IsStartDateComputedFromPredecessors), formDiv)
+		case "DurationYears":
+			FormDivBasicFieldToField(&(task_.DurationYears), formDiv)
+		case "DurationMonths":
+			FormDivBasicFieldToField(&(task_.DurationMonths), formDiv)
+		case "DurationWeeks":
+			FormDivBasicFieldToField(&(task_.DurationWeeks), formDiv)
+		case "DurationDays":
+			FormDivBasicFieldToField(&(task_.DurationDays), formDiv)
+		case "DurationHours":
+			FormDivBasicFieldToField(&(task_.DurationHours), formDiv)
+		case "IsEndDateComputedFromDuration":
+			FormDivBasicFieldToField(&(task_.IsEndDateComputedFromDuration), formDiv)
 		case "IsMilestone":
 			FormDivBasicFieldToField(&(task_.IsMilestone), formDiv)
 		case "Inputs":

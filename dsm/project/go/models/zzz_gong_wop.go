@@ -537,6 +537,8 @@ type Task_WOP struct {
 
 	End time.Time
 
+	IsStartDateComputedFromPredecessors bool
+
 	DurationYears float64
 
 	DurationMonths float64
@@ -548,8 +550,6 @@ type Task_WOP struct {
 	DurationHours float64
 
 	IsEndDateComputedFromDuration bool
-
-	IsStartDateComputedFromPredecessors bool
 
 	IsMilestone bool
 
@@ -584,13 +584,13 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.Description = from.Description
 	to.Start = from.Start
 	to.End = from.End
+	to.IsStartDateComputedFromPredecessors = from.IsStartDateComputedFromPredecessors
 	to.DurationYears = from.DurationYears
 	to.DurationMonths = from.DurationMonths
 	to.DurationWeeks = from.DurationWeeks
 	to.DurationDays = from.DurationDays
 	to.DurationHours = from.DurationHours
 	to.IsEndDateComputedFromDuration = from.IsEndDateComputedFromDuration
-	to.IsStartDateComputedFromPredecessors = from.IsStartDateComputedFromPredecessors
 	to.IsMilestone = from.IsMilestone
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion

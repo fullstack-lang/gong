@@ -4561,24 +4561,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.End != taskOther.End {
 		diffs = append(diffs, task.GongMarshallField(stage, "End"))
 	}
-	if task.DurationYears != taskOther.DurationYears {
-		diffs = append(diffs, task.GongMarshallField(stage, "DurationYears"))
-	}
-	if task.DurationMonths != taskOther.DurationMonths {
-		diffs = append(diffs, task.GongMarshallField(stage, "DurationMonths"))
-	}
-	if task.DurationWeeks != taskOther.DurationWeeks {
-		diffs = append(diffs, task.GongMarshallField(stage, "DurationWeeks"))
-	}
-	if task.DurationDays != taskOther.DurationDays {
-		diffs = append(diffs, task.GongMarshallField(stage, "DurationDays"))
-	}
-	if task.DurationHours != taskOther.DurationHours {
-		diffs = append(diffs, task.GongMarshallField(stage, "DurationHours"))
-	}
-	if task.IsEndDateComputedFromDuration != taskOther.IsEndDateComputedFromDuration {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
-	}
 	PredecessorsDifferent := false
 	if len(task.Predecessors) != len(taskOther.Predecessors) {
 		PredecessorsDifferent = true
@@ -4602,6 +4584,24 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsStartDateComputedFromPredecessors != taskOther.IsStartDateComputedFromPredecessors {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
+	}
+	if task.DurationYears != taskOther.DurationYears {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationYears"))
+	}
+	if task.DurationMonths != taskOther.DurationMonths {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationMonths"))
+	}
+	if task.DurationWeeks != taskOther.DurationWeeks {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationWeeks"))
+	}
+	if task.DurationDays != taskOther.DurationDays {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationDays"))
+	}
+	if task.DurationHours != taskOther.DurationHours {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationHours"))
+	}
+	if task.IsEndDateComputedFromDuration != taskOther.IsEndDateComputedFromDuration {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
 	}
 	if task.IsMilestone != taskOther.IsMilestone {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
