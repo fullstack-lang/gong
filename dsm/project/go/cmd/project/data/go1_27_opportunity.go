@@ -240,7 +240,7 @@ func _(stage *models.Stage) {
 	__Library__00000001_.NbPixPerCharacter = 0.000000
 	__Library__00000001_.LogoSVGFile = ``
 	__Library__00000001_.ComputedPrefix = ``
-	__Library__00000001_.IsExpanded = true
+	__Library__00000001_.IsExpanded = false
 	__Library__00000001_.IsRootLibrary = false
 
 	__Note__00000000_.Name = `gong prior to 1.27 has a lot of generic function with non optimized names`
