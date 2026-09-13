@@ -5,15 +5,15 @@
 
 ## Systems Engineering
 
-- **System hierarchy definition**: [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)) supports the definition of Product Breakdown Structures (PBS), Work Breakdown Structures (WBS), task resource allocation, and execution planning.
+- **Project plannning**: [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)) supports the definition of Product Breakdown Structures (PBS), Work Breakdown Structures (WBS), task resource allocation, and execution planning.
 
-- **Architecture viewpoints and stakeholder needs**: [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip)) enables capturing stakeholder needs, operational concerns, high-level requirements, analysis concepts, and required architecture views in accordance with ISO 42010. A reference model of ISO 15288 process modeling requirements is provided as an example.
+- **Capture of stakeholder needs and the architecture viewpoints**: [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip)) enables capturing stakeholder needs, operational concerns, high-level requirements, analysis concepts, and required architecture views in accordance with ISO 42010. A reference model of ISO 15288 process modeling requirements is provided as an example.
 
-- **Stakeholder process modeling**: [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/process-app-portable.zip)) facilitates the modeling of operational processes, participant swimlanes, tasks, data flows, and control flows, based on Business Process Model and Notation (BPMN) concepts.
+- **Stakeholder processes modeling**: [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/process-app-portable.zip)) facilitates the modeling of operational processes, participant swimlanes, tasks, data flows, and control flows, based on Business Process Model and Notation (BPMN) concepts.
 
-- **System architecture and interface management**: [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip)) provides modeling capabilities for system architectures, hierarchical component breakdowns, ports, and data/control flows (inspired by SysML Block Definition Diagrams).
+- **Architecture and interface management**: [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip)) provides modeling capabilities for system architectures, hierarchical component breakdowns, ports, and data/control flows (inspired by SysML Block Definition Diagrams).
 
-- **State specification for software-intensive systems**: [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip)) supports specifying discrete state machines, composite states, transitions, events, and actions (analogous to UML State Machine diagrams).
+- **State machine modeling**: [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip)) supports specifying discrete state machines, composite states, transitions, events, and actions (analogous to UML State Machine diagrams).
 
 - **Requirements interchange format inspection**: [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip)) provides an inspection tool for files conforming to the Requirements Interchange Format (ReqIF).
 
