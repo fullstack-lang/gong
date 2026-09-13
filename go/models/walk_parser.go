@@ -36,6 +36,9 @@ func ParseEmbedModelWithFset(embeddedDir embed.FS, source string, fset *token.Fi
 		}
 
 		if d.IsDir() {
+			if filepath.Clean(path) != filepath.Clean(source) {
+				return fs.SkipDir
+			}
 			return nil
 		}
 

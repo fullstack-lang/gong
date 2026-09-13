@@ -10,7 +10,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 	"github.com/fullstack-lang/gong/lib/tree/go/orm"
-	"github.com/fullstack-lang/gong/lib/tree/go/probe"
+	"github.com/fullstack-lang/gong/lib/tree/go/models/probe"
 
 	tree_go "github.com/fullstack-lang/gong/lib/tree/go"
 
@@ -139,7 +139,7 @@ func NewStack(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		// "go/models/diagrams/diagrams.go", the path is "../../models/diagrams/diagrams.go"
 		stack.Probe = probe.NewProbe(
 			r,
 			tree_go.GoModelsDir,

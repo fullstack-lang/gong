@@ -159,7 +159,7 @@ var generateCmd = &cobra.Command{
 			os.RemoveAll(modelPkg.Level1StackPkgGenPath)
 			modelPkg.StaticPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "static")
 			os.RemoveAll(modelPkg.StaticPkgGenPath)
-			modelPkg.ProbePkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "probe")
+			modelPkg.ProbePkgGenPath = filepath.Join(pkgPath, "probe")
 			os.RemoveAll(modelPkg.ProbePkgGenPath)
 			{
 				// compute the name of the ng workspace
@@ -304,10 +304,10 @@ var generateCmd = &cobra.Command{
 
 		// generate diagrams/docs.go if absent
 		{
-			diagramsDocFilePath := filepath.Join(pkgPath, "../diagrams/docs.go")
+			diagramsDocFilePath := filepath.Join(pkgPath, "diagrams/docs.go")
 			_, errd := os.Stat(diagramsDocFilePath)
 			if os.IsNotExist(errd) {
-				log.Printf("../diagrams/docs.go does not exist, gong generate creates a default one")
+				log.Printf("diagrams/docs.go does not exist, gong generate creates a default one")
 
 				diagramsDocFileDirPath := filepath.Dir(diagramsDocFilePath)
 				diagramsDocFileDirAbsPath, _ := filepath.Abs(diagramsDocFileDirPath)

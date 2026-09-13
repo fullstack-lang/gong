@@ -256,7 +256,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
-	probePackageName := strings.ReplaceAll(modelsPackageName, "/models", "/probe/cmd/probe")
+	probePackageName := modelsPackageName + "/probe/cmd/probe"
 	res = strings.ReplaceAll(res, "{{ProbePackageName}}", probePackageName)
 
 	var goModuleVersion string

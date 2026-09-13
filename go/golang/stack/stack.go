@@ -14,7 +14,7 @@ import (
 	"{{PkgPathRoot}}/fullstack"
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
-	"{{PkgPathRoot}}/probe"
+	"{{PkgPathRoot}}/models/probe"
 
 	{{pkgname}}_go "{{PkgPathRoot}}"
 
@@ -64,7 +64,7 @@ import (
 	"{{PkgPathRoot}}/fullstack"
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
-	"{{PkgPathRoot}}/probe"
+	"{{PkgPathRoot}}/models/probe"
 
 	{{pkgname}}_go "{{PkgPathRoot}}"
 
@@ -195,7 +195,7 @@ func NewStack(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		// "go/models/diagrams/diagrams.go", the path is "../../models/diagrams/diagrams.go"
 		stack.Probe = probe.NewProbe(
 			r,
 			{{pkgname}}_go.GoModelsDir,

@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/probe"
+	"{{PkgPathRoot}}/models/probe"
 
 	embeddedgo "{{PkgPathRoot}}"
 
@@ -90,7 +90,7 @@ func NewLevel1StackDelta(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		// "go/models/diagrams/diagrams.go", the path is "../../models/diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
 			embeddedgo.GoModelsDir,

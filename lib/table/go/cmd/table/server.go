@@ -18,7 +18,7 @@ import (
 	gongtable_orm "github.com/fullstack-lang/gong/lib/table/go/orm"
 	gongtable_static "github.com/fullstack-lang/gong/lib/table/go/static"
 
-	gongtable_probe "github.com/fullstack-lang/gong/lib/table/go/probe"
+	gongtable_probe "github.com/fullstack-lang/gong/lib/table/go/models/probe"
 
 	gongtable_go "github.com/fullstack-lang/gong/lib/table/go"
 

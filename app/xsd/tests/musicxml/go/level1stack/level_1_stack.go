@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models"
-	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/probe"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/probe"
 
 	embeddedgo "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go"
 
@@ -86,7 +86,7 @@ func NewLevel1StackDelta(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		// "go/models/diagrams/diagrams.go", the path is "../../models/diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
 			embeddedgo.GoModelsDir,

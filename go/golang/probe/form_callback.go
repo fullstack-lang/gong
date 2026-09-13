@@ -364,7 +364,7 @@ func CodeGeneratorModelFormCallback(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../probe/form_callback.go"))
+	file, err := os.Create(filepath.Join(pkgPath, "probe/form_callback.go"))
 	if err != nil {
 		log.Panic(err)
 	}

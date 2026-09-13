@@ -10,7 +10,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/svg/go/fullstack"
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/svg/go/orm"
-	"github.com/fullstack-lang/gong/lib/svg/go/probe"
+	"github.com/fullstack-lang/gong/lib/svg/go/models/probe"
 
 	svg_go "github.com/fullstack-lang/gong/lib/svg/go"
 
@@ -139,7 +139,7 @@ func NewStack(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		// "go/models/diagrams/diagrams.go", the path is "../../models/diagrams/diagrams.go"
 		stack.Probe = probe.NewProbe(
 			r,
 			svg_go.GoModelsDir,

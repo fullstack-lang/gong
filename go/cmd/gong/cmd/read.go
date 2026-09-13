@@ -8,7 +8,7 @@ import (
 
 	embeddedgo "github.com/fullstack-lang/gong/go"
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	"github.com/fullstack-lang/gong/go/probe"
+	"github.com/fullstack-lang/gong/go/models/probe"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"

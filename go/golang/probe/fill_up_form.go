@@ -298,7 +298,7 @@ func CodeGeneratorFillUpForm(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../probe/fill_up_form.go"))
+	file, err := os.Create(filepath.Join(pkgPath, "probe/fill_up_form.go"))
 	if err != nil {
 		log.Panic(err)
 	}

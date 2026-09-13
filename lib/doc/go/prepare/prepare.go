@@ -65,7 +65,14 @@ func Prepare(
 	stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
 
 	if !embeddedDiagrams {
-		err := models.ParseAstFile(stage, "../../diagrams/diagrams.go", true)
+		diagramsPath := "../../models/diagrams/diagrams.go"
+		if _, err := os.Stat(diagramsPath); os.IsNotExist(err) {
+			if _, errOld := os.Stat("../../diagrams/diagrams.go"); errOld == nil {
+				diagramsPath = "../../diagrams/diagrams.go"
+			}
+		}
+
+		err := models.ParseAstFile(stage, diagramsPath, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -74,7 +81,7 @@ func Prepare(
 		}
 
 		BeforeCommitImplementation := &beforeCommitImplementation{
-			marshallOnCommit: "../../diagrams/diagrams.go",
+			marshallOnCommit: diagramsPath,
 			packageName:      "diagrams", // necessity because the diagram file is in a diagrams package
 		}
 		stage.OnInitCommitCallback = BeforeCommitImplementation
@@ -84,7 +91,10 @@ func Prepare(
 		stage.ComputeReferenceAndOrders() // from which the delta are computed
 
 	} else {
-		err := models.ParseAstEmbeddedFile(stage, goDiagramsDir, "diagrams/diagrams.go")
+		err := models.ParseAstEmbeddedFile(stage, goDiagramsDir, "models/diagrams/diagrams.go")
+		if err != nil {
+			err = models.ParseAstEmbeddedFile(stage, goDiagramsDir, "diagrams/diagrams.go")
+		}
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.

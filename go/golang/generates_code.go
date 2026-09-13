@@ -522,75 +522,75 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/fill_up_form_from_gongstruct.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "probe/fill_up_form_from_gongstruct.go"),
 		probe.FillUpFormFromGongstructTemplate, probe.FillUpFormFromGongstructSubTemplateCode)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_form.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "probe/probe_ux_form.go"),
 		probe.FillUpFormFromGongstructNameTemplate, probe.FillUpFormFromGongstructNameSubTemplateCode)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_table.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "probe/probe_ux_table.go"),
 		probe.UpdateProbeTableTemplate, probe.UpdateProbeTableSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/probe.go"),
+		filepath.Join(pkgPath, "probe/probe.go"),
 		probe.ProbeTemplate)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_tree.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "probe/probe_ux_tree.go"),
 		probe.FillUpTree, probe.FillUpTreeSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/basic_field_to_form.go"),
+		filepath.Join(pkgPath, "probe/basic_field_to_form.go"),
 		probe.BasicFieldtoFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/association_to_form.go"),
+		filepath.Join(pkgPath, "probe/association_to_form.go"),
 		probe.AssociationFieldToFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/association_slice_to_form.go"),
+		filepath.Join(pkgPath, "probe/association_slice_to_form.go"),
 		probe.AssociationSliceToFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/association_reverse_slice_to_form.go"),
+		filepath.Join(pkgPath, "probe/association_reverse_slice_to_form.go"),
 		probe.AssociationReverseSliceToFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/enum_type_to_form.go"),
+		filepath.Join(pkgPath, "probe/enum_type_to_form.go"),
 		probe.EnumTypeStringToForm)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/assoc_sorting_button_impl.go"),
+		filepath.Join(pkgPath, "probe/assoc_sorting_button_impl.go"),
 		probe.NewOnSortingEditonTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(pkgPath, "../probe/form_div_field.go"),
+		filepath.Join(pkgPath, "probe/form_div_field.go"),
 		probe.FormDivToFieldTemplate)
 
 	probeCmdName := "probe"
-	probeCmdMainFile := filepath.Join(pkgPath, "../probe/cmd", probeCmdName, "main.go")
+	probeCmdMainFile := filepath.Join(pkgPath, "probe/cmd", probeCmdName, "main.go")
 	
 	// Create directory for probe cmd
 	os.MkdirAll(filepath.Dir(probeCmdMainFile), os.ModePerm)
 
 	// Create .gitignore to ignore the compiled binary
-	gitignorePath := filepath.Join(pkgPath, "../probe/cmd", probeCmdName, ".gitignore")
+	gitignorePath := filepath.Join(pkgPath, "probe/cmd", probeCmdName, ".gitignore")
 	os.WriteFile(gitignorePath, []byte("probe\nprobe.exe\n"), os.ModePerm)
 
 	if stackHeight == 0 {

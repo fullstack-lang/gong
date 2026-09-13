@@ -6,5 +6,5 @@ import "embed"
 //go:embed models
 var GoModelsDir embed.FS
 
-//go:embed diagrams
+//go:embed models/diagrams
 var GoDiagramsDir embed.FS
