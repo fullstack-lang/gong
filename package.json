@@ -14,7 +14,6 @@
         "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
         "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "test/test1/ng-github.com-fullstack-lang-gong-test-test1",
-        "test/test2/ng-github.com-fullstack-lang-gong-test-test2",
         "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs"
     ],
     "dependencies": {

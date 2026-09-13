@@ -10,11 +10,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/fullstack-lang/gong/test/test2/go/stack"
-	"github.com/fullstack-lang/gong/test/test2/go/static"
+	"github.com/fullstack-lang/gong/test/test2/go/level1stack"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -38,17 +38,16 @@ var editCmd = &cobra.Command{
 }
 
 func executeServer() {
-	// setup the static file server and get the controller
-	r := static.ServeStaticFiles(false)
-
-	// setup model stack with its probe
-	stack := stack.NewStack(r, "test2", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
+	// setup
+	// - model level1 stack with its probe
+	// - unmarshall/marshall go file with stage data
+	stack := level1stack.NewLevel1Stack("test2", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
 
 	// Create root split stage for the probe
-	rootSplitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	rootSplitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
 	split.StageBranch(rootSplitStage, &split.View{
 		Name: "Data Probe & Data Model",
@@ -63,7 +62,7 @@ func executeServer() {
 	rootSplitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
-	err := static.RunServer(r, ":" + strconv.Itoa(port))
+	err := split_static.RunServer(stack.R, ":" + strconv.Itoa(port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

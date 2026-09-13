@@ -1664,32 +1664,7 @@
             "group": "build",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--skipNpmWorkspaces",
-                "--skipNpmInstall",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "label": "test - test2: ng serve test2",
-            "type": "shell",
-            "options": {
-                "cwd": "test2/ng"
-            },
-            "command": "ng serve",
-            "group": "build"
-        },
-        {
-            "label": "test - test2: ng serve test2 --host=127.0.0.1",
-            "type": "shell",
-            "options": {
-                "cwd": "test2/ng"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                "--host=127.0.0.1"
+                "--skipGoModCommands"
             ]
         },
         {
