@@ -307,6 +307,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(a.GongMarshallField(stage, "NumberField"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "B"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "Bs"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Foo"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Bar"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Zorgh"))
 	}
 
 	bOrdered := []*B{}
@@ -419,6 +422,21 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NumberField")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.NumberField))
+	case "Foo":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Foo")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.Foo))
+	case "Bar":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Bar")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", a.Bar))
+	case "Zorgh":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Zorgh")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a.Zorgh))
 
 	case "B":
 		if a.B != nil {
@@ -474,6 +492,9 @@ func (a *A) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) 
 		initializerStatements.WriteString(a.GongMarshallField(stage, "NumberField"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "B"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "Bs"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Foo"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Bar"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Zorgh"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

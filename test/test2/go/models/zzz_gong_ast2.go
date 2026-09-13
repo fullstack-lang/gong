@@ -491,6 +491,12 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName 
 		GongUnmarshallPointer(&instance.B, valueExpr, identifierMap)
 	case "Bs":
 		GongUnmarshallSliceOfPointers(&instance.Bs, valueExpr, identifierMap)
+	case "Foo":
+		instance.Foo = GongExtractInt(valueExpr)
+	case "Bar":
+		instance.Bar = GongExtractFloat(valueExpr)
+	case "Zorgh":
+		instance.Zorgh = GongExtractString(valueExpr)
 	}
 	return nil
 }

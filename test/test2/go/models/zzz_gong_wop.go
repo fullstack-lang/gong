@@ -15,12 +15,21 @@ type A_WOP struct {
 	Name string
 
 	NumberField int
+
+	Foo int
+
+	Bar float64
+
+	Zorgh string
 }
 
 func (from *A) CopyBasicFields(to *A) {
 	// insertion point
 	to.Name = from.Name
 	to.NumberField = from.NumberField
+	to.Foo = from.Foo
+	to.Bar = from.Bar
+	to.Zorgh = from.Zorgh
 }
 
 type B_WOP struct {

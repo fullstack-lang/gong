@@ -25,6 +25,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("B", instanceWithInferedType.B, formGroup, probe)
 		AssociationSliceToForm("Bs", instanceWithInferedType, &instanceWithInferedType.Bs, formGroup, probe)
+		BasicFieldtoForm("Foo", instanceWithInferedType.Foo, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Bar", instanceWithInferedType.Bar, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Zorgh", instanceWithInferedType.Zorgh, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

@@ -282,6 +282,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 
 	}
 
+	RunTypeAnalysis(modelPkg, astPackage)
+
 	// second pass
 	for filePath, file := range astPackage.Files {
 
@@ -399,6 +401,4 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 
 		checkFunctionSignature(file, modelPkg)
 	}
-
-	RunTypeAnalysis(modelPkg, astPackage)
 }

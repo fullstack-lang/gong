@@ -19,6 +19,6 @@ type A struct {
 	x.ToBeImported
 }
 
-func (a *A) Foo() {
+func (a *A) SomeMethod() {
 	// stage := gong.NewStage(path)
 }

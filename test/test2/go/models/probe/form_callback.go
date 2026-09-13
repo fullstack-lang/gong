@@ -105,6 +105,12 @@ func (aFormCallback *AFormCallback) OnSave() {
 			a_.Bs = instanceSlice
 			aFormCallback.probe.UpdateSliceOfPointersCallback(a_, "Bs", &a_.Bs)
 
+		case "Foo":
+			FormDivBasicFieldToField(&(a_.Foo), formDiv)
+		case "Bar":
+			FormDivBasicFieldToField(&(a_.Bar), formDiv)
+		case "Zorgh":
+			FormDivBasicFieldToField(&(a_.Zorgh), formDiv)
 		}
 	}
 

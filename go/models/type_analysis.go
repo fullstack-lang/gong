@@ -8,22 +8,55 @@ import (
 	"go/token"
 	"go/types"
 	"math"
+	"os"
 	"path/filepath"
 	"slices"
 	"strings"
+
+	"golang.org/x/mod/modfile"
 )
 
-// tolerantImporter wraps a standard types.Importer and returns a dummy package
+// findGoMod traverses upwards to locate the nearest go.mod and extracts the module path.
+func findGoMod(startDir string) (goModDir string, modPath string) {
+	curr, err := filepath.Abs(startDir)
+	if err != nil {
+		return "", ""
+	}
+	for i := 0; i < 15; i++ {
+		goModFile := filepath.Join(curr, "go.mod")
+		if buf, err := os.ReadFile(goModFile); err == nil {
+			if mf, err := modfile.Parse(goModFile, buf, nil); err == nil && mf.Module != nil {
+				return curr, mf.Module.Mod.Path
+			}
+			return curr, ""
+		}
+		parent := filepath.Dir(curr)
+		if parent == curr {
+			break
+		}
+		curr = parent
+	}
+	return "", ""
+}
+
+// tolerantImporter wraps a standard types.Importer, attempts to resolve internal
+// workspace packages from source if the underlying importer fails, and returns a dummy package
 // if the import fails, preventing missing external dependencies from crashing type analysis.
 type tolerantImporter struct {
 	underlying types.Importer
 	packages   map[string]*types.Package
+	fset       *token.FileSet
+	goModDir   string
+	modPath    string
 }
 
-func newTolerantImporter(underlying types.Importer) *tolerantImporter {
+func newTolerantImporter(underlying types.Importer, fset *token.FileSet, goModDir string, modPath string) *tolerantImporter {
 	return &tolerantImporter{
 		underlying: underlying,
 		packages:   make(map[string]*types.Package),
+		fset:       fset,
+		goModDir:   goModDir,
+		modPath:    modPath,
 	}
 }
 
@@ -31,6 +64,8 @@ func (ti *tolerantImporter) Import(path string) (*types.Package, error) {
 	if pkg, ok := ti.packages[path]; ok {
 		return pkg, nil
 	}
+
+	// 1. Try underlying importer (standard library, pre-built packages)
 	if ti.underlying != nil {
 		pkg, err := ti.underlying.Import(path)
 		if err == nil {
@@ -38,7 +73,55 @@ func (ti *tolerantImporter) Import(path string) (*types.Package, error) {
 			return pkg, nil
 		}
 	}
-	// Fallback dummy package so missing/unbuilt imports never halt type analysis
+
+	// 2. Try loading internal module package from source
+	if ti.goModDir != "" && ti.modPath != "" && strings.HasPrefix(path, ti.modPath) {
+		rel := strings.TrimPrefix(path, ti.modPath)
+		rel = strings.TrimPrefix(rel, "/")
+		pkgDir := filepath.Join(ti.goModDir, filepath.FromSlash(rel))
+
+		if fi, err := os.Stat(pkgDir); err == nil && fi.IsDir() {
+			entries, err := os.ReadDir(pkgDir)
+			if err == nil {
+				var astFiles []*ast.File
+				for _, entry := range entries {
+					name := entry.Name()
+					if entry.IsDir() || !strings.HasSuffix(name, ".go") || strings.HasSuffix(name, "_test.go") {
+						continue
+					}
+					// Skip generated gong files and documentation files
+					if slices.Contains(GeneratedModelFiles, name) || strings.HasPrefix(name, "zzz_gong") || name == "docs.go" {
+						continue
+					}
+					filePath := filepath.Join(pkgDir, name)
+					f, err := parser.ParseFile(ti.fset, filePath, nil, parser.ParseComments)
+					if err == nil {
+						astFiles = append(astFiles, f)
+					}
+				}
+
+				if len(astFiles) > 0 {
+					subConf := types.Config{
+						IgnoreFuncBodies:         true,
+						DisableUnusedImportCheck: true,
+						Importer:                 ti, // recursive for transitive imports
+						Error:                    func(err error) {},
+					}
+					// Pre-cache package to prevent infinite recursion on import cycles
+					dummy := types.NewPackage(path, astFiles[0].Name.Name)
+					ti.packages[path] = dummy
+
+					subPkg, _ := subConf.Check(path, ti.fset, astFiles, nil)
+					if subPkg != nil {
+						ti.packages[path] = subPkg
+						return subPkg, nil
+					}
+				}
+			}
+		}
+	}
+
+	// 3. Fallback dummy package so missing/unbuilt imports never halt type analysis
 	pkg := types.NewPackage(path, filepath.Base(path))
 	pkg.MarkComplete()
 	ti.packages[path] = pkg
@@ -128,10 +211,17 @@ func RunTypeAnalysis(modelPkg *ModelPkg, astPackage *ast.Package) {
 		Scopes:     make(map[ast.Node]*types.Scope),
 	}
 
+	var sampleDir string
+	for filePath := range astPackage.Files {
+		sampleDir = filepath.Dir(filePath)
+		break
+	}
+	goModDir, modPath := findGoMod(sampleDir)
+
 	conf := types.Config{
 		IgnoreFuncBodies:         true,
 		DisableUnusedImportCheck: true,
-		Importer:                 newTolerantImporter(importer.Default()),
+		Importer:                 newTolerantImporter(importer.Default(), modelPkg.Fset, goModDir, modPath),
 		Error: func(err error) {
 			modelPkg.TypeErrors = append(modelPkg.TypeErrors, err)
 		},

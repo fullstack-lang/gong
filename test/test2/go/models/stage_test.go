@@ -28,6 +28,11 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 		B:           bInstance,
 		Bs:          []*B{bInstance},
 		X:           xInstance,
+		ToBeImported: x.ToBeImported{
+			Foo:   123,
+			Bar:   45.67,
+			Zorgh: "Hello Gong",
+		},
 	}).Stage(stageModels)
 
 	stageModels.Commit()
@@ -45,6 +50,15 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 	}
 	if (*aMap)["A_Root"].X.Y != yInstance {
 		t.Fatalf("expected A_Root.X.Y to link to yInstance")
+	}
+	if (*aMap)["A_Root"].Foo != 123 {
+		t.Fatalf("expected Foo to be 123, got %d", (*aMap)["A_Root"].Foo)
+	}
+	if (*aMap)["A_Root"].Bar != 45.67 {
+		t.Fatalf("expected Bar to be 45.67, got %f", (*aMap)["A_Root"].Bar)
+	}
+	if (*aMap)["A_Root"].Zorgh != "Hello Gong" {
+		t.Fatalf("expected Zorgh to be 'Hello Gong', got %s", (*aMap)["A_Root"].Zorgh)
 	}
 
 	// Test GetGongstructInstancesMap for models.B

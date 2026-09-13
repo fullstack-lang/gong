@@ -1415,6 +1415,18 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "B",
 		},
+		{
+			Name:               "Foo",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Bar",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Zorgh",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -1510,6 +1522,16 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Foo":
+		res.valueString = fmt.Sprintf("%d", a.Foo)
+		res.valueInt = a.Foo
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Bar":
+		res.valueString = fmt.Sprintf("%f", a.Bar)
+		res.valueFloat = a.Bar
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Zorgh":
+		res.valueString = a.Zorgh
 	}
 	return
 }
@@ -1561,6 +1583,12 @@ func (a *A) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 				}
 			}
 		}
+	case "Foo":
+		a.Foo = int(value.GetValueInt())
+	case "Bar":
+		a.Bar = value.GetValueFloat()
+	case "Zorgh":
+		a.Zorgh = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

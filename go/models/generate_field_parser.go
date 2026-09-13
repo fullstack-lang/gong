@@ -53,6 +53,10 @@ func GenerateFieldParser(
 					log.Fatalln("Unknown embedded type", embedType.Name)
 				}
 
+			case *ast.SelectorExpr:
+				// External embedded struct (e.g. x.ToBeImported)
+				extractFieldsFromSelectorExpr(embedType, owningGongstruct, modelPkg, prefix)
+
 			default:
 			}
 			continue
@@ -354,3 +358,224 @@ func extractFieldDirectives(commentGroups ...*ast.CommentGroup) (d fieldDirectiv
 	}
 	return d
 }
+
+func extractFieldsFromSelectorExpr(
+	selExpr *ast.SelectorExpr,
+	owningGongstruct *GongStruct,
+	modelPkg *ModelPkg,
+	prefix string,
+) {
+	if modelPkg.TypesInfo == nil {
+		return
+	}
+
+	var structType *types.Struct
+	compositeName := selExpr.Sel.Name
+
+	if tv, ok := modelPkg.TypesInfo.Types[selExpr]; ok && tv.Type != nil {
+		t := tv.Type
+		if ptr, ok := t.(*types.Pointer); ok {
+			t = ptr.Elem()
+		}
+		if named, ok := t.(*types.Named); ok {
+			if st, ok := named.Underlying().(*types.Struct); ok {
+				structType = st
+			}
+		}
+	}
+	if structType == nil && modelPkg.TypesInfo.Uses != nil {
+		if obj := modelPkg.TypesInfo.Uses[selExpr.Sel]; obj != nil {
+			t := obj.Type()
+			if ptr, ok := t.(*types.Pointer); ok {
+				t = ptr.Elem()
+			}
+			if named, ok := t.(*types.Named); ok {
+				if st, ok := named.Underlying().(*types.Struct); ok {
+					structType = st
+				}
+			}
+		}
+	}
+
+	if structType != nil {
+		extractFieldsFromTypesStruct(structType, owningGongstruct, modelPkg, compositeName, prefix)
+	}
+}
+
+func extractFieldsFromTypesStruct(
+	structType *types.Struct,
+	owningGongstruct *GongStruct,
+	modelPkg *ModelPkg,
+	compositeTypeStructName string,
+	prefix string,
+) {
+	for i := 0; i < structType.NumFields(); i++ {
+		field := structType.Field(i)
+		if !field.Exported() {
+			continue
+		}
+
+		fieldName := field.Name()
+		if prefix != "" {
+			fieldName = prefix + "." + fieldName
+		}
+
+		var alreadyExists bool
+		for _, existing := range owningGongstruct.Fields {
+			if existing.GetName() == fieldName {
+				alreadyExists = true
+				break
+			}
+		}
+		if alreadyExists {
+			continue
+		}
+
+		if field.Anonymous() {
+			t := field.Type()
+			if ptr, ok := t.(*types.Pointer); ok {
+				t = ptr.Elem()
+			}
+			if named, ok := t.(*types.Named); ok {
+				if innerSt, ok := named.Underlying().(*types.Struct); ok {
+					extractFieldsFromTypesStruct(innerSt, owningGongstruct, modelPkg, field.Name(), prefix)
+				}
+			}
+			continue
+		}
+
+		switch ft := field.Type().(type) {
+		case *types.Basic:
+			var basicKind types.BasicKind
+			var basicKindName string
+			switch ft.Kind() {
+			case types.String:
+				basicKind = types.String
+				basicKindName = "string"
+			case types.Int, types.Int64, types.Int32, types.Int16, types.Int8:
+				basicKind = types.Int
+				basicKindName = "int"
+			case types.Float64, types.Float32:
+				basicKind = types.Float64
+				basicKindName = "float64"
+			case types.Bool:
+				basicKind = types.Bool
+				basicKindName = "bool"
+			default:
+				continue
+			}
+
+			gongField := &GongBasicField{
+				Name:                fieldName,
+				basicKind:           basicKind,
+				BasicKindName:       basicKindName,
+				DeclaredType:        basicKindName,
+				Index:               len(owningGongstruct.Fields),
+				CompositeStructName: compositeTypeStructName,
+			}
+			owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
+
+		case *types.Named:
+			pkg := ft.Obj().Pkg()
+			typeName := ft.Obj().Name()
+			if pkg != nil && pkg.Path() == "time" && typeName == "Time" {
+				gongField := &GongTimeField{
+					Name:                fieldName,
+					Index:               len(owningGongstruct.Fields),
+					CompositeStructName: compositeTypeStructName,
+				}
+				owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
+			} else if pkg != nil && pkg.Path() == "time" && typeName == "Duration" {
+				gongField := &GongBasicField{
+					Name:                fieldName,
+					basicKind:           types.Int,
+					BasicKindName:       "int",
+					DeclaredType:        "time.Duration",
+					Index:               len(owningGongstruct.Fields),
+					CompositeStructName: compositeTypeStructName,
+				}
+				owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
+			} else {
+				// Check for Enum
+				var gongEnum *GongEnum
+				var ok bool
+				if pkg != nil {
+					gongEnum, ok = modelPkg.GongEnums[pkg.Path()+"."+typeName]
+				}
+				if !ok {
+					gongEnum, ok = modelPkg.GongEnums[modelPkg.PkgPath+"."+typeName]
+				}
+				if ok && gongEnum != nil {
+					var basicKind types.BasicKind
+					var basicKindName string
+					if gongEnum.Type == Int {
+						basicKind = types.Int
+						basicKindName = "int"
+					} else {
+						basicKind = types.String
+						basicKindName = "string"
+					}
+					gongField := &GongBasicField{
+						Name:                fieldName,
+						basicKind:           basicKind,
+						BasicKindName:       basicKindName,
+						GongEnum:            gongEnum,
+						DeclaredType:        typeName,
+						Index:               len(owningGongstruct.Fields),
+						CompositeStructName: compositeTypeStructName,
+					}
+					owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
+				}
+			}
+
+		case *types.Pointer:
+			if elemNamed, ok := ft.Elem().(*types.Named); ok {
+				targetPkg := elemNamed.Obj().Pkg()
+				targetName := elemNamed.Obj().Name()
+				var targetGongstruct *GongStruct
+				var ok bool
+				if targetPkg != nil {
+					targetGongstruct, ok = modelPkg.GongStructs[targetPkg.Path()+"."+targetName]
+				}
+				if !ok {
+					targetGongstruct, ok = modelPkg.GongStructs[modelPkg.PkgPath+"."+targetName]
+				}
+				if ok && targetGongstruct != nil {
+					gongField := &PointerToGongStructField{
+						Name:                fieldName,
+						GongStruct:          targetGongstruct,
+						Index:               len(owningGongstruct.Fields),
+						CompositeStructName: compositeTypeStructName,
+					}
+					owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
+				}
+			}
+
+		case *types.Slice:
+			if ptr, ok := ft.Elem().(*types.Pointer); ok {
+				if elemNamed, ok := ptr.Elem().(*types.Named); ok {
+					targetPkg := elemNamed.Obj().Pkg()
+					targetName := elemNamed.Obj().Name()
+					var targetGongstruct *GongStruct
+					var ok bool
+					if targetPkg != nil {
+						targetGongstruct, ok = modelPkg.GongStructs[targetPkg.Path()+"."+targetName]
+					}
+					if !ok {
+						targetGongstruct, ok = modelPkg.GongStructs[modelPkg.PkgPath+"."+targetName]
+					}
+					if ok && targetGongstruct != nil {
+						gongField := &SliceOfPointerToGongStructField{
+							Name:                fieldName,
+							GongStruct:          targetGongstruct,
+							Index:               len(owningGongstruct.Fields),
+							CompositeStructName: compositeTypeStructName,
+						}
+						owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
+					}
+				}
+			}
+		}
+	}
+}
+

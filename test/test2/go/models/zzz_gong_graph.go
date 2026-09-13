@@ -326,6 +326,15 @@ func (a *A) GongDiff(stage *Stage, aOther *A) (diffs []string) {
 		ops := Diff(stage, a, aOther, "Bs", aOther.Bs, a.Bs)
 		diffs = append(diffs, ops)
 	}
+	if a.Foo != aOther.Foo {
+		diffs = append(diffs, a.GongMarshallField(stage, "Foo"))
+	}
+	if a.Bar != aOther.Bar {
+		diffs = append(diffs, a.GongMarshallField(stage, "Bar"))
+	}
+	if a.Zorgh != aOther.Zorgh {
+		diffs = append(diffs, a.GongMarshallField(stage, "Zorgh"))
+	}
 
 	return
 }
