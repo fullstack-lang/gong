@@ -401,7 +401,7 @@
             "group": "build"
         },
         {
-            "label": "dsm - project: go run . edit data/go1_27_opportunity.go",
+            "label": "dsm - project: go run . edit data/issue325_stager.go",
             "type": "shell",
             "options": {
                 "cwd": "./dsm/project/go/cmd/project"
@@ -411,7 +411,7 @@
                 "run",
                 ".",
                 "edit",
-                "data/go1_27_opportunity.go"
+                "data/issue325_stager.go"
             ],
             "group": "build"
         },
