@@ -6,9 +6,9 @@ func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *A:
-		if stage.OnAfterACreateCallback != nil {
-			stage.OnAfterACreateCallback.OnAfterCreate(stage, target)
+	case *X:
+		if stage.OnAfterXCreateCallback != nil {
+			stage.OnAfterXCreateCallback.OnAfterCreate(stage, target)
 		}
 	default:
 		_ = target
@@ -29,10 +29,10 @@ func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *A:
-		newTarget := any(new).(*A)
-		if stage.OnAfterAUpdateCallback != nil {
-			stage.OnAfterAUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *X:
+		newTarget := any(new).(*X)
+		if stage.OnAfterXUpdateCallback != nil {
+			stage.OnAfterXUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -49,10 +49,10 @@ func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *A:
-		if stage.OnAfterADeleteCallback != nil {
-			staged := any(staged).(*A)
-			stage.OnAfterADeleteCallback.OnAfterDelete(stage, staged, front)
+	case *X:
+		if stage.OnAfterXDeleteCallback != nil {
+			staged := any(staged).(*X)
+			stage.OnAfterXDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	default:
 		_ = front

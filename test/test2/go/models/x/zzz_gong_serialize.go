@@ -24,7 +24,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		stage.SerializeExcelizePointer2[*A](f, addIDs)
+		stage.SerializeExcelizePointer2[*X](f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

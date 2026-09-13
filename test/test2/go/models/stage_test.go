@@ -15,7 +15,7 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 
 	// 2. Stage in package x referencing y
 	stageX := x.NewStage("stage_x")
-	xInstance := (&x.A{Name: "X_Root", Y: yInstance}).Stage(stageX)
+	xInstance := (&x.X{Name: "X_Root", Y: yInstance}).Stage(stageX)
 	stageX.Commit()
 
 	// 3. Stage in package models referencing x and local B
@@ -71,7 +71,7 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 		t.Fatalf("expected Y_Root in stageY")
 	}
 
-	xMap := x.GetGongstructInstancesMap[x.A](stageX)
+	xMap := x.GetGongstructInstancesMap[x.X](stageX)
 	if len(*xMap) != 1 || (*xMap)["X_Root"] != xInstance {
 		t.Fatalf("expected X_Root in stageX")
 	}

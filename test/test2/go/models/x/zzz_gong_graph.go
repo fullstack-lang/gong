@@ -8,8 +8,8 @@ func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) 
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *A:
-		ok = stage.IsStagedA(target)
+	case *X:
+		ok = stage.IsStagedX(target)
 
 	default:
 		_ = target
@@ -25,8 +25,8 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *A:
-		ok = stage.IsStagedA(target)
+	case *X:
+		ok = stage.IsStagedX(target)
 
 	default:
 		_ = target
@@ -35,9 +35,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedA(a *A) (ok bool) {
+func (stage *Stage) IsStagedX(x *X) (ok bool) {
 
-	_, ok = stage.As[a]
+	_, ok = stage.Xs[x]
 
 	return
 }
@@ -47,8 +47,8 @@ func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
-	case *A:
-		stage.StageBranchA(target)
+	case *X:
+		stage.StageBranchX(target)
 
 	default:
 		_ = target
@@ -61,14 +61,14 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *Stage) StageBranchA(a *A) {
+func (stage *Stage) StageBranchX(x *X) {
 
 	// check if instance is already staged
-	if IsStaged(stage, a) {
+	if IsStaged(stage, x) {
 		return
 	}
 
-	a.Stage(stage)
+	x.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -87,8 +87,8 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
-	case *A:
-		toT := CopyBranchA(mapOrigCopy, fromT)
+	case *X:
+		toT := CopyBranchX(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -98,17 +98,17 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchA(mapOrigCopy map[any]any, aFrom *A) (aTo *A) {
+func CopyBranchX(mapOrigCopy map[any]any, xFrom *X) (xTo *X) {
 
-	// aFrom has already been copied
-	if _aTo, ok := mapOrigCopy[aFrom]; ok {
-		aTo = _aTo.(*A)
+	// xFrom has already been copied
+	if _xTo, ok := mapOrigCopy[xFrom]; ok {
+		xTo = _xTo.(*X)
 		return
 	}
 
-	aTo = new(A)
-	mapOrigCopy[aFrom] = aTo
-	aFrom.CopyBasicFields(aTo)
+	xTo = new(X)
+	mapOrigCopy[xFrom] = xTo
+	xFrom.CopyBasicFields(xTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -126,8 +126,8 @@ func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
-	case *A:
-		stage.UnstageBranchA(target)
+	case *X:
+		stage.UnstageBranchX(target)
 
 	default:
 		_ = target
@@ -140,14 +140,14 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *Stage) UnstageBranchA(a *A) {
+func (stage *Stage) UnstageBranchX(x *X) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, a) {
+	if !IsStaged(stage, x) {
 		return
 	}
 
-	a.Unstage(stage)
+	x.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -156,13 +156,13 @@ func (stage *Stage) UnstageBranchA(a *A) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance *A) {
+func (reference *X) GongReconstructPointersFromReferences(stage *Stage, instance *X) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *A) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *X) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -170,10 +170,10 @@ func (reference *A) GongReconstructPointersFromInstances(stage *Stage) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (a *A) GongDiff(stage *Stage, aOther *A) (diffs []string) {
+func (x *X) GongDiff(stage *Stage, xOther *X) (diffs []string) {
 	// insertion point for field diffs
-	if a.Name != aOther.Name {
-		diffs = append(diffs, a.GongMarshallField(stage, "Name"))
+	if x.Name != xOther.Name {
+		diffs = append(diffs, x.GongMarshallField(stage, "Name"))
 	}
 
 	return

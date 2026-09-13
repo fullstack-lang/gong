@@ -460,10 +460,10 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
-type AUnmarshaller struct{}
+type XUnmarshaller struct{}
 
-func (u *AUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(A)
+func (u *XUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(X)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -478,8 +478,8 @@ func (u *AUnmarshaller) Initialize(stage *Stage, identifier string, instanceName
 	return instance, nil
 }
 
-func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*A)
+func (u *XUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*X)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

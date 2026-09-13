@@ -13,7 +13,10 @@ type A struct {
 
 	Bs []*B
 
-	X *x.A
+	X *x.X
+
+	// test the those field can be imported because we use the analyser now
+	x.ToBeImported
 }
 
 func (a *A) Foo() {

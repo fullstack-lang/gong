@@ -14,19 +14,19 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 	stageX := NewStage("test_x")
 
 	// 1. Initially empty
-	instancesMap := GetGongstructInstancesMap[A](stageX)
+	instancesMap := GetGongstructInstancesMap[X](stageX)
 	if len(*instancesMap) != 0 {
 		t.Fatalf("expected 0 instances, got %d", len(*instancesMap))
 	}
 
 	// 2. Stage instances referencing y
-	a1 := (&A{Name: "A1", Y: y1}).Stage(stageX)
-	a2 := (&A{Name: "A2"}).Stage(stageX)
+	a1 := (&X{Name: "A1", Y: y1}).Stage(stageX)
+	a2 := (&X{Name: "A2"}).Stage(stageX)
 
 	stageX.Commit()
 
 	// 3. Test GetGongstructInstancesMap
-	instancesMap = GetGongstructInstancesMap[A](stageX)
+	instancesMap = GetGongstructInstancesMap[X](stageX)
 	if len(*instancesMap) != 2 {
 		t.Fatalf("expected 2 instances in map, got %d", len(*instancesMap))
 	}
@@ -41,7 +41,7 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 	}
 
 	// 4. Test GetGongstructInstancesSet
-	instancesSet := GetGongstructInstancesSet[A](stageX)
+	instancesSet := GetGongstructInstancesSet[X](stageX)
 	if len(*instancesSet) != 2 {
 		t.Fatalf("expected 2 instances in set, got %d", len(*instancesSet))
 	}
@@ -53,7 +53,7 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 	}
 
 	// 5. Test GetGongstrucsSorted
-	sorted := GetGongstrucsSorted[*A](stageX)
+	sorted := GetGongstrucsSorted[*X](stageX)
 	if len(sorted) != 2 {
 		t.Fatalf("expected 2 sorted instances, got %d", len(sorted))
 	}
@@ -65,7 +65,7 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 	a1.Unstage(stageX)
 	stageX.Commit()
 
-	instancesMap = GetGongstructInstancesMap[A](stageX)
+	instancesMap = GetGongstructInstancesMap[X](stageX)
 	if len(*instancesMap) != 1 {
 		t.Fatalf("expected 1 instance after unstage, got %d", len(*instancesMap))
 	}

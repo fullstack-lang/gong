@@ -48,8 +48,8 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by A
-func (a *A) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by X
+func (x *X) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

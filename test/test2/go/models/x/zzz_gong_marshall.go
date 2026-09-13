@@ -280,35 +280,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	aOrdered := []*A{}
-	for a := range stage.As {
-		aOrdered = append(aOrdered, a)
+	xOrdered := []*X{}
+	for x := range stage.Xs {
+		xOrdered = append(xOrdered, x)
 	}
-	sort.Slice(aOrdered[:], func(i, j int) bool {
-		ai := aOrdered[i]
-		aj := aOrdered[j]
-		ai_order, oki := stage.A_stagedOrder[ai]
-		aj_order, okj := stage.A_stagedOrder[aj]
+	sort.Slice(xOrdered[:], func(i, j int) bool {
+		xi := xOrdered[i]
+		xj := xOrdered[j]
+		xi_order, oki := stage.X_stagedOrder[xi]
+		xj_order, okj := stage.X_stagedOrder[xj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return ai_order < aj_order
+		return xi_order < xj_order
 	})
-	if len(aOrdered) > 0 {
+	if len(xOrdered) > 0 {
 		identifiersDecl.WriteString("\n")
 	}
-	for _, a := range aOrdered {
+	for _, x := range xOrdered {
 
-		identifiersDecl.WriteString(a.GongMarshallIdentifier(stage))
+		identifiersDecl.WriteString(x.GongMarshallIdentifier(stage))
 
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(a.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(x.GongMarshallField(stage, "Name"))
 	}
 
 	// insertion initialization of objects to stage
-	for _, a := range aOrdered {
-		_ = a
+	for _, x := range xOrdered {
+		_ = x
 		var setPointerField string
 		_ = setPointerField
 
@@ -369,28 +369,28 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
-func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
+func (x *X) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", x.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(x.Name))
 
 	default:
-		log.Panicf("Unknown field %s for Gongstruct A", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct X", fieldName)
 	}
 	return
 }
 
 // insertion point for marshall all fields methods
-func (a *A) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (x *X) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(a.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(x.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
