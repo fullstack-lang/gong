@@ -30,6 +30,14 @@ type GongStruct struct {
 
 	// if a struct has a gong:omit, then it is not marshalled
 	IsOmittedForMarshalling bool
+
+	// ModelPkg is the owning model package
+	// swagger:ignore
+	ModelPkg *ModelPkg `gorm:"-"`
+
+	// ImplementedInterfaces contains the names of interfaces implemented by this GongStruct
+	// swagger:ignore
+	ImplementedInterfaces []string `gorm:"-"`
 }
 
 // HasNameField indicates wether the gong struct has a field with Name "Name"
@@ -142,4 +150,57 @@ func (gongStruct *GongStruct) ComputeFielProloguesEpilogues(field FieldInterface
 	// )
 
 	return
+}
+
+// Implements checks if this GongStruct implements the named interface.
+func (gongStruct *GongStruct) Implements(interfaceName string) bool {
+	if gongStruct.ModelPkg != nil {
+		return gongStruct.ModelPkg.Implements(gongStruct.Name, interfaceName)
+	}
+	for _, iface := range gongStruct.ImplementedInterfaces {
+		if iface == interfaceName {
+			return true
+		}
+	}
+	return false
+}
+
+// HasMethod checks if this GongStruct has a method with the given name (including promoted methods).
+func (gongStruct *GongStruct) HasMethod(methodName string) bool {
+	if gongStruct.ModelPkg == nil {
+		return false
+	}
+	mset := gongStruct.ModelPkg.GetMethodSet(gongStruct.Name)
+	if mset == nil {
+		return false
+	}
+	for i := 0; i < mset.Len(); i++ {
+		if mset.At(i).Obj().Name() == methodName {
+			return true
+		}
+	}
+	return false
+}
+
+// GetMethodNames returns the names of all methods on this GongStruct (including promoted methods).
+func (gongStruct *GongStruct) GetMethodNames() (names []string) {
+	if gongStruct.ModelPkg == nil {
+		return nil
+	}
+	mset := gongStruct.ModelPkg.GetMethodSet(gongStruct.Name)
+	if mset == nil {
+		return nil
+	}
+	for i := 0; i < mset.Len(); i++ {
+		names = append(names, mset.At(i).Obj().Name())
+	}
+	return names
+}
+
+// GetEmbeddedStructNames returns the names of all structs embedded in this GongStruct.
+func (gongStruct *GongStruct) GetEmbeddedStructNames() []string {
+	if gongStruct.ModelPkg == nil {
+		return nil
+	}
+	return gongStruct.ModelPkg.GetEmbeddedStructNames(gongStruct.Name)
 }

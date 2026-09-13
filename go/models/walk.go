@@ -27,6 +27,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	}
 
 	fset := token.NewFileSet()
+	modelPkg.Fset = fset
 	// startParser := time.Now()
 	pkgsParser, errParser := parser.ParseDir(fset, directory, nil, parser.ParseComments)
 	// log.Printf("Parser took %s", time.Since(startParser))

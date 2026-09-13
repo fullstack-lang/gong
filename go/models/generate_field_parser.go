@@ -22,105 +22,20 @@ func GenerateFieldParser(
 
 	for _, field := range *fieldList {
 
-		// get the comment group and check wether it is "swagger:ignore" or "gong:ignore"
-		var isIgnoredField bool
-		var isTextArea bool
-		var isBespokeWidth bool
-		var bespokeWidth int
-		var isBespokeHeight bool
-		var bespokeHeight int
-		var bespokeTimeFormat string
-		var isAccordionStart bool
-		var accordionName string
-		var isAccordionEnd bool
-		var isTimeFormOnly bool
-		if field.Comment != nil {
-			for _, comment := range field.Comment.List {
-				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
-					isIgnoredField = true
-				}
-				if strings.Contains(comment.Text, "gong:text") {
-					isTextArea = true
-				}
-				if strings.Contains(comment.Text, "gong:width") {
-					width, err := extractWidthNumber(comment.Text)
-					if err == nil {
-						isBespokeWidth = true
-						bespokeWidth = width
-					}
-				}
-				if strings.Contains(comment.Text, "gong:height") {
-					height, err := extractHeightNumber(comment.Text)
-					if err == nil {
-						isBespokeHeight = true
-						bespokeHeight = height
-					}
-				}
-				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
-					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
-				}
-				if strings.Contains(comment.Text, "gong:time-form-only") {
-					isTimeFormOnly = true
-				}
-				if strings.Contains(comment.Text, "gong:accordion-start") {
-					name, err := extractAccordionName(comment.Text)
-					if err == nil {
-						isAccordionStart = true
-						accordionName = name
-					} else {
-						isAccordionStart = true
-					}
-				}
-				if strings.Contains(comment.Text, "gong:accordion-end") {
-					isAccordionEnd = true
-				}
-			}
-		}
-		if field.Doc != nil {
-			for _, comment := range field.Doc.List {
-				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
-					isIgnoredField = true
-				}
-				if strings.Contains(comment.Text, "gong:text") {
-					isTextArea = true
-				}
-				if strings.Contains(comment.Text, "gong:width") {
-					width, err := extractWidthNumber(comment.Text)
-					if err == nil {
-						isBespokeWidth = true
-						bespokeWidth = width
-					}
-				}
-				if strings.Contains(comment.Text, "gong:height") {
-					height, err := extractHeightNumber(comment.Text)
-					if err == nil {
-						isBespokeHeight = true
-						bespokeHeight = height
-					}
-				}
-				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
-					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
-				}
-				if strings.Contains(comment.Text, "gong:time-form-only") {
-					isTimeFormOnly = true
-				}
-				if strings.Contains(comment.Text, "gong:accordion-start") {
-					name, err := extractAccordionName(comment.Text)
-					if err == nil {
-						isAccordionStart = true
-						accordionName = name
-					} else {
-						isAccordionStart = true
-					}
-				}
-				if strings.Contains(comment.Text, "gong:accordion-end") {
-					isAccordionEnd = true
-				}
-			}
-		}
-		if isIgnoredField {
+		dirs := extractFieldDirectives(field.Comment, field.Doc)
+		if dirs.isIgnoredField {
 			continue
 		}
+		isTextArea := dirs.isTextArea
+		isBespokeWidth := dirs.isBespokeWidth
+		bespokeWidth := dirs.bespokeWidth
+		isBespokeHeight := dirs.isBespokeHeight
+		bespokeHeight := dirs.bespokeHeight
+		bespokeTimeFormat := dirs.bespokeTimeFormat
+		isAccordionStart := dirs.isAccordionStart
+		accordionName := dirs.accordionName
+		isAccordionEnd := dirs.isAccordionEnd
+		isTimeFormOnly := dirs.isTimeFormOnly
 
 		if len(field.Names) == 0 {
 			// This is the case for struct embeding
@@ -379,5 +294,63 @@ func GenerateFieldParser(
 			}
 		}
 	}
+}
 
+type fieldDirectives struct {
+	isIgnoredField    bool
+	isTextArea        bool
+	isBespokeWidth    bool
+	bespokeWidth      int
+	isBespokeHeight   bool
+	bespokeHeight     int
+	bespokeTimeFormat string
+	isAccordionStart  bool
+	accordionName     string
+	isAccordionEnd    bool
+	isTimeFormOnly    bool
+}
+
+func extractFieldDirectives(commentGroups ...*ast.CommentGroup) (d fieldDirectives) {
+	for _, cg := range commentGroups {
+		if cg == nil {
+			continue
+		}
+		for _, comment := range cg.List {
+			text := comment.Text
+			if strings.Contains(text, "swagger:ignore") || strings.Contains(text, "gong:ignore") {
+				d.isIgnoredField = true
+			}
+			if strings.Contains(text, "gong:text") {
+				d.isTextArea = true
+			}
+			if strings.Contains(text, "gong:width") {
+				if width, err := extractWidthNumber(text); err == nil {
+					d.isBespokeWidth = true
+					d.bespokeWidth = width
+				}
+			}
+			if strings.Contains(text, "gong:height") {
+				if height, err := extractHeightNumber(text); err == nil {
+					d.isBespokeHeight = true
+					d.bespokeHeight = height
+				}
+			}
+			if strings.Contains(text, "gong:bespoketimeserializeformat") {
+				d.bespokeTimeFormat, _ = extractTimeFormat(text)
+			}
+			if strings.Contains(text, "gong:time-form-only") {
+				d.isTimeFormOnly = true
+			}
+			if strings.Contains(text, "gong:accordion-start") {
+				d.isAccordionStart = true
+				if name, err := extractAccordionName(text); err == nil {
+					d.accordionName = name
+				}
+			}
+			if strings.Contains(text, "gong:accordion-end") {
+				d.isAccordionEnd = true
+			}
+		}
+	}
+	return d
 }

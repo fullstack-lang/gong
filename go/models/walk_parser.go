@@ -20,6 +20,13 @@ import (
 )
 
 func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Package {
+	return ParseEmbedModelWithFset(embeddedDir, source, token.NewFileSet())
+}
+
+func ParseEmbedModelWithFset(embeddedDir embed.FS, source string, fset *token.FileSet) map[string]*ast.Package {
+	if fset == nil {
+		fset = token.NewFileSet()
+	}
 
 	pkg := new(ast.Package)
 	pkg.Files = make(map[string]*ast.File)
@@ -40,7 +47,6 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 		if err1 != nil {
 			log.Fatalln(err1.Error())
 		}
-		fset := token.NewFileSet()
 		astFile, errParser := parser.ParseFile(fset, path, data, parser.ParseComments)
 
 		pkg.Files[path] = astFile
@@ -383,4 +389,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 
 		checkFunctionSignature(file, modelPkg)
 	}
+
+	RunTypeAnalysis(modelPkg, astPackage)
 }

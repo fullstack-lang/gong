@@ -4,8 +4,8 @@ import (
 	"go/ast"
 )
 
-// IsNamedStructWithoutEmbedded checks if any field (including embedded fields) has a field named "Name" of type string.
-func IsNamedStructWithoutEmbedded(_type *ast.StructType, mapStructWithNameField map[string]any) bool {
+// HasNameField checks if any field (including embedded fields) has a field named "Name" of type string.
+func HasNameField(_type *ast.StructType, mapStructWithNameField map[string]any) bool {
 	for _, field := range _type.Fields.List {
 		// Check if the field is an embedded struct
 		if len(field.Names) == 0 {
@@ -30,4 +30,9 @@ func IsNamedStructWithoutEmbedded(_type *ast.StructType, mapStructWithNameField 
 		}
 	}
 	return false
+}
+
+// IsNamedStructWithoutEmbedded is an alias for HasNameField kept for backward compatibility.
+func IsNamedStructWithoutEmbedded(_type *ast.StructType, mapStructWithNameField map[string]any) bool {
+	return HasNameField(_type, mapStructWithNameField)
 }

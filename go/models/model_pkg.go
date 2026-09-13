@@ -1,6 +1,12 @@
 package models
 
-import "embed"
+import (
+	"embed"
+	"go/token"
+	"go/types"
+	"path/filepath"
+	"strings"
+)
 
 // ModelPkg is the go package where the gong source code is located
 //
@@ -15,6 +21,22 @@ type ModelPkg struct {
 	GongStructs map[string]*GongStruct `gorm:"-"` // sql3Lite does not support maps
 	GongEnums   map[string]*GongEnum   `gorm:"-"`
 	GongNotes   map[string]*GongNote   `gorm:"-"`
+
+	// Fset is the token.FileSet for AST files
+	// swagger:ignore
+	Fset *token.FileSet `gorm:"-"`
+
+	// TypesPkg is the type-checked Go package
+	// swagger:ignore
+	TypesPkg *types.Package `gorm:"-"`
+
+	// TypesInfo holds type resolution info (Defs, Uses, Selections, Types)
+	// swagger:ignore
+	TypesInfo *types.Info `gorm:"-"`
+
+	// TypeErrors holds any non-fatal type errors encountered during type analysis
+	// swagger:ignore
+	TypeErrors []error `gorm:"-"`
 
 	// PathToGoSubDirectory for instance "/tmp"
 	PathToGoSubDirectory string
@@ -101,10 +123,11 @@ func NewModelPkg(stage *Stage) (modelPkg *ModelPkg) {
 func LoadEmbedded(stage *Stage, goModelsDir embed.FS) (modelPkg *ModelPkg, err error) {
 
 	modelPkg = NewModelPkg(stage)
+	modelPkg.Fset = token.NewFileSet()
 
 	// since the source is embedded, one needs to
 	// compute the Abstract syntax tree in a special manner
-	pkgs := ParseEmbedModel(goModelsDir, "models")
+	pkgs := ParseEmbedModelWithFset(goModelsDir, "models", modelPkg.Fset)
 
 	WalkParser(pkgs, modelPkg, nil)
 
@@ -183,4 +206,143 @@ func (modelPkg *ModelPkg) SerializeToStage() {
 		gongNote.Stage(modelPkg.GetStage())
 	}
 	modelPkg.GetStage().Commit()
+}
+
+// Implements checks if structName (by pointer or value receiver) implements interfaceName.
+// interfaceName can be unqualified ("MyInterface") or qualified ("package.MyInterface").
+func (modelPkg *ModelPkg) Implements(structName string, interfaceName string) bool {
+	if modelPkg.TypesPkg == nil {
+		return false
+	}
+	obj := modelPkg.TypesPkg.Scope().Lookup(structName)
+	if obj == nil {
+		return false
+	}
+	named, ok := obj.Type().(*types.Named)
+	if !ok {
+		return false
+	}
+
+	var iface *types.Interface
+	if strings.Contains(interfaceName, ".") {
+		parts := strings.Split(interfaceName, ".")
+		pkgName := parts[0]
+		targetIface := parts[1]
+		for _, imp := range modelPkg.TypesPkg.Imports() {
+			if imp.Name() == pkgName || imp.Path() == pkgName || filepath.Base(imp.Path()) == pkgName {
+				if obj := imp.Scope().Lookup(targetIface); obj != nil {
+					if it, ok := obj.Type().Underlying().(*types.Interface); ok {
+						iface = it
+						break
+					}
+				}
+			}
+		}
+	} else {
+		if obj := modelPkg.TypesPkg.Scope().Lookup(interfaceName); obj != nil {
+			if it, ok := obj.Type().Underlying().(*types.Interface); ok {
+				iface = it
+			}
+		}
+	}
+
+	if iface == nil {
+		return false
+	}
+
+	// Check pointer receiver first (most common in Gong structs)
+	if types.Implements(types.NewPointer(named), iface) {
+		return true
+	}
+	return types.Implements(named, iface)
+}
+
+// GetMethodSet returns the method set of *typeName (pointer receiver, including promoted methods).
+func (modelPkg *ModelPkg) GetMethodSet(typeName string) *types.MethodSet {
+	if modelPkg.TypesPkg == nil {
+		return nil
+	}
+	obj := modelPkg.TypesPkg.Scope().Lookup(typeName)
+	if obj == nil {
+		return nil
+	}
+	named, ok := obj.Type().(*types.Named)
+	if !ok {
+		return nil
+	}
+	return types.NewMethodSet(types.NewPointer(named))
+}
+
+// GetEmbeddedStructNames returns the names of all structs embedded in structName (both direct and transitive).
+func (modelPkg *ModelPkg) GetEmbeddedStructNames(structName string) []string {
+	if modelPkg.TypesPkg == nil {
+		return nil
+	}
+	obj := modelPkg.TypesPkg.Scope().Lookup(structName)
+	if obj == nil {
+		return nil
+	}
+	named, ok := obj.Type().(*types.Named)
+	if !ok {
+		return nil
+	}
+	st, ok := named.Underlying().(*types.Struct)
+	if !ok {
+		return nil
+	}
+
+	var embedded []string
+	var collect func(s *types.Struct)
+	collect = func(s *types.Struct) {
+		for i := 0; i < s.NumFields(); i++ {
+			f := s.Field(i)
+			if f.Anonymous() {
+				embedded = append(embedded, f.Name())
+				// Check transitive embedding
+				t := f.Type()
+				if ptr, ok := t.(*types.Pointer); ok {
+					t = ptr.Elem()
+				}
+				if n, ok := t.(*types.Named); ok {
+					if innerSt, ok := n.Underlying().(*types.Struct); ok {
+						collect(innerSt)
+					}
+				}
+			}
+		}
+	}
+	collect(st)
+	return embedded
+}
+
+// GetImplementedInterfaces returns all package-level interfaces satisfied by structName.
+func (modelPkg *ModelPkg) GetImplementedInterfaces(structName string) []string {
+	if modelPkg.TypesPkg == nil {
+		return nil
+	}
+	var implemented []string
+	for _, name := range modelPkg.TypesPkg.Scope().Names() {
+		obj := modelPkg.TypesPkg.Scope().Lookup(name)
+		if obj == nil {
+			continue
+		}
+		if _, ok := obj.Type().Underlying().(*types.Interface); ok {
+			if modelPkg.Implements(structName, name) {
+				implemented = append(implemented, name)
+			}
+		}
+	}
+	return implemented
+}
+
+// LookupType looks up a named type in the model package scope.
+func (modelPkg *ModelPkg) LookupType(name string) types.Type {
+	if modelPkg.TypesPkg == nil {
+		return nil
+	}
+	obj := modelPkg.TypesPkg.Scope().Lookup(name)
+	if obj == nil {
+		return nil
+	}
+	return obj.Type()
 }
