@@ -12,8 +12,9 @@ import (
 //
 // It contains the list of GongStructs & GongEnum
 type ModelPkg struct {
-	Name    string // should be "models"
-	PkgPath string // for instance "github.com/.../models"
+	Name      string // should be "models"
+	PkgGoName string // Go package name (e.g. "models", "x", "y")
+	PkgPath   string // for instance "github.com/.../models"
 
 	// Stage_ is where the ModelPkg lives
 	Stage_ *Stage

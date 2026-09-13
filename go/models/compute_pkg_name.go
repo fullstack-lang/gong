@@ -8,15 +8,20 @@ import (
 
 // ComputePkgNameFromPkgPath computes the name of the package from the current working directory
 func ComputePkgNameFromPkgPath(pkgPathArg string) (pkgName string) {
-	// compute name of package
-	abs, _ := filepath.Abs(filepath.Join(pkgPathArg, "../.."))
-	// log.Println("Abs is " + abs)
-
-	// to slash to have standardized separators between unix and windows
+	abs, _ := filepath.Abs(pkgPathArg)
 	abs = filepath.ToSlash(abs)
 
-	dirs := strings.Split(abs, "/")
-	pkgName = dirs[len(dirs)-1]
+	// If the path is in or under /go/models, the stack directory is before /go/models
+	if idx := strings.Index(abs, "/go/models"); idx != -1 {
+		stackDir := abs[:idx]
+		dirs := strings.Split(stackDir, "/")
+		pkgName = dirs[len(dirs)-1]
+	} else {
+		absTwoLevelsUp, _ := filepath.Abs(filepath.Join(pkgPathArg, "../.."))
+		absTwoLevelsUp = filepath.ToSlash(absTwoLevelsUp)
+		dirs := strings.Split(absTwoLevelsUp, "/")
+		pkgName = dirs[len(dirs)-1]
+	}
 	// log.Println("PkgName is " + pkgName)
 
 	// check name

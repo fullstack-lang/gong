@@ -1,7 +1,7 @@
 package models
 
 const ModelGongFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import (
 	"cmp"
@@ -505,7 +505,7 @@ func (namedStruct *NamedStruct) GetName() string {
 }
 
 func (stage *Stage) GetType() string {
-	return "{{PkgPathRoot}}/models"
+	return "{{PkgPath}}"
 }
 
 func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {

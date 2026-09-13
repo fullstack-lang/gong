@@ -225,6 +225,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PkgGoName", instanceWithInferedType.PkgGoName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("PkgPath", instanceWithInferedType.PkgPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("PathToGoSubDirectory", instanceWithInferedType.PathToGoSubDirectory, instanceWithInferedType, probe.formStage, formGroup,

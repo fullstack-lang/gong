@@ -179,12 +179,26 @@ func CodeGenerator(
 	code = strings.ReplaceAll(code, "{{PkgName}}", pkgName)
 	code = strings.ReplaceAll(code, "{{TitlePkgName}}", strings.Title(pkgName))
 	code = strings.ReplaceAll(code, "{{pkgname}}", strings.ToLower(pkgName))
-	code = strings.ReplaceAll(code, "{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
-	code = strings.ReplaceAll(code, "{{PkgPathAboveRoot}}", strings.ReplaceAll(pkgGoPath, "/go/models", ""))
+	code = strings.ReplaceAll(code, "{{PkgGoName}}", mdlPkg.PkgGoName)
+
+	var pkgPathRoot string
+	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
+		pkgPathRoot = pkgGoPath[:idx] + "/go"
+	} else {
+		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
+	}
+	var pkgPathAboveRoot string
+	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
+		pkgPathAboveRoot = pkgGoPath[:idx]
+	} else {
+		pkgPathAboveRoot = strings.ReplaceAll(pkgGoPath, "/go/models", "")
+	}
+
+	code = strings.ReplaceAll(code, "{{PkgPathRoot}}", pkgPathRoot)
+	code = strings.ReplaceAll(code, "{{PkgPathAboveRoot}}", pkgPathAboveRoot)
 	code = strings.ReplaceAll(code, "{{NgWorkspaceName}}", mdlPkg.NgWorkspaceName)
 
-	pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
-	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "_")
+	pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgPathRoot, "/", "_")
 	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "_")
 	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "_")
 
@@ -276,7 +290,15 @@ func MultiCodeGenerator(
 		code = strings.ReplaceAll(code, "{{PkgName}}", pkgName)
 		code = strings.ReplaceAll(code, "{{TitlePkgName}}", strings.Title(pkgName))
 		code = strings.ReplaceAll(code, "{{pkgname}}", strings.ToLower(pkgName))
-		code = strings.ReplaceAll(code, "{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
+		code = strings.ReplaceAll(code, "{{PkgGoName}}", mdlPkg.PkgGoName)
+
+		var pkgPathRoot string
+		if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
+			pkgPathRoot = pkgGoPath[:idx] + "/go"
+		} else {
+			pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
+		}
+		code = strings.ReplaceAll(code, "{{PkgPathRoot}}", pkgPathRoot)
 
 		defer file.Close()
 		fmt.Fprint(file, code)

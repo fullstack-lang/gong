@@ -1008,13 +1008,22 @@ func CodeGeneratorModelGong(
 	if len(modelPkg.GongStructs) == 0 {
 		returnType = "any"
 	}
-	codeGO = models.Replace6(codeGO,
+	var pkgPathRoot string
+	if idx := strings.Index(modelPkg.PkgPath, "/go/models"); idx != -1 {
+		pkgPathRoot = modelPkg.PkgPath[:idx] + "/go"
+	} else {
+		pkgPathRoot = strings.ReplaceAll(modelPkg.PkgPath, "/models", "")
+	}
+
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ReplaceAll(strings.ToLower(pkgName), "-", "_"),
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def,
 		"{{mapReturnType}}", returnType,
-		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""),
+		"{{PkgPathRoot}}", pkgPathRoot,
+		"{{PkgPath}}", modelPkg.PkgPath,
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongGoFilePath)))

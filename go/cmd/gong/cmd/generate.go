@@ -107,6 +107,25 @@ var generateCmd = &cobra.Command{
 			}
 		}
 
+		// discover and generate model dependencies (direct or indirect) in topological order
+		depPkgPaths, errDeps := gong_models.DiscoverModelDependencies(pkgPath)
+		if errDeps != nil {
+			log.Fatalf("Error discovering model dependencies: %v", errDeps)
+		}
+		for _, depPkgPath := range depPkgPaths {
+			depStage := gong_models.NewStage("")
+			depModelPkg, errLoad := gong_models.LoadSource(depStage, depPkgPath)
+			if errLoad != nil {
+				log.Fatalf("Failed loading dependent package %s: %v", depPkgPath, errLoad)
+			}
+			if len(depModelPkg.GongStructs) == 0 && len(depModelPkg.GongEnums) == 0 {
+				continue
+			}
+			log.Printf("Generating dependent model package in %s", depPkgPath)
+			golang.RemoveGeneratedSubModelPackageGongFiles(depPkgPath)
+			golang.GeneratesGoModelPackageCode(depModelPkg, depPkgPath, skipSerialize)
+		}
+
 		// remove gong generated files
 		golang.RemoveGeneratedGongFilesButDocs(pkgPath)
 

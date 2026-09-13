@@ -14,7 +14,7 @@ import (
 )
 
 const ModelGongGraphFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import "fmt"
 
@@ -599,10 +599,11 @@ func CodeGeneratorModelGongGraph(
 	}
 
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace4(codeGO,
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 

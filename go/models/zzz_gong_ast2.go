@@ -787,6 +787,8 @@ func (u *ModelPkgUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "PkgGoName":
+		instance.PkgGoName = GongExtractString(valueExpr)
 	case "PkgPath":
 		instance.PkgPath = GongExtractString(valueExpr)
 	case "PathToGoSubDirectory":

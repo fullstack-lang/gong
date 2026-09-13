@@ -1474,6 +1474,9 @@ func (modelpkg *ModelPkg) GongDiff(stage *Stage, modelpkgOther *ModelPkg) (diffs
 	if modelpkg.Name != modelpkgOther.Name {
 		diffs = append(diffs, modelpkg.GongMarshallField(stage, "Name"))
 	}
+	if modelpkg.PkgGoName != modelpkgOther.PkgGoName {
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "PkgGoName"))
+	}
 	if modelpkg.PkgPath != modelpkgOther.PkgPath {
 		diffs = append(diffs, modelpkg.GongMarshallField(stage, "PkgPath"))
 	}

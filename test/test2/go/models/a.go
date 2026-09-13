@@ -1,5 +1,9 @@
 package models
 
+import (
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+)
+
 type A struct {
 	Name string
 
@@ -8,6 +12,8 @@ type A struct {
 	B *B
 
 	Bs []*B
+
+	X *x.A
 }
 
 func (a *A) Foo() {

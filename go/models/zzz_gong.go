@@ -3524,6 +3524,10 @@ func (modelpkg *ModelPkg) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "PkgGoName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "PkgPath",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -3956,6 +3960,8 @@ func (modelpkg *ModelPkg) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = modelpkg.Name
+	case "PkgGoName":
+		res.valueString = modelpkg.PkgGoName
 	case "PkgPath":
 		res.valueString = modelpkg.PkgPath
 	case "PathToGoSubDirectory":
@@ -4310,6 +4316,8 @@ func (modelpkg *ModelPkg) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		modelpkg.Name = value.GetValueString()
+	case "PkgGoName":
+		modelpkg.PkgGoName = value.GetValueString()
 	case "PkgPath":
 		modelpkg.PkgPath = value.GetValueString()
 	case "PathToGoSubDirectory":

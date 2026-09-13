@@ -1,7 +1,7 @@
 package models
 
 const ModelGongProbeFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import (
 	"time"

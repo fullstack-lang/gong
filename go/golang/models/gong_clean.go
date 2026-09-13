@@ -14,7 +14,7 @@ import (
 )
 
 const GongCleanTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import "time"
 
@@ -215,14 +215,21 @@ func CodeGeneratorModelGongClean(
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}
 
+	var pkgPathRoot string
+	if idx := strings.Index(pkgGoPath, "/go/models"); idx != -1 {
+		pkgPathRoot = pkgGoPath[:idx] + "/go"
+	} else {
+		pkgPathRoot = strings.ReplaceAll(pkgGoPath, "/models", "")
+	}
+
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace5(codeGO,
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
-
-		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
+		"{{PkgPathRoot}}", pkgPathRoot,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongCleanGoFilePath)))

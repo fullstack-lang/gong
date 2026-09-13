@@ -547,6 +547,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "PkgGoName"))
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "PkgPath"))
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "PathToGoSubDirectory"))
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "OrmPkgGenPath"))
@@ -1123,6 +1124,11 @@ func (modelpkg *ModelPkg) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.Name))
+	case "PkgGoName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PkgGoName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.PkgGoName))
 	case "PkgPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
@@ -1456,6 +1462,7 @@ func (modelpkg *ModelPkg) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "PkgGoName"))
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "PkgPath"))
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "PathToGoSubDirectory"))
 		initializerStatements.WriteString(modelpkg.GongMarshallField(stage, "OrmPkgGenPath"))

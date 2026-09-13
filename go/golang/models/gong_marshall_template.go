@@ -1,7 +1,7 @@
 package models
 
 const ModelGongMarshallFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import (
 	"fmt"
@@ -35,7 +35,7 @@ var (
 )
 
 // function will stage objects
-func _(stage *models.Stage) {
+func _(stage *{{PkgGoName}}.Stage) {
 
 	// insertion point for declaration of instances to stage{{Identifiers}}
 
@@ -45,7 +45,7 @@ func _(stage *models.Stage) {
 }` + "`" + `
 
 const GongIdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)` + "`" + `
+	{{Identifier}} := (&{{PkgGoName}}.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)` + "`" + `
 
 const GongUnstageStmt = ` + "`" + `
 	{{Identifier}}.Unstage(stage)` + "`" + `
@@ -120,9 +120,9 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		if stage.isSquashing {
 			// we squash: we want to clear the current function body
 			// and let the append logic write the squashed commit
-			firstBrace := strings.Index(content, "func _(stage *models.Stage) {")
+			firstBrace := strings.Index(content, "func _(stage *{{PkgGoName}}.Stage) {")
 			if firstBrace != -1 {
-				firstBrace += len("func _(stage *models.Stage) {")
+				firstBrace += len("func _(stage *{{PkgGoName}}.Stage) {")
 				content = content[:firstBrace] + "\n}\n"
 			}
 		}
@@ -203,7 +203,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		contentBeforeBrace := content[:lastBrace]
 		trimmedContentBeforeBrace := strings.TrimSpace(contentBeforeBrace)
 		emptyBody := stage.isSquashing ||
-			strings.HasSuffix(trimmedContentBeforeBrace, "func _(stage *models.Stage) {") ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "func _(stage *{{PkgGoName}}.Stage) {") ||
 			strings.HasSuffix(trimmedContentBeforeBrace, "// insertion point for setup of pointers")
 
 		// check if the file ends with stage.Commit() before the brace

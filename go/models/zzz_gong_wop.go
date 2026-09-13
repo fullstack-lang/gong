@@ -186,6 +186,8 @@ type ModelPkg_WOP struct {
 
 	Name string
 
+	PkgGoName string
+
 	PkgPath string
 
 	PathToGoSubDirectory string
@@ -224,6 +226,7 @@ type ModelPkg_WOP struct {
 func (from *ModelPkg) CopyBasicFields(to *ModelPkg) {
 	// insertion point
 	to.Name = from.Name
+	to.PkgGoName = from.PkgGoName
 	to.PkgPath = from.PkgPath
 	to.PathToGoSubDirectory = from.PathToGoSubDirectory
 	to.OrmPkgGenPath = from.OrmPkgGenPath

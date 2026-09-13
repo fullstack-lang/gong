@@ -14,7 +14,7 @@ import (
 )
 
 const ModelGongWopFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import "time"
 
@@ -204,10 +204,11 @@ func CodeGeneratorModelGongWop(
 	}
 
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace3(codeGO,
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongWopGoFilePath)))

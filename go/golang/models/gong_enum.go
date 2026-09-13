@@ -14,7 +14,7 @@ import (
 )
 
 const ModelGongEnumFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 // end of insertion point for enum utility functions
@@ -262,10 +262,11 @@ func CodeGeneratorModelGongEnum(
 	}
 
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace4(codeGO,
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 

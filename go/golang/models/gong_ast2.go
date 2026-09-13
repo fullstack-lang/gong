@@ -15,7 +15,7 @@ import (
 )
 
 const ModelGongAst2Template = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 import (
 	"embed"
@@ -690,10 +690,11 @@ func GongAst2(modelPkg *models.ModelPkg, pkgPath string) {
 	}
 
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace4(codeGO,
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", modelPkg.Name,
 		"{{TitlePkgName}}", caserEnglish.String(modelPkg.Name),
 		"{{pkgname}}", strings.ToLower(modelPkg.Name),
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 

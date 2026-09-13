@@ -371,10 +371,11 @@ func CodeGeneratorModelGongMarshall(
 	}
 
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace4(codeGO,
+	codeGO = models.Replace(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
+		"{{PkgGoName}}", modelPkg.PkgGoName,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 

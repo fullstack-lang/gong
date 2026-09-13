@@ -301,65 +301,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			static.ServeStaticFilesTemplate)
 	}
 
-	models.CodeGeneratorModelGong(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath)
-
-	models.CodeGeneratorModelGongEnum(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath)
-
-	models.CodeGeneratorModelGongMarshall(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath)
-
-	models.CodeGeneratorModelGongGraph(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath)
-
-	models.CodeGeneratorModelGongSlice(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath,
-		modelPkg.PkgPath)
-
-	models.CodeGeneratorModelGongClean(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath,
-		modelPkg.PkgPath)
-
-	// the probe interface definition uses API from
-	// form (table) and split. Therefore, it can only
-	// be generated when it is not either stack
-	if modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/table/go/models" &&
-		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/split/go/models" &&
-		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/form/go/models" {
-
-		gong_models.VerySimpleCodeGenerator(
-			modelPkg,
-			filepath.Join(pkgPath, string(gong_models.GeneratedGongProbeGoFilePath)),
-			models.ModelGongProbeFileTemplate)
-	}
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, string(gong_models.GeneratedGongDiffGoFilePath)),
-		models.ModelGongDiffFileTemplate)
-
-	// Coder generation is disabled since GongfieldCoder and GongfieldName are unused.
-	// if !skipCoder {
-	// 	models.CodeGeneratorModelGongCoder(
-	// 		modelPkg,
-	// 		modelPkg.Name,
-	// 		pkgPath)
-	// }
-
-	models.GongAst2(modelPkg, pkgPath)
+	GeneratesGoModelPackageCode(modelPkg, pkgPath, skipSerialize)
 
 	if stackHeight == 4 {
 		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
@@ -448,35 +390,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			fullstack.RegisterOsTemplate)
 	}
 
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(pkgPath, string(gong_models.GeneratedGongCallbacksGoFilePath)),
-		models.ModelGongCallbacksFileTemplate, models.ModelGongCallbacksStructSubTemplateCode)
-
-	gong_models.CodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(pkgPath, string(gong_models.GeneratedGongOrchestratorGoFilePath)),
-		models.ModelGongOrchestratorFileTemplate,
-		models.ModelGongOrchestratorStructSubTemplateCode,
-		map[string]string{}, map[string]string{},
-		true,
-		true)
-
-	if !skipSerialize {
-		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
-			filepath.Join(pkgPath, string(gong_models.GeneratedGongSerializeGoFilePath)),
-			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
-	}
-
-	models.CodeGeneratorModelGongWop(modelPkg, modelPkg.Name, pkgPath)
-
 	if stackHeight == 4 {
 
 		orm.MultiCodeGeneratorBackRepo(
@@ -497,13 +410,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "../docs.go"),
 		RootFileDocsTemplate,
 		map[string]string{})
-
-	models.CodeGeneratorGongReverse(
-		modelPkg,
-		modelPkg.Name,
-		pkgPath,
-		modelPkg.PkgPath,
-	)
 
 	probe.CodeGeneratorFillUpForm(
 		modelPkg,
@@ -612,4 +518,93 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			map[string]string{},
 		)
 	}
+}
+
+// GeneratesGoModelPackageCode generates strictly the model package files (zzz_gong*.go)
+// without creating orm, controllers, probe, stack, or stager boilerplate.
+func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string, skipSerialize bool) {
+	models.CodeGeneratorModelGong(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath)
+
+	models.CodeGeneratorModelGongEnum(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath)
+
+	models.CodeGeneratorModelGongMarshall(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath)
+
+	models.CodeGeneratorModelGongGraph(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath)
+
+	models.CodeGeneratorModelGongSlice(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath,
+		modelPkg.PkgPath)
+
+	models.CodeGeneratorModelGongClean(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath,
+		modelPkg.PkgPath)
+
+	if modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/table/go/models" &&
+		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/split/go/models" &&
+		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/form/go/models" {
+
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, string(gong_models.GeneratedGongProbeGoFilePath)),
+			models.ModelGongProbeFileTemplate)
+	}
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongDiffGoFilePath)),
+		models.ModelGongDiffFileTemplate)
+
+	models.GongAst2(modelPkg, pkgPath)
+
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongCallbacksGoFilePath)),
+		models.ModelGongCallbacksFileTemplate, models.ModelGongCallbacksStructSubTemplateCode)
+
+	gong_models.CodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongOrchestratorGoFilePath)),
+		models.ModelGongOrchestratorFileTemplate,
+		models.ModelGongOrchestratorStructSubTemplateCode,
+		map[string]string{}, map[string]string{},
+		true,
+		true)
+
+	if !skipSerialize {
+		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+			modelPkg,
+			modelPkg.Name,
+			modelPkg.PkgPath,
+			filepath.Join(pkgPath, string(gong_models.GeneratedGongSerializeGoFilePath)),
+			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
+	}
+
+	models.CodeGeneratorModelGongWop(modelPkg, modelPkg.Name, pkgPath)
+
+	models.CodeGeneratorGongReverse(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath,
+		modelPkg.PkgPath,
+	)
 }

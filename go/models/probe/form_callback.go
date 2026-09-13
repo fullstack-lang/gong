@@ -1150,6 +1150,8 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(modelpkg_.Name), formDiv)
+		case "PkgGoName":
+			FormDivBasicFieldToField(&(modelpkg_.PkgGoName), formDiv)
 		case "PkgPath":
 			FormDivBasicFieldToField(&(modelpkg_.PkgPath), formDiv)
 		case "PathToGoSubDirectory":

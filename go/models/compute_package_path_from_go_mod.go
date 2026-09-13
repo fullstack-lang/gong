@@ -114,17 +114,18 @@ func ComputePkgPathFromGoModFile(pkgPathArg string) (pkgName, fullPkgPath string
 	// module path + (if necessary) relative path to the package
 	// for instance "github.com/fullstack-lang/gongsvg" or
 	// for instance "github.com/fullstack-lang/gong/test" or
-	pikPlace := len(dirs) - nbOfLevelBetweenPackageAndModule + 3
-	if pikPlace > len(dirs) {
-		pikPlace = len(dirs)
+	goModDir, _ := filepath.Abs(filepath.Dir(goModFilePath))
+	targetDir, _ := filepath.Abs(pkgPathArg)
+	relPathFromModRoot, errRel := filepath.Rel(goModDir, targetDir)
+	if errRel != nil {
+		log.Fatalf("Cannot compute relative path from %s to %s: %v", goModDir, targetDir, errRel)
 	}
-	relPath := dirs[pikPlace:]
-	joinedPath := append([]string{modFile.Module.Mod.Path}, relPath...)
 
-	fullPkgPath = filepath.Join(joinedPath...)
-	fullPkgPath = filepath.Join(fullPkgPath, "go", "models")
-	// case for windows
-	fullPkgPath = strings.ReplaceAll(fullPkgPath, "\\", "/")
+	if relPathFromModRoot == "." {
+		fullPkgPath = modFile.Module.Mod.Path
+	} else {
+		fullPkgPath = filepath.ToSlash(filepath.Join(modFile.Module.Mod.Path, relPathFromModRoot))
+	}
 
 	return
 }

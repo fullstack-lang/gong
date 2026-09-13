@@ -1,7 +1,7 @@
 package models
 
 const ModelGongOrchestratorFileTemplate = `// generated code - do not edit
-package models
+package {{PkgGoName}}
 
 // insertion point{{` + string(rune(ModelGongOrchestratorStruct)) + `}}
 // SetOrchestratorOnAfterUpdate is the Stage method for setting orchestrators.

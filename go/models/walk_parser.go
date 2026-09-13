@@ -76,8 +76,15 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 	var astPackage *ast.Package
 	var ok bool
 	if astPackage, ok = parserPkgs["models"]; !ok {
-		log.Fatal("No package models")
+		for _, pkg := range parserPkgs {
+			astPackage = pkg
+			break
+		}
 	}
+	if astPackage == nil {
+		log.Fatal("No package to parse")
+	}
+	modelPkg.PkgGoName = astPackage.Name
 
 	modelPkg.GongEnums = make(map[string]*GongEnum)
 	modelPkg.GongStructs = make(map[string]*GongStruct)
