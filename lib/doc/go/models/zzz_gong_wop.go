@@ -111,11 +111,13 @@ type GongEnumShape_WOP struct {
 
 	Y float64
 
-	IdentifierMeta any
-
 	Width float64
 
 	Height float64
+
+	IsHidden bool
+
+	IdentifierMeta any
 
 	IsExpanded bool
 }
@@ -125,9 +127,10 @@ func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 	to.Name = from.Name
 	to.X = from.X
 	to.Y = from.Y
-	to.IdentifierMeta = from.IdentifierMeta
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+	to.IdentifierMeta = from.IdentifierMeta
 	to.IsExpanded = from.IsExpanded
 }
 
@@ -181,6 +184,8 @@ type GongNoteShape_WOP struct {
 
 	Height float64
 
+	IsHidden bool
+
 	Matched bool
 
 	IsExpanded bool
@@ -196,6 +201,7 @@ func (from *GongNoteShape) CopyBasicFields(to *GongNoteShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 	to.Matched = from.Matched
 	to.IsExpanded = from.IsExpanded
 }
@@ -209,11 +215,13 @@ type GongStructShape_WOP struct {
 
 	Y float64
 
-	IdentifierMeta any
-
 	Width float64
 
 	Height float64
+
+	IsHidden bool
+
+	IdentifierMeta any
 
 	IsSelected bool
 }
@@ -223,9 +231,10 @@ func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 	to.Name = from.Name
 	to.X = from.X
 	to.Y = from.Y
-	to.IdentifierMeta = from.IdentifierMeta
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+	to.IdentifierMeta = from.IdentifierMeta
 	to.IsSelected = from.IsSelected
 }
 

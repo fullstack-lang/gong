@@ -3032,6 +3032,18 @@ func (gongenumshape *GongEnumShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IdentifierMeta",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3039,14 +3051,6 @@ func (gongenumshape *GongEnumShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "GongEnumValueShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "GongEnumValueShape",
-		},
-		{
-			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IsExpanded",
@@ -3127,6 +3131,10 @@ func (gongnoteshape *GongNoteShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Matched",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3159,6 +3167,18 @@ func (gongstructshape *GongStructShape) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IdentifierMeta",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3171,14 +3191,6 @@ func (gongstructshape *GongStructShape) GongGetFieldHeaders() (res []GongFieldHe
 			Name:                 "LinkShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "LinkShape",
-		},
-		{
-			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IsSelected",
@@ -3468,6 +3480,18 @@ func (gongenumshape *GongEnumShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", gongenumshape.Y)
 		res.valueFloat = gongenumshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", gongenumshape.Width)
+		res.valueFloat = gongenumshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", gongenumshape.Height)
+		res.valueFloat = gongenumshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", gongenumshape.IsHidden)
+		res.valueBool = gongenumshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "GongEnumValueShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range gongenumshape.GongEnumValueShapes {
@@ -3478,14 +3502,6 @@ func (gongenumshape *GongEnumShape) GongGetFieldValue(fieldName string, stage *S
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Width":
-		res.valueString = fmt.Sprintf("%f", gongenumshape.Width)
-		res.valueFloat = gongenumshape.Width
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Height":
-		res.valueString = fmt.Sprintf("%f", gongenumshape.Height)
-		res.valueFloat = gongenumshape.Height
-		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", gongenumshape.IsExpanded)
 		res.valueBool = gongenumshape.IsExpanded
@@ -3544,6 +3560,10 @@ func (gongnoteshape *GongNoteShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", gongnoteshape.Height)
 		res.valueFloat = gongnoteshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", gongnoteshape.IsHidden)
+		res.valueBool = gongnoteshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Matched":
 		res.valueString = fmt.Sprintf("%t", gongnoteshape.Matched)
 		res.valueBool = gongnoteshape.Matched
@@ -3579,6 +3599,18 @@ func (gongstructshape *GongStructShape) GongGetFieldValue(fieldName string, stag
 		res.valueString = fmt.Sprintf("%f", gongstructshape.Y)
 		res.valueFloat = gongstructshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", gongstructshape.Width)
+		res.valueFloat = gongstructshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", gongstructshape.Height)
+		res.valueFloat = gongstructshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", gongstructshape.IsHidden)
+		res.valueBool = gongstructshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "AttributeShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range gongstructshape.AttributeShapes {
@@ -3599,14 +3631,6 @@ func (gongstructshape *GongStructShape) GongGetFieldValue(fieldName string, stag
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Width":
-		res.valueString = fmt.Sprintf("%f", gongstructshape.Width)
-		res.valueFloat = gongstructshape.Width
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Height":
-		res.valueString = fmt.Sprintf("%f", gongstructshape.Height)
-		res.valueFloat = gongstructshape.Height
-		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsSelected":
 		res.valueString = fmt.Sprintf("%t", gongstructshape.IsSelected)
 		res.valueBool = gongstructshape.IsSelected
@@ -3833,6 +3857,12 @@ func (gongenumshape *GongEnumShape) GongSetFieldValue(fieldName string, value Go
 		gongenumshape.X = value.GetValueFloat()
 	case "Y":
 		gongenumshape.Y = value.GetValueFloat()
+	case "Width":
+		gongenumshape.Width = value.GetValueFloat()
+	case "Height":
+		gongenumshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		gongenumshape.IsHidden = value.GetValueBool()
 	case "GongEnumValueShapes":
 		gongenumshape.GongEnumValueShapes = make([]*GongEnumValueShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -3847,10 +3877,6 @@ func (gongenumshape *GongEnumShape) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
-	case "Width":
-		gongenumshape.Width = value.GetValueFloat()
-	case "Height":
-		gongenumshape.Height = value.GetValueFloat()
 	case "IsExpanded":
 		gongenumshape.IsExpanded = value.GetValueBool()
 	default:
@@ -3904,6 +3930,8 @@ func (gongnoteshape *GongNoteShape) GongSetFieldValue(fieldName string, value Go
 		gongnoteshape.Width = value.GetValueFloat()
 	case "Height":
 		gongnoteshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		gongnoteshape.IsHidden = value.GetValueBool()
 	case "Matched":
 		gongnoteshape.Matched = value.GetValueBool()
 	case "GongNoteLinkShapes":
@@ -3937,6 +3965,12 @@ func (gongstructshape *GongStructShape) GongSetFieldValue(fieldName string, valu
 		gongstructshape.X = value.GetValueFloat()
 	case "Y":
 		gongstructshape.Y = value.GetValueFloat()
+	case "Width":
+		gongstructshape.Width = value.GetValueFloat()
+	case "Height":
+		gongstructshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		gongstructshape.IsHidden = value.GetValueBool()
 	case "AttributeShapes":
 		gongstructshape.AttributeShapes = make([]*AttributeShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -3965,10 +3999,6 @@ func (gongstructshape *GongStructShape) GongSetFieldValue(fieldName string, valu
 				}
 			}
 		}
-	case "Width":
-		gongstructshape.Width = value.GetValueFloat()
-	case "Height":
-		gongstructshape.Height = value.GetValueFloat()
 	case "IsSelected":
 		gongstructshape.IsSelected = value.GetValueBool()
 	default:

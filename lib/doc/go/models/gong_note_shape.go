@@ -5,6 +5,7 @@ import (
 	"math/rand"
 
 	gong "github.com/fullstack-lang/gong/go/models"
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 // GongNoteShape is a UML note in a class diagram
@@ -36,8 +37,7 @@ type GongNoteShape struct {
 
 	BodyHTML string
 
-	X, Y          float64
-	Width, Height float64
+	svg_models.RectShape
 	Matched       bool // if a note with the same name has been found
 
 	GongNoteLinkShapes []*GongNoteLinkShape

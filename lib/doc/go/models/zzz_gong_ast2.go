@@ -626,14 +626,16 @@ func (u *GongEnumShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
-	case "IdentifierMeta":
-		instance.IdentifierMeta = GongExtractExpr(valueExpr)
-	case "GongEnumValueShapes":
-		GongUnmarshallSliceOfPointers(&instance.GongEnumValueShapes, valueExpr, identifierMap)
 	case "Width":
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IdentifierMeta":
+		instance.IdentifierMeta = GongExtractExpr(valueExpr)
+	case "GongEnumValueShapes":
+		GongUnmarshallSliceOfPointers(&instance.GongEnumValueShapes, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
@@ -743,6 +745,8 @@ func (u *GongNoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	case "Matched":
 		instance.Matched = GongExtractBool(valueExpr)
 	case "GongNoteLinkShapes":
@@ -782,16 +786,18 @@ func (u *GongStructShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	case "IdentifierMeta":
 		instance.IdentifierMeta = GongExtractExpr(valueExpr)
 	case "AttributeShapes":
 		GongUnmarshallSliceOfPointers(&instance.AttributeShapes, valueExpr, identifierMap)
 	case "LinkShapes":
 		GongUnmarshallSliceOfPointers(&instance.LinkShapes, valueExpr, identifierMap)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
 	case "IsSelected":
 		instance.IsSelected = GongExtractBool(valueExpr)
 	}

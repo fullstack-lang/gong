@@ -580,6 +580,12 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongenumshape_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(gongenumshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(gongenumshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(gongenumshape_.IsHidden), formDiv)
 		case "GongEnumValueShapes":
 			if formDiv.FormEditAssocButton == nil {
 				continue
@@ -615,10 +621,6 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			gongenumshape_.GongEnumValueShapes = instanceSlice
 			gongenumshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongenumshape_, "GongEnumValueShapes", &gongenumshape_.GongEnumValueShapes)
 
-		case "Width":
-			FormDivBasicFieldToField(&(gongenumshape_.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(gongenumshape_.Height), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongenumshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongEnumShapes":
@@ -1017,6 +1019,8 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongnoteshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(gongnoteshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(gongnoteshape_.IsHidden), formDiv)
 		case "Matched":
 			FormDivBasicFieldToField(&(gongnoteshape_.Matched), formDiv)
 		case "GongNoteLinkShapes":
@@ -1186,6 +1190,12 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(gongstructshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(gongstructshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(gongstructshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(gongstructshape_.IsHidden), formDiv)
 		case "AttributeShapes":
 			if formDiv.FormEditAssocButton == nil {
 				continue
@@ -1256,10 +1266,6 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			gongstructshape_.LinkShapes = instanceSlice
 			gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongstructshape_, "LinkShapes", &gongstructshape_.LinkShapes)
 
-		case "Width":
-			FormDivBasicFieldToField(&(gongstructshape_.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(gongstructshape_.Height), formDiv)
 		case "IsSelected":
 			FormDivBasicFieldToField(&(gongstructshape_.IsSelected), formDiv)
 		case "Classdiagram:GongStructShapes":

@@ -1199,6 +1199,15 @@ func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *G
 	if gongenumshape.Y != gongenumshapeOther.Y {
 		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Y"))
 	}
+	if gongenumshape.Width != gongenumshapeOther.Width {
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Width"))
+	}
+	if gongenumshape.Height != gongenumshapeOther.Height {
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Height"))
+	}
+	if gongenumshape.IsHidden != gongenumshapeOther.IsHidden {
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "IsHidden"))
+	}
 	if gongenumshape.IdentifierMeta != gongenumshapeOther.IdentifierMeta {
 		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
@@ -1222,12 +1231,6 @@ func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *G
 	if GongEnumValueShapesDifferent {
 		ops := Diff(stage, gongenumshape, gongenumshapeOther, "GongEnumValueShapes", gongenumshapeOther.GongEnumValueShapes, gongenumshape.GongEnumValueShapes)
 		diffs = append(diffs, ops)
-	}
-	if gongenumshape.Width != gongenumshapeOther.Width {
-		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Width"))
-	}
-	if gongenumshape.Height != gongenumshapeOther.Height {
-		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Height"))
 	}
 	if gongenumshape.IsExpanded != gongenumshapeOther.IsExpanded {
 		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "IsExpanded"))
@@ -1295,6 +1298,9 @@ func (gongnoteshape *GongNoteShape) GongDiff(stage *Stage, gongnoteshapeOther *G
 	if gongnoteshape.Height != gongnoteshapeOther.Height {
 		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Height"))
 	}
+	if gongnoteshape.IsHidden != gongnoteshapeOther.IsHidden {
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "IsHidden"))
+	}
 	if gongnoteshape.Matched != gongnoteshapeOther.Matched {
 		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Matched"))
 	}
@@ -1338,6 +1344,15 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 	}
 	if gongstructshape.Y != gongstructshapeOther.Y {
 		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Y"))
+	}
+	if gongstructshape.Width != gongstructshapeOther.Width {
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Width"))
+	}
+	if gongstructshape.Height != gongstructshapeOther.Height {
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Height"))
+	}
+	if gongstructshape.IsHidden != gongstructshapeOther.IsHidden {
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "IsHidden"))
 	}
 	if gongstructshape.IdentifierMeta != gongstructshapeOther.IdentifierMeta {
 		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "IdentifierMeta"))
@@ -1383,12 +1398,6 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 	if LinkShapesDifferent {
 		ops := Diff(stage, gongstructshape, gongstructshapeOther, "LinkShapes", gongstructshapeOther.LinkShapes, gongstructshape.LinkShapes)
 		diffs = append(diffs, ops)
-	}
-	if gongstructshape.Width != gongstructshapeOther.Width {
-		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Width"))
-	}
-	if gongstructshape.Height != gongstructshapeOther.Height {
-		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Height"))
 	}
 	if gongstructshape.IsSelected != gongstructshapeOther.IsSelected {
 		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "IsSelected"))

@@ -409,10 +409,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
-		pointersInitializesStatements.WriteString(gongenumshape.GongMarshallField(stage, "GongEnumValueShapes"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
+		pointersInitializesStatements.WriteString(gongenumshape.GongMarshallField(stage, "GongEnumValueShapes"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IsExpanded"))
 	}
 
@@ -502,6 +503,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Matched"))
 		pointersInitializesStatements.WriteString(gongnoteshape.GongMarshallField(stage, "GongNoteLinkShapes"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "IsExpanded"))
@@ -533,11 +535,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "IdentifierMeta"))
 		pointersInitializesStatements.WriteString(gongstructshape.GongMarshallField(stage, "AttributeShapes"))
 		pointersInitializesStatements.WriteString(gongstructshape.GongMarshallField(stage, "LinkShapes"))
-		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "IsSelected"))
 	}
 
@@ -929,13 +932,6 @@ func (gongenumshape *GongEnumShape) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongenumshape.Y))
-	case "IdentifierMeta":
-		if str, ok := gongenumshape.IdentifierMeta.(string); ok {
-			res = MetaFieldStructInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IdentifierMeta")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", str)
-		}
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
@@ -946,6 +942,18 @@ func (gongenumshape *GongEnumShape) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongenumshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongenumshape.IsHidden))
+	case "IdentifierMeta":
+		if str, ok := gongenumshape.IdentifierMeta.(string); ok {
+			res = MetaFieldStructInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IdentifierMeta")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", str)
+		}
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
@@ -1066,6 +1074,11 @@ func (gongnoteshape *GongNoteShape) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongnoteshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongnoteshape.IsHidden))
 	case "Matched":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
@@ -1111,13 +1124,6 @@ func (gongstructshape *GongStructShape) GongMarshallField(stage *Stage, fieldNam
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongstructshape.Y))
-	case "IdentifierMeta":
-		if str, ok := gongstructshape.IdentifierMeta.(string); ok {
-			res = MetaFieldStructInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IdentifierMeta")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", str)
-		}
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
@@ -1128,6 +1134,18 @@ func (gongstructshape *GongStructShape) GongMarshallField(stage *Stage, fieldNam
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongstructshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstructshape.IsHidden))
+	case "IdentifierMeta":
+		if str, ok := gongstructshape.IdentifierMeta.(string); ok {
+			res = MetaFieldStructInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IdentifierMeta")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", str)
+		}
 	case "IsSelected":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
@@ -1363,10 +1381,11 @@ func (gongenumshape *GongEnumShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
-		pointersInitializesStatements.WriteString(gongenumshape.GongMarshallField(stage, "GongEnumValueShapes"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
+		pointersInitializesStatements.WriteString(gongenumshape.GongMarshallField(stage, "GongEnumValueShapes"))
 		initializerStatements.WriteString(gongenumshape.GongMarshallField(stage, "IsExpanded"))
 	}
 	initRes = initializerStatements.String()
@@ -1411,6 +1430,7 @@ func (gongnoteshape *GongNoteShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "Matched"))
 		pointersInitializesStatements.WriteString(gongnoteshape.GongMarshallField(stage, "GongNoteLinkShapes"))
 		initializerStatements.WriteString(gongnoteshape.GongMarshallField(stage, "IsExpanded"))
@@ -1427,11 +1447,12 @@ func (gongstructshape *GongStructShape) GongMarshallAllFields(stage *Stage) (ini
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "IdentifierMeta"))
 		pointersInitializesStatements.WriteString(gongstructshape.GongMarshallField(stage, "AttributeShapes"))
 		pointersInitializesStatements.WriteString(gongstructshape.GongMarshallField(stage, "LinkShapes"))
-		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(gongstructshape.GongMarshallField(stage, "IsSelected"))
 	}
 	initRes = initializerStatements.String()

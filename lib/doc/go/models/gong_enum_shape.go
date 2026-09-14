@@ -1,6 +1,10 @@
 package models
 
-import "math/rand"
+import (
+	"math/rand"
+
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+)
 
 const GongEnumShapeDefaultWidth = 240.0
 const GongEnumShapeDefaultHeight = 48.0
@@ -10,16 +14,12 @@ const GongEnumShapeDefaultHeight = 48.0
 type GongEnumShape struct {
 	Name string
 
-	X, Y float64
+	svg_models.RectShape
 
 	//gong:meta
 	IdentifierMeta any
 
 	GongEnumValueShapes []*GongEnumValueShape
-
-	// with and height of the shape when they are rendered on SVG or with jointjs
-	// They are optional fields. they can be computed when empty
-	Width, Height float64
 
 	IsExpanded bool
 }

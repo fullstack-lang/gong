@@ -3,6 +3,8 @@ package models
 import (
 	"log"
 	"math/rand"
+
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 const GongStructShapeDefaultWidth = 240.0
@@ -13,8 +15,7 @@ const GongStructShapeDefaultHeight = 48.0
 type GongStructShape struct {
 	Name string
 
-	X float64
-	Y float64
+	svg_models.RectShape
 
 	// Identifier is the identifier of the struct referenced by the shape in the modeled package
 	//gong:meta
@@ -25,10 +26,6 @@ type GongStructShape struct {
 
 	// models of the composition of Link
 	LinkShapes []*LinkShape
-
-	// with and height of the shape when they are rendered on SVG or with jointjs
-	// They are optional fields. they can be computed when empty
-	Width, Height float64
 
 	// this is always false in the backend, but it can be set to true by the front end
 	// this means it is selected by the user
