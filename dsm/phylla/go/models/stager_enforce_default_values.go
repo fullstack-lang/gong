@@ -50,7 +50,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.Name = "New Plant"
 		}
-		if vase := plant.VaseAbstract; vase != nil {
+		if vase := plant.TubeVaseAbstract; vase != nil {
 			if vase.RelativeVerticalThickness == 0.0 {
 				needCommit = true
 				vase.RelativeVerticalThickness = 0.1

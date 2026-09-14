@@ -170,8 +170,10 @@ func (planttype PlantType) ToString() (res string) {
 	// insertion code per enum code
 	case Plant:
 		res = "Plant"
-	case Vase:
-		res = "Vase"
+	case TubeVase:
+		res = "Tube Vase"
+	case TrapezeVase:
+		res = "Trapeze Vase"
 	case Stool:
 		res = "Stool"
 	case Clock:
@@ -189,8 +191,11 @@ func (planttype *PlantType) FromString(input string) (err error) {
 	case "Plant":
 		*planttype = Plant
 		return
-	case "Vase":
-		*planttype = Vase
+	case "Tube Vase":
+		*planttype = TubeVase
+		return
+	case "Trapeze Vase":
+		*planttype = TrapezeVase
 		return
 	case "Stool":
 		*planttype = Stool
@@ -212,8 +217,10 @@ func (planttype *PlantType) FromCodeString(input string) (err error) {
 	// insertion code per enum code
 	case "Plant":
 		*planttype = Plant
-	case "Vase":
-		*planttype = Vase
+	case "TubeVase":
+		*planttype = TubeVase
+	case "TrapezeVase":
+		*planttype = TrapezeVase
 	case "Stool":
 		*planttype = Stool
 	case "Clock":
@@ -232,8 +239,10 @@ func (planttype *PlantType) ToCodeString() (res string) {
 	// insertion code per enum code
 	case Plant:
 		res = "Plant"
-	case Vase:
-		res = "Vase"
+	case TubeVase:
+		res = "TubeVase"
+	case TrapezeVase:
+		res = "TrapezeVase"
 	case Stool:
 		res = "Stool"
 	case Clock:
@@ -250,7 +259,8 @@ func (planttype PlantType) Codes() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "Plant")
-	res = append(res, "Vase")
+	res = append(res, "TubeVase")
+	res = append(res, "TrapezeVase")
 	res = append(res, "Stool")
 	res = append(res, "Clock")
 	res = append(res, "Music")
@@ -264,7 +274,8 @@ func (planttype PlantType) CodeValues() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "Plant")
-	res = append(res, "Vase")
+	res = append(res, "Tube Vase")
+	res = append(res, "Trapeze Vase")
 	res = append(res, "Stool")
 	res = append(res, "Clock")
 	res = append(res, "Music")
@@ -389,8 +400,8 @@ func (viewtype ViewType) ToString() (res string) {
 		res = "Vase Form"
 	case VIEW_VASE_2D:
 		res = "Vase 2D"
-	case VIEW_VASE_3D:
-		res = "Vase 3D"
+	case VIEW_TUBE_VASE_3D:
+		res = "Tube Vase 3D"
 	case VIEW_STOOL_3D:
 		res = "Stool 3D"
 	case VIEW_CLOCK_3D:
@@ -419,8 +430,8 @@ func (viewtype *ViewType) FromString(input string) (err error) {
 	case "Vase 2D":
 		*viewtype = VIEW_VASE_2D
 		return
-	case "Vase 3D":
-		*viewtype = VIEW_VASE_3D
+	case "Tube Vase 3D":
+		*viewtype = VIEW_TUBE_VASE_3D
 		return
 	case "Stool 3D":
 		*viewtype = VIEW_STOOL_3D
@@ -451,8 +462,8 @@ func (viewtype *ViewType) FromCodeString(input string) (err error) {
 		*viewtype = VIEW_VASE_FORM
 	case "VIEW_VASE_2D":
 		*viewtype = VIEW_VASE_2D
-	case "VIEW_VASE_3D":
-		*viewtype = VIEW_VASE_3D
+	case "VIEW_TUBE_VASE_3D":
+		*viewtype = VIEW_TUBE_VASE_3D
 	case "VIEW_STOOL_3D":
 		*viewtype = VIEW_STOOL_3D
 	case "VIEW_CLOCK_3D":
@@ -479,8 +490,8 @@ func (viewtype *ViewType) ToCodeString() (res string) {
 		res = "VIEW_VASE_FORM"
 	case VIEW_VASE_2D:
 		res = "VIEW_VASE_2D"
-	case VIEW_VASE_3D:
-		res = "VIEW_VASE_3D"
+	case VIEW_TUBE_VASE_3D:
+		res = "VIEW_TUBE_VASE_3D"
 	case VIEW_STOOL_3D:
 		res = "VIEW_STOOL_3D"
 	case VIEW_CLOCK_3D:
@@ -502,7 +513,7 @@ func (viewtype ViewType) Codes() (res []string) {
 	res = append(res, "VIEW_PLANT_3D")
 	res = append(res, "VIEW_VASE_FORM")
 	res = append(res, "VIEW_VASE_2D")
-	res = append(res, "VIEW_VASE_3D")
+	res = append(res, "VIEW_TUBE_VASE_3D")
 	res = append(res, "VIEW_STOOL_3D")
 	res = append(res, "VIEW_CLOCK_3D")
 	res = append(res, "VIEW_ABOUT_SPIRAL_PLANTS")
@@ -520,7 +531,7 @@ func (viewtype ViewType) CodeValues() (res []string) {
 	res = append(res, "Plant 3D")
 	res = append(res, "Vase Form")
 	res = append(res, "Vase 2D")
-	res = append(res, "Vase 3D")
+	res = append(res, "Tube Vase 3D")
 	res = append(res, "Stool 3D")
 	res = append(res, "Clock 3D")
 	res = append(res, "About Spiral Plants")

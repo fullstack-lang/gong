@@ -44,7 +44,7 @@ import (
 
 type ThreeJSStageUpdaterInterface interface {
 	UpdateThreeJSStage(stager *Stager)
-	StartMovieRecordingVase3D(stager *Stager, plant *PlantAbstract, vase3DDiagram *Vase3DDiagram)
+	StartMovieRecordingTubeVase3D(stager *Stager, plant *PlantAbstract, tubeVase3DDiagram *TubeVase3DDiagram)
 	StopMovieRecording(stager *Stager)
 	IsMovieRecording() bool
 	GetMovieRecordingFrameCount() int
@@ -267,9 +267,9 @@ func NewStagerForTest(stage *Stage) *Stager {
 	return stager
 }
 
-func (stager *Stager) StartMovieRecordingVase3D(plant *PlantAbstract, vase3DDiagram *Vase3DDiagram) {
+func (stager *Stager) StartMovieRecordingTubeVase3D(plant *PlantAbstract, tubeVase3DDiagram *TubeVase3DDiagram) {
 	if stager.threeJSUpdater != nil {
-		stager.threeJSUpdater.StartMovieRecordingVase3D(stager, plant, vase3DDiagram)
+		stager.threeJSUpdater.StartMovieRecordingTubeVase3D(stager, plant, tubeVase3DDiagram)
 	}
 }
 

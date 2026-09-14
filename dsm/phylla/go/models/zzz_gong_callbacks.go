@@ -570,17 +570,17 @@ func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
 		if stage.OnAfterTorusStackShapeCreateCallback != nil {
 			stage.OnAfterTorusStackShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *TubeVase3DDiagram:
+		if stage.OnAfterTubeVase3DDiagramCreateCallback != nil {
+			stage.OnAfterTubeVase3DDiagramCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *TubeVaseAbstract:
+		if stage.OnAfterTubeVaseAbstractCreateCallback != nil {
+			stage.OnAfterTubeVaseAbstractCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Vase2DDiagram:
 		if stage.OnAfterVase2DDiagramCreateCallback != nil {
 			stage.OnAfterVase2DDiagramCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Vase3DDiagram:
-		if stage.OnAfterVase3DDiagramCreateCallback != nil {
-			stage.OnAfterVase3DDiagramCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *VaseAbstract:
-		if stage.OnAfterVaseAbstractCreateCallback != nil {
-			stage.OnAfterVaseAbstractCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *VerticalTorusStackShape:
 		if stage.OnAfterVerticalTorusStackShapeCreateCallback != nil {
@@ -1314,20 +1314,20 @@ func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
 		if stage.OnAfterTorusStackShapeUpdateCallback != nil {
 			stage.OnAfterTorusStackShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *TubeVase3DDiagram:
+		newTarget := any(new).(*TubeVase3DDiagram)
+		if stage.OnAfterTubeVase3DDiagramUpdateCallback != nil {
+			stage.OnAfterTubeVase3DDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *TubeVaseAbstract:
+		newTarget := any(new).(*TubeVaseAbstract)
+		if stage.OnAfterTubeVaseAbstractUpdateCallback != nil {
+			stage.OnAfterTubeVaseAbstractUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Vase2DDiagram:
 		newTarget := any(new).(*Vase2DDiagram)
 		if stage.OnAfterVase2DDiagramUpdateCallback != nil {
 			stage.OnAfterVase2DDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Vase3DDiagram:
-		newTarget := any(new).(*Vase3DDiagram)
-		if stage.OnAfterVase3DDiagramUpdateCallback != nil {
-			stage.OnAfterVase3DDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *VaseAbstract:
-		newTarget := any(new).(*VaseAbstract)
-		if stage.OnAfterVaseAbstractUpdateCallback != nil {
-			stage.OnAfterVaseAbstractUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *VerticalTorusStackShape:
 		newTarget := any(new).(*VerticalTorusStackShape)
@@ -2059,20 +2059,20 @@ func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
 			staged := any(staged).(*TorusStackShape)
 			stage.OnAfterTorusStackShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *TubeVase3DDiagram:
+		if stage.OnAfterTubeVase3DDiagramDeleteCallback != nil {
+			staged := any(staged).(*TubeVase3DDiagram)
+			stage.OnAfterTubeVase3DDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *TubeVaseAbstract:
+		if stage.OnAfterTubeVaseAbstractDeleteCallback != nil {
+			staged := any(staged).(*TubeVaseAbstract)
+			stage.OnAfterTubeVaseAbstractDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Vase2DDiagram:
 		if stage.OnAfterVase2DDiagramDeleteCallback != nil {
 			staged := any(staged).(*Vase2DDiagram)
 			stage.OnAfterVase2DDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Vase3DDiagram:
-		if stage.OnAfterVase3DDiagramDeleteCallback != nil {
-			staged := any(staged).(*Vase3DDiagram)
-			stage.OnAfterVase3DDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *VaseAbstract:
-		if stage.OnAfterVaseAbstractDeleteCallback != nil {
-			staged := any(staged).(*VaseAbstract)
-			stage.OnAfterVaseAbstractDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *VerticalTorusStackShape:
 		if stage.OnAfterVerticalTorusStackShapeDeleteCallback != nil {

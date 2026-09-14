@@ -123,7 +123,7 @@ func (stager *Stager) ux_slider() {
 			}
 		}
 
-		if plant.CurrentView != VIEW_PLANT_2D && plant.PlantType == Vase {
+		if plant.CurrentView != VIEW_PLANT_2D && plant.PlantType == TubeVase {
 
 			group1.Sliders = append(
 				group1.Sliders,
@@ -133,7 +133,7 @@ func (stager *Stager) ux_slider() {
 					0.01,
 					0.3,
 					0.01,
-					&plant.VaseAbstract.RelativeVerticalThickness,
+					&plant.TubeVaseAbstract.RelativeVerticalThickness,
 				),
 			)
 
@@ -145,7 +145,7 @@ func (stager *Stager) ux_slider() {
 					0.0,
 					0.1,
 					0.002,
-					&plant.VaseAbstract.RelativeCuttedStackFloorHeight,
+					&plant.TubeVaseAbstract.RelativeCuttedStackFloorHeight,
 				),
 			)
 
@@ -157,7 +157,7 @@ func (stager *Stager) ux_slider() {
 					0.0,
 					1.0,
 					0.01,
-					&plant.VaseAbstract.RelativeRotatedTorusSeparation,
+					&plant.TubeVaseAbstract.RelativeRotatedTorusSeparation,
 				),
 			)
 
@@ -169,7 +169,7 @@ func (stager *Stager) ux_slider() {
 					0.01,
 					0.5,
 					0.01,
-					&plant.VaseAbstract.RelativeRadialThickness,
+					&plant.TubeVaseAbstract.RelativeRadialThickness,
 				),
 			)
 
@@ -181,7 +181,7 @@ func (stager *Stager) ux_slider() {
 					0.0,
 					1.0,
 					0.005,
-					&plant.VaseAbstract.RotationRatio,
+					&plant.TubeVaseAbstract.RotationRatio,
 				),
 			)
 
@@ -193,7 +193,7 @@ func (stager *Stager) ux_slider() {
 					1,
 					4,
 					1,
-					&plant.VaseAbstract.RadialRepetitions,
+					&plant.TubeVaseAbstract.RadialRepetitions,
 				),
 			)
 
@@ -205,7 +205,7 @@ func (stager *Stager) ux_slider() {
 					0.0,
 					1.0,
 					0.05,
-					&plant.VaseAbstract.Transparency,
+					&plant.TubeVaseAbstract.Transparency,
 				),
 			)
 
@@ -214,7 +214,7 @@ func (stager *Stager) ux_slider() {
 				NewBoolSlider(
 					stager,
 					"Alternating Ring Colors",
-					&plant.VaseAbstract.HasAlternatingRingColors,
+					&plant.TubeVaseAbstract.HasAlternatingRingColors,
 				),
 			)
 
@@ -226,7 +226,7 @@ func (stager *Stager) ux_slider() {
 					-0.15,
 					0.15,
 					0.001,
-					&plant.VaseAbstract.RelativeTrajectoryOffsetX,
+					&plant.TubeVaseAbstract.RelativeTrajectoryOffsetX,
 				),
 			)
 
@@ -238,7 +238,7 @@ func (stager *Stager) ux_slider() {
 					-0.15,
 					0.15,
 					0.001,
-					&plant.VaseAbstract.RelativeTrajectoryOffsetY,
+					&plant.TubeVaseAbstract.RelativeTrajectoryOffsetY,
 				),
 			)
 
@@ -250,7 +250,7 @@ func (stager *Stager) ux_slider() {
 					1,
 					30,
 					1,
-					&plant.VaseAbstract.NbStepP1P2,
+					&plant.TubeVaseAbstract.NbStepP1P2,
 				),
 			)
 
@@ -260,9 +260,9 @@ func (stager *Stager) ux_slider() {
 					stager,
 					"Chosen Step",
 					1,
-					plant.VaseAbstract.NbStepP1P2,
+					plant.TubeVaseAbstract.NbStepP1P2,
 					1,
-					&plant.VaseAbstract.ChosenStep,
+					&plant.TubeVaseAbstract.ChosenStep,
 				),
 			)
 
@@ -274,7 +274,7 @@ func (stager *Stager) ux_slider() {
 					0.0,
 					1.0,
 					0.005,
-					&plant.VaseAbstract.RelativeHorizontalRingsHeight,
+					&plant.TubeVaseAbstract.RelativeHorizontalRingsHeight,
 				),
 			)
 
@@ -286,7 +286,7 @@ func (stager *Stager) ux_slider() {
 					-500,
 					500,
 					1,
-					&plant.VaseAbstract.OffsetKeyX,
+					&plant.TubeVaseAbstract.OffsetKeyX,
 				),
 			)
 
@@ -298,7 +298,7 @@ func (stager *Stager) ux_slider() {
 					-500,
 					500,
 					1,
-					&plant.VaseAbstract.OffsetKeyY,
+					&plant.TubeVaseAbstract.OffsetKeyY,
 				),
 			)
 
@@ -310,7 +310,7 @@ func (stager *Stager) ux_slider() {
 					0,
 					500,
 					1,
-					&plant.VaseAbstract.WidthKey,
+					&plant.TubeVaseAbstract.WidthKey,
 				),
 			)
 
@@ -322,7 +322,7 @@ func (stager *Stager) ux_slider() {
 					0,
 					500,
 					1,
-					&plant.VaseAbstract.HeightKey,
+					&plant.TubeVaseAbstract.HeightKey,
 				),
 			)
 
@@ -334,7 +334,7 @@ func (stager *Stager) ux_slider() {
 					0.0,
 					1.0,
 					0.01,
-					&plant.VaseAbstract.RelativeKeySize,
+					&plant.TubeVaseAbstract.RelativeKeySize,
 				),
 			)
 
@@ -346,7 +346,7 @@ func (stager *Stager) ux_slider() {
 					0,
 					1000,
 					1,
-					&plant.VaseAbstract.MovieNbFrames,
+					&plant.TubeVaseAbstract.MovieNbFrames,
 				),
 			)
 		}

@@ -255,11 +255,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.PlantAbstract_Vase2DDiagrams_reverseMap[_vase2ddiagram] = plantabstract
 		}
 	}
-	stage.PlantAbstract_Vase3DDiagrams_reverseMap = make(map[*Vase3DDiagram]*PlantAbstract)
+	stage.PlantAbstract_TubeVase3DDiagrams_reverseMap = make(map[*TubeVase3DDiagram]*PlantAbstract)
 	for plantabstract := range stage.PlantAbstracts {
 		_ = plantabstract
-		for _, _vase3ddiagram := range plantabstract.Vase3DDiagrams {
-			stage.PlantAbstract_Vase3DDiagrams_reverseMap[_vase3ddiagram] = plantabstract
+		for _, _tubevase3ddiagram := range plantabstract.TubeVase3DDiagrams {
+			stage.PlantAbstract_TubeVase3DDiagrams_reverseMap[_tubevase3ddiagram] = plantabstract
 		}
 	}
 	stage.PlantAbstract_Stool2DDiagrams_reverseMap = make(map[*Stool2DDiagram]*PlantAbstract)
@@ -513,13 +513,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TorusStackShape
 	// insertion point per field
 
+	// Compute reverse map for named struct TubeVase3DDiagram
+	// insertion point per field
+
+	// Compute reverse map for named struct TubeVaseAbstract
+	// insertion point per field
+
 	// Compute reverse map for named struct Vase2DDiagram
-	// insertion point per field
-
-	// Compute reverse map for named struct Vase3DDiagram
-	// insertion point per field
-
-	// Compute reverse map for named struct VaseAbstract
 	// insertion point per field
 
 	// Compute reverse map for named struct VerticalTorusStackShape
@@ -1097,15 +1097,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.TubeVase3DDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TubeVaseAbstracts {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Vase2DDiagrams {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.Vase3DDiagrams {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.VaseAbstracts {
 		res = append(res, instance)
 	}
 
@@ -1967,21 +1967,21 @@ func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongCopy() GongstructIF {
+	newInstance := new(TubeVase3DDiagram)
+	tubevase3ddiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongCopy() GongstructIF {
+	newInstance := new(TubeVaseAbstract)
+	tubevaseabstract.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongCopy() GongstructIF {
 	newInstance := new(Vase2DDiagram)
 	vase2ddiagram.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongCopy() GongstructIF {
-	newInstance := new(Vase3DDiagram)
-	vase3ddiagram.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (vaseabstract *VaseAbstract) GongCopy() GongstructIF {
-	newInstance := new(VaseAbstract)
-	vaseabstract.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -3408,6 +3408,26 @@ func (torusstackshape *TorusStackShape) GongGetUUID(stage *Stage) (uuid string) 
 	return
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(tubevase3ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tubevase3ddiagram), uint64(GetOrderPointerGongstruct(stage, tubevase3ddiagram)))
+	return
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(tubevaseabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tubevaseabstract), uint64(GetOrderPointerGongstruct(stage, tubevaseabstract)))
+	return
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(vase2ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -3415,26 +3435,6 @@ func (vase2ddiagram *Vase2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vase2ddiagram), uint64(GetOrderPointerGongstruct(stage, vase2ddiagram)))
-	return
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(vase3ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vase3ddiagram), uint64(GetOrderPointerGongstruct(stage, vase3ddiagram)))
-	return
-}
-
-func (vaseabstract *VaseAbstract) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(vaseabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vaseabstract), uint64(GetOrderPointerGongstruct(stage, vaseabstract)))
 	return
 }
 
@@ -4631,6 +4631,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(stoolabstracts_newInstances)
 	lenDeletedInstances += len(stoolabstracts_deletedInstances)
+	var tubevase3ddiagrams_newInstances []*TubeVase3DDiagram
+	var tubevase3ddiagrams_deletedInstances []*TubeVase3DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+		if ref, ok := stage.TubeVase3DDiagrams_reference[tubevase3ddiagram]; !ok {
+			tubevase3ddiagrams_newInstances = append(tubevase3ddiagrams_newInstances, tubevase3ddiagram)
+			newInstancesSlice = append(newInstancesSlice, tubevase3ddiagram.GongMarshallIdentifier(stage))
+			if stage.TubeVase3DDiagrams_referenceOrder == nil {
+				stage.TubeVase3DDiagrams_referenceOrder = make(map[*TubeVase3DDiagram]uint)
+			}
+			stage.TubeVase3DDiagrams_referenceOrder[tubevase3ddiagram] = stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, tubevase3ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.TubeVase3DDiagrams_referenceOrder, tubevase3ddiagram)
+			fieldInitializers, pointersInitializations := tubevase3ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TubeVase3DDiagram_stagedOrder[ref] = stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := tubevase3ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, tubevase3ddiagram)
+			// delete(stage.TubeVase3DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if tubevase3ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", tubevase3ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TubeVase3DDiagrams_reference {
+		instance := stage.TubeVase3DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TubeVase3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			tubevase3ddiagrams_deletedInstances = append(tubevase3ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(tubevase3ddiagrams_newInstances)
+	lenDeletedInstances += len(tubevase3ddiagrams_deletedInstances)
+	var tubevaseabstracts_newInstances []*TubeVaseAbstract
+	var tubevaseabstracts_deletedInstances []*TubeVaseAbstract
+
+	// parse all staged instances and check if they have a reference
+	for tubevaseabstract := range stage.TubeVaseAbstracts {
+		if ref, ok := stage.TubeVaseAbstracts_reference[tubevaseabstract]; !ok {
+			tubevaseabstracts_newInstances = append(tubevaseabstracts_newInstances, tubevaseabstract)
+			newInstancesSlice = append(newInstancesSlice, tubevaseabstract.GongMarshallIdentifier(stage))
+			if stage.TubeVaseAbstracts_referenceOrder == nil {
+				stage.TubeVaseAbstracts_referenceOrder = make(map[*TubeVaseAbstract]uint)
+			}
+			stage.TubeVaseAbstracts_referenceOrder[tubevaseabstract] = stage.TubeVaseAbstract_stagedOrder[tubevaseabstract]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, tubevaseabstract.GongMarshallUnstaging(stage))
+			// delete(stage.TubeVaseAbstracts_referenceOrder, tubevaseabstract)
+			fieldInitializers, pointersInitializations := tubevaseabstract.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TubeVaseAbstract_stagedOrder[ref] = stage.TubeVaseAbstract_stagedOrder[tubevaseabstract]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := tubevaseabstract.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, tubevaseabstract)
+			// delete(stage.TubeVaseAbstract_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if tubevaseabstract.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", tubevaseabstract.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TubeVaseAbstracts_reference {
+		instance := stage.TubeVaseAbstracts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TubeVaseAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			tubevaseabstracts_deletedInstances = append(tubevaseabstracts_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(tubevaseabstracts_newInstances)
+	lenDeletedInstances += len(tubevaseabstracts_deletedInstances)
 	var vase2ddiagrams_newInstances []*Vase2DDiagram
 	var vase2ddiagrams_deletedInstances []*Vase2DDiagram
 
@@ -4686,116 +4796,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(vase2ddiagrams_newInstances)
 	lenDeletedInstances += len(vase2ddiagrams_deletedInstances)
-	var vase3ddiagrams_newInstances []*Vase3DDiagram
-	var vase3ddiagrams_deletedInstances []*Vase3DDiagram
-
-	// parse all staged instances and check if they have a reference
-	for vase3ddiagram := range stage.Vase3DDiagrams {
-		if ref, ok := stage.Vase3DDiagrams_reference[vase3ddiagram]; !ok {
-			vase3ddiagrams_newInstances = append(vase3ddiagrams_newInstances, vase3ddiagram)
-			newInstancesSlice = append(newInstancesSlice, vase3ddiagram.GongMarshallIdentifier(stage))
-			if stage.Vase3DDiagrams_referenceOrder == nil {
-				stage.Vase3DDiagrams_referenceOrder = make(map[*Vase3DDiagram]uint)
-			}
-			stage.Vase3DDiagrams_referenceOrder[vase3ddiagram] = stage.Vase3DDiagram_stagedOrder[vase3ddiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, vase3ddiagram.GongMarshallUnstaging(stage))
-			// delete(stage.Vase3DDiagrams_referenceOrder, vase3ddiagram)
-			fieldInitializers, pointersInitializations := vase3ddiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Vase3DDiagram_stagedOrder[ref] = stage.Vase3DDiagram_stagedOrder[vase3ddiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := vase3ddiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, vase3ddiagram)
-			// delete(stage.Vase3DDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if vase3ddiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", vase3ddiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Vase3DDiagrams_reference {
-		instance := stage.Vase3DDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Vase3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			vase3ddiagrams_deletedInstances = append(vase3ddiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(vase3ddiagrams_newInstances)
-	lenDeletedInstances += len(vase3ddiagrams_deletedInstances)
-	var vaseabstracts_newInstances []*VaseAbstract
-	var vaseabstracts_deletedInstances []*VaseAbstract
-
-	// parse all staged instances and check if they have a reference
-	for vaseabstract := range stage.VaseAbstracts {
-		if ref, ok := stage.VaseAbstracts_reference[vaseabstract]; !ok {
-			vaseabstracts_newInstances = append(vaseabstracts_newInstances, vaseabstract)
-			newInstancesSlice = append(newInstancesSlice, vaseabstract.GongMarshallIdentifier(stage))
-			if stage.VaseAbstracts_referenceOrder == nil {
-				stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint)
-			}
-			stage.VaseAbstracts_referenceOrder[vaseabstract] = stage.VaseAbstract_stagedOrder[vaseabstract]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, vaseabstract.GongMarshallUnstaging(stage))
-			// delete(stage.VaseAbstracts_referenceOrder, vaseabstract)
-			fieldInitializers, pointersInitializations := vaseabstract.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.VaseAbstract_stagedOrder[ref] = stage.VaseAbstract_stagedOrder[vaseabstract]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := vaseabstract.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, vaseabstract)
-			// delete(stage.VaseAbstract_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if vaseabstract.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", vaseabstract.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.VaseAbstracts_reference {
-		instance := stage.VaseAbstracts_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.VaseAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			vaseabstracts_deletedInstances = append(vaseabstracts_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(vaseabstracts_newInstances)
-	lenDeletedInstances += len(vaseabstracts_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -6241,6 +6241,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TorusStackShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TubeVase3DDiagrams_reference = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
+	stage.TubeVase3DDiagrams_referenceOrder = make(map[*TubeVase3DDiagram]uint) // diff Unstage needs the reference order
+	stage.TubeVase3DDiagrams_instance = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
+	for instance := range stage.TubeVase3DDiagrams {
+		_copy := instance.GongCopy().(*TubeVase3DDiagram)
+		stage.TubeVase3DDiagrams_reference[instance] = _copy
+		stage.TubeVase3DDiagrams_instance[_copy] = instance
+		stage.TubeVase3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.TubeVaseAbstracts_reference = make(map[*TubeVaseAbstract]*TubeVaseAbstract)
+	stage.TubeVaseAbstracts_referenceOrder = make(map[*TubeVaseAbstract]uint) // diff Unstage needs the reference order
+	stage.TubeVaseAbstracts_instance = make(map[*TubeVaseAbstract]*TubeVaseAbstract)
+	for instance := range stage.TubeVaseAbstracts {
+		_copy := instance.GongCopy().(*TubeVaseAbstract)
+		stage.TubeVaseAbstracts_reference[instance] = _copy
+		stage.TubeVaseAbstracts_instance[_copy] = instance
+		stage.TubeVaseAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Vase2DDiagrams_reference = make(map[*Vase2DDiagram]*Vase2DDiagram)
 	stage.Vase2DDiagrams_referenceOrder = make(map[*Vase2DDiagram]uint) // diff Unstage needs the reference order
 	stage.Vase2DDiagrams_instance = make(map[*Vase2DDiagram]*Vase2DDiagram)
@@ -6249,26 +6269,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Vase2DDiagrams_reference[instance] = _copy
 		stage.Vase2DDiagrams_instance[_copy] = instance
 		stage.Vase2DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.Vase3DDiagrams_reference = make(map[*Vase3DDiagram]*Vase3DDiagram)
-	stage.Vase3DDiagrams_referenceOrder = make(map[*Vase3DDiagram]uint) // diff Unstage needs the reference order
-	stage.Vase3DDiagrams_instance = make(map[*Vase3DDiagram]*Vase3DDiagram)
-	for instance := range stage.Vase3DDiagrams {
-		_copy := instance.GongCopy().(*Vase3DDiagram)
-		stage.Vase3DDiagrams_reference[instance] = _copy
-		stage.Vase3DDiagrams_instance[_copy] = instance
-		stage.Vase3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.VaseAbstracts_reference = make(map[*VaseAbstract]*VaseAbstract)
-	stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint) // diff Unstage needs the reference order
-	stage.VaseAbstracts_instance = make(map[*VaseAbstract]*VaseAbstract)
-	for instance := range stage.VaseAbstracts {
-		_copy := instance.GongCopy().(*VaseAbstract)
-		stage.VaseAbstracts_reference[instance] = _copy
-		stage.VaseAbstracts_instance[_copy] = instance
-		stage.VaseAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -6997,18 +6997,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.TubeVase3DDiagrams {
+		reference := stage.TubeVase3DDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TubeVaseAbstracts {
+		reference := stage.TubeVaseAbstracts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Vase2DDiagrams {
 		reference := stage.Vase2DDiagrams_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.Vase3DDiagrams {
-		reference := stage.Vase3DDiagrams_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.VaseAbstracts {
-		reference := stage.VaseAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -8724,6 +8724,30 @@ func (torusstackshape *TorusStackShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.TubeVase3DDiagrams_referenceOrder[tubevase3ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TubeVase3DDiagram was not staged and does not have a reference order", tubevase3ddiagram)
+		return 0
+	}
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TubeVaseAbstract_stagedOrder[tubevaseabstract]; ok {
+		return order
+	}
+	if order, ok := stage.TubeVaseAbstracts_referenceOrder[tubevaseabstract]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TubeVaseAbstract was not staged and does not have a reference order", tubevaseabstract)
+		return 0
+	}
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Vase2DDiagram_stagedOrder[vase2ddiagram]; ok {
 		return order
@@ -8732,30 +8756,6 @@ func (vase2ddiagram *Vase2DDiagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Vase2DDiagram was not staged and does not have a reference order", vase2ddiagram)
-		return 0
-	}
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Vase3DDiagram_stagedOrder[vase3ddiagram]; ok {
-		return order
-	}
-	if order, ok := stage.Vase3DDiagrams_referenceOrder[vase3ddiagram]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Vase3DDiagram was not staged and does not have a reference order", vase3ddiagram)
-		return 0
-	}
-}
-
-func (vaseabstract *VaseAbstract) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.VaseAbstract_stagedOrder[vaseabstract]; ok {
-		return order
-	}
-	if order, ok := stage.VaseAbstracts_referenceOrder[vaseabstract]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type VaseAbstract was not staged and does not have a reference order", vaseabstract)
 		return 0
 	}
 }
@@ -10058,6 +10058,24 @@ func (torusstackshape *TorusStackShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", torusstackshape.GongGetGongstructName(), torusstackshape.GongGetOrder(stage))
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tubevase3ddiagram.GongGetGongstructName(), tubevase3ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tubevase3ddiagram.GongGetGongstructName(), tubevase3ddiagram.GongGetOrder(stage))
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tubevaseabstract.GongGetGongstructName(), tubevaseabstract.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (tubevaseabstract *TubeVaseAbstract) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tubevaseabstract.GongGetGongstructName(), tubevaseabstract.GongGetOrder(stage))
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", vase2ddiagram.GongGetGongstructName(), vase2ddiagram.GongGetOrder(stage))
 }
@@ -10065,24 +10083,6 @@ func (vase2ddiagram *Vase2DDiagram) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (vase2ddiagram *Vase2DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", vase2ddiagram.GongGetGongstructName(), vase2ddiagram.GongGetOrder(stage))
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", vase3ddiagram.GongGetGongstructName(), vase3ddiagram.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (vase3ddiagram *Vase3DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", vase3ddiagram.GongGetGongstructName(), vase3ddiagram.GongGetOrder(stage))
-}
-
-func (vaseabstract *VaseAbstract) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", vaseabstract.GongGetGongstructName(), vaseabstract.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (vaseabstract *VaseAbstract) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", vaseabstract.GongGetGongstructName(), vaseabstract.GongGetOrder(stage))
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetIdentifier(stage *Stage) string {
@@ -11234,27 +11234,27 @@ func (torusstackshape *TorusStackShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevase3ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TubeVase3DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevase3ddiagram.Name))
+	return
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevaseabstract.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TubeVaseAbstract")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tubevaseabstract.Name))
+	return
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vase2DDiagram")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase2ddiagram.Name))
-	return
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase3ddiagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vase3DDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase3ddiagram.Name))
-	return
-}
-
-func (vaseabstract *VaseAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VaseAbstract")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vaseabstract.Name))
 	return
 }
 
@@ -12121,21 +12121,21 @@ func (torusstackshape *TorusStackShape) GongMarshallUnstaging(stage *Stage) (dec
 	return
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevase3ddiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubevaseabstract.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase3ddiagram.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (vaseabstract *VaseAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vaseabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 

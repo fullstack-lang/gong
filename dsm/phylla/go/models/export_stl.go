@@ -382,8 +382,8 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 	radialRepetitions := 1
 	thickness := 5.0
 
-	if plant.PlantType == Vase {
-		vase := plant.VaseAbstract
+	if plant.PlantType == TubeVase {
+		vase := plant.TubeVaseAbstract
 		radialRepetitions = vase.RadialRepetitions
 		if radialRepetitions < 1 {
 			radialRepetitions = 1
@@ -421,14 +421,14 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 		globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 	}
 
-	if plant.GrowthCurve2D != nil && plant.VaseAbstract != nil && plant.VaseAbstract.TopGrowthCurve2D != nil &&
+	if plant.GrowthCurve2D != nil && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.TopGrowthCurve2D != nil &&
 		plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
-		plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
+		plant.TubeVaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
 		len(plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) > 0 &&
-		len(plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
+		len(plant.TubeVaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
 
 		gc := plant.GrowthCurve2D
-		tgc := plant.VaseAbstract.TopGrowthCurve2D
+		tgc := plant.TubeVaseAbstract.TopGrowthCurve2D
 
 		startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
 		var endArcs []*EndHalfwayArcShape
@@ -573,8 +573,8 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 					writeRibbonLayerSTL(&sb, horizBottom, horizTop, 0.0, thickness, radialRepetitions)
 				}
 			} else {
-				var checkedDiagram *Vase3DDiagram
-				for _, diagram := range plant.Vase3DDiagrams {
+				var checkedDiagram *TubeVase3DDiagram
+				for _, diagram := range plant.TubeVase3DDiagrams {
 					if diagram.IsChecked {
 						checkedDiagram = diagram
 						break

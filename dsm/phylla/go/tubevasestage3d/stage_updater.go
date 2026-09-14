@@ -1,4 +1,4 @@
-package vasestage3d
+package tubevasestage3d
 
 import (
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
@@ -21,7 +21,7 @@ func (u *ThreeJSStageUpdater) UpdateThreeJSStage(stager *models.Stager) {
 	u.ux_3d_plant_diagram(stager)
 }
 
-func (u *ThreeJSStageUpdater) StartMovieRecordingVase3D(stager *models.Stager, plant *models.PlantAbstract, diagram *models.Vase3DDiagram) {
+func (u *ThreeJSStageUpdater) StartMovieRecordingTubeVase3D(stager *models.Stager, plant *models.PlantAbstract, diagram *models.TubeVase3DDiagram) {
 	u.startMovieRecording(stager, plant, diagram)
 }
 

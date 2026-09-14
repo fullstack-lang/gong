@@ -7623,8 +7623,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantabstract_.RhombusSideLength), formDiv)
 		case "PlantType":
 			FormDivEnumStringFieldToField(&(plantabstract_.PlantType), formDiv)
-		case "VaseAbstract":
-			FormDivSelectFieldToField(&(plantabstract_.VaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TubeVaseAbstract":
+			FormDivSelectFieldToField(&(plantabstract_.TubeVaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StoolAbstract":
 			FormDivSelectFieldToField(&(plantabstract_.StoolAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ClockAbstract":
@@ -7750,17 +7750,17 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			plantabstract_.Vase2DDiagrams = instanceSlice
 			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Vase2DDiagrams", &plantabstract_.Vase2DDiagrams)
 
-		case "IsVase3DDiagramsNodeExpanded":
-			FormDivBasicFieldToField(&(plantabstract_.IsVase3DDiagramsNodeExpanded), formDiv)
-		case "Vase3DDiagrams":
+		case "IsTubeVase3DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsTubeVase3DDiagramsNodeExpanded), formDiv)
+		case "TubeVase3DDiagrams":
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Vase3DDiagram, 0)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TubeVase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TubeVase3DDiagram, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Vase3DDiagram)
+			map_id_instances := make(map[uint]*models.TubeVase3DDiagram)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -7775,7 +7775,7 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Vase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TubeVase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -7784,8 +7784,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			plantabstract_.Vase3DDiagrams = instanceSlice
-			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Vase3DDiagrams", &plantabstract_.Vase3DDiagrams)
+			plantabstract_.TubeVase3DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "TubeVase3DDiagrams", &plantabstract_.TubeVase3DDiagrams)
 
 		case "IsStool2DDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plantabstract_.IsStool2DDiagramsNodeExpanded), formDiv)
@@ -17242,6 +17242,362 @@ func (torusstackshapeFormCallback *TorusStackShapeFormCallback) OnSave() {
 
 	torusstackshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__TubeVase3DDiagramFormCallback(
+	tubevase3ddiagram *models.TubeVase3DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (tubevase3ddiagramFormCallback *TubeVase3DDiagramFormCallback) {
+	tubevase3ddiagramFormCallback = new(TubeVase3DDiagramFormCallback)
+	tubevase3ddiagramFormCallback.probe = probe
+	tubevase3ddiagramFormCallback.tubevase3ddiagram = tubevase3ddiagram
+	tubevase3ddiagramFormCallback.formGroup = formGroup
+
+	tubevase3ddiagramFormCallback.CreationMode = (tubevase3ddiagram == nil)
+
+	return
+}
+
+type TubeVase3DDiagramFormCallback struct {
+	tubevase3ddiagram *models.TubeVase3DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (tubevase3ddiagramFormCallback *TubeVase3DDiagramFormCallback) OnSave() {
+	tubevase3ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer tubevase3ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TubeVase3DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	tubevase3ddiagramFormCallback.probe.formStage.Checkout()
+
+	if tubevase3ddiagramFormCallback.tubevase3ddiagram == nil {
+		tubevase3ddiagramFormCallback.tubevase3ddiagram = new(models.TubeVase3DDiagram).Stage(tubevase3ddiagramFormCallback.probe.stageOfInterest)
+	}
+	tubevase3ddiagram_ := tubevase3ddiagramFormCallback.tubevase3ddiagram
+	_ = tubevase3ddiagram_
+
+	for _, formDiv := range tubevase3ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.Name), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenTorusStackShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenTorusStackShape), formDiv)
+		case "IsHiddenVerticalTorusStackShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenVerticalTorusStackShape), formDiv)
+		case "IsHiddenPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenPointsAndLines3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenPointsAndLines3DShape), formDiv)
+		case "IsHiddenKeyHole3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenKeyHole3DShape), formDiv)
+		case "IsHiddenKey3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenKey3DShape), formDiv)
+		case "IsHiddenVolumeKey3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenVolumeKey3DShape), formDiv)
+		case "IsHiddenTorusEdge3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenTorusEdge3DShape), formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "IsHiddenOriginalPoints3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenOriginalPoints3DShape), formDiv)
+		case "IsHiddenAngle0Shape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenAngle0Shape), formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.Rendered3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusStackShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.TorusStackShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VerticalTorusStackShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.VerticalTorusStackShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.PartiallyRotatedTorusShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfPartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.StackOfPartiallyRotatedTorusShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PointsAndLines3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.PointsAndLines3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.SampledPoints3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "OriginalPoints3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.OriginalPoints3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Angle0Shape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.Angle0Shape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHole3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.KeyHole3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Key3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.Key3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VolumeKey3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.VolumeKey3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusEdge3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.TorusEdge3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(tubevase3ddiagram_.TiledFloor3DShape), tubevase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(tubevase3ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:TubeVase3DDiagrams":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](tubevase3ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their TubeVase3DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](tubevase3ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(tubevase3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure tubevase3ddiagram_ is in _plantabstract.TubeVase3DDiagrams
+					found := false
+					for _, _b := range _plantabstract.TubeVase3DDiagrams {
+						if _b == tubevase3ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.TubeVase3DDiagrams = append(_plantabstract.TubeVase3DDiagrams, tubevase3ddiagram_)
+						tubevase3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "TubeVase3DDiagrams", &_plantabstract.TubeVase3DDiagrams)
+					}
+				} else {
+					// ensure tubevase3ddiagram_ is NOT in _plantabstract.TubeVase3DDiagrams
+					idx := slices.Index(_plantabstract.TubeVase3DDiagrams, tubevase3ddiagram_)
+					if idx != -1 {
+						_plantabstract.TubeVase3DDiagrams = slices.Delete(_plantabstract.TubeVase3DDiagrams, idx, idx+1)
+						tubevase3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "TubeVase3DDiagrams", &_plantabstract.TubeVase3DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if tubevase3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tubevase3ddiagram_.Unstage(tubevase3ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	tubevase3ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TubeVase3DDiagram](
+		tubevase3ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if tubevase3ddiagramFormCallback.CreationMode || tubevase3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tubevase3ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(tubevase3ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TubeVase3DDiagramFormCallback(
+			nil,
+			tubevase3ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		tubevase3ddiagram := new(models.TubeVase3DDiagram)
+		FillUpForm(tubevase3ddiagram, newFormGroup, tubevase3ddiagramFormCallback.probe)
+		tubevase3ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	tubevase3ddiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__TubeVaseAbstractFormCallback(
+	tubevaseabstract *models.TubeVaseAbstract,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (tubevaseabstractFormCallback *TubeVaseAbstractFormCallback) {
+	tubevaseabstractFormCallback = new(TubeVaseAbstractFormCallback)
+	tubevaseabstractFormCallback.probe = probe
+	tubevaseabstractFormCallback.tubevaseabstract = tubevaseabstract
+	tubevaseabstractFormCallback.formGroup = formGroup
+
+	tubevaseabstractFormCallback.CreationMode = (tubevaseabstract == nil)
+
+	return
+}
+
+type TubeVaseAbstractFormCallback struct {
+	tubevaseabstract *models.TubeVaseAbstract
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (tubevaseabstractFormCallback *TubeVaseAbstractFormCallback) OnSave() {
+	tubevaseabstractFormCallback.probe.stageOfInterest.Lock()
+	defer tubevaseabstractFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TubeVaseAbstractFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	tubevaseabstractFormCallback.probe.formStage.Checkout()
+
+	if tubevaseabstractFormCallback.tubevaseabstract == nil {
+		tubevaseabstractFormCallback.tubevaseabstract = new(models.TubeVaseAbstract).Stage(tubevaseabstractFormCallback.probe.stageOfInterest)
+	}
+	tubevaseabstract_ := tubevaseabstractFormCallback.tubevaseabstract
+	_ = tubevaseabstract_
+
+	for _, formDiv := range tubevaseabstractFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(tubevaseabstract_.Name), formDiv)
+		case "RelativeVerticalThickness":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeVerticalThickness), formDiv)
+		case "RelativeRadialThickness":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeRadialThickness), formDiv)
+		case "RelativeCuttedStackFloorHeight":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeCuttedStackFloorHeight), formDiv)
+		case "RelativeRotatedTorusSeparation":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeRotatedTorusSeparation), formDiv)
+		case "RotationRatio":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RotationRatio), formDiv)
+		case "RadialRepetitions":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RadialRepetitions), formDiv)
+		case "Transparency":
+			FormDivBasicFieldToField(&(tubevaseabstract_.Transparency), formDiv)
+		case "HasAlternatingRingColors":
+			FormDivBasicFieldToField(&(tubevaseabstract_.HasAlternatingRingColors), formDiv)
+		case "RelativeTrajectoryOffsetX":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeTrajectoryOffsetX), formDiv)
+		case "RelativeTrajectoryOffsetY":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeTrajectoryOffsetY), formDiv)
+		case "NbStepP1P2":
+			FormDivBasicFieldToField(&(tubevaseabstract_.NbStepP1P2), formDiv)
+		case "ChosenStep":
+			FormDivBasicFieldToField(&(tubevaseabstract_.ChosenStep), formDiv)
+		case "RelativeHorizontalRingsHeight":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeHorizontalRingsHeight), formDiv)
+		case "OffsetKeyX":
+			FormDivBasicFieldToField(&(tubevaseabstract_.OffsetKeyX), formDiv)
+		case "OffsetKeyY":
+			FormDivBasicFieldToField(&(tubevaseabstract_.OffsetKeyY), formDiv)
+		case "HeightKey":
+			FormDivBasicFieldToField(&(tubevaseabstract_.HeightKey), formDiv)
+		case "WidthKey":
+			FormDivBasicFieldToField(&(tubevaseabstract_.WidthKey), formDiv)
+		case "RelativeKeySize":
+			FormDivBasicFieldToField(&(tubevaseabstract_.RelativeKeySize), formDiv)
+		case "MovieNbFrames":
+			FormDivBasicFieldToField(&(tubevaseabstract_.MovieNbFrames), formDiv)
+		case "PerpendicularVectorGridHalfway":
+			FormDivSelectFieldToField(&(tubevaseabstract_.PerpendicularVectorGridHalfway), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStartArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopStartArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopEndArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedBottomTopStartArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.ShiftedBottomTopStartArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopMidArcVectorShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopMidArcVectorShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.StartHalfwayArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopStartHalfwayArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "EndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.EndHalfwayArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopEndHalfwayArcShapeGrid), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfRotatedGrowthCurve2D":
+			FormDivSelectFieldToField(&(tubevaseabstract_.StackOfRotatedGrowthCurve2D), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStackOfRotatedGrowthCurve2D":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopStackOfRotatedGrowthCurve2D), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopGrowthCurve2D":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopGrowthCurve2D), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfGrowthCurve2D":
+			FormDivSelectFieldToField(&(tubevaseabstract_.StackOfGrowthCurve2D), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStackOfGrowthCurve2D":
+			FormDivSelectFieldToField(&(tubevaseabstract_.TopStackOfGrowthCurve2D), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.StackOfGrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfRotatedGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.StackOfRotatedGrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.GrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedRightGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.ShiftedRightGrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.ShiftedLeftGrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.PartiallyGrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(tubevaseabstract_.ShiftedLeftPartiallyGrowthCurve2DRibbon), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DTrajectory":
+			FormDivSelectFieldToField(&(tubevaseabstract_.PartiallyGrowthCurve2DTrajectory), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2":
+			FormDivSelectFieldToField(&(tubevaseabstract_.PartiallyGrowthCurve2DTrajectoryP1P2), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PxShape":
+			FormDivSelectFieldToField(&(tubevaseabstract_.PxShape), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ChosenP1P2PairShape":
+			FormDivSelectFieldToField(&(tubevaseabstract_.ChosenP1P2PairShape), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHoleShape":
+			FormDivSelectFieldToField(&(tubevaseabstract_.KeyHoleShape), tubevaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if tubevaseabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tubevaseabstract_.Unstage(tubevaseabstractFormCallback.probe.stageOfInterest)
+	}
+
+	tubevaseabstractFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TubeVaseAbstract](
+		tubevaseabstractFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if tubevaseabstractFormCallback.CreationMode || tubevaseabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tubevaseabstractFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(tubevaseabstractFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TubeVaseAbstractFormCallback(
+			nil,
+			tubevaseabstractFormCallback.probe,
+			newFormGroup,
+		)
+		tubevaseabstract := new(models.TubeVaseAbstract)
+		FillUpForm(tubevaseabstract, newFormGroup, tubevaseabstractFormCallback.probe)
+		tubevaseabstractFormCallback.probe.formStage.Commit()
+	}
+
+	tubevaseabstractFormCallback.probe.ux_tree()
+}
 func __gong__New__Vase2DDiagramFormCallback(
 	vase2ddiagram *models.Vase2DDiagram,
 	probe *Probe,
@@ -17443,362 +17799,6 @@ func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
 	}
 
 	vase2ddiagramFormCallback.probe.ux_tree()
-}
-func __gong__New__Vase3DDiagramFormCallback(
-	vase3ddiagram *models.Vase3DDiagram,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (vase3ddiagramFormCallback *Vase3DDiagramFormCallback) {
-	vase3ddiagramFormCallback = new(Vase3DDiagramFormCallback)
-	vase3ddiagramFormCallback.probe = probe
-	vase3ddiagramFormCallback.vase3ddiagram = vase3ddiagram
-	vase3ddiagramFormCallback.formGroup = formGroup
-
-	vase3ddiagramFormCallback.CreationMode = (vase3ddiagram == nil)
-
-	return
-}
-
-type Vase3DDiagramFormCallback struct {
-	vase3ddiagram *models.Vase3DDiagram
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (vase3ddiagramFormCallback *Vase3DDiagramFormCallback) OnSave() {
-	vase3ddiagramFormCallback.probe.stageOfInterest.Lock()
-	defer vase3ddiagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("Vase3DDiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	vase3ddiagramFormCallback.probe.formStage.Checkout()
-
-	if vase3ddiagramFormCallback.vase3ddiagram == nil {
-		vase3ddiagramFormCallback.vase3ddiagram = new(models.Vase3DDiagram).Stage(vase3ddiagramFormCallback.probe.stageOfInterest)
-	}
-	vase3ddiagram_ := vase3ddiagramFormCallback.vase3ddiagram
-	_ = vase3ddiagram_
-
-	for _, formDiv := range vase3ddiagramFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(vase3ddiagram_.Name), formDiv)
-		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenTorusStackShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenTorusStackShape), formDiv)
-		case "IsHiddenVerticalTorusStackShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenVerticalTorusStackShape), formDiv)
-		case "IsHiddenPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
-		case "IsHiddenStackOfPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
-		case "IsHiddenPointsAndLines3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenPointsAndLines3DShape), formDiv)
-		case "IsHiddenKeyHole3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenKeyHole3DShape), formDiv)
-		case "IsHiddenKey3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenKey3DShape), formDiv)
-		case "IsHiddenVolumeKey3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenVolumeKey3DShape), formDiv)
-		case "IsHiddenTorusEdge3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenTorusEdge3DShape), formDiv)
-		case "IsHiddenSampledPoints3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenSampledPoints3DShape), formDiv)
-		case "IsHiddenOriginalPoints3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenOriginalPoints3DShape), formDiv)
-		case "IsHiddenAngle0Shape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenAngle0Shape), formDiv)
-		case "IsHiddenTiledFloor3DShape":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
-		case "Rendered3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.Rendered3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TorusStackShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.TorusStackShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "VerticalTorusStackShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.VerticalTorusStackShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.PartiallyRotatedTorusShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfPartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.StackOfPartiallyRotatedTorusShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PointsAndLines3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.PointsAndLines3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "SampledPoints3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.SampledPoints3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "OriginalPoints3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.OriginalPoints3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Angle0Shape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.Angle0Shape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "KeyHole3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.KeyHole3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Key3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.Key3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "VolumeKey3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.VolumeKey3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TorusEdge3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.TorusEdge3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TiledFloor3DShape":
-			FormDivSelectFieldToField(&(vase3ddiagram_.TiledFloor3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsChecked":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsChecked), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(vase3ddiagram_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(vase3ddiagram_.IsExpanded), formDiv)
-		case "PlantAbstract:Vase3DDiagrams":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target PlantAbstract instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](vase3ddiagramFormCallback.probe.stageOfInterest)
-			targetPlantAbstractIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetPlantAbstractIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all PlantAbstract instances and update their Vase3DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](vase3ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(vase3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
-				
-				// if PlantAbstract is selected
-				if targetPlantAbstractIDs[id] {
-					// ensure vase3ddiagram_ is in _plantabstract.Vase3DDiagrams
-					found := false
-					for _, _b := range _plantabstract.Vase3DDiagrams {
-						if _b == vase3ddiagram_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_plantabstract.Vase3DDiagrams = append(_plantabstract.Vase3DDiagrams, vase3ddiagram_)
-						vase3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Vase3DDiagrams", &_plantabstract.Vase3DDiagrams)
-					}
-				} else {
-					// ensure vase3ddiagram_ is NOT in _plantabstract.Vase3DDiagrams
-					idx := slices.Index(_plantabstract.Vase3DDiagrams, vase3ddiagram_)
-					if idx != -1 {
-						_plantabstract.Vase3DDiagrams = slices.Delete(_plantabstract.Vase3DDiagrams, idx, idx+1)
-						vase3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Vase3DDiagrams", &_plantabstract.Vase3DDiagrams)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if vase3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vase3ddiagram_.Unstage(vase3ddiagramFormCallback.probe.stageOfInterest)
-	}
-
-	vase3ddiagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Vase3DDiagram](
-		vase3ddiagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if vase3ddiagramFormCallback.CreationMode || vase3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vase3ddiagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(vase3ddiagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__Vase3DDiagramFormCallback(
-			nil,
-			vase3ddiagramFormCallback.probe,
-			newFormGroup,
-		)
-		vase3ddiagram := new(models.Vase3DDiagram)
-		FillUpForm(vase3ddiagram, newFormGroup, vase3ddiagramFormCallback.probe)
-		vase3ddiagramFormCallback.probe.formStage.Commit()
-	}
-
-	vase3ddiagramFormCallback.probe.ux_tree()
-}
-func __gong__New__VaseAbstractFormCallback(
-	vaseabstract *models.VaseAbstract,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (vaseabstractFormCallback *VaseAbstractFormCallback) {
-	vaseabstractFormCallback = new(VaseAbstractFormCallback)
-	vaseabstractFormCallback.probe = probe
-	vaseabstractFormCallback.vaseabstract = vaseabstract
-	vaseabstractFormCallback.formGroup = formGroup
-
-	vaseabstractFormCallback.CreationMode = (vaseabstract == nil)
-
-	return
-}
-
-type VaseAbstractFormCallback struct {
-	vaseabstract *models.VaseAbstract
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (vaseabstractFormCallback *VaseAbstractFormCallback) OnSave() {
-	vaseabstractFormCallback.probe.stageOfInterest.Lock()
-	defer vaseabstractFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("VaseAbstractFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	vaseabstractFormCallback.probe.formStage.Checkout()
-
-	if vaseabstractFormCallback.vaseabstract == nil {
-		vaseabstractFormCallback.vaseabstract = new(models.VaseAbstract).Stage(vaseabstractFormCallback.probe.stageOfInterest)
-	}
-	vaseabstract_ := vaseabstractFormCallback.vaseabstract
-	_ = vaseabstract_
-
-	for _, formDiv := range vaseabstractFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(vaseabstract_.Name), formDiv)
-		case "RelativeVerticalThickness":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeVerticalThickness), formDiv)
-		case "RelativeRadialThickness":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeRadialThickness), formDiv)
-		case "RelativeCuttedStackFloorHeight":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeCuttedStackFloorHeight), formDiv)
-		case "RelativeRotatedTorusSeparation":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeRotatedTorusSeparation), formDiv)
-		case "RotationRatio":
-			FormDivBasicFieldToField(&(vaseabstract_.RotationRatio), formDiv)
-		case "RadialRepetitions":
-			FormDivBasicFieldToField(&(vaseabstract_.RadialRepetitions), formDiv)
-		case "Transparency":
-			FormDivBasicFieldToField(&(vaseabstract_.Transparency), formDiv)
-		case "HasAlternatingRingColors":
-			FormDivBasicFieldToField(&(vaseabstract_.HasAlternatingRingColors), formDiv)
-		case "RelativeTrajectoryOffsetX":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeTrajectoryOffsetX), formDiv)
-		case "RelativeTrajectoryOffsetY":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeTrajectoryOffsetY), formDiv)
-		case "NbStepP1P2":
-			FormDivBasicFieldToField(&(vaseabstract_.NbStepP1P2), formDiv)
-		case "ChosenStep":
-			FormDivBasicFieldToField(&(vaseabstract_.ChosenStep), formDiv)
-		case "RelativeHorizontalRingsHeight":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeHorizontalRingsHeight), formDiv)
-		case "OffsetKeyX":
-			FormDivBasicFieldToField(&(vaseabstract_.OffsetKeyX), formDiv)
-		case "OffsetKeyY":
-			FormDivBasicFieldToField(&(vaseabstract_.OffsetKeyY), formDiv)
-		case "HeightKey":
-			FormDivBasicFieldToField(&(vaseabstract_.HeightKey), formDiv)
-		case "WidthKey":
-			FormDivBasicFieldToField(&(vaseabstract_.WidthKey), formDiv)
-		case "RelativeKeySize":
-			FormDivBasicFieldToField(&(vaseabstract_.RelativeKeySize), formDiv)
-		case "MovieNbFrames":
-			FormDivBasicFieldToField(&(vaseabstract_.MovieNbFrames), formDiv)
-		case "PerpendicularVectorGridHalfway":
-			FormDivSelectFieldToField(&(vaseabstract_.PerpendicularVectorGridHalfway), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.TopStartArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopEndArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.TopEndArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedBottomTopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.ShiftedBottomTopStartArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopMidArcVectorShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.TopMidArcVectorShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StartHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.StartHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStartHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.TopStartHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "EndHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.EndHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopEndHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(vaseabstract_.TopEndHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfRotatedGrowthCurve2D":
-			FormDivSelectFieldToField(&(vaseabstract_.StackOfRotatedGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStackOfRotatedGrowthCurve2D":
-			FormDivSelectFieldToField(&(vaseabstract_.TopStackOfRotatedGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopGrowthCurve2D":
-			FormDivSelectFieldToField(&(vaseabstract_.TopGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfGrowthCurve2D":
-			FormDivSelectFieldToField(&(vaseabstract_.StackOfGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStackOfGrowthCurve2D":
-			FormDivSelectFieldToField(&(vaseabstract_.TopStackOfGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.StackOfGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfRotatedGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.StackOfRotatedGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.GrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.ShiftedRightGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.ShiftedLeftGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.PartiallyGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vaseabstract_.ShiftedLeftPartiallyGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DTrajectory":
-			FormDivSelectFieldToField(&(vaseabstract_.PartiallyGrowthCurve2DTrajectory), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			FormDivSelectFieldToField(&(vaseabstract_.PartiallyGrowthCurve2DTrajectoryP1P2), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PxShape":
-			FormDivSelectFieldToField(&(vaseabstract_.PxShape), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ChosenP1P2PairShape":
-			FormDivSelectFieldToField(&(vaseabstract_.ChosenP1P2PairShape), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "KeyHoleShape":
-			FormDivSelectFieldToField(&(vaseabstract_.KeyHoleShape), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if vaseabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vaseabstract_.Unstage(vaseabstractFormCallback.probe.stageOfInterest)
-	}
-
-	vaseabstractFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.VaseAbstract](
-		vaseabstractFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if vaseabstractFormCallback.CreationMode || vaseabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vaseabstractFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(vaseabstractFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__VaseAbstractFormCallback(
-			nil,
-			vaseabstractFormCallback.probe,
-			newFormGroup,
-		)
-		vaseabstract := new(models.VaseAbstract)
-		FillUpForm(vaseabstract, newFormGroup, vaseabstractFormCallback.probe)
-		vaseabstractFormCallback.probe.formStage.Commit()
-	}
-
-	vaseabstractFormCallback.probe.ux_tree()
 }
 func __gong__New__VerticalTorusStackShapeFormCallback(
 	verticaltorusstackshape *models.VerticalTorusStackShape,

@@ -15,7 +15,7 @@ func TestGenerateSTLParts(t *testing.T) {
 
 	plant := (&PlantAbstract{
 		Name:               "TestVase",
-		PlantType:          Vase,
+		PlantType:          TubeVase,
 		RhombusSideLength:  350.0,
 		RhombusInsideAngle: 127.0,
 		N:                  1,
@@ -25,15 +25,15 @@ func TestGenerateSTLParts(t *testing.T) {
 
 	lib.Plants = append(lib.Plants, plant)
 
-	vase := (&VaseAbstract{
-		Name:                          "TestVase-VaseAbstract",
+	vase := (&TubeVaseAbstract{
+		Name:                          "TestVase-TubeVaseAbstract",
 		RelativeRadialThickness:       0.13,
 		RelativeVerticalThickness:     0.25,
 		RadialRepetitions:             3,
 		RelativeHorizontalRingsHeight: 0.08,
 	}).Stage(stage)
 
-	plant.VaseAbstract = vase
+	plant.TubeVaseAbstract = vase
 
 	stager := &Stager{stage: stage}
 	stager.enforceSemantic()

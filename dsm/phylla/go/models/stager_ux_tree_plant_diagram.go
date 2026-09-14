@@ -29,7 +29,7 @@ func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func(
 		// only regenerate the 3D stage when the user is actually looking at the 3D view
 		plant := stager.GetCurrentPlant()
 		if plant != nil {
-			if plant.CurrentView == VIEW_VASE_3D {
+			if plant.CurrentView == VIEW_TUBE_VASE_3D {
 				stager.UpdateThreeJSStage()
 			}
 			if plant.CurrentView == VIEW_STOOL_3D {
@@ -255,8 +255,8 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 		axesNode.Buttons = append(axesNode.Buttons, handleBtn)
 	}
 
-	if !is3DView && plant.VaseAbstract != nil {
-		vase := plant.VaseAbstract
+	if !is3DView && plant.TubeVaseAbstract != nil {
+		vase := plant.TubeVaseAbstract
 		vaseArcNodes := &tree.Node{Name: "Arc Confs Vase", IsExpanded: diagram.IsVaseArcNodesExpanded, IsNodeClickable: true}
 		node.Children = append(node.Children, vaseArcNodes)
 		vaseArcNodes.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsVaseArcNodesExpanded)
@@ -316,7 +316,7 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 	}
 }
 
-func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDiagram, parentNodes *[]*tree.Node, is3DView bool) {
+func (stager *Stager) treeTubeVase3DDiagram(plant *PlantAbstract, diagram *TubeVase3DDiagram, parentNodes *[]*tree.Node, is3DView bool) {
 	node := &tree.Node{
 		Name: diagram.Name, IsExpanded: diagram.IsExpanded, IsNodeClickable: true,
 		HasCheckboxButton: true, IsChecked: diagram.IsChecked, IsInEditMode: diagram.isInRenameMode,
@@ -333,9 +333,9 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 		ToolTipPosition: tree.Right,
 	}
 	suppressBtn.OnClick = func() {
-		for i, d := range plant.Vase3DDiagrams {
+		for i, d := range plant.TubeVase3DDiagrams {
 			if d == diagram {
-				plant.Vase3DDiagrams = append(plant.Vase3DDiagrams[:i], plant.Vase3DDiagrams[i+1:]...)
+				plant.TubeVase3DDiagrams = append(plant.TubeVase3DDiagrams[:i], plant.TubeVase3DDiagrams[i+1:]...)
 				break
 			}
 		}
@@ -345,21 +345,21 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 	node.Buttons = append(node.Buttons, suppressBtn)
 
 	// Record Movie Button
-	if is3DView && plant.CurrentView == VIEW_VASE_3D {
+	if is3DView && plant.CurrentView == VIEW_TUBE_VASE_3D {
 		recordMovieBtn := &tree.Button{
 			Name: "Record Movie", Icon: string(buttons.BUTTON_videocam), ToolTipText: "Record movie frames from rot 0.0 to 1.0", HasToolTip: true, ToolTipPosition: tree.Right,
 			OnClick: func() {
 				if stager.IsMovieRecording() {
 					stager.StopMovieRecording()
 				} else {
-					stager.StartMovieRecordingVase3D(plant, diagram)
+					stager.StartMovieRecordingTubeVase3D(plant, diagram)
 				}
 			},
 		}
 		if stager.IsMovieRecording() {
 			rotRatio := 0.0
-			if plant.PlantType == Vase && plant.VaseAbstract != nil {
-				rotRatio = plant.VaseAbstract.RotationRatio
+			if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
+				rotRatio = plant.TubeVaseAbstract.RotationRatio
 			}
 			recordMovieBtn.Name = "Stop Recording"
 			recordMovieBtn.Icon = string(buttons.BUTTON_stop)
@@ -370,10 +370,10 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			stager.handleDiagramCheck(diagram, plant, VIEW_VASE_3D)
+			stager.handleDiagramCheck(diagram, plant, VIEW_TUBE_VASE_3D)
 			diagram.IsChecked = true
 			diagram.IsExpanded = true
-			plant.IsVase3DDiagramsNodeExpanded = true
+			plant.IsTubeVase3DDiagramsNodeExpanded = true
 			stager.stage.Commit()
 		} else {
 			diagram.IsChecked = false
@@ -383,11 +383,11 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 	node.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsExpanded)
 	node.OnNameChange = stager.onNameChange(diagram)
 	node.OnClick = func(frontNode *tree.Node) {
-		stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*Vase3DDiagram]())
-		stager.handleDiagramCheck(diagram, plant, VIEW_VASE_3D)
+		stager.probeForm.FillUpFormFromGongstruct(diagram, GetPointerToGongstructName[*TubeVase3DDiagram]())
+		stager.handleDiagramCheck(diagram, plant, VIEW_TUBE_VASE_3D)
 		diagram.IsChecked = true
 		diagram.IsExpanded = true
-		plant.IsVase3DDiagramsNodeExpanded = true
+		plant.IsTubeVase3DDiagramsNodeExpanded = true
 		stager.stage.Commit()
 	}
 

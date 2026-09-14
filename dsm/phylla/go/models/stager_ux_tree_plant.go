@@ -12,9 +12,9 @@ import (
 
 func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, currentView ViewType) {
 	nodeName := plant.Name
-	if !plant.isInRenameMode && plant.PlantType == Vase {
-		h0 := plant.VaseAbstract.heightAtRotRatio0
-		h1 := plant.VaseAbstract.heightAtRotRatio1
+	if !plant.isInRenameMode && plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
+		h0 := plant.TubeVaseAbstract.heightAtRotRatio0
+		h1 := plant.TubeVaseAbstract.heightAtRotRatio1
 		var ratio float64
 		if h0 > 0 {
 			ratio = h1 / h0
@@ -65,9 +65,13 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_CLOCK_3D
 			}
-		} else if plant.PlantType == Vase {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
-				plant.CurrentView = VIEW_VASE_3D
+		} else if plant.PlantType == TubeVase {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_TUBE_VASE_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+				plant.CurrentView = VIEW_TUBE_VASE_3D
+			}
+		} else if plant.PlantType == TrapezeVase {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+				plant.CurrentView = VIEW_VASE_2D
 			}
 		} else if plant.PlantType == Music {
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_PLANT_3D && plant.CurrentView != VIEW_MUSIC_SCORE && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
@@ -91,7 +95,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				for _, d := range otherPlant.Vase2DDiagrams {
 					d.IsChecked = false
 				}
-				for _, d := range otherPlant.Vase3DDiagrams {
+				for _, d := range otherPlant.TubeVase3DDiagrams {
 					d.IsChecked = false
 				}
 				for _, d := range otherPlant.Stool2DDiagrams {
@@ -151,17 +155,17 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				plant.Vase2DDiagrams[0].IsChecked = true
 				plant.Vase2DDiagrams[0].IsExpanded = true
 			}
-		case VIEW_VASE_3D:
-			for _, d := range plant.Vase3DDiagrams {
+		case VIEW_TUBE_VASE_3D:
+			for _, d := range plant.TubeVase3DDiagrams {
 				if d.IsChecked {
 					hasCheckedDiagramForView = true
 					break
 				}
 			}
-			if !hasCheckedDiagramForView && len(plant.Vase3DDiagrams) > 0 {
+			if !hasCheckedDiagramForView && len(plant.TubeVase3DDiagrams) > 0 {
 				uncheckAllDiagrams(stager)
-				plant.Vase3DDiagrams[0].IsChecked = true
-				plant.Vase3DDiagrams[0].IsExpanded = true
+				plant.TubeVase3DDiagrams[0].IsChecked = true
+				plant.TubeVase3DDiagrams[0].IsExpanded = true
 			}
 		case VIEW_STOOL_3D:
 			for _, d := range plant.Stool3DDiagrams {
@@ -198,7 +202,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		stager.stage.Commit()
 	}
 
-	if plant.PlantType == Vase {
+	if plant.PlantType == TubeVase {
 		topRingBtn := &tree.Button{
 			Name:            "export Top ring STL",
 			Icon:            string(buttons.BUTTON_vertical_align_top),
@@ -371,7 +375,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			stager.treePlant3DDiagram(plant, diag, &plantNode.Children, true)
 		}
 	case VIEW_VASE_2D, VIEW_VASE_FORM:
-		if plant.PlantType == Vase {
+		if plant.PlantType == TubeVase || plant.PlantType == TrapezeVase {
 			confVase2D := ItemButtonConfiguration[Vase2DDiagram, *Vase2DDiagram, PlantAbstract, *PlantAbstract]{
 				parentNode:                         plantNode,
 				sliceForNewAddedItem:               &plant.Vase2DDiagrams,
@@ -390,24 +394,24 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 				stager.treeVase2DDiagram(plant, diag, &plantNode.Children, false)
 			}
 		}
-	case VIEW_VASE_3D:
-		if plant.PlantType == Vase {
-			confVase3D := ItemButtonConfiguration[Vase3DDiagram, *Vase3DDiagram, PlantAbstract, *PlantAbstract]{
+	case VIEW_TUBE_VASE_3D:
+		if plant.PlantType == TubeVase {
+			confTubeVase3D := ItemButtonConfiguration[TubeVase3DDiagram, *TubeVase3DDiagram, PlantAbstract, *PlantAbstract]{
 				parentNode:                         plantNode,
-				sliceForNewAddedItem:               &plant.Vase3DDiagrams,
+				sliceForNewAddedItem:               &plant.TubeVase3DDiagrams,
 				isParentNodeExpandedByAddOperation: true,
 				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 				parentNodeExpansionBooleanValue:    &plant.IsExpanded,
 				IsButtonInMenu:                     true,
 			}
-			addCreateItemButton(stager, confVase3D)
+			addCreateItemButton(stager, confTubeVase3D)
 			if len(plantNode.Menu.Buttons) > 0 {
 				btn := plantNode.Menu.Buttons[len(plantNode.Menu.Buttons)-1]
-				btn.Name = "Add Vase 3D Diagram"
-				btn.ToolTipText = "Add a Vase 3D Diagram"
+				btn.Name = "Add Tube Vase 3D Diagram"
+				btn.ToolTipText = "Add a Tube Vase 3D Diagram"
 			}
-			for _, diag := range plant.Vase3DDiagrams {
-				stager.treeVase3DDiagram(plant, diag, &plantNode.Children, true)
+			for _, diag := range plant.TubeVase3DDiagrams {
+				stager.treeTubeVase3DDiagram(plant, diag, &plantNode.Children, true)
 			}
 		}
 	case VIEW_STOOL_3D:
@@ -556,7 +560,7 @@ func uncheckAllDiagrams(stager *Stager) {
 	for d := range *GetGongstructInstancesSetFromPointerType[*Vase2DDiagram](stager.stage) {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stager.stage) {
+	for d := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stager.stage) {
 		d.IsChecked = false
 	}
 	for d := range *GetGongstructInstancesSetFromPointerType[*Stool2DDiagram](stager.stage) {

@@ -1,4 +1,4 @@
-package vasestage3d
+package tubevasestage3d
 
 import (
 	"fmt"
@@ -30,15 +30,15 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	var checkedDiagram *models.Vase3DDiagram
-	for _, diagram := range plant.Vase3DDiagrams {
+	var checkedDiagram *models.TubeVase3DDiagram
+	for _, diagram := range plant.TubeVase3DDiagrams {
 		if diagram.IsChecked {
 			checkedDiagram = diagram
 			break
 		}
 	}
-	if checkedDiagram == nil && len(plant.Vase3DDiagrams) > 0 {
-		checkedDiagram = plant.Vase3DDiagrams[0]
+	if checkedDiagram == nil && len(plant.TubeVase3DDiagrams) > 0 {
+		checkedDiagram = plant.TubeVase3DDiagrams[0]
 	}
 
 	// lights
@@ -78,8 +78,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 	gc := plant.GrowthCurve2D
 	var tgc *models.TopGrowthCurve2D
-	if plant.VaseAbstract != nil {
-		tgc = plant.VaseAbstract.TopGrowthCurve2D
+	if plant.TubeVaseAbstract != nil {
+		tgc = plant.TubeVaseAbstract.TopGrowthCurve2D
 	}
 
 	if gc == nil || gc.StartHalfwayArcShapeGrid == nil || tgc == nil || tgc.TopStartHalfwayArcShapeGrid == nil {
@@ -112,8 +112,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	heightKey := 0.0
 	relativeKeySize := 0.0
 	thickness := 5.0
-	if plant.PlantType == models.Vase {
-		vase := plant.VaseAbstract
+	if plant.PlantType == models.TubeVase {
+		vase := plant.TubeVaseAbstract
 		sideLength = plant.RhombusSideLength
 		if vase.RelativeRadialThickness*sideLength > 0 {
 			thickness = vase.RelativeRadialThickness * sideLength
@@ -271,7 +271,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if (!checkedDiagram.IsHiddenKey3DShape || !checkedDiagram.IsHiddenVolumeKey3DShape) && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 {
+	if (!checkedDiagram.IsHiddenKey3DShape || !checkedDiagram.IsHiddenVolumeKey3DShape) && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.KeyHoleShape != nil && globalR > 0 {
 		stackH := stackHeight
 		if stackH <= 0 {
 			stackH = 1

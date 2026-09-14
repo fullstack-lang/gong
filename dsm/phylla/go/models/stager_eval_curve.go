@@ -30,8 +30,8 @@ func evaluateCurveY(plant *PlantAbstract, isTop bool, x float64) float64 {
 			}
 		}
 	} else {
-		if plant.VaseAbstract != nil && plant.VaseAbstract.TopGrowthCurve2D != nil && plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil {
-			for _, sa := range plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+		if plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.TopGrowthCurve2D != nil && plant.TubeVaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil {
+			for _, sa := range plant.TubeVaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
 				if x >= math.Min(sa.StartX, sa.EndX) && x <= math.Max(sa.StartX, sa.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 					y := evalArcY(sa.StartX, sa.StartY, sa.EndX, sa.EndY, cx, cy, r, x)
@@ -41,8 +41,8 @@ func evaluateCurveY(plant *PlantAbstract, isTop bool, x float64) float64 {
 				}
 			}
 		}
-		if plant.VaseAbstract != nil && plant.VaseAbstract.TopGrowthCurve2D != nil && plant.VaseAbstract.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != nil {
-			for _, ea := range plant.VaseAbstract.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+		if plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.TopGrowthCurve2D != nil && plant.TubeVaseAbstract.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.TubeVaseAbstract.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
 				if x >= math.Min(ea.StartX, ea.EndX) && x <= math.Max(ea.StartX, ea.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 					y := evalArcY(ea.StartX, ea.StartY, ea.EndX, ea.EndY, cx, cy, r, x)
@@ -116,10 +116,10 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *PlantAbstract, rotationRatio f
 
 	vThickness := 0.0
 	rotatedSeparation := 0.0
-	if plant.PlantType == Vase {
+	if plant.PlantType == TubeVase {
 		length := plant.RhombusSideLength
-		vThickness = plant.VaseAbstract.RelativeVerticalThickness * length
-		rotatedSeparation = plant.VaseAbstract.RelativeRotatedTorusSeparation * length
+		vThickness = plant.TubeVaseAbstract.RelativeVerticalThickness * length
+		rotatedSeparation = plant.TubeVaseAbstract.RelativeRotatedTorusSeparation * length
 	}
 	var vx, vy float64
 	if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
@@ -185,8 +185,8 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *PlantAbstract, rotationRatio f
 
 func ComputePartiallyGrowthCurveDY(plant *PlantAbstract) (dx float64, dy float64, currentDX float64) {
 	rotRatio := 0.0
-	if plant.PlantType == Vase {
-		rotRatio = plant.VaseAbstract.RotationRatio
+	if plant.PlantType == TubeVase {
+		rotRatio = plant.TubeVaseAbstract.RotationRatio
 	}
 	return ComputePartiallyGrowthCurveDYForRatio(plant, rotRatio)
 }

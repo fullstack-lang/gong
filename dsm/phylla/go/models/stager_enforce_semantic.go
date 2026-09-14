@@ -66,8 +66,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce axes shape name", stager.enforceAxesShapeName, false},
 		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff, false},
 		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName, false},
-		{"Enforce plant has vase abstract", stager.enforcePlantHasVaseAbstract, false},
-		{"Enforce vase abstract name", stager.enforceVaseAbstractName, false},
+		{"Enforce plant has tube vase abstract", stager.enforcePlantHasTubeVaseAbstract, false},
+		{"Enforce tube vase abstract name", stager.enforceTubeVaseAbstractName, false},
 		{"Enforce plant has stool abstract", stager.enforcePlantHasStoolAbstract, false},
 		{"Enforce stool abstract name", stager.enforceStoolAbstractName, false},
 		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract, false},
@@ -84,8 +84,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName, false},
 		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes, false},
 		{"Enforce rotated shapes names", stager.enforceRotatedShapesNames, false},
-		{"Enforce vase has shapes", stager.enforceVaseHasShapes, false},
-		{"Enforce vase shape names", stager.enforceVaseShapeNames, false},
+		{"Enforce tube vase has shapes", stager.enforceTubeVaseHasShapes, false},
+		{"Enforce tube vase shape names", stager.enforceTubeVaseShapeNames, false},
 		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape, false},
 		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape, false},
 		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName, false},
@@ -121,7 +121,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		for _, d := range p.Plant2DDiagrams { if d.IsChecked { return true } }
 		for _, d := range p.Plant3DDiagrams { if d.IsChecked { return true } }
 		for _, d := range p.Vase2DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Vase3DDiagrams { if d.IsChecked { return true } }
+		for _, d := range p.TubeVase3DDiagrams { if d.IsChecked { return true } }
 		for _, d := range p.Stool2DDiagrams { if d.IsChecked { return true } }
 		for _, d := range p.Stool3DDiagrams { if d.IsChecked { return true } }
 		for _, d := range p.Clock2DDiagrams { if d.IsChecked { return true } }
@@ -162,7 +162,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 				for _, d := range plant.Plant2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
 				for _, d := range plant.Plant3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
 				for _, d := range plant.Vase2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Vase3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
+				for _, d := range plant.TubeVase3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
 				for _, d := range plant.Stool2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
 				for _, d := range plant.Stool3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
 				for _, d := range plant.Clock2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
@@ -188,12 +188,16 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		}
 
 		checkDefaultDiagramForPlant := func(p *PlantAbstract) {
-			if p.PlantType == Vase {
-				if len(p.Vase3DDiagrams) > 0 {
-					p.Vase3DDiagrams[0].IsChecked = true
-					p.Vase3DDiagrams[0].IsExpanded = true
-					p.IsVase3DDiagramsNodeExpanded = true
+			if p.PlantType == TubeVase {
+				if len(p.TubeVase3DDiagrams) > 0 {
+					p.TubeVase3DDiagrams[0].IsChecked = true
+					p.TubeVase3DDiagrams[0].IsExpanded = true
+					p.IsTubeVase3DDiagramsNodeExpanded = true
 				} else if len(p.Vase2DDiagrams) > 0 {
+					p.Vase2DDiagrams[0].IsChecked = true
+				}
+			} else if p.PlantType == TrapezeVase {
+				if len(p.Vase2DDiagrams) > 0 {
 					p.Vase2DDiagrams[0].IsChecked = true
 				}
 			} else if p.PlantType == Stool {
@@ -246,7 +250,10 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		} else if stager.selectedPlant.PlantType == Clock && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_CLOCK_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
-		} else if stager.selectedPlant.PlantType == Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+		} else if stager.selectedPlant.PlantType == TubeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_TUBE_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
+			modified = true
+		} else if stager.selectedPlant.PlantType == TrapezeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 		}
@@ -257,17 +264,17 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 func (stager *Stager) enforcePlantRotationRatioHeights() bool {
 	modified := false
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		if plant.PlantType != Vase {
+		if plant.PlantType != TubeVase {
 			continue
 		}
 		h0 := ComputeStackHeightForRotationRatio(plant, 0.0)
-		if plant.VaseAbstract.heightAtRotRatio0 != h0 {
-			plant.VaseAbstract.heightAtRotRatio0 = h0
+		if plant.TubeVaseAbstract.heightAtRotRatio0 != h0 {
+			plant.TubeVaseAbstract.heightAtRotRatio0 = h0
 			modified = true
 		}
 		h1 := ComputeStackHeightForRotationRatio(plant, 1.0)
-		if plant.VaseAbstract.heightAtRotRatio1 != h1 {
-			plant.VaseAbstract.heightAtRotRatio1 = h1
+		if plant.TubeVaseAbstract.heightAtRotRatio1 != h1 {
+			plant.TubeVaseAbstract.heightAtRotRatio1 = h1
 			modified = true
 		}
 	}

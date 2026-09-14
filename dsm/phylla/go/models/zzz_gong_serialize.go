@@ -165,9 +165,9 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		stage.SerializeExcelizePointer2[*Torus3DShape](f, addIDs)
 		stage.SerializeExcelizePointer2[*TorusEdge3DShape](f, addIDs)
 		stage.SerializeExcelizePointer2[*TorusStackShape](f, addIDs)
+		stage.SerializeExcelizePointer2[*TubeVase3DDiagram](f, addIDs)
+		stage.SerializeExcelizePointer2[*TubeVaseAbstract](f, addIDs)
 		stage.SerializeExcelizePointer2[*Vase2DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*Vase3DDiagram](f, addIDs)
-		stage.SerializeExcelizePointer2[*VaseAbstract](f, addIDs)
 		stage.SerializeExcelizePointer2[*VerticalTorusStackShape](f, addIDs)
 		stage.SerializeExcelizePointer2[*VolumeKey3DShape](f, addIDs)
 	}

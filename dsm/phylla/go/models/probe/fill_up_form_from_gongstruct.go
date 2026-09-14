@@ -1852,6 +1852,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TubeVase3DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TubeVase3DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TubeVase3DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TubeVaseAbstract:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TubeVaseAbstract",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TubeVaseAbstractFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Vase2DDiagram:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -1859,32 +1885,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Vase2DDiagram",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__Vase2DDiagramFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Vase3DDiagram:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "Vase3DDiagram",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Vase3DDiagramFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.VaseAbstract:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "VaseAbstract",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__VaseAbstractFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

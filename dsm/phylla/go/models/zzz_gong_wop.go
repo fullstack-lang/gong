@@ -1486,7 +1486,7 @@ type PlantAbstract_WOP struct {
 
 	IsVase2DDiagramsNodeExpanded bool
 
-	IsVase3DDiagramsNodeExpanded bool
+	IsTubeVase3DDiagramsNodeExpanded bool
 
 	IsStool2DDiagramsNodeExpanded bool
 
@@ -1513,7 +1513,7 @@ func (from *PlantAbstract) CopyBasicFields(to *PlantAbstract) {
 	to.IsPlant2DDiagramsNodeExpanded = from.IsPlant2DDiagramsNodeExpanded
 	to.IsPlant3DDiagramsNodeExpanded = from.IsPlant3DDiagramsNodeExpanded
 	to.IsVase2DDiagramsNodeExpanded = from.IsVase2DDiagramsNodeExpanded
-	to.IsVase3DDiagramsNodeExpanded = from.IsVase3DDiagramsNodeExpanded
+	to.IsTubeVase3DDiagramsNodeExpanded = from.IsTubeVase3DDiagramsNodeExpanded
 	to.IsStool2DDiagramsNodeExpanded = from.IsStool2DDiagramsNodeExpanded
 	to.IsStool3DDiagramsNodeExpanded = from.IsStool3DDiagramsNodeExpanded
 	to.IsClock2DDiagramsNodeExpanded = from.IsClock2DDiagramsNodeExpanded
@@ -3513,6 +3513,136 @@ func (from *TorusStackShape) CopyBasicFields(to *TorusStackShape) {
 	to.Name = from.Name
 }
 
+type TubeVase3DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
+
+	IsHiddenTorusStackShape bool
+
+	IsHiddenVerticalTorusStackShape bool
+
+	IsHiddenPartiallyRotatedTorusShape bool
+
+	IsHiddenStackOfPartiallyRotatedTorusShape bool
+
+	IsHiddenPointsAndLines3DShape bool
+
+	IsHiddenKeyHole3DShape bool
+
+	IsHiddenKey3DShape bool
+
+	IsHiddenVolumeKey3DShape bool
+
+	IsHiddenTorusEdge3DShape bool
+
+	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenOriginalPoints3DShape bool
+
+	IsHiddenAngle0Shape bool
+
+	IsHiddenTiledFloor3DShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *TubeVase3DDiagram) CopyBasicFields(to *TubeVase3DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
+	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
+	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
+	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
+	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
+	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
+	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
+	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
+	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
+	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
+	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type TubeVaseAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RelativeVerticalThickness float64
+
+	RelativeRadialThickness float64
+
+	RelativeCuttedStackFloorHeight float64
+
+	RelativeRotatedTorusSeparation float64
+
+	RotationRatio float64
+
+	RadialRepetitions int
+
+	Transparency float64
+
+	HasAlternatingRingColors bool
+
+	RelativeTrajectoryOffsetX float64
+
+	RelativeTrajectoryOffsetY float64
+
+	NbStepP1P2 int
+
+	ChosenStep int
+
+	RelativeHorizontalRingsHeight float64
+
+	OffsetKeyX float64
+
+	OffsetKeyY float64
+
+	HeightKey float64
+
+	WidthKey float64
+
+	RelativeKeySize float64
+
+	MovieNbFrames int
+}
+
+func (from *TubeVaseAbstract) CopyBasicFields(to *TubeVaseAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RelativeVerticalThickness = from.RelativeVerticalThickness
+	to.RelativeRadialThickness = from.RelativeRadialThickness
+	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
+	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
+	to.RotationRatio = from.RotationRatio
+	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.HasAlternatingRingColors = from.HasAlternatingRingColors
+	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
+	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
+	to.NbStepP1P2 = from.NbStepP1P2
+	to.ChosenStep = from.ChosenStep
+	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
+	to.OffsetKeyX = from.OffsetKeyX
+	to.OffsetKeyY = from.OffsetKeyY
+	to.HeightKey = from.HeightKey
+	to.WidthKey = from.WidthKey
+	to.RelativeKeySize = from.RelativeKeySize
+	to.MovieNbFrames = from.MovieNbFrames
+}
+
 type Vase2DDiagram_WOP struct {
 	// insertion point
 
@@ -3636,136 +3766,6 @@ func (from *Vase2DDiagram) CopyBasicFields(to *Vase2DDiagram) {
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-}
-
-type Vase3DDiagram_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
-
-	IsHiddenTorusStackShape bool
-
-	IsHiddenVerticalTorusStackShape bool
-
-	IsHiddenPartiallyRotatedTorusShape bool
-
-	IsHiddenStackOfPartiallyRotatedTorusShape bool
-
-	IsHiddenPointsAndLines3DShape bool
-
-	IsHiddenKeyHole3DShape bool
-
-	IsHiddenKey3DShape bool
-
-	IsHiddenVolumeKey3DShape bool
-
-	IsHiddenTorusEdge3DShape bool
-
-	IsHiddenSampledPoints3DShape bool
-
-	IsHiddenOriginalPoints3DShape bool
-
-	IsHiddenAngle0Shape bool
-
-	IsHiddenTiledFloor3DShape bool
-
-	IsChecked bool
-
-	ComputedPrefix string
-
-	IsExpanded bool
-}
-
-func (from *Vase3DDiagram) CopyBasicFields(to *Vase3DDiagram) {
-	// insertion point
-	to.Name = from.Name
-	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
-	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
-	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
-	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
-	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
-	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
-	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
-	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
-	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
-	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
-	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
-	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
-	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
-	to.IsChecked = from.IsChecked
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-}
-
-type VaseAbstract_WOP struct {
-	// insertion point
-
-	Name string
-
-	RelativeVerticalThickness float64
-
-	RelativeRadialThickness float64
-
-	RelativeCuttedStackFloorHeight float64
-
-	RelativeRotatedTorusSeparation float64
-
-	RotationRatio float64
-
-	RadialRepetitions int
-
-	Transparency float64
-
-	HasAlternatingRingColors bool
-
-	RelativeTrajectoryOffsetX float64
-
-	RelativeTrajectoryOffsetY float64
-
-	NbStepP1P2 int
-
-	ChosenStep int
-
-	RelativeHorizontalRingsHeight float64
-
-	OffsetKeyX float64
-
-	OffsetKeyY float64
-
-	HeightKey float64
-
-	WidthKey float64
-
-	RelativeKeySize float64
-
-	MovieNbFrames int
-}
-
-func (from *VaseAbstract) CopyBasicFields(to *VaseAbstract) {
-	// insertion point
-	to.Name = from.Name
-	to.RelativeVerticalThickness = from.RelativeVerticalThickness
-	to.RelativeRadialThickness = from.RelativeRadialThickness
-	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
-	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
-	to.RotationRatio = from.RotationRatio
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.HasAlternatingRingColors = from.HasAlternatingRingColors
-	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
-	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
-	to.NbStepP1P2 = from.NbStepP1P2
-	to.ChosenStep = from.ChosenStep
-	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
-	to.OffsetKeyX = from.OffsetKeyX
-	to.OffsetKeyY = from.OffsetKeyY
-	to.HeightKey = from.HeightKey
-	to.WidthKey = from.WidthKey
-	to.RelativeKeySize = from.RelativeKeySize
-	to.MovieNbFrames = from.MovieNbFrames
 }
 
 type VerticalTorusStackShape_WOP struct {

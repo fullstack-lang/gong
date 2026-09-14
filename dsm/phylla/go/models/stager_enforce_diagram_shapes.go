@@ -4,7 +4,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 	modified := false
 	stage := stager.stage
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stage) {
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stage) {
 		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
 		if diagram.TorusStackShape == nil { diagram.TorusStackShape = (&TorusStackShape{Name: diagram.Name + "-TorusStackShape"}).Stage(stage); modified = true }
 		if diagram.VerticalTorusStackShape == nil { diagram.VerticalTorusStackShape = (&VerticalTorusStackShape{Name: diagram.Name + "-VerticalTorusStackShape"}).Stage(stage); modified = true }

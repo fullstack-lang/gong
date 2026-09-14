@@ -1179,7 +1179,7 @@ type Stage struct {
 
 	PlantAbstract_Vase2DDiagrams_reverseMap map[*Vase2DDiagram]*PlantAbstract
 
-	PlantAbstract_Vase3DDiagrams_reverseMap map[*Vase3DDiagram]*PlantAbstract
+	PlantAbstract_TubeVase3DDiagrams_reverseMap map[*TubeVase3DDiagram]*PlantAbstract
 
 	PlantAbstract_Stool2DDiagrams_reverseMap map[*Stool2DDiagram]*PlantAbstract
 
@@ -2364,6 +2364,36 @@ type Stage struct {
 	OnAfterTorusStackShapeDeleteCallback OnAfterDeleteInterface[TorusStackShape]
 	OnAfterTorusStackShapeReadCallback   OnAfterReadInterface[TorusStackShape]
 
+	TubeVase3DDiagrams                map[*TubeVase3DDiagram]struct{}
+	TubeVase3DDiagrams_instance       map[*TubeVase3DDiagram]*TubeVase3DDiagram
+	TubeVase3DDiagrams_mapString      map[string]*TubeVase3DDiagram
+	TubeVase3DDiagramOrder            uint
+	TubeVase3DDiagram_stagedOrder     map[*TubeVase3DDiagram]uint
+	TubeVase3DDiagram_orderStaged     map[uint]*TubeVase3DDiagram
+	TubeVase3DDiagrams_reference      map[*TubeVase3DDiagram]*TubeVase3DDiagram
+	TubeVase3DDiagrams_referenceOrder map[*TubeVase3DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTubeVase3DDiagramCreateCallback OnAfterCreateInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramUpdateCallback OnAfterUpdateInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramDeleteCallback OnAfterDeleteInterface[TubeVase3DDiagram]
+	OnAfterTubeVase3DDiagramReadCallback   OnAfterReadInterface[TubeVase3DDiagram]
+
+	TubeVaseAbstracts                map[*TubeVaseAbstract]struct{}
+	TubeVaseAbstracts_instance       map[*TubeVaseAbstract]*TubeVaseAbstract
+	TubeVaseAbstracts_mapString      map[string]*TubeVaseAbstract
+	TubeVaseAbstractOrder            uint
+	TubeVaseAbstract_stagedOrder     map[*TubeVaseAbstract]uint
+	TubeVaseAbstract_orderStaged     map[uint]*TubeVaseAbstract
+	TubeVaseAbstracts_reference      map[*TubeVaseAbstract]*TubeVaseAbstract
+	TubeVaseAbstracts_referenceOrder map[*TubeVaseAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTubeVaseAbstractCreateCallback OnAfterCreateInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractUpdateCallback OnAfterUpdateInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractDeleteCallback OnAfterDeleteInterface[TubeVaseAbstract]
+	OnAfterTubeVaseAbstractReadCallback   OnAfterReadInterface[TubeVaseAbstract]
+
 	Vase2DDiagrams                map[*Vase2DDiagram]struct{}
 	Vase2DDiagrams_instance       map[*Vase2DDiagram]*Vase2DDiagram
 	Vase2DDiagrams_mapString      map[string]*Vase2DDiagram
@@ -2378,36 +2408,6 @@ type Stage struct {
 	OnAfterVase2DDiagramUpdateCallback OnAfterUpdateInterface[Vase2DDiagram]
 	OnAfterVase2DDiagramDeleteCallback OnAfterDeleteInterface[Vase2DDiagram]
 	OnAfterVase2DDiagramReadCallback   OnAfterReadInterface[Vase2DDiagram]
-
-	Vase3DDiagrams                map[*Vase3DDiagram]struct{}
-	Vase3DDiagrams_instance       map[*Vase3DDiagram]*Vase3DDiagram
-	Vase3DDiagrams_mapString      map[string]*Vase3DDiagram
-	Vase3DDiagramOrder            uint
-	Vase3DDiagram_stagedOrder     map[*Vase3DDiagram]uint
-	Vase3DDiagram_orderStaged     map[uint]*Vase3DDiagram
-	Vase3DDiagrams_reference      map[*Vase3DDiagram]*Vase3DDiagram
-	Vase3DDiagrams_referenceOrder map[*Vase3DDiagram]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterVase3DDiagramCreateCallback OnAfterCreateInterface[Vase3DDiagram]
-	OnAfterVase3DDiagramUpdateCallback OnAfterUpdateInterface[Vase3DDiagram]
-	OnAfterVase3DDiagramDeleteCallback OnAfterDeleteInterface[Vase3DDiagram]
-	OnAfterVase3DDiagramReadCallback   OnAfterReadInterface[Vase3DDiagram]
-
-	VaseAbstracts                map[*VaseAbstract]struct{}
-	VaseAbstracts_instance       map[*VaseAbstract]*VaseAbstract
-	VaseAbstracts_mapString      map[string]*VaseAbstract
-	VaseAbstractOrder            uint
-	VaseAbstract_stagedOrder     map[*VaseAbstract]uint
-	VaseAbstract_orderStaged     map[uint]*VaseAbstract
-	VaseAbstracts_reference      map[*VaseAbstract]*VaseAbstract
-	VaseAbstracts_referenceOrder map[*VaseAbstract]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterVaseAbstractCreateCallback OnAfterCreateInterface[VaseAbstract]
-	OnAfterVaseAbstractUpdateCallback OnAfterUpdateInterface[VaseAbstract]
-	OnAfterVaseAbstractDeleteCallback OnAfterDeleteInterface[VaseAbstract]
-	OnAfterVaseAbstractReadCallback   OnAfterReadInterface[VaseAbstract]
 
 	VerticalTorusStackShapes                map[*VerticalTorusStackShape]struct{}
 	VerticalTorusStackShapes_instance       map[*VerticalTorusStackShape]*VerticalTorusStackShape
@@ -3239,17 +3239,17 @@ func (stage *Stage) Squash() {
 	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint)
 
+	stage.TubeVase3DDiagrams_reference = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
+	stage.TubeVase3DDiagrams_instance = make(map[*TubeVase3DDiagram]*TubeVase3DDiagram)
+	stage.TubeVase3DDiagrams_referenceOrder = make(map[*TubeVase3DDiagram]uint)
+
+	stage.TubeVaseAbstracts_reference = make(map[*TubeVaseAbstract]*TubeVaseAbstract)
+	stage.TubeVaseAbstracts_instance = make(map[*TubeVaseAbstract]*TubeVaseAbstract)
+	stage.TubeVaseAbstracts_referenceOrder = make(map[*TubeVaseAbstract]uint)
+
 	stage.Vase2DDiagrams_reference = make(map[*Vase2DDiagram]*Vase2DDiagram)
 	stage.Vase2DDiagrams_instance = make(map[*Vase2DDiagram]*Vase2DDiagram)
 	stage.Vase2DDiagrams_referenceOrder = make(map[*Vase2DDiagram]uint)
-
-	stage.Vase3DDiagrams_reference = make(map[*Vase3DDiagram]*Vase3DDiagram)
-	stage.Vase3DDiagrams_instance = make(map[*Vase3DDiagram]*Vase3DDiagram)
-	stage.Vase3DDiagrams_referenceOrder = make(map[*Vase3DDiagram]uint)
-
-	stage.VaseAbstracts_reference = make(map[*VaseAbstract]*VaseAbstract)
-	stage.VaseAbstracts_instance = make(map[*VaseAbstract]*VaseAbstract)
-	stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint)
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShapes_instance = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -5260,6 +5260,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.TorusStackShapeOrder = 0
 	}
 
+	var maxTubeVase3DDiagramOrder uint
+	var foundTubeVase3DDiagram bool
+	for _, order := range stage.TubeVase3DDiagram_stagedOrder {
+		if !foundTubeVase3DDiagram || order > maxTubeVase3DDiagramOrder {
+			maxTubeVase3DDiagramOrder = order
+			foundTubeVase3DDiagram = true
+		}
+	}
+	if foundTubeVase3DDiagram {
+		stage.TubeVase3DDiagramOrder = maxTubeVase3DDiagramOrder + 1
+	} else {
+		stage.TubeVase3DDiagramOrder = 0
+	}
+
+	var maxTubeVaseAbstractOrder uint
+	var foundTubeVaseAbstract bool
+	for _, order := range stage.TubeVaseAbstract_stagedOrder {
+		if !foundTubeVaseAbstract || order > maxTubeVaseAbstractOrder {
+			maxTubeVaseAbstractOrder = order
+			foundTubeVaseAbstract = true
+		}
+	}
+	if foundTubeVaseAbstract {
+		stage.TubeVaseAbstractOrder = maxTubeVaseAbstractOrder + 1
+	} else {
+		stage.TubeVaseAbstractOrder = 0
+	}
+
 	var maxVase2DDiagramOrder uint
 	var foundVase2DDiagram bool
 	for _, order := range stage.Vase2DDiagram_stagedOrder {
@@ -5272,34 +5300,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.Vase2DDiagramOrder = maxVase2DDiagramOrder + 1
 	} else {
 		stage.Vase2DDiagramOrder = 0
-	}
-
-	var maxVase3DDiagramOrder uint
-	var foundVase3DDiagram bool
-	for _, order := range stage.Vase3DDiagram_stagedOrder {
-		if !foundVase3DDiagram || order > maxVase3DDiagramOrder {
-			maxVase3DDiagramOrder = order
-			foundVase3DDiagram = true
-		}
-	}
-	if foundVase3DDiagram {
-		stage.Vase3DDiagramOrder = maxVase3DDiagramOrder + 1
-	} else {
-		stage.Vase3DDiagramOrder = 0
-	}
-
-	var maxVaseAbstractOrder uint
-	var foundVaseAbstract bool
-	for _, order := range stage.VaseAbstract_stagedOrder {
-		if !foundVaseAbstract || order > maxVaseAbstractOrder {
-			maxVaseAbstractOrder = order
-			foundVaseAbstract = true
-		}
-	}
-	if foundVaseAbstract {
-		stage.VaseAbstractOrder = maxVaseAbstractOrder + 1
-	} else {
-		stage.VaseAbstractOrder = 0
 	}
 
 	var maxVerticalTorusStackShapeOrder uint
@@ -7365,6 +7365,34 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TubeVase3DDiagram:
+		tmp := GetStructInstancesByOrder(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TubeVase3DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TubeVaseAbstract:
+		tmp := GetStructInstancesByOrder(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TubeVaseAbstract implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Vase2DDiagram:
 		tmp := GetStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
 
@@ -7376,34 +7404,6 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Vase2DDiagram implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *Vase3DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Vase3DDiagrams, stage.Vase3DDiagram_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Vase3DDiagram implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *VaseAbstract:
-		tmp := GetStructInstancesByOrder(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *VaseAbstract implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -7751,12 +7751,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
 	case "TorusStackShape":
 		res = GetNamedStructInstances(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
+	case "TubeVase3DDiagram":
+		res = GetNamedStructInstances(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder)
+	case "TubeVaseAbstract":
+		res = GetNamedStructInstances(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder)
 	case "Vase2DDiagram":
 		res = GetNamedStructInstances(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
-	case "Vase3DDiagram":
-		res = GetNamedStructInstances(stage.Vase3DDiagrams, stage.Vase3DDiagram_stagedOrder)
-	case "VaseAbstract":
-		res = GetNamedStructInstances(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
 	case "VerticalTorusStackShape":
 		res = GetNamedStructInstances(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 	case "VolumeKey3DShape":
@@ -8112,12 +8112,12 @@ type BackRepoInterface interface {
 	CheckoutTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
 	CommitTorusStackShape(torusstackshape *TorusStackShape)
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
+	CommitTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram)
+	CheckoutTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram)
+	CommitTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract)
+	CheckoutTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract)
 	CommitVase2DDiagram(vase2ddiagram *Vase2DDiagram)
 	CheckoutVase2DDiagram(vase2ddiagram *Vase2DDiagram)
-	CommitVase3DDiagram(vase3ddiagram *Vase3DDiagram)
-	CheckoutVase3DDiagram(vase3ddiagram *Vase3DDiagram)
-	CommitVaseAbstract(vaseabstract *VaseAbstract)
-	CheckoutVaseAbstract(vaseabstract *VaseAbstract)
 	CommitVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CheckoutVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CommitVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape)
@@ -8551,14 +8551,14 @@ func NewStage(name string) (stage *Stage) {
 		TorusStackShapes:           make(map[*TorusStackShape]struct{}),
 		TorusStackShapes_mapString: make(map[string]*TorusStackShape),
 
+		TubeVase3DDiagrams:           make(map[*TubeVase3DDiagram]struct{}),
+		TubeVase3DDiagrams_mapString: make(map[string]*TubeVase3DDiagram),
+
+		TubeVaseAbstracts:           make(map[*TubeVaseAbstract]struct{}),
+		TubeVaseAbstracts_mapString: make(map[string]*TubeVaseAbstract),
+
 		Vase2DDiagrams:           make(map[*Vase2DDiagram]struct{}),
 		Vase2DDiagrams_mapString: make(map[string]*Vase2DDiagram),
-
-		Vase3DDiagrams:           make(map[*Vase3DDiagram]struct{}),
-		Vase3DDiagrams_mapString: make(map[string]*Vase3DDiagram),
-
-		VaseAbstracts:           make(map[*VaseAbstract]struct{}),
-		VaseAbstracts_mapString: make(map[string]*VaseAbstract),
 
 		VerticalTorusStackShapes:           make(map[*VerticalTorusStackShape]struct{}),
 		VerticalTorusStackShapes_mapString: make(map[string]*VerticalTorusStackShape),
@@ -9140,17 +9140,17 @@ func NewStage(name string) (stage *Stage) {
 		TorusStackShape_orderStaged: make(map[uint]*TorusStackShape),
 		TorusStackShapes_reference:  make(map[*TorusStackShape]*TorusStackShape),
 
+		TubeVase3DDiagram_stagedOrder: make(map[*TubeVase3DDiagram]uint),
+		TubeVase3DDiagram_orderStaged: make(map[uint]*TubeVase3DDiagram),
+		TubeVase3DDiagrams_reference:  make(map[*TubeVase3DDiagram]*TubeVase3DDiagram),
+
+		TubeVaseAbstract_stagedOrder: make(map[*TubeVaseAbstract]uint),
+		TubeVaseAbstract_orderStaged: make(map[uint]*TubeVaseAbstract),
+		TubeVaseAbstracts_reference:  make(map[*TubeVaseAbstract]*TubeVaseAbstract),
+
 		Vase2DDiagram_stagedOrder: make(map[*Vase2DDiagram]uint),
 		Vase2DDiagram_orderStaged: make(map[uint]*Vase2DDiagram),
 		Vase2DDiagrams_reference:  make(map[*Vase2DDiagram]*Vase2DDiagram),
-
-		Vase3DDiagram_stagedOrder: make(map[*Vase3DDiagram]uint),
-		Vase3DDiagram_orderStaged: make(map[uint]*Vase3DDiagram),
-		Vase3DDiagrams_reference:  make(map[*Vase3DDiagram]*Vase3DDiagram),
-
-		VaseAbstract_stagedOrder: make(map[*VaseAbstract]uint),
-		VaseAbstract_orderStaged: make(map[uint]*VaseAbstract),
-		VaseAbstracts_reference:  make(map[*VaseAbstract]*VaseAbstract),
 
 		VerticalTorusStackShape_stagedOrder: make(map[*VerticalTorusStackShape]uint),
 		VerticalTorusStackShape_orderStaged: make(map[uint]*VerticalTorusStackShape),
@@ -9444,11 +9444,11 @@ func NewStage(name string) (stage *Stage) {
 
 			"TorusStackShape": &TorusStackShapeUnmarshaller{},
 
+			"TubeVase3DDiagram": &TubeVase3DDiagramUnmarshaller{},
+
+			"TubeVaseAbstract": &TubeVaseAbstractUnmarshaller{},
+
 			"Vase2DDiagram": &Vase2DDiagramUnmarshaller{},
-
-			"Vase3DDiagram": &Vase3DDiagramUnmarshaller{},
-
-			"VaseAbstract": &VaseAbstractUnmarshaller{},
 
 			"VerticalTorusStackShape": &VerticalTorusStackShapeUnmarshaller{},
 
@@ -9599,9 +9599,9 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Torus3DShape"},
 			{name: "TorusEdge3DShape"},
 			{name: "TorusStackShape"},
+			{name: "TubeVase3DDiagram"},
+			{name: "TubeVaseAbstract"},
 			{name: "Vase2DDiagram"},
-			{name: "Vase3DDiagram"},
-			{name: "VaseAbstract"},
 			{name: "VerticalTorusStackShape"},
 			{name: "VolumeKey3DShape"},
 		}, // end of insertion point
@@ -9898,12 +9898,12 @@ func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
 		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
+	case *TubeVase3DDiagram:
+		return stage.TubeVase3DDiagram_stagedOrder[instance]
+	case *TubeVaseAbstract:
+		return stage.TubeVaseAbstract_stagedOrder[instance]
 	case *Vase2DDiagram:
 		return stage.Vase2DDiagram_stagedOrder[instance]
-	case *Vase3DDiagram:
-		return stage.Vase3DDiagram_stagedOrder[instance]
-	case *VaseAbstract:
-		return stage.VaseAbstract_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -10200,12 +10200,12 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 		return any(stage.TorusEdge3DShape_orderStaged[order]).(Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
+	case *TubeVase3DDiagram:
+		return any(stage.TubeVase3DDiagram_orderStaged[order]).(Type)
+	case *TubeVaseAbstract:
+		return any(stage.TubeVaseAbstract_orderStaged[order]).(Type)
 	case *Vase2DDiagram:
 		return any(stage.Vase2DDiagram_orderStaged[order]).(Type)
-	case *Vase3DDiagram:
-		return any(stage.Vase3DDiagram_orderStaged[order]).(Type)
-	case *VaseAbstract:
-		return any(stage.VaseAbstract_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShape_orderStaged[order]).(Type)
 	case *VolumeKey3DShape:
@@ -10501,12 +10501,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
+	case *TubeVase3DDiagram:
+		return stage.TubeVase3DDiagram_stagedOrder[instance]
+	case *TubeVaseAbstract:
+		return stage.TubeVaseAbstract_stagedOrder[instance]
 	case *Vase2DDiagram:
 		return stage.Vase2DDiagram_stagedOrder[instance]
-	case *Vase3DDiagram:
-		return stage.Vase3DDiagram_stagedOrder[instance]
-	case *VaseAbstract:
-		return stage.VaseAbstract_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -10727,9 +10727,9 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Torus3DShape"] = len(stage.Torus3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
+	stage.Map_GongStructName_InstancesNb["TubeVase3DDiagram"] = len(stage.TubeVase3DDiagrams)
+	stage.Map_GongStructName_InstancesNb["TubeVaseAbstract"] = len(stage.TubeVaseAbstracts)
 	stage.Map_GongStructName_InstancesNb["Vase2DDiagram"] = len(stage.Vase2DDiagrams)
-	stage.Map_GongStructName_InstancesNb["Vase3DDiagram"] = len(stage.Vase3DDiagrams)
-	stage.Map_GongStructName_InstancesNb["VaseAbstract"] = len(stage.VaseAbstracts)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VolumeKey3DShape"] = len(stage.VolumeKey3DShapes)
 }
@@ -23180,6 +23180,182 @@ func (torusstackshape *TorusStackShape) SetName(name string) {
 	torusstackshape.Name = name
 }
 
+// Stage puts tubevase3ddiagram to the model stage
+func (tubevase3ddiagram *TubeVase3DDiagram) Stage(stage *Stage) *TubeVase3DDiagram {
+	if _, ok := stage.TubeVase3DDiagrams[tubevase3ddiagram]; !ok {
+		stage.TubeVase3DDiagrams[tubevase3ddiagram] = struct{}{}
+		stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram] = stage.TubeVase3DDiagramOrder
+		stage.TubeVase3DDiagram_orderStaged[stage.TubeVase3DDiagramOrder] = tubevase3ddiagram
+		stage.TubeVase3DDiagramOrder++
+	}
+	stage.TubeVase3DDiagrams_mapString[tubevase3ddiagram.Name] = tubevase3ddiagram
+
+	return tubevase3ddiagram
+}
+
+// StagePreserveOrder puts tubevase3ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TubeVase3DDiagramOrder
+// - update stage.TubeVase3DDiagramOrder accordingly
+func (tubevase3ddiagram *TubeVase3DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TubeVase3DDiagrams[tubevase3ddiagram]; !ok {
+		stage.TubeVase3DDiagrams[tubevase3ddiagram] = struct{}{}
+
+		if order > stage.TubeVase3DDiagramOrder {
+			stage.TubeVase3DDiagramOrder = order
+		}
+		stage.TubeVase3DDiagram_stagedOrder[tubevase3ddiagram] = order
+		stage.TubeVase3DDiagram_orderStaged[order] = tubevase3ddiagram
+		stage.TubeVase3DDiagramOrder++
+	}
+	stage.TubeVase3DDiagrams_mapString[tubevase3ddiagram.Name] = tubevase3ddiagram
+}
+
+// Unstage removes tubevase3ddiagram off the model stage
+func (tubevase3ddiagram *TubeVase3DDiagram) Unstage(stage *Stage) *TubeVase3DDiagram {
+	delete(stage.TubeVase3DDiagrams, tubevase3ddiagram)
+	// issue1150
+	// delete(stage.TubeVase3DDiagram_stagedOrder, tubevase3ddiagram)
+	delete(stage.TubeVase3DDiagrams_mapString, tubevase3ddiagram.Name)
+
+	return tubevase3ddiagram
+}
+
+// UnstageVoid removes tubevase3ddiagram off the model stage
+func (tubevase3ddiagram *TubeVase3DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.TubeVase3DDiagrams, tubevase3ddiagram)
+	// issue1150
+	// delete(stage.TubeVase3DDiagram_stagedOrder, tubevase3ddiagram)
+	delete(stage.TubeVase3DDiagrams_mapString, tubevase3ddiagram.Name)
+}
+
+// commit tubevase3ddiagram to the back repo (if it is already staged)
+func (tubevase3ddiagram *TubeVase3DDiagram) Commit(stage *Stage) *TubeVase3DDiagram {
+	if _, ok := stage.TubeVase3DDiagrams[tubevase3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTubeVase3DDiagram(tubevase3ddiagram)
+		}
+	}
+	return tubevase3ddiagram
+}
+
+func (tubevase3ddiagram *TubeVase3DDiagram) CommitVoid(stage *Stage) {
+	tubevase3ddiagram.Commit(stage)
+}
+
+func (tubevase3ddiagram *TubeVase3DDiagram) StageVoid(stage *Stage) {
+	tubevase3ddiagram.Stage(stage)
+}
+
+// Checkout tubevase3ddiagram to the back repo (if it is already staged)
+func (tubevase3ddiagram *TubeVase3DDiagram) Checkout(stage *Stage) *TubeVase3DDiagram {
+	if _, ok := stage.TubeVase3DDiagrams[tubevase3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTubeVase3DDiagram(tubevase3ddiagram)
+		}
+	}
+	return tubevase3ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (tubevase3ddiagram *TubeVase3DDiagram) GetName() (res string) {
+	return tubevase3ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (tubevase3ddiagram *TubeVase3DDiagram) SetName(name string) {
+	tubevase3ddiagram.Name = name
+}
+
+// Stage puts tubevaseabstract to the model stage
+func (tubevaseabstract *TubeVaseAbstract) Stage(stage *Stage) *TubeVaseAbstract {
+	if _, ok := stage.TubeVaseAbstracts[tubevaseabstract]; !ok {
+		stage.TubeVaseAbstracts[tubevaseabstract] = struct{}{}
+		stage.TubeVaseAbstract_stagedOrder[tubevaseabstract] = stage.TubeVaseAbstractOrder
+		stage.TubeVaseAbstract_orderStaged[stage.TubeVaseAbstractOrder] = tubevaseabstract
+		stage.TubeVaseAbstractOrder++
+	}
+	stage.TubeVaseAbstracts_mapString[tubevaseabstract.Name] = tubevaseabstract
+
+	return tubevaseabstract
+}
+
+// StagePreserveOrder puts tubevaseabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TubeVaseAbstractOrder
+// - update stage.TubeVaseAbstractOrder accordingly
+func (tubevaseabstract *TubeVaseAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TubeVaseAbstracts[tubevaseabstract]; !ok {
+		stage.TubeVaseAbstracts[tubevaseabstract] = struct{}{}
+
+		if order > stage.TubeVaseAbstractOrder {
+			stage.TubeVaseAbstractOrder = order
+		}
+		stage.TubeVaseAbstract_stagedOrder[tubevaseabstract] = order
+		stage.TubeVaseAbstract_orderStaged[order] = tubevaseabstract
+		stage.TubeVaseAbstractOrder++
+	}
+	stage.TubeVaseAbstracts_mapString[tubevaseabstract.Name] = tubevaseabstract
+}
+
+// Unstage removes tubevaseabstract off the model stage
+func (tubevaseabstract *TubeVaseAbstract) Unstage(stage *Stage) *TubeVaseAbstract {
+	delete(stage.TubeVaseAbstracts, tubevaseabstract)
+	// issue1150
+	// delete(stage.TubeVaseAbstract_stagedOrder, tubevaseabstract)
+	delete(stage.TubeVaseAbstracts_mapString, tubevaseabstract.Name)
+
+	return tubevaseabstract
+}
+
+// UnstageVoid removes tubevaseabstract off the model stage
+func (tubevaseabstract *TubeVaseAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.TubeVaseAbstracts, tubevaseabstract)
+	// issue1150
+	// delete(stage.TubeVaseAbstract_stagedOrder, tubevaseabstract)
+	delete(stage.TubeVaseAbstracts_mapString, tubevaseabstract.Name)
+}
+
+// commit tubevaseabstract to the back repo (if it is already staged)
+func (tubevaseabstract *TubeVaseAbstract) Commit(stage *Stage) *TubeVaseAbstract {
+	if _, ok := stage.TubeVaseAbstracts[tubevaseabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTubeVaseAbstract(tubevaseabstract)
+		}
+	}
+	return tubevaseabstract
+}
+
+func (tubevaseabstract *TubeVaseAbstract) CommitVoid(stage *Stage) {
+	tubevaseabstract.Commit(stage)
+}
+
+func (tubevaseabstract *TubeVaseAbstract) StageVoid(stage *Stage) {
+	tubevaseabstract.Stage(stage)
+}
+
+// Checkout tubevaseabstract to the back repo (if it is already staged)
+func (tubevaseabstract *TubeVaseAbstract) Checkout(stage *Stage) *TubeVaseAbstract {
+	if _, ok := stage.TubeVaseAbstracts[tubevaseabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTubeVaseAbstract(tubevaseabstract)
+		}
+	}
+	return tubevaseabstract
+}
+
+// for satisfaction of GongStruct interface
+func (tubevaseabstract *TubeVaseAbstract) GetName() (res string) {
+	return tubevaseabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (tubevaseabstract *TubeVaseAbstract) SetName(name string) {
+	tubevaseabstract.Name = name
+}
+
 // Stage puts vase2ddiagram to the model stage
 func (vase2ddiagram *Vase2DDiagram) Stage(stage *Stage) *Vase2DDiagram {
 	if _, ok := stage.Vase2DDiagrams[vase2ddiagram]; !ok {
@@ -23266,182 +23442,6 @@ func (vase2ddiagram *Vase2DDiagram) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (vase2ddiagram *Vase2DDiagram) SetName(name string) {
 	vase2ddiagram.Name = name
-}
-
-// Stage puts vase3ddiagram to the model stage
-func (vase3ddiagram *Vase3DDiagram) Stage(stage *Stage) *Vase3DDiagram {
-	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; !ok {
-		stage.Vase3DDiagrams[vase3ddiagram] = struct{}{}
-		stage.Vase3DDiagram_stagedOrder[vase3ddiagram] = stage.Vase3DDiagramOrder
-		stage.Vase3DDiagram_orderStaged[stage.Vase3DDiagramOrder] = vase3ddiagram
-		stage.Vase3DDiagramOrder++
-	}
-	stage.Vase3DDiagrams_mapString[vase3ddiagram.Name] = vase3ddiagram
-
-	return vase3ddiagram
-}
-
-// StagePreserveOrder puts vase3ddiagram to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.Vase3DDiagramOrder
-// - update stage.Vase3DDiagramOrder accordingly
-func (vase3ddiagram *Vase3DDiagram) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; !ok {
-		stage.Vase3DDiagrams[vase3ddiagram] = struct{}{}
-
-		if order > stage.Vase3DDiagramOrder {
-			stage.Vase3DDiagramOrder = order
-		}
-		stage.Vase3DDiagram_stagedOrder[vase3ddiagram] = order
-		stage.Vase3DDiagram_orderStaged[order] = vase3ddiagram
-		stage.Vase3DDiagramOrder++
-	}
-	stage.Vase3DDiagrams_mapString[vase3ddiagram.Name] = vase3ddiagram
-}
-
-// Unstage removes vase3ddiagram off the model stage
-func (vase3ddiagram *Vase3DDiagram) Unstage(stage *Stage) *Vase3DDiagram {
-	delete(stage.Vase3DDiagrams, vase3ddiagram)
-	// issue1150
-	// delete(stage.Vase3DDiagram_stagedOrder, vase3ddiagram)
-	delete(stage.Vase3DDiagrams_mapString, vase3ddiagram.Name)
-
-	return vase3ddiagram
-}
-
-// UnstageVoid removes vase3ddiagram off the model stage
-func (vase3ddiagram *Vase3DDiagram) UnstageVoid(stage *Stage) {
-	delete(stage.Vase3DDiagrams, vase3ddiagram)
-	// issue1150
-	// delete(stage.Vase3DDiagram_stagedOrder, vase3ddiagram)
-	delete(stage.Vase3DDiagrams_mapString, vase3ddiagram.Name)
-}
-
-// commit vase3ddiagram to the back repo (if it is already staged)
-func (vase3ddiagram *Vase3DDiagram) Commit(stage *Stage) *Vase3DDiagram {
-	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitVase3DDiagram(vase3ddiagram)
-		}
-	}
-	return vase3ddiagram
-}
-
-func (vase3ddiagram *Vase3DDiagram) CommitVoid(stage *Stage) {
-	vase3ddiagram.Commit(stage)
-}
-
-func (vase3ddiagram *Vase3DDiagram) StageVoid(stage *Stage) {
-	vase3ddiagram.Stage(stage)
-}
-
-// Checkout vase3ddiagram to the back repo (if it is already staged)
-func (vase3ddiagram *Vase3DDiagram) Checkout(stage *Stage) *Vase3DDiagram {
-	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutVase3DDiagram(vase3ddiagram)
-		}
-	}
-	return vase3ddiagram
-}
-
-// for satisfaction of GongStruct interface
-func (vase3ddiagram *Vase3DDiagram) GetName() (res string) {
-	return vase3ddiagram.Name
-}
-
-// for satisfaction of GongStruct interface
-func (vase3ddiagram *Vase3DDiagram) SetName(name string) {
-	vase3ddiagram.Name = name
-}
-
-// Stage puts vaseabstract to the model stage
-func (vaseabstract *VaseAbstract) Stage(stage *Stage) *VaseAbstract {
-	if _, ok := stage.VaseAbstracts[vaseabstract]; !ok {
-		stage.VaseAbstracts[vaseabstract] = struct{}{}
-		stage.VaseAbstract_stagedOrder[vaseabstract] = stage.VaseAbstractOrder
-		stage.VaseAbstract_orderStaged[stage.VaseAbstractOrder] = vaseabstract
-		stage.VaseAbstractOrder++
-	}
-	stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
-
-	return vaseabstract
-}
-
-// StagePreserveOrder puts vaseabstract to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.VaseAbstractOrder
-// - update stage.VaseAbstractOrder accordingly
-func (vaseabstract *VaseAbstract) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.VaseAbstracts[vaseabstract]; !ok {
-		stage.VaseAbstracts[vaseabstract] = struct{}{}
-
-		if order > stage.VaseAbstractOrder {
-			stage.VaseAbstractOrder = order
-		}
-		stage.VaseAbstract_stagedOrder[vaseabstract] = order
-		stage.VaseAbstract_orderStaged[order] = vaseabstract
-		stage.VaseAbstractOrder++
-	}
-	stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
-}
-
-// Unstage removes vaseabstract off the model stage
-func (vaseabstract *VaseAbstract) Unstage(stage *Stage) *VaseAbstract {
-	delete(stage.VaseAbstracts, vaseabstract)
-	// issue1150
-	// delete(stage.VaseAbstract_stagedOrder, vaseabstract)
-	delete(stage.VaseAbstracts_mapString, vaseabstract.Name)
-
-	return vaseabstract
-}
-
-// UnstageVoid removes vaseabstract off the model stage
-func (vaseabstract *VaseAbstract) UnstageVoid(stage *Stage) {
-	delete(stage.VaseAbstracts, vaseabstract)
-	// issue1150
-	// delete(stage.VaseAbstract_stagedOrder, vaseabstract)
-	delete(stage.VaseAbstracts_mapString, vaseabstract.Name)
-}
-
-// commit vaseabstract to the back repo (if it is already staged)
-func (vaseabstract *VaseAbstract) Commit(stage *Stage) *VaseAbstract {
-	if _, ok := stage.VaseAbstracts[vaseabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitVaseAbstract(vaseabstract)
-		}
-	}
-	return vaseabstract
-}
-
-func (vaseabstract *VaseAbstract) CommitVoid(stage *Stage) {
-	vaseabstract.Commit(stage)
-}
-
-func (vaseabstract *VaseAbstract) StageVoid(stage *Stage) {
-	vaseabstract.Stage(stage)
-}
-
-// Checkout vaseabstract to the back repo (if it is already staged)
-func (vaseabstract *VaseAbstract) Checkout(stage *Stage) *VaseAbstract {
-	if _, ok := stage.VaseAbstracts[vaseabstract]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutVaseAbstract(vaseabstract)
-		}
-	}
-	return vaseabstract
-}
-
-// for satisfaction of GongStruct interface
-func (vaseabstract *VaseAbstract) GetName() (res string) {
-	return vaseabstract.Name
-}
-
-// for satisfaction of GongStruct interface
-func (vaseabstract *VaseAbstract) SetName(name string) {
-	vaseabstract.Name = name
 }
 
 // Stage puts verticaltorusstackshape to the model stage
@@ -23763,9 +23763,9 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTorus3DShape(Torus3DShape *Torus3DShape)
 	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
+	CreateORMTubeVase3DDiagram(TubeVase3DDiagram *TubeVase3DDiagram)
+	CreateORMTubeVaseAbstract(TubeVaseAbstract *TubeVaseAbstract)
 	CreateORMVase2DDiagram(Vase2DDiagram *Vase2DDiagram)
-	CreateORMVase3DDiagram(Vase3DDiagram *Vase3DDiagram)
-	CreateORMVaseAbstract(VaseAbstract *VaseAbstract)
 	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	CreateORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -23912,9 +23912,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTorus3DShape(Torus3DShape *Torus3DShape)
 	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
+	DeleteORMTubeVase3DDiagram(TubeVase3DDiagram *TubeVase3DDiagram)
+	DeleteORMTubeVaseAbstract(TubeVaseAbstract *TubeVaseAbstract)
 	DeleteORMVase2DDiagram(Vase2DDiagram *Vase2DDiagram)
-	DeleteORMVase3DDiagram(Vase3DDiagram *Vase3DDiagram)
-	DeleteORMVaseAbstract(VaseAbstract *VaseAbstract)
 	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	DeleteORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -24625,20 +24625,20 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TorusStackShape_stagedOrder = make(map[*TorusStackShape]uint)
 	stage.TorusStackShapeOrder = 0
 
+	stage.TubeVase3DDiagrams = make(map[*TubeVase3DDiagram]struct{})
+	stage.TubeVase3DDiagrams_mapString = make(map[string]*TubeVase3DDiagram)
+	stage.TubeVase3DDiagram_stagedOrder = make(map[*TubeVase3DDiagram]uint)
+	stage.TubeVase3DDiagramOrder = 0
+
+	stage.TubeVaseAbstracts = make(map[*TubeVaseAbstract]struct{})
+	stage.TubeVaseAbstracts_mapString = make(map[string]*TubeVaseAbstract)
+	stage.TubeVaseAbstract_stagedOrder = make(map[*TubeVaseAbstract]uint)
+	stage.TubeVaseAbstractOrder = 0
+
 	stage.Vase2DDiagrams = make(map[*Vase2DDiagram]struct{})
 	stage.Vase2DDiagrams_mapString = make(map[string]*Vase2DDiagram)
 	stage.Vase2DDiagram_stagedOrder = make(map[*Vase2DDiagram]uint)
 	stage.Vase2DDiagramOrder = 0
-
-	stage.Vase3DDiagrams = make(map[*Vase3DDiagram]struct{})
-	stage.Vase3DDiagrams_mapString = make(map[string]*Vase3DDiagram)
-	stage.Vase3DDiagram_stagedOrder = make(map[*Vase3DDiagram]uint)
-	stage.Vase3DDiagramOrder = 0
-
-	stage.VaseAbstracts = make(map[*VaseAbstract]struct{})
-	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
-	stage.VaseAbstract_stagedOrder = make(map[*VaseAbstract]uint)
-	stage.VaseAbstractOrder = 0
 
 	stage.VerticalTorusStackShapes = make(map[*VerticalTorusStackShape]struct{})
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)
@@ -25082,14 +25082,14 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.TorusStackShapes = nil
 	stage.TorusStackShapes_mapString = nil
 
+	stage.TubeVase3DDiagrams = nil
+	stage.TubeVase3DDiagrams_mapString = nil
+
+	stage.TubeVaseAbstracts = nil
+	stage.TubeVaseAbstracts_mapString = nil
+
 	stage.Vase2DDiagrams = nil
 	stage.Vase2DDiagrams_mapString = nil
-
-	stage.Vase3DDiagrams = nil
-	stage.Vase3DDiagrams_mapString = nil
-
-	stage.VaseAbstracts = nil
-	stage.VaseAbstracts_mapString = nil
 
 	stage.VerticalTorusStackShapes = nil
 	stage.VerticalTorusStackShapes_mapString = nil
@@ -25665,16 +25665,16 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		torusstackshape.Unstage(stage)
 	}
 
+	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+		tubevase3ddiagram.Unstage(stage)
+	}
+
+	for tubevaseabstract := range stage.TubeVaseAbstracts {
+		tubevaseabstract.Unstage(stage)
+	}
+
 	for vase2ddiagram := range stage.Vase2DDiagrams {
 		vase2ddiagram.Unstage(stage)
-	}
-
-	for vase3ddiagram := range stage.Vase3DDiagrams {
-		vase3ddiagram.Unstage(stage)
-	}
-
-	for vaseabstract := range stage.VaseAbstracts {
-		vaseabstract.Unstage(stage)
 	}
 
 	for verticaltorusstackshape := range stage.VerticalTorusStackShapes {
@@ -26048,12 +26048,12 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 		return any(stage.TorusEdge3DShapes_mapString).(map[string]Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
+	case *TubeVase3DDiagram:
+		return any(stage.TubeVase3DDiagrams_mapString).(map[string]Type)
+	case *TubeVaseAbstract:
+		return any(stage.TubeVaseAbstracts_mapString).(map[string]Type)
 	case *Vase2DDiagram:
 		return any(stage.Vase2DDiagrams_mapString).(map[string]Type)
-	case *Vase3DDiagram:
-		return any(stage.Vase3DDiagrams_mapString).(map[string]Type)
-	case *VaseAbstract:
-		return any(stage.VaseAbstracts_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShapes_mapString).(map[string]Type)
 	case *VolumeKey3DShape:
@@ -26356,12 +26356,12 @@ func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct
 		return any(&stage.TorusEdge3DShapes).(*map[*Type]struct{})
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
+	case TubeVase3DDiagram:
+		return any(&stage.TubeVase3DDiagrams).(*map[*Type]struct{})
+	case TubeVaseAbstract:
+		return any(&stage.TubeVaseAbstracts).(*map[*Type]struct{})
 	case Vase2DDiagram:
 		return any(&stage.Vase2DDiagrams).(*map[*Type]struct{})
-	case Vase3DDiagram:
-		return any(&stage.Vase3DDiagrams).(*map[*Type]struct{})
-	case VaseAbstract:
-		return any(&stage.VaseAbstracts).(*map[*Type]struct{})
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[*Type]struct{})
 	case VolumeKey3DShape:
@@ -26664,12 +26664,12 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 		return any(&stage.TorusEdge3DShapes).(*map[Type]struct{})
 	case *TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
+	case *TubeVase3DDiagram:
+		return any(&stage.TubeVase3DDiagrams).(*map[Type]struct{})
+	case *TubeVaseAbstract:
+		return any(&stage.TubeVaseAbstracts).(*map[Type]struct{})
 	case *Vase2DDiagram:
 		return any(&stage.Vase2DDiagrams).(*map[Type]struct{})
-	case *Vase3DDiagram:
-		return any(&stage.Vase3DDiagrams).(*map[Type]struct{})
-	case *VaseAbstract:
-		return any(&stage.VaseAbstracts).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[Type]struct{})
 	case *VolumeKey3DShape:
@@ -26972,12 +26972,12 @@ func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
 		return any(&stage.TorusEdge3DShapes_mapString).(*map[string]*Type)
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
+	case TubeVase3DDiagram:
+		return any(&stage.TubeVase3DDiagrams_mapString).(*map[string]*Type)
+	case TubeVaseAbstract:
+		return any(&stage.TubeVaseAbstracts_mapString).(*map[string]*Type)
 	case Vase2DDiagram:
 		return any(&stage.Vase2DDiagrams_mapString).(*map[string]*Type)
-	case Vase3DDiagram:
-		return any(&stage.Vase3DDiagrams_mapString).(*map[string]*Type)
-	case VaseAbstract:
-		return any(&stage.VaseAbstracts_mapString).(*map[string]*Type)
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes_mapString).(*map[string]*Type)
 	case VolumeKey3DShape:
@@ -27340,8 +27340,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case PlantAbstract:
 		return any(&PlantAbstract{
 			// Initialisation of associations
-			// field is initialized with an instance of VaseAbstract with the name of the field
-			VaseAbstract: &VaseAbstract{Name: "VaseAbstract"},
+			// field is initialized with an instance of TubeVaseAbstract with the name of the field
+			TubeVaseAbstract: &TubeVaseAbstract{Name: "TubeVaseAbstract"},
 			// field is initialized with an instance of StoolAbstract with the name of the field
 			StoolAbstract: &StoolAbstract{Name: "StoolAbstract"},
 			// field is initialized with an instance of ClockAbstract with the name of the field
@@ -27354,8 +27354,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Plant3DDiagrams: []*Plant3DDiagram{{Name: "Plant3DDiagrams"}},
 			// field is initialized with an instance of Vase2DDiagram with the name of the field
 			Vase2DDiagrams: []*Vase2DDiagram{{Name: "Vase2DDiagrams"}},
-			// field is initialized with an instance of Vase3DDiagram with the name of the field
-			Vase3DDiagrams: []*Vase3DDiagram{{Name: "Vase3DDiagrams"}},
+			// field is initialized with an instance of TubeVase3DDiagram with the name of the field
+			TubeVase3DDiagrams: []*TubeVase3DDiagram{{Name: "TubeVase3DDiagrams"}},
 			// field is initialized with an instance of Stool2DDiagram with the name of the field
 			Stool2DDiagrams: []*Stool2DDiagram{{Name: "Stool2DDiagrams"}},
 			// field is initialized with an instance of Stool3DDiagram with the name of the field
@@ -27805,12 +27805,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&TorusStackShape{
 			// Initialisation of associations
 		}).(*Type)
-	case Vase2DDiagram:
-		return any(&Vase2DDiagram{
-			// Initialisation of associations
-		}).(*Type)
-	case Vase3DDiagram:
-		return any(&Vase3DDiagram{
+	case TubeVase3DDiagram:
+		return any(&TubeVase3DDiagram{
 			// Initialisation of associations
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
@@ -27841,8 +27837,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of TiledFloor3DShape with the name of the field
 			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 		}).(*Type)
-	case VaseAbstract:
-		return any(&VaseAbstract{
+	case TubeVaseAbstract:
+		return any(&TubeVaseAbstract{
 			// Initialisation of associations
 			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
 			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
@@ -27896,6 +27892,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
 			// field is initialized with an instance of KeyHoleShape with the name of the field
 			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
+		}).(*Type)
+	case Vase2DDiagram:
+		return any(&Vase2DDiagram{
+			// Initialisation of associations
 		}).(*Type)
 	case VerticalTorusStackShape:
 		return any(&VerticalTorusStackShape{
@@ -28512,20 +28512,20 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case PlantAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "VaseAbstract":
-			res := make(map[*VaseAbstract][]*PlantAbstract)
+		case "TubeVaseAbstract":
+			res := make(map[*TubeVaseAbstract][]*PlantAbstract)
 			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.VaseAbstract != nil {
-					vaseabstract_ := plantabstract.VaseAbstract
+				if plantabstract.TubeVaseAbstract != nil {
+					tubevaseabstract_ := plantabstract.TubeVaseAbstract
 					var plantabstracts []*PlantAbstract
-					_, ok := res[vaseabstract_]
+					_, ok := res[tubevaseabstract_]
 					if ok {
-						plantabstracts = res[vaseabstract_]
+						plantabstracts = res[tubevaseabstract_]
 					} else {
 						plantabstracts = make([]*PlantAbstract, 0)
 					}
 					plantabstracts = append(plantabstracts, plantabstract)
-					res[vaseabstract_] = plantabstracts
+					res[tubevaseabstract_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -29665,700 +29665,700 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Vase2DDiagram
-	case Vase2DDiagram:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Vase3DDiagram
-	case Vase3DDiagram:
+	// reverse maps of direct associations of TubeVase3DDiagram
+	case TubeVase3DDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Rendered3DShape":
-			res := make(map[*Rendered3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.Rendered3DShape != nil {
-					rendered3dshape_ := vase3ddiagram.Rendered3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*Rendered3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.Rendered3DShape != nil {
+					rendered3dshape_ := tubevase3ddiagram.Rendered3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[rendered3dshape_]
 					if ok {
-						vase3ddiagrams = res[rendered3dshape_]
+						tubevase3ddiagrams = res[rendered3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[rendered3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[rendered3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TorusStackShape":
-			res := make(map[*TorusStackShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.TorusStackShape != nil {
-					torusstackshape_ := vase3ddiagram.TorusStackShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*TorusStackShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.TorusStackShape != nil {
+					torusstackshape_ := tubevase3ddiagram.TorusStackShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[torusstackshape_]
 					if ok {
-						vase3ddiagrams = res[torusstackshape_]
+						tubevase3ddiagrams = res[torusstackshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[torusstackshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[torusstackshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "VerticalTorusStackShape":
-			res := make(map[*VerticalTorusStackShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.VerticalTorusStackShape != nil {
-					verticaltorusstackshape_ := vase3ddiagram.VerticalTorusStackShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*VerticalTorusStackShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.VerticalTorusStackShape != nil {
+					verticaltorusstackshape_ := tubevase3ddiagram.VerticalTorusStackShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[verticaltorusstackshape_]
 					if ok {
-						vase3ddiagrams = res[verticaltorusstackshape_]
+						tubevase3ddiagrams = res[verticaltorusstackshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[verticaltorusstackshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[verticaltorusstackshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyRotatedTorusShape":
-			res := make(map[*PartiallyRotatedTorusShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.PartiallyRotatedTorusShape != nil {
-					partiallyrotatedtorusshape_ := vase3ddiagram.PartiallyRotatedTorusShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*PartiallyRotatedTorusShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.PartiallyRotatedTorusShape != nil {
+					partiallyrotatedtorusshape_ := tubevase3ddiagram.PartiallyRotatedTorusShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[partiallyrotatedtorusshape_]
 					if ok {
-						vase3ddiagrams = res[partiallyrotatedtorusshape_]
+						tubevase3ddiagrams = res[partiallyrotatedtorusshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[partiallyrotatedtorusshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[partiallyrotatedtorusshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfPartiallyRotatedTorusShape":
-			res := make(map[*StackOfPartiallyRotatedTorusShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
-					stackofpartiallyrotatedtorusshape_ := vase3ddiagram.StackOfPartiallyRotatedTorusShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*StackOfPartiallyRotatedTorusShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
+					stackofpartiallyrotatedtorusshape_ := tubevase3ddiagram.StackOfPartiallyRotatedTorusShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[stackofpartiallyrotatedtorusshape_]
 					if ok {
-						vase3ddiagrams = res[stackofpartiallyrotatedtorusshape_]
+						tubevase3ddiagrams = res[stackofpartiallyrotatedtorusshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[stackofpartiallyrotatedtorusshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[stackofpartiallyrotatedtorusshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PointsAndLines3DShape":
-			res := make(map[*PointsAndLines3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.PointsAndLines3DShape != nil {
-					pointsandlines3dshape_ := vase3ddiagram.PointsAndLines3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*PointsAndLines3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.PointsAndLines3DShape != nil {
+					pointsandlines3dshape_ := tubevase3ddiagram.PointsAndLines3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[pointsandlines3dshape_]
 					if ok {
-						vase3ddiagrams = res[pointsandlines3dshape_]
+						tubevase3ddiagrams = res[pointsandlines3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[pointsandlines3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[pointsandlines3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "SampledPoints3DShape":
-			res := make(map[*SampledPoints3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.SampledPoints3DShape != nil {
-					sampledpoints3dshape_ := vase3ddiagram.SampledPoints3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*SampledPoints3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := tubevase3ddiagram.SampledPoints3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[sampledpoints3dshape_]
 					if ok {
-						vase3ddiagrams = res[sampledpoints3dshape_]
+						tubevase3ddiagrams = res[sampledpoints3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[sampledpoints3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[sampledpoints3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "OriginalPoints3DShape":
-			res := make(map[*OriginalPoints3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.OriginalPoints3DShape != nil {
-					originalpoints3dshape_ := vase3ddiagram.OriginalPoints3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*OriginalPoints3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.OriginalPoints3DShape != nil {
+					originalpoints3dshape_ := tubevase3ddiagram.OriginalPoints3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[originalpoints3dshape_]
 					if ok {
-						vase3ddiagrams = res[originalpoints3dshape_]
+						tubevase3ddiagrams = res[originalpoints3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[originalpoints3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[originalpoints3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Angle0Shape":
-			res := make(map[*Angle0Shape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.Angle0Shape != nil {
-					angle0shape_ := vase3ddiagram.Angle0Shape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*Angle0Shape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.Angle0Shape != nil {
+					angle0shape_ := tubevase3ddiagram.Angle0Shape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[angle0shape_]
 					if ok {
-						vase3ddiagrams = res[angle0shape_]
+						tubevase3ddiagrams = res[angle0shape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[angle0shape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[angle0shape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "KeyHole3DShape":
-			res := make(map[*KeyHole3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.KeyHole3DShape != nil {
-					keyhole3dshape_ := vase3ddiagram.KeyHole3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*KeyHole3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.KeyHole3DShape != nil {
+					keyhole3dshape_ := tubevase3ddiagram.KeyHole3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[keyhole3dshape_]
 					if ok {
-						vase3ddiagrams = res[keyhole3dshape_]
+						tubevase3ddiagrams = res[keyhole3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[keyhole3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[keyhole3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Key3DShape":
-			res := make(map[*Key3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.Key3DShape != nil {
-					key3dshape_ := vase3ddiagram.Key3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*Key3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.Key3DShape != nil {
+					key3dshape_ := tubevase3ddiagram.Key3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[key3dshape_]
 					if ok {
-						vase3ddiagrams = res[key3dshape_]
+						tubevase3ddiagrams = res[key3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[key3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[key3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "VolumeKey3DShape":
-			res := make(map[*VolumeKey3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.VolumeKey3DShape != nil {
-					volumekey3dshape_ := vase3ddiagram.VolumeKey3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*VolumeKey3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.VolumeKey3DShape != nil {
+					volumekey3dshape_ := tubevase3ddiagram.VolumeKey3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[volumekey3dshape_]
 					if ok {
-						vase3ddiagrams = res[volumekey3dshape_]
+						tubevase3ddiagrams = res[volumekey3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[volumekey3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[volumekey3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TorusEdge3DShape":
-			res := make(map[*TorusEdge3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.TorusEdge3DShape != nil {
-					torusedge3dshape_ := vase3ddiagram.TorusEdge3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*TorusEdge3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.TorusEdge3DShape != nil {
+					torusedge3dshape_ := tubevase3ddiagram.TorusEdge3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[torusedge3dshape_]
 					if ok {
-						vase3ddiagrams = res[torusedge3dshape_]
+						tubevase3ddiagrams = res[torusedge3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[torusedge3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[torusedge3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TiledFloor3DShape":
-			res := make(map[*TiledFloor3DShape][]*Vase3DDiagram)
-			for vase3ddiagram := range stage.Vase3DDiagrams {
-				if vase3ddiagram.TiledFloor3DShape != nil {
-					tiledfloor3dshape_ := vase3ddiagram.TiledFloor3DShape
-					var vase3ddiagrams []*Vase3DDiagram
+			res := make(map[*TiledFloor3DShape][]*TubeVase3DDiagram)
+			for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+				if tubevase3ddiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := tubevase3ddiagram.TiledFloor3DShape
+					var tubevase3ddiagrams []*TubeVase3DDiagram
 					_, ok := res[tiledfloor3dshape_]
 					if ok {
-						vase3ddiagrams = res[tiledfloor3dshape_]
+						tubevase3ddiagrams = res[tiledfloor3dshape_]
 					} else {
-						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+						tubevase3ddiagrams = make([]*TubeVase3DDiagram, 0)
 					}
-					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
-					res[tiledfloor3dshape_] = vase3ddiagrams
+					tubevase3ddiagrams = append(tubevase3ddiagrams, tubevase3ddiagram)
+					res[tiledfloor3dshape_] = tubevase3ddiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of VaseAbstract
-	case VaseAbstract:
+	// reverse maps of direct associations of TubeVaseAbstract
+	case TubeVaseAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "PerpendicularVectorGridHalfway":
-			res := make(map[*PerpendicularVectorGridHalfway][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.PerpendicularVectorGridHalfway != nil {
-					perpendicularvectorgridhalfway_ := vaseabstract.PerpendicularVectorGridHalfway
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*PerpendicularVectorGridHalfway][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.PerpendicularVectorGridHalfway != nil {
+					perpendicularvectorgridhalfway_ := tubevaseabstract.PerpendicularVectorGridHalfway
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[perpendicularvectorgridhalfway_]
 					if ok {
-						vaseabstracts = res[perpendicularvectorgridhalfway_]
+						tubevaseabstracts = res[perpendicularvectorgridhalfway_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[perpendicularvectorgridhalfway_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[perpendicularvectorgridhalfway_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStartArcShapeGrid":
-			res := make(map[*TopStartArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopStartArcShapeGrid != nil {
-					topstartarcshapegrid_ := vaseabstract.TopStartArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopStartArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopStartArcShapeGrid != nil {
+					topstartarcshapegrid_ := tubevaseabstract.TopStartArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topstartarcshapegrid_]
 					if ok {
-						vaseabstracts = res[topstartarcshapegrid_]
+						tubevaseabstracts = res[topstartarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topstartarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topstartarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopEndArcShapeGrid":
-			res := make(map[*TopEndArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopEndArcShapeGrid != nil {
-					topendarcshapegrid_ := vaseabstract.TopEndArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopEndArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopEndArcShapeGrid != nil {
+					topendarcshapegrid_ := tubevaseabstract.TopEndArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topendarcshapegrid_]
 					if ok {
-						vaseabstracts = res[topendarcshapegrid_]
+						tubevaseabstracts = res[topendarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topendarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topendarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedBottomTopStartArcShapeGrid":
-			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
-					shiftedbottomtopstartarcshapegrid_ := vaseabstract.ShiftedBottomTopStartArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+					shiftedbottomtopstartarcshapegrid_ := tubevaseabstract.ShiftedBottomTopStartArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[shiftedbottomtopstartarcshapegrid_]
 					if ok {
-						vaseabstracts = res[shiftedbottomtopstartarcshapegrid_]
+						tubevaseabstracts = res[shiftedbottomtopstartarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[shiftedbottomtopstartarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[shiftedbottomtopstartarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopMidArcVectorShapeGrid":
-			res := make(map[*TopMidArcVectorShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopMidArcVectorShapeGrid != nil {
-					topmidarcvectorshapegrid_ := vaseabstract.TopMidArcVectorShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopMidArcVectorShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopMidArcVectorShapeGrid != nil {
+					topmidarcvectorshapegrid_ := tubevaseabstract.TopMidArcVectorShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topmidarcvectorshapegrid_]
 					if ok {
-						vaseabstracts = res[topmidarcvectorshapegrid_]
+						tubevaseabstracts = res[topmidarcvectorshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topmidarcvectorshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topmidarcvectorshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StartHalfwayArcShapeGrid":
-			res := make(map[*StartHalfwayArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.StartHalfwayArcShapeGrid != nil {
-					starthalfwayarcshapegrid_ := vaseabstract.StartHalfwayArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*StartHalfwayArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.StartHalfwayArcShapeGrid != nil {
+					starthalfwayarcshapegrid_ := tubevaseabstract.StartHalfwayArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[starthalfwayarcshapegrid_]
 					if ok {
-						vaseabstracts = res[starthalfwayarcshapegrid_]
+						tubevaseabstracts = res[starthalfwayarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[starthalfwayarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[starthalfwayarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStartHalfwayArcShapeGrid":
-			res := make(map[*TopStartHalfwayArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopStartHalfwayArcShapeGrid != nil {
-					topstarthalfwayarcshapegrid_ := vaseabstract.TopStartHalfwayArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopStartHalfwayArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopStartHalfwayArcShapeGrid != nil {
+					topstarthalfwayarcshapegrid_ := tubevaseabstract.TopStartHalfwayArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topstarthalfwayarcshapegrid_]
 					if ok {
-						vaseabstracts = res[topstarthalfwayarcshapegrid_]
+						tubevaseabstracts = res[topstarthalfwayarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topstarthalfwayarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topstarthalfwayarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "EndHalfwayArcShapeGrid":
-			res := make(map[*EndHalfwayArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.EndHalfwayArcShapeGrid != nil {
-					endhalfwayarcshapegrid_ := vaseabstract.EndHalfwayArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*EndHalfwayArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.EndHalfwayArcShapeGrid != nil {
+					endhalfwayarcshapegrid_ := tubevaseabstract.EndHalfwayArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[endhalfwayarcshapegrid_]
 					if ok {
-						vaseabstracts = res[endhalfwayarcshapegrid_]
+						tubevaseabstracts = res[endhalfwayarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[endhalfwayarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[endhalfwayarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopEndHalfwayArcShapeGrid":
-			res := make(map[*TopEndHalfwayArcShapeGrid][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopEndHalfwayArcShapeGrid != nil {
-					topendhalfwayarcshapegrid_ := vaseabstract.TopEndHalfwayArcShapeGrid
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopEndHalfwayArcShapeGrid][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopEndHalfwayArcShapeGrid != nil {
+					topendhalfwayarcshapegrid_ := tubevaseabstract.TopEndHalfwayArcShapeGrid
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topendhalfwayarcshapegrid_]
 					if ok {
-						vaseabstracts = res[topendhalfwayarcshapegrid_]
+						tubevaseabstracts = res[topendhalfwayarcshapegrid_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topendhalfwayarcshapegrid_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topendhalfwayarcshapegrid_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfRotatedGrowthCurve2D":
-			res := make(map[*StackOfRotatedGrowthCurve2D][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.StackOfRotatedGrowthCurve2D != nil {
-					stackofrotatedgrowthcurve2d_ := vaseabstract.StackOfRotatedGrowthCurve2D
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*StackOfRotatedGrowthCurve2D][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.StackOfRotatedGrowthCurve2D != nil {
+					stackofrotatedgrowthcurve2d_ := tubevaseabstract.StackOfRotatedGrowthCurve2D
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[stackofrotatedgrowthcurve2d_]
 					if ok {
-						vaseabstracts = res[stackofrotatedgrowthcurve2d_]
+						tubevaseabstracts = res[stackofrotatedgrowthcurve2d_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[stackofrotatedgrowthcurve2d_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[stackofrotatedgrowthcurve2d_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStackOfRotatedGrowthCurve2D":
-			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
-					topstackofrotatedgrowthcurve2d_ := vaseabstract.TopStackOfRotatedGrowthCurve2D
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
+					topstackofrotatedgrowthcurve2d_ := tubevaseabstract.TopStackOfRotatedGrowthCurve2D
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topstackofrotatedgrowthcurve2d_]
 					if ok {
-						vaseabstracts = res[topstackofrotatedgrowthcurve2d_]
+						tubevaseabstracts = res[topstackofrotatedgrowthcurve2d_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topstackofrotatedgrowthcurve2d_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topstackofrotatedgrowthcurve2d_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopGrowthCurve2D":
-			res := make(map[*TopGrowthCurve2D][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopGrowthCurve2D != nil {
-					topgrowthcurve2d_ := vaseabstract.TopGrowthCurve2D
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopGrowthCurve2D][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopGrowthCurve2D != nil {
+					topgrowthcurve2d_ := tubevaseabstract.TopGrowthCurve2D
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topgrowthcurve2d_]
 					if ok {
-						vaseabstracts = res[topgrowthcurve2d_]
+						tubevaseabstracts = res[topgrowthcurve2d_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topgrowthcurve2d_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topgrowthcurve2d_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfGrowthCurve2D":
-			res := make(map[*StackOfGrowthCurve2D][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.StackOfGrowthCurve2D != nil {
-					stackofgrowthcurve2d_ := vaseabstract.StackOfGrowthCurve2D
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*StackOfGrowthCurve2D][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.StackOfGrowthCurve2D != nil {
+					stackofgrowthcurve2d_ := tubevaseabstract.StackOfGrowthCurve2D
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[stackofgrowthcurve2d_]
 					if ok {
-						vaseabstracts = res[stackofgrowthcurve2d_]
+						tubevaseabstracts = res[stackofgrowthcurve2d_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[stackofgrowthcurve2d_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[stackofgrowthcurve2d_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStackOfGrowthCurve2D":
-			res := make(map[*TopStackOfGrowthCurve2D][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.TopStackOfGrowthCurve2D != nil {
-					topstackofgrowthcurve2d_ := vaseabstract.TopStackOfGrowthCurve2D
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*TopStackOfGrowthCurve2D][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.TopStackOfGrowthCurve2D != nil {
+					topstackofgrowthcurve2d_ := tubevaseabstract.TopStackOfGrowthCurve2D
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[topstackofgrowthcurve2d_]
 					if ok {
-						vaseabstracts = res[topstackofgrowthcurve2d_]
+						tubevaseabstracts = res[topstackofgrowthcurve2d_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[topstackofgrowthcurve2d_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[topstackofgrowthcurve2d_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfGrowthCurve2DRibbon":
-			res := make(map[*StackOfGrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.StackOfGrowthCurve2DRibbon != nil {
-					stackofgrowthcurve2dribbon_ := vaseabstract.StackOfGrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*StackOfGrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.StackOfGrowthCurve2DRibbon != nil {
+					stackofgrowthcurve2dribbon_ := tubevaseabstract.StackOfGrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[stackofgrowthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[stackofgrowthcurve2dribbon_]
+						tubevaseabstracts = res[stackofgrowthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[stackofgrowthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[stackofgrowthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfRotatedGrowthCurve2DRibbon":
-			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
-					stackofrotatedgrowthcurve2dribbon_ := vaseabstract.StackOfRotatedGrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+					stackofrotatedgrowthcurve2dribbon_ := tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[stackofrotatedgrowthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[stackofrotatedgrowthcurve2dribbon_]
+						tubevaseabstracts = res[stackofrotatedgrowthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[stackofrotatedgrowthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[stackofrotatedgrowthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2DRibbon":
-			res := make(map[*GrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.GrowthCurve2DRibbon != nil {
-					growthcurve2dribbon_ := vaseabstract.GrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*GrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.GrowthCurve2DRibbon != nil {
+					growthcurve2dribbon_ := tubevaseabstract.GrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[growthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[growthcurve2dribbon_]
+						tubevaseabstracts = res[growthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[growthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[growthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedRightGrowthCurve2DRibbon":
-			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
-					shiftedrightgrowthcurve2dribbon_ := vaseabstract.ShiftedRightGrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+					shiftedrightgrowthcurve2dribbon_ := tubevaseabstract.ShiftedRightGrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[shiftedrightgrowthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[shiftedrightgrowthcurve2dribbon_]
+						tubevaseabstracts = res[shiftedrightgrowthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[shiftedrightgrowthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[shiftedrightgrowthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedLeftGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
-					shiftedleftgrowthcurve2dribbon_ := vaseabstract.ShiftedLeftGrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+					shiftedleftgrowthcurve2dribbon_ := tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[shiftedleftgrowthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[shiftedleftgrowthcurve2dribbon_]
+						tubevaseabstracts = res[shiftedleftgrowthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[shiftedleftgrowthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[shiftedleftgrowthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyGrowthCurve2DRibbon":
-			res := make(map[*PartiallyGrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.PartiallyGrowthCurve2DRibbon != nil {
-					partiallygrowthcurve2dribbon_ := vaseabstract.PartiallyGrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*PartiallyGrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.PartiallyGrowthCurve2DRibbon != nil {
+					partiallygrowthcurve2dribbon_ := tubevaseabstract.PartiallyGrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[partiallygrowthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[partiallygrowthcurve2dribbon_]
+						tubevaseabstracts = res[partiallygrowthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[partiallygrowthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[partiallygrowthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-					shiftedleftpartiallygrowthcurve2dribbon_ := vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+					shiftedleftpartiallygrowthcurve2dribbon_ := tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
 					if ok {
-						vaseabstracts = res[shiftedleftpartiallygrowthcurve2dribbon_]
+						tubevaseabstracts = res[shiftedleftpartiallygrowthcurve2dribbon_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[shiftedleftpartiallygrowthcurve2dribbon_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[shiftedleftpartiallygrowthcurve2dribbon_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyGrowthCurve2DTrajectory":
-			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
-					partiallygrowthcurve2dtrajectory_ := vaseabstract.PartiallyGrowthCurve2DTrajectory
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
+					partiallygrowthcurve2dtrajectory_ := tubevaseabstract.PartiallyGrowthCurve2DTrajectory
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[partiallygrowthcurve2dtrajectory_]
 					if ok {
-						vaseabstracts = res[partiallygrowthcurve2dtrajectory_]
+						tubevaseabstracts = res[partiallygrowthcurve2dtrajectory_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[partiallygrowthcurve2dtrajectory_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[partiallygrowthcurve2dtrajectory_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-					partiallygrowthcurve2dtrajectoryp1p2_ := vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+					partiallygrowthcurve2dtrajectoryp1p2_ := tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
 					if ok {
-						vaseabstracts = res[partiallygrowthcurve2dtrajectoryp1p2_]
+						tubevaseabstracts = res[partiallygrowthcurve2dtrajectoryp1p2_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[partiallygrowthcurve2dtrajectoryp1p2_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[partiallygrowthcurve2dtrajectoryp1p2_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PxShape":
-			res := make(map[*PxShape][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.PxShape != nil {
-					pxshape_ := vaseabstract.PxShape
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*PxShape][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.PxShape != nil {
+					pxshape_ := tubevaseabstract.PxShape
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[pxshape_]
 					if ok {
-						vaseabstracts = res[pxshape_]
+						tubevaseabstracts = res[pxshape_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[pxshape_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[pxshape_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ChosenP1P2PairShape":
-			res := make(map[*ChosenP1P2PairShape][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.ChosenP1P2PairShape != nil {
-					chosenp1p2pairshape_ := vaseabstract.ChosenP1P2PairShape
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*ChosenP1P2PairShape][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.ChosenP1P2PairShape != nil {
+					chosenp1p2pairshape_ := tubevaseabstract.ChosenP1P2PairShape
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[chosenp1p2pairshape_]
 					if ok {
-						vaseabstracts = res[chosenp1p2pairshape_]
+						tubevaseabstracts = res[chosenp1p2pairshape_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[chosenp1p2pairshape_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[chosenp1p2pairshape_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "KeyHoleShape":
-			res := make(map[*KeyHoleShape][]*VaseAbstract)
-			for vaseabstract := range stage.VaseAbstracts {
-				if vaseabstract.KeyHoleShape != nil {
-					keyholeshape_ := vaseabstract.KeyHoleShape
-					var vaseabstracts []*VaseAbstract
+			res := make(map[*KeyHoleShape][]*TubeVaseAbstract)
+			for tubevaseabstract := range stage.TubeVaseAbstracts {
+				if tubevaseabstract.KeyHoleShape != nil {
+					keyholeshape_ := tubevaseabstract.KeyHoleShape
+					var tubevaseabstracts []*TubeVaseAbstract
 					_, ok := res[keyholeshape_]
 					if ok {
-						vaseabstracts = res[keyholeshape_]
+						tubevaseabstracts = res[keyholeshape_]
 					} else {
-						vaseabstracts = make([]*VaseAbstract, 0)
+						tubevaseabstracts = make([]*TubeVaseAbstract, 0)
 					}
-					vaseabstracts = append(vaseabstracts, vaseabstract)
-					res[keyholeshape_] = vaseabstracts
+					tubevaseabstracts = append(tubevaseabstracts, tubevaseabstract)
+					res[keyholeshape_] = tubevaseabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Vase2DDiagram
+	case Vase2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of VerticalTorusStackShape
 	case VerticalTorusStackShape:
@@ -30911,11 +30911,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Vase3DDiagrams":
-			res := make(map[*Vase3DDiagram][]*PlantAbstract)
+		case "TubeVase3DDiagrams":
+			res := make(map[*TubeVase3DDiagram][]*PlantAbstract)
 			for plantabstract := range stage.PlantAbstracts {
-				for _, vase3ddiagram_ := range plantabstract.Vase3DDiagrams {
-					res[vase3ddiagram_] = append(res[vase3ddiagram_], plantabstract)
+				for _, tubevase3ddiagram_ := range plantabstract.TubeVase3DDiagrams {
+					res[tubevase3ddiagram_] = append(res[tubevase3ddiagram_], plantabstract)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -31562,18 +31562,18 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TubeVase3DDiagram
+	case TubeVase3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TubeVaseAbstract
+	case TubeVaseAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Vase2DDiagram
 	case Vase2DDiagram:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Vase3DDiagram
-	case Vase3DDiagram:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of VaseAbstract
-	case VaseAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -31885,12 +31885,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TorusEdge3DShape"
 	case *TorusStackShape:
 		res = "TorusStackShape"
+	case *TubeVase3DDiagram:
+		res = "TubeVase3DDiagram"
+	case *TubeVaseAbstract:
+		res = "TubeVaseAbstract"
 	case *Vase2DDiagram:
 		res = "Vase2DDiagram"
-	case *Vase3DDiagram:
-		res = "Vase3DDiagram"
-	case *VaseAbstract:
-		res = "VaseAbstract"
 	case *VerticalTorusStackShape:
 		res = "VerticalTorusStackShape"
 	case *VolumeKey3DShape:
@@ -32506,21 +32506,21 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *TorusStackShape:
 		var rf ReverseField
 		_ = rf
+	case *TubeVase3DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "TubeVase3DDiagrams"
+		res = append(res, rf)
+	case *TubeVaseAbstract:
+		var rf ReverseField
+		_ = rf
 	case *Vase2DDiagram:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "PlantAbstract"
 		rf.Fieldname = "Vase2DDiagrams"
 		res = append(res, rf)
-	case *Vase3DDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "PlantAbstract"
-		rf.Fieldname = "Vase3DDiagrams"
-		res = append(res, rf)
-	case *VaseAbstract:
-		var rf ReverseField
-		_ = rf
 	case *VerticalTorusStackShape:
 		var rf ReverseField
 		_ = rf
@@ -34431,9 +34431,9 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "PlantType",
 		},
 		{
-			Name:                 "VaseAbstract",
+			Name:                 "TubeVaseAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "VaseAbstract",
+			TargetGongstructName: "TubeVaseAbstract",
 		},
 		{
 			Name:                 "StoolAbstract",
@@ -34495,13 +34495,13 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "Vase2DDiagram",
 		},
 		{
-			Name:               "IsVase3DDiagramsNodeExpanded",
+			Name:               "IsTubeVase3DDiagramsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Vase3DDiagrams",
+			Name:                 "TubeVase3DDiagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Vase3DDiagram",
+			TargetGongstructName: "TubeVase3DDiagram",
 		},
 		{
 			Name:               "IsStool2DDiagramsNodeExpanded",
@@ -37289,170 +37289,7 @@ func (torusstackshape *TorusStackShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
-func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Zoom",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "IsVaseArcNodesExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsVaseClampingNodesExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenAxesShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPerpendicularVectorGridHalfway",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopMidArcVectorShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStartHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenEndHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStackOfGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfRotatedGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPxShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenChosenP1P2PairShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenKeyHoleShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsChecked",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-	}
-	return
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -37601,7 +37438,7 @@ func (vase3ddiagram *Vase3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader
 	return
 }
 
-func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -37813,6 +37650,169 @@ func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "KeyHoleShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "KeyHoleShape",
+		},
+	}
+	return
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsVaseArcNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsVaseClampingNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPerpendicularVectorGridHalfway",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopMidArcVectorShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedRightGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfRotatedGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPxShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenChosenP1P2PairShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenKeyHoleShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -39765,11 +39765,11 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 	case "PlantType":
 		enum := plantabstract.PlantType
 		res.valueString = enum.ToCodeString()
-	case "VaseAbstract":
+	case "TubeVaseAbstract":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.VaseAbstract != nil {
-			res.valueString = plantabstract.VaseAbstract.Name
-			res.ids = plantabstract.VaseAbstract.GongGetUUID(stage)
+		if plantabstract.TubeVaseAbstract != nil {
+			res.valueString = plantabstract.TubeVaseAbstract.Name
+			res.ids = plantabstract.TubeVaseAbstract.GongGetUUID(stage)
 		}
 	case "StoolAbstract":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -39844,13 +39844,13 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsVase3DDiagramsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", plantabstract.IsVase3DDiagramsNodeExpanded)
-		res.valueBool = plantabstract.IsVase3DDiagramsNodeExpanded
+	case "IsTubeVase3DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsTubeVase3DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsTubeVase3DDiagramsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Vase3DDiagrams":
+	case "TubeVase3DDiagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range plantabstract.Vase3DDiagrams {
+		for idx, __instance__ := range plantabstract.TubeVase3DDiagrams {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -42704,6 +42704,406 @@ func (torusstackshape *TorusStackShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = tubevase3ddiagram.Name
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon)
+		res.valueBool = tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTorusStackShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTorusStackShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenTorusStackShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenVerticalTorusStackShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenVerticalTorusStackShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenVerticalTorusStackShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyRotatedTorusShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenPartiallyRotatedTorusShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenPartiallyRotatedTorusShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPointsAndLines3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenPointsAndLines3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenPointsAndLines3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKeyHole3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenKeyHole3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenKeyHole3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKey3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenKey3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenKey3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenVolumeKey3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenVolumeKey3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenVolumeKey3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTorusEdge3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTorusEdge3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenTorusEdge3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenOriginalPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenOriginalPoints3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenOriginalPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenAngle0Shape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenAngle0Shape)
+		res.valueBool = tubevase3ddiagram.IsHiddenAngle0Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = tubevase3ddiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.Rendered3DShape != nil {
+			res.valueString = tubevase3ddiagram.Rendered3DShape.Name
+			res.ids = tubevase3ddiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	case "TorusStackShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.TorusStackShape != nil {
+			res.valueString = tubevase3ddiagram.TorusStackShape.Name
+			res.ids = tubevase3ddiagram.TorusStackShape.GongGetUUID(stage)
+		}
+	case "VerticalTorusStackShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.VerticalTorusStackShape != nil {
+			res.valueString = tubevase3ddiagram.VerticalTorusStackShape.Name
+			res.ids = tubevase3ddiagram.VerticalTorusStackShape.GongGetUUID(stage)
+		}
+	case "PartiallyRotatedTorusShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.PartiallyRotatedTorusShape != nil {
+			res.valueString = tubevase3ddiagram.PartiallyRotatedTorusShape.Name
+			res.ids = tubevase3ddiagram.PartiallyRotatedTorusShape.GongGetUUID(stage)
+		}
+	case "StackOfPartiallyRotatedTorusShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
+			res.valueString = tubevase3ddiagram.StackOfPartiallyRotatedTorusShape.Name
+			res.ids = tubevase3ddiagram.StackOfPartiallyRotatedTorusShape.GongGetUUID(stage)
+		}
+	case "PointsAndLines3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.PointsAndLines3DShape != nil {
+			res.valueString = tubevase3ddiagram.PointsAndLines3DShape.Name
+			res.ids = tubevase3ddiagram.PointsAndLines3DShape.GongGetUUID(stage)
+		}
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.SampledPoints3DShape != nil {
+			res.valueString = tubevase3ddiagram.SampledPoints3DShape.Name
+			res.ids = tubevase3ddiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "OriginalPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.OriginalPoints3DShape != nil {
+			res.valueString = tubevase3ddiagram.OriginalPoints3DShape.Name
+			res.ids = tubevase3ddiagram.OriginalPoints3DShape.GongGetUUID(stage)
+		}
+	case "Angle0Shape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.Angle0Shape != nil {
+			res.valueString = tubevase3ddiagram.Angle0Shape.Name
+			res.ids = tubevase3ddiagram.Angle0Shape.GongGetUUID(stage)
+		}
+	case "KeyHole3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.KeyHole3DShape != nil {
+			res.valueString = tubevase3ddiagram.KeyHole3DShape.Name
+			res.ids = tubevase3ddiagram.KeyHole3DShape.GongGetUUID(stage)
+		}
+	case "Key3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.Key3DShape != nil {
+			res.valueString = tubevase3ddiagram.Key3DShape.Name
+			res.ids = tubevase3ddiagram.Key3DShape.GongGetUUID(stage)
+		}
+	case "VolumeKey3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.VolumeKey3DShape != nil {
+			res.valueString = tubevase3ddiagram.VolumeKey3DShape.Name
+			res.ids = tubevase3ddiagram.VolumeKey3DShape.GongGetUUID(stage)
+		}
+	case "TorusEdge3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.TorusEdge3DShape != nil {
+			res.valueString = tubevase3ddiagram.TorusEdge3DShape.Name
+			res.ids = tubevase3ddiagram.TorusEdge3DShape.GongGetUUID(stage)
+		}
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevase3ddiagram.TiledFloor3DShape != nil {
+			res.valueString = tubevase3ddiagram.TiledFloor3DShape.Name
+			res.ids = tubevase3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsChecked)
+		res.valueBool = tubevase3ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = tubevase3ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsExpanded)
+		res.valueBool = tubevase3ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = tubevaseabstract.Name
+	case "RelativeVerticalThickness":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)
+		res.valueFloat = tubevaseabstract.RelativeVerticalThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRadialThickness":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeRadialThickness)
+		res.valueFloat = tubevaseabstract.RelativeRadialThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeCuttedStackFloorHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeCuttedStackFloorHeight)
+		res.valueFloat = tubevaseabstract.RelativeCuttedStackFloorHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRotatedTorusSeparation":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeRotatedTorusSeparation)
+		res.valueFloat = tubevaseabstract.RelativeRotatedTorusSeparation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RotationRatio":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RotationRatio)
+		res.valueFloat = tubevaseabstract.RotationRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", tubevaseabstract.RadialRepetitions)
+		res.valueInt = tubevaseabstract.RadialRepetitions
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Transparency)
+		res.valueFloat = tubevaseabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasAlternatingRingColors":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasAlternatingRingColors)
+		res.valueBool = tubevaseabstract.HasAlternatingRingColors
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RelativeTrajectoryOffsetX":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeTrajectoryOffsetX)
+		res.valueFloat = tubevaseabstract.RelativeTrajectoryOffsetX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTrajectoryOffsetY":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeTrajectoryOffsetY)
+		res.valueFloat = tubevaseabstract.RelativeTrajectoryOffsetY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbStepP1P2":
+		res.valueString = fmt.Sprintf("%d", tubevaseabstract.NbStepP1P2)
+		res.valueInt = tubevaseabstract.NbStepP1P2
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "ChosenStep":
+		res.valueString = fmt.Sprintf("%d", tubevaseabstract.ChosenStep)
+		res.valueInt = tubevaseabstract.ChosenStep
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "RelativeHorizontalRingsHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeHorizontalRingsHeight)
+		res.valueFloat = tubevaseabstract.RelativeHorizontalRingsHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyX":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.OffsetKeyX)
+		res.valueFloat = tubevaseabstract.OffsetKeyX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyY":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.OffsetKeyY)
+		res.valueFloat = tubevaseabstract.OffsetKeyY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HeightKey":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.HeightKey)
+		res.valueFloat = tubevaseabstract.HeightKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "WidthKey":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.WidthKey)
+		res.valueFloat = tubevaseabstract.WidthKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeKeySize":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeKeySize)
+		res.valueFloat = tubevaseabstract.RelativeKeySize
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "MovieNbFrames":
+		res.valueString = fmt.Sprintf("%d", tubevaseabstract.MovieNbFrames)
+		res.valueInt = tubevaseabstract.MovieNbFrames
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "PerpendicularVectorGridHalfway":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.PerpendicularVectorGridHalfway != nil {
+			res.valueString = tubevaseabstract.PerpendicularVectorGridHalfway.Name
+			res.ids = tubevaseabstract.PerpendicularVectorGridHalfway.GongGetUUID(stage)
+		}
+	case "TopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopStartArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.TopStartArcShapeGrid.Name
+			res.ids = tubevaseabstract.TopStartArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopEndArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.TopEndArcShapeGrid.Name
+			res.ids = tubevaseabstract.TopEndArcShapeGrid.GongGetUUID(stage)
+		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.ShiftedBottomTopStartArcShapeGrid.Name
+			res.ids = tubevaseabstract.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopMidArcVectorShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopMidArcVectorShapeGrid != nil {
+			res.valueString = tubevaseabstract.TopMidArcVectorShapeGrid.Name
+			res.ids = tubevaseabstract.TopMidArcVectorShapeGrid.GongGetUUID(stage)
+		}
+	case "StartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.StartHalfwayArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.StartHalfwayArcShapeGrid.Name
+			res.ids = tubevaseabstract.StartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopStartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopStartHalfwayArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.TopStartHalfwayArcShapeGrid.Name
+			res.ids = tubevaseabstract.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "EndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.EndHalfwayArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.EndHalfwayArcShapeGrid.Name
+			res.ids = tubevaseabstract.EndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopEndHalfwayArcShapeGrid != nil {
+			res.valueString = tubevaseabstract.TopEndHalfwayArcShapeGrid.Name
+			res.ids = tubevaseabstract.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "StackOfRotatedGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.StackOfRotatedGrowthCurve2D != nil {
+			res.valueString = tubevaseabstract.StackOfRotatedGrowthCurve2D.Name
+			res.ids = tubevaseabstract.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopStackOfRotatedGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
+			res.valueString = tubevaseabstract.TopStackOfRotatedGrowthCurve2D.Name
+			res.ids = tubevaseabstract.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopGrowthCurve2D != nil {
+			res.valueString = tubevaseabstract.TopGrowthCurve2D.Name
+			res.ids = tubevaseabstract.TopGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "StackOfGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.StackOfGrowthCurve2D != nil {
+			res.valueString = tubevaseabstract.StackOfGrowthCurve2D.Name
+			res.ids = tubevaseabstract.StackOfGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopStackOfGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.TopStackOfGrowthCurve2D != nil {
+			res.valueString = tubevaseabstract.TopStackOfGrowthCurve2D.Name
+			res.ids = tubevaseabstract.TopStackOfGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "StackOfGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.StackOfGrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.StackOfGrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "GrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.GrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.GrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.GrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedRightGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.ShiftedRightGrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.PartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.PartiallyGrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
+			res.ids = tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
+			res.valueString = tubevaseabstract.PartiallyGrowthCurve2DTrajectory.Name
+			res.ids = tubevaseabstract.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+			res.valueString = tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.Name
+			res.ids = tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
+		}
+	case "PxShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.PxShape != nil {
+			res.valueString = tubevaseabstract.PxShape.Name
+			res.ids = tubevaseabstract.PxShape.GongGetUUID(stage)
+		}
+	case "ChosenP1P2PairShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.ChosenP1P2PairShape != nil {
+			res.valueString = tubevaseabstract.ChosenP1P2PairShape.Name
+			res.ids = tubevaseabstract.ChosenP1P2PairShape.GongGetUUID(stage)
+		}
+	case "KeyHoleShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if tubevaseabstract.KeyHoleShape != nil {
+			res.valueString = tubevaseabstract.KeyHoleShape.Name
+			res.ids = tubevaseabstract.KeyHoleShape.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -42859,406 +43259,6 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsExpanded)
 		res.valueBool = vase2ddiagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	}
-	return
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = vase3ddiagram.Name
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon)
-		res.valueBool = vase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTorusStackShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenTorusStackShape)
-		res.valueBool = vase3ddiagram.IsHiddenTorusStackShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenVerticalTorusStackShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenVerticalTorusStackShape)
-		res.valueBool = vase3ddiagram.IsHiddenVerticalTorusStackShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyRotatedTorusShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenPartiallyRotatedTorusShape)
-		res.valueBool = vase3ddiagram.IsHiddenPartiallyRotatedTorusShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
-		res.valueBool = vase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPointsAndLines3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenPointsAndLines3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenPointsAndLines3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenKeyHole3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenKeyHole3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenKeyHole3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenKey3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenKey3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenKey3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenVolumeKey3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenVolumeKey3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenVolumeKey3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTorusEdge3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenTorusEdge3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenTorusEdge3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenSampledPoints3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenSampledPoints3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenSampledPoints3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenOriginalPoints3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenOriginalPoints3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenOriginalPoints3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenAngle0Shape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenAngle0Shape)
-		res.valueBool = vase3ddiagram.IsHiddenAngle0Shape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTiledFloor3DShape":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenTiledFloor3DShape)
-		res.valueBool = vase3ddiagram.IsHiddenTiledFloor3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Rendered3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.Rendered3DShape != nil {
-			res.valueString = vase3ddiagram.Rendered3DShape.Name
-			res.ids = vase3ddiagram.Rendered3DShape.GongGetUUID(stage)
-		}
-	case "TorusStackShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.TorusStackShape != nil {
-			res.valueString = vase3ddiagram.TorusStackShape.Name
-			res.ids = vase3ddiagram.TorusStackShape.GongGetUUID(stage)
-		}
-	case "VerticalTorusStackShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.VerticalTorusStackShape != nil {
-			res.valueString = vase3ddiagram.VerticalTorusStackShape.Name
-			res.ids = vase3ddiagram.VerticalTorusStackShape.GongGetUUID(stage)
-		}
-	case "PartiallyRotatedTorusShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.PartiallyRotatedTorusShape != nil {
-			res.valueString = vase3ddiagram.PartiallyRotatedTorusShape.Name
-			res.ids = vase3ddiagram.PartiallyRotatedTorusShape.GongGetUUID(stage)
-		}
-	case "StackOfPartiallyRotatedTorusShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
-			res.valueString = vase3ddiagram.StackOfPartiallyRotatedTorusShape.Name
-			res.ids = vase3ddiagram.StackOfPartiallyRotatedTorusShape.GongGetUUID(stage)
-		}
-	case "PointsAndLines3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.PointsAndLines3DShape != nil {
-			res.valueString = vase3ddiagram.PointsAndLines3DShape.Name
-			res.ids = vase3ddiagram.PointsAndLines3DShape.GongGetUUID(stage)
-		}
-	case "SampledPoints3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.SampledPoints3DShape != nil {
-			res.valueString = vase3ddiagram.SampledPoints3DShape.Name
-			res.ids = vase3ddiagram.SampledPoints3DShape.GongGetUUID(stage)
-		}
-	case "OriginalPoints3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.OriginalPoints3DShape != nil {
-			res.valueString = vase3ddiagram.OriginalPoints3DShape.Name
-			res.ids = vase3ddiagram.OriginalPoints3DShape.GongGetUUID(stage)
-		}
-	case "Angle0Shape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.Angle0Shape != nil {
-			res.valueString = vase3ddiagram.Angle0Shape.Name
-			res.ids = vase3ddiagram.Angle0Shape.GongGetUUID(stage)
-		}
-	case "KeyHole3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.KeyHole3DShape != nil {
-			res.valueString = vase3ddiagram.KeyHole3DShape.Name
-			res.ids = vase3ddiagram.KeyHole3DShape.GongGetUUID(stage)
-		}
-	case "Key3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.Key3DShape != nil {
-			res.valueString = vase3ddiagram.Key3DShape.Name
-			res.ids = vase3ddiagram.Key3DShape.GongGetUUID(stage)
-		}
-	case "VolumeKey3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.VolumeKey3DShape != nil {
-			res.valueString = vase3ddiagram.VolumeKey3DShape.Name
-			res.ids = vase3ddiagram.VolumeKey3DShape.GongGetUUID(stage)
-		}
-	case "TorusEdge3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.TorusEdge3DShape != nil {
-			res.valueString = vase3ddiagram.TorusEdge3DShape.Name
-			res.ids = vase3ddiagram.TorusEdge3DShape.GongGetUUID(stage)
-		}
-	case "TiledFloor3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase3ddiagram.TiledFloor3DShape != nil {
-			res.valueString = vase3ddiagram.TiledFloor3DShape.Name
-			res.ids = vase3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
-		}
-	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsChecked)
-		res.valueBool = vase3ddiagram.IsChecked
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ComputedPrefix":
-		res.valueString = vase3ddiagram.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsExpanded)
-		res.valueBool = vase3ddiagram.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	}
-	return
-}
-
-func (vaseabstract *VaseAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = vaseabstract.Name
-	case "RelativeVerticalThickness":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeVerticalThickness)
-		res.valueFloat = vaseabstract.RelativeVerticalThickness
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeRadialThickness":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRadialThickness)
-		res.valueFloat = vaseabstract.RelativeRadialThickness
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeCuttedStackFloorHeight":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeCuttedStackFloorHeight)
-		res.valueFloat = vaseabstract.RelativeCuttedStackFloorHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeRotatedTorusSeparation":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRotatedTorusSeparation)
-		res.valueFloat = vaseabstract.RelativeRotatedTorusSeparation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RotationRatio":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RotationRatio)
-		res.valueFloat = vaseabstract.RotationRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadialRepetitions":
-		res.valueString = fmt.Sprintf("%d", vaseabstract.RadialRepetitions)
-		res.valueInt = vaseabstract.RadialRepetitions
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "Transparency":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.Transparency)
-		res.valueFloat = vaseabstract.Transparency
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HasAlternatingRingColors":
-		res.valueString = fmt.Sprintf("%t", vaseabstract.HasAlternatingRingColors)
-		res.valueBool = vaseabstract.HasAlternatingRingColors
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RelativeTrajectoryOffsetX":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetX)
-		res.valueFloat = vaseabstract.RelativeTrajectoryOffsetX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeTrajectoryOffsetY":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetY)
-		res.valueFloat = vaseabstract.RelativeTrajectoryOffsetY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NbStepP1P2":
-		res.valueString = fmt.Sprintf("%d", vaseabstract.NbStepP1P2)
-		res.valueInt = vaseabstract.NbStepP1P2
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "ChosenStep":
-		res.valueString = fmt.Sprintf("%d", vaseabstract.ChosenStep)
-		res.valueInt = vaseabstract.ChosenStep
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "RelativeHorizontalRingsHeight":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeHorizontalRingsHeight)
-		res.valueFloat = vaseabstract.RelativeHorizontalRingsHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OffsetKeyX":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.OffsetKeyX)
-		res.valueFloat = vaseabstract.OffsetKeyX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OffsetKeyY":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.OffsetKeyY)
-		res.valueFloat = vaseabstract.OffsetKeyY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HeightKey":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.HeightKey)
-		res.valueFloat = vaseabstract.HeightKey
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "WidthKey":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.WidthKey)
-		res.valueFloat = vaseabstract.WidthKey
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeKeySize":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeKeySize)
-		res.valueFloat = vaseabstract.RelativeKeySize
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "MovieNbFrames":
-		res.valueString = fmt.Sprintf("%d", vaseabstract.MovieNbFrames)
-		res.valueInt = vaseabstract.MovieNbFrames
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "PerpendicularVectorGridHalfway":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.PerpendicularVectorGridHalfway != nil {
-			res.valueString = vaseabstract.PerpendicularVectorGridHalfway.Name
-			res.ids = vaseabstract.PerpendicularVectorGridHalfway.GongGetUUID(stage)
-		}
-	case "TopStartArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopStartArcShapeGrid != nil {
-			res.valueString = vaseabstract.TopStartArcShapeGrid.Name
-			res.ids = vaseabstract.TopStartArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopEndArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopEndArcShapeGrid != nil {
-			res.valueString = vaseabstract.TopEndArcShapeGrid.Name
-			res.ids = vaseabstract.TopEndArcShapeGrid.GongGetUUID(stage)
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
-			res.valueString = vaseabstract.ShiftedBottomTopStartArcShapeGrid.Name
-			res.ids = vaseabstract.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopMidArcVectorShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopMidArcVectorShapeGrid != nil {
-			res.valueString = vaseabstract.TopMidArcVectorShapeGrid.Name
-			res.ids = vaseabstract.TopMidArcVectorShapeGrid.GongGetUUID(stage)
-		}
-	case "StartHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.StartHalfwayArcShapeGrid != nil {
-			res.valueString = vaseabstract.StartHalfwayArcShapeGrid.Name
-			res.ids = vaseabstract.StartHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopStartHalfwayArcShapeGrid != nil {
-			res.valueString = vaseabstract.TopStartHalfwayArcShapeGrid.Name
-			res.ids = vaseabstract.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "EndHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.EndHalfwayArcShapeGrid != nil {
-			res.valueString = vaseabstract.EndHalfwayArcShapeGrid.Name
-			res.ids = vaseabstract.EndHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopEndHalfwayArcShapeGrid != nil {
-			res.valueString = vaseabstract.TopEndHalfwayArcShapeGrid.Name
-			res.ids = vaseabstract.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.StackOfRotatedGrowthCurve2D != nil {
-			res.valueString = vaseabstract.StackOfRotatedGrowthCurve2D.Name
-			res.ids = vaseabstract.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
-			res.valueString = vaseabstract.TopStackOfRotatedGrowthCurve2D.Name
-			res.ids = vaseabstract.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopGrowthCurve2D != nil {
-			res.valueString = vaseabstract.TopGrowthCurve2D.Name
-			res.ids = vaseabstract.TopGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "StackOfGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.StackOfGrowthCurve2D != nil {
-			res.valueString = vaseabstract.StackOfGrowthCurve2D.Name
-			res.ids = vaseabstract.StackOfGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopStackOfGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.TopStackOfGrowthCurve2D != nil {
-			res.valueString = vaseabstract.TopStackOfGrowthCurve2D.Name
-			res.ids = vaseabstract.TopStackOfGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.StackOfGrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.StackOfGrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.StackOfRotatedGrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "GrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.GrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.GrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.GrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.ShiftedRightGrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.ShiftedLeftGrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.PartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.PartiallyGrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
-			res.ids = vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
-			res.valueString = vaseabstract.PartiallyGrowthCurve2DTrajectory.Name
-			res.ids = vaseabstract.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-			res.valueString = vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.Name
-			res.ids = vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
-		}
-	case "PxShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.PxShape != nil {
-			res.valueString = vaseabstract.PxShape.Name
-			res.ids = vaseabstract.PxShape.GongGetUUID(stage)
-		}
-	case "ChosenP1P2PairShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.ChosenP1P2PairShape != nil {
-			res.valueString = vaseabstract.ChosenP1P2PairShape.Name
-			res.ids = vaseabstract.ChosenP1P2PairShape.GongGetUUID(stage)
-		}
-	case "KeyHoleShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vaseabstract.KeyHoleShape != nil {
-			res.valueString = vaseabstract.KeyHoleShape.Name
-			res.ids = vaseabstract.KeyHoleShape.GongGetUUID(stage)
-		}
 	}
 	return
 }
@@ -44969,13 +44969,13 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 		plantabstract.RhombusSideLength = value.GetValueFloat()
 	case "PlantType":
 		plantabstract.PlantType.FromCodeString(value.GetValueString())
-	case "VaseAbstract":
+	case "TubeVaseAbstract":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.VaseAbstract = nil
-			for __instance__ := range stage.VaseAbstracts {
-				if stage.VaseAbstract_stagedOrder[__instance__] == uint(id) {
-					plantabstract.VaseAbstract = __instance__
+			plantabstract.TubeVaseAbstract = nil
+			for __instance__ := range stage.TubeVaseAbstracts {
+				if stage.TubeVaseAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.TubeVaseAbstract = __instance__
 					break
 				}
 			}
@@ -45069,17 +45069,17 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
-	case "IsVase3DDiagramsNodeExpanded":
-		plantabstract.IsVase3DDiagramsNodeExpanded = value.GetValueBool()
-	case "Vase3DDiagrams":
-		plantabstract.Vase3DDiagrams = make([]*Vase3DDiagram, 0)
+	case "IsTubeVase3DDiagramsNodeExpanded":
+		plantabstract.IsTubeVase3DDiagramsNodeExpanded = value.GetValueBool()
+	case "TubeVase3DDiagrams":
+		plantabstract.TubeVase3DDiagrams = make([]*TubeVase3DDiagram, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Vase3DDiagrams {
-					if stage.Vase3DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Vase3DDiagrams = append(plantabstract.Vase3DDiagrams, __instance__)
+				for __instance__ := range stage.TubeVase3DDiagrams {
+					if stage.TubeVase3DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.TubeVase3DDiagrams = append(plantabstract.TubeVase3DDiagrams, __instance__)
 						break
 					}
 				}
@@ -47637,6 +47637,540 @@ func (torusstackshape *TorusStackShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		tubevase3ddiagram.Name = value.GetValueString()
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenTorusStackShape":
+		tubevase3ddiagram.IsHiddenTorusStackShape = value.GetValueBool()
+	case "IsHiddenVerticalTorusStackShape":
+		tubevase3ddiagram.IsHiddenVerticalTorusStackShape = value.GetValueBool()
+	case "IsHiddenPartiallyRotatedTorusShape":
+		tubevase3ddiagram.IsHiddenPartiallyRotatedTorusShape = value.GetValueBool()
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape = value.GetValueBool()
+	case "IsHiddenPointsAndLines3DShape":
+		tubevase3ddiagram.IsHiddenPointsAndLines3DShape = value.GetValueBool()
+	case "IsHiddenKeyHole3DShape":
+		tubevase3ddiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
+	case "IsHiddenKey3DShape":
+		tubevase3ddiagram.IsHiddenKey3DShape = value.GetValueBool()
+	case "IsHiddenVolumeKey3DShape":
+		tubevase3ddiagram.IsHiddenVolumeKey3DShape = value.GetValueBool()
+	case "IsHiddenTorusEdge3DShape":
+		tubevase3ddiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
+	case "IsHiddenSampledPoints3DShape":
+		tubevase3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "IsHiddenOriginalPoints3DShape":
+		tubevase3ddiagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
+	case "IsHiddenAngle0Shape":
+		tubevase3ddiagram.IsHiddenAngle0Shape = value.GetValueBool()
+	case "IsHiddenTiledFloor3DShape":
+		tubevase3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TorusStackShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.TorusStackShape = nil
+			for __instance__ := range stage.TorusStackShapes {
+				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.TorusStackShape = __instance__
+					break
+				}
+			}
+		}
+	case "VerticalTorusStackShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.VerticalTorusStackShape = nil
+			for __instance__ := range stage.VerticalTorusStackShapes {
+				if stage.VerticalTorusStackShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.VerticalTorusStackShape = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyRotatedTorusShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.PartiallyRotatedTorusShape = nil
+			for __instance__ := range stage.PartiallyRotatedTorusShapes {
+				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.PartiallyRotatedTorusShape = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfPartiallyRotatedTorusShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.StackOfPartiallyRotatedTorusShape = nil
+			for __instance__ := range stage.StackOfPartiallyRotatedTorusShapes {
+				if stage.StackOfPartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.StackOfPartiallyRotatedTorusShape = __instance__
+					break
+				}
+			}
+		}
+	case "PointsAndLines3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.PointsAndLines3DShape = nil
+			for __instance__ := range stage.PointsAndLines3DShapes {
+				if stage.PointsAndLines3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.PointsAndLines3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "OriginalPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.OriginalPoints3DShape = nil
+			for __instance__ := range stage.OriginalPoints3DShapes {
+				if stage.OriginalPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.OriginalPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Angle0Shape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.Angle0Shape = nil
+			for __instance__ := range stage.Angle0Shapes {
+				if stage.Angle0Shape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.Angle0Shape = __instance__
+					break
+				}
+			}
+		}
+	case "KeyHole3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.KeyHole3DShape = nil
+			for __instance__ := range stage.KeyHole3DShapes {
+				if stage.KeyHole3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.KeyHole3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Key3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.Key3DShape = nil
+			for __instance__ := range stage.Key3DShapes {
+				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.Key3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "VolumeKey3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.VolumeKey3DShape = nil
+			for __instance__ := range stage.VolumeKey3DShapes {
+				if stage.VolumeKey3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.VolumeKey3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TorusEdge3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.TorusEdge3DShape = nil
+			for __instance__ := range stage.TorusEdge3DShapes {
+				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.TorusEdge3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevase3ddiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					tubevase3ddiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsChecked":
+		tubevase3ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		tubevase3ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		tubevase3ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		tubevaseabstract.Name = value.GetValueString()
+	case "RelativeVerticalThickness":
+		tubevaseabstract.RelativeVerticalThickness = value.GetValueFloat()
+	case "RelativeRadialThickness":
+		tubevaseabstract.RelativeRadialThickness = value.GetValueFloat()
+	case "RelativeCuttedStackFloorHeight":
+		tubevaseabstract.RelativeCuttedStackFloorHeight = value.GetValueFloat()
+	case "RelativeRotatedTorusSeparation":
+		tubevaseabstract.RelativeRotatedTorusSeparation = value.GetValueFloat()
+	case "RotationRatio":
+		tubevaseabstract.RotationRatio = value.GetValueFloat()
+	case "RadialRepetitions":
+		tubevaseabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		tubevaseabstract.Transparency = value.GetValueFloat()
+	case "HasAlternatingRingColors":
+		tubevaseabstract.HasAlternatingRingColors = value.GetValueBool()
+	case "RelativeTrajectoryOffsetX":
+		tubevaseabstract.RelativeTrajectoryOffsetX = value.GetValueFloat()
+	case "RelativeTrajectoryOffsetY":
+		tubevaseabstract.RelativeTrajectoryOffsetY = value.GetValueFloat()
+	case "NbStepP1P2":
+		tubevaseabstract.NbStepP1P2 = int(value.GetValueInt())
+	case "ChosenStep":
+		tubevaseabstract.ChosenStep = int(value.GetValueInt())
+	case "RelativeHorizontalRingsHeight":
+		tubevaseabstract.RelativeHorizontalRingsHeight = value.GetValueFloat()
+	case "OffsetKeyX":
+		tubevaseabstract.OffsetKeyX = value.GetValueFloat()
+	case "OffsetKeyY":
+		tubevaseabstract.OffsetKeyY = value.GetValueFloat()
+	case "HeightKey":
+		tubevaseabstract.HeightKey = value.GetValueFloat()
+	case "WidthKey":
+		tubevaseabstract.WidthKey = value.GetValueFloat()
+	case "RelativeKeySize":
+		tubevaseabstract.RelativeKeySize = value.GetValueFloat()
+	case "MovieNbFrames":
+		tubevaseabstract.MovieNbFrames = int(value.GetValueInt())
+	case "PerpendicularVectorGridHalfway":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.PerpendicularVectorGridHalfway = nil
+			for __instance__ := range stage.PerpendicularVectorGridHalfways {
+				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.PerpendicularVectorGridHalfway = __instance__
+					break
+				}
+			}
+		}
+	case "TopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopStartArcShapeGrid = nil
+			for __instance__ := range stage.TopStartArcShapeGrids {
+				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopEndArcShapeGrid = nil
+			for __instance__ := range stage.TopEndArcShapeGrids {
+				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopEndArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.ShiftedBottomTopStartArcShapeGrid = nil
+			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
+				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopMidArcVectorShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopMidArcVectorShapeGrid = nil
+			for __instance__ := range stage.TopMidArcVectorShapeGrids {
+				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopMidArcVectorShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "StartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.StartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.StartHalfwayArcShapeGrids {
+				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.StartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopStartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopStartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
+				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopStartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "EndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.EndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.EndHalfwayArcShapeGrids {
+				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.EndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopEndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
+				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopEndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfRotatedGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.StackOfRotatedGrowthCurve2D = nil
+			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
+				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.StackOfRotatedGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopStackOfRotatedGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopStackOfRotatedGrowthCurve2D = nil
+			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
+				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopStackOfRotatedGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopGrowthCurve2D = nil
+			for __instance__ := range stage.TopGrowthCurve2Ds {
+				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.StackOfGrowthCurve2D = nil
+			for __instance__ := range stage.StackOfGrowthCurve2Ds {
+				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.StackOfGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopStackOfGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.TopStackOfGrowthCurve2D = nil
+			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
+				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.TopStackOfGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.StackOfGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
+				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.StackOfGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
+				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "GrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.GrowthCurve2DRibbon = nil
+			for __instance__ := range stage.GrowthCurve2DRibbons {
+				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.GrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedRightGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.ShiftedRightGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
+				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
+				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.PartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
+				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.PartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
+				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.PartiallyGrowthCurve2DTrajectory = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
+				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.PartiallyGrowthCurve2DTrajectory = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
+					break
+				}
+			}
+		}
+	case "PxShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.PxShape = nil
+			for __instance__ := range stage.PxShapes {
+				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.PxShape = __instance__
+					break
+				}
+			}
+		}
+	case "ChosenP1P2PairShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.ChosenP1P2PairShape = nil
+			for __instance__ := range stage.ChosenP1P2PairShapes {
+				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.ChosenP1P2PairShape = __instance__
+					break
+				}
+			}
+		}
+	case "KeyHoleShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			tubevaseabstract.KeyHoleShape = nil
+			for __instance__ := range stage.KeyHoleShapes {
+				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
+					tubevaseabstract.KeyHoleShape = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -47718,540 +48252,6 @@ func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value Go
 		vase2ddiagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		vase2ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		vase3ddiagram.Name = value.GetValueString()
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		vase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenTorusStackShape":
-		vase3ddiagram.IsHiddenTorusStackShape = value.GetValueBool()
-	case "IsHiddenVerticalTorusStackShape":
-		vase3ddiagram.IsHiddenVerticalTorusStackShape = value.GetValueBool()
-	case "IsHiddenPartiallyRotatedTorusShape":
-		vase3ddiagram.IsHiddenPartiallyRotatedTorusShape = value.GetValueBool()
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		vase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape = value.GetValueBool()
-	case "IsHiddenPointsAndLines3DShape":
-		vase3ddiagram.IsHiddenPointsAndLines3DShape = value.GetValueBool()
-	case "IsHiddenKeyHole3DShape":
-		vase3ddiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
-	case "IsHiddenKey3DShape":
-		vase3ddiagram.IsHiddenKey3DShape = value.GetValueBool()
-	case "IsHiddenVolumeKey3DShape":
-		vase3ddiagram.IsHiddenVolumeKey3DShape = value.GetValueBool()
-	case "IsHiddenTorusEdge3DShape":
-		vase3ddiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
-	case "IsHiddenSampledPoints3DShape":
-		vase3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
-	case "IsHiddenOriginalPoints3DShape":
-		vase3ddiagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
-	case "IsHiddenAngle0Shape":
-		vase3ddiagram.IsHiddenAngle0Shape = value.GetValueBool()
-	case "IsHiddenTiledFloor3DShape":
-		vase3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
-	case "Rendered3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.Rendered3DShape = nil
-			for __instance__ := range stage.Rendered3DShapes {
-				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.Rendered3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TorusStackShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.TorusStackShape = nil
-			for __instance__ := range stage.TorusStackShapes {
-				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.TorusStackShape = __instance__
-					break
-				}
-			}
-		}
-	case "VerticalTorusStackShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.VerticalTorusStackShape = nil
-			for __instance__ := range stage.VerticalTorusStackShapes {
-				if stage.VerticalTorusStackShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.VerticalTorusStackShape = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyRotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.PartiallyRotatedTorusShape = nil
-			for __instance__ := range stage.PartiallyRotatedTorusShapes {
-				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.PartiallyRotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfPartiallyRotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.StackOfPartiallyRotatedTorusShape = nil
-			for __instance__ := range stage.StackOfPartiallyRotatedTorusShapes {
-				if stage.StackOfPartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.StackOfPartiallyRotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "PointsAndLines3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.PointsAndLines3DShape = nil
-			for __instance__ := range stage.PointsAndLines3DShapes {
-				if stage.PointsAndLines3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.PointsAndLines3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "SampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.SampledPoints3DShape = nil
-			for __instance__ := range stage.SampledPoints3DShapes {
-				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.SampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "OriginalPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.OriginalPoints3DShape = nil
-			for __instance__ := range stage.OriginalPoints3DShapes {
-				if stage.OriginalPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.OriginalPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Angle0Shape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.Angle0Shape = nil
-			for __instance__ := range stage.Angle0Shapes {
-				if stage.Angle0Shape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.Angle0Shape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHole3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.KeyHole3DShape = nil
-			for __instance__ := range stage.KeyHole3DShapes {
-				if stage.KeyHole3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.KeyHole3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Key3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.Key3DShape = nil
-			for __instance__ := range stage.Key3DShapes {
-				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.Key3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "VolumeKey3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.VolumeKey3DShape = nil
-			for __instance__ := range stage.VolumeKey3DShapes {
-				if stage.VolumeKey3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.VolumeKey3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TorusEdge3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.TorusEdge3DShape = nil
-			for __instance__ := range stage.TorusEdge3DShapes {
-				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.TorusEdge3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TiledFloor3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase3ddiagram.TiledFloor3DShape = nil
-			for __instance__ := range stage.TiledFloor3DShapes {
-				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
-					vase3ddiagram.TiledFloor3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsChecked":
-		vase3ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		vase3ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		vase3ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (vaseabstract *VaseAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		vaseabstract.Name = value.GetValueString()
-	case "RelativeVerticalThickness":
-		vaseabstract.RelativeVerticalThickness = value.GetValueFloat()
-	case "RelativeRadialThickness":
-		vaseabstract.RelativeRadialThickness = value.GetValueFloat()
-	case "RelativeCuttedStackFloorHeight":
-		vaseabstract.RelativeCuttedStackFloorHeight = value.GetValueFloat()
-	case "RelativeRotatedTorusSeparation":
-		vaseabstract.RelativeRotatedTorusSeparation = value.GetValueFloat()
-	case "RotationRatio":
-		vaseabstract.RotationRatio = value.GetValueFloat()
-	case "RadialRepetitions":
-		vaseabstract.RadialRepetitions = int(value.GetValueInt())
-	case "Transparency":
-		vaseabstract.Transparency = value.GetValueFloat()
-	case "HasAlternatingRingColors":
-		vaseabstract.HasAlternatingRingColors = value.GetValueBool()
-	case "RelativeTrajectoryOffsetX":
-		vaseabstract.RelativeTrajectoryOffsetX = value.GetValueFloat()
-	case "RelativeTrajectoryOffsetY":
-		vaseabstract.RelativeTrajectoryOffsetY = value.GetValueFloat()
-	case "NbStepP1P2":
-		vaseabstract.NbStepP1P2 = int(value.GetValueInt())
-	case "ChosenStep":
-		vaseabstract.ChosenStep = int(value.GetValueInt())
-	case "RelativeHorizontalRingsHeight":
-		vaseabstract.RelativeHorizontalRingsHeight = value.GetValueFloat()
-	case "OffsetKeyX":
-		vaseabstract.OffsetKeyX = value.GetValueFloat()
-	case "OffsetKeyY":
-		vaseabstract.OffsetKeyY = value.GetValueFloat()
-	case "HeightKey":
-		vaseabstract.HeightKey = value.GetValueFloat()
-	case "WidthKey":
-		vaseabstract.WidthKey = value.GetValueFloat()
-	case "RelativeKeySize":
-		vaseabstract.RelativeKeySize = value.GetValueFloat()
-	case "MovieNbFrames":
-		vaseabstract.MovieNbFrames = int(value.GetValueInt())
-	case "PerpendicularVectorGridHalfway":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.PerpendicularVectorGridHalfway = nil
-			for __instance__ := range stage.PerpendicularVectorGridHalfways {
-				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.PerpendicularVectorGridHalfway = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopStartArcShapeGrid = nil
-			for __instance__ := range stage.TopStartArcShapeGrids {
-				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopEndArcShapeGrid = nil
-			for __instance__ := range stage.TopEndArcShapeGrids {
-				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopEndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.ShiftedBottomTopStartArcShapeGrid = nil
-			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
-				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopMidArcVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopMidArcVectorShapeGrid = nil
-			for __instance__ := range stage.TopMidArcVectorShapeGrids {
-				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopMidArcVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.StartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.StartHalfwayArcShapeGrids {
-				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.StartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopStartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
-				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopStartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.EndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.EndHalfwayArcShapeGrids {
-				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.EndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopEndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
-				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopEndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.StackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
-				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.StackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopStackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
-				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopStackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopGrowthCurve2D = nil
-			for __instance__ := range stage.TopGrowthCurve2Ds {
-				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.StackOfGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfGrowthCurve2Ds {
-				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.StackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.TopStackOfGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
-				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.TopStackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.StackOfGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
-				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.StackOfGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.StackOfRotatedGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
-				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.GrowthCurve2DRibbon = nil
-			for __instance__ := range stage.GrowthCurve2DRibbons {
-				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.GrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.ShiftedRightGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
-				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.ShiftedLeftGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
-				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.PartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
-				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.PartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.PartiallyGrowthCurve2DTrajectory = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
-				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.PartiallyGrowthCurve2DTrajectory = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
-				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
-					break
-				}
-			}
-		}
-	case "PxShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.PxShape = nil
-			for __instance__ := range stage.PxShapes {
-				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.PxShape = __instance__
-					break
-				}
-			}
-		}
-	case "ChosenP1P2PairShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.ChosenP1P2PairShape = nil
-			for __instance__ := range stage.ChosenP1P2PairShapes {
-				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.ChosenP1P2PairShape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHoleShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vaseabstract.KeyHoleShape = nil
-			for __instance__ := range stage.KeyHoleShapes {
-				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
-					vaseabstract.KeyHoleShape = __instance__
-					break
-				}
-			}
-		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -48849,16 +48849,16 @@ func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
 	return "TorusStackShape"
 }
 
+func (tubevase3ddiagram *TubeVase3DDiagram) GongGetGongstructName() string {
+	return "TubeVase3DDiagram"
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongGetGongstructName() string {
+	return "TubeVaseAbstract"
+}
+
 func (vase2ddiagram *Vase2DDiagram) GongGetGongstructName() string {
 	return "Vase2DDiagram"
-}
-
-func (vase3ddiagram *Vase3DDiagram) GongGetGongstructName() string {
-	return "Vase3DDiagram"
-}
-
-func (vaseabstract *VaseAbstract) GongGetGongstructName() string {
-	return "VaseAbstract"
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetGongstructName() string {
@@ -49581,19 +49581,19 @@ func (stage *Stage) ResetMapStrings() {
 		stage.TorusStackShapes_mapString[torusstackshape.Name] = torusstackshape
 	}
 
+	stage.TubeVase3DDiagrams_mapString = make(map[string]*TubeVase3DDiagram)
+	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
+		stage.TubeVase3DDiagrams_mapString[tubevase3ddiagram.Name] = tubevase3ddiagram
+	}
+
+	stage.TubeVaseAbstracts_mapString = make(map[string]*TubeVaseAbstract)
+	for tubevaseabstract := range stage.TubeVaseAbstracts {
+		stage.TubeVaseAbstracts_mapString[tubevaseabstract.Name] = tubevaseabstract
+	}
+
 	stage.Vase2DDiagrams_mapString = make(map[string]*Vase2DDiagram)
 	for vase2ddiagram := range stage.Vase2DDiagrams {
 		stage.Vase2DDiagrams_mapString[vase2ddiagram.Name] = vase2ddiagram
-	}
-
-	stage.Vase3DDiagrams_mapString = make(map[string]*Vase3DDiagram)
-	for vase3ddiagram := range stage.Vase3DDiagrams {
-		stage.Vase3DDiagrams_mapString[vase3ddiagram.Name] = vase3ddiagram
-	}
-
-	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
-	for vaseabstract := range stage.VaseAbstracts {
-		stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
 	}
 
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)

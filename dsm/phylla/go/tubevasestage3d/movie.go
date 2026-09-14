@@ -1,4 +1,4 @@
-package vasestage3d
+package tubevasestage3d
 
 import (
 	"encoding/base64"
@@ -12,7 +12,7 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (u *ThreeJSStageUpdater) startMovieRecording(stager *models.Stager, plant *models.PlantAbstract, diagram *models.Vase3DDiagram) {
+func (u *ThreeJSStageUpdater) startMovieRecording(stager *models.Stager, plant *models.PlantAbstract, diagram *models.TubeVase3DDiagram) {
 	if plant == nil {
 		plant = stager.GetCurrentPlant()
 	}
@@ -37,8 +37,8 @@ func (u *ThreeJSStageUpdater) startMovieRecording(stager *models.Stager, plant *
 	u.savedInitCommitCallback = stager.GetStage().OnInitCommitCallback
 	stager.GetStage().OnInitCommitCallback = nil
 
-	if plant.PlantType == models.Vase {
-		plant.VaseAbstract.RotationRatio = 0.0
+	if plant.PlantType == models.TubeVase {
+		plant.TubeVaseAbstract.RotationRatio = 0.0
 	}
 	stager.GetStage().Commit()
 }
@@ -62,8 +62,8 @@ func (u *ThreeJSStageUpdater) onCanvasFrameCaptured(stager *models.Stager, canva
 	}
 
 	currentRot := 0.0
-	if u.recordingPlant.PlantType == models.Vase {
-		currentRot = u.recordingPlant.VaseAbstract.RotationRatio
+	if u.recordingPlant.PlantType == models.TubeVase {
+		currentRot = u.recordingPlant.TubeVaseAbstract.RotationRatio
 	}
 
 	b64Data := canvas.Frame64BitsEncoded
@@ -96,16 +96,16 @@ func (u *ThreeJSStageUpdater) onCanvasFrameCaptured(stager *models.Stager, canva
 	u.recordingFrameCount++
 
 	nbFrames := 1000
-	if u.recordingPlant.PlantType == models.Vase && u.recordingPlant.VaseAbstract.MovieNbFrames > 0 {
-		nbFrames = u.recordingPlant.VaseAbstract.MovieNbFrames
+	if u.recordingPlant.PlantType == models.TubeVase && u.recordingPlant.TubeVaseAbstract.MovieNbFrames > 0 {
+		nbFrames = u.recordingPlant.TubeVaseAbstract.MovieNbFrames
 	}
 	rotIncrement := 1.0 / float64(nbFrames)
 	u.recordingRot += rotIncrement
 	nextRot := math.Round(u.recordingRot/rotIncrement) * rotIncrement
 
 	if u.recordingFrameCount < nbFrames {
-		if u.recordingPlant.PlantType == models.Vase {
-			u.recordingPlant.VaseAbstract.RotationRatio = nextRot
+		if u.recordingPlant.PlantType == models.TubeVase {
+			u.recordingPlant.TubeVaseAbstract.RotationRatio = nextRot
 		}
 		stager.EnforceSemantic()
 		u.ux_3d_plant_diagram(stager)

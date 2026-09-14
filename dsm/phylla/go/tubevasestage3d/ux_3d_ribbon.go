@@ -1,4 +1,4 @@
-package vasestage3d
+package tubevasestage3d
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	totalThetaOffset float64,
 	namePrefix string,
 	plant *models.PlantAbstract,
-	checkedDiagram *models.Vase3DDiagram,
+	checkedDiagram *models.TubeVase3DDiagram,
 	localBottomCurve *threejs.Curve,
 	localTopCurve *threejs.Curve,
 	dy float64,
@@ -36,8 +36,8 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	trajOffsetXRel := 0.0
 	trajOffsetYRel := 0.0
 	rotRatio := 0.0
-	if plant.PlantType == models.Vase {
-		vase := plant.VaseAbstract
+	if plant.PlantType == models.TubeVase {
+		vase := plant.TubeVaseAbstract
 		hasAlternatingRingColors = vase.HasAlternatingRingColors
 		offsetKeyX = vase.OffsetKeyX
 		widthKey = vase.WidthKey
@@ -83,7 +83,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	inHoleArr := make([]bool, len(localBottomCurve.Points))
 	var y_bottom_abs, y_top_abs float64
 
-	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 && h != 0 {
+	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.KeyHoleShape != nil && globalR > 0 && h != 0 {
 		x_left := offsetKeyX - widthKey/2.0
 		x_right := offsetKeyX + widthKey/2.0
 		y_bottom_abs = offsetKeyY - heightKey/2.0 + dy
@@ -362,21 +362,21 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 		)
 	}
 
-	if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && plant.VaseAbstract != nil && (plant.VaseAbstract.ChosenP1P2PairShape != nil || plant.VaseAbstract.PxShape != nil) {
+	if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && plant.TubeVaseAbstract != nil && (plant.TubeVaseAbstract.ChosenP1P2PairShape != nil || plant.TubeVaseAbstract.PxShape != nil) {
 		var p1x, p1y, p2x, p2y, pxx, pxy float64
 		hasP1P2 := false
-		if plant.VaseAbstract.ChosenP1P2PairShape != nil {
-			p1x, p1y = plant.VaseAbstract.ChosenP1P2PairShape.P1X, plant.VaseAbstract.ChosenP1P2PairShape.P1Y
-			p2x, p2y = plant.VaseAbstract.ChosenP1P2PairShape.P2X, plant.VaseAbstract.ChosenP1P2PairShape.P2Y
-			pxx, pxy = plant.VaseAbstract.ChosenP1P2PairShape.PxX, plant.VaseAbstract.ChosenP1P2PairShape.PxY
+		if plant.TubeVaseAbstract.ChosenP1P2PairShape != nil {
+			p1x, p1y = plant.TubeVaseAbstract.ChosenP1P2PairShape.P1X, plant.TubeVaseAbstract.ChosenP1P2PairShape.P1Y
+			p2x, p2y = plant.TubeVaseAbstract.ChosenP1P2PairShape.P2X, plant.TubeVaseAbstract.ChosenP1P2PairShape.P2Y
+			pxx, pxy = plant.TubeVaseAbstract.ChosenP1P2PairShape.PxX, plant.TubeVaseAbstract.ChosenP1P2PairShape.PxY
 			hasP1P2 = true
-		} else if plant.VaseAbstract.PxShape != nil {
-			pxx, pxy = plant.VaseAbstract.PxShape.X, plant.VaseAbstract.PxShape.Y
+		} else if plant.TubeVaseAbstract.PxShape != nil {
+			pxx, pxy = plant.TubeVaseAbstract.PxShape.X, plant.TubeVaseAbstract.PxShape.Y
 		}
 
 		// Recompute Px for layer h based on step h+1's specific rotation ratio
-		if plant.VaseAbstract.StackOfGrowthCurve2DRibbon != nil && len(plant.VaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes) > 0 && plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
-			baseShape := plant.VaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes[0]
+		if plant.TubeVaseAbstract.StackOfGrowthCurve2DRibbon != nil && len(plant.TubeVaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes) > 0 && plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
+			baseShape := plant.TubeVaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes[0]
 			circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
 			trajOffsetX := trajOffsetXRel * circLen
 			trajOffsetY := trajOffsetYRel * circLen

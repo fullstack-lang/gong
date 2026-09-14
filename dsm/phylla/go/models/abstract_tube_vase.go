@@ -1,6 +1,6 @@
 package models
 
-type VaseAbstract struct {
+type TubeVaseAbstract struct {
 	Name string
 
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next

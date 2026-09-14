@@ -35,7 +35,7 @@ func (onSave *plantFormOnSave) OnSave() {
 							if onSave.plant.CurrentView != VIEW_PLANT_2D && onSave.plant.CurrentView != VIEW_CLOCK_3D && onSave.plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 								onSave.plant.CurrentView = VIEW_PLANT_2D
 							}
-						} else if newType != Vase {
+						} else if newType != TubeVase && newType != TrapezeVase {
 							if onSave.plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 								onSave.plant.CurrentView = VIEW_PLANT_2D
 							}

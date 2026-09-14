@@ -914,11 +914,11 @@ func (plant2DDiagram *Plant2DDiagram) drawPerpendicularVectorGridHalfway(stager 
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenPerpendicularVectorGridHalfway {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.PerpendicularVectorGridHalfway == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.PerpendicularVectorGridHalfway == nil {
 		return
 	}
 
-	for _, vec := range plant.VaseAbstract.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
+	for _, vec := range plant.TubeVaseAbstract.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
 		line := new(svg.Line)
 		layer.Lines = append(layer.Lines, line)
 		line.Name = vec.Name
@@ -1018,11 +1018,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopStartArcShapeV2Grid(stager *Stager,
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopStartArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStartArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopStartArcShapeGrid == nil {
 		return
 	}
 
-	for _, arc := range plant.VaseAbstract.TopStartArcShapeGrid.TopStartArcShapes {
+	for _, arc := range plant.TubeVaseAbstract.TopStartArcShapeGrid.TopStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1085,11 +1085,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopEndArcShapeV2Grid(stager *Stager, l
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopEndArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopEndArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopEndArcShapeGrid == nil {
 		return
 	}
 
-	for _, arc := range plant.VaseAbstract.TopEndArcShapeGrid.TopEndArcShapes {
+	for _, arc := range plant.TubeVaseAbstract.TopEndArcShapeGrid.TopEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1120,11 +1120,11 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurveV2(stager *Stager, l
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenStackOfGrowthCurve {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfRotatedGrowthCurve2D == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.StackOfRotatedGrowthCurve2D == nil {
 		return
 	}
 
-	for _, sa := range plant.VaseAbstract.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
+	for _, sa := range plant.TubeVaseAbstract.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1150,7 +1150,7 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurveV2(stager *Stager, l
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.VaseAbstract.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
+	for _, ea := range plant.TubeVaseAbstract.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1181,11 +1181,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopStackOfGrowthCurveV2(stager *Stager
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopStackOfGrowthCurve {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStackOfRotatedGrowthCurve2D == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopStackOfRotatedGrowthCurve2D == nil {
 		return
 	}
 
-	for _, sa := range plant.VaseAbstract.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
+	for _, sa := range plant.TubeVaseAbstract.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1211,7 +1211,7 @@ func (plant2DDiagram *Plant2DDiagram) drawTopStackOfGrowthCurveV2(stager *Stager
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.VaseAbstract.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
+	for _, ea := range plant.TubeVaseAbstract.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1316,11 +1316,11 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedBottomTopStartArcShapeV2Grid(st
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedBottomTopStartArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.ShiftedBottomTopStartArcShapeGrid == nil {
 		return
 	}
 
-	for _, arc := range plant.VaseAbstract.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
+	for _, arc := range plant.TubeVaseAbstract.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1373,11 +1373,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopMidArcVectorShapeGrid(stager *Stage
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopMidArcVectorShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopMidArcVectorShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopMidArcVectorShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.VaseAbstract.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
+	for _, base := range plant.TubeVaseAbstract.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
 		line := new(svg.Line)
 		layer.Lines = append(layer.Lines, line)
 
@@ -1398,11 +1398,11 @@ func (plant2DDiagram *Plant2DDiagram) drawStartHalfwayArcShapeGrid(stager *Stage
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenStartHalfwayArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.StartHalfwayArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.StartHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.VaseAbstract.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
+	for _, base := range plant.TubeVaseAbstract.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1440,11 +1440,11 @@ func (plant2DDiagram *Plant2DDiagram) drawEndHalfwayArcShapeGrid(stager *Stager,
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenEndHalfwayArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.EndHalfwayArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.EndHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.VaseAbstract.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
+	for _, base := range plant.TubeVaseAbstract.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1482,11 +1482,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopStartHalfwayArcShapeGrid(stager *St
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopStartHalfwayArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStartHalfwayArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopStartHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.VaseAbstract.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+	for _, base := range plant.TubeVaseAbstract.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1524,11 +1524,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stag
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopEndHalfwayArcShapeGrid {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopEndHalfwayArcShapeGrid == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopEndHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.VaseAbstract.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+	for _, base := range plant.TubeVaseAbstract.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1566,11 +1566,11 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2D(stager *Stager, l
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenStackOfGrowthCurve2D {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfGrowthCurve2D == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.StackOfGrowthCurve2D == nil {
 		return
 	}
 
-	for _, start := range plant.VaseAbstract.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
+	for _, start := range plant.TubeVaseAbstract.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1603,7 +1603,7 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2D(stager *Stager, l
 		path.Presentation.StrokeOpacity = 1.0
 	}
 
-	for _, end := range plant.VaseAbstract.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
+	for _, end := range plant.TubeVaseAbstract.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1641,11 +1641,11 @@ func (plant2DDiagram *Plant2DDiagram) drawTopStackOfGrowthCurve2D(stager *Stager
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenTopStackOfGrowthCurve2D {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStackOfGrowthCurve2D == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.TopStackOfGrowthCurve2D == nil {
 		return
 	}
 
-	for _, start := range plant.VaseAbstract.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
+	for _, start := range plant.TubeVaseAbstract.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1678,7 +1678,7 @@ func (plant2DDiagram *Plant2DDiagram) drawTopStackOfGrowthCurve2D(stager *Stager
 		path.Presentation.StrokeOpacity = 1.0
 	}
 
-	for _, end := range plant.VaseAbstract.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
+	for _, end := range plant.TubeVaseAbstract.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1716,11 +1716,11 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2DRibbon(stager *Sta
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenStackOfGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfGrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.StackOfGrowthCurve2DRibbon == nil {
 		return
 	}
 
-	for i, start := range plant.VaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
+	for i, start := range plant.TubeVaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1768,13 +1768,13 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2DRibbon(stager *Sta
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
 	}
 
-	for i, end := range plant.VaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
+	for i, end := range plant.TubeVaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1822,7 +1822,7 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2DRibbon(stager *Sta
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1833,11 +1833,11 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stag
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfRotatedGrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.StackOfRotatedGrowthCurve2DRibbon == nil {
 		return
 	}
 
-	for i, start := range plant.VaseAbstract.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
+	for i, start := range plant.TubeVaseAbstract.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1885,13 +1885,13 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stag
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
 	}
 
-	for i, end := range plant.VaseAbstract.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
+	for i, end := range plant.TubeVaseAbstract.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1939,7 +1939,7 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stag
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1950,11 +1950,11 @@ func (plant2DDiagram *Plant2DDiagram) drawPartiallyGrowthCurve2DRibbon(stager *S
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.PartiallyGrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.PartiallyGrowthCurve2DRibbon == nil {
 		return
 	}
 
-	for _, start := range plant.VaseAbstract.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.TubeVaseAbstract.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2005,7 +2005,7 @@ func (plant2DDiagram *Plant2DDiagram) drawPartiallyGrowthCurve2DRibbon(stager *S
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.VaseAbstract.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.TubeVaseAbstract.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2061,7 +2061,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbo
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon == nil {
 		return
 	}
 
@@ -2071,7 +2071,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbo
 		dx = -plant.RhombusStuff.PlantCircumferenceShape.Length
 	}
 
-	for _, start := range plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.TubeVaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2122,7 +2122,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbo
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.TubeVaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2178,11 +2178,11 @@ func (plant2DDiagram *Plant2DDiagram) drawGrowthCurve2DRibbon(stager *Stager, la
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.GrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.GrowthCurve2DRibbon == nil {
 		return
 	}
 
-	for _, start := range plant.VaseAbstract.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.TubeVaseAbstract.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2233,7 +2233,7 @@ func (plant2DDiagram *Plant2DDiagram) drawGrowthCurve2DRibbon(stager *Stager, la
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.VaseAbstract.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.TubeVaseAbstract.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2289,7 +2289,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedRightGrowthCurve2DRibbon(stager
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedRightGrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.ShiftedRightGrowthCurve2DRibbon == nil {
 		return
 	}
 
@@ -2299,7 +2299,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedRightGrowthCurve2DRibbon(stager
 		dx = plant.RhombusStuff.PlantCircumferenceShape.Length
 	}
 
-	for _, start := range plant.VaseAbstract.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.TubeVaseAbstract.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2350,7 +2350,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedRightGrowthCurve2DRibbon(stager
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.VaseAbstract.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.TubeVaseAbstract.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2406,7 +2406,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager 
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedLeftGrowthCurve2DRibbon == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.ShiftedLeftGrowthCurve2DRibbon == nil {
 		return
 	}
 
@@ -2416,7 +2416,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager 
 		dx = -plant.RhombusStuff.PlantCircumferenceShape.Length
 	}
 
-	for _, start := range plant.VaseAbstract.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.TubeVaseAbstract.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2467,7 +2467,7 @@ func (plant2DDiagram *Plant2DDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager 
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.VaseAbstract.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.TubeVaseAbstract.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2523,11 +2523,11 @@ func (plant2DDiagram *Plant2DDiagram) drawPartiallyGrowthCurve2DTrajectory(stage
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.PartiallyGrowthCurve2DTrajectory == nil {
 		return
 	}
 
-	for _, shape := range plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
+	for _, shape := range plant.TubeVaseAbstract.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
 		line := new(svg.Line)
 		layer.Lines = append(layer.Lines, line)
 
@@ -2548,11 +2548,11 @@ func (plant2DDiagram *Plant2DDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(s
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2 == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2 == nil {
 		return
 	}
 
-	p1p2 := plant.VaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2
+	p1p2 := plant.TubeVaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2
 
 	// Draw P1 Dots
 	for _, shape := range p1p2.P1PointShapes {
@@ -2657,11 +2657,11 @@ func (plant2DDiagram *Plant2DDiagram) drawPxShape(stager *Stager, layer *svg.Lay
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenPxShape {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.PxShape == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.PxShape == nil {
 		return
 	}
 
-	px := plant.VaseAbstract.PxShape
+	px := plant.TubeVaseAbstract.PxShape
 
 	circLen := 0.0
 	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
@@ -2718,16 +2718,16 @@ func (plant2DDiagram *Plant2DDiagram) drawKeyHoleShape(stager *Stager, layer *sv
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenKeyHoleShape {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.KeyHoleShape == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.KeyHoleShape == nil {
 		return
 	}
 
-	keyHole := plant.VaseAbstract.KeyHoleShape
-	if plant.PlantType == Vase {
-		keyHole.X = plant.VaseAbstract.OffsetKeyX
-		keyHole.Y = plant.VaseAbstract.OffsetKeyY
-		keyHole.Width = plant.VaseAbstract.WidthKey
-		keyHole.Height = plant.VaseAbstract.HeightKey
+	keyHole := plant.TubeVaseAbstract.KeyHoleShape
+	if plant.PlantType == TubeVase {
+		keyHole.X = plant.TubeVaseAbstract.OffsetKeyX
+		keyHole.Y = plant.TubeVaseAbstract.OffsetKeyY
+		keyHole.Width = plant.TubeVaseAbstract.WidthKey
+		keyHole.Height = plant.TubeVaseAbstract.HeightKey
 	}
 
 	vThickness := 0.0
@@ -2735,12 +2735,12 @@ func (plant2DDiagram *Plant2DDiagram) drawKeyHoleShape(stager *Stager, layer *sv
 	heightKey := 0.0
 	offsetKeyX := 0.0
 	offsetKeyY := 0.0
-	if plant.PlantType == Vase {
-		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength * plant2DDiagram.getZoom()
-		widthKey = plant.VaseAbstract.WidthKey
-		heightKey = plant.VaseAbstract.HeightKey
-		offsetKeyX = plant.VaseAbstract.OffsetKeyX
-		offsetKeyY = plant.VaseAbstract.OffsetKeyY
+	if plant.PlantType == TubeVase {
+		vThickness = plant.TubeVaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength * plant2DDiagram.getZoom()
+		widthKey = plant.TubeVaseAbstract.WidthKey
+		heightKey = plant.TubeVaseAbstract.HeightKey
+		offsetKeyX = plant.TubeVaseAbstract.OffsetKeyX
+		offsetKeyY = plant.TubeVaseAbstract.OffsetKeyY
 	}
 
 	drawRect := func(name string, offsetX, offsetY float64, withLine bool) {
@@ -2805,11 +2805,11 @@ func (plant2DDiagram *Plant2DDiagram) drawChosenP1P2PairShape(stager *Stager, la
 	if vase2DDiagram == nil || vase2DDiagram.IsHiddenChosenP1P2PairShape {
 		return
 	}
-	if plant.VaseAbstract == nil || plant.VaseAbstract.ChosenP1P2PairShape == nil {
+	if plant.TubeVaseAbstract == nil || plant.TubeVaseAbstract.ChosenP1P2PairShape == nil {
 		return
 	}
 
-	chosen := plant.VaseAbstract.ChosenP1P2PairShape
+	chosen := plant.TubeVaseAbstract.ChosenP1P2PairShape
 
 	// Line connecting Chosen P1 and P2
 	line := new(svg.Line)
@@ -2884,8 +2884,8 @@ func (plant2DDiagram *Plant2DDiagram) drawChosenP1P2PairShape(stager *Stager, la
 	textDist.Presentation.FillOpacity = 1.0
 
 	// Draw Partial Ellipse defined ONLY by P1 & P2 (independent of ratio)
-	if plant.VaseAbstract != nil && plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory != nil {
-		traj := plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory
+	if plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.PartiallyGrowthCurve2DTrajectory != nil {
+		traj := plant.TubeVaseAbstract.PartiallyGrowthCurve2DTrajectory
 		nShapes := len(traj.PartiallyGrowthCurve2DTrajectoryShapes)
 		if nShapes > 0 {
 			x1 := traj.PartiallyGrowthCurve2DTrajectoryShapes[0].StartX
@@ -2934,9 +2934,9 @@ func (plant2DDiagram *Plant2DDiagram) drawChosenP1P2PairShape(stager *Stager, la
 						if R1 >= 0 && R2 > 0 {
 							refSteps := 10
 							chosenK := 0
-							if plant.PlantType == Vase {
-								refSteps = plant.VaseAbstract.NbStepP1P2
-								chosenK = plant.VaseAbstract.ChosenStep
+							if plant.PlantType == TubeVase {
+								refSteps = plant.TubeVaseAbstract.NbStepP1P2
+								chosenK = plant.TubeVaseAbstract.ChosenStep
 							}
 							if refSteps <= 0 {
 								refSteps = 10

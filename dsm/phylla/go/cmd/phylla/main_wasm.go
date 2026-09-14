@@ -11,7 +11,7 @@ import (
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/plantstage3d"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/stoolstage3d"
-	"github.com/fullstack-lang/gong/dsm/phylla/go/vasestage3d"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/tubevasestage3d"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
@@ -48,7 +48,7 @@ func main() {
 		stack.Stage,
 		stack.Probe,
 		marshallOnCommit,
-		vasestage3d.NewThreeJSStageUpdater(),
+		tubevasestage3d.NewThreeJSStageUpdater(),
 		stoolstage3d.NewStool3DStageUpdater(),
 		clockstage3d.NewClock3DStageUpdater(),
 		plantstage3d.NewPlant3DStageUpdater(),

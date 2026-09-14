@@ -255,7 +255,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if vase := plant.VaseAbstract; vase != nil {
+		if vase := plant.TubeVaseAbstract; vase != nil {
 			if vase.PerpendicularVectorGridHalfway != nil {
 				refPerpendicularVectorGridHalfway[vase.PerpendicularVectorGridHalfway] = true
 				for _, vec := range vase.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
@@ -461,7 +461,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stage) {
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stage) {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
 		}

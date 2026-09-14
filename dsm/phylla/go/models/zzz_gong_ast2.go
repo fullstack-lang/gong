@@ -2963,8 +2963,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.RhombusSideLength = GongExtractFloat(valueExpr)
 	case "PlantType":
 		GongUnmarshallEnum(&instance.PlantType, valueExpr)
-	case "VaseAbstract":
-		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
+	case "TubeVaseAbstract":
+		GongUnmarshallPointer(&instance.TubeVaseAbstract, valueExpr, identifierMap)
 	case "StoolAbstract":
 		GongUnmarshallPointer(&instance.StoolAbstract, valueExpr, identifierMap)
 	case "ClockAbstract":
@@ -2991,10 +2991,10 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.IsVase2DDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "Vase2DDiagrams":
 		GongUnmarshallSliceOfPointers(&instance.Vase2DDiagrams, valueExpr, identifierMap)
-	case "IsVase3DDiagramsNodeExpanded":
-		instance.IsVase3DDiagramsNodeExpanded = GongExtractBool(valueExpr)
-	case "Vase3DDiagrams":
-		GongUnmarshallSliceOfPointers(&instance.Vase3DDiagrams, valueExpr, identifierMap)
+	case "IsTubeVase3DDiagramsNodeExpanded":
+		instance.IsTubeVase3DDiagramsNodeExpanded = GongExtractBool(valueExpr)
+	case "TubeVase3DDiagrams":
+		GongUnmarshallSliceOfPointers(&instance.TubeVase3DDiagrams, valueExpr, identifierMap)
 	case "IsStool2DDiagramsNodeExpanded":
 		instance.IsStool2DDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "Stool2DDiagrams":
@@ -6091,6 +6091,216 @@ func (u *TorusStackShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
+type TubeVase3DDiagramUnmarshaller struct{}
+
+func (u *TubeVase3DDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TubeVase3DDiagram)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TubeVase3DDiagram)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		instance.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = GongExtractBool(valueExpr)
+	case "IsHiddenTorusStackShape":
+		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
+	case "IsHiddenVerticalTorusStackShape":
+		instance.IsHiddenVerticalTorusStackShape = GongExtractBool(valueExpr)
+	case "IsHiddenPartiallyRotatedTorusShape":
+		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		instance.IsHiddenStackOfPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
+	case "IsHiddenPointsAndLines3DShape":
+		instance.IsHiddenPointsAndLines3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenKeyHole3DShape":
+		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenKey3DShape":
+		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenVolumeKey3DShape":
+		instance.IsHiddenVolumeKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenTorusEdge3DShape":
+		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenSampledPoints3DShape":
+		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenOriginalPoints3DShape":
+		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenAngle0Shape":
+		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
+	case "IsHiddenTiledFloor3DShape":
+		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
+	case "Rendered3DShape":
+		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
+	case "TorusStackShape":
+		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
+	case "VerticalTorusStackShape":
+		GongUnmarshallPointer(&instance.VerticalTorusStackShape, valueExpr, identifierMap)
+	case "PartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
+	case "StackOfPartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.StackOfPartiallyRotatedTorusShape, valueExpr, identifierMap)
+	case "PointsAndLines3DShape":
+		GongUnmarshallPointer(&instance.PointsAndLines3DShape, valueExpr, identifierMap)
+	case "SampledPoints3DShape":
+		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
+	case "OriginalPoints3DShape":
+		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
+	case "Angle0Shape":
+		GongUnmarshallPointer(&instance.Angle0Shape, valueExpr, identifierMap)
+	case "KeyHole3DShape":
+		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
+	case "Key3DShape":
+		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
+	case "VolumeKey3DShape":
+		GongUnmarshallPointer(&instance.VolumeKey3DShape, valueExpr, identifierMap)
+	case "TorusEdge3DShape":
+		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
+	case "TiledFloor3DShape":
+		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type TubeVaseAbstractUnmarshaller struct{}
+
+func (u *TubeVaseAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TubeVaseAbstract)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TubeVaseAbstract)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "RelativeVerticalThickness":
+		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
+	case "RelativeRadialThickness":
+		instance.RelativeRadialThickness = GongExtractFloat(valueExpr)
+	case "RelativeCuttedStackFloorHeight":
+		instance.RelativeCuttedStackFloorHeight = GongExtractFloat(valueExpr)
+	case "RelativeRotatedTorusSeparation":
+		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
+	case "RotationRatio":
+		instance.RotationRatio = GongExtractFloat(valueExpr)
+	case "RadialRepetitions":
+		instance.RadialRepetitions = GongExtractInt(valueExpr)
+	case "Transparency":
+		instance.Transparency = GongExtractFloat(valueExpr)
+	case "HasAlternatingRingColors":
+		instance.HasAlternatingRingColors = GongExtractBool(valueExpr)
+	case "RelativeTrajectoryOffsetX":
+		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
+	case "RelativeTrajectoryOffsetY":
+		instance.RelativeTrajectoryOffsetY = GongExtractFloat(valueExpr)
+	case "NbStepP1P2":
+		instance.NbStepP1P2 = GongExtractInt(valueExpr)
+	case "ChosenStep":
+		instance.ChosenStep = GongExtractInt(valueExpr)
+	case "RelativeHorizontalRingsHeight":
+		instance.RelativeHorizontalRingsHeight = GongExtractFloat(valueExpr)
+	case "OffsetKeyX":
+		instance.OffsetKeyX = GongExtractFloat(valueExpr)
+	case "OffsetKeyY":
+		instance.OffsetKeyY = GongExtractFloat(valueExpr)
+	case "HeightKey":
+		instance.HeightKey = GongExtractFloat(valueExpr)
+	case "WidthKey":
+		instance.WidthKey = GongExtractFloat(valueExpr)
+	case "RelativeKeySize":
+		instance.RelativeKeySize = GongExtractFloat(valueExpr)
+	case "MovieNbFrames":
+		instance.MovieNbFrames = GongExtractInt(valueExpr)
+	case "PerpendicularVectorGridHalfway":
+		GongUnmarshallPointer(&instance.PerpendicularVectorGridHalfway, valueExpr, identifierMap)
+	case "TopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
+	case "ShiftedBottomTopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.ShiftedBottomTopStartArcShapeGrid, valueExpr, identifierMap)
+	case "TopMidArcVectorShapeGrid":
+		GongUnmarshallPointer(&instance.TopMidArcVectorShapeGrid, valueExpr, identifierMap)
+	case "StartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.StartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopStartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "EndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "StackOfRotatedGrowthCurve2D":
+		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
+	case "TopStackOfRotatedGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopStackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
+	case "TopGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopGrowthCurve2D, valueExpr, identifierMap)
+	case "StackOfGrowthCurve2D":
+		GongUnmarshallPointer(&instance.StackOfGrowthCurve2D, valueExpr, identifierMap)
+	case "TopStackOfGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopStackOfGrowthCurve2D, valueExpr, identifierMap)
+	case "StackOfGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "GrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedRightGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DTrajectory":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectoryP1P2, valueExpr, identifierMap)
+	case "PxShape":
+		GongUnmarshallPointer(&instance.PxShape, valueExpr, identifierMap)
+	case "ChosenP1P2PairShape":
+		GongUnmarshallPointer(&instance.ChosenP1P2PairShape, valueExpr, identifierMap)
+	case "KeyHoleShape":
+		GongUnmarshallPointer(&instance.KeyHoleShape, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type Vase2DDiagramUnmarshaller struct{}
 
 func (u *Vase2DDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -6192,216 +6402,6 @@ func (u *Vase2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	}
-	return nil
-}
-
-type Vase3DDiagramUnmarshaller struct{}
-
-func (u *Vase3DDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Vase3DDiagram)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *Vase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Vase3DDiagram)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		instance.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = GongExtractBool(valueExpr)
-	case "IsHiddenTorusStackShape":
-		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
-	case "IsHiddenVerticalTorusStackShape":
-		instance.IsHiddenVerticalTorusStackShape = GongExtractBool(valueExpr)
-	case "IsHiddenPartiallyRotatedTorusShape":
-		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		instance.IsHiddenStackOfPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
-	case "IsHiddenPointsAndLines3DShape":
-		instance.IsHiddenPointsAndLines3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenKeyHole3DShape":
-		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenKey3DShape":
-		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenVolumeKey3DShape":
-		instance.IsHiddenVolumeKey3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenTorusEdge3DShape":
-		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenSampledPoints3DShape":
-		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenOriginalPoints3DShape":
-		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenAngle0Shape":
-		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
-	case "IsHiddenTiledFloor3DShape":
-		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
-	case "Rendered3DShape":
-		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
-	case "TorusStackShape":
-		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
-	case "VerticalTorusStackShape":
-		GongUnmarshallPointer(&instance.VerticalTorusStackShape, valueExpr, identifierMap)
-	case "PartiallyRotatedTorusShape":
-		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
-	case "StackOfPartiallyRotatedTorusShape":
-		GongUnmarshallPointer(&instance.StackOfPartiallyRotatedTorusShape, valueExpr, identifierMap)
-	case "PointsAndLines3DShape":
-		GongUnmarshallPointer(&instance.PointsAndLines3DShape, valueExpr, identifierMap)
-	case "SampledPoints3DShape":
-		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
-	case "OriginalPoints3DShape":
-		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
-	case "Angle0Shape":
-		GongUnmarshallPointer(&instance.Angle0Shape, valueExpr, identifierMap)
-	case "KeyHole3DShape":
-		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
-	case "Key3DShape":
-		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
-	case "VolumeKey3DShape":
-		GongUnmarshallPointer(&instance.VolumeKey3DShape, valueExpr, identifierMap)
-	case "TorusEdge3DShape":
-		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
-	case "TiledFloor3DShape":
-		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
-	case "IsChecked":
-		instance.IsChecked = GongExtractBool(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	}
-	return nil
-}
-
-type VaseAbstractUnmarshaller struct{}
-
-func (u *VaseAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(VaseAbstract)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *VaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*VaseAbstract)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "RelativeVerticalThickness":
-		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
-	case "RelativeRadialThickness":
-		instance.RelativeRadialThickness = GongExtractFloat(valueExpr)
-	case "RelativeCuttedStackFloorHeight":
-		instance.RelativeCuttedStackFloorHeight = GongExtractFloat(valueExpr)
-	case "RelativeRotatedTorusSeparation":
-		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
-	case "RotationRatio":
-		instance.RotationRatio = GongExtractFloat(valueExpr)
-	case "RadialRepetitions":
-		instance.RadialRepetitions = GongExtractInt(valueExpr)
-	case "Transparency":
-		instance.Transparency = GongExtractFloat(valueExpr)
-	case "HasAlternatingRingColors":
-		instance.HasAlternatingRingColors = GongExtractBool(valueExpr)
-	case "RelativeTrajectoryOffsetX":
-		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
-	case "RelativeTrajectoryOffsetY":
-		instance.RelativeTrajectoryOffsetY = GongExtractFloat(valueExpr)
-	case "NbStepP1P2":
-		instance.NbStepP1P2 = GongExtractInt(valueExpr)
-	case "ChosenStep":
-		instance.ChosenStep = GongExtractInt(valueExpr)
-	case "RelativeHorizontalRingsHeight":
-		instance.RelativeHorizontalRingsHeight = GongExtractFloat(valueExpr)
-	case "OffsetKeyX":
-		instance.OffsetKeyX = GongExtractFloat(valueExpr)
-	case "OffsetKeyY":
-		instance.OffsetKeyY = GongExtractFloat(valueExpr)
-	case "HeightKey":
-		instance.HeightKey = GongExtractFloat(valueExpr)
-	case "WidthKey":
-		instance.WidthKey = GongExtractFloat(valueExpr)
-	case "RelativeKeySize":
-		instance.RelativeKeySize = GongExtractFloat(valueExpr)
-	case "MovieNbFrames":
-		instance.MovieNbFrames = GongExtractInt(valueExpr)
-	case "PerpendicularVectorGridHalfway":
-		GongUnmarshallPointer(&instance.PerpendicularVectorGridHalfway, valueExpr, identifierMap)
-	case "TopStartArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
-	case "TopEndArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
-	case "ShiftedBottomTopStartArcShapeGrid":
-		GongUnmarshallPointer(&instance.ShiftedBottomTopStartArcShapeGrid, valueExpr, identifierMap)
-	case "TopMidArcVectorShapeGrid":
-		GongUnmarshallPointer(&instance.TopMidArcVectorShapeGrid, valueExpr, identifierMap)
-	case "StartHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.StartHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "TopStartHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopStartHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "EndHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "TopEndHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "StackOfRotatedGrowthCurve2D":
-		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
-	case "TopStackOfRotatedGrowthCurve2D":
-		GongUnmarshallPointer(&instance.TopStackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
-	case "TopGrowthCurve2D":
-		GongUnmarshallPointer(&instance.TopGrowthCurve2D, valueExpr, identifierMap)
-	case "StackOfGrowthCurve2D":
-		GongUnmarshallPointer(&instance.StackOfGrowthCurve2D, valueExpr, identifierMap)
-	case "TopStackOfGrowthCurve2D":
-		GongUnmarshallPointer(&instance.TopStackOfGrowthCurve2D, valueExpr, identifierMap)
-	case "StackOfGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "GrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedRightGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DTrajectory":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectoryP1P2, valueExpr, identifierMap)
-	case "PxShape":
-		GongUnmarshallPointer(&instance.PxShape, valueExpr, identifierMap)
-	case "ChosenP1P2PairShape":
-		GongUnmarshallPointer(&instance.ChosenP1P2PairShape, valueExpr, identifierMap)
-	case "KeyHoleShape":
-		GongUnmarshallPointer(&instance.KeyHoleShape, valueExpr, identifierMap)
 	}
 	return nil
 }

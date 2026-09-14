@@ -13,7 +13,7 @@ const (
 	VIEW_PLANT_3D            ViewType = "Plant 3D"
 	VIEW_VASE_FORM           ViewType = "Vase Form"
 	VIEW_VASE_2D             ViewType = "Vase 2D"
-	VIEW_VASE_3D             ViewType = "Vase 3D"
+	VIEW_TUBE_VASE_3D        ViewType = "Tube Vase 3D"
 	VIEW_STOOL_3D            ViewType = "Stool 3D"
 	VIEW_CLOCK_3D            ViewType = "Clock 3D"
 	VIEW_ABOUT_SPIRAL_PLANTS ViewType = "About Spiral Plants"
@@ -23,11 +23,12 @@ const (
 type PlantType string
 
 const (
-	Plant PlantType = "Plant"
-	Vase  PlantType = "Vase"
-	Stool PlantType = "Stool"
-	Clock PlantType = "Clock"
-	Music PlantType = "Music"
+	Plant       PlantType = "Plant"
+	TubeVase    PlantType = "Tube Vase"
+	TrapezeVase PlantType = "Trapeze Vase"
+	Stool       PlantType = "Stool"
+	Clock       PlantType = "Clock"
+	Music       PlantType = "Music"
 )
 
 // Depending on the specific chirality (handedness) of the plant specimen, N may
@@ -53,10 +54,10 @@ type PlantAbstract struct {
 
 	PlantType PlantType
 
-	VaseAbstract  *VaseAbstract
-	StoolAbstract *StoolAbstract
-	ClockAbstract *ClockAbstract
-	MusicAbstract *MusicAbstract
+	TubeVaseAbstract *TubeVaseAbstract
+	StoolAbstract    *StoolAbstract
+	ClockAbstract    *ClockAbstract
+	MusicAbstract    *MusicAbstract
 
 	CurrentView ViewType
 
@@ -74,8 +75,8 @@ type PlantAbstract struct {
 	IsVase2DDiagramsNodeExpanded bool
 	Vase2DDiagrams               []*Vase2DDiagram
 
-	IsVase3DDiagramsNodeExpanded bool
-	Vase3DDiagrams               []*Vase3DDiagram
+	IsTubeVase3DDiagramsNodeExpanded bool
+	TubeVase3DDiagrams               []*TubeVase3DDiagram
 
 	IsStool2DDiagramsNodeExpanded bool
 	Stool2DDiagrams               []*Stool2DDiagram

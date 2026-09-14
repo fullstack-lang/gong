@@ -1,6 +1,6 @@
 package models
 
-type Vase3DDiagram struct {
+type TubeVase3DDiagram struct {
 	Name string
 
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool

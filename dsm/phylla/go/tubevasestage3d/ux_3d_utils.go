@@ -1,4 +1,4 @@
-package vasestage3d
+package tubevasestage3d
 
 import (
 	"fmt"
@@ -42,7 +42,7 @@ func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.C
 	canvas.AmbiantLight = ambiantLight
 }
 
-func (u *ThreeJSStageUpdater) setupCamera(stager *models.Stager, canvas *threejs.Canvas, checkedDiagram *models.Vase3DDiagram, globalR float64) {
+func (u *ThreeJSStageUpdater) setupCamera(stager *models.Stager, canvas *threejs.Canvas, checkedDiagram *models.TubeVase3DDiagram, globalR float64) {
 	threejsStage := stager.GetThreejsStage()
 
 	if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil &&
@@ -109,8 +109,8 @@ func (u *ThreeJSStageUpdater) computeGlobalRadius(plant *models.PlantAbstract) (
 		circumference = 10.0
 	}
 	threeDModulo := 1
-	if plant.PlantType == models.Vase {
-		threeDModulo = plant.VaseAbstract.RadialRepetitions
+	if plant.PlantType == models.TubeVase {
+		threeDModulo = plant.TubeVaseAbstract.RadialRepetitions
 	}
 	if threeDModulo < 1 {
 		threeDModulo = 1
@@ -126,8 +126,8 @@ func (u *ThreeJSStageUpdater) addFloorTiles(stager *models.Stager, floorMinY flo
 		floorMinY = 0.0
 	} else {
 		thickness := 0.0
-		if plant.PlantType == models.Vase {
-			thickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
+		if plant.PlantType == models.TubeVase {
+			thickness = plant.TubeVaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		}
 		if thickness == 0 {
 			thickness = 5.0

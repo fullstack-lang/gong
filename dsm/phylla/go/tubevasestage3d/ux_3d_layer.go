@@ -1,4 +1,4 @@
-package vasestage3d
+package tubevasestage3d
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 	stager *models.Stager,
 	h int, stackHeight int, dx, dy, thetaOffset float64, namePrefix string,
-	plant *models.PlantAbstract, checkedDiagram *models.Vase3DDiagram,
+	plant *models.PlantAbstract, checkedDiagram *models.TubeVase3DDiagram,
 	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
 	thickness float64, globalR float64,
 	canvas *threejs.Canvas,
@@ -20,9 +20,9 @@ func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 
 	radialRepetition := 1
 	h_horiz := 0.0
-	if plant.PlantType == models.Vase {
-		radialRepetition = plant.VaseAbstract.RadialRepetitions
-		h_horiz = plant.VaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
+	if plant.PlantType == models.TubeVase {
+		radialRepetition = plant.TubeVaseAbstract.RadialRepetitions
+		h_horiz = plant.TubeVaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
 	}
 
 	massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(threejsStage)
