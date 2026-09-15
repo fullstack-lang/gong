@@ -212,7 +212,7 @@ func NewProbe(
 						},
 						{
 							Name: "load",
-							Size: 217,
+							Size: 70,
 							Load: &split.Load{
 								Name:      "Table",
 								StackName: probe.loadStage.GetName(),

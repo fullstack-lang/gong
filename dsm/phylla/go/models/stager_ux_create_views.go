@@ -997,5 +997,17 @@ func (stager *Stager) createViews() {
 			},
 		},
 	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "form stage probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.plantFormStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
 	stager.splitStage.Commit()
 }

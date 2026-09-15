@@ -2984,11 +2984,11 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
-	}
 	for _, _plantabstract := range library.Plants {
 		StageBranch(stage, _plantabstract)
+	}
+	for _, _library := range library.SubLibraries {
+		StageBranch(stage, _library)
 	}
 
 }
@@ -6022,11 +6022,11 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
-	}
 	for _, _plantabstract := range libraryFrom.Plants {
 		libraryTo.Plants = append(libraryTo.Plants, CopyBranchPlantAbstract(mapOrigCopy, _plantabstract))
+	}
+	for _, _library := range libraryFrom.SubLibraries {
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
@@ -9182,11 +9182,11 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
-	}
 	for _, _plantabstract := range library.Plants {
 		UnstageBranch(stage, _plantabstract)
+	}
+	for _, _library := range library.SubLibraries {
+		UnstageBranch(stage, _library)
 	}
 
 }
@@ -11061,13 +11061,13 @@ func (reference *Leaves3DShape) GongReconstructPointersFromReferences(stage *Sta
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.SubLibraries = reference.SubLibraries[:0]
-	for _, _b := range instance.SubLibraries {
-		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
-	}
 	reference.Plants = reference.Plants[:0]
 	for _, _b := range instance.Plants {
 		reference.Plants = append(reference.Plants, stage.PlantAbstracts_reference[_b])
+	}
+	reference.SubLibraries = reference.SubLibraries[:0]
+	for _, _b := range instance.SubLibraries {
+		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
 	}
 }
 
@@ -11895,13 +11895,6 @@ func (reference *Leaves3DShape) GongReconstructPointersFromInstances(stage *Stag
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SubLibraries []*Library
-	for _, _reference := range reference.SubLibraries {
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			_SubLibraries = append(_SubLibraries, _instance)
-		}
-	}
-	reference.SubLibraries = _SubLibraries
 	var _Plants []*PlantAbstract
 	for _, _reference := range reference.Plants {
 		if _instance, ok := stage.PlantAbstracts_instance[_reference]; ok {
@@ -11909,6 +11902,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Plants = _Plants
+	var _SubLibraries []*Library
+	for _, _reference := range reference.SubLibraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibraries = append(_SubLibraries, _instance)
+		}
+	}
+	reference.SubLibraries = _SubLibraries
 }
 
 func (reference *MidArcVectorShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -13359,6 +13359,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.Name != libraryOther.Name {
 		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
 	}
+	PlantsDifferent := false
+	if len(library.Plants) != len(libraryOther.Plants) {
+		PlantsDifferent = true
+	} else {
+		for i := range library.Plants {
+			if (library.Plants[i] == nil) != (libraryOther.Plants[i] == nil) {
+				PlantsDifferent = true
+				break
+			} else if library.Plants[i] != nil && libraryOther.Plants[i] != nil {
+				// this is a pointer comparaison
+				if library.Plants[i] != libraryOther.Plants[i] {
+					PlantsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PlantsDifferent {
+		ops := Diff(stage, library, libraryOther, "Plants", libraryOther.Plants, library.Plants)
+		diffs = append(diffs, ops)
+	}
 	SubLibrariesDifferent := false
 	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
 		SubLibrariesDifferent = true
@@ -13394,27 +13415,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
-	}
-	PlantsDifferent := false
-	if len(library.Plants) != len(libraryOther.Plants) {
-		PlantsDifferent = true
-	} else {
-		for i := range library.Plants {
-			if (library.Plants[i] == nil) != (libraryOther.Plants[i] == nil) {
-				PlantsDifferent = true
-				break
-			} else if library.Plants[i] != nil && libraryOther.Plants[i] != nil {
-				// this is a pointer comparaison
-				if library.Plants[i] != libraryOther.Plants[i] {
-					PlantsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PlantsDifferent {
-		ops := Diff(stage, library, libraryOther, "Plants", libraryOther.Plants, library.Plants)
-		diffs = append(diffs, ops)
 	}
 
 	return

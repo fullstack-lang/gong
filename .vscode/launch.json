@@ -1313,14 +1313,14 @@
             ]
         },
         {
-            "name": "test - test1: go run . edit stage",
+            "name": "test - test1: go run . edit data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/test1/go/cmd/test1",
             "args": [
                 "edit",
-                "stage"
+                "data/stage"
             ]
         },
         {

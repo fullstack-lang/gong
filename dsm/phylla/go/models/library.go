@@ -5,6 +5,10 @@ type Library struct {
 	// DSM mandatory
 	Name string
 
+	// DSM specific
+	Plants []*PlantAbstract
+
+	// end of DSM specific
 	SubLibraries []*Library
 
 	NbPixPerCharacter float64 // stored at the root Library only
@@ -19,7 +23,4 @@ type Library struct {
 	IsRootLibrary bool
 
 	objects []AbstractType
-
-	// DSM specific
-	Plants []*PlantAbstract
 }

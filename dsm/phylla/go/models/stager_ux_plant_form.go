@@ -67,22 +67,22 @@ func (stager *Stager) ux_plant_form() {
 	formGroup := (&form.FormGroup{
 		Name:  "Plant Form",
 		Label: "Plant Configuration",
-	}).Stage(stager.plantFormStage)
+	})
 
 	formDiv := (&form.FormDiv{
 		Name: "PlantType",
-	}).Stage(stager.plantFormStage)
+	})
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
 	formField := (&form.FormField{
 		Name:  "PlantType",
 		Label: "Plant Type",
-	}).Stage(stager.plantFormStage)
+	})
 	formDiv.FormFields = append(formDiv.FormFields, formField)
 
 	formFieldSelect := (&form.FormFieldSelect{
 		Name: "enum",
-	}).Stage(stager.plantFormStage)
+	})
 	formField.FormFieldSelect = formFieldSelect
 
 	formFieldSelect.Options = make([]*form.Option, 0)
@@ -91,7 +91,7 @@ func (stager *Stager) ux_plant_form() {
 
 		option := (&form.Option{
 			Name: optionCode,
-		}).Stage(stager.plantFormStage)
+		})
 
 		if plant.PlantType.ToString() == optionValue {
 			formFieldSelect.Value = option
@@ -106,5 +106,7 @@ func (stager *Stager) ux_plant_form() {
 		formGroup: formGroup,
 	}
 
+	stager.plantFormStage.StageBranch(formGroup)
 	stager.plantFormStage.Commit()
+	stager.plantFormStage.GetProbeIF().Refresh()
 }

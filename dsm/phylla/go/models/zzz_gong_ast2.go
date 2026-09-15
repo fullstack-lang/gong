@@ -1852,6 +1852,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Plants":
+		GongUnmarshallSliceOfPointers(&instance.Plants, valueExpr, identifierMap)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
@@ -1864,8 +1866,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsRootLibrary":
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
-	case "Plants":
-		GongUnmarshallSliceOfPointers(&instance.Plants, valueExpr, identifierMap)
 	}
 	return nil
 }

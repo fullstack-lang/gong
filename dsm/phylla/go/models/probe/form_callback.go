@@ -4088,6 +4088,41 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
+		case "Plants":
+			if formDiv.FormEditAssocButton == nil {
+				continue
+			}
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PlantAbstract, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PlantAbstract)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.Plants = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Plants", &library_.Plants)
+
 		case "SubLibraries":
 			if formDiv.FormEditAssocButton == nil {
 				continue
@@ -4133,41 +4168,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
-		case "Plants":
-			if formDiv.FormEditAssocButton == nil {
-				continue
-			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.PlantAbstract, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.PlantAbstract)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					libraryFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			library_.Plants = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Plants", &library_.Plants)
-
 		case "Library:SubLibraries":
 			if formDiv.FormEditAssocButton == nil {
 				continue
