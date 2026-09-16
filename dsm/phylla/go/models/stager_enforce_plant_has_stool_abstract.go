@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
 		if plant.PlantType == Stool {
@@ -10,14 +12,17 @@ func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 				}).Stage(stager.stage)
 				plant.StoolAbstract = sa
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Plant %s: created missing StoolAbstract", plant.Name))
 			} else if plant.StoolAbstract.RadialRepetitions < 1 {
 				plant.StoolAbstract.RadialRepetitions = 1
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RadialRepetitions set to 1", plant.Name))
 			}
 		} else {
 			if plant.StoolAbstract != nil {
 				plant.StoolAbstract = nil
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Plant %s: removed StoolAbstract because PlantType is %s", plant.Name, plant.PlantType))
 			}
 		}
 	}
@@ -34,6 +39,7 @@ func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 		if !hasOwner {
 			sa.Unstage(stager.stage)
 			needCommit = true
+			stager.logAndNotify(fmt.Sprintf("Removed orphaned StoolAbstract %s", sa.Name))
 		}
 	}
 
@@ -45,8 +51,10 @@ func (stager *Stager) enforceStoolAbstractName() (needCommit bool) {
 		if plant.PlantType == Stool && plant.StoolAbstract != nil {
 			expectedName := plant.Name + "-StoolAbstract"
 			if plant.StoolAbstract.Name != expectedName {
+				oldName := plant.StoolAbstract.Name
 				plant.StoolAbstract.Name = expectedName
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Renamed StoolAbstract from '%s' to '%s'", oldName, expectedName))
 			}
 		}
 	}

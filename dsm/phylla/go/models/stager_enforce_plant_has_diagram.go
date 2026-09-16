@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"time"
 )
 
 // enforcePlantHasDiagram ensures that each Plant has at least one Plant2DDiagram
@@ -33,9 +32,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 			}
 			plant.Plant2DDiagrams = append(plant.Plant2DDiagrams, plantDiagram)
 
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default Plant2DDiagram for plant %s", plant.Name))
-			}
+			stager.logAndNotify(fmt.Sprintf("Added default Plant2DDiagram for plant %s", plant.Name))
 
 			needCommit = true
 		}
@@ -45,9 +42,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 			plant3DDiagram.Name = plant.Name + " - 3D Diagram"
 			plant.Plant3DDiagrams = append(plant.Plant3DDiagrams, plant3DDiagram)
 
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default Plant3DDiagram for plant %s", plant.Name))
-			}
+			stager.logAndNotify(fmt.Sprintf("Added default Plant3DDiagram for plant %s", plant.Name))
 
 			needCommit = true
 		}

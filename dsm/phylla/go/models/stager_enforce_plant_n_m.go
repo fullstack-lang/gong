@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"time"
 )
 
 // enforcePlantNM ensures that N is always less than or equal to M for each Plant
@@ -13,7 +12,7 @@ func (stager *Stager) enforcePlantNM() (needCommit bool) {
 			plant.N, plant.M = plant.M, plant.N
 			needCommit = true
 
-			stager.probeForm.AddNotification(time.Now(),
+			stager.logAndNotify(
 				fmt.Sprintf("Plant %s: Swapped N and M because N > M (Now N=%d, M=%d)", plant.Name, plant.N, plant.M))
 		}
 	}

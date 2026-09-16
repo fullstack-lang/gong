@@ -1,65 +1,80 @@
 package models
 
+import "fmt"
+
+func ensureDiagramShape[T PointerToGongstruct](stager *Stager, diagramName string, shapePtr *T, shapeName string, newShape func() T) bool {
+	var zero T
+	if *shapePtr == zero {
+		s := newShape()
+		s.SetName(diagramName + "-" + shapeName)
+		s.StageVoid(stager.stage)
+		*shapePtr = s
+		stager.logAndNotify(fmt.Sprintf("Diagram %s: created missing %s", diagramName, shapeName))
+		return true
+	}
+	return false
+}
+
 func (stager *Stager) enforceDiagramShapes() bool {
 	modified := false
 	stage := stager.stage
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stage) {
-		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
-		if diagram.TorusStackShape == nil { diagram.TorusStackShape = (&TorusStackShape{Name: diagram.Name + "-TorusStackShape"}).Stage(stage); modified = true }
-		if diagram.VerticalTorusStackShape == nil { diagram.VerticalTorusStackShape = (&VerticalTorusStackShape{Name: diagram.Name + "-VerticalTorusStackShape"}).Stage(stage); modified = true }
-		if diagram.PartiallyRotatedTorusShape == nil { diagram.PartiallyRotatedTorusShape = (&PartiallyRotatedTorusShape{Name: diagram.Name + "-PartiallyRotatedTorusShape"}).Stage(stage); modified = true }
-		if diagram.StackOfPartiallyRotatedTorusShape == nil { diagram.StackOfPartiallyRotatedTorusShape = (&StackOfPartiallyRotatedTorusShape{Name: diagram.Name + "-StackOfPartiallyRotatedTorusShape"}).Stage(stage); modified = true }
-		if diagram.PointsAndLines3DShape == nil { diagram.PointsAndLines3DShape = (&PointsAndLines3DShape{Name: diagram.Name + "-PointsAndLines3DShape"}).Stage(stage); modified = true }
-		if diagram.SampledPoints3DShape == nil { diagram.SampledPoints3DShape = (&SampledPoints3DShape{Name: diagram.Name + "-SampledPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.OriginalPoints3DShape == nil { diagram.OriginalPoints3DShape = (&OriginalPoints3DShape{Name: diagram.Name + "-OriginalPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.Angle0Shape == nil { diagram.Angle0Shape = (&Angle0Shape{Name: diagram.Name + "-Angle0Shape"}).Stage(stage); modified = true }
-		if diagram.KeyHole3DShape == nil { diagram.KeyHole3DShape = (&KeyHole3DShape{Name: diagram.Name + "-KeyHole3DShape"}).Stage(stage); modified = true }
-		if diagram.Key3DShape == nil { diagram.Key3DShape = (&Key3DShape{Name: diagram.Name + "-Key3DShape"}).Stage(stage); modified = true }
-		if diagram.VolumeKey3DShape == nil { diagram.VolumeKey3DShape = (&VolumeKey3DShape{Name: diagram.Name + "-VolumeKey3DShape"}).Stage(stage); modified = true }
-		if diagram.TorusEdge3DShape == nil { diagram.TorusEdge3DShape = (&TorusEdge3DShape{Name: diagram.Name + "-TorusEdge3DShape"}).Stage(stage); modified = true }
-		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TorusStackShape, "TorusStackShape", func() *TorusStackShape { return new(TorusStackShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VerticalTorusStackShape, "VerticalTorusStackShape", func() *VerticalTorusStackShape { return new(VerticalTorusStackShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.PartiallyRotatedTorusShape, "PartiallyRotatedTorusShape", func() *PartiallyRotatedTorusShape { return new(PartiallyRotatedTorusShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StackOfPartiallyRotatedTorusShape, "StackOfPartiallyRotatedTorusShape", func() *StackOfPartiallyRotatedTorusShape { return new(StackOfPartiallyRotatedTorusShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.PointsAndLines3DShape, "PointsAndLines3DShape", func() *PointsAndLines3DShape { return new(PointsAndLines3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SampledPoints3DShape, "SampledPoints3DShape", func() *SampledPoints3DShape { return new(SampledPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.OriginalPoints3DShape, "OriginalPoints3DShape", func() *OriginalPoints3DShape { return new(OriginalPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Angle0Shape, "Angle0Shape", func() *Angle0Shape { return new(Angle0Shape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.KeyHole3DShape, "KeyHole3DShape", func() *KeyHole3DShape { return new(KeyHole3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Key3DShape, "Key3DShape", func() *Key3DShape { return new(Key3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VolumeKey3DShape, "VolumeKey3DShape", func() *VolumeKey3DShape { return new(VolumeKey3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TorusEdge3DShape, "TorusEdge3DShape", func() *TorusEdge3DShape { return new(TorusEdge3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
 	}
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stage) {
-		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
-		if diagram.SeatTopCurveShape == nil { diagram.SeatTopCurveShape = (&SeatTopCurveShape{Name: diagram.Name + "-SeatTopCurveShape"}).Stage(stage); modified = true }
-		if diagram.RotatedSeatTopCurveShape == nil { diagram.RotatedSeatTopCurveShape = (&PartiallyRotatedSeatTopCurveShape{Name: diagram.Name + "-RotatedSeatTopCurveShape"}).Stage(stage); modified = true }
-		if diagram.SeatBottomCurveShape == nil { diagram.SeatBottomCurveShape = (&SeatBottomCurveShape{Name: diagram.Name + "-SeatBottomCurveShape"}).Stage(stage); modified = true }
-		if diagram.RotatedSeatBottomCurveShape == nil { diagram.RotatedSeatBottomCurveShape = (&PartiallyRotatedSeatBottomCurveShape{Name: diagram.Name + "-RotatedSeatBottomCurveShape"}).Stage(stage); modified = true }
-		if diagram.Torus3DShape == nil { diagram.Torus3DShape = (&Torus3DShape{Name: diagram.Name + "-Torus3DShape"}).Stage(stage); modified = true }
-		if diagram.RotatedTorusShape == nil { diagram.RotatedTorusShape = (&PartiallyRotatedTorusShape{Name: diagram.Name + "-RotatedTorusShape"}).Stage(stage); modified = true }
-		if diagram.SampledPoints3DShape == nil { diagram.SampledPoints3DShape = (&SampledPoints3DShape{Name: diagram.Name + "-SampledPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.RotatedSampledPoints3DShape == nil { diagram.RotatedSampledPoints3DShape = (&RotatedSampledPoints3DShape{Name: diagram.Name + "-RotatedSampledPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.EyeSampledPoints3DShape == nil { diagram.EyeSampledPoints3DShape = (&EyeSampledPoints3DShape{Name: diagram.Name + "-EyeSampledPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.EyeCornersSampledPoints3DShape == nil { diagram.EyeCornersSampledPoints3DShape = (&EyeCornersSampledPoints3DShape{Name: diagram.Name + "-EyeCornersSampledPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.Eye3DShape == nil { diagram.Eye3DShape = (&Eye3DShape{Name: diagram.Name + "-Eye3DShape"}).Stage(stage); modified = true }
-		if diagram.EyeSeatBottomCurveShape == nil { diagram.EyeSeatBottomCurveShape = (&EyeSeatBottomCurveShape{Name: diagram.Name + "-EyeSeatBottomCurveShape"}).Stage(stage); modified = true }
-		if diagram.EyeStoolBottomCurveShape == nil { diagram.EyeStoolBottomCurveShape = (&EyeStoolBottomCurveShape{Name: diagram.Name + "-EyeStoolBottomCurveShape"}).Stage(stage); modified = true }
-		if diagram.Seat3DShape == nil { diagram.Seat3DShape = (&Seat3DShape{Name: diagram.Name + "-Seat3DShape"}).Stage(stage); modified = true }
-		if diagram.EyeVolume3DShape == nil { diagram.EyeVolume3DShape = (&EyeVolume3DShape{Name: diagram.Name + "-EyeVolume3DShape"}).Stage(stage); modified = true }
-		if diagram.SeatAndLegs3DShape == nil { diagram.SeatAndLegs3DShape = (&SeatAndLegs3DShape{Name: diagram.Name + "-SeatAndLegs3DShape"}).Stage(stage); modified = true }
-		if diagram.RotatedSeatAndLegs3DShape == nil { diagram.RotatedSeatAndLegs3DShape = (&RotatedSeatAndLegs3DShape{Name: diagram.Name + "-RotatedSeatAndLegs3DShape"}).Stage(stage); modified = true }
-		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SeatTopCurveShape, "SeatTopCurveShape", func() *SeatTopCurveShape { return new(SeatTopCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.RotatedSeatTopCurveShape, "RotatedSeatTopCurveShape", func() *PartiallyRotatedSeatTopCurveShape { return new(PartiallyRotatedSeatTopCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SeatBottomCurveShape, "SeatBottomCurveShape", func() *SeatBottomCurveShape { return new(SeatBottomCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.RotatedSeatBottomCurveShape, "RotatedSeatBottomCurveShape", func() *PartiallyRotatedSeatBottomCurveShape { return new(PartiallyRotatedSeatBottomCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Torus3DShape, "Torus3DShape", func() *Torus3DShape { return new(Torus3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.RotatedTorusShape, "RotatedTorusShape", func() *PartiallyRotatedTorusShape { return new(PartiallyRotatedTorusShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SampledPoints3DShape, "SampledPoints3DShape", func() *SampledPoints3DShape { return new(SampledPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.RotatedSampledPoints3DShape, "RotatedSampledPoints3DShape", func() *RotatedSampledPoints3DShape { return new(RotatedSampledPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.EyeSampledPoints3DShape, "EyeSampledPoints3DShape", func() *EyeSampledPoints3DShape { return new(EyeSampledPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.EyeCornersSampledPoints3DShape, "EyeCornersSampledPoints3DShape", func() *EyeCornersSampledPoints3DShape { return new(EyeCornersSampledPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Eye3DShape, "Eye3DShape", func() *Eye3DShape { return new(Eye3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.EyeSeatBottomCurveShape, "EyeSeatBottomCurveShape", func() *EyeSeatBottomCurveShape { return new(EyeSeatBottomCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.EyeStoolBottomCurveShape, "EyeStoolBottomCurveShape", func() *EyeStoolBottomCurveShape { return new(EyeStoolBottomCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Seat3DShape, "Seat3DShape", func() *Seat3DShape { return new(Seat3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.EyeVolume3DShape, "EyeVolume3DShape", func() *EyeVolume3DShape { return new(EyeVolume3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SeatAndLegs3DShape, "SeatAndLegs3DShape", func() *SeatAndLegs3DShape { return new(SeatAndLegs3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.RotatedSeatAndLegs3DShape, "RotatedSeatAndLegs3DShape", func() *RotatedSeatAndLegs3DShape { return new(RotatedSeatAndLegs3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
 	}
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stage) {
-		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
-		if diagram.ClockTopCurveShape == nil { diagram.ClockTopCurveShape = (&ClockTopCurveShape{Name: diagram.Name + "-ClockTopCurveShape"}).Stage(stage); modified = true }
-		if diagram.Torus3DShape == nil { diagram.Torus3DShape = (&Torus3DShape{Name: diagram.Name + "-Torus3DShape"}).Stage(stage); modified = true }
-		if diagram.SampledPoints3DShape == nil { diagram.SampledPoints3DShape = (&SampledPoints3DShape{Name: diagram.Name + "-SampledPoints3DShape"}).Stage(stage); modified = true }
-		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.ClockTopCurveShape, "ClockTopCurveShape", func() *ClockTopCurveShape { return new(ClockTopCurveShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Torus3DShape, "Torus3DShape", func() *Torus3DShape { return new(Torus3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SampledPoints3DShape, "SampledPoints3DShape", func() *SampledPoints3DShape { return new(SampledPoints3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
 	}
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stage) {
-		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
-		if diagram.StemCylinder3DShape == nil { diagram.StemCylinder3DShape = (&StemCylinder3DShape{Name: diagram.Name + "-StemCylinder3DShape", Transparency: 0.35}).Stage(stage); modified = true }
-		if diagram.ParastichyNCurves3DShape == nil { diagram.ParastichyNCurves3DShape = (&ParastichyNCurves3DShape{Name: diagram.Name + "-ParastichyNCurves3DShape"}).Stage(stage); modified = true }
-		if diagram.ParastichyMCurves3DShape == nil { diagram.ParastichyMCurves3DShape = (&ParastichyMCurves3DShape{Name: diagram.Name + "-ParastichyMCurves3DShape"}).Stage(stage); modified = true }
-		if diagram.CutLine3DShape == nil { diagram.CutLine3DShape = (&CutLine3DShape{Name: diagram.Name + "-CutLine3DShape"}).Stage(stage); modified = true }
-		if diagram.Circumference3DShape == nil { diagram.Circumference3DShape = (&Circumference3DShape{Name: diagram.Name + "-Circumference3DShape"}).Stage(stage); modified = true }
-		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
-		if diagram.Leaves3DShape == nil { diagram.Leaves3DShape = (&Leaves3DShape{Name: diagram.Name + "-Leaves3DShape"}).Stage(stage); modified = true }
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StemCylinder3DShape, "StemCylinder3DShape", func() *StemCylinder3DShape { return &StemCylinder3DShape{Transparency: 0.35} }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.ParastichyNCurves3DShape, "ParastichyNCurves3DShape", func() *ParastichyNCurves3DShape { return new(ParastichyNCurves3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.ParastichyMCurves3DShape, "ParastichyMCurves3DShape", func() *ParastichyMCurves3DShape { return new(ParastichyMCurves3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.CutLine3DShape, "CutLine3DShape", func() *CutLine3DShape { return new(CutLine3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Circumference3DShape, "Circumference3DShape", func() *Circumference3DShape { return new(Circumference3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
+		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Leaves3DShape, "Leaves3DShape", func() *Leaves3DShape { return new(Leaves3DShape) }) || modified
 	}
 
 	return modified

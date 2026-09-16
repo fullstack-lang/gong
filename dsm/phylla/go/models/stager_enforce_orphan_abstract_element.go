@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	needCommit = reattachToLibraryRoots(
 		stager,
@@ -11,7 +13,9 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(plant *PlantAbstract) {
-			plant.GetOwningLibrary().Plants = append(plant.GetOwningLibrary().Plants, plant)
+			owningLib := plant.GetOwningLibrary()
+			owningLib.Plants = append(owningLib.Plants, plant)
+			stager.logAndNotify(fmt.Sprintf("Reattached orphan plant %s to library %s", plant.Name, owningLib.Name))
 		},
 		func(plant *PlantAbstract) []*PlantAbstract {
 			return []*PlantAbstract{}
@@ -29,6 +33,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			if library != stager.getRootLibrary() {
 				stager.getRootLibrary().SubLibraries = append(stager.getRootLibrary().SubLibraries, library)
 				library.SetOwningLibrary(stager.getRootLibrary())
+				stager.logAndNotify(fmt.Sprintf("Reattached orphan sub-library %s to root library", library.Name))
 			}
 		},
 		func(library *Library) []*Library {

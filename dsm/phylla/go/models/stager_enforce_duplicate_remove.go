@@ -1,6 +1,5 @@
 package models
 
-import "time"
 
 // enforceDuplicateRemove parses all associations between AbstractType
 // and deletes duplicates within these associations
@@ -29,7 +28,7 @@ func removeDuplicatesSlice[T PointerToGongstruct](stager *Stager, slicePtr *[]T)
 			list = append(list, entry)
 		} else {
 			changed = true
-			stager.probeForm.AddNotification(time.Now(), "Removed duplicate entry from slice: "+entry.GetName())
+			stager.logAndNotify("Removed duplicate entry from slice: " + entry.GetName())
 		}
 	}
 	if changed {

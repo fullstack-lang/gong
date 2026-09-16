@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
 		if plant.PlantType == TubeVase {
@@ -9,11 +11,13 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 				}).Stage(stager.stage)
 				plant.TubeVaseAbstract = va
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Plant %s: created missing TubeVaseAbstract", plant.Name))
 			}
 		} else {
 			if plant.TubeVaseAbstract != nil {
 				plant.TubeVaseAbstract = nil
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Plant %s: removed TubeVaseAbstract because PlantType is %s", plant.Name, plant.PlantType))
 			}
 		}
 	}
@@ -30,6 +34,7 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 		if !hasOwner {
 			va.Unstage(stager.stage)
 			needCommit = true
+			stager.logAndNotify(fmt.Sprintf("Removed orphaned TubeVaseAbstract %s", va.Name))
 		}
 	}
 
@@ -38,11 +43,13 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 
 func (stager *Stager) enforceTubeVaseAbstractName() (needCommit bool) {
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		if plant.PlantType == TubeVase {
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
 			expectedName := plant.Name + "-TubeVaseAbstract"
 			if plant.TubeVaseAbstract.Name != expectedName {
+				oldName := plant.TubeVaseAbstract.Name
 				plant.TubeVaseAbstract.Name = expectedName
 				needCommit = true
+				stager.logAndNotify(fmt.Sprintf("Renamed TubeVaseAbstract from '%s' to '%s'", oldName, expectedName))
 			}
 		}
 	}

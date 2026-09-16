@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"time"
 )
 
 func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
@@ -23,6 +22,7 @@ func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
 			shapePointer.StageVoid(stage)
 
 			setShape(plant, shapePointer)
+			stager.logAndNotify(fmt.Sprintf("Plant %s: created missing %s", plant.Name, shapeName))
 
 			needCommit = true
 		}
@@ -39,9 +39,7 @@ func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
 		}
 		if !hasOwner {
 			shape.UnstageVoid(stage)
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Removed orphaned %s %s", shapeName, shape.GetName()))
-			}
+			stager.logAndNotify(fmt.Sprintf("Removed orphaned %s %s", shapeName, shape.GetName()))
 			needCommit = true
 		}
 	}
@@ -62,7 +60,9 @@ func enforcePlantShapeName[ShapePointerType PointerToGongstruct](
 		if shape != zero {
 			expectedName := plant.Name + "-" + shapeNameSuffix
 			if shape.GetName() != expectedName {
+				oldName := shape.GetName()
 				shape.SetName(expectedName)
+				stager.logAndNotify(fmt.Sprintf("Renamed %s from '%s' to '%s'", shapeNameSuffix, oldName, expectedName))
 				needCommit = true
 			}
 		}
@@ -375,6 +375,7 @@ func enforceTubeVaseHasShape[ShapePointerType PointerToGongstruct](
 			shapePointer.StageVoid(stage)
 
 			setShape(vase, shapePointer)
+			stager.logAndNotify(fmt.Sprintf("TubeVase %s: created missing %s", vase.Name, shapeName))
 
 			needCommit = true
 		}
@@ -391,9 +392,7 @@ func enforceTubeVaseHasShape[ShapePointerType PointerToGongstruct](
 		}
 		if !hasOwner {
 			shape.UnstageVoid(stage)
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Removed orphaned %s %s", shapeName, shape.GetName()))
-			}
+			stager.logAndNotify(fmt.Sprintf("Removed orphaned %s %s", shapeName, shape.GetName()))
 			needCommit = true
 		}
 	}
@@ -414,7 +413,9 @@ func enforceTubeVaseShapeName[ShapePointerType PointerToGongstruct](
 		if shape != zero {
 			expectedName := vase.Name + "-" + shapeNameSuffix
 			if shape.GetName() != expectedName {
+				oldName := shape.GetName()
 				shape.SetName(expectedName)
+				stager.logAndNotify(fmt.Sprintf("Renamed %s from '%s' to '%s'", shapeNameSuffix, oldName, expectedName))
 				needCommit = true
 			}
 		}

@@ -6,6 +6,13 @@ import (
 	"time"
 )
 
+func (stager *Stager) logAndNotify(message string) {
+	log.Println(message)
+	if stager.probeForm != nil {
+		stager.probeForm.AddNotification(time.Now(), message)
+	}
+}
+
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 	needCommit = stager.enforceThereIsARootLibrary() || needCommit
@@ -17,14 +24,12 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	pass := 0
 	for {
 		if pass > 10 {
-			log.Println("enforceSemantic reached 10 passes. Breaking loop.")
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), "Semantic enforcement reached maximum number of passes (10). Breaking loop.")
-			}
+			stager.logAndNotify("Semantic enforcement reached maximum number of passes (10). Breaking loop.")
 			break
 		}
 		if stager.enforceSemanticOnePass(false, stage) {
 			needCommit = true
+			stager.logAndNotify(fmt.Sprint("Stage was modified to enforce semantic, pass ", pass))
 			pass++
 		} else {
 			break
@@ -58,39 +63,41 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce default values", stager.enforceDefaultValues, true},
 		{"Enforce N <= M", stager.enforcePlantNM, true},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove, true},
-		{"Enforce single selected plant", stager.enforceSingleSelectedPlant, false},
+		{"Enforce single selected plant", stager.enforceSingleSelectedPlant, true},
 		{"Enforce plant has diagram", stager.enforcePlantHasDiagram, true},
 
-		// concrete / omit shape generation (normal runtime behavior, not notified)
-		{"Enforce plant has axes", stager.enforcePlantHasAxes, false},
-		{"Enforce axes shape name", stager.enforceAxesShapeName, false},
-		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff, false},
-		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName, false},
-		{"Enforce plant has tube vase abstract", stager.enforcePlantHasTubeVaseAbstract, false},
-		{"Enforce tube vase abstract name", stager.enforceTubeVaseAbstractName, false},
-		{"Enforce plant has stool abstract", stager.enforcePlantHasStoolAbstract, false},
-		{"Enforce stool abstract name", stager.enforceStoolAbstractName, false},
-		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract, false},
-		{"Enforce clock abstract name", stager.enforceClockAbstractName, false},
-		{"Enforce plant has music abstract", stager.enforcePlantHasMusicAbstract, false},
-		{"Enforce music abstract name", stager.enforceMusicAbstractName, false},
-		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus, false},
-		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName, false},
-		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape, false},
-		{"Enforce grid path shape name", stager.enforceGridPathShapeName, false},
-		{"Enforce plant has initial rhombus grid shape", stager.enforcePlantHasInitialRhombusGridShape, false},
-		{"Enforce initial rhombus grid shape name", stager.enforceInitialRhombusGridShapeName, false},
-		{"Enforce plant has explanation text shape", stager.enforcePlantHasExplanationTextShape, false},
-		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName, false},
-		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes, false},
-		{"Enforce rotated shapes names", stager.enforceRotatedShapesNames, false},
-		{"Enforce tube vase has shapes", stager.enforceTubeVaseHasShapes, false},
-		{"Enforce tube vase shape names", stager.enforceTubeVaseShapeNames, false},
-		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape, false},
+		// concrete semantic checks
+		{"Enforce plant has axes", stager.enforcePlantHasAxes, true},
+		{"Enforce axes shape name", stager.enforceAxesShapeName, true},
+		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff, true},
+		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName, true},
+		{"Enforce plant has tube vase abstract", stager.enforcePlantHasTubeVaseAbstract, true},
+		{"Enforce tube vase abstract name", stager.enforceTubeVaseAbstractName, true},
+		{"Enforce plant has stool abstract", stager.enforcePlantHasStoolAbstract, true},
+		{"Enforce stool abstract name", stager.enforceStoolAbstractName, true},
+		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract, true},
+		{"Enforce clock abstract name", stager.enforceClockAbstractName, true},
+		{"Enforce plant has music abstract", stager.enforcePlantHasMusicAbstract, true},
+		{"Enforce music abstract name", stager.enforceMusicAbstractName, true},
+		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus, true},
+		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName, true},
+		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape, true},
+		{"Enforce grid path shape name", stager.enforceGridPathShapeName, true},
+		{"Enforce plant has initial rhombus grid shape", stager.enforcePlantHasInitialRhombusGridShape, true},
+		{"Enforce initial rhombus grid shape name", stager.enforceInitialRhombusGridShapeName, true},
+		{"Enforce plant has explanation text shape", stager.enforcePlantHasExplanationTextShape, true},
+		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName, true},
+		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes, true},
+		{"Enforce rotated shapes names", stager.enforceRotatedShapesNames, true},
+		{"Enforce tube vase has shapes", stager.enforceTubeVaseHasShapes, true},
+		{"Enforce tube vase shape names", stager.enforceTubeVaseShapeNames, true},
+		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape, true},
+		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName, true},
+		{"Enforce diagram shapes", stager.enforceDiagramShapes, true},
+
+		// continuous shape geometry recalculations (normal runtime behavior, not notified)
 		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape, false},
-		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName, false},
 		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses, false},
-		{"Enforce diagram shapes", stager.enforceDiagramShapes, false},
 		{"Enforce plant rotation ratio heights", stager.enforcePlantRotationRatioHeights, false},
 	}
 
@@ -98,10 +105,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		modified := method.fn()
 		if modified {
 			if method.notify {
-				log.Printf("Semantic check '%s' generated a stage modification", method.name)
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Semantic check '%s' generated a stage modification", method.name))
-				}
+				stager.logAndNotify(fmt.Sprintf("Semantic check '%s' generated a stage modification", method.name))
 			}
 			needCommit = true
 		}
@@ -157,6 +161,9 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			if plant.IsSelected != shouldBeSelected {
 				plant.IsSelected = shouldBeSelected
 				modified = true
+				if shouldBeSelected {
+					stager.logAndNotify(fmt.Sprintf("Selected plant set to %s", plant.Name))
+				}
 			}
 			if !shouldBeSelected {
 				for _, d := range plant.Plant2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
@@ -183,6 +190,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 				} else {
 					plant.IsSelected = false
 					modified = true
+					stager.logAndNotify(fmt.Sprintf("Deselected plant %s (only single selected plant allowed)", plant.Name))
 				}
 			}
 		}
@@ -225,12 +233,14 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			}
 			checkDefaultDiagramForPlant(selectedPlant)
 			modified = true
+			stager.logAndNotify(fmt.Sprintf("Plant %s: checked default diagram", selectedPlant.Name))
 		} else if len(plants) > 0 {
 			for plant := range plants {
 				plant.IsSelected = true
 				stager.selectedPlant = plant
 				checkDefaultDiagramForPlant(plant)
 				modified = true
+				stager.logAndNotify(fmt.Sprintf("Selected default plant %s and checked default diagram", plant.Name))
 				break
 			}
 		} else {
@@ -244,18 +254,23 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		if stager.selectedPlant.PlantType == Plant && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
+			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
 		} else if stager.selectedPlant.PlantType == Stool && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_STOOL_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
+			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
 		} else if stager.selectedPlant.PlantType == Clock && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_CLOCK_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
+			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
 		} else if stager.selectedPlant.PlantType == TubeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_TUBE_VASE_3D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
+			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
 		} else if stager.selectedPlant.PlantType == TrapezeVase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_PLANT_3D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
+			stager.logAndNotify(fmt.Sprintf("Plant %s: reset invalid CurrentView to VIEW_PLANT_2D", stager.selectedPlant.Name))
 		}
 	}
 
