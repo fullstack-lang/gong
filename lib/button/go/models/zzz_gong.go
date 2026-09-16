@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	button_go "github.com/fullstack-lang/gong/lib/button/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -214,9 +201,6 @@ type Stage struct {
 	OnAfterLayoutDeleteCallback OnAfterDeleteInterface[Layout]
 	OnAfterLayoutReadCallback   OnAfterReadInterface[Layout]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -245,8 +229,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -590,14 +572,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -701,28 +675,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/button/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return button_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return button_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -841,13 +795,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Button"},
-			{name: "ButtonToggle"},
-			{name: "Group"},
-			{name: "GroupToogle"},
-			{name: "Layout"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1061,9 +1008,6 @@ func (button *Button) Commit(stage *Stage) *Button {
 	return button
 }
 
-func (button *Button) CommitVoid(stage *Stage) {
-	button.Commit(stage)
-}
 
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
@@ -1149,9 +1093,6 @@ func (buttontoggle *ButtonToggle) Commit(stage *Stage) *ButtonToggle {
 	return buttontoggle
 }
 
-func (buttontoggle *ButtonToggle) CommitVoid(stage *Stage) {
-	buttontoggle.Commit(stage)
-}
 
 func (buttontoggle *ButtonToggle) StageVoid(stage *Stage) {
 	buttontoggle.Stage(stage)
@@ -1237,9 +1178,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	return group
 }
 
-func (group *Group) CommitVoid(stage *Stage) {
-	group.Commit(stage)
-}
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
@@ -1325,9 +1263,6 @@ func (grouptoogle *GroupToogle) Commit(stage *Stage) *GroupToogle {
 	return grouptoogle
 }
 
-func (grouptoogle *GroupToogle) CommitVoid(stage *Stage) {
-	grouptoogle.Commit(stage)
-}
 
 func (grouptoogle *GroupToogle) StageVoid(stage *Stage) {
 	grouptoogle.Stage(stage)
@@ -1413,9 +1348,6 @@ func (layout *Layout) Commit(stage *Stage) *Layout {
 	return layout
 }
 
-func (layout *Layout) CommitVoid(stage *Stage) {
-	layout.Commit(stage)
-}
 
 func (layout *Layout) StageVoid(stage *Stage) {
 	layout.Stage(stage)
@@ -1439,23 +1371,6 @@ func (layout *Layout) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (layout *Layout) SetName(name string) {
 	layout.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMButton(Button *Button)
-	CreateORMButtonToggle(ButtonToggle *ButtonToggle)
-	CreateORMGroup(Group *Group)
-	CreateORMGroupToogle(GroupToogle *GroupToogle)
-	CreateORMLayout(Layout *Layout)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMButton(Button *Button)
-	DeleteORMButtonToggle(ButtonToggle *ButtonToggle)
-	DeleteORMGroup(Group *Group)
-	DeleteORMGroupToogle(GroupToogle *GroupToogle)
-	DeleteORMLayout(Layout *Layout)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1492,49 +1407,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Buttons = nil
-	stage.Buttons_mapString = nil
-
-	stage.ButtonToggles = nil
-	stage.ButtonToggles_mapString = nil
-
-	stage.Groups = nil
-	stage.Groups_mapString = nil
-
-	stage.GroupToogles = nil
-	stage.GroupToogles_mapString = nil
-
-	stage.Layouts = nil
-	stage.Layouts_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for button := range stage.Buttons {
-		button.Unstage(stage)
-	}
-
-	for buttontoggle := range stage.ButtonToggles {
-		buttontoggle.Unstage(stage)
-	}
-
-	for group := range stage.Groups {
-		group.Unstage(stage)
-	}
-
-	for grouptoogle := range stage.GroupToogles {
-		grouptoogle.Unstage(stage)
-	}
-
-	for layout := range stage.Layouts {
-		layout.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1552,13 +1424,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -2204,155 +2074,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		button.Name = value.GetValueString()
-	case "Label":
-		button.Label = value.GetValueString()
-	case "Icon":
-		button.Icon = value.GetValueString()
-	case "IsDisabled":
-		button.IsDisabled = value.GetValueBool()
-	case "Color":
-		button.Color.FromCodeString(value.GetValueString())
-	case "MatButtonType":
-		button.MatButtonType.FromCodeString(value.GetValueString())
-	case "MatButtonAppearance":
-		button.MatButtonAppearance.FromCodeString(value.GetValueString())
-	case "HasToolTip":
-		button.HasToolTip = value.GetValueBool()
-	case "ToolTipText":
-		button.ToolTipText = value.GetValueString()
-	case "ToolTipPosition":
-		button.ToolTipPosition.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (buttontoggle *ButtonToggle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		buttontoggle.Name = value.GetValueString()
-	case "Label":
-		buttontoggle.Label = value.GetValueString()
-	case "Icon":
-		buttontoggle.Icon = value.GetValueString()
-	case "IsDisabled":
-		buttontoggle.IsDisabled = value.GetValueBool()
-	case "IsChecked":
-		buttontoggle.IsChecked = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group.Name = value.GetValueString()
-	case "Percentage":
-		group.Percentage = value.GetValueFloat()
-	case "Buttons":
-		group.Buttons = make([]*Button, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Buttons {
-					if stage.Button_stagedOrder[__instance__] == uint(id) {
-						group.Buttons = append(group.Buttons, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbColumns":
-		group.NbColumns = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (grouptoogle *GroupToogle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		grouptoogle.Name = value.GetValueString()
-	case "Percentage":
-		grouptoogle.Percentage = value.GetValueFloat()
-	case "ButtonToggles":
-		grouptoogle.ButtonToggles = make([]*ButtonToggle, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ButtonToggles {
-					if stage.ButtonToggle_stagedOrder[__instance__] == uint(id) {
-						grouptoogle.ButtonToggles = append(grouptoogle.ButtonToggles, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSingleSelector":
-		grouptoogle.IsSingleSelector = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (layout *Layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		layout.Name = value.GetValueString()
-	case "Groups":
-		layout.Groups = make([]*Group, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Groups {
-					if stage.Group_stagedOrder[__instance__] == uint(id) {
-						layout.Groups = append(layout.Groups, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "GroupToogles":
-		layout.GroupToogles = make([]*GroupToogle, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GroupToogles {
-					if stage.GroupToogle_stagedOrder[__instance__] == uint(id) {
-						layout.GroupToogles = append(layout.GroupToogles, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (button *Button) GongGetGongstructName() string {

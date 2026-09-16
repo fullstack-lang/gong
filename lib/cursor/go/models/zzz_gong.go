@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	cursor_go "github.com/fullstack-lang/gong/lib/cursor/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -146,9 +133,6 @@ type Stage struct {
 	OnAfterCursorDeleteCallback OnAfterDeleteInterface[Cursor]
 	OnAfterCursorReadCallback   OnAfterReadInterface[Cursor]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -177,8 +161,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -450,14 +432,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -505,28 +479,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/cursor/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return cursor_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return cursor_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -601,9 +555,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Cursor"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -797,9 +748,6 @@ func (cursor *Cursor) Commit(stage *Stage) *Cursor {
 	return cursor
 }
 
-func (cursor *Cursor) CommitVoid(stage *Stage) {
-	cursor.Commit(stage)
-}
 
 func (cursor *Cursor) StageVoid(stage *Stage) {
 	cursor.Stage(stage)
@@ -825,15 +773,6 @@ func (cursor *Cursor) SetName(name string) {
 	cursor.Name = name
 }
 
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMCursor(Cursor *Cursor)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMCursor(Cursor *Cursor)
-}
-
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Cursors = make(map[*Cursor]struct{})
 	stage.Cursors_mapString = make(map[string]*Cursor)
@@ -846,21 +785,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.IsInDeltaMode() {
 		stage.ComputeReferenceAndOrders()
 	}
-}
-
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Cursors = nil
-	stage.Cursors_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for cursor := range stage.Cursors {
-		cursor.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -880,13 +804,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -1224,49 +1146,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (cursor *Cursor) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cursor.Name = value.GetValueString()
-	case "StartX":
-		cursor.StartX = value.GetValueFloat()
-	case "EndX":
-		cursor.EndX = value.GetValueFloat()
-	case "Y1":
-		cursor.Y1 = value.GetValueFloat()
-	case "Y2":
-		cursor.Y2 = value.GetValueFloat()
-	case "DurationSeconds":
-		cursor.DurationSeconds = value.GetValueFloat()
-	case "Color":
-		cursor.Color = value.GetValueString()
-	case "FillOpacity":
-		cursor.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		cursor.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		cursor.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		cursor.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		cursor.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		cursor.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		cursor.Transform = value.GetValueString()
-	case "IsPlaying":
-		cursor.IsPlaying = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (cursor *Cursor) GongGetGongstructName() string {

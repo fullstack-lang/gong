@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	reqif_go "github.com/fullstack-lang/gong/app/reqif/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -1773,9 +1760,6 @@ type Stage struct {
 	OnAfterXHTML_CONTENTDeleteCallback OnAfterDeleteInterface[XHTML_CONTENT]
 	OnAfterXHTML_CONTENTReadCallback   OnAfterReadInterface[XHTML_CONTENT]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -1804,8 +1788,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -3931,14 +3913,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -5428,28 +5402,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/app/reqif/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return reqif_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return reqif_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -6657,112 +6611,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "ALTERNATIVE_ID"},
-			{name: "ATTRIBUTE_DEFINITION_BOOLEAN"},
-			{name: "ATTRIBUTE_DEFINITION_BOOLEAN_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_DATE"},
-			{name: "ATTRIBUTE_DEFINITION_DATE_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_ENUMERATION"},
-			{name: "ATTRIBUTE_DEFINITION_ENUMERATION_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_INTEGER"},
-			{name: "ATTRIBUTE_DEFINITION_INTEGER_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_REAL"},
-			{name: "ATTRIBUTE_DEFINITION_REAL_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_STRING"},
-			{name: "ATTRIBUTE_DEFINITION_STRING_Rendering"},
-			{name: "ATTRIBUTE_DEFINITION_XHTML"},
-			{name: "ATTRIBUTE_DEFINITION_XHTML_Rendering"},
-			{name: "ATTRIBUTE_VALUE_BOOLEAN"},
-			{name: "ATTRIBUTE_VALUE_DATE"},
-			{name: "ATTRIBUTE_VALUE_ENUMERATION"},
-			{name: "ATTRIBUTE_VALUE_INTEGER"},
-			{name: "ATTRIBUTE_VALUE_REAL"},
-			{name: "ATTRIBUTE_VALUE_STRING"},
-			{name: "ATTRIBUTE_VALUE_XHTML"},
-			{name: "A_ALTERNATIVE_ID"},
-			{name: "A_ATTRIBUTE_DEFINITION_BOOLEAN_REF"},
-			{name: "A_ATTRIBUTE_DEFINITION_DATE_REF"},
-			{name: "A_ATTRIBUTE_DEFINITION_ENUMERATION_REF"},
-			{name: "A_ATTRIBUTE_DEFINITION_INTEGER_REF"},
-			{name: "A_ATTRIBUTE_DEFINITION_REAL_REF"},
-			{name: "A_ATTRIBUTE_DEFINITION_STRING_REF"},
-			{name: "A_ATTRIBUTE_DEFINITION_XHTML_REF"},
-			{name: "A_ATTRIBUTE_VALUE_BOOLEAN"},
-			{name: "A_ATTRIBUTE_VALUE_DATE"},
-			{name: "A_ATTRIBUTE_VALUE_ENUMERATION"},
-			{name: "A_ATTRIBUTE_VALUE_INTEGER"},
-			{name: "A_ATTRIBUTE_VALUE_REAL"},
-			{name: "A_ATTRIBUTE_VALUE_STRING"},
-			{name: "A_ATTRIBUTE_VALUE_XHTML"},
-			{name: "A_ATTRIBUTE_VALUE_XHTML_1"},
-			{name: "A_CHILDREN"},
-			{name: "A_CORE_CONTENT"},
-			{name: "A_DATATYPES"},
-			{name: "A_DATATYPE_DEFINITION_BOOLEAN_REF"},
-			{name: "A_DATATYPE_DEFINITION_DATE_REF"},
-			{name: "A_DATATYPE_DEFINITION_ENUMERATION_REF"},
-			{name: "A_DATATYPE_DEFINITION_INTEGER_REF"},
-			{name: "A_DATATYPE_DEFINITION_REAL_REF"},
-			{name: "A_DATATYPE_DEFINITION_STRING_REF"},
-			{name: "A_DATATYPE_DEFINITION_XHTML_REF"},
-			{name: "A_EDITABLE_ATTS"},
-			{name: "A_ENUM_VALUE_REF"},
-			{name: "A_OBJECT"},
-			{name: "A_PROPERTIES"},
-			{name: "A_RELATION_GROUP_TYPE_REF"},
-			{name: "A_SOURCE_1"},
-			{name: "A_SOURCE_SPECIFICATION_1"},
-			{name: "A_SPECIFICATIONS"},
-			{name: "A_SPECIFICATION_TYPE_REF"},
-			{name: "A_SPECIFIED_VALUES"},
-			{name: "A_SPEC_ATTRIBUTES"},
-			{name: "A_SPEC_OBJECTS"},
-			{name: "A_SPEC_OBJECT_TYPE_REF"},
-			{name: "A_SPEC_RELATIONS"},
-			{name: "A_SPEC_RELATION_GROUPS"},
-			{name: "A_SPEC_RELATION_REF"},
-			{name: "A_SPEC_RELATION_TYPE_REF"},
-			{name: "A_SPEC_TYPES"},
-			{name: "A_THE_HEADER"},
-			{name: "A_TOOL_EXTENSIONS"},
-			{name: "DATATYPE_DEFINITION_BOOLEAN"},
-			{name: "DATATYPE_DEFINITION_DATE"},
-			{name: "DATATYPE_DEFINITION_ENUMERATION"},
-			{name: "DATATYPE_DEFINITION_INTEGER"},
-			{name: "DATATYPE_DEFINITION_REAL"},
-			{name: "DATATYPE_DEFINITION_STRING"},
-			{name: "DATATYPE_DEFINITION_XHTML"},
-			{name: "EMBEDDED_VALUE"},
-			{name: "ENUM_VALUE"},
-			{name: "EmbeddedJpgImage"},
-			{name: "EmbeddedPngImage"},
-			{name: "EmbeddedSvgImage"},
-			{name: "Kill"},
-			{name: "Map_identifier_bool"},
-			{name: "RELATION_GROUP"},
-			{name: "RELATION_GROUP_TYPE"},
-			{name: "REQ_IF"},
-			{name: "REQ_IF_CONTENT"},
-			{name: "REQ_IF_HEADER"},
-			{name: "REQ_IF_TOOL_EXTENSION"},
-			{name: "SPECIFICATION"},
-			{name: "SPECIFICATION_Rendering"},
-			{name: "SPECIFICATION_TYPE"},
-			{name: "SPEC_HIERARCHY"},
-			{name: "SPEC_OBJECT"},
-			{name: "SPEC_OBJECT_TYPE"},
-			{name: "SPEC_OBJECT_TYPE_Rendering"},
-			{name: "SPEC_RELATION"},
-			{name: "SPEC_RELATION_TYPE"},
-			{name: "StaticWebSite"},
-			{name: "StaticWebSiteChapter"},
-			{name: "StaticWebSiteGeneratedImage"},
-			{name: "StaticWebSiteImage"},
-			{name: "StaticWebSiteParagraph"},
-			{name: "XHTML_CONTENT"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -7471,9 +7319,6 @@ func (alternative_id *ALTERNATIVE_ID) Commit(stage *Stage) *ALTERNATIVE_ID {
 	return alternative_id
 }
 
-func (alternative_id *ALTERNATIVE_ID) CommitVoid(stage *Stage) {
-	alternative_id.Commit(stage)
-}
 
 func (alternative_id *ALTERNATIVE_ID) StageVoid(stage *Stage) {
 	alternative_id.Stage(stage)
@@ -7559,9 +7404,6 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) Commit(stage *
 	return attribute_definition_boolean
 }
 
-func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) CommitVoid(stage *Stage) {
-	attribute_definition_boolean.Commit(stage)
-}
 
 func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) StageVoid(stage *Stage) {
 	attribute_definition_boolean.Stage(stage)
@@ -7647,9 +7489,6 @@ func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rende
 	return attribute_definition_boolean_rendering
 }
 
-func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_boolean_rendering.Commit(stage)
-}
 
 func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_boolean_rendering.Stage(stage)
@@ -7735,9 +7574,6 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) Commit(stage *Stage)
 	return attribute_definition_date
 }
 
-func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) CommitVoid(stage *Stage) {
-	attribute_definition_date.Commit(stage)
-}
 
 func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) StageVoid(stage *Stage) {
 	attribute_definition_date.Stage(stage)
@@ -7823,9 +7659,6 @@ func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) 
 	return attribute_definition_date_rendering
 }
 
-func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_date_rendering.Commit(stage)
-}
 
 func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_date_rendering.Stage(stage)
@@ -7911,9 +7744,6 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) Commit
 	return attribute_definition_enumeration
 }
 
-func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) CommitVoid(stage *Stage) {
-	attribute_definition_enumeration.Commit(stage)
-}
 
 func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) StageVoid(stage *Stage) {
 	attribute_definition_enumeration.Stage(stage)
@@ -7999,9 +7829,6 @@ func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATI
 	return attribute_definition_enumeration_rendering
 }
 
-func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_enumeration_rendering.Commit(stage)
-}
 
 func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_enumeration_rendering.Stage(stage)
@@ -8087,9 +7914,6 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) Commit(stage *
 	return attribute_definition_integer
 }
 
-func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) CommitVoid(stage *Stage) {
-	attribute_definition_integer.Commit(stage)
-}
 
 func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) StageVoid(stage *Stage) {
 	attribute_definition_integer.Stage(stage)
@@ -8175,9 +7999,6 @@ func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rende
 	return attribute_definition_integer_rendering
 }
 
-func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_integer_rendering.Commit(stage)
-}
 
 func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_integer_rendering.Stage(stage)
@@ -8263,9 +8084,6 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) Commit(stage *Stage)
 	return attribute_definition_real
 }
 
-func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) CommitVoid(stage *Stage) {
-	attribute_definition_real.Commit(stage)
-}
 
 func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) StageVoid(stage *Stage) {
 	attribute_definition_real.Stage(stage)
@@ -8351,9 +8169,6 @@ func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) 
 	return attribute_definition_real_rendering
 }
 
-func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_real_rendering.Commit(stage)
-}
 
 func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_real_rendering.Stage(stage)
@@ -8439,9 +8254,6 @@ func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) Commit(sta
 	return attribute_definition_rendering
 }
 
-func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_rendering.Commit(stage)
-}
 
 func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_rendering.Stage(stage)
@@ -8527,9 +8339,6 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) Commit(stage *St
 	return attribute_definition_string
 }
 
-func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) CommitVoid(stage *Stage) {
-	attribute_definition_string.Commit(stage)
-}
 
 func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) StageVoid(stage *Stage) {
 	attribute_definition_string.Stage(stage)
@@ -8615,9 +8424,6 @@ func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Renderi
 	return attribute_definition_string_rendering
 }
 
-func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_string_rendering.Commit(stage)
-}
 
 func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_string_rendering.Stage(stage)
@@ -8703,9 +8509,6 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) Commit(stage *Stag
 	return attribute_definition_xhtml
 }
 
-func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) CommitVoid(stage *Stage) {
-	attribute_definition_xhtml.Commit(stage)
-}
 
 func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) StageVoid(stage *Stage) {
 	attribute_definition_xhtml.Stage(stage)
@@ -8791,9 +8594,6 @@ func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering
 	return attribute_definition_xhtml_rendering
 }
 
-func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) CommitVoid(stage *Stage) {
-	attribute_definition_xhtml_rendering.Commit(stage)
-}
 
 func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) StageVoid(stage *Stage) {
 	attribute_definition_xhtml_rendering.Stage(stage)
@@ -8879,9 +8679,6 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) Commit(stage *Stage) *AT
 	return attribute_value_boolean
 }
 
-func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) CommitVoid(stage *Stage) {
-	attribute_value_boolean.Commit(stage)
-}
 
 func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) StageVoid(stage *Stage) {
 	attribute_value_boolean.Stage(stage)
@@ -8967,9 +8764,6 @@ func (attribute_value_date *ATTRIBUTE_VALUE_DATE) Commit(stage *Stage) *ATTRIBUT
 	return attribute_value_date
 }
 
-func (attribute_value_date *ATTRIBUTE_VALUE_DATE) CommitVoid(stage *Stage) {
-	attribute_value_date.Commit(stage)
-}
 
 func (attribute_value_date *ATTRIBUTE_VALUE_DATE) StageVoid(stage *Stage) {
 	attribute_value_date.Stage(stage)
@@ -9055,9 +8849,6 @@ func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) Commit(stage *St
 	return attribute_value_enumeration
 }
 
-func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) CommitVoid(stage *Stage) {
-	attribute_value_enumeration.Commit(stage)
-}
 
 func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) StageVoid(stage *Stage) {
 	attribute_value_enumeration.Stage(stage)
@@ -9143,9 +8934,6 @@ func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) Commit(stage *Stage) *AT
 	return attribute_value_integer
 }
 
-func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) CommitVoid(stage *Stage) {
-	attribute_value_integer.Commit(stage)
-}
 
 func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) StageVoid(stage *Stage) {
 	attribute_value_integer.Stage(stage)
@@ -9231,9 +9019,6 @@ func (attribute_value_real *ATTRIBUTE_VALUE_REAL) Commit(stage *Stage) *ATTRIBUT
 	return attribute_value_real
 }
 
-func (attribute_value_real *ATTRIBUTE_VALUE_REAL) CommitVoid(stage *Stage) {
-	attribute_value_real.Commit(stage)
-}
 
 func (attribute_value_real *ATTRIBUTE_VALUE_REAL) StageVoid(stage *Stage) {
 	attribute_value_real.Stage(stage)
@@ -9319,9 +9104,6 @@ func (attribute_value_string *ATTRIBUTE_VALUE_STRING) Commit(stage *Stage) *ATTR
 	return attribute_value_string
 }
 
-func (attribute_value_string *ATTRIBUTE_VALUE_STRING) CommitVoid(stage *Stage) {
-	attribute_value_string.Commit(stage)
-}
 
 func (attribute_value_string *ATTRIBUTE_VALUE_STRING) StageVoid(stage *Stage) {
 	attribute_value_string.Stage(stage)
@@ -9407,9 +9189,6 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) Commit(stage *Stage) *ATTRIB
 	return attribute_value_xhtml
 }
 
-func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) CommitVoid(stage *Stage) {
-	attribute_value_xhtml.Commit(stage)
-}
 
 func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) StageVoid(stage *Stage) {
 	attribute_value_xhtml.Stage(stage)
@@ -9495,9 +9274,6 @@ func (a_alternative_id *A_ALTERNATIVE_ID) Commit(stage *Stage) *A_ALTERNATIVE_ID
 	return a_alternative_id
 }
 
-func (a_alternative_id *A_ALTERNATIVE_ID) CommitVoid(stage *Stage) {
-	a_alternative_id.Commit(stage)
-}
 
 func (a_alternative_id *A_ALTERNATIVE_ID) StageVoid(stage *Stage) {
 	a_alternative_id.Stage(stage)
@@ -9583,9 +9359,6 @@ func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) Co
 	return a_attribute_definition_boolean_ref
 }
 
-func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_boolean_ref.Commit(stage)
-}
 
 func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_boolean_ref.Stage(stage)
@@ -9671,9 +9444,6 @@ func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) Commit(s
 	return a_attribute_definition_date_ref
 }
 
-func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_date_ref.Commit(stage)
-}
 
 func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_date_ref.Stage(stage)
@@ -9759,9 +9529,6 @@ func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION
 	return a_attribute_definition_enumeration_ref
 }
 
-func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_enumeration_ref.Commit(stage)
-}
 
 func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_enumeration_ref.Stage(stage)
@@ -9847,9 +9614,6 @@ func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) Co
 	return a_attribute_definition_integer_ref
 }
 
-func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_integer_ref.Commit(stage)
-}
 
 func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_integer_ref.Stage(stage)
@@ -9935,9 +9699,6 @@ func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) Commit(s
 	return a_attribute_definition_real_ref
 }
 
-func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_real_ref.Commit(stage)
-}
 
 func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_real_ref.Stage(stage)
@@ -10023,9 +9784,6 @@ func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) Comm
 	return a_attribute_definition_string_ref
 }
 
-func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_string_ref.Commit(stage)
-}
 
 func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_string_ref.Stage(stage)
@@ -10111,9 +9869,6 @@ func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) Commit
 	return a_attribute_definition_xhtml_ref
 }
 
-func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) CommitVoid(stage *Stage) {
-	a_attribute_definition_xhtml_ref.Commit(stage)
-}
 
 func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) StageVoid(stage *Stage) {
 	a_attribute_definition_xhtml_ref.Stage(stage)
@@ -10199,9 +9954,6 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) Commit(stage *Stage)
 	return a_attribute_value_boolean
 }
 
-func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) CommitVoid(stage *Stage) {
-	a_attribute_value_boolean.Commit(stage)
-}
 
 func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) StageVoid(stage *Stage) {
 	a_attribute_value_boolean.Stage(stage)
@@ -10287,9 +10039,6 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) Commit(stage *Stage) *A_AT
 	return a_attribute_value_date
 }
 
-func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) CommitVoid(stage *Stage) {
-	a_attribute_value_date.Commit(stage)
-}
 
 func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) StageVoid(stage *Stage) {
 	a_attribute_value_date.Stage(stage)
@@ -10375,9 +10124,6 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) Commit(stage
 	return a_attribute_value_enumeration
 }
 
-func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) CommitVoid(stage *Stage) {
-	a_attribute_value_enumeration.Commit(stage)
-}
 
 func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) StageVoid(stage *Stage) {
 	a_attribute_value_enumeration.Stage(stage)
@@ -10463,9 +10209,6 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) Commit(stage *Stage)
 	return a_attribute_value_integer
 }
 
-func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) CommitVoid(stage *Stage) {
-	a_attribute_value_integer.Commit(stage)
-}
 
 func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) StageVoid(stage *Stage) {
 	a_attribute_value_integer.Stage(stage)
@@ -10551,9 +10294,6 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) Commit(stage *Stage) *A_AT
 	return a_attribute_value_real
 }
 
-func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) CommitVoid(stage *Stage) {
-	a_attribute_value_real.Commit(stage)
-}
 
 func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) StageVoid(stage *Stage) {
 	a_attribute_value_real.Stage(stage)
@@ -10639,9 +10379,6 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) Commit(stage *Stage) *
 	return a_attribute_value_string
 }
 
-func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) CommitVoid(stage *Stage) {
-	a_attribute_value_string.Commit(stage)
-}
 
 func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) StageVoid(stage *Stage) {
 	a_attribute_value_string.Stage(stage)
@@ -10727,9 +10464,6 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) Commit(stage *Stage) *A_
 	return a_attribute_value_xhtml
 }
 
-func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) CommitVoid(stage *Stage) {
-	a_attribute_value_xhtml.Commit(stage)
-}
 
 func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) StageVoid(stage *Stage) {
 	a_attribute_value_xhtml.Stage(stage)
@@ -10815,9 +10549,6 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) Commit(stage *Stage)
 	return a_attribute_value_xhtml_1
 }
 
-func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) CommitVoid(stage *Stage) {
-	a_attribute_value_xhtml_1.Commit(stage)
-}
 
 func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) StageVoid(stage *Stage) {
 	a_attribute_value_xhtml_1.Stage(stage)
@@ -10903,9 +10634,6 @@ func (a_children *A_CHILDREN) Commit(stage *Stage) *A_CHILDREN {
 	return a_children
 }
 
-func (a_children *A_CHILDREN) CommitVoid(stage *Stage) {
-	a_children.Commit(stage)
-}
 
 func (a_children *A_CHILDREN) StageVoid(stage *Stage) {
 	a_children.Stage(stage)
@@ -10991,9 +10719,6 @@ func (a_core_content *A_CORE_CONTENT) Commit(stage *Stage) *A_CORE_CONTENT {
 	return a_core_content
 }
 
-func (a_core_content *A_CORE_CONTENT) CommitVoid(stage *Stage) {
-	a_core_content.Commit(stage)
-}
 
 func (a_core_content *A_CORE_CONTENT) StageVoid(stage *Stage) {
 	a_core_content.Stage(stage)
@@ -11079,9 +10804,6 @@ func (a_datatypes *A_DATATYPES) Commit(stage *Stage) *A_DATATYPES {
 	return a_datatypes
 }
 
-func (a_datatypes *A_DATATYPES) CommitVoid(stage *Stage) {
-	a_datatypes.Commit(stage)
-}
 
 func (a_datatypes *A_DATATYPES) StageVoid(stage *Stage) {
 	a_datatypes.Stage(stage)
@@ -11167,9 +10889,6 @@ func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) Comm
 	return a_datatype_definition_boolean_ref
 }
 
-func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_boolean_ref.Commit(stage)
-}
 
 func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_boolean_ref.Stage(stage)
@@ -11255,9 +10974,6 @@ func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) Commit(sta
 	return a_datatype_definition_date_ref
 }
 
-func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_date_ref.Commit(stage)
-}
 
 func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_date_ref.Stage(stage)
@@ -11343,9 +11059,6 @@ func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_R
 	return a_datatype_definition_enumeration_ref
 }
 
-func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_enumeration_ref.Commit(stage)
-}
 
 func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_enumeration_ref.Stage(stage)
@@ -11431,9 +11144,6 @@ func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) Comm
 	return a_datatype_definition_integer_ref
 }
 
-func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_integer_ref.Commit(stage)
-}
 
 func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_integer_ref.Stage(stage)
@@ -11519,9 +11229,6 @@ func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) Commit(sta
 	return a_datatype_definition_real_ref
 }
 
-func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_real_ref.Commit(stage)
-}
 
 func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_real_ref.Stage(stage)
@@ -11607,9 +11314,6 @@ func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) Commit
 	return a_datatype_definition_string_ref
 }
 
-func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_string_ref.Commit(stage)
-}
 
 func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_string_ref.Stage(stage)
@@ -11695,9 +11399,6 @@ func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) Commit(s
 	return a_datatype_definition_xhtml_ref
 }
 
-func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) CommitVoid(stage *Stage) {
-	a_datatype_definition_xhtml_ref.Commit(stage)
-}
 
 func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) StageVoid(stage *Stage) {
 	a_datatype_definition_xhtml_ref.Stage(stage)
@@ -11783,9 +11484,6 @@ func (a_editable_atts *A_EDITABLE_ATTS) Commit(stage *Stage) *A_EDITABLE_ATTS {
 	return a_editable_atts
 }
 
-func (a_editable_atts *A_EDITABLE_ATTS) CommitVoid(stage *Stage) {
-	a_editable_atts.Commit(stage)
-}
 
 func (a_editable_atts *A_EDITABLE_ATTS) StageVoid(stage *Stage) {
 	a_editable_atts.Stage(stage)
@@ -11871,9 +11569,6 @@ func (a_enum_value_ref *A_ENUM_VALUE_REF) Commit(stage *Stage) *A_ENUM_VALUE_REF
 	return a_enum_value_ref
 }
 
-func (a_enum_value_ref *A_ENUM_VALUE_REF) CommitVoid(stage *Stage) {
-	a_enum_value_ref.Commit(stage)
-}
 
 func (a_enum_value_ref *A_ENUM_VALUE_REF) StageVoid(stage *Stage) {
 	a_enum_value_ref.Stage(stage)
@@ -11959,9 +11654,6 @@ func (a_object *A_OBJECT) Commit(stage *Stage) *A_OBJECT {
 	return a_object
 }
 
-func (a_object *A_OBJECT) CommitVoid(stage *Stage) {
-	a_object.Commit(stage)
-}
 
 func (a_object *A_OBJECT) StageVoid(stage *Stage) {
 	a_object.Stage(stage)
@@ -12047,9 +11739,6 @@ func (a_properties *A_PROPERTIES) Commit(stage *Stage) *A_PROPERTIES {
 	return a_properties
 }
 
-func (a_properties *A_PROPERTIES) CommitVoid(stage *Stage) {
-	a_properties.Commit(stage)
-}
 
 func (a_properties *A_PROPERTIES) StageVoid(stage *Stage) {
 	a_properties.Stage(stage)
@@ -12135,9 +11824,6 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) Commit(stage *Stage)
 	return a_relation_group_type_ref
 }
 
-func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) CommitVoid(stage *Stage) {
-	a_relation_group_type_ref.Commit(stage)
-}
 
 func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) StageVoid(stage *Stage) {
 	a_relation_group_type_ref.Stage(stage)
@@ -12223,9 +11909,6 @@ func (a_source_1 *A_SOURCE_1) Commit(stage *Stage) *A_SOURCE_1 {
 	return a_source_1
 }
 
-func (a_source_1 *A_SOURCE_1) CommitVoid(stage *Stage) {
-	a_source_1.Commit(stage)
-}
 
 func (a_source_1 *A_SOURCE_1) StageVoid(stage *Stage) {
 	a_source_1.Stage(stage)
@@ -12311,9 +11994,6 @@ func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) Commit(stage *Stage) *
 	return a_source_specification_1
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) CommitVoid(stage *Stage) {
-	a_source_specification_1.Commit(stage)
-}
 
 func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) StageVoid(stage *Stage) {
 	a_source_specification_1.Stage(stage)
@@ -12399,9 +12079,6 @@ func (a_specifications *A_SPECIFICATIONS) Commit(stage *Stage) *A_SPECIFICATIONS
 	return a_specifications
 }
 
-func (a_specifications *A_SPECIFICATIONS) CommitVoid(stage *Stage) {
-	a_specifications.Commit(stage)
-}
 
 func (a_specifications *A_SPECIFICATIONS) StageVoid(stage *Stage) {
 	a_specifications.Stage(stage)
@@ -12487,9 +12164,6 @@ func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) Commit(stage *Stage) *
 	return a_specification_type_ref
 }
 
-func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) CommitVoid(stage *Stage) {
-	a_specification_type_ref.Commit(stage)
-}
 
 func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) StageVoid(stage *Stage) {
 	a_specification_type_ref.Stage(stage)
@@ -12575,9 +12249,6 @@ func (a_specified_values *A_SPECIFIED_VALUES) Commit(stage *Stage) *A_SPECIFIED_
 	return a_specified_values
 }
 
-func (a_specified_values *A_SPECIFIED_VALUES) CommitVoid(stage *Stage) {
-	a_specified_values.Commit(stage)
-}
 
 func (a_specified_values *A_SPECIFIED_VALUES) StageVoid(stage *Stage) {
 	a_specified_values.Stage(stage)
@@ -12663,9 +12334,6 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) Commit(stage *Stage) *A_SPEC_ATTRIBU
 	return a_spec_attributes
 }
 
-func (a_spec_attributes *A_SPEC_ATTRIBUTES) CommitVoid(stage *Stage) {
-	a_spec_attributes.Commit(stage)
-}
 
 func (a_spec_attributes *A_SPEC_ATTRIBUTES) StageVoid(stage *Stage) {
 	a_spec_attributes.Stage(stage)
@@ -12751,9 +12419,6 @@ func (a_spec_objects *A_SPEC_OBJECTS) Commit(stage *Stage) *A_SPEC_OBJECTS {
 	return a_spec_objects
 }
 
-func (a_spec_objects *A_SPEC_OBJECTS) CommitVoid(stage *Stage) {
-	a_spec_objects.Commit(stage)
-}
 
 func (a_spec_objects *A_SPEC_OBJECTS) StageVoid(stage *Stage) {
 	a_spec_objects.Stage(stage)
@@ -12839,9 +12504,6 @@ func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) Commit(stage *Stage) *A_SP
 	return a_spec_object_type_ref
 }
 
-func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) CommitVoid(stage *Stage) {
-	a_spec_object_type_ref.Commit(stage)
-}
 
 func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) StageVoid(stage *Stage) {
 	a_spec_object_type_ref.Stage(stage)
@@ -12927,9 +12589,6 @@ func (a_spec_relations *A_SPEC_RELATIONS) Commit(stage *Stage) *A_SPEC_RELATIONS
 	return a_spec_relations
 }
 
-func (a_spec_relations *A_SPEC_RELATIONS) CommitVoid(stage *Stage) {
-	a_spec_relations.Commit(stage)
-}
 
 func (a_spec_relations *A_SPEC_RELATIONS) StageVoid(stage *Stage) {
 	a_spec_relations.Stage(stage)
@@ -13015,9 +12674,6 @@ func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) Commit(stage *Stage) *A_SP
 	return a_spec_relation_groups
 }
 
-func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) CommitVoid(stage *Stage) {
-	a_spec_relation_groups.Commit(stage)
-}
 
 func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) StageVoid(stage *Stage) {
 	a_spec_relation_groups.Stage(stage)
@@ -13103,9 +12759,6 @@ func (a_spec_relation_ref *A_SPEC_RELATION_REF) Commit(stage *Stage) *A_SPEC_REL
 	return a_spec_relation_ref
 }
 
-func (a_spec_relation_ref *A_SPEC_RELATION_REF) CommitVoid(stage *Stage) {
-	a_spec_relation_ref.Commit(stage)
-}
 
 func (a_spec_relation_ref *A_SPEC_RELATION_REF) StageVoid(stage *Stage) {
 	a_spec_relation_ref.Stage(stage)
@@ -13191,9 +12844,6 @@ func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) Commit(stage *Stage) *
 	return a_spec_relation_type_ref
 }
 
-func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) CommitVoid(stage *Stage) {
-	a_spec_relation_type_ref.Commit(stage)
-}
 
 func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) StageVoid(stage *Stage) {
 	a_spec_relation_type_ref.Stage(stage)
@@ -13279,9 +12929,6 @@ func (a_spec_types *A_SPEC_TYPES) Commit(stage *Stage) *A_SPEC_TYPES {
 	return a_spec_types
 }
 
-func (a_spec_types *A_SPEC_TYPES) CommitVoid(stage *Stage) {
-	a_spec_types.Commit(stage)
-}
 
 func (a_spec_types *A_SPEC_TYPES) StageVoid(stage *Stage) {
 	a_spec_types.Stage(stage)
@@ -13367,9 +13014,6 @@ func (a_the_header *A_THE_HEADER) Commit(stage *Stage) *A_THE_HEADER {
 	return a_the_header
 }
 
-func (a_the_header *A_THE_HEADER) CommitVoid(stage *Stage) {
-	a_the_header.Commit(stage)
-}
 
 func (a_the_header *A_THE_HEADER) StageVoid(stage *Stage) {
 	a_the_header.Stage(stage)
@@ -13455,9 +13099,6 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) Commit(stage *Stage) *A_TOOL_EXTENSI
 	return a_tool_extensions
 }
 
-func (a_tool_extensions *A_TOOL_EXTENSIONS) CommitVoid(stage *Stage) {
-	a_tool_extensions.Commit(stage)
-}
 
 func (a_tool_extensions *A_TOOL_EXTENSIONS) StageVoid(stage *Stage) {
 	a_tool_extensions.Stage(stage)
@@ -13543,9 +13184,6 @@ func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) Commit(stage *St
 	return datatype_definition_boolean
 }
 
-func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) CommitVoid(stage *Stage) {
-	datatype_definition_boolean.Commit(stage)
-}
 
 func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) StageVoid(stage *Stage) {
 	datatype_definition_boolean.Stage(stage)
@@ -13631,9 +13269,6 @@ func (datatype_definition_date *DATATYPE_DEFINITION_DATE) Commit(stage *Stage) *
 	return datatype_definition_date
 }
 
-func (datatype_definition_date *DATATYPE_DEFINITION_DATE) CommitVoid(stage *Stage) {
-	datatype_definition_date.Commit(stage)
-}
 
 func (datatype_definition_date *DATATYPE_DEFINITION_DATE) StageVoid(stage *Stage) {
 	datatype_definition_date.Stage(stage)
@@ -13719,9 +13354,6 @@ func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) Commit(s
 	return datatype_definition_enumeration
 }
 
-func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) CommitVoid(stage *Stage) {
-	datatype_definition_enumeration.Commit(stage)
-}
 
 func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) StageVoid(stage *Stage) {
 	datatype_definition_enumeration.Stage(stage)
@@ -13807,9 +13439,6 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) Commit(stage *St
 	return datatype_definition_integer
 }
 
-func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) CommitVoid(stage *Stage) {
-	datatype_definition_integer.Commit(stage)
-}
 
 func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) StageVoid(stage *Stage) {
 	datatype_definition_integer.Stage(stage)
@@ -13895,9 +13524,6 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) Commit(stage *Stage) *
 	return datatype_definition_real
 }
 
-func (datatype_definition_real *DATATYPE_DEFINITION_REAL) CommitVoid(stage *Stage) {
-	datatype_definition_real.Commit(stage)
-}
 
 func (datatype_definition_real *DATATYPE_DEFINITION_REAL) StageVoid(stage *Stage) {
 	datatype_definition_real.Stage(stage)
@@ -13983,9 +13609,6 @@ func (datatype_definition_string *DATATYPE_DEFINITION_STRING) Commit(stage *Stag
 	return datatype_definition_string
 }
 
-func (datatype_definition_string *DATATYPE_DEFINITION_STRING) CommitVoid(stage *Stage) {
-	datatype_definition_string.Commit(stage)
-}
 
 func (datatype_definition_string *DATATYPE_DEFINITION_STRING) StageVoid(stage *Stage) {
 	datatype_definition_string.Stage(stage)
@@ -14071,9 +13694,6 @@ func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) Commit(stage *Stage)
 	return datatype_definition_xhtml
 }
 
-func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) CommitVoid(stage *Stage) {
-	datatype_definition_xhtml.Commit(stage)
-}
 
 func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) StageVoid(stage *Stage) {
 	datatype_definition_xhtml.Stage(stage)
@@ -14159,9 +13779,6 @@ func (embedded_value *EMBEDDED_VALUE) Commit(stage *Stage) *EMBEDDED_VALUE {
 	return embedded_value
 }
 
-func (embedded_value *EMBEDDED_VALUE) CommitVoid(stage *Stage) {
-	embedded_value.Commit(stage)
-}
 
 func (embedded_value *EMBEDDED_VALUE) StageVoid(stage *Stage) {
 	embedded_value.Stage(stage)
@@ -14247,9 +13864,6 @@ func (enum_value *ENUM_VALUE) Commit(stage *Stage) *ENUM_VALUE {
 	return enum_value
 }
 
-func (enum_value *ENUM_VALUE) CommitVoid(stage *Stage) {
-	enum_value.Commit(stage)
-}
 
 func (enum_value *ENUM_VALUE) StageVoid(stage *Stage) {
 	enum_value.Stage(stage)
@@ -14335,9 +13949,6 @@ func (embeddedjpgimage *EmbeddedJpgImage) Commit(stage *Stage) *EmbeddedJpgImage
 	return embeddedjpgimage
 }
 
-func (embeddedjpgimage *EmbeddedJpgImage) CommitVoid(stage *Stage) {
-	embeddedjpgimage.Commit(stage)
-}
 
 func (embeddedjpgimage *EmbeddedJpgImage) StageVoid(stage *Stage) {
 	embeddedjpgimage.Stage(stage)
@@ -14423,9 +14034,6 @@ func (embeddedpngimage *EmbeddedPngImage) Commit(stage *Stage) *EmbeddedPngImage
 	return embeddedpngimage
 }
 
-func (embeddedpngimage *EmbeddedPngImage) CommitVoid(stage *Stage) {
-	embeddedpngimage.Commit(stage)
-}
 
 func (embeddedpngimage *EmbeddedPngImage) StageVoid(stage *Stage) {
 	embeddedpngimage.Stage(stage)
@@ -14511,9 +14119,6 @@ func (embeddedsvgimage *EmbeddedSvgImage) Commit(stage *Stage) *EmbeddedSvgImage
 	return embeddedsvgimage
 }
 
-func (embeddedsvgimage *EmbeddedSvgImage) CommitVoid(stage *Stage) {
-	embeddedsvgimage.Commit(stage)
-}
 
 func (embeddedsvgimage *EmbeddedSvgImage) StageVoid(stage *Stage) {
 	embeddedsvgimage.Stage(stage)
@@ -14599,9 +14204,6 @@ func (kill *Kill) Commit(stage *Stage) *Kill {
 	return kill
 }
 
-func (kill *Kill) CommitVoid(stage *Stage) {
-	kill.Commit(stage)
-}
 
 func (kill *Kill) StageVoid(stage *Stage) {
 	kill.Stage(stage)
@@ -14687,9 +14289,6 @@ func (map_identifier_bool *Map_identifier_bool) Commit(stage *Stage) *Map_identi
 	return map_identifier_bool
 }
 
-func (map_identifier_bool *Map_identifier_bool) CommitVoid(stage *Stage) {
-	map_identifier_bool.Commit(stage)
-}
 
 func (map_identifier_bool *Map_identifier_bool) StageVoid(stage *Stage) {
 	map_identifier_bool.Stage(stage)
@@ -14775,9 +14374,6 @@ func (relation_group *RELATION_GROUP) Commit(stage *Stage) *RELATION_GROUP {
 	return relation_group
 }
 
-func (relation_group *RELATION_GROUP) CommitVoid(stage *Stage) {
-	relation_group.Commit(stage)
-}
 
 func (relation_group *RELATION_GROUP) StageVoid(stage *Stage) {
 	relation_group.Stage(stage)
@@ -14863,9 +14459,6 @@ func (relation_group_type *RELATION_GROUP_TYPE) Commit(stage *Stage) *RELATION_G
 	return relation_group_type
 }
 
-func (relation_group_type *RELATION_GROUP_TYPE) CommitVoid(stage *Stage) {
-	relation_group_type.Commit(stage)
-}
 
 func (relation_group_type *RELATION_GROUP_TYPE) StageVoid(stage *Stage) {
 	relation_group_type.Stage(stage)
@@ -14951,9 +14544,6 @@ func (req_if *REQ_IF) Commit(stage *Stage) *REQ_IF {
 	return req_if
 }
 
-func (req_if *REQ_IF) CommitVoid(stage *Stage) {
-	req_if.Commit(stage)
-}
 
 func (req_if *REQ_IF) StageVoid(stage *Stage) {
 	req_if.Stage(stage)
@@ -15039,9 +14629,6 @@ func (req_if_content *REQ_IF_CONTENT) Commit(stage *Stage) *REQ_IF_CONTENT {
 	return req_if_content
 }
 
-func (req_if_content *REQ_IF_CONTENT) CommitVoid(stage *Stage) {
-	req_if_content.Commit(stage)
-}
 
 func (req_if_content *REQ_IF_CONTENT) StageVoid(stage *Stage) {
 	req_if_content.Stage(stage)
@@ -15127,9 +14714,6 @@ func (req_if_header *REQ_IF_HEADER) Commit(stage *Stage) *REQ_IF_HEADER {
 	return req_if_header
 }
 
-func (req_if_header *REQ_IF_HEADER) CommitVoid(stage *Stage) {
-	req_if_header.Commit(stage)
-}
 
 func (req_if_header *REQ_IF_HEADER) StageVoid(stage *Stage) {
 	req_if_header.Stage(stage)
@@ -15215,9 +14799,6 @@ func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) Commit(stage *Stage) *REQ_IF
 	return req_if_tool_extension
 }
 
-func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) CommitVoid(stage *Stage) {
-	req_if_tool_extension.Commit(stage)
-}
 
 func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) StageVoid(stage *Stage) {
 	req_if_tool_extension.Stage(stage)
@@ -15303,9 +14884,6 @@ func (specification *SPECIFICATION) Commit(stage *Stage) *SPECIFICATION {
 	return specification
 }
 
-func (specification *SPECIFICATION) CommitVoid(stage *Stage) {
-	specification.Commit(stage)
-}
 
 func (specification *SPECIFICATION) StageVoid(stage *Stage) {
 	specification.Stage(stage)
@@ -15391,9 +14969,6 @@ func (specification_rendering *SPECIFICATION_Rendering) Commit(stage *Stage) *SP
 	return specification_rendering
 }
 
-func (specification_rendering *SPECIFICATION_Rendering) CommitVoid(stage *Stage) {
-	specification_rendering.Commit(stage)
-}
 
 func (specification_rendering *SPECIFICATION_Rendering) StageVoid(stage *Stage) {
 	specification_rendering.Stage(stage)
@@ -15479,9 +15054,6 @@ func (specification_type *SPECIFICATION_TYPE) Commit(stage *Stage) *SPECIFICATIO
 	return specification_type
 }
 
-func (specification_type *SPECIFICATION_TYPE) CommitVoid(stage *Stage) {
-	specification_type.Commit(stage)
-}
 
 func (specification_type *SPECIFICATION_TYPE) StageVoid(stage *Stage) {
 	specification_type.Stage(stage)
@@ -15567,9 +15139,6 @@ func (spec_hierarchy *SPEC_HIERARCHY) Commit(stage *Stage) *SPEC_HIERARCHY {
 	return spec_hierarchy
 }
 
-func (spec_hierarchy *SPEC_HIERARCHY) CommitVoid(stage *Stage) {
-	spec_hierarchy.Commit(stage)
-}
 
 func (spec_hierarchy *SPEC_HIERARCHY) StageVoid(stage *Stage) {
 	spec_hierarchy.Stage(stage)
@@ -15655,9 +15224,6 @@ func (spec_object *SPEC_OBJECT) Commit(stage *Stage) *SPEC_OBJECT {
 	return spec_object
 }
 
-func (spec_object *SPEC_OBJECT) CommitVoid(stage *Stage) {
-	spec_object.Commit(stage)
-}
 
 func (spec_object *SPEC_OBJECT) StageVoid(stage *Stage) {
 	spec_object.Stage(stage)
@@ -15743,9 +15309,6 @@ func (spec_object_type *SPEC_OBJECT_TYPE) Commit(stage *Stage) *SPEC_OBJECT_TYPE
 	return spec_object_type
 }
 
-func (spec_object_type *SPEC_OBJECT_TYPE) CommitVoid(stage *Stage) {
-	spec_object_type.Commit(stage)
-}
 
 func (spec_object_type *SPEC_OBJECT_TYPE) StageVoid(stage *Stage) {
 	spec_object_type.Stage(stage)
@@ -15831,9 +15394,6 @@ func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) Commit(stage *Stag
 	return spec_object_type_rendering
 }
 
-func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) CommitVoid(stage *Stage) {
-	spec_object_type_rendering.Commit(stage)
-}
 
 func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) StageVoid(stage *Stage) {
 	spec_object_type_rendering.Stage(stage)
@@ -15919,9 +15479,6 @@ func (spec_relation *SPEC_RELATION) Commit(stage *Stage) *SPEC_RELATION {
 	return spec_relation
 }
 
-func (spec_relation *SPEC_RELATION) CommitVoid(stage *Stage) {
-	spec_relation.Commit(stage)
-}
 
 func (spec_relation *SPEC_RELATION) StageVoid(stage *Stage) {
 	spec_relation.Stage(stage)
@@ -16007,9 +15564,6 @@ func (spec_relation_type *SPEC_RELATION_TYPE) Commit(stage *Stage) *SPEC_RELATIO
 	return spec_relation_type
 }
 
-func (spec_relation_type *SPEC_RELATION_TYPE) CommitVoid(stage *Stage) {
-	spec_relation_type.Commit(stage)
-}
 
 func (spec_relation_type *SPEC_RELATION_TYPE) StageVoid(stage *Stage) {
 	spec_relation_type.Stage(stage)
@@ -16095,9 +15649,6 @@ func (staticwebsite *StaticWebSite) Commit(stage *Stage) *StaticWebSite {
 	return staticwebsite
 }
 
-func (staticwebsite *StaticWebSite) CommitVoid(stage *Stage) {
-	staticwebsite.Commit(stage)
-}
 
 func (staticwebsite *StaticWebSite) StageVoid(stage *Stage) {
 	staticwebsite.Stage(stage)
@@ -16183,9 +15734,6 @@ func (staticwebsitechapter *StaticWebSiteChapter) Commit(stage *Stage) *StaticWe
 	return staticwebsitechapter
 }
 
-func (staticwebsitechapter *StaticWebSiteChapter) CommitVoid(stage *Stage) {
-	staticwebsitechapter.Commit(stage)
-}
 
 func (staticwebsitechapter *StaticWebSiteChapter) StageVoid(stage *Stage) {
 	staticwebsitechapter.Stage(stage)
@@ -16271,9 +15819,6 @@ func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) Commit(stage *St
 	return staticwebsitegeneratedimage
 }
 
-func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) CommitVoid(stage *Stage) {
-	staticwebsitegeneratedimage.Commit(stage)
-}
 
 func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) StageVoid(stage *Stage) {
 	staticwebsitegeneratedimage.Stage(stage)
@@ -16359,9 +15904,6 @@ func (staticwebsiteimage *StaticWebSiteImage) Commit(stage *Stage) *StaticWebSit
 	return staticwebsiteimage
 }
 
-func (staticwebsiteimage *StaticWebSiteImage) CommitVoid(stage *Stage) {
-	staticwebsiteimage.Commit(stage)
-}
 
 func (staticwebsiteimage *StaticWebSiteImage) StageVoid(stage *Stage) {
 	staticwebsiteimage.Stage(stage)
@@ -16447,9 +15989,6 @@ func (staticwebsiteparagraph *StaticWebSiteParagraph) Commit(stage *Stage) *Stat
 	return staticwebsiteparagraph
 }
 
-func (staticwebsiteparagraph *StaticWebSiteParagraph) CommitVoid(stage *Stage) {
-	staticwebsiteparagraph.Commit(stage)
-}
 
 func (staticwebsiteparagraph *StaticWebSiteParagraph) StageVoid(stage *Stage) {
 	staticwebsiteparagraph.Stage(stage)
@@ -16535,9 +16074,6 @@ func (xhtml_content *XHTML_CONTENT) Commit(stage *Stage) *XHTML_CONTENT {
 	return xhtml_content
 }
 
-func (xhtml_content *XHTML_CONTENT) CommitVoid(stage *Stage) {
-	xhtml_content.Commit(stage)
-}
 
 func (xhtml_content *XHTML_CONTENT) StageVoid(stage *Stage) {
 	xhtml_content.Stage(stage)
@@ -16561,221 +16097,6 @@ func (xhtml_content *XHTML_CONTENT) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (xhtml_content *XHTML_CONTENT) SetName(name string) {
 	xhtml_content.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMALTERNATIVE_ID(ALTERNATIVE_ID *ALTERNATIVE_ID)
-	CreateORMATTRIBUTE_DEFINITION_BOOLEAN(ATTRIBUTE_DEFINITION_BOOLEAN *ATTRIBUTE_DEFINITION_BOOLEAN)
-	CreateORMATTRIBUTE_DEFINITION_BOOLEAN_Rendering(ATTRIBUTE_DEFINITION_BOOLEAN_Rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_DATE(ATTRIBUTE_DEFINITION_DATE *ATTRIBUTE_DEFINITION_DATE)
-	CreateORMATTRIBUTE_DEFINITION_DATE_Rendering(ATTRIBUTE_DEFINITION_DATE_Rendering *ATTRIBUTE_DEFINITION_DATE_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_ENUMERATION(ATTRIBUTE_DEFINITION_ENUMERATION *ATTRIBUTE_DEFINITION_ENUMERATION)
-	CreateORMATTRIBUTE_DEFINITION_ENUMERATION_Rendering(ATTRIBUTE_DEFINITION_ENUMERATION_Rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_INTEGER(ATTRIBUTE_DEFINITION_INTEGER *ATTRIBUTE_DEFINITION_INTEGER)
-	CreateORMATTRIBUTE_DEFINITION_INTEGER_Rendering(ATTRIBUTE_DEFINITION_INTEGER_Rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_REAL(ATTRIBUTE_DEFINITION_REAL *ATTRIBUTE_DEFINITION_REAL)
-	CreateORMATTRIBUTE_DEFINITION_REAL_Rendering(ATTRIBUTE_DEFINITION_REAL_Rendering *ATTRIBUTE_DEFINITION_REAL_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_Rendering(ATTRIBUTE_DEFINITION_Rendering *ATTRIBUTE_DEFINITION_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_STRING(ATTRIBUTE_DEFINITION_STRING *ATTRIBUTE_DEFINITION_STRING)
-	CreateORMATTRIBUTE_DEFINITION_STRING_Rendering(ATTRIBUTE_DEFINITION_STRING_Rendering *ATTRIBUTE_DEFINITION_STRING_Rendering)
-	CreateORMATTRIBUTE_DEFINITION_XHTML(ATTRIBUTE_DEFINITION_XHTML *ATTRIBUTE_DEFINITION_XHTML)
-	CreateORMATTRIBUTE_DEFINITION_XHTML_Rendering(ATTRIBUTE_DEFINITION_XHTML_Rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering)
-	CreateORMATTRIBUTE_VALUE_BOOLEAN(ATTRIBUTE_VALUE_BOOLEAN *ATTRIBUTE_VALUE_BOOLEAN)
-	CreateORMATTRIBUTE_VALUE_DATE(ATTRIBUTE_VALUE_DATE *ATTRIBUTE_VALUE_DATE)
-	CreateORMATTRIBUTE_VALUE_ENUMERATION(ATTRIBUTE_VALUE_ENUMERATION *ATTRIBUTE_VALUE_ENUMERATION)
-	CreateORMATTRIBUTE_VALUE_INTEGER(ATTRIBUTE_VALUE_INTEGER *ATTRIBUTE_VALUE_INTEGER)
-	CreateORMATTRIBUTE_VALUE_REAL(ATTRIBUTE_VALUE_REAL *ATTRIBUTE_VALUE_REAL)
-	CreateORMATTRIBUTE_VALUE_STRING(ATTRIBUTE_VALUE_STRING *ATTRIBUTE_VALUE_STRING)
-	CreateORMATTRIBUTE_VALUE_XHTML(ATTRIBUTE_VALUE_XHTML *ATTRIBUTE_VALUE_XHTML)
-	CreateORMA_ALTERNATIVE_ID(A_ALTERNATIVE_ID *A_ALTERNATIVE_ID)
-	CreateORMA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
-	CreateORMA_ATTRIBUTE_DEFINITION_DATE_REF(A_ATTRIBUTE_DEFINITION_DATE_REF *A_ATTRIBUTE_DEFINITION_DATE_REF)
-	CreateORMA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
-	CreateORMA_ATTRIBUTE_DEFINITION_INTEGER_REF(A_ATTRIBUTE_DEFINITION_INTEGER_REF *A_ATTRIBUTE_DEFINITION_INTEGER_REF)
-	CreateORMA_ATTRIBUTE_DEFINITION_REAL_REF(A_ATTRIBUTE_DEFINITION_REAL_REF *A_ATTRIBUTE_DEFINITION_REAL_REF)
-	CreateORMA_ATTRIBUTE_DEFINITION_STRING_REF(A_ATTRIBUTE_DEFINITION_STRING_REF *A_ATTRIBUTE_DEFINITION_STRING_REF)
-	CreateORMA_ATTRIBUTE_DEFINITION_XHTML_REF(A_ATTRIBUTE_DEFINITION_XHTML_REF *A_ATTRIBUTE_DEFINITION_XHTML_REF)
-	CreateORMA_ATTRIBUTE_VALUE_BOOLEAN(A_ATTRIBUTE_VALUE_BOOLEAN *A_ATTRIBUTE_VALUE_BOOLEAN)
-	CreateORMA_ATTRIBUTE_VALUE_DATE(A_ATTRIBUTE_VALUE_DATE *A_ATTRIBUTE_VALUE_DATE)
-	CreateORMA_ATTRIBUTE_VALUE_ENUMERATION(A_ATTRIBUTE_VALUE_ENUMERATION *A_ATTRIBUTE_VALUE_ENUMERATION)
-	CreateORMA_ATTRIBUTE_VALUE_INTEGER(A_ATTRIBUTE_VALUE_INTEGER *A_ATTRIBUTE_VALUE_INTEGER)
-	CreateORMA_ATTRIBUTE_VALUE_REAL(A_ATTRIBUTE_VALUE_REAL *A_ATTRIBUTE_VALUE_REAL)
-	CreateORMA_ATTRIBUTE_VALUE_STRING(A_ATTRIBUTE_VALUE_STRING *A_ATTRIBUTE_VALUE_STRING)
-	CreateORMA_ATTRIBUTE_VALUE_XHTML(A_ATTRIBUTE_VALUE_XHTML *A_ATTRIBUTE_VALUE_XHTML)
-	CreateORMA_ATTRIBUTE_VALUE_XHTML_1(A_ATTRIBUTE_VALUE_XHTML_1 *A_ATTRIBUTE_VALUE_XHTML_1)
-	CreateORMA_CHILDREN(A_CHILDREN *A_CHILDREN)
-	CreateORMA_CORE_CONTENT(A_CORE_CONTENT *A_CORE_CONTENT)
-	CreateORMA_DATATYPES(A_DATATYPES *A_DATATYPES)
-	CreateORMA_DATATYPE_DEFINITION_BOOLEAN_REF(A_DATATYPE_DEFINITION_BOOLEAN_REF *A_DATATYPE_DEFINITION_BOOLEAN_REF)
-	CreateORMA_DATATYPE_DEFINITION_DATE_REF(A_DATATYPE_DEFINITION_DATE_REF *A_DATATYPE_DEFINITION_DATE_REF)
-	CreateORMA_DATATYPE_DEFINITION_ENUMERATION_REF(A_DATATYPE_DEFINITION_ENUMERATION_REF *A_DATATYPE_DEFINITION_ENUMERATION_REF)
-	CreateORMA_DATATYPE_DEFINITION_INTEGER_REF(A_DATATYPE_DEFINITION_INTEGER_REF *A_DATATYPE_DEFINITION_INTEGER_REF)
-	CreateORMA_DATATYPE_DEFINITION_REAL_REF(A_DATATYPE_DEFINITION_REAL_REF *A_DATATYPE_DEFINITION_REAL_REF)
-	CreateORMA_DATATYPE_DEFINITION_STRING_REF(A_DATATYPE_DEFINITION_STRING_REF *A_DATATYPE_DEFINITION_STRING_REF)
-	CreateORMA_DATATYPE_DEFINITION_XHTML_REF(A_DATATYPE_DEFINITION_XHTML_REF *A_DATATYPE_DEFINITION_XHTML_REF)
-	CreateORMA_EDITABLE_ATTS(A_EDITABLE_ATTS *A_EDITABLE_ATTS)
-	CreateORMA_ENUM_VALUE_REF(A_ENUM_VALUE_REF *A_ENUM_VALUE_REF)
-	CreateORMA_OBJECT(A_OBJECT *A_OBJECT)
-	CreateORMA_PROPERTIES(A_PROPERTIES *A_PROPERTIES)
-	CreateORMA_RELATION_GROUP_TYPE_REF(A_RELATION_GROUP_TYPE_REF *A_RELATION_GROUP_TYPE_REF)
-	CreateORMA_SOURCE_1(A_SOURCE_1 *A_SOURCE_1)
-	CreateORMA_SOURCE_SPECIFICATION_1(A_SOURCE_SPECIFICATION_1 *A_SOURCE_SPECIFICATION_1)
-	CreateORMA_SPECIFICATIONS(A_SPECIFICATIONS *A_SPECIFICATIONS)
-	CreateORMA_SPECIFICATION_TYPE_REF(A_SPECIFICATION_TYPE_REF *A_SPECIFICATION_TYPE_REF)
-	CreateORMA_SPECIFIED_VALUES(A_SPECIFIED_VALUES *A_SPECIFIED_VALUES)
-	CreateORMA_SPEC_ATTRIBUTES(A_SPEC_ATTRIBUTES *A_SPEC_ATTRIBUTES)
-	CreateORMA_SPEC_OBJECTS(A_SPEC_OBJECTS *A_SPEC_OBJECTS)
-	CreateORMA_SPEC_OBJECT_TYPE_REF(A_SPEC_OBJECT_TYPE_REF *A_SPEC_OBJECT_TYPE_REF)
-	CreateORMA_SPEC_RELATIONS(A_SPEC_RELATIONS *A_SPEC_RELATIONS)
-	CreateORMA_SPEC_RELATION_GROUPS(A_SPEC_RELATION_GROUPS *A_SPEC_RELATION_GROUPS)
-	CreateORMA_SPEC_RELATION_REF(A_SPEC_RELATION_REF *A_SPEC_RELATION_REF)
-	CreateORMA_SPEC_RELATION_TYPE_REF(A_SPEC_RELATION_TYPE_REF *A_SPEC_RELATION_TYPE_REF)
-	CreateORMA_SPEC_TYPES(A_SPEC_TYPES *A_SPEC_TYPES)
-	CreateORMA_THE_HEADER(A_THE_HEADER *A_THE_HEADER)
-	CreateORMA_TOOL_EXTENSIONS(A_TOOL_EXTENSIONS *A_TOOL_EXTENSIONS)
-	CreateORMDATATYPE_DEFINITION_BOOLEAN(DATATYPE_DEFINITION_BOOLEAN *DATATYPE_DEFINITION_BOOLEAN)
-	CreateORMDATATYPE_DEFINITION_DATE(DATATYPE_DEFINITION_DATE *DATATYPE_DEFINITION_DATE)
-	CreateORMDATATYPE_DEFINITION_ENUMERATION(DATATYPE_DEFINITION_ENUMERATION *DATATYPE_DEFINITION_ENUMERATION)
-	CreateORMDATATYPE_DEFINITION_INTEGER(DATATYPE_DEFINITION_INTEGER *DATATYPE_DEFINITION_INTEGER)
-	CreateORMDATATYPE_DEFINITION_REAL(DATATYPE_DEFINITION_REAL *DATATYPE_DEFINITION_REAL)
-	CreateORMDATATYPE_DEFINITION_STRING(DATATYPE_DEFINITION_STRING *DATATYPE_DEFINITION_STRING)
-	CreateORMDATATYPE_DEFINITION_XHTML(DATATYPE_DEFINITION_XHTML *DATATYPE_DEFINITION_XHTML)
-	CreateORMEMBEDDED_VALUE(EMBEDDED_VALUE *EMBEDDED_VALUE)
-	CreateORMENUM_VALUE(ENUM_VALUE *ENUM_VALUE)
-	CreateORMEmbeddedJpgImage(EmbeddedJpgImage *EmbeddedJpgImage)
-	CreateORMEmbeddedPngImage(EmbeddedPngImage *EmbeddedPngImage)
-	CreateORMEmbeddedSvgImage(EmbeddedSvgImage *EmbeddedSvgImage)
-	CreateORMKill(Kill *Kill)
-	CreateORMMap_identifier_bool(Map_identifier_bool *Map_identifier_bool)
-	CreateORMRELATION_GROUP(RELATION_GROUP *RELATION_GROUP)
-	CreateORMRELATION_GROUP_TYPE(RELATION_GROUP_TYPE *RELATION_GROUP_TYPE)
-	CreateORMREQ_IF(REQ_IF *REQ_IF)
-	CreateORMREQ_IF_CONTENT(REQ_IF_CONTENT *REQ_IF_CONTENT)
-	CreateORMREQ_IF_HEADER(REQ_IF_HEADER *REQ_IF_HEADER)
-	CreateORMREQ_IF_TOOL_EXTENSION(REQ_IF_TOOL_EXTENSION *REQ_IF_TOOL_EXTENSION)
-	CreateORMSPECIFICATION(SPECIFICATION *SPECIFICATION)
-	CreateORMSPECIFICATION_Rendering(SPECIFICATION_Rendering *SPECIFICATION_Rendering)
-	CreateORMSPECIFICATION_TYPE(SPECIFICATION_TYPE *SPECIFICATION_TYPE)
-	CreateORMSPEC_HIERARCHY(SPEC_HIERARCHY *SPEC_HIERARCHY)
-	CreateORMSPEC_OBJECT(SPEC_OBJECT *SPEC_OBJECT)
-	CreateORMSPEC_OBJECT_TYPE(SPEC_OBJECT_TYPE *SPEC_OBJECT_TYPE)
-	CreateORMSPEC_OBJECT_TYPE_Rendering(SPEC_OBJECT_TYPE_Rendering *SPEC_OBJECT_TYPE_Rendering)
-	CreateORMSPEC_RELATION(SPEC_RELATION *SPEC_RELATION)
-	CreateORMSPEC_RELATION_TYPE(SPEC_RELATION_TYPE *SPEC_RELATION_TYPE)
-	CreateORMStaticWebSite(StaticWebSite *StaticWebSite)
-	CreateORMStaticWebSiteChapter(StaticWebSiteChapter *StaticWebSiteChapter)
-	CreateORMStaticWebSiteGeneratedImage(StaticWebSiteGeneratedImage *StaticWebSiteGeneratedImage)
-	CreateORMStaticWebSiteImage(StaticWebSiteImage *StaticWebSiteImage)
-	CreateORMStaticWebSiteParagraph(StaticWebSiteParagraph *StaticWebSiteParagraph)
-	CreateORMXHTML_CONTENT(XHTML_CONTENT *XHTML_CONTENT)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMALTERNATIVE_ID(ALTERNATIVE_ID *ALTERNATIVE_ID)
-	DeleteORMATTRIBUTE_DEFINITION_BOOLEAN(ATTRIBUTE_DEFINITION_BOOLEAN *ATTRIBUTE_DEFINITION_BOOLEAN)
-	DeleteORMATTRIBUTE_DEFINITION_BOOLEAN_Rendering(ATTRIBUTE_DEFINITION_BOOLEAN_Rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_DATE(ATTRIBUTE_DEFINITION_DATE *ATTRIBUTE_DEFINITION_DATE)
-	DeleteORMATTRIBUTE_DEFINITION_DATE_Rendering(ATTRIBUTE_DEFINITION_DATE_Rendering *ATTRIBUTE_DEFINITION_DATE_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_ENUMERATION(ATTRIBUTE_DEFINITION_ENUMERATION *ATTRIBUTE_DEFINITION_ENUMERATION)
-	DeleteORMATTRIBUTE_DEFINITION_ENUMERATION_Rendering(ATTRIBUTE_DEFINITION_ENUMERATION_Rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_INTEGER(ATTRIBUTE_DEFINITION_INTEGER *ATTRIBUTE_DEFINITION_INTEGER)
-	DeleteORMATTRIBUTE_DEFINITION_INTEGER_Rendering(ATTRIBUTE_DEFINITION_INTEGER_Rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_REAL(ATTRIBUTE_DEFINITION_REAL *ATTRIBUTE_DEFINITION_REAL)
-	DeleteORMATTRIBUTE_DEFINITION_REAL_Rendering(ATTRIBUTE_DEFINITION_REAL_Rendering *ATTRIBUTE_DEFINITION_REAL_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_Rendering(ATTRIBUTE_DEFINITION_Rendering *ATTRIBUTE_DEFINITION_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_STRING(ATTRIBUTE_DEFINITION_STRING *ATTRIBUTE_DEFINITION_STRING)
-	DeleteORMATTRIBUTE_DEFINITION_STRING_Rendering(ATTRIBUTE_DEFINITION_STRING_Rendering *ATTRIBUTE_DEFINITION_STRING_Rendering)
-	DeleteORMATTRIBUTE_DEFINITION_XHTML(ATTRIBUTE_DEFINITION_XHTML *ATTRIBUTE_DEFINITION_XHTML)
-	DeleteORMATTRIBUTE_DEFINITION_XHTML_Rendering(ATTRIBUTE_DEFINITION_XHTML_Rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering)
-	DeleteORMATTRIBUTE_VALUE_BOOLEAN(ATTRIBUTE_VALUE_BOOLEAN *ATTRIBUTE_VALUE_BOOLEAN)
-	DeleteORMATTRIBUTE_VALUE_DATE(ATTRIBUTE_VALUE_DATE *ATTRIBUTE_VALUE_DATE)
-	DeleteORMATTRIBUTE_VALUE_ENUMERATION(ATTRIBUTE_VALUE_ENUMERATION *ATTRIBUTE_VALUE_ENUMERATION)
-	DeleteORMATTRIBUTE_VALUE_INTEGER(ATTRIBUTE_VALUE_INTEGER *ATTRIBUTE_VALUE_INTEGER)
-	DeleteORMATTRIBUTE_VALUE_REAL(ATTRIBUTE_VALUE_REAL *ATTRIBUTE_VALUE_REAL)
-	DeleteORMATTRIBUTE_VALUE_STRING(ATTRIBUTE_VALUE_STRING *ATTRIBUTE_VALUE_STRING)
-	DeleteORMATTRIBUTE_VALUE_XHTML(ATTRIBUTE_VALUE_XHTML *ATTRIBUTE_VALUE_XHTML)
-	DeleteORMA_ALTERNATIVE_ID(A_ALTERNATIVE_ID *A_ALTERNATIVE_ID)
-	DeleteORMA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(A_ATTRIBUTE_DEFINITION_BOOLEAN_REF *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
-	DeleteORMA_ATTRIBUTE_DEFINITION_DATE_REF(A_ATTRIBUTE_DEFINITION_DATE_REF *A_ATTRIBUTE_DEFINITION_DATE_REF)
-	DeleteORMA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(A_ATTRIBUTE_DEFINITION_ENUMERATION_REF *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
-	DeleteORMA_ATTRIBUTE_DEFINITION_INTEGER_REF(A_ATTRIBUTE_DEFINITION_INTEGER_REF *A_ATTRIBUTE_DEFINITION_INTEGER_REF)
-	DeleteORMA_ATTRIBUTE_DEFINITION_REAL_REF(A_ATTRIBUTE_DEFINITION_REAL_REF *A_ATTRIBUTE_DEFINITION_REAL_REF)
-	DeleteORMA_ATTRIBUTE_DEFINITION_STRING_REF(A_ATTRIBUTE_DEFINITION_STRING_REF *A_ATTRIBUTE_DEFINITION_STRING_REF)
-	DeleteORMA_ATTRIBUTE_DEFINITION_XHTML_REF(A_ATTRIBUTE_DEFINITION_XHTML_REF *A_ATTRIBUTE_DEFINITION_XHTML_REF)
-	DeleteORMA_ATTRIBUTE_VALUE_BOOLEAN(A_ATTRIBUTE_VALUE_BOOLEAN *A_ATTRIBUTE_VALUE_BOOLEAN)
-	DeleteORMA_ATTRIBUTE_VALUE_DATE(A_ATTRIBUTE_VALUE_DATE *A_ATTRIBUTE_VALUE_DATE)
-	DeleteORMA_ATTRIBUTE_VALUE_ENUMERATION(A_ATTRIBUTE_VALUE_ENUMERATION *A_ATTRIBUTE_VALUE_ENUMERATION)
-	DeleteORMA_ATTRIBUTE_VALUE_INTEGER(A_ATTRIBUTE_VALUE_INTEGER *A_ATTRIBUTE_VALUE_INTEGER)
-	DeleteORMA_ATTRIBUTE_VALUE_REAL(A_ATTRIBUTE_VALUE_REAL *A_ATTRIBUTE_VALUE_REAL)
-	DeleteORMA_ATTRIBUTE_VALUE_STRING(A_ATTRIBUTE_VALUE_STRING *A_ATTRIBUTE_VALUE_STRING)
-	DeleteORMA_ATTRIBUTE_VALUE_XHTML(A_ATTRIBUTE_VALUE_XHTML *A_ATTRIBUTE_VALUE_XHTML)
-	DeleteORMA_ATTRIBUTE_VALUE_XHTML_1(A_ATTRIBUTE_VALUE_XHTML_1 *A_ATTRIBUTE_VALUE_XHTML_1)
-	DeleteORMA_CHILDREN(A_CHILDREN *A_CHILDREN)
-	DeleteORMA_CORE_CONTENT(A_CORE_CONTENT *A_CORE_CONTENT)
-	DeleteORMA_DATATYPES(A_DATATYPES *A_DATATYPES)
-	DeleteORMA_DATATYPE_DEFINITION_BOOLEAN_REF(A_DATATYPE_DEFINITION_BOOLEAN_REF *A_DATATYPE_DEFINITION_BOOLEAN_REF)
-	DeleteORMA_DATATYPE_DEFINITION_DATE_REF(A_DATATYPE_DEFINITION_DATE_REF *A_DATATYPE_DEFINITION_DATE_REF)
-	DeleteORMA_DATATYPE_DEFINITION_ENUMERATION_REF(A_DATATYPE_DEFINITION_ENUMERATION_REF *A_DATATYPE_DEFINITION_ENUMERATION_REF)
-	DeleteORMA_DATATYPE_DEFINITION_INTEGER_REF(A_DATATYPE_DEFINITION_INTEGER_REF *A_DATATYPE_DEFINITION_INTEGER_REF)
-	DeleteORMA_DATATYPE_DEFINITION_REAL_REF(A_DATATYPE_DEFINITION_REAL_REF *A_DATATYPE_DEFINITION_REAL_REF)
-	DeleteORMA_DATATYPE_DEFINITION_STRING_REF(A_DATATYPE_DEFINITION_STRING_REF *A_DATATYPE_DEFINITION_STRING_REF)
-	DeleteORMA_DATATYPE_DEFINITION_XHTML_REF(A_DATATYPE_DEFINITION_XHTML_REF *A_DATATYPE_DEFINITION_XHTML_REF)
-	DeleteORMA_EDITABLE_ATTS(A_EDITABLE_ATTS *A_EDITABLE_ATTS)
-	DeleteORMA_ENUM_VALUE_REF(A_ENUM_VALUE_REF *A_ENUM_VALUE_REF)
-	DeleteORMA_OBJECT(A_OBJECT *A_OBJECT)
-	DeleteORMA_PROPERTIES(A_PROPERTIES *A_PROPERTIES)
-	DeleteORMA_RELATION_GROUP_TYPE_REF(A_RELATION_GROUP_TYPE_REF *A_RELATION_GROUP_TYPE_REF)
-	DeleteORMA_SOURCE_1(A_SOURCE_1 *A_SOURCE_1)
-	DeleteORMA_SOURCE_SPECIFICATION_1(A_SOURCE_SPECIFICATION_1 *A_SOURCE_SPECIFICATION_1)
-	DeleteORMA_SPECIFICATIONS(A_SPECIFICATIONS *A_SPECIFICATIONS)
-	DeleteORMA_SPECIFICATION_TYPE_REF(A_SPECIFICATION_TYPE_REF *A_SPECIFICATION_TYPE_REF)
-	DeleteORMA_SPECIFIED_VALUES(A_SPECIFIED_VALUES *A_SPECIFIED_VALUES)
-	DeleteORMA_SPEC_ATTRIBUTES(A_SPEC_ATTRIBUTES *A_SPEC_ATTRIBUTES)
-	DeleteORMA_SPEC_OBJECTS(A_SPEC_OBJECTS *A_SPEC_OBJECTS)
-	DeleteORMA_SPEC_OBJECT_TYPE_REF(A_SPEC_OBJECT_TYPE_REF *A_SPEC_OBJECT_TYPE_REF)
-	DeleteORMA_SPEC_RELATIONS(A_SPEC_RELATIONS *A_SPEC_RELATIONS)
-	DeleteORMA_SPEC_RELATION_GROUPS(A_SPEC_RELATION_GROUPS *A_SPEC_RELATION_GROUPS)
-	DeleteORMA_SPEC_RELATION_REF(A_SPEC_RELATION_REF *A_SPEC_RELATION_REF)
-	DeleteORMA_SPEC_RELATION_TYPE_REF(A_SPEC_RELATION_TYPE_REF *A_SPEC_RELATION_TYPE_REF)
-	DeleteORMA_SPEC_TYPES(A_SPEC_TYPES *A_SPEC_TYPES)
-	DeleteORMA_THE_HEADER(A_THE_HEADER *A_THE_HEADER)
-	DeleteORMA_TOOL_EXTENSIONS(A_TOOL_EXTENSIONS *A_TOOL_EXTENSIONS)
-	DeleteORMDATATYPE_DEFINITION_BOOLEAN(DATATYPE_DEFINITION_BOOLEAN *DATATYPE_DEFINITION_BOOLEAN)
-	DeleteORMDATATYPE_DEFINITION_DATE(DATATYPE_DEFINITION_DATE *DATATYPE_DEFINITION_DATE)
-	DeleteORMDATATYPE_DEFINITION_ENUMERATION(DATATYPE_DEFINITION_ENUMERATION *DATATYPE_DEFINITION_ENUMERATION)
-	DeleteORMDATATYPE_DEFINITION_INTEGER(DATATYPE_DEFINITION_INTEGER *DATATYPE_DEFINITION_INTEGER)
-	DeleteORMDATATYPE_DEFINITION_REAL(DATATYPE_DEFINITION_REAL *DATATYPE_DEFINITION_REAL)
-	DeleteORMDATATYPE_DEFINITION_STRING(DATATYPE_DEFINITION_STRING *DATATYPE_DEFINITION_STRING)
-	DeleteORMDATATYPE_DEFINITION_XHTML(DATATYPE_DEFINITION_XHTML *DATATYPE_DEFINITION_XHTML)
-	DeleteORMEMBEDDED_VALUE(EMBEDDED_VALUE *EMBEDDED_VALUE)
-	DeleteORMENUM_VALUE(ENUM_VALUE *ENUM_VALUE)
-	DeleteORMEmbeddedJpgImage(EmbeddedJpgImage *EmbeddedJpgImage)
-	DeleteORMEmbeddedPngImage(EmbeddedPngImage *EmbeddedPngImage)
-	DeleteORMEmbeddedSvgImage(EmbeddedSvgImage *EmbeddedSvgImage)
-	DeleteORMKill(Kill *Kill)
-	DeleteORMMap_identifier_bool(Map_identifier_bool *Map_identifier_bool)
-	DeleteORMRELATION_GROUP(RELATION_GROUP *RELATION_GROUP)
-	DeleteORMRELATION_GROUP_TYPE(RELATION_GROUP_TYPE *RELATION_GROUP_TYPE)
-	DeleteORMREQ_IF(REQ_IF *REQ_IF)
-	DeleteORMREQ_IF_CONTENT(REQ_IF_CONTENT *REQ_IF_CONTENT)
-	DeleteORMREQ_IF_HEADER(REQ_IF_HEADER *REQ_IF_HEADER)
-	DeleteORMREQ_IF_TOOL_EXTENSION(REQ_IF_TOOL_EXTENSION *REQ_IF_TOOL_EXTENSION)
-	DeleteORMSPECIFICATION(SPECIFICATION *SPECIFICATION)
-	DeleteORMSPECIFICATION_Rendering(SPECIFICATION_Rendering *SPECIFICATION_Rendering)
-	DeleteORMSPECIFICATION_TYPE(SPECIFICATION_TYPE *SPECIFICATION_TYPE)
-	DeleteORMSPEC_HIERARCHY(SPEC_HIERARCHY *SPEC_HIERARCHY)
-	DeleteORMSPEC_OBJECT(SPEC_OBJECT *SPEC_OBJECT)
-	DeleteORMSPEC_OBJECT_TYPE(SPEC_OBJECT_TYPE *SPEC_OBJECT_TYPE)
-	DeleteORMSPEC_OBJECT_TYPE_Rendering(SPEC_OBJECT_TYPE_Rendering *SPEC_OBJECT_TYPE_Rendering)
-	DeleteORMSPEC_RELATION(SPEC_RELATION *SPEC_RELATION)
-	DeleteORMSPEC_RELATION_TYPE(SPEC_RELATION_TYPE *SPEC_RELATION_TYPE)
-	DeleteORMStaticWebSite(StaticWebSite *StaticWebSite)
-	DeleteORMStaticWebSiteChapter(StaticWebSiteChapter *StaticWebSiteChapter)
-	DeleteORMStaticWebSiteGeneratedImage(StaticWebSiteGeneratedImage *StaticWebSiteGeneratedImage)
-	DeleteORMStaticWebSiteImage(StaticWebSiteImage *StaticWebSiteImage)
-	DeleteORMStaticWebSiteParagraph(StaticWebSiteParagraph *StaticWebSiteParagraph)
-	DeleteORMXHTML_CONTENT(XHTML_CONTENT *XHTML_CONTENT)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -17307,742 +16628,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.ALTERNATIVE_IDs = nil
-	stage.ALTERNATIVE_IDs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_BOOLEANs = nil
-	stage.ATTRIBUTE_DEFINITION_BOOLEANs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_DATEs = nil
-	stage.ATTRIBUTE_DEFINITION_DATEs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_DATE_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_DATE_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_ENUMERATIONs = nil
-	stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_INTEGERs = nil
-	stage.ATTRIBUTE_DEFINITION_INTEGERs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_REALs = nil
-	stage.ATTRIBUTE_DEFINITION_REALs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_REAL_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_REAL_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_STRINGs = nil
-	stage.ATTRIBUTE_DEFINITION_STRINGs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_STRING_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_STRING_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_XHTMLs = nil
-	stage.ATTRIBUTE_DEFINITION_XHTMLs_mapString = nil
-
-	stage.ATTRIBUTE_DEFINITION_XHTML_Renderings = nil
-	stage.ATTRIBUTE_DEFINITION_XHTML_Renderings_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_BOOLEANs = nil
-	stage.ATTRIBUTE_VALUE_BOOLEANs_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_DATEs = nil
-	stage.ATTRIBUTE_VALUE_DATEs_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_ENUMERATIONs = nil
-	stage.ATTRIBUTE_VALUE_ENUMERATIONs_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_INTEGERs = nil
-	stage.ATTRIBUTE_VALUE_INTEGERs_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_REALs = nil
-	stage.ATTRIBUTE_VALUE_REALs_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_STRINGs = nil
-	stage.ATTRIBUTE_VALUE_STRINGs_mapString = nil
-
-	stage.ATTRIBUTE_VALUE_XHTMLs = nil
-	stage.ATTRIBUTE_VALUE_XHTMLs_mapString = nil
-
-	stage.A_ALTERNATIVE_IDs = nil
-	stage.A_ALTERNATIVE_IDs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_DATE_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_REAL_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_STRING_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs = nil
-	stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_BOOLEANs = nil
-	stage.A_ATTRIBUTE_VALUE_BOOLEANs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_DATEs = nil
-	stage.A_ATTRIBUTE_VALUE_DATEs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_ENUMERATIONs = nil
-	stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_INTEGERs = nil
-	stage.A_ATTRIBUTE_VALUE_INTEGERs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_REALs = nil
-	stage.A_ATTRIBUTE_VALUE_REALs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_STRINGs = nil
-	stage.A_ATTRIBUTE_VALUE_STRINGs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_XHTMLs = nil
-	stage.A_ATTRIBUTE_VALUE_XHTMLs_mapString = nil
-
-	stage.A_ATTRIBUTE_VALUE_XHTML_1s = nil
-	stage.A_ATTRIBUTE_VALUE_XHTML_1s_mapString = nil
-
-	stage.A_CHILDRENs = nil
-	stage.A_CHILDRENs_mapString = nil
-
-	stage.A_CORE_CONTENTs = nil
-	stage.A_CORE_CONTENTs_mapString = nil
-
-	stage.A_DATATYPESs = nil
-	stage.A_DATATYPESs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs = nil
-	stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_DATE_REFs = nil
-	stage.A_DATATYPE_DEFINITION_DATE_REFs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs = nil
-	stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_INTEGER_REFs = nil
-	stage.A_DATATYPE_DEFINITION_INTEGER_REFs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_REAL_REFs = nil
-	stage.A_DATATYPE_DEFINITION_REAL_REFs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_STRING_REFs = nil
-	stage.A_DATATYPE_DEFINITION_STRING_REFs_mapString = nil
-
-	stage.A_DATATYPE_DEFINITION_XHTML_REFs = nil
-	stage.A_DATATYPE_DEFINITION_XHTML_REFs_mapString = nil
-
-	stage.A_EDITABLE_ATTSs = nil
-	stage.A_EDITABLE_ATTSs_mapString = nil
-
-	stage.A_ENUM_VALUE_REFs = nil
-	stage.A_ENUM_VALUE_REFs_mapString = nil
-
-	stage.A_OBJECTs = nil
-	stage.A_OBJECTs_mapString = nil
-
-	stage.A_PROPERTIESs = nil
-	stage.A_PROPERTIESs_mapString = nil
-
-	stage.A_RELATION_GROUP_TYPE_REFs = nil
-	stage.A_RELATION_GROUP_TYPE_REFs_mapString = nil
-
-	stage.A_SOURCE_1s = nil
-	stage.A_SOURCE_1s_mapString = nil
-
-	stage.A_SOURCE_SPECIFICATION_1s = nil
-	stage.A_SOURCE_SPECIFICATION_1s_mapString = nil
-
-	stage.A_SPECIFICATIONSs = nil
-	stage.A_SPECIFICATIONSs_mapString = nil
-
-	stage.A_SPECIFICATION_TYPE_REFs = nil
-	stage.A_SPECIFICATION_TYPE_REFs_mapString = nil
-
-	stage.A_SPECIFIED_VALUESs = nil
-	stage.A_SPECIFIED_VALUESs_mapString = nil
-
-	stage.A_SPEC_ATTRIBUTESs = nil
-	stage.A_SPEC_ATTRIBUTESs_mapString = nil
-
-	stage.A_SPEC_OBJECTSs = nil
-	stage.A_SPEC_OBJECTSs_mapString = nil
-
-	stage.A_SPEC_OBJECT_TYPE_REFs = nil
-	stage.A_SPEC_OBJECT_TYPE_REFs_mapString = nil
-
-	stage.A_SPEC_RELATIONSs = nil
-	stage.A_SPEC_RELATIONSs_mapString = nil
-
-	stage.A_SPEC_RELATION_GROUPSs = nil
-	stage.A_SPEC_RELATION_GROUPSs_mapString = nil
-
-	stage.A_SPEC_RELATION_REFs = nil
-	stage.A_SPEC_RELATION_REFs_mapString = nil
-
-	stage.A_SPEC_RELATION_TYPE_REFs = nil
-	stage.A_SPEC_RELATION_TYPE_REFs_mapString = nil
-
-	stage.A_SPEC_TYPESs = nil
-	stage.A_SPEC_TYPESs_mapString = nil
-
-	stage.A_THE_HEADERs = nil
-	stage.A_THE_HEADERs_mapString = nil
-
-	stage.A_TOOL_EXTENSIONSs = nil
-	stage.A_TOOL_EXTENSIONSs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_BOOLEANs = nil
-	stage.DATATYPE_DEFINITION_BOOLEANs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_DATEs = nil
-	stage.DATATYPE_DEFINITION_DATEs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_ENUMERATIONs = nil
-	stage.DATATYPE_DEFINITION_ENUMERATIONs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_INTEGERs = nil
-	stage.DATATYPE_DEFINITION_INTEGERs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_REALs = nil
-	stage.DATATYPE_DEFINITION_REALs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_STRINGs = nil
-	stage.DATATYPE_DEFINITION_STRINGs_mapString = nil
-
-	stage.DATATYPE_DEFINITION_XHTMLs = nil
-	stage.DATATYPE_DEFINITION_XHTMLs_mapString = nil
-
-	stage.EMBEDDED_VALUEs = nil
-	stage.EMBEDDED_VALUEs_mapString = nil
-
-	stage.ENUM_VALUEs = nil
-	stage.ENUM_VALUEs_mapString = nil
-
-	stage.EmbeddedJpgImages = nil
-	stage.EmbeddedJpgImages_mapString = nil
-
-	stage.EmbeddedPngImages = nil
-	stage.EmbeddedPngImages_mapString = nil
-
-	stage.EmbeddedSvgImages = nil
-	stage.EmbeddedSvgImages_mapString = nil
-
-	stage.Kills = nil
-	stage.Kills_mapString = nil
-
-	stage.Map_identifier_bools = nil
-	stage.Map_identifier_bools_mapString = nil
-
-	stage.RELATION_GROUPs = nil
-	stage.RELATION_GROUPs_mapString = nil
-
-	stage.RELATION_GROUP_TYPEs = nil
-	stage.RELATION_GROUP_TYPEs_mapString = nil
-
-	stage.REQ_IFs = nil
-	stage.REQ_IFs_mapString = nil
-
-	stage.REQ_IF_CONTENTs = nil
-	stage.REQ_IF_CONTENTs_mapString = nil
-
-	stage.REQ_IF_HEADERs = nil
-	stage.REQ_IF_HEADERs_mapString = nil
-
-	stage.REQ_IF_TOOL_EXTENSIONs = nil
-	stage.REQ_IF_TOOL_EXTENSIONs_mapString = nil
-
-	stage.SPECIFICATIONs = nil
-	stage.SPECIFICATIONs_mapString = nil
-
-	stage.SPECIFICATION_Renderings = nil
-	stage.SPECIFICATION_Renderings_mapString = nil
-
-	stage.SPECIFICATION_TYPEs = nil
-	stage.SPECIFICATION_TYPEs_mapString = nil
-
-	stage.SPEC_HIERARCHYs = nil
-	stage.SPEC_HIERARCHYs_mapString = nil
-
-	stage.SPEC_OBJECTs = nil
-	stage.SPEC_OBJECTs_mapString = nil
-
-	stage.SPEC_OBJECT_TYPEs = nil
-	stage.SPEC_OBJECT_TYPEs_mapString = nil
-
-	stage.SPEC_OBJECT_TYPE_Renderings = nil
-	stage.SPEC_OBJECT_TYPE_Renderings_mapString = nil
-
-	stage.SPEC_RELATIONs = nil
-	stage.SPEC_RELATIONs_mapString = nil
-
-	stage.SPEC_RELATION_TYPEs = nil
-	stage.SPEC_RELATION_TYPEs_mapString = nil
-
-	stage.StaticWebSites = nil
-	stage.StaticWebSites_mapString = nil
-
-	stage.StaticWebSiteChapters = nil
-	stage.StaticWebSiteChapters_mapString = nil
-
-	stage.StaticWebSiteGeneratedImages = nil
-	stage.StaticWebSiteGeneratedImages_mapString = nil
-
-	stage.StaticWebSiteImages = nil
-	stage.StaticWebSiteImages_mapString = nil
-
-	stage.StaticWebSiteParagraphs = nil
-	stage.StaticWebSiteParagraphs_mapString = nil
-
-	stage.XHTML_CONTENTs = nil
-	stage.XHTML_CONTENTs_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for alternative_id := range stage.ALTERNATIVE_IDs {
-		alternative_id.Unstage(stage)
-	}
-
-	for attribute_definition_boolean := range stage.ATTRIBUTE_DEFINITION_BOOLEANs {
-		attribute_definition_boolean.Unstage(stage)
-	}
-
-	for attribute_definition_boolean_rendering := range stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings {
-		attribute_definition_boolean_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_date := range stage.ATTRIBUTE_DEFINITION_DATEs {
-		attribute_definition_date.Unstage(stage)
-	}
-
-	for attribute_definition_date_rendering := range stage.ATTRIBUTE_DEFINITION_DATE_Renderings {
-		attribute_definition_date_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_enumeration := range stage.ATTRIBUTE_DEFINITION_ENUMERATIONs {
-		attribute_definition_enumeration.Unstage(stage)
-	}
-
-	for attribute_definition_enumeration_rendering := range stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings {
-		attribute_definition_enumeration_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_integer := range stage.ATTRIBUTE_DEFINITION_INTEGERs {
-		attribute_definition_integer.Unstage(stage)
-	}
-
-	for attribute_definition_integer_rendering := range stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings {
-		attribute_definition_integer_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_real := range stage.ATTRIBUTE_DEFINITION_REALs {
-		attribute_definition_real.Unstage(stage)
-	}
-
-	for attribute_definition_real_rendering := range stage.ATTRIBUTE_DEFINITION_REAL_Renderings {
-		attribute_definition_real_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_rendering := range stage.ATTRIBUTE_DEFINITION_Renderings {
-		attribute_definition_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_string := range stage.ATTRIBUTE_DEFINITION_STRINGs {
-		attribute_definition_string.Unstage(stage)
-	}
-
-	for attribute_definition_string_rendering := range stage.ATTRIBUTE_DEFINITION_STRING_Renderings {
-		attribute_definition_string_rendering.Unstage(stage)
-	}
-
-	for attribute_definition_xhtml := range stage.ATTRIBUTE_DEFINITION_XHTMLs {
-		attribute_definition_xhtml.Unstage(stage)
-	}
-
-	for attribute_definition_xhtml_rendering := range stage.ATTRIBUTE_DEFINITION_XHTML_Renderings {
-		attribute_definition_xhtml_rendering.Unstage(stage)
-	}
-
-	for attribute_value_boolean := range stage.ATTRIBUTE_VALUE_BOOLEANs {
-		attribute_value_boolean.Unstage(stage)
-	}
-
-	for attribute_value_date := range stage.ATTRIBUTE_VALUE_DATEs {
-		attribute_value_date.Unstage(stage)
-	}
-
-	for attribute_value_enumeration := range stage.ATTRIBUTE_VALUE_ENUMERATIONs {
-		attribute_value_enumeration.Unstage(stage)
-	}
-
-	for attribute_value_integer := range stage.ATTRIBUTE_VALUE_INTEGERs {
-		attribute_value_integer.Unstage(stage)
-	}
-
-	for attribute_value_real := range stage.ATTRIBUTE_VALUE_REALs {
-		attribute_value_real.Unstage(stage)
-	}
-
-	for attribute_value_string := range stage.ATTRIBUTE_VALUE_STRINGs {
-		attribute_value_string.Unstage(stage)
-	}
-
-	for attribute_value_xhtml := range stage.ATTRIBUTE_VALUE_XHTMLs {
-		attribute_value_xhtml.Unstage(stage)
-	}
-
-	for a_alternative_id := range stage.A_ALTERNATIVE_IDs {
-		a_alternative_id.Unstage(stage)
-	}
-
-	for a_attribute_definition_boolean_ref := range stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs {
-		a_attribute_definition_boolean_ref.Unstage(stage)
-	}
-
-	for a_attribute_definition_date_ref := range stage.A_ATTRIBUTE_DEFINITION_DATE_REFs {
-		a_attribute_definition_date_ref.Unstage(stage)
-	}
-
-	for a_attribute_definition_enumeration_ref := range stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs {
-		a_attribute_definition_enumeration_ref.Unstage(stage)
-	}
-
-	for a_attribute_definition_integer_ref := range stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs {
-		a_attribute_definition_integer_ref.Unstage(stage)
-	}
-
-	for a_attribute_definition_real_ref := range stage.A_ATTRIBUTE_DEFINITION_REAL_REFs {
-		a_attribute_definition_real_ref.Unstage(stage)
-	}
-
-	for a_attribute_definition_string_ref := range stage.A_ATTRIBUTE_DEFINITION_STRING_REFs {
-		a_attribute_definition_string_ref.Unstage(stage)
-	}
-
-	for a_attribute_definition_xhtml_ref := range stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs {
-		a_attribute_definition_xhtml_ref.Unstage(stage)
-	}
-
-	for a_attribute_value_boolean := range stage.A_ATTRIBUTE_VALUE_BOOLEANs {
-		a_attribute_value_boolean.Unstage(stage)
-	}
-
-	for a_attribute_value_date := range stage.A_ATTRIBUTE_VALUE_DATEs {
-		a_attribute_value_date.Unstage(stage)
-	}
-
-	for a_attribute_value_enumeration := range stage.A_ATTRIBUTE_VALUE_ENUMERATIONs {
-		a_attribute_value_enumeration.Unstage(stage)
-	}
-
-	for a_attribute_value_integer := range stage.A_ATTRIBUTE_VALUE_INTEGERs {
-		a_attribute_value_integer.Unstage(stage)
-	}
-
-	for a_attribute_value_real := range stage.A_ATTRIBUTE_VALUE_REALs {
-		a_attribute_value_real.Unstage(stage)
-	}
-
-	for a_attribute_value_string := range stage.A_ATTRIBUTE_VALUE_STRINGs {
-		a_attribute_value_string.Unstage(stage)
-	}
-
-	for a_attribute_value_xhtml := range stage.A_ATTRIBUTE_VALUE_XHTMLs {
-		a_attribute_value_xhtml.Unstage(stage)
-	}
-
-	for a_attribute_value_xhtml_1 := range stage.A_ATTRIBUTE_VALUE_XHTML_1s {
-		a_attribute_value_xhtml_1.Unstage(stage)
-	}
-
-	for a_children := range stage.A_CHILDRENs {
-		a_children.Unstage(stage)
-	}
-
-	for a_core_content := range stage.A_CORE_CONTENTs {
-		a_core_content.Unstage(stage)
-	}
-
-	for a_datatypes := range stage.A_DATATYPESs {
-		a_datatypes.Unstage(stage)
-	}
-
-	for a_datatype_definition_boolean_ref := range stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs {
-		a_datatype_definition_boolean_ref.Unstage(stage)
-	}
-
-	for a_datatype_definition_date_ref := range stage.A_DATATYPE_DEFINITION_DATE_REFs {
-		a_datatype_definition_date_ref.Unstage(stage)
-	}
-
-	for a_datatype_definition_enumeration_ref := range stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs {
-		a_datatype_definition_enumeration_ref.Unstage(stage)
-	}
-
-	for a_datatype_definition_integer_ref := range stage.A_DATATYPE_DEFINITION_INTEGER_REFs {
-		a_datatype_definition_integer_ref.Unstage(stage)
-	}
-
-	for a_datatype_definition_real_ref := range stage.A_DATATYPE_DEFINITION_REAL_REFs {
-		a_datatype_definition_real_ref.Unstage(stage)
-	}
-
-	for a_datatype_definition_string_ref := range stage.A_DATATYPE_DEFINITION_STRING_REFs {
-		a_datatype_definition_string_ref.Unstage(stage)
-	}
-
-	for a_datatype_definition_xhtml_ref := range stage.A_DATATYPE_DEFINITION_XHTML_REFs {
-		a_datatype_definition_xhtml_ref.Unstage(stage)
-	}
-
-	for a_editable_atts := range stage.A_EDITABLE_ATTSs {
-		a_editable_atts.Unstage(stage)
-	}
-
-	for a_enum_value_ref := range stage.A_ENUM_VALUE_REFs {
-		a_enum_value_ref.Unstage(stage)
-	}
-
-	for a_object := range stage.A_OBJECTs {
-		a_object.Unstage(stage)
-	}
-
-	for a_properties := range stage.A_PROPERTIESs {
-		a_properties.Unstage(stage)
-	}
-
-	for a_relation_group_type_ref := range stage.A_RELATION_GROUP_TYPE_REFs {
-		a_relation_group_type_ref.Unstage(stage)
-	}
-
-	for a_source_1 := range stage.A_SOURCE_1s {
-		a_source_1.Unstage(stage)
-	}
-
-	for a_source_specification_1 := range stage.A_SOURCE_SPECIFICATION_1s {
-		a_source_specification_1.Unstage(stage)
-	}
-
-	for a_specifications := range stage.A_SPECIFICATIONSs {
-		a_specifications.Unstage(stage)
-	}
-
-	for a_specification_type_ref := range stage.A_SPECIFICATION_TYPE_REFs {
-		a_specification_type_ref.Unstage(stage)
-	}
-
-	for a_specified_values := range stage.A_SPECIFIED_VALUESs {
-		a_specified_values.Unstage(stage)
-	}
-
-	for a_spec_attributes := range stage.A_SPEC_ATTRIBUTESs {
-		a_spec_attributes.Unstage(stage)
-	}
-
-	for a_spec_objects := range stage.A_SPEC_OBJECTSs {
-		a_spec_objects.Unstage(stage)
-	}
-
-	for a_spec_object_type_ref := range stage.A_SPEC_OBJECT_TYPE_REFs {
-		a_spec_object_type_ref.Unstage(stage)
-	}
-
-	for a_spec_relations := range stage.A_SPEC_RELATIONSs {
-		a_spec_relations.Unstage(stage)
-	}
-
-	for a_spec_relation_groups := range stage.A_SPEC_RELATION_GROUPSs {
-		a_spec_relation_groups.Unstage(stage)
-	}
-
-	for a_spec_relation_ref := range stage.A_SPEC_RELATION_REFs {
-		a_spec_relation_ref.Unstage(stage)
-	}
-
-	for a_spec_relation_type_ref := range stage.A_SPEC_RELATION_TYPE_REFs {
-		a_spec_relation_type_ref.Unstage(stage)
-	}
-
-	for a_spec_types := range stage.A_SPEC_TYPESs {
-		a_spec_types.Unstage(stage)
-	}
-
-	for a_the_header := range stage.A_THE_HEADERs {
-		a_the_header.Unstage(stage)
-	}
-
-	for a_tool_extensions := range stage.A_TOOL_EXTENSIONSs {
-		a_tool_extensions.Unstage(stage)
-	}
-
-	for datatype_definition_boolean := range stage.DATATYPE_DEFINITION_BOOLEANs {
-		datatype_definition_boolean.Unstage(stage)
-	}
-
-	for datatype_definition_date := range stage.DATATYPE_DEFINITION_DATEs {
-		datatype_definition_date.Unstage(stage)
-	}
-
-	for datatype_definition_enumeration := range stage.DATATYPE_DEFINITION_ENUMERATIONs {
-		datatype_definition_enumeration.Unstage(stage)
-	}
-
-	for datatype_definition_integer := range stage.DATATYPE_DEFINITION_INTEGERs {
-		datatype_definition_integer.Unstage(stage)
-	}
-
-	for datatype_definition_real := range stage.DATATYPE_DEFINITION_REALs {
-		datatype_definition_real.Unstage(stage)
-	}
-
-	for datatype_definition_string := range stage.DATATYPE_DEFINITION_STRINGs {
-		datatype_definition_string.Unstage(stage)
-	}
-
-	for datatype_definition_xhtml := range stage.DATATYPE_DEFINITION_XHTMLs {
-		datatype_definition_xhtml.Unstage(stage)
-	}
-
-	for embedded_value := range stage.EMBEDDED_VALUEs {
-		embedded_value.Unstage(stage)
-	}
-
-	for enum_value := range stage.ENUM_VALUEs {
-		enum_value.Unstage(stage)
-	}
-
-	for embeddedjpgimage := range stage.EmbeddedJpgImages {
-		embeddedjpgimage.Unstage(stage)
-	}
-
-	for embeddedpngimage := range stage.EmbeddedPngImages {
-		embeddedpngimage.Unstage(stage)
-	}
-
-	for embeddedsvgimage := range stage.EmbeddedSvgImages {
-		embeddedsvgimage.Unstage(stage)
-	}
-
-	for kill := range stage.Kills {
-		kill.Unstage(stage)
-	}
-
-	for map_identifier_bool := range stage.Map_identifier_bools {
-		map_identifier_bool.Unstage(stage)
-	}
-
-	for relation_group := range stage.RELATION_GROUPs {
-		relation_group.Unstage(stage)
-	}
-
-	for relation_group_type := range stage.RELATION_GROUP_TYPEs {
-		relation_group_type.Unstage(stage)
-	}
-
-	for req_if := range stage.REQ_IFs {
-		req_if.Unstage(stage)
-	}
-
-	for req_if_content := range stage.REQ_IF_CONTENTs {
-		req_if_content.Unstage(stage)
-	}
-
-	for req_if_header := range stage.REQ_IF_HEADERs {
-		req_if_header.Unstage(stage)
-	}
-
-	for req_if_tool_extension := range stage.REQ_IF_TOOL_EXTENSIONs {
-		req_if_tool_extension.Unstage(stage)
-	}
-
-	for specification := range stage.SPECIFICATIONs {
-		specification.Unstage(stage)
-	}
-
-	for specification_rendering := range stage.SPECIFICATION_Renderings {
-		specification_rendering.Unstage(stage)
-	}
-
-	for specification_type := range stage.SPECIFICATION_TYPEs {
-		specification_type.Unstage(stage)
-	}
-
-	for spec_hierarchy := range stage.SPEC_HIERARCHYs {
-		spec_hierarchy.Unstage(stage)
-	}
-
-	for spec_object := range stage.SPEC_OBJECTs {
-		spec_object.Unstage(stage)
-	}
-
-	for spec_object_type := range stage.SPEC_OBJECT_TYPEs {
-		spec_object_type.Unstage(stage)
-	}
-
-	for spec_object_type_rendering := range stage.SPEC_OBJECT_TYPE_Renderings {
-		spec_object_type_rendering.Unstage(stage)
-	}
-
-	for spec_relation := range stage.SPEC_RELATIONs {
-		spec_relation.Unstage(stage)
-	}
-
-	for spec_relation_type := range stage.SPEC_RELATION_TYPEs {
-		spec_relation_type.Unstage(stage)
-	}
-
-	for staticwebsite := range stage.StaticWebSites {
-		staticwebsite.Unstage(stage)
-	}
-
-	for staticwebsitechapter := range stage.StaticWebSiteChapters {
-		staticwebsitechapter.Unstage(stage)
-	}
-
-	for staticwebsitegeneratedimage := range stage.StaticWebSiteGeneratedImages {
-		staticwebsitegeneratedimage.Unstage(stage)
-	}
-
-	for staticwebsiteimage := range stage.StaticWebSiteImages {
-		staticwebsiteimage.Unstage(stage)
-	}
-
-	for staticwebsiteparagraph := range stage.StaticWebSiteParagraphs {
-		staticwebsiteparagraph.Unstage(stage)
-	}
-
-	for xhtml_content := range stage.XHTML_CONTENTs {
-		xhtml_content.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -18060,13 +16645,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -27841,3088 +26424,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (alternative_id *ALTERNATIVE_ID) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		alternative_id.Name = value.GetValueString()
-	case "IDENTIFIER":
-		alternative_id.IDENTIFIER = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_boolean.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_boolean.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_boolean.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_boolean.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_boolean.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_boolean.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_boolean.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_boolean.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_boolean.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_BOOLEANs {
-				if stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_boolean.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_boolean.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs {
-				if stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_boolean.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_boolean_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_boolean_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_boolean_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_boolean_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_boolean_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_date.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_date.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_date.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_date.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_date.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_date.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_date.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_date.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_date.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_DATEs {
-				if stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_date.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_date.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_DATE_REFs {
-				if stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_date.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_date_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_date_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_date_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_date_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_date_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_enumeration.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_enumeration.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_enumeration.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_enumeration.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_enumeration.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_enumeration.LONG_NAME = value.GetValueString()
-	case "MULTI_VALUED":
-		attribute_definition_enumeration.MULTI_VALUED = value.GetValueBool()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_enumeration.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_enumeration.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_enumeration.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_ENUMERATIONs {
-				if stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_enumeration.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_enumeration.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs {
-				if stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_enumeration.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_enumeration_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_enumeration_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_enumeration_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_enumeration_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_enumeration_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_integer.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_integer.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_integer.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_integer.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_integer.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_integer.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_integer.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_integer.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_integer.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_INTEGERs {
-				if stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_integer.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_integer.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_INTEGER_REFs {
-				if stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_integer.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_integer_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_integer_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_integer_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_integer_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_integer_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_real.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_real.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_real.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_real.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_real.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_real.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_real.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_real.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_real.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_REALs {
-				if stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_real.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_real.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_REAL_REFs {
-				if stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_real.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_real_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_real_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_real_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_real_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_real_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_string.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_string.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_string.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_string.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_string.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_string.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_string.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_string.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_string.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_STRINGs {
-				if stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_string.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_string.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_STRING_REFs {
-				if stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_string.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_string_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_string_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_string_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_string_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_string_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_xhtml.Name = value.GetValueString()
-	case "DESC":
-		attribute_definition_xhtml.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		attribute_definition_xhtml.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		attribute_definition_xhtml.IS_EDITABLE = value.GetValueBool()
-	case "LAST_CHANGE":
-		attribute_definition_xhtml.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		attribute_definition_xhtml.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_xhtml.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_xhtml.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "DEFAULT_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_xhtml.DEFAULT_VALUE = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_XHTMLs {
-				if stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_xhtml.DEFAULT_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_definition_xhtml.TYPE = nil
-			for __instance__ := range stage.A_DATATYPE_DEFINITION_XHTML_REFs {
-				if stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_definition_xhtml.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_definition_xhtml_rendering.Name = value.GetValueString()
-	case "ShowInTable":
-		attribute_definition_xhtml_rendering.ShowInTable = value.GetValueBool()
-	case "ShowInTitle":
-		attribute_definition_xhtml_rendering.ShowInTitle = value.GetValueBool()
-	case "ShowInSubject":
-		attribute_definition_xhtml_rendering.ShowInSubject = value.GetValueBool()
-	case "Rank":
-		attribute_definition_xhtml_rendering.Rank = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_boolean.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_boolean.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_boolean.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "THE_VALUE":
-		attribute_value_boolean.THE_VALUE = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_date.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_date.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_DATE_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_date.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "THE_VALUE":
-		attribute_value_date.THE_VALUE = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_enumeration.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_enumeration.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_enumeration.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "VALUES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_enumeration.VALUES = nil
-			for __instance__ := range stage.A_ENUM_VALUE_REFs {
-				if stage.A_ENUM_VALUE_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_enumeration.VALUES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_integer.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_integer.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_integer.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "THE_VALUE":
-		attribute_value_integer.THE_VALUE = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_real.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_real.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_REAL_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_real.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "THE_VALUE":
-		attribute_value_real.THE_VALUE = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_string.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_string.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_STRING_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_string.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "THE_VALUE":
-		attribute_value_string.THE_VALUE = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attribute_value_xhtml.Name = value.GetValueString()
-	case "DEFINITION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_xhtml.DEFINITION = nil
-			for __instance__ := range stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs {
-				if stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[__instance__] == uint(id) {
-					attribute_value_xhtml.DEFINITION = __instance__
-					break
-				}
-			}
-		}
-	case "IS_SIMPLIFIED":
-		attribute_value_xhtml.IS_SIMPLIFIED = value.GetValueBool()
-	case "THE_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_xhtml.THE_VALUE = nil
-			for __instance__ := range stage.XHTML_CONTENTs {
-				if stage.XHTML_CONTENT_stagedOrder[__instance__] == uint(id) {
-					attribute_value_xhtml.THE_VALUE = __instance__
-					break
-				}
-			}
-		}
-	case "THE_ORIGINAL_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attribute_value_xhtml.THE_ORIGINAL_VALUE = nil
-			for __instance__ := range stage.XHTML_CONTENTs {
-				if stage.XHTML_CONTENT_stagedOrder[__instance__] == uint(id) {
-					attribute_value_xhtml.THE_ORIGINAL_VALUE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_alternative_id *A_ALTERNATIVE_ID) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_alternative_id.Name = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			a_alternative_id.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.ALTERNATIVE_IDs {
-				if stage.ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					a_alternative_id.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_boolean_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_BOOLEAN_REF":
-		a_attribute_definition_boolean_ref.ATTRIBUTE_DEFINITION_BOOLEAN_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_date_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_DATE_REF":
-		a_attribute_definition_date_ref.ATTRIBUTE_DEFINITION_DATE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_enumeration_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_ENUMERATION_REF":
-		a_attribute_definition_enumeration_ref.ATTRIBUTE_DEFINITION_ENUMERATION_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_integer_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_INTEGER_REF":
-		a_attribute_definition_integer_ref.ATTRIBUTE_DEFINITION_INTEGER_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_real_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_REAL_REF":
-		a_attribute_definition_real_ref.ATTRIBUTE_DEFINITION_REAL_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_string_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_STRING_REF":
-		a_attribute_definition_string_ref.ATTRIBUTE_DEFINITION_STRING_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_definition_xhtml_ref.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_XHTML_REF":
-		a_attribute_definition_xhtml_ref.ATTRIBUTE_DEFINITION_XHTML_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_boolean.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_BOOLEAN":
-		a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN = make([]*ATTRIBUTE_VALUE_BOOLEAN, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_BOOLEANs {
-					if stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN = append(a_attribute_value_boolean.ATTRIBUTE_VALUE_BOOLEAN, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_date.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_DATE":
-		a_attribute_value_date.ATTRIBUTE_VALUE_DATE = make([]*ATTRIBUTE_VALUE_DATE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_DATEs {
-					if stage.ATTRIBUTE_VALUE_DATE_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_date.ATTRIBUTE_VALUE_DATE = append(a_attribute_value_date.ATTRIBUTE_VALUE_DATE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_enumeration.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_ENUMERATION":
-		a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION = make([]*ATTRIBUTE_VALUE_ENUMERATION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_ENUMERATIONs {
-					if stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION = append(a_attribute_value_enumeration.ATTRIBUTE_VALUE_ENUMERATION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_integer.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_INTEGER":
-		a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER = make([]*ATTRIBUTE_VALUE_INTEGER, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_INTEGERs {
-					if stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER = append(a_attribute_value_integer.ATTRIBUTE_VALUE_INTEGER, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_real.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_REAL":
-		a_attribute_value_real.ATTRIBUTE_VALUE_REAL = make([]*ATTRIBUTE_VALUE_REAL, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_REALs {
-					if stage.ATTRIBUTE_VALUE_REAL_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_real.ATTRIBUTE_VALUE_REAL = append(a_attribute_value_real.ATTRIBUTE_VALUE_REAL, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_string.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_STRING":
-		a_attribute_value_string.ATTRIBUTE_VALUE_STRING = make([]*ATTRIBUTE_VALUE_STRING, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_STRINGs {
-					if stage.ATTRIBUTE_VALUE_STRING_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_string.ATTRIBUTE_VALUE_STRING = append(a_attribute_value_string.ATTRIBUTE_VALUE_STRING, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_xhtml.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_XHTML":
-		a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML = make([]*ATTRIBUTE_VALUE_XHTML, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_XHTMLs {
-					if stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML = append(a_attribute_value_xhtml.ATTRIBUTE_VALUE_XHTML, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_attribute_value_xhtml_1.Name = value.GetValueString()
-	case "ATTRIBUTE_VALUE_BOOLEAN":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN = make([]*ATTRIBUTE_VALUE_BOOLEAN, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_BOOLEANs {
-					if stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_BOOLEAN, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_VALUE_DATE":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE = make([]*ATTRIBUTE_VALUE_DATE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_DATEs {
-					if stage.ATTRIBUTE_VALUE_DATE_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_DATE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_VALUE_ENUMERATION":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION = make([]*ATTRIBUTE_VALUE_ENUMERATION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_ENUMERATIONs {
-					if stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_ENUMERATION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_VALUE_INTEGER":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER = make([]*ATTRIBUTE_VALUE_INTEGER, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_INTEGERs {
-					if stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_INTEGER, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_VALUE_REAL":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL = make([]*ATTRIBUTE_VALUE_REAL, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_REALs {
-					if stage.ATTRIBUTE_VALUE_REAL_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_REAL, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_VALUE_STRING":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING = make([]*ATTRIBUTE_VALUE_STRING, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_STRINGs {
-					if stage.ATTRIBUTE_VALUE_STRING_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_STRING, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_VALUE_XHTML":
-		a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML = make([]*ATTRIBUTE_VALUE_XHTML, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_VALUE_XHTMLs {
-					if stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[__instance__] == uint(id) {
-						a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML = append(a_attribute_value_xhtml_1.ATTRIBUTE_VALUE_XHTML, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_children *A_CHILDREN) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_children.Name = value.GetValueString()
-	case "SPEC_HIERARCHY":
-		a_children.SPEC_HIERARCHY = make([]*SPEC_HIERARCHY, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPEC_HIERARCHYs {
-					if stage.SPEC_HIERARCHY_stagedOrder[__instance__] == uint(id) {
-						a_children.SPEC_HIERARCHY = append(a_children.SPEC_HIERARCHY, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_core_content *A_CORE_CONTENT) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_core_content.Name = value.GetValueString()
-	case "REQ_IF_CONTENT":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			a_core_content.REQ_IF_CONTENT = nil
-			for __instance__ := range stage.REQ_IF_CONTENTs {
-				if stage.REQ_IF_CONTENT_stagedOrder[__instance__] == uint(id) {
-					a_core_content.REQ_IF_CONTENT = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatypes *A_DATATYPES) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatypes.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_BOOLEAN":
-		a_datatypes.DATATYPE_DEFINITION_BOOLEAN = make([]*DATATYPE_DEFINITION_BOOLEAN, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_BOOLEANs {
-					if stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_BOOLEAN = append(a_datatypes.DATATYPE_DEFINITION_BOOLEAN, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DATATYPE_DEFINITION_DATE":
-		a_datatypes.DATATYPE_DEFINITION_DATE = make([]*DATATYPE_DEFINITION_DATE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_DATEs {
-					if stage.DATATYPE_DEFINITION_DATE_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_DATE = append(a_datatypes.DATATYPE_DEFINITION_DATE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DATATYPE_DEFINITION_ENUMERATION":
-		a_datatypes.DATATYPE_DEFINITION_ENUMERATION = make([]*DATATYPE_DEFINITION_ENUMERATION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_ENUMERATIONs {
-					if stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_ENUMERATION = append(a_datatypes.DATATYPE_DEFINITION_ENUMERATION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DATATYPE_DEFINITION_INTEGER":
-		a_datatypes.DATATYPE_DEFINITION_INTEGER = make([]*DATATYPE_DEFINITION_INTEGER, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_INTEGERs {
-					if stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_INTEGER = append(a_datatypes.DATATYPE_DEFINITION_INTEGER, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DATATYPE_DEFINITION_REAL":
-		a_datatypes.DATATYPE_DEFINITION_REAL = make([]*DATATYPE_DEFINITION_REAL, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_REALs {
-					if stage.DATATYPE_DEFINITION_REAL_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_REAL = append(a_datatypes.DATATYPE_DEFINITION_REAL, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DATATYPE_DEFINITION_STRING":
-		a_datatypes.DATATYPE_DEFINITION_STRING = make([]*DATATYPE_DEFINITION_STRING, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_STRINGs {
-					if stage.DATATYPE_DEFINITION_STRING_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_STRING = append(a_datatypes.DATATYPE_DEFINITION_STRING, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DATATYPE_DEFINITION_XHTML":
-		a_datatypes.DATATYPE_DEFINITION_XHTML = make([]*DATATYPE_DEFINITION_XHTML, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DATATYPE_DEFINITION_XHTMLs {
-					if stage.DATATYPE_DEFINITION_XHTML_stagedOrder[__instance__] == uint(id) {
-						a_datatypes.DATATYPE_DEFINITION_XHTML = append(a_datatypes.DATATYPE_DEFINITION_XHTML, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_boolean_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_BOOLEAN_REF":
-		a_datatype_definition_boolean_ref.DATATYPE_DEFINITION_BOOLEAN_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_date_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_DATE_REF":
-		a_datatype_definition_date_ref.DATATYPE_DEFINITION_DATE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_enumeration_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_ENUMERATION_REF":
-		a_datatype_definition_enumeration_ref.DATATYPE_DEFINITION_ENUMERATION_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_integer_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_INTEGER_REF":
-		a_datatype_definition_integer_ref.DATATYPE_DEFINITION_INTEGER_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_real_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_REAL_REF":
-		a_datatype_definition_real_ref.DATATYPE_DEFINITION_REAL_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_string_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_STRING_REF":
-		a_datatype_definition_string_ref.DATATYPE_DEFINITION_STRING_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_datatype_definition_xhtml_ref.Name = value.GetValueString()
-	case "DATATYPE_DEFINITION_XHTML_REF":
-		a_datatype_definition_xhtml_ref.DATATYPE_DEFINITION_XHTML_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_editable_atts *A_EDITABLE_ATTS) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_editable_atts.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_BOOLEAN_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_BOOLEAN_REF = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_DATE_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_DATE_REF = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_ENUMERATION_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_ENUMERATION_REF = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_INTEGER_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_INTEGER_REF = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_REAL_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_REAL_REF = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_STRING_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_STRING_REF = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_XHTML_REF":
-		a_editable_atts.ATTRIBUTE_DEFINITION_XHTML_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_enum_value_ref *A_ENUM_VALUE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_enum_value_ref.Name = value.GetValueString()
-	case "ENUM_VALUE_REF":
-		a_enum_value_ref.ENUM_VALUE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_object *A_OBJECT) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_object.Name = value.GetValueString()
-	case "SPEC_OBJECT_REF":
-		a_object.SPEC_OBJECT_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_properties *A_PROPERTIES) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_properties.Name = value.GetValueString()
-	case "EMBEDDED_VALUE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			a_properties.EMBEDDED_VALUE = nil
-			for __instance__ := range stage.EMBEDDED_VALUEs {
-				if stage.EMBEDDED_VALUE_stagedOrder[__instance__] == uint(id) {
-					a_properties.EMBEDDED_VALUE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_relation_group_type_ref.Name = value.GetValueString()
-	case "RELATION_GROUP_TYPE_REF":
-		a_relation_group_type_ref.RELATION_GROUP_TYPE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_source_1 *A_SOURCE_1) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_source_1.Name = value.GetValueString()
-	case "SPEC_OBJECT_REF":
-		a_source_1.SPEC_OBJECT_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_source_specification_1.Name = value.GetValueString()
-	case "SPECIFICATION_REF":
-		a_source_specification_1.SPECIFICATION_REF.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_specifications *A_SPECIFICATIONS) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_specifications.Name = value.GetValueString()
-	case "SPECIFICATION":
-		a_specifications.SPECIFICATION = make([]*SPECIFICATION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPECIFICATIONs {
-					if stage.SPECIFICATION_stagedOrder[__instance__] == uint(id) {
-						a_specifications.SPECIFICATION = append(a_specifications.SPECIFICATION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_specification_type_ref.Name = value.GetValueString()
-	case "SPECIFICATION_TYPE_REF":
-		a_specification_type_ref.SPECIFICATION_TYPE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_specified_values *A_SPECIFIED_VALUES) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_specified_values.Name = value.GetValueString()
-	case "ENUM_VALUE":
-		a_specified_values.ENUM_VALUE = make([]*ENUM_VALUE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ENUM_VALUEs {
-					if stage.ENUM_VALUE_stagedOrder[__instance__] == uint(id) {
-						a_specified_values.ENUM_VALUE = append(a_specified_values.ENUM_VALUE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_attributes.Name = value.GetValueString()
-	case "ATTRIBUTE_DEFINITION_BOOLEAN":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN = make([]*ATTRIBUTE_DEFINITION_BOOLEAN, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_BOOLEANs {
-					if stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN = append(a_spec_attributes.ATTRIBUTE_DEFINITION_BOOLEAN, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_DEFINITION_DATE":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_DATE = make([]*ATTRIBUTE_DEFINITION_DATE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_DATEs {
-					if stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_DATE = append(a_spec_attributes.ATTRIBUTE_DEFINITION_DATE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_DEFINITION_ENUMERATION":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION = make([]*ATTRIBUTE_DEFINITION_ENUMERATION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_ENUMERATIONs {
-					if stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION = append(a_spec_attributes.ATTRIBUTE_DEFINITION_ENUMERATION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_DEFINITION_INTEGER":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER = make([]*ATTRIBUTE_DEFINITION_INTEGER, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_INTEGERs {
-					if stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER = append(a_spec_attributes.ATTRIBUTE_DEFINITION_INTEGER, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_DEFINITION_REAL":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_REAL = make([]*ATTRIBUTE_DEFINITION_REAL, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_REALs {
-					if stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_REAL = append(a_spec_attributes.ATTRIBUTE_DEFINITION_REAL, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_DEFINITION_STRING":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_STRING = make([]*ATTRIBUTE_DEFINITION_STRING, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_STRINGs {
-					if stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_STRING = append(a_spec_attributes.ATTRIBUTE_DEFINITION_STRING, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ATTRIBUTE_DEFINITION_XHTML":
-		a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML = make([]*ATTRIBUTE_DEFINITION_XHTML, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ATTRIBUTE_DEFINITION_XHTMLs {
-					if stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[__instance__] == uint(id) {
-						a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML = append(a_spec_attributes.ATTRIBUTE_DEFINITION_XHTML, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_objects *A_SPEC_OBJECTS) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_objects.Name = value.GetValueString()
-	case "SPEC_OBJECT":
-		a_spec_objects.SPEC_OBJECT = make([]*SPEC_OBJECT, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPEC_OBJECTs {
-					if stage.SPEC_OBJECT_stagedOrder[__instance__] == uint(id) {
-						a_spec_objects.SPEC_OBJECT = append(a_spec_objects.SPEC_OBJECT, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_object_type_ref.Name = value.GetValueString()
-	case "SPEC_OBJECT_TYPE_REF":
-		a_spec_object_type_ref.SPEC_OBJECT_TYPE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_relations *A_SPEC_RELATIONS) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_relations.Name = value.GetValueString()
-	case "SPEC_RELATION":
-		a_spec_relations.SPEC_RELATION = make([]*SPEC_RELATION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPEC_RELATIONs {
-					if stage.SPEC_RELATION_stagedOrder[__instance__] == uint(id) {
-						a_spec_relations.SPEC_RELATION = append(a_spec_relations.SPEC_RELATION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_relation_groups.Name = value.GetValueString()
-	case "RELATION_GROUP":
-		a_spec_relation_groups.RELATION_GROUP = make([]*RELATION_GROUP, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RELATION_GROUPs {
-					if stage.RELATION_GROUP_stagedOrder[__instance__] == uint(id) {
-						a_spec_relation_groups.RELATION_GROUP = append(a_spec_relation_groups.RELATION_GROUP, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_relation_ref.Name = value.GetValueString()
-	case "SPEC_RELATION_REF":
-		a_spec_relation_ref.SPEC_RELATION_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_relation_type_ref.Name = value.GetValueString()
-	case "SPEC_RELATION_TYPE_REF":
-		a_spec_relation_type_ref.SPEC_RELATION_TYPE_REF = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_spec_types *A_SPEC_TYPES) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_spec_types.Name = value.GetValueString()
-	case "RELATION_GROUP_TYPE":
-		a_spec_types.RELATION_GROUP_TYPE = make([]*RELATION_GROUP_TYPE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RELATION_GROUP_TYPEs {
-					if stage.RELATION_GROUP_TYPE_stagedOrder[__instance__] == uint(id) {
-						a_spec_types.RELATION_GROUP_TYPE = append(a_spec_types.RELATION_GROUP_TYPE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SPEC_OBJECT_TYPE":
-		a_spec_types.SPEC_OBJECT_TYPE = make([]*SPEC_OBJECT_TYPE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPEC_OBJECT_TYPEs {
-					if stage.SPEC_OBJECT_TYPE_stagedOrder[__instance__] == uint(id) {
-						a_spec_types.SPEC_OBJECT_TYPE = append(a_spec_types.SPEC_OBJECT_TYPE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SPEC_RELATION_TYPE":
-		a_spec_types.SPEC_RELATION_TYPE = make([]*SPEC_RELATION_TYPE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPEC_RELATION_TYPEs {
-					if stage.SPEC_RELATION_TYPE_stagedOrder[__instance__] == uint(id) {
-						a_spec_types.SPEC_RELATION_TYPE = append(a_spec_types.SPEC_RELATION_TYPE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SPECIFICATION_TYPE":
-		a_spec_types.SPECIFICATION_TYPE = make([]*SPECIFICATION_TYPE, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SPECIFICATION_TYPEs {
-					if stage.SPECIFICATION_TYPE_stagedOrder[__instance__] == uint(id) {
-						a_spec_types.SPECIFICATION_TYPE = append(a_spec_types.SPECIFICATION_TYPE, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_the_header *A_THE_HEADER) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_the_header.Name = value.GetValueString()
-	case "REQ_IF_HEADER":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			a_the_header.REQ_IF_HEADER = nil
-			for __instance__ := range stage.REQ_IF_HEADERs {
-				if stage.REQ_IF_HEADER_stagedOrder[__instance__] == uint(id) {
-					a_the_header.REQ_IF_HEADER = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_tool_extensions *A_TOOL_EXTENSIONS) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_tool_extensions.Name = value.GetValueString()
-	case "REQ_IF_TOOL_EXTENSION":
-		a_tool_extensions.REQ_IF_TOOL_EXTENSION = make([]*REQ_IF_TOOL_EXTENSION, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.REQ_IF_TOOL_EXTENSIONs {
-					if stage.REQ_IF_TOOL_EXTENSION_stagedOrder[__instance__] == uint(id) {
-						a_tool_extensions.REQ_IF_TOOL_EXTENSION = append(a_tool_extensions.REQ_IF_TOOL_EXTENSION, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_boolean.Name = value.GetValueString()
-	case "DESC":
-		datatype_definition_boolean.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_boolean.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_boolean.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_boolean.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_boolean.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_boolean.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_date.Name = value.GetValueString()
-	case "DESC":
-		datatype_definition_date.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_date.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_date.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_date.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_date.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_date.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_enumeration.Name = value.GetValueString()
-	case "DESC":
-		datatype_definition_enumeration.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_enumeration.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_enumeration.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_enumeration.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_enumeration.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_enumeration.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "SPECIFIED_VALUES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_enumeration.SPECIFIED_VALUES = nil
-			for __instance__ := range stage.A_SPECIFIED_VALUESs {
-				if stage.A_SPECIFIED_VALUES_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_enumeration.SPECIFIED_VALUES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_integer.Name = value.GetValueString()
-	case "DESC":
-		datatype_definition_integer.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_integer.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_integer.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_integer.LONG_NAME = value.GetValueString()
-	case "MAX":
-		datatype_definition_integer.MAX = int(value.GetValueInt())
-	case "MIN":
-		datatype_definition_integer.MIN = int(value.GetValueInt())
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_integer.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_integer.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_real.Name = value.GetValueString()
-	case "ACCURACY":
-		datatype_definition_real.ACCURACY = int(value.GetValueInt())
-	case "DESC":
-		datatype_definition_real.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_real.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_real.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_real.LONG_NAME = value.GetValueString()
-	case "MAX":
-		datatype_definition_real.MAX = value.GetValueFloat()
-	case "MIN":
-		datatype_definition_real.MIN = value.GetValueFloat()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_real.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_real.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_string.Name = value.GetValueString()
-	case "DESC":
-		datatype_definition_string.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_string.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_string.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_string.LONG_NAME = value.GetValueString()
-	case "MAX_LENGTH":
-		datatype_definition_string.MAX_LENGTH = int(value.GetValueInt())
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_string.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_string.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datatype_definition_xhtml.Name = value.GetValueString()
-	case "DESC":
-		datatype_definition_xhtml.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		datatype_definition_xhtml.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		datatype_definition_xhtml.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		datatype_definition_xhtml.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datatype_definition_xhtml.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					datatype_definition_xhtml.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (embedded_value *EMBEDDED_VALUE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		embedded_value.Name = value.GetValueString()
-	case "KEY":
-		embedded_value.KEY = int(value.GetValueInt())
-	case "OTHER_CONTENT":
-		embedded_value.OTHER_CONTENT = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (enum_value *ENUM_VALUE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		enum_value.Name = value.GetValueString()
-	case "DESC":
-		enum_value.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		enum_value.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		enum_value.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		enum_value.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			enum_value.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					enum_value.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "PROPERTIES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			enum_value.PROPERTIES = nil
-			for __instance__ := range stage.A_PROPERTIESs {
-				if stage.A_PROPERTIES_stagedOrder[__instance__] == uint(id) {
-					enum_value.PROPERTIES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (embeddedjpgimage *EmbeddedJpgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		embeddedjpgimage.Name = value.GetValueString()
-	case "Base64Content":
-		embeddedjpgimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (embeddedpngimage *EmbeddedPngImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		embeddedpngimage.Name = value.GetValueString()
-	case "Base64Content":
-		embeddedpngimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (embeddedsvgimage *EmbeddedSvgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		embeddedsvgimage.Name = value.GetValueString()
-	case "Content":
-		embeddedsvgimage.Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (kill *Kill) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		kill.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (map_identifier_bool *Map_identifier_bool) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		map_identifier_bool.Name = value.GetValueString()
-	case "Value":
-		map_identifier_bool.Value = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (relation_group *RELATION_GROUP) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		relation_group.Name = value.GetValueString()
-	case "DESC":
-		relation_group.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		relation_group.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		relation_group.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		relation_group.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					relation_group.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "SOURCE_SPECIFICATION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group.SOURCE_SPECIFICATION = nil
-			for __instance__ := range stage.A_SOURCE_SPECIFICATION_1s {
-				if stage.A_SOURCE_SPECIFICATION_1_stagedOrder[__instance__] == uint(id) {
-					relation_group.SOURCE_SPECIFICATION = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_RELATIONS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group.SPEC_RELATIONS = nil
-			for __instance__ := range stage.A_SPEC_RELATION_REFs {
-				if stage.A_SPEC_RELATION_REF_stagedOrder[__instance__] == uint(id) {
-					relation_group.SPEC_RELATIONS = __instance__
-					break
-				}
-			}
-		}
-	case "TARGET_SPECIFICATION":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group.TARGET_SPECIFICATION = nil
-			for __instance__ := range stage.A_SOURCE_SPECIFICATION_1s {
-				if stage.A_SOURCE_SPECIFICATION_1_stagedOrder[__instance__] == uint(id) {
-					relation_group.TARGET_SPECIFICATION = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group.TYPE = nil
-			for __instance__ := range stage.A_RELATION_GROUP_TYPE_REFs {
-				if stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[__instance__] == uint(id) {
-					relation_group.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (relation_group_type *RELATION_GROUP_TYPE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		relation_group_type.Name = value.GetValueString()
-	case "DESC":
-		relation_group_type.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		relation_group_type.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		relation_group_type.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		relation_group_type.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group_type.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					relation_group_type.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_ATTRIBUTES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			relation_group_type.SPEC_ATTRIBUTES = nil
-			for __instance__ := range stage.A_SPEC_ATTRIBUTESs {
-				if stage.A_SPEC_ATTRIBUTES_stagedOrder[__instance__] == uint(id) {
-					relation_group_type.SPEC_ATTRIBUTES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (req_if *REQ_IF) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		req_if.Name = value.GetValueString()
-	case "Lang":
-		req_if.Lang = value.GetValueString()
-	case "THE_HEADER":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if.THE_HEADER = nil
-			for __instance__ := range stage.A_THE_HEADERs {
-				if stage.A_THE_HEADER_stagedOrder[__instance__] == uint(id) {
-					req_if.THE_HEADER = __instance__
-					break
-				}
-			}
-		}
-	case "CORE_CONTENT":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if.CORE_CONTENT = nil
-			for __instance__ := range stage.A_CORE_CONTENTs {
-				if stage.A_CORE_CONTENT_stagedOrder[__instance__] == uint(id) {
-					req_if.CORE_CONTENT = __instance__
-					break
-				}
-			}
-		}
-	case "TOOL_EXTENSIONS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if.TOOL_EXTENSIONS = nil
-			for __instance__ := range stage.A_TOOL_EXTENSIONSs {
-				if stage.A_TOOL_EXTENSIONS_stagedOrder[__instance__] == uint(id) {
-					req_if.TOOL_EXTENSIONS = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (req_if_content *REQ_IF_CONTENT) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		req_if_content.Name = value.GetValueString()
-	case "DATATYPES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if_content.DATATYPES = nil
-			for __instance__ := range stage.A_DATATYPESs {
-				if stage.A_DATATYPES_stagedOrder[__instance__] == uint(id) {
-					req_if_content.DATATYPES = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_TYPES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if_content.SPEC_TYPES = nil
-			for __instance__ := range stage.A_SPEC_TYPESs {
-				if stage.A_SPEC_TYPES_stagedOrder[__instance__] == uint(id) {
-					req_if_content.SPEC_TYPES = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_OBJECTS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if_content.SPEC_OBJECTS = nil
-			for __instance__ := range stage.A_SPEC_OBJECTSs {
-				if stage.A_SPEC_OBJECTS_stagedOrder[__instance__] == uint(id) {
-					req_if_content.SPEC_OBJECTS = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_RELATIONS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if_content.SPEC_RELATIONS = nil
-			for __instance__ := range stage.A_SPEC_RELATIONSs {
-				if stage.A_SPEC_RELATIONS_stagedOrder[__instance__] == uint(id) {
-					req_if_content.SPEC_RELATIONS = __instance__
-					break
-				}
-			}
-		}
-	case "SPECIFICATIONS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if_content.SPECIFICATIONS = nil
-			for __instance__ := range stage.A_SPECIFICATIONSs {
-				if stage.A_SPECIFICATIONS_stagedOrder[__instance__] == uint(id) {
-					req_if_content.SPECIFICATIONS = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_RELATION_GROUPS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			req_if_content.SPEC_RELATION_GROUPS = nil
-			for __instance__ := range stage.A_SPEC_RELATION_GROUPSs {
-				if stage.A_SPEC_RELATION_GROUPS_stagedOrder[__instance__] == uint(id) {
-					req_if_content.SPEC_RELATION_GROUPS = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (req_if_header *REQ_IF_HEADER) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		req_if_header.Name = value.GetValueString()
-	case "IDENTIFIER":
-		req_if_header.IDENTIFIER = value.GetValueString()
-	case "COMMENT":
-		req_if_header.COMMENT = value.GetValueString()
-	case "CREATION_TIME":
-		req_if_header.CREATION_TIME = value.GetValueString()
-	case "REPOSITORY_ID":
-		req_if_header.REPOSITORY_ID = value.GetValueString()
-	case "REQ_IF_TOOL_ID":
-		req_if_header.REQ_IF_TOOL_ID = value.GetValueString()
-	case "REQ_IF_VERSION":
-		req_if_header.REQ_IF_VERSION = value.GetValueString()
-	case "SOURCE_TOOL_ID":
-		req_if_header.SOURCE_TOOL_ID = value.GetValueString()
-	case "TITLE":
-		req_if_header.TITLE = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		req_if_tool_extension.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (specification *SPECIFICATION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		specification.Name = value.GetValueString()
-	case "DESC":
-		specification.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		specification.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		specification.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		specification.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			specification.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					specification.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			specification.TYPE = nil
-			for __instance__ := range stage.A_SPECIFICATION_TYPE_REFs {
-				if stage.A_SPECIFICATION_TYPE_REF_stagedOrder[__instance__] == uint(id) {
-					specification.TYPE = __instance__
-					break
-				}
-			}
-		}
-	case "CHILDREN":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			specification.CHILDREN = nil
-			for __instance__ := range stage.A_CHILDRENs {
-				if stage.A_CHILDREN_stagedOrder[__instance__] == uint(id) {
-					specification.CHILDREN = __instance__
-					break
-				}
-			}
-		}
-	case "VALUES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			specification.VALUES = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_XHTML_1s {
-				if stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[__instance__] == uint(id) {
-					specification.VALUES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (specification_rendering *SPECIFICATION_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		specification_rendering.Name = value.GetValueString()
-	case "IsNodeExpanded":
-		specification_rendering.IsNodeExpanded = value.GetValueBool()
-	case "IsSelected":
-		specification_rendering.IsSelected = value.GetValueBool()
-	case "IsWithHeadingNumbering":
-		specification_rendering.IsWithHeadingNumbering = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (specification_type *SPECIFICATION_TYPE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		specification_type.Name = value.GetValueString()
-	case "DESC":
-		specification_type.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		specification_type.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		specification_type.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		specification_type.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			specification_type.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					specification_type.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_ATTRIBUTES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			specification_type.SPEC_ATTRIBUTES = nil
-			for __instance__ := range stage.A_SPEC_ATTRIBUTESs {
-				if stage.A_SPEC_ATTRIBUTES_stagedOrder[__instance__] == uint(id) {
-					specification_type.SPEC_ATTRIBUTES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spec_hierarchy *SPEC_HIERARCHY) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spec_hierarchy.Name = value.GetValueString()
-	case "DESC":
-		spec_hierarchy.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		spec_hierarchy.IDENTIFIER = value.GetValueString()
-	case "IS_EDITABLE":
-		spec_hierarchy.IS_EDITABLE = value.GetValueBool()
-	case "IS_TABLE_INTERNAL":
-		spec_hierarchy.IS_TABLE_INTERNAL = value.GetValueBool()
-	case "LAST_CHANGE":
-		spec_hierarchy.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		spec_hierarchy.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_hierarchy.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					spec_hierarchy.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "OBJECT":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_hierarchy.OBJECT = nil
-			for __instance__ := range stage.A_OBJECTs {
-				if stage.A_OBJECT_stagedOrder[__instance__] == uint(id) {
-					spec_hierarchy.OBJECT = __instance__
-					break
-				}
-			}
-		}
-	case "CHILDREN":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_hierarchy.CHILDREN = nil
-			for __instance__ := range stage.A_CHILDRENs {
-				if stage.A_CHILDREN_stagedOrder[__instance__] == uint(id) {
-					spec_hierarchy.CHILDREN = __instance__
-					break
-				}
-			}
-		}
-	case "EDITABLE_ATTS":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_hierarchy.EDITABLE_ATTS = nil
-			for __instance__ := range stage.A_EDITABLE_ATTSs {
-				if stage.A_EDITABLE_ATTS_stagedOrder[__instance__] == uint(id) {
-					spec_hierarchy.EDITABLE_ATTS = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spec_object *SPEC_OBJECT) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spec_object.Name = value.GetValueString()
-	case "DESC":
-		spec_object.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		spec_object.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		spec_object.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		spec_object.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_object.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					spec_object.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "VALUES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_object.VALUES = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_XHTML_1s {
-				if stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[__instance__] == uint(id) {
-					spec_object.VALUES = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_object.TYPE = nil
-			for __instance__ := range stage.A_SPEC_OBJECT_TYPE_REFs {
-				if stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[__instance__] == uint(id) {
-					spec_object.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spec_object_type *SPEC_OBJECT_TYPE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spec_object_type.Name = value.GetValueString()
-	case "DESC":
-		spec_object_type.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		spec_object_type.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		spec_object_type.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		spec_object_type.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_object_type.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					spec_object_type.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_ATTRIBUTES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_object_type.SPEC_ATTRIBUTES = nil
-			for __instance__ := range stage.A_SPEC_ATTRIBUTESs {
-				if stage.A_SPEC_ATTRIBUTES_stagedOrder[__instance__] == uint(id) {
-					spec_object_type.SPEC_ATTRIBUTES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spec_object_type_rendering.Name = value.GetValueString()
-	case "IsNodeExpanded":
-		spec_object_type_rendering.IsNodeExpanded = value.GetValueBool()
-	case "ShowIdentifier":
-		spec_object_type_rendering.ShowIdentifier = value.GetValueBool()
-	case "ShowName":
-		spec_object_type_rendering.ShowName = value.GetValueBool()
-	case "ShowRelations":
-		spec_object_type_rendering.ShowRelations = value.GetValueBool()
-	case "IsHeading":
-		spec_object_type_rendering.IsHeading = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spec_relation *SPEC_RELATION) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spec_relation.Name = value.GetValueString()
-	case "DESC":
-		spec_relation.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		spec_relation.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		spec_relation.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		spec_relation.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					spec_relation.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "VALUES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation.VALUES = nil
-			for __instance__ := range stage.A_ATTRIBUTE_VALUE_XHTML_1s {
-				if stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[__instance__] == uint(id) {
-					spec_relation.VALUES = __instance__
-					break
-				}
-			}
-		}
-	case "SOURCE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation.SOURCE = nil
-			for __instance__ := range stage.A_SOURCE_1s {
-				if stage.A_SOURCE_1_stagedOrder[__instance__] == uint(id) {
-					spec_relation.SOURCE = __instance__
-					break
-				}
-			}
-		}
-	case "TARGET":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation.TARGET = nil
-			for __instance__ := range stage.A_SOURCE_1s {
-				if stage.A_SOURCE_1_stagedOrder[__instance__] == uint(id) {
-					spec_relation.TARGET = __instance__
-					break
-				}
-			}
-		}
-	case "TYPE":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation.TYPE = nil
-			for __instance__ := range stage.A_SPEC_RELATION_TYPE_REFs {
-				if stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[__instance__] == uint(id) {
-					spec_relation.TYPE = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spec_relation_type *SPEC_RELATION_TYPE) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spec_relation_type.Name = value.GetValueString()
-	case "DESC":
-		spec_relation_type.DESC = value.GetValueString()
-	case "IDENTIFIER":
-		spec_relation_type.IDENTIFIER = value.GetValueString()
-	case "LAST_CHANGE":
-		spec_relation_type.LAST_CHANGE = value.GetValueString()
-	case "LONG_NAME":
-		spec_relation_type.LONG_NAME = value.GetValueString()
-	case "ALTERNATIVE_ID":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation_type.ALTERNATIVE_ID = nil
-			for __instance__ := range stage.A_ALTERNATIVE_IDs {
-				if stage.A_ALTERNATIVE_ID_stagedOrder[__instance__] == uint(id) {
-					spec_relation_type.ALTERNATIVE_ID = __instance__
-					break
-				}
-			}
-		}
-	case "SPEC_ATTRIBUTES":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			spec_relation_type.SPEC_ATTRIBUTES = nil
-			for __instance__ := range stage.A_SPEC_ATTRIBUTESs {
-				if stage.A_SPEC_ATTRIBUTES_stagedOrder[__instance__] == uint(id) {
-					spec_relation_type.SPEC_ATTRIBUTES = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staticwebsite *StaticWebSite) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staticwebsite.Name = value.GetValueString()
-	case "MarkdownContent":
-		staticwebsite.MarkdownContent = value.GetValueString()
-	case "Chapters":
-		staticwebsite.Chapters = make([]*StaticWebSiteChapter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StaticWebSiteChapters {
-					if stage.StaticWebSiteChapter_stagedOrder[__instance__] == uint(id) {
-						staticwebsite.Chapters = append(staticwebsite.Chapters, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "InputImagesDir":
-		staticwebsite.InputImagesDir = value.GetValueString()
-	case "OutputStaticWebDir":
-		staticwebsite.OutputStaticWebDir = value.GetValueString()
-	case "VersionInfo":
-		staticwebsite.VersionInfo = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staticwebsitechapter *StaticWebSiteChapter) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staticwebsitechapter.Name = value.GetValueString()
-	case "MarkdownContent":
-		staticwebsitechapter.MarkdownContent = value.GetValueString()
-	case "Paragraphs":
-		staticwebsitechapter.Paragraphs = make([]*StaticWebSiteParagraph, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StaticWebSiteParagraphs {
-					if stage.StaticWebSiteParagraph_stagedOrder[__instance__] == uint(id) {
-						staticwebsitechapter.Paragraphs = append(staticwebsitechapter.Paragraphs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staticwebsitegeneratedimage.Name = value.GetValueString()
-	case "SourceDirectoryPath":
-		staticwebsitegeneratedimage.SourceDirectoryPath = value.GetValueString()
-	case "Width":
-		staticwebsitegeneratedimage.Width = int(value.GetValueInt())
-	case "Height":
-		staticwebsitegeneratedimage.Height = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staticwebsiteimage *StaticWebSiteImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staticwebsiteimage.Name = value.GetValueString()
-	case "SourceDirectoryPath":
-		staticwebsiteimage.SourceDirectoryPath = value.GetValueString()
-	case "Width":
-		staticwebsiteimage.Width = int(value.GetValueInt())
-	case "Height":
-		staticwebsiteimage.Height = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staticwebsiteparagraph *StaticWebSiteParagraph) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staticwebsiteparagraph.Name = value.GetValueString()
-	case "LegendMarkdownContent":
-		staticwebsiteparagraph.LegendMarkdownContent = value.GetValueString()
-	case "Image":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			staticwebsiteparagraph.Image = nil
-			for __instance__ := range stage.StaticWebSiteImages {
-				if stage.StaticWebSiteImage_stagedOrder[__instance__] == uint(id) {
-					staticwebsiteparagraph.Image = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (xhtml_content *XHTML_CONTENT) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		xhtml_content.Name = value.GetValueString()
-	case "EnclosedText":
-		xhtml_content.EnclosedText = value.GetValueString()
-	case "PureText":
-		xhtml_content.PureText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (alternative_id *ALTERNATIVE_ID) GongGetGongstructName() string {

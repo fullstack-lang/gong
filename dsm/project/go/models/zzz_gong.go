@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	project_go "github.com/fullstack-lang/gong/dsm/project/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -545,9 +532,6 @@ type Stage struct {
 	OnAfterTaskShapeDeleteCallback OnAfterDeleteInterface[TaskShape]
 	OnAfterTaskShapeReadCallback   OnAfterReadInterface[TaskShape]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -576,8 +560,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1227,14 +1209,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1576,28 +1550,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/project/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return project_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return project_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1903,30 +1857,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Diagram"},
-			{name: "Library"},
-			{name: "Note"},
-			{name: "NoteProductShape"},
-			{name: "NoteResourceShape"},
-			{name: "NoteShape"},
-			{name: "NoteTaskShape"},
-			{name: "Product"},
-			{name: "ProductCompositionShape"},
-			{name: "ProductShape"},
-			{name: "Resource"},
-			{name: "ResourceCompositionShape"},
-			{name: "ResourceShape"},
-			{name: "ResourceTaskShape"},
-			{name: "Task"},
-			{name: "TaskCompositionShape"},
-			{name: "TaskGroup"},
-			{name: "TaskGroupShape"},
-			{name: "TaskInputShape"},
-			{name: "TaskOutputShape"},
-			{name: "TaskPredecessorShape"},
-			{name: "TaskShape"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2225,9 +2155,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-func (diagram *Diagram) CommitVoid(stage *Stage) {
-	diagram.Commit(stage)
-}
 
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
@@ -2313,9 +2240,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2401,9 +2325,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -2489,9 +2410,6 @@ func (noteproductshape *NoteProductShape) Commit(stage *Stage) *NoteProductShape
 	return noteproductshape
 }
 
-func (noteproductshape *NoteProductShape) CommitVoid(stage *Stage) {
-	noteproductshape.Commit(stage)
-}
 
 func (noteproductshape *NoteProductShape) StageVoid(stage *Stage) {
 	noteproductshape.Stage(stage)
@@ -2577,9 +2495,6 @@ func (noteresourceshape *NoteResourceShape) Commit(stage *Stage) *NoteResourceSh
 	return noteresourceshape
 }
 
-func (noteresourceshape *NoteResourceShape) CommitVoid(stage *Stage) {
-	noteresourceshape.Commit(stage)
-}
 
 func (noteresourceshape *NoteResourceShape) StageVoid(stage *Stage) {
 	noteresourceshape.Stage(stage)
@@ -2665,9 +2580,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *Stage) {
-	noteshape.Commit(stage)
-}
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -2753,9 +2665,6 @@ func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
 	return notetaskshape
 }
 
-func (notetaskshape *NoteTaskShape) CommitVoid(stage *Stage) {
-	notetaskshape.Commit(stage)
-}
 
 func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
 	notetaskshape.Stage(stage)
@@ -2841,9 +2750,6 @@ func (product *Product) Commit(stage *Stage) *Product {
 	return product
 }
 
-func (product *Product) CommitVoid(stage *Stage) {
-	product.Commit(stage)
-}
 
 func (product *Product) StageVoid(stage *Stage) {
 	product.Stage(stage)
@@ -2929,9 +2835,6 @@ func (productcompositionshape *ProductCompositionShape) Commit(stage *Stage) *Pr
 	return productcompositionshape
 }
 
-func (productcompositionshape *ProductCompositionShape) CommitVoid(stage *Stage) {
-	productcompositionshape.Commit(stage)
-}
 
 func (productcompositionshape *ProductCompositionShape) StageVoid(stage *Stage) {
 	productcompositionshape.Stage(stage)
@@ -3017,9 +2920,6 @@ func (productshape *ProductShape) Commit(stage *Stage) *ProductShape {
 	return productshape
 }
 
-func (productshape *ProductShape) CommitVoid(stage *Stage) {
-	productshape.Commit(stage)
-}
 
 func (productshape *ProductShape) StageVoid(stage *Stage) {
 	productshape.Stage(stage)
@@ -3105,9 +3005,6 @@ func (resource *Resource) Commit(stage *Stage) *Resource {
 	return resource
 }
 
-func (resource *Resource) CommitVoid(stage *Stage) {
-	resource.Commit(stage)
-}
 
 func (resource *Resource) StageVoid(stage *Stage) {
 	resource.Stage(stage)
@@ -3193,9 +3090,6 @@ func (resourcecompositionshape *ResourceCompositionShape) Commit(stage *Stage) *
 	return resourcecompositionshape
 }
 
-func (resourcecompositionshape *ResourceCompositionShape) CommitVoid(stage *Stage) {
-	resourcecompositionshape.Commit(stage)
-}
 
 func (resourcecompositionshape *ResourceCompositionShape) StageVoid(stage *Stage) {
 	resourcecompositionshape.Stage(stage)
@@ -3281,9 +3175,6 @@ func (resourceshape *ResourceShape) Commit(stage *Stage) *ResourceShape {
 	return resourceshape
 }
 
-func (resourceshape *ResourceShape) CommitVoid(stage *Stage) {
-	resourceshape.Commit(stage)
-}
 
 func (resourceshape *ResourceShape) StageVoid(stage *Stage) {
 	resourceshape.Stage(stage)
@@ -3369,9 +3260,6 @@ func (resourcetaskshape *ResourceTaskShape) Commit(stage *Stage) *ResourceTaskSh
 	return resourcetaskshape
 }
 
-func (resourcetaskshape *ResourceTaskShape) CommitVoid(stage *Stage) {
-	resourcetaskshape.Commit(stage)
-}
 
 func (resourcetaskshape *ResourceTaskShape) StageVoid(stage *Stage) {
 	resourcetaskshape.Stage(stage)
@@ -3457,9 +3345,6 @@ func (task *Task) Commit(stage *Stage) *Task {
 	return task
 }
 
-func (task *Task) CommitVoid(stage *Stage) {
-	task.Commit(stage)
-}
 
 func (task *Task) StageVoid(stage *Stage) {
 	task.Stage(stage)
@@ -3545,9 +3430,6 @@ func (taskcompositionshape *TaskCompositionShape) Commit(stage *Stage) *TaskComp
 	return taskcompositionshape
 }
 
-func (taskcompositionshape *TaskCompositionShape) CommitVoid(stage *Stage) {
-	taskcompositionshape.Commit(stage)
-}
 
 func (taskcompositionshape *TaskCompositionShape) StageVoid(stage *Stage) {
 	taskcompositionshape.Stage(stage)
@@ -3633,9 +3515,6 @@ func (taskgroup *TaskGroup) Commit(stage *Stage) *TaskGroup {
 	return taskgroup
 }
 
-func (taskgroup *TaskGroup) CommitVoid(stage *Stage) {
-	taskgroup.Commit(stage)
-}
 
 func (taskgroup *TaskGroup) StageVoid(stage *Stage) {
 	taskgroup.Stage(stage)
@@ -3721,9 +3600,6 @@ func (taskgroupshape *TaskGroupShape) Commit(stage *Stage) *TaskGroupShape {
 	return taskgroupshape
 }
 
-func (taskgroupshape *TaskGroupShape) CommitVoid(stage *Stage) {
-	taskgroupshape.Commit(stage)
-}
 
 func (taskgroupshape *TaskGroupShape) StageVoid(stage *Stage) {
 	taskgroupshape.Stage(stage)
@@ -3809,9 +3685,6 @@ func (taskinputshape *TaskInputShape) Commit(stage *Stage) *TaskInputShape {
 	return taskinputshape
 }
 
-func (taskinputshape *TaskInputShape) CommitVoid(stage *Stage) {
-	taskinputshape.Commit(stage)
-}
 
 func (taskinputshape *TaskInputShape) StageVoid(stage *Stage) {
 	taskinputshape.Stage(stage)
@@ -3897,9 +3770,6 @@ func (taskoutputshape *TaskOutputShape) Commit(stage *Stage) *TaskOutputShape {
 	return taskoutputshape
 }
 
-func (taskoutputshape *TaskOutputShape) CommitVoid(stage *Stage) {
-	taskoutputshape.Commit(stage)
-}
 
 func (taskoutputshape *TaskOutputShape) StageVoid(stage *Stage) {
 	taskoutputshape.Stage(stage)
@@ -3985,9 +3855,6 @@ func (taskpredecessorshape *TaskPredecessorShape) Commit(stage *Stage) *TaskPred
 	return taskpredecessorshape
 }
 
-func (taskpredecessorshape *TaskPredecessorShape) CommitVoid(stage *Stage) {
-	taskpredecessorshape.Commit(stage)
-}
 
 func (taskpredecessorshape *TaskPredecessorShape) StageVoid(stage *Stage) {
 	taskpredecessorshape.Stage(stage)
@@ -4073,9 +3940,6 @@ func (taskshape *TaskShape) Commit(stage *Stage) *TaskShape {
 	return taskshape
 }
 
-func (taskshape *TaskShape) CommitVoid(stage *Stage) {
-	taskshape.Commit(stage)
-}
 
 func (taskshape *TaskShape) StageVoid(stage *Stage) {
 	taskshape.Stage(stage)
@@ -4099,57 +3963,6 @@ func (taskshape *TaskShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (taskshape *TaskShape) SetName(name string) {
 	taskshape.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMDiagram(Diagram *Diagram)
-	CreateORMLibrary(Library *Library)
-	CreateORMNote(Note *Note)
-	CreateORMNoteProductShape(NoteProductShape *NoteProductShape)
-	CreateORMNoteResourceShape(NoteResourceShape *NoteResourceShape)
-	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	CreateORMProduct(Product *Product)
-	CreateORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
-	CreateORMProductShape(ProductShape *ProductShape)
-	CreateORMResource(Resource *Resource)
-	CreateORMResourceCompositionShape(ResourceCompositionShape *ResourceCompositionShape)
-	CreateORMResourceShape(ResourceShape *ResourceShape)
-	CreateORMResourceTaskShape(ResourceTaskShape *ResourceTaskShape)
-	CreateORMTask(Task *Task)
-	CreateORMTaskCompositionShape(TaskCompositionShape *TaskCompositionShape)
-	CreateORMTaskGroup(TaskGroup *TaskGroup)
-	CreateORMTaskGroupShape(TaskGroupShape *TaskGroupShape)
-	CreateORMTaskInputShape(TaskInputShape *TaskInputShape)
-	CreateORMTaskOutputShape(TaskOutputShape *TaskOutputShape)
-	CreateORMTaskPredecessorShape(TaskPredecessorShape *TaskPredecessorShape)
-	CreateORMTaskShape(TaskShape *TaskShape)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMDiagram(Diagram *Diagram)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMNote(Note *Note)
-	DeleteORMNoteProductShape(NoteProductShape *NoteProductShape)
-	DeleteORMNoteResourceShape(NoteResourceShape *NoteResourceShape)
-	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	DeleteORMProduct(Product *Product)
-	DeleteORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
-	DeleteORMProductShape(ProductShape *ProductShape)
-	DeleteORMResource(Resource *Resource)
-	DeleteORMResourceCompositionShape(ResourceCompositionShape *ResourceCompositionShape)
-	DeleteORMResourceShape(ResourceShape *ResourceShape)
-	DeleteORMResourceTaskShape(ResourceTaskShape *ResourceTaskShape)
-	DeleteORMTask(Task *Task)
-	DeleteORMTaskCompositionShape(TaskCompositionShape *TaskCompositionShape)
-	DeleteORMTaskGroup(TaskGroup *TaskGroup)
-	DeleteORMTaskGroupShape(TaskGroupShape *TaskGroupShape)
-	DeleteORMTaskInputShape(TaskInputShape *TaskInputShape)
-	DeleteORMTaskOutputShape(TaskOutputShape *TaskOutputShape)
-	DeleteORMTaskPredecessorShape(TaskPredecessorShape *TaskPredecessorShape)
-	DeleteORMTaskShape(TaskShape *TaskShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -4271,168 +4084,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Diagrams = nil
-	stage.Diagrams_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.NoteProductShapes = nil
-	stage.NoteProductShapes_mapString = nil
-
-	stage.NoteResourceShapes = nil
-	stage.NoteResourceShapes_mapString = nil
-
-	stage.NoteShapes = nil
-	stage.NoteShapes_mapString = nil
-
-	stage.NoteTaskShapes = nil
-	stage.NoteTaskShapes_mapString = nil
-
-	stage.Products = nil
-	stage.Products_mapString = nil
-
-	stage.ProductCompositionShapes = nil
-	stage.ProductCompositionShapes_mapString = nil
-
-	stage.ProductShapes = nil
-	stage.ProductShapes_mapString = nil
-
-	stage.Resources = nil
-	stage.Resources_mapString = nil
-
-	stage.ResourceCompositionShapes = nil
-	stage.ResourceCompositionShapes_mapString = nil
-
-	stage.ResourceShapes = nil
-	stage.ResourceShapes_mapString = nil
-
-	stage.ResourceTaskShapes = nil
-	stage.ResourceTaskShapes_mapString = nil
-
-	stage.Tasks = nil
-	stage.Tasks_mapString = nil
-
-	stage.TaskCompositionShapes = nil
-	stage.TaskCompositionShapes_mapString = nil
-
-	stage.TaskGroups = nil
-	stage.TaskGroups_mapString = nil
-
-	stage.TaskGroupShapes = nil
-	stage.TaskGroupShapes_mapString = nil
-
-	stage.TaskInputShapes = nil
-	stage.TaskInputShapes_mapString = nil
-
-	stage.TaskOutputShapes = nil
-	stage.TaskOutputShapes_mapString = nil
-
-	stage.TaskPredecessorShapes = nil
-	stage.TaskPredecessorShapes_mapString = nil
-
-	stage.TaskShapes = nil
-	stage.TaskShapes_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for diagram := range stage.Diagrams {
-		diagram.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for noteproductshape := range stage.NoteProductShapes {
-		noteproductshape.Unstage(stage)
-	}
-
-	for noteresourceshape := range stage.NoteResourceShapes {
-		noteresourceshape.Unstage(stage)
-	}
-
-	for noteshape := range stage.NoteShapes {
-		noteshape.Unstage(stage)
-	}
-
-	for notetaskshape := range stage.NoteTaskShapes {
-		notetaskshape.Unstage(stage)
-	}
-
-	for product := range stage.Products {
-		product.Unstage(stage)
-	}
-
-	for productcompositionshape := range stage.ProductCompositionShapes {
-		productcompositionshape.Unstage(stage)
-	}
-
-	for productshape := range stage.ProductShapes {
-		productshape.Unstage(stage)
-	}
-
-	for resource := range stage.Resources {
-		resource.Unstage(stage)
-	}
-
-	for resourcecompositionshape := range stage.ResourceCompositionShapes {
-		resourcecompositionshape.Unstage(stage)
-	}
-
-	for resourceshape := range stage.ResourceShapes {
-		resourceshape.Unstage(stage)
-	}
-
-	for resourcetaskshape := range stage.ResourceTaskShapes {
-		resourcetaskshape.Unstage(stage)
-	}
-
-	for task := range stage.Tasks {
-		task.Unstage(stage)
-	}
-
-	for taskcompositionshape := range stage.TaskCompositionShapes {
-		taskcompositionshape.Unstage(stage)
-	}
-
-	for taskgroup := range stage.TaskGroups {
-		taskgroup.Unstage(stage)
-	}
-
-	for taskgroupshape := range stage.TaskGroupShapes {
-		taskgroupshape.Unstage(stage)
-	}
-
-	for taskinputshape := range stage.TaskInputShapes {
-		taskinputshape.Unstage(stage)
-	}
-
-	for taskoutputshape := range stage.TaskOutputShapes {
-		taskoutputshape.Unstage(stage)
-	}
-
-	for taskpredecessorshape := range stage.TaskPredecessorShapes {
-		taskpredecessorshape.Unstage(stage)
-	}
-
-	for taskshape := range stage.TaskShapes {
-		taskshape.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -4450,13 +4101,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -8978,1467 +8627,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagram.Name = value.GetValueString()
-	case "DefaultBoxWidth":
-		diagram.DefaultBoxWidth = value.GetValueFloat()
-	case "DefaultBoxHeigth":
-		diagram.DefaultBoxHeigth = value.GetValueFloat()
-	case "DateFormat":
-		diagram.DateFormat = value.GetValueString()
-	case "Width":
-		diagram.Width = value.GetValueFloat()
-	case "Height":
-		diagram.Height = value.GetValueFloat()
-	case "IsTimeDiagram":
-		diagram.IsTimeDiagram = value.GetValueBool()
-	case "UseManualStartAndEndDates":
-		diagram.UseManualStartAndEndDates = value.GetValueBool()
-	case "TimeStep":
-		diagram.TimeStep = int(value.GetValueInt())
-	case "TimeStepScale":
-		diagram.TimeStepScale.FromCodeString(value.GetValueString())
-	case "LaneHeight":
-		diagram.LaneHeight = value.GetValueFloat()
-	case "RatioBarToLaneHeight":
-		diagram.RatioBarToLaneHeight = value.GetValueFloat()
-	case "YTopMargin":
-		diagram.YTopMargin = value.GetValueFloat()
-	case "XLeftText":
-		diagram.XLeftText = value.GetValueFloat()
-	case "TextHeight":
-		diagram.TextHeight = value.GetValueFloat()
-	case "XLeftLanes":
-		diagram.XLeftLanes = value.GetValueFloat()
-	case "XRightMargin":
-		diagram.XRightMargin = value.GetValueFloat()
-	case "ArrowLengthToTheRightOfStartBar":
-		diagram.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
-	case "ArrowTipLenght":
-		diagram.ArrowTipLenght = value.GetValueFloat()
-	case "TimeLine_Color":
-		diagram.TimeLine_Color = value.GetValueString()
-	case "TimeLine_FillOpacity":
-		diagram.TimeLine_FillOpacity = value.GetValueFloat()
-	case "TimeLine_Stroke":
-		diagram.TimeLine_Stroke = value.GetValueString()
-	case "TimeLine_StrokeWidth":
-		diagram.TimeLine_StrokeWidth = value.GetValueFloat()
-	case "DrawVerticalTimeLines":
-		diagram.DrawVerticalTimeLines = value.GetValueBool()
-	case "Group_Stroke":
-		diagram.Group_Stroke = value.GetValueString()
-	case "Group_StrokeWidth":
-		diagram.Group_StrokeWidth = value.GetValueFloat()
-	case "Group_StrokeDashArray":
-		diagram.Group_StrokeDashArray = value.GetValueString()
-	case "DateYOffset":
-		diagram.DateYOffset = value.GetValueFloat()
-	case "AlignOnStartEndOnYearStart":
-		diagram.AlignOnStartEndOnYearStart = value.GetValueBool()
-	case "ComputedPrefix":
-		diagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
-	case "IsEditable_":
-		diagram.IsEditable_ = value.GetValueBool()
-	case "IsShowPrefix":
-		diagram.IsShowPrefix = value.GetValueBool()
-	case "IsInAutoLayoutMode":
-		diagram.IsInAutoLayoutMode = value.GetValueBool()
-	case "Product_Shapes":
-		diagram.Product_Shapes = make([]*ProductShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ProductShapes {
-					if stage.ProductShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Product_Shapes = append(diagram.Product_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ProductsWhoseNodeIsExpanded":
-		diagram.ProductsWhoseNodeIsExpanded = make([]*Product, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Products {
-					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPBSNodeExpanded":
-		diagram.IsPBSNodeExpanded = value.GetValueBool()
-	case "ProductComposition_Shapes":
-		diagram.ProductComposition_Shapes = make([]*ProductCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ProductCompositionShapes {
-					if stage.ProductCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ProductComposition_Shapes = append(diagram.ProductComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsWBSNodeExpanded":
-		diagram.IsWBSNodeExpanded = value.GetValueBool()
-	case "Task_Shapes":
-		diagram.Task_Shapes = make([]*TaskShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskShapes {
-					if stage.TaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Task_Shapes = append(diagram.Task_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TasksWhoseNodeIsExpanded":
-		diagram.TasksWhoseNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhoseNodeIsExpanded = append(diagram.TasksWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TasksWhoseInputNodeIsExpanded":
-		diagram.TasksWhoseInputNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhoseInputNodeIsExpanded = append(diagram.TasksWhoseInputNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TasksWhoseOutputNodeIsExpanded":
-		diagram.TasksWhoseOutputNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhoseOutputNodeIsExpanded = append(diagram.TasksWhoseOutputNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TasksWhosePredecessorNodeIsExpanded":
-		diagram.TasksWhosePredecessorNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhosePredecessorNodeIsExpanded = append(diagram.TasksWhosePredecessorNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsTaskGroupsNodeExpanded":
-		diagram.IsTaskGroupsNodeExpanded = value.GetValueBool()
-	case "TaskGroupShapes":
-		diagram.TaskGroupShapes = make([]*TaskGroupShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskGroupShapes {
-					if stage.TaskGroupShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskGroupShapes = append(diagram.TaskGroupShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskGroupsWhoseNodeIsExpanded":
-		diagram.TaskGroupsWhoseNodeIsExpanded = make([]*TaskGroup, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskGroups {
-					if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskGroupsWhoseNodeIsExpanded = append(diagram.TaskGroupsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskComposition_Shapes":
-		diagram.TaskComposition_Shapes = make([]*TaskCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskCompositionShapes {
-					if stage.TaskCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskComposition_Shapes = append(diagram.TaskComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskInputShapes":
-		diagram.TaskInputShapes = make([]*TaskInputShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskInputShapes {
-					if stage.TaskInputShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskInputShapes = append(diagram.TaskInputShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskOutputShapes":
-		diagram.TaskOutputShapes = make([]*TaskOutputShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskOutputShapes {
-					if stage.TaskOutputShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskOutputShapes = append(diagram.TaskOutputShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskPredecessorShapes":
-		diagram.TaskPredecessorShapes = make([]*TaskPredecessorShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskPredecessorShapes {
-					if stage.TaskPredecessorShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskPredecessorShapes = append(diagram.TaskPredecessorShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Note_Shapes":
-		diagram.Note_Shapes = make([]*NoteShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Note_Shapes = append(diagram.Note_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NotesWhoseNodeIsExpanded":
-		diagram.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagram.NotesWhoseNodeIsExpanded = append(diagram.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		diagram.IsNotesNodeExpanded = value.GetValueBool()
-	case "NoteProductShapes":
-		diagram.NoteProductShapes = make([]*NoteProductShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteProductShapes {
-					if stage.NoteProductShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteProductShapes = append(diagram.NoteProductShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteTaskShapes":
-		diagram.NoteTaskShapes = make([]*NoteTaskShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteTaskShapes {
-					if stage.NoteTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteTaskShapes = append(diagram.NoteTaskShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteResourceShapes":
-		diagram.NoteResourceShapes = make([]*NoteResourceShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteResourceShapes {
-					if stage.NoteResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteResourceShapes = append(diagram.NoteResourceShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Resource_Shapes":
-		diagram.Resource_Shapes = make([]*ResourceShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ResourceShapes {
-					if stage.ResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Resource_Shapes = append(diagram.Resource_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ResourcesWhoseNodeIsExpanded":
-		diagram.ResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourcesWhoseNodeIsExpanded = append(diagram.ResourcesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsResourcesNodeExpanded":
-		diagram.IsResourcesNodeExpanded = value.GetValueBool()
-	case "ResourceComposition_Shapes":
-		diagram.ResourceComposition_Shapes = make([]*ResourceCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ResourceCompositionShapes {
-					if stage.ResourceCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourceComposition_Shapes = append(diagram.ResourceComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ResourceTaskShapes":
-		diagram.ResourceTaskShapes = make([]*ResourceTaskShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ResourceTaskShapes {
-					if stage.ResourceTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourceTaskShapes = append(diagram.ResourceTaskShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "RootProducts":
-		library.RootProducts = make([]*Product, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Products {
-					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						library.RootProducts = append(library.RootProducts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootTasks":
-		library.RootTasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						library.RootTasks = append(library.RootTasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootTaskGroups":
-		library.RootTaskGroups = make([]*TaskGroup, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskGroups {
-					if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
-						library.RootTaskGroups = append(library.RootTaskGroups, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootResources":
-		library.RootResources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						library.RootResources = append(library.RootResources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Notes":
-		library.Notes = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.Notes = append(library.Notes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Diagrams":
-		library.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						library.Diagrams = append(library.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		note.LayoutDirection.FromCodeString(value.GetValueString())
-	case "Products":
-		note.Products = make([]*Product, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Products {
-					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						note.Products = append(note.Products, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tasks":
-		note.Tasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						note.Tasks = append(note.Tasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Resources":
-		note.Resources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						note.Resources = append(note.Resources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteproductshape *NoteProductShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteproductshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteproductshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteproductshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Product":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteproductshape.Product = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					noteproductshape.Product = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		noteproductshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		noteproductshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		noteproductshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		noteproductshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		noteproductshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		noteproductshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteresourceshape *NoteResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteresourceshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteresourceshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteresourceshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Resource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteresourceshape.Resource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					noteresourceshape.Resource = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		noteresourceshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		noteresourceshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		noteresourceshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		noteresourceshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		noteresourceshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		noteresourceshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "OverideLayoutDirection":
-		noteshape.OverideLayoutDirection = value.GetValueBool()
-	case "LayoutDirection":
-		noteshape.LayoutDirection.FromCodeString(value.GetValueString())
-	case "X":
-		noteshape.X = value.GetValueFloat()
-	case "Y":
-		noteshape.Y = value.GetValueFloat()
-	case "Width":
-		noteshape.Width = value.GetValueFloat()
-	case "Height":
-		noteshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		noteshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notetaskshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notetaskshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notetaskshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notetaskshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notetaskshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notetaskshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notetaskshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		product.Name = value.GetValueString()
-	case "Description":
-		product.Description = value.GetValueString()
-	case "SubProducts":
-		product.SubProducts = make([]*Product, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Products {
-					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						product.SubProducts = append(product.SubProducts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsProducersNodeExpanded":
-		product.IsProducersNodeExpanded = value.GetValueBool()
-	case "IsConsumersNodeExpanded":
-		product.IsConsumersNodeExpanded = value.GetValueBool()
-	case "IsImport":
-		product.IsImport = value.GetValueBool()
-	case "ReferencedProduct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			product.ReferencedProduct = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					product.ReferencedProduct = __instance__
-					break
-				}
-			}
-		}
-	case "ComputedPrefix":
-		product.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		product.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		product.LayoutDirection.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (productcompositionshape *ProductCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		productcompositionshape.Name = value.GetValueString()
-	case "Product":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			productcompositionshape.Product = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					productcompositionshape.Product = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		productcompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		productcompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		productcompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		productcompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		productcompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		productcompositionshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (productshape *ProductShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		productshape.Name = value.GetValueString()
-	case "Product":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			productshape.Product = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					productshape.Product = __instance__
-					break
-				}
-			}
-		}
-	case "OverideLayoutDirection":
-		productshape.OverideLayoutDirection = value.GetValueBool()
-	case "LayoutDirection":
-		productshape.LayoutDirection.FromCodeString(value.GetValueString())
-	case "X":
-		productshape.X = value.GetValueFloat()
-	case "Y":
-		productshape.Y = value.GetValueFloat()
-	case "Width":
-		productshape.Width = value.GetValueFloat()
-	case "Height":
-		productshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		productshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		resource.Name = value.GetValueString()
-	case "Description":
-		resource.Description = value.GetValueString()
-	case "Tasks":
-		resource.Tasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						resource.Tasks = append(resource.Tasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubResources":
-		resource.SubResources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						resource.SubResources = append(resource.SubResources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		resource.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		resource.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		resource.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsImport":
-		resource.IsImport = value.GetValueBool()
-	case "ReferencedResource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			resource.ReferencedResource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					resource.ReferencedResource = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (resourcecompositionshape *ResourceCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		resourcecompositionshape.Name = value.GetValueString()
-	case "Resource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			resourcecompositionshape.Resource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					resourcecompositionshape.Resource = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		resourcecompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		resourcecompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		resourcecompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		resourcecompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		resourcecompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		resourcecompositionshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (resourceshape *ResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		resourceshape.Name = value.GetValueString()
-	case "Resource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			resourceshape.Resource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					resourceshape.Resource = __instance__
-					break
-				}
-			}
-		}
-	case "OverideLayoutDirection":
-		resourceshape.OverideLayoutDirection = value.GetValueBool()
-	case "LayoutDirection":
-		resourceshape.LayoutDirection.FromCodeString(value.GetValueString())
-	case "X":
-		resourceshape.X = value.GetValueFloat()
-	case "Y":
-		resourceshape.Y = value.GetValueFloat()
-	case "Width":
-		resourceshape.Width = value.GetValueFloat()
-	case "Height":
-		resourceshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		resourceshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (resourcetaskshape *ResourceTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		resourcetaskshape.Name = value.GetValueString()
-	case "Resource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			resourcetaskshape.Resource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					resourcetaskshape.Resource = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			resourcetaskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					resourcetaskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		resourcetaskshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		resourcetaskshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		resourcetaskshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		resourcetaskshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		resourcetaskshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		resourcetaskshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		task.Name = value.GetValueString()
-	case "Description":
-		task.Description = value.GetValueString()
-	case "Predecessors":
-		task.Predecessors = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						task.Predecessors = append(task.Predecessors, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsStartDateComputedFromPredecessors":
-		task.IsStartDateComputedFromPredecessors = value.GetValueBool()
-	case "DurationYears":
-		task.DurationYears = value.GetValueFloat()
-	case "DurationMonths":
-		task.DurationMonths = value.GetValueFloat()
-	case "DurationWeeks":
-		task.DurationWeeks = value.GetValueFloat()
-	case "DurationDays":
-		task.DurationDays = value.GetValueFloat()
-	case "DurationHours":
-		task.DurationHours = value.GetValueFloat()
-	case "IsEndDateComputedFromDuration":
-		task.IsEndDateComputedFromDuration = value.GetValueBool()
-	case "IsMilestone":
-		task.IsMilestone = value.GetValueBool()
-	case "Inputs":
-		task.Inputs = make([]*Product, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Products {
-					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						task.Inputs = append(task.Inputs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Outputs":
-		task.Outputs = make([]*Product, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Products {
-					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						task.Outputs = append(task.Outputs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubTasks":
-		task.SubTasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						task.SubTasks = append(task.SubTasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsWithCompletion":
-		task.IsWithCompletion = value.GetValueBool()
-	case "Completion":
-		task.Completion.FromCodeString(value.GetValueString())
-	case "DisplayVerticalBar":
-		task.DisplayVerticalBar = value.GetValueBool()
-	case "TaskGroupsToDisplay":
-		task.TaskGroupsToDisplay = make([]*TaskGroup, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskGroups {
-					if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
-						task.TaskGroupsToDisplay = append(task.TaskGroupsToDisplay, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TextPosition":
-		task.TextPosition.FromCodeString(value.GetValueString())
-	case "XOffset":
-		task.XOffset = value.GetValueFloat()
-	case "YOffset":
-		task.YOffset = value.GetValueFloat()
-	case "IsImport":
-		task.IsImport = value.GetValueBool()
-	case "ReferencedTask":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			task.ReferencedTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					task.ReferencedTask = __instance__
-					break
-				}
-			}
-		}
-	case "IsInputsNodeExpanded":
-		task.IsInputsNodeExpanded = value.GetValueBool()
-	case "IsOutputsNodeExpanded":
-		task.IsOutputsNodeExpanded = value.GetValueBool()
-	case "ComputedPrefix":
-		task.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		task.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		task.LayoutDirection.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskcompositionshape *TaskCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskcompositionshape.Name = value.GetValueString()
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskcompositionshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskcompositionshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		taskcompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		taskcompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		taskcompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		taskcompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		taskcompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		taskcompositionshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskgroup *TaskGroup) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskgroup.Name = value.GetValueString()
-	case "ComputedPrefix":
-		taskgroup.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		taskgroup.IsExpanded = value.GetValueBool()
-	case "Tasks":
-		taskgroup.Tasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						taskgroup.Tasks = append(taskgroup.Tasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskgroupshape *TaskGroupShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskgroupshape.Name = value.GetValueString()
-	case "TaskGroup":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskgroupshape.TaskGroup = nil
-			for __instance__ := range stage.TaskGroups {
-				if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
-					taskgroupshape.TaskGroup = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		taskgroupshape.X = value.GetValueFloat()
-	case "Y":
-		taskgroupshape.Y = value.GetValueFloat()
-	case "Width":
-		taskgroupshape.Width = value.GetValueFloat()
-	case "Height":
-		taskgroupshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		taskgroupshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskinputshape *TaskInputShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskinputshape.Name = value.GetValueString()
-	case "Product":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskinputshape.Product = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					taskinputshape.Product = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskinputshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskinputshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		taskinputshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		taskinputshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		taskinputshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		taskinputshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		taskinputshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		taskinputshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskoutputshape *TaskOutputShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskoutputshape.Name = value.GetValueString()
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskoutputshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskoutputshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "Product":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskoutputshape.Product = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					taskoutputshape.Product = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		taskoutputshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		taskoutputshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		taskoutputshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		taskoutputshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		taskoutputshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		taskoutputshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskpredecessorshape *TaskPredecessorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskpredecessorshape.Name = value.GetValueString()
-	case "Predecessor":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskpredecessorshape.Predecessor = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskpredecessorshape.Predecessor = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskpredecessorshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskpredecessorshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		taskpredecessorshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		taskpredecessorshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		taskpredecessorshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		taskpredecessorshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		taskpredecessorshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		taskpredecessorshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskshape.Name = value.GetValueString()
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "IsShowDate":
-		taskshape.IsShowDate = value.GetValueBool()
-	case "OverideLayoutDirection":
-		taskshape.OverideLayoutDirection = value.GetValueBool()
-	case "LayoutDirection":
-		taskshape.LayoutDirection.FromCodeString(value.GetValueString())
-	case "X":
-		taskshape.X = value.GetValueFloat()
-	case "Y":
-		taskshape.Y = value.GetValueFloat()
-	case "Width":
-		taskshape.Width = value.GetValueFloat()
-	case "Height":
-		taskshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		taskshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (diagram *Diagram) GongGetGongstructName() string {

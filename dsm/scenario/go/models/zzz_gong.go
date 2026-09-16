@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	scenario_go "github.com/fullstack-lang/gong/dsm/scenario/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -664,9 +651,6 @@ type Stage struct {
 	OnAfterWorkspaceDeleteCallback OnAfterDeleteInterface[Workspace]
 	OnAfterWorkspaceReadCallback   OnAfterReadInterface[Workspace]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -695,8 +679,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1508,14 +1490,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1983,28 +1957,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/scenario/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return scenario_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return scenario_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -2409,39 +2363,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "ActorState"},
-			{name: "ActorStateShape"},
-			{name: "ActorStateTransition"},
-			{name: "ActorStateTransitionShape"},
-			{name: "Analysis"},
-			{name: "ControlPointShape"},
-			{name: "Diagram"},
-			{name: "Document"},
-			{name: "DocumentUse"},
-			{name: "EvolutionDirection"},
-			{name: "EvolutionDirectionShape"},
-			{name: "Foo"},
-			{name: "GeoObject"},
-			{name: "GeoObjectUse"},
-			{name: "Group"},
-			{name: "GroupUse"},
-			{name: "Library"},
-			{name: "MapObject"},
-			{name: "MapObjectUse"},
-			{name: "Parameter"},
-			{name: "ParameterCategory"},
-			{name: "ParameterCategoryUse"},
-			{name: "ParameterShape"},
-			{name: "ParametersAggregate"},
-			{name: "ParametersAggregateShape"},
-			{name: "Position"},
-			{name: "Repository"},
-			{name: "Scenario"},
-			{name: "User"},
-			{name: "UserUse"},
-			{name: "Workspace"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2785,9 +2706,6 @@ func (actorstate *ActorState) Commit(stage *Stage) *ActorState {
 	return actorstate
 }
 
-func (actorstate *ActorState) CommitVoid(stage *Stage) {
-	actorstate.Commit(stage)
-}
 
 func (actorstate *ActorState) StageVoid(stage *Stage) {
 	actorstate.Stage(stage)
@@ -2873,9 +2791,6 @@ func (actorstateshape *ActorStateShape) Commit(stage *Stage) *ActorStateShape {
 	return actorstateshape
 }
 
-func (actorstateshape *ActorStateShape) CommitVoid(stage *Stage) {
-	actorstateshape.Commit(stage)
-}
 
 func (actorstateshape *ActorStateShape) StageVoid(stage *Stage) {
 	actorstateshape.Stage(stage)
@@ -2961,9 +2876,6 @@ func (actorstatetransition *ActorStateTransition) Commit(stage *Stage) *ActorSta
 	return actorstatetransition
 }
 
-func (actorstatetransition *ActorStateTransition) CommitVoid(stage *Stage) {
-	actorstatetransition.Commit(stage)
-}
 
 func (actorstatetransition *ActorStateTransition) StageVoid(stage *Stage) {
 	actorstatetransition.Stage(stage)
@@ -3049,9 +2961,6 @@ func (actorstatetransitionshape *ActorStateTransitionShape) Commit(stage *Stage)
 	return actorstatetransitionshape
 }
 
-func (actorstatetransitionshape *ActorStateTransitionShape) CommitVoid(stage *Stage) {
-	actorstatetransitionshape.Commit(stage)
-}
 
 func (actorstatetransitionshape *ActorStateTransitionShape) StageVoid(stage *Stage) {
 	actorstatetransitionshape.Stage(stage)
@@ -3137,9 +3046,6 @@ func (analysis *Analysis) Commit(stage *Stage) *Analysis {
 	return analysis
 }
 
-func (analysis *Analysis) CommitVoid(stage *Stage) {
-	analysis.Commit(stage)
-}
 
 func (analysis *Analysis) StageVoid(stage *Stage) {
 	analysis.Stage(stage)
@@ -3225,9 +3131,6 @@ func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointSh
 	return controlpointshape
 }
 
-func (controlpointshape *ControlPointShape) CommitVoid(stage *Stage) {
-	controlpointshape.Commit(stage)
-}
 
 func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
 	controlpointshape.Stage(stage)
@@ -3313,9 +3216,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-func (diagram *Diagram) CommitVoid(stage *Stage) {
-	diagram.Commit(stage)
-}
 
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
@@ -3401,9 +3301,6 @@ func (document *Document) Commit(stage *Stage) *Document {
 	return document
 }
 
-func (document *Document) CommitVoid(stage *Stage) {
-	document.Commit(stage)
-}
 
 func (document *Document) StageVoid(stage *Stage) {
 	document.Stage(stage)
@@ -3489,9 +3386,6 @@ func (documentuse *DocumentUse) Commit(stage *Stage) *DocumentUse {
 	return documentuse
 }
 
-func (documentuse *DocumentUse) CommitVoid(stage *Stage) {
-	documentuse.Commit(stage)
-}
 
 func (documentuse *DocumentUse) StageVoid(stage *Stage) {
 	documentuse.Stage(stage)
@@ -3577,9 +3471,6 @@ func (evolutiondirection *EvolutionDirection) Commit(stage *Stage) *EvolutionDir
 	return evolutiondirection
 }
 
-func (evolutiondirection *EvolutionDirection) CommitVoid(stage *Stage) {
-	evolutiondirection.Commit(stage)
-}
 
 func (evolutiondirection *EvolutionDirection) StageVoid(stage *Stage) {
 	evolutiondirection.Stage(stage)
@@ -3665,9 +3556,6 @@ func (evolutiondirectionshape *EvolutionDirectionShape) Commit(stage *Stage) *Ev
 	return evolutiondirectionshape
 }
 
-func (evolutiondirectionshape *EvolutionDirectionShape) CommitVoid(stage *Stage) {
-	evolutiondirectionshape.Commit(stage)
-}
 
 func (evolutiondirectionshape *EvolutionDirectionShape) StageVoid(stage *Stage) {
 	evolutiondirectionshape.Stage(stage)
@@ -3753,9 +3641,6 @@ func (foo *Foo) Commit(stage *Stage) *Foo {
 	return foo
 }
 
-func (foo *Foo) CommitVoid(stage *Stage) {
-	foo.Commit(stage)
-}
 
 func (foo *Foo) StageVoid(stage *Stage) {
 	foo.Stage(stage)
@@ -3841,9 +3726,6 @@ func (geoobject *GeoObject) Commit(stage *Stage) *GeoObject {
 	return geoobject
 }
 
-func (geoobject *GeoObject) CommitVoid(stage *Stage) {
-	geoobject.Commit(stage)
-}
 
 func (geoobject *GeoObject) StageVoid(stage *Stage) {
 	geoobject.Stage(stage)
@@ -3929,9 +3811,6 @@ func (geoobjectuse *GeoObjectUse) Commit(stage *Stage) *GeoObjectUse {
 	return geoobjectuse
 }
 
-func (geoobjectuse *GeoObjectUse) CommitVoid(stage *Stage) {
-	geoobjectuse.Commit(stage)
-}
 
 func (geoobjectuse *GeoObjectUse) StageVoid(stage *Stage) {
 	geoobjectuse.Stage(stage)
@@ -4017,9 +3896,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	return group
 }
 
-func (group *Group) CommitVoid(stage *Stage) {
-	group.Commit(stage)
-}
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
@@ -4105,9 +3981,6 @@ func (groupuse *GroupUse) Commit(stage *Stage) *GroupUse {
 	return groupuse
 }
 
-func (groupuse *GroupUse) CommitVoid(stage *Stage) {
-	groupuse.Commit(stage)
-}
 
 func (groupuse *GroupUse) StageVoid(stage *Stage) {
 	groupuse.Stage(stage)
@@ -4193,9 +4066,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -4281,9 +4151,6 @@ func (mapobject *MapObject) Commit(stage *Stage) *MapObject {
 	return mapobject
 }
 
-func (mapobject *MapObject) CommitVoid(stage *Stage) {
-	mapobject.Commit(stage)
-}
 
 func (mapobject *MapObject) StageVoid(stage *Stage) {
 	mapobject.Stage(stage)
@@ -4369,9 +4236,6 @@ func (mapobjectuse *MapObjectUse) Commit(stage *Stage) *MapObjectUse {
 	return mapobjectuse
 }
 
-func (mapobjectuse *MapObjectUse) CommitVoid(stage *Stage) {
-	mapobjectuse.Commit(stage)
-}
 
 func (mapobjectuse *MapObjectUse) StageVoid(stage *Stage) {
 	mapobjectuse.Stage(stage)
@@ -4457,9 +4321,6 @@ func (parameter *Parameter) Commit(stage *Stage) *Parameter {
 	return parameter
 }
 
-func (parameter *Parameter) CommitVoid(stage *Stage) {
-	parameter.Commit(stage)
-}
 
 func (parameter *Parameter) StageVoid(stage *Stage) {
 	parameter.Stage(stage)
@@ -4545,9 +4406,6 @@ func (parametercategory *ParameterCategory) Commit(stage *Stage) *ParameterCateg
 	return parametercategory
 }
 
-func (parametercategory *ParameterCategory) CommitVoid(stage *Stage) {
-	parametercategory.Commit(stage)
-}
 
 func (parametercategory *ParameterCategory) StageVoid(stage *Stage) {
 	parametercategory.Stage(stage)
@@ -4633,9 +4491,6 @@ func (parametercategoryuse *ParameterCategoryUse) Commit(stage *Stage) *Paramete
 	return parametercategoryuse
 }
 
-func (parametercategoryuse *ParameterCategoryUse) CommitVoid(stage *Stage) {
-	parametercategoryuse.Commit(stage)
-}
 
 func (parametercategoryuse *ParameterCategoryUse) StageVoid(stage *Stage) {
 	parametercategoryuse.Stage(stage)
@@ -4721,9 +4576,6 @@ func (parametershape *ParameterShape) Commit(stage *Stage) *ParameterShape {
 	return parametershape
 }
 
-func (parametershape *ParameterShape) CommitVoid(stage *Stage) {
-	parametershape.Commit(stage)
-}
 
 func (parametershape *ParameterShape) StageVoid(stage *Stage) {
 	parametershape.Stage(stage)
@@ -4809,9 +4661,6 @@ func (parametersaggregate *ParametersAggregate) Commit(stage *Stage) *Parameters
 	return parametersaggregate
 }
 
-func (parametersaggregate *ParametersAggregate) CommitVoid(stage *Stage) {
-	parametersaggregate.Commit(stage)
-}
 
 func (parametersaggregate *ParametersAggregate) StageVoid(stage *Stage) {
 	parametersaggregate.Stage(stage)
@@ -4897,9 +4746,6 @@ func (parametersaggregateshape *ParametersAggregateShape) Commit(stage *Stage) *
 	return parametersaggregateshape
 }
 
-func (parametersaggregateshape *ParametersAggregateShape) CommitVoid(stage *Stage) {
-	parametersaggregateshape.Commit(stage)
-}
 
 func (parametersaggregateshape *ParametersAggregateShape) StageVoid(stage *Stage) {
 	parametersaggregateshape.Stage(stage)
@@ -4985,9 +4831,6 @@ func (position *Position) Commit(stage *Stage) *Position {
 	return position
 }
 
-func (position *Position) CommitVoid(stage *Stage) {
-	position.Commit(stage)
-}
 
 func (position *Position) StageVoid(stage *Stage) {
 	position.Stage(stage)
@@ -5073,9 +4916,6 @@ func (repository *Repository) Commit(stage *Stage) *Repository {
 	return repository
 }
 
-func (repository *Repository) CommitVoid(stage *Stage) {
-	repository.Commit(stage)
-}
 
 func (repository *Repository) StageVoid(stage *Stage) {
 	repository.Stage(stage)
@@ -5161,9 +5001,6 @@ func (scenario *Scenario) Commit(stage *Stage) *Scenario {
 	return scenario
 }
 
-func (scenario *Scenario) CommitVoid(stage *Stage) {
-	scenario.Commit(stage)
-}
 
 func (scenario *Scenario) StageVoid(stage *Stage) {
 	scenario.Stage(stage)
@@ -5249,9 +5086,6 @@ func (user *User) Commit(stage *Stage) *User {
 	return user
 }
 
-func (user *User) CommitVoid(stage *Stage) {
-	user.Commit(stage)
-}
 
 func (user *User) StageVoid(stage *Stage) {
 	user.Stage(stage)
@@ -5337,9 +5171,6 @@ func (useruse *UserUse) Commit(stage *Stage) *UserUse {
 	return useruse
 }
 
-func (useruse *UserUse) CommitVoid(stage *Stage) {
-	useruse.Commit(stage)
-}
 
 func (useruse *UserUse) StageVoid(stage *Stage) {
 	useruse.Stage(stage)
@@ -5425,9 +5256,6 @@ func (workspace *Workspace) Commit(stage *Stage) *Workspace {
 	return workspace
 }
 
-func (workspace *Workspace) CommitVoid(stage *Stage) {
-	workspace.Commit(stage)
-}
 
 func (workspace *Workspace) StageVoid(stage *Stage) {
 	workspace.Stage(stage)
@@ -5451,75 +5279,6 @@ func (workspace *Workspace) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (workspace *Workspace) SetName(name string) {
 	workspace.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMActorState(ActorState *ActorState)
-	CreateORMActorStateShape(ActorStateShape *ActorStateShape)
-	CreateORMActorStateTransition(ActorStateTransition *ActorStateTransition)
-	CreateORMActorStateTransitionShape(ActorStateTransitionShape *ActorStateTransitionShape)
-	CreateORMAnalysis(Analysis *Analysis)
-	CreateORMControlPointShape(ControlPointShape *ControlPointShape)
-	CreateORMDiagram(Diagram *Diagram)
-	CreateORMDocument(Document *Document)
-	CreateORMDocumentUse(DocumentUse *DocumentUse)
-	CreateORMEvolutionDirection(EvolutionDirection *EvolutionDirection)
-	CreateORMEvolutionDirectionShape(EvolutionDirectionShape *EvolutionDirectionShape)
-	CreateORMFoo(Foo *Foo)
-	CreateORMGeoObject(GeoObject *GeoObject)
-	CreateORMGeoObjectUse(GeoObjectUse *GeoObjectUse)
-	CreateORMGroup(Group *Group)
-	CreateORMGroupUse(GroupUse *GroupUse)
-	CreateORMLibrary(Library *Library)
-	CreateORMMapObject(MapObject *MapObject)
-	CreateORMMapObjectUse(MapObjectUse *MapObjectUse)
-	CreateORMParameter(Parameter *Parameter)
-	CreateORMParameterCategory(ParameterCategory *ParameterCategory)
-	CreateORMParameterCategoryUse(ParameterCategoryUse *ParameterCategoryUse)
-	CreateORMParameterShape(ParameterShape *ParameterShape)
-	CreateORMParametersAggregate(ParametersAggregate *ParametersAggregate)
-	CreateORMParametersAggregateShape(ParametersAggregateShape *ParametersAggregateShape)
-	CreateORMPosition(Position *Position)
-	CreateORMRepository(Repository *Repository)
-	CreateORMScenario(Scenario *Scenario)
-	CreateORMUser(User *User)
-	CreateORMUserUse(UserUse *UserUse)
-	CreateORMWorkspace(Workspace *Workspace)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMActorState(ActorState *ActorState)
-	DeleteORMActorStateShape(ActorStateShape *ActorStateShape)
-	DeleteORMActorStateTransition(ActorStateTransition *ActorStateTransition)
-	DeleteORMActorStateTransitionShape(ActorStateTransitionShape *ActorStateTransitionShape)
-	DeleteORMAnalysis(Analysis *Analysis)
-	DeleteORMControlPointShape(ControlPointShape *ControlPointShape)
-	DeleteORMDiagram(Diagram *Diagram)
-	DeleteORMDocument(Document *Document)
-	DeleteORMDocumentUse(DocumentUse *DocumentUse)
-	DeleteORMEvolutionDirection(EvolutionDirection *EvolutionDirection)
-	DeleteORMEvolutionDirectionShape(EvolutionDirectionShape *EvolutionDirectionShape)
-	DeleteORMFoo(Foo *Foo)
-	DeleteORMGeoObject(GeoObject *GeoObject)
-	DeleteORMGeoObjectUse(GeoObjectUse *GeoObjectUse)
-	DeleteORMGroup(Group *Group)
-	DeleteORMGroupUse(GroupUse *GroupUse)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMMapObject(MapObject *MapObject)
-	DeleteORMMapObjectUse(MapObjectUse *MapObjectUse)
-	DeleteORMParameter(Parameter *Parameter)
-	DeleteORMParameterCategory(ParameterCategory *ParameterCategory)
-	DeleteORMParameterCategoryUse(ParameterCategoryUse *ParameterCategoryUse)
-	DeleteORMParameterShape(ParameterShape *ParameterShape)
-	DeleteORMParametersAggregate(ParametersAggregate *ParametersAggregate)
-	DeleteORMParametersAggregateShape(ParametersAggregateShape *ParametersAggregateShape)
-	DeleteORMPosition(Position *Position)
-	DeleteORMRepository(Repository *Repository)
-	DeleteORMScenario(Scenario *Scenario)
-	DeleteORMUser(User *User)
-	DeleteORMUserUse(UserUse *UserUse)
-	DeleteORMWorkspace(Workspace *Workspace)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -5686,231 +5445,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.ActorStates = nil
-	stage.ActorStates_mapString = nil
-
-	stage.ActorStateShapes = nil
-	stage.ActorStateShapes_mapString = nil
-
-	stage.ActorStateTransitions = nil
-	stage.ActorStateTransitions_mapString = nil
-
-	stage.ActorStateTransitionShapes = nil
-	stage.ActorStateTransitionShapes_mapString = nil
-
-	stage.Analysiss = nil
-	stage.Analysiss_mapString = nil
-
-	stage.ControlPointShapes = nil
-	stage.ControlPointShapes_mapString = nil
-
-	stage.Diagrams = nil
-	stage.Diagrams_mapString = nil
-
-	stage.Documents = nil
-	stage.Documents_mapString = nil
-
-	stage.DocumentUses = nil
-	stage.DocumentUses_mapString = nil
-
-	stage.EvolutionDirections = nil
-	stage.EvolutionDirections_mapString = nil
-
-	stage.EvolutionDirectionShapes = nil
-	stage.EvolutionDirectionShapes_mapString = nil
-
-	stage.Foos = nil
-	stage.Foos_mapString = nil
-
-	stage.GeoObjects = nil
-	stage.GeoObjects_mapString = nil
-
-	stage.GeoObjectUses = nil
-	stage.GeoObjectUses_mapString = nil
-
-	stage.Groups = nil
-	stage.Groups_mapString = nil
-
-	stage.GroupUses = nil
-	stage.GroupUses_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.MapObjects = nil
-	stage.MapObjects_mapString = nil
-
-	stage.MapObjectUses = nil
-	stage.MapObjectUses_mapString = nil
-
-	stage.Parameters = nil
-	stage.Parameters_mapString = nil
-
-	stage.ParameterCategorys = nil
-	stage.ParameterCategorys_mapString = nil
-
-	stage.ParameterCategoryUses = nil
-	stage.ParameterCategoryUses_mapString = nil
-
-	stage.ParameterShapes = nil
-	stage.ParameterShapes_mapString = nil
-
-	stage.ParametersAggregates = nil
-	stage.ParametersAggregates_mapString = nil
-
-	stage.ParametersAggregateShapes = nil
-	stage.ParametersAggregateShapes_mapString = nil
-
-	stage.Positions = nil
-	stage.Positions_mapString = nil
-
-	stage.Repositorys = nil
-	stage.Repositorys_mapString = nil
-
-	stage.Scenarios = nil
-	stage.Scenarios_mapString = nil
-
-	stage.Users = nil
-	stage.Users_mapString = nil
-
-	stage.UserUses = nil
-	stage.UserUses_mapString = nil
-
-	stage.Workspaces = nil
-	stage.Workspaces_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for actorstate := range stage.ActorStates {
-		actorstate.Unstage(stage)
-	}
-
-	for actorstateshape := range stage.ActorStateShapes {
-		actorstateshape.Unstage(stage)
-	}
-
-	for actorstatetransition := range stage.ActorStateTransitions {
-		actorstatetransition.Unstage(stage)
-	}
-
-	for actorstatetransitionshape := range stage.ActorStateTransitionShapes {
-		actorstatetransitionshape.Unstage(stage)
-	}
-
-	for analysis := range stage.Analysiss {
-		analysis.Unstage(stage)
-	}
-
-	for controlpointshape := range stage.ControlPointShapes {
-		controlpointshape.Unstage(stage)
-	}
-
-	for diagram := range stage.Diagrams {
-		diagram.Unstage(stage)
-	}
-
-	for document := range stage.Documents {
-		document.Unstage(stage)
-	}
-
-	for documentuse := range stage.DocumentUses {
-		documentuse.Unstage(stage)
-	}
-
-	for evolutiondirection := range stage.EvolutionDirections {
-		evolutiondirection.Unstage(stage)
-	}
-
-	for evolutiondirectionshape := range stage.EvolutionDirectionShapes {
-		evolutiondirectionshape.Unstage(stage)
-	}
-
-	for foo := range stage.Foos {
-		foo.Unstage(stage)
-	}
-
-	for geoobject := range stage.GeoObjects {
-		geoobject.Unstage(stage)
-	}
-
-	for geoobjectuse := range stage.GeoObjectUses {
-		geoobjectuse.Unstage(stage)
-	}
-
-	for group := range stage.Groups {
-		group.Unstage(stage)
-	}
-
-	for groupuse := range stage.GroupUses {
-		groupuse.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for mapobject := range stage.MapObjects {
-		mapobject.Unstage(stage)
-	}
-
-	for mapobjectuse := range stage.MapObjectUses {
-		mapobjectuse.Unstage(stage)
-	}
-
-	for parameter := range stage.Parameters {
-		parameter.Unstage(stage)
-	}
-
-	for parametercategory := range stage.ParameterCategorys {
-		parametercategory.Unstage(stage)
-	}
-
-	for parametercategoryuse := range stage.ParameterCategoryUses {
-		parametercategoryuse.Unstage(stage)
-	}
-
-	for parametershape := range stage.ParameterShapes {
-		parametershape.Unstage(stage)
-	}
-
-	for parametersaggregate := range stage.ParametersAggregates {
-		parametersaggregate.Unstage(stage)
-	}
-
-	for parametersaggregateshape := range stage.ParametersAggregateShapes {
-		parametersaggregateshape.Unstage(stage)
-	}
-
-	for position := range stage.Positions {
-		position.Unstage(stage)
-	}
-
-	for repository := range stage.Repositorys {
-		repository.Unstage(stage)
-	}
-
-	for scenario := range stage.Scenarios {
-		scenario.Unstage(stage)
-	}
-
-	for user := range stage.Users {
-		user.Unstage(stage)
-	}
-
-	for useruse := range stage.UserUses {
-		useruse.Unstage(stage)
-	}
-
-	for workspace := range stage.Workspaces {
-		workspace.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -5928,13 +5462,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -9910,1282 +9442,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (actorstate *ActorState) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		actorstate.Name = value.GetValueString()
-	case "Description":
-		actorstate.Description = value.GetValueString()
-	case "IsWithProbaility":
-		actorstate.IsWithProbaility = value.GetValueBool()
-	case "Probability":
-		actorstate.Probability.FromCodeString(value.GetValueString())
-	case "ComputedPrefix":
-		actorstate.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		actorstate.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (actorstateshape *ActorStateShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		actorstateshape.Name = value.GetValueString()
-	case "ActorState":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			actorstateshape.ActorState = nil
-			for __instance__ := range stage.ActorStates {
-				if stage.ActorState_stagedOrder[__instance__] == uint(id) {
-					actorstateshape.ActorState = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		actorstateshape.X = value.GetValueFloat()
-	case "Y":
-		actorstateshape.Y = value.GetValueFloat()
-	case "Width":
-		actorstateshape.Width = value.GetValueFloat()
-	case "Height":
-		actorstateshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		actorstateshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (actorstatetransition *ActorStateTransition) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		actorstatetransition.Name = value.GetValueString()
-	case "StartState":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			actorstatetransition.StartState = nil
-			for __instance__ := range stage.ActorStates {
-				if stage.ActorState_stagedOrder[__instance__] == uint(id) {
-					actorstatetransition.StartState = __instance__
-					break
-				}
-			}
-		}
-	case "EndState":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			actorstatetransition.EndState = nil
-			for __instance__ := range stage.ActorStates {
-				if stage.ActorState_stagedOrder[__instance__] == uint(id) {
-					actorstatetransition.EndState = __instance__
-					break
-				}
-			}
-		}
-	case "Justifications":
-		actorstatetransition.Justifications = make([]*Parameter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parameters {
-					if stage.Parameter_stagedOrder[__instance__] == uint(id) {
-						actorstatetransition.Justifications = append(actorstatetransition.Justifications, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		actorstatetransition.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		actorstatetransition.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (actorstatetransitionshape *ActorStateTransitionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		actorstatetransitionshape.Name = value.GetValueString()
-	case "ActorStateTransition":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			actorstatetransitionshape.ActorStateTransition = nil
-			for __instance__ := range stage.ActorStateTransitions {
-				if stage.ActorStateTransition_stagedOrder[__instance__] == uint(id) {
-					actorstatetransitionshape.ActorStateTransition = __instance__
-					break
-				}
-			}
-		}
-	case "Start":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			actorstatetransitionshape.Start = nil
-			for __instance__ := range stage.ActorStateShapes {
-				if stage.ActorStateShape_stagedOrder[__instance__] == uint(id) {
-					actorstatetransitionshape.Start = __instance__
-					break
-				}
-			}
-		}
-	case "End":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			actorstatetransitionshape.End = nil
-			for __instance__ := range stage.ActorStateShapes {
-				if stage.ActorStateShape_stagedOrder[__instance__] == uint(id) {
-					actorstatetransitionshape.End = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		actorstatetransitionshape.X = value.GetValueFloat()
-	case "Y":
-		actorstatetransitionshape.Y = value.GetValueFloat()
-	case "Width":
-		actorstatetransitionshape.Width = value.GetValueFloat()
-	case "Height":
-		actorstatetransitionshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		actorstatetransitionshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		actorstatetransitionshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						actorstatetransitionshape.ControlPointShapes = append(actorstatetransitionshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (analysis *Analysis) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		analysis.Name = value.GetValueString()
-	case "Description":
-		analysis.Description = value.GetValueString()
-	case "Scenarios":
-		analysis.Scenarios = make([]*Scenario, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Scenarios {
-					if stage.Scenario_stagedOrder[__instance__] == uint(id) {
-						analysis.Scenarios = append(analysis.Scenarios, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsScenariosNodeExpanded":
-		analysis.IsScenariosNodeExpanded = value.GetValueBool()
-	case "GroupUse":
-		analysis.GroupUse = make([]*GroupUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GroupUses {
-					if stage.GroupUse_stagedOrder[__instance__] == uint(id) {
-						analysis.GroupUse = append(analysis.GroupUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsGroupUseNodeExpanded":
-		analysis.IsGroupUseNodeExpanded = value.GetValueBool()
-	case "GeoObjectUse":
-		analysis.GeoObjectUse = make([]*GeoObjectUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GeoObjectUses {
-					if stage.GeoObjectUse_stagedOrder[__instance__] == uint(id) {
-						analysis.GeoObjectUse = append(analysis.GeoObjectUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsGeoObjectUseNodeExpanded":
-		analysis.IsGeoObjectUseNodeExpanded = value.GetValueBool()
-	case "MapUse":
-		analysis.MapUse = make([]*MapObjectUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.MapObjectUses {
-					if stage.MapObjectUse_stagedOrder[__instance__] == uint(id) {
-						analysis.MapUse = append(analysis.MapUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsMapUseNodeExpanded":
-		analysis.IsMapUseNodeExpanded = value.GetValueBool()
-	case "ComputedPrefix":
-		analysis.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		analysis.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlpointshape *ControlPointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlpointshape.Name = value.GetValueString()
-	case "X_Relative":
-		controlpointshape.X_Relative = value.GetValueFloat()
-	case "Y_Relative":
-		controlpointshape.Y_Relative = value.GetValueFloat()
-	case "IsStartShapeTheClosestShape":
-		controlpointshape.IsStartShapeTheClosestShape = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagram.Name = value.GetValueString()
-	case "ComputedPrefix":
-		diagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
-	case "IsShowPrefix":
-		diagram.IsShowPrefix = value.GetValueBool()
-	case "Description":
-		diagram.Description = value.GetValueString()
-	case "EvolutionDirectionShapes":
-		diagram.EvolutionDirectionShapes = make([]*EvolutionDirectionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.EvolutionDirectionShapes {
-					if stage.EvolutionDirectionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.EvolutionDirectionShapes = append(diagram.EvolutionDirectionShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "EvolutionDirectionsWhoseNodeIsExpanded":
-		diagram.EvolutionDirectionsWhoseNodeIsExpanded = make([]*EvolutionDirection, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.EvolutionDirections {
-					if stage.EvolutionDirection_stagedOrder[__instance__] == uint(id) {
-						diagram.EvolutionDirectionsWhoseNodeIsExpanded = append(diagram.EvolutionDirectionsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsEvolutionDirectionsNodeExpanded":
-		diagram.IsEvolutionDirectionsNodeExpanded = value.GetValueBool()
-	case "ActorStateShapes":
-		diagram.ActorStateShapes = make([]*ActorStateShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ActorStateShapes {
-					if stage.ActorStateShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ActorStateShapes = append(diagram.ActorStateShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ActorStatesWhoseNodeIsExpanded":
-		diagram.ActorStatesWhoseNodeIsExpanded = make([]*ActorState, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ActorStates {
-					if stage.ActorState_stagedOrder[__instance__] == uint(id) {
-						diagram.ActorStatesWhoseNodeIsExpanded = append(diagram.ActorStatesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsActorStatesNodeExpanded":
-		diagram.IsActorStatesNodeExpanded = value.GetValueBool()
-	case "ParameterShapes":
-		diagram.ParameterShapes = make([]*ParameterShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParameterShapes {
-					if stage.ParameterShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ParameterShapes = append(diagram.ParameterShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ParametersWhoseNodeIsExpanded":
-		diagram.ParametersWhoseNodeIsExpanded = make([]*Parameter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parameters {
-					if stage.Parameter_stagedOrder[__instance__] == uint(id) {
-						diagram.ParametersWhoseNodeIsExpanded = append(diagram.ParametersWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsParametersNodeExpanded":
-		diagram.IsParametersNodeExpanded = value.GetValueBool()
-	case "ScenarioParameterShapes":
-		diagram.ScenarioParameterShapes = make([]*ParametersAggregateShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParametersAggregateShapes {
-					if stage.ParametersAggregateShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ScenarioParameterShapes = append(diagram.ScenarioParameterShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ParametersAggregatesWhoseNodeIsExpanded":
-		diagram.ParametersAggregatesWhoseNodeIsExpanded = make([]*ParametersAggregate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParametersAggregates {
-					if stage.ParametersAggregate_stagedOrder[__instance__] == uint(id) {
-						diagram.ParametersAggregatesWhoseNodeIsExpanded = append(diagram.ParametersAggregatesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsParametersAggregatesNodeExpanded":
-		diagram.IsParametersAggregatesNodeExpanded = value.GetValueBool()
-	case "ActorStateTransitionShapes":
-		diagram.ActorStateTransitionShapes = make([]*ActorStateTransitionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ActorStateTransitionShapes {
-					if stage.ActorStateTransitionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ActorStateTransitionShapes = append(diagram.ActorStateTransitionShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ActorStateTransitionsWhoseNodeIsExpanded":
-		diagram.ActorStateTransitionsWhoseNodeIsExpanded = make([]*ActorStateTransition, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ActorStateTransitions {
-					if stage.ActorStateTransition_stagedOrder[__instance__] == uint(id) {
-						diagram.ActorStateTransitionsWhoseNodeIsExpanded = append(diagram.ActorStateTransitionsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsActorStateTransitionsNodeExpanded":
-		diagram.IsActorStateTransitionsNodeExpanded = value.GetValueBool()
-	case "AxisOrign_X":
-		diagram.AxisOrign_X = value.GetValueFloat()
-	case "AxisOrign_Y":
-		diagram.AxisOrign_Y = value.GetValueFloat()
-	case "VerticalAxis_Top_Y":
-		diagram.VerticalAxis_Top_Y = value.GetValueFloat()
-	case "VerticalAxis_Bottom_Y":
-		diagram.VerticalAxis_Bottom_Y = value.GetValueFloat()
-	case "VerticalAxis_StrokeWidth":
-		diagram.VerticalAxis_StrokeWidth = value.GetValueFloat()
-	case "HorizontalAxis_Right_X":
-		diagram.HorizontalAxis_Right_X = value.GetValueFloat()
-	case "NumberOfYearsBetweenTicks":
-		diagram.NumberOfYearsBetweenTicks = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (document *Document) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		document.Name = value.GetValueString()
-	case "GeoObjectUse":
-		document.GeoObjectUse = make([]*GeoObjectUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GeoObjectUses {
-					if stage.GeoObjectUse_stagedOrder[__instance__] == uint(id) {
-						document.GeoObjectUse = append(document.GeoObjectUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		document.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		document.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (documentuse *DocumentUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		documentuse.Name = value.GetValueString()
-	case "Document":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			documentuse.Document = nil
-			for __instance__ := range stage.Documents {
-				if stage.Document_stagedOrder[__instance__] == uint(id) {
-					documentuse.Document = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (evolutiondirection *EvolutionDirection) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		evolutiondirection.Name = value.GetValueString()
-	case "Description":
-		evolutiondirection.Description = value.GetValueString()
-	case "ComputedPrefix":
-		evolutiondirection.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		evolutiondirection.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (evolutiondirectionshape *EvolutionDirectionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		evolutiondirectionshape.Name = value.GetValueString()
-	case "EvolutionDirection":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			evolutiondirectionshape.EvolutionDirection = nil
-			for __instance__ := range stage.EvolutionDirections {
-				if stage.EvolutionDirection_stagedOrder[__instance__] == uint(id) {
-					evolutiondirectionshape.EvolutionDirection = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		evolutiondirectionshape.X = value.GetValueFloat()
-	case "Y":
-		evolutiondirectionshape.Y = value.GetValueFloat()
-	case "Width":
-		evolutiondirectionshape.Width = value.GetValueFloat()
-	case "Height":
-		evolutiondirectionshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		evolutiondirectionshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (foo *Foo) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		foo.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (geoobject *GeoObject) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		geoobject.Name = value.GetValueString()
-	case "ComputedPrefix":
-		geoobject.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		geoobject.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (geoobjectuse *GeoObjectUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		geoobjectuse.Name = value.GetValueString()
-	case "GeoObject":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			geoobjectuse.GeoObject = nil
-			for __instance__ := range stage.GeoObjects {
-				if stage.GeoObject_stagedOrder[__instance__] == uint(id) {
-					geoobjectuse.GeoObject = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group.Name = value.GetValueString()
-	case "UserUse":
-		group.UserUse = make([]*UserUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.UserUses {
-					if stage.UserUse_stagedOrder[__instance__] == uint(id) {
-						group.UserUse = append(group.UserUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		group.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		group.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (groupuse *GroupUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		groupuse.Name = value.GetValueString()
-	case "Group":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			groupuse.Group = nil
-			for __instance__ := range stage.Groups {
-				if stage.Group_stagedOrder[__instance__] == uint(id) {
-					groupuse.Group = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "Description":
-		library.Description = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "Analyses":
-		library.Analyses = make([]*Analysis, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Analysiss {
-					if stage.Analysis_stagedOrder[__instance__] == uint(id) {
-						library.Analyses = append(library.Analyses, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsAnalysesNodeExpanded":
-		library.IsAnalysesNodeExpanded = value.GetValueBool()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubLibrariesNodeExpanded":
-		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "IsExpandedTmp":
-		library.IsExpandedTmp = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (mapobject *MapObject) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		mapobject.Name = value.GetValueString()
-	case "ComputedPrefix":
-		mapobject.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		mapobject.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (mapobjectuse *MapObjectUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		mapobjectuse.Name = value.GetValueString()
-	case "Map":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mapobjectuse.Map = nil
-			for __instance__ := range stage.MapObjects {
-				if stage.MapObject_stagedOrder[__instance__] == uint(id) {
-					mapobjectuse.Map = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parameter *Parameter) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parameter.Name = value.GetValueString()
-	case "Description":
-		parameter.Description = value.GetValueString()
-	case "IsResponse":
-		parameter.IsResponse = value.GetValueBool()
-	case "Force":
-		parameter.Force = value.GetValueFloat()
-	case "GroupUse":
-		parameter.GroupUse = make([]*GroupUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GroupUses {
-					if stage.GroupUse_stagedOrder[__instance__] == uint(id) {
-						parameter.GroupUse = append(parameter.GroupUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DocumentUse":
-		parameter.DocumentUse = make([]*DocumentUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DocumentUses {
-					if stage.DocumentUse_stagedOrder[__instance__] == uint(id) {
-						parameter.DocumentUse = append(parameter.DocumentUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "GeoObjectUse":
-		parameter.GeoObjectUse = make([]*GeoObjectUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GeoObjectUses {
-					if stage.GeoObjectUse_stagedOrder[__instance__] == uint(id) {
-						parameter.GeoObjectUse = append(parameter.GeoObjectUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tag":
-		parameter.Tag = value.GetValueString()
-	case "ComputedPrefix":
-		parameter.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		parameter.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parametercategory *ParameterCategory) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parametercategory.Name = value.GetValueString()
-	case "ParameterUse":
-		parametercategory.ParameterUse = make([]*ParameterShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParameterShapes {
-					if stage.ParameterShape_stagedOrder[__instance__] == uint(id) {
-						parametercategory.ParameterUse = append(parametercategory.ParameterUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		parametercategory.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		parametercategory.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parametercategoryuse *ParameterCategoryUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parametercategoryuse.Name = value.GetValueString()
-	case "ParameterCategory":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			parametercategoryuse.ParameterCategory = nil
-			for __instance__ := range stage.ParameterCategorys {
-				if stage.ParameterCategory_stagedOrder[__instance__] == uint(id) {
-					parametercategoryuse.ParameterCategory = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parametershape *ParameterShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parametershape.Name = value.GetValueString()
-	case "Parameter":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			parametershape.Parameter = nil
-			for __instance__ := range stage.Parameters {
-				if stage.Parameter_stagedOrder[__instance__] == uint(id) {
-					parametershape.Parameter = __instance__
-					break
-				}
-			}
-		}
-	case "Direction":
-		parametershape.Direction.FromCodeString(value.GetValueString())
-	case "ShapeIsComputedFromModel":
-		parametershape.ShapeIsComputedFromModel = value.GetValueBool()
-	case "X":
-		parametershape.X = value.GetValueFloat()
-	case "Y":
-		parametershape.Y = value.GetValueFloat()
-	case "Width":
-		parametershape.Width = value.GetValueFloat()
-	case "Height":
-		parametershape.Height = value.GetValueFloat()
-	case "IsHidden":
-		parametershape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parametersaggregate *ParametersAggregate) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parametersaggregate.Name = value.GetValueString()
-	case "Tag":
-		parametersaggregate.Tag = value.GetValueString()
-	case "Description":
-		parametersaggregate.Description = value.GetValueString()
-	case "Parameters":
-		parametersaggregate.Parameters = make([]*Parameter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parameters {
-					if stage.Parameter_stagedOrder[__instance__] == uint(id) {
-						parametersaggregate.Parameters = append(parametersaggregate.Parameters, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		parametersaggregate.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		parametersaggregate.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parametersaggregateshape *ParametersAggregateShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parametersaggregateshape.Name = value.GetValueString()
-	case "ScenarioParameter":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			parametersaggregateshape.ScenarioParameter = nil
-			for __instance__ := range stage.ParametersAggregates {
-				if stage.ParametersAggregate_stagedOrder[__instance__] == uint(id) {
-					parametersaggregateshape.ScenarioParameter = __instance__
-					break
-				}
-			}
-		}
-	case "Direction":
-		parametersaggregateshape.Direction.FromCodeString(value.GetValueString())
-	case "X":
-		parametersaggregateshape.X = value.GetValueFloat()
-	case "Y":
-		parametersaggregateshape.Y = value.GetValueFloat()
-	case "Width":
-		parametersaggregateshape.Width = value.GetValueFloat()
-	case "Height":
-		parametersaggregateshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		parametersaggregateshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (position *Position) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		position.Name = value.GetValueString()
-	case "Ordinate":
-		position.Ordinate = value.GetValueFloat()
-	case "ComputedPrefix":
-		position.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		position.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (repository *Repository) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		repository.Name = value.GetValueString()
-	case "ParameterUse":
-		repository.ParameterUse = make([]*ParameterShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParameterShapes {
-					if stage.ParameterShape_stagedOrder[__instance__] == uint(id) {
-						repository.ParameterUse = append(repository.ParameterUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "GroupUse":
-		repository.GroupUse = make([]*GroupUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GroupUses {
-					if stage.GroupUse_stagedOrder[__instance__] == uint(id) {
-						repository.GroupUse = append(repository.GroupUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		repository.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		repository.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (scenario *Scenario) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		scenario.Name = value.GetValueString()
-	case "Description":
-		scenario.Description = value.GetValueString()
-	case "Diagrams":
-		scenario.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						scenario.Diagrams = append(scenario.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDiagramsNodeExpanded":
-		scenario.IsDiagramsNodeExpanded = value.GetValueBool()
-	case "ActorStates":
-		scenario.ActorStates = make([]*ActorState, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ActorStates {
-					if stage.ActorState_stagedOrder[__instance__] == uint(id) {
-						scenario.ActorStates = append(scenario.ActorStates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsActorStatesNodeExpanded":
-		scenario.IsActorStatesNodeExpanded = value.GetValueBool()
-	case "ActorStateTransitions":
-		scenario.ActorStateTransitions = make([]*ActorStateTransition, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ActorStateTransitions {
-					if stage.ActorStateTransition_stagedOrder[__instance__] == uint(id) {
-						scenario.ActorStateTransitions = append(scenario.ActorStateTransitions, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsActorStateTransitionsNodeExpanded":
-		scenario.IsActorStateTransitionsNodeExpanded = value.GetValueBool()
-	case "EvolutionDirections":
-		scenario.EvolutionDirections = make([]*EvolutionDirection, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.EvolutionDirections {
-					if stage.EvolutionDirection_stagedOrder[__instance__] == uint(id) {
-						scenario.EvolutionDirections = append(scenario.EvolutionDirections, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsEvolutionDirectionsNodeExpanded":
-		scenario.IsEvolutionDirectionsNodeExpanded = value.GetValueBool()
-	case "Parameters":
-		scenario.Parameters = make([]*Parameter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parameters {
-					if stage.Parameter_stagedOrder[__instance__] == uint(id) {
-						scenario.Parameters = append(scenario.Parameters, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsParametersNodeExpanded":
-		scenario.IsParametersNodeExpanded = value.GetValueBool()
-	case "ParametersAggretates":
-		scenario.ParametersAggretates = make([]*ParametersAggregate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParametersAggregates {
-					if stage.ParametersAggregate_stagedOrder[__instance__] == uint(id) {
-						scenario.ParametersAggretates = append(scenario.ParametersAggretates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsParametersAggretatesNodeExpanded":
-		scenario.IsParametersAggretatesNodeExpanded = value.GetValueBool()
-	case "ComputedPrefix":
-		scenario.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		scenario.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (user *User) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		user.Name = value.GetValueString()
-	case "ComputedPrefix":
-		user.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		user.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (useruse *UserUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		useruse.Name = value.GetValueString()
-	case "User":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			useruse.User = nil
-			for __instance__ := range stage.Users {
-				if stage.User_stagedOrder[__instance__] == uint(id) {
-					useruse.User = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (workspace *Workspace) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		workspace.Name = value.GetValueString()
-	case "SelectedDiagram":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			workspace.SelectedDiagram = nil
-			for __instance__ := range stage.Diagrams {
-				if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-					workspace.SelectedDiagram = __instance__
-					break
-				}
-			}
-		}
-	case "Default_EvolutionDirectionShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			workspace.Default_EvolutionDirectionShape = nil
-			for __instance__ := range stage.EvolutionDirectionShapes {
-				if stage.EvolutionDirectionShape_stagedOrder[__instance__] == uint(id) {
-					workspace.Default_EvolutionDirectionShape = __instance__
-					break
-				}
-			}
-		}
-	case "Default_ParameterShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			workspace.Default_ParameterShape = nil
-			for __instance__ := range stage.ParameterShapes {
-				if stage.ParameterShape_stagedOrder[__instance__] == uint(id) {
-					workspace.Default_ParameterShape = __instance__
-					break
-				}
-			}
-		}
-	case "Default_ScenarioParameterShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			workspace.Default_ScenarioParameterShape = nil
-			for __instance__ := range stage.ParametersAggregateShapes {
-				if stage.ParametersAggregateShape_stagedOrder[__instance__] == uint(id) {
-					workspace.Default_ScenarioParameterShape = __instance__
-					break
-				}
-			}
-		}
-	case "Default_ActorStateShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			workspace.Default_ActorStateShape = nil
-			for __instance__ := range stage.ActorStateShapes {
-				if stage.ActorStateShape_stagedOrder[__instance__] == uint(id) {
-					workspace.Default_ActorStateShape = __instance__
-					break
-				}
-			}
-		}
-	case "Default_ActorStateTransitionShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			workspace.Default_ActorStateTransitionShape = nil
-			for __instance__ := range stage.ActorStateTransitionShapes {
-				if stage.ActorStateTransitionShape_stagedOrder[__instance__] == uint(id) {
-					workspace.Default_ActorStateTransitionShape = __instance__
-					break
-				}
-			}
-		}
-	case "ComputedPrefix":
-		workspace.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		workspace.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (actorstate *ActorState) GongGetGongstructName() string {

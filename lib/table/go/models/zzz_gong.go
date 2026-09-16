@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	table_go "github.com/fullstack-lang/gong/lib/table/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -306,9 +293,6 @@ type Stage struct {
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -337,8 +321,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -790,14 +772,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -985,28 +959,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/table/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return table_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return table_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1191,19 +1145,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Button"},
-			{name: "Cell"},
-			{name: "CellBoolean"},
-			{name: "CellFloat64"},
-			{name: "CellIcon"},
-			{name: "CellInt"},
-			{name: "CellString"},
-			{name: "DisplayedColumn"},
-			{name: "Row"},
-			{name: "SVGIcon"},
-			{name: "Table"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1447,9 +1388,6 @@ func (button *Button) Commit(stage *Stage) *Button {
 	return button
 }
 
-func (button *Button) CommitVoid(stage *Stage) {
-	button.Commit(stage)
-}
 
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
@@ -1535,9 +1473,6 @@ func (cell *Cell) Commit(stage *Stage) *Cell {
 	return cell
 }
 
-func (cell *Cell) CommitVoid(stage *Stage) {
-	cell.Commit(stage)
-}
 
 func (cell *Cell) StageVoid(stage *Stage) {
 	cell.Stage(stage)
@@ -1623,9 +1558,6 @@ func (cellboolean *CellBoolean) Commit(stage *Stage) *CellBoolean {
 	return cellboolean
 }
 
-func (cellboolean *CellBoolean) CommitVoid(stage *Stage) {
-	cellboolean.Commit(stage)
-}
 
 func (cellboolean *CellBoolean) StageVoid(stage *Stage) {
 	cellboolean.Stage(stage)
@@ -1711,9 +1643,6 @@ func (cellfloat64 *CellFloat64) Commit(stage *Stage) *CellFloat64 {
 	return cellfloat64
 }
 
-func (cellfloat64 *CellFloat64) CommitVoid(stage *Stage) {
-	cellfloat64.Commit(stage)
-}
 
 func (cellfloat64 *CellFloat64) StageVoid(stage *Stage) {
 	cellfloat64.Stage(stage)
@@ -1799,9 +1728,6 @@ func (cellicon *CellIcon) Commit(stage *Stage) *CellIcon {
 	return cellicon
 }
 
-func (cellicon *CellIcon) CommitVoid(stage *Stage) {
-	cellicon.Commit(stage)
-}
 
 func (cellicon *CellIcon) StageVoid(stage *Stage) {
 	cellicon.Stage(stage)
@@ -1887,9 +1813,6 @@ func (cellint *CellInt) Commit(stage *Stage) *CellInt {
 	return cellint
 }
 
-func (cellint *CellInt) CommitVoid(stage *Stage) {
-	cellint.Commit(stage)
-}
 
 func (cellint *CellInt) StageVoid(stage *Stage) {
 	cellint.Stage(stage)
@@ -1975,9 +1898,6 @@ func (cellstring *CellString) Commit(stage *Stage) *CellString {
 	return cellstring
 }
 
-func (cellstring *CellString) CommitVoid(stage *Stage) {
-	cellstring.Commit(stage)
-}
 
 func (cellstring *CellString) StageVoid(stage *Stage) {
 	cellstring.Stage(stage)
@@ -2063,9 +1983,6 @@ func (displayedcolumn *DisplayedColumn) Commit(stage *Stage) *DisplayedColumn {
 	return displayedcolumn
 }
 
-func (displayedcolumn *DisplayedColumn) CommitVoid(stage *Stage) {
-	displayedcolumn.Commit(stage)
-}
 
 func (displayedcolumn *DisplayedColumn) StageVoid(stage *Stage) {
 	displayedcolumn.Stage(stage)
@@ -2151,9 +2068,6 @@ func (row *Row) Commit(stage *Stage) *Row {
 	return row
 }
 
-func (row *Row) CommitVoid(stage *Stage) {
-	row.Commit(stage)
-}
 
 func (row *Row) StageVoid(stage *Stage) {
 	row.Stage(stage)
@@ -2239,9 +2153,6 @@ func (svgicon *SVGIcon) Commit(stage *Stage) *SVGIcon {
 	return svgicon
 }
 
-func (svgicon *SVGIcon) CommitVoid(stage *Stage) {
-	svgicon.Commit(stage)
-}
 
 func (svgicon *SVGIcon) StageVoid(stage *Stage) {
 	svgicon.Stage(stage)
@@ -2327,9 +2238,6 @@ func (table *Table) Commit(stage *Stage) *Table {
 	return table
 }
 
-func (table *Table) CommitVoid(stage *Stage) {
-	table.Commit(stage)
-}
 
 func (table *Table) StageVoid(stage *Stage) {
 	table.Stage(stage)
@@ -2353,35 +2261,6 @@ func (table *Table) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (table *Table) SetName(name string) {
 	table.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMButton(Button *Button)
-	CreateORMCell(Cell *Cell)
-	CreateORMCellBoolean(CellBoolean *CellBoolean)
-	CreateORMCellFloat64(CellFloat64 *CellFloat64)
-	CreateORMCellIcon(CellIcon *CellIcon)
-	CreateORMCellInt(CellInt *CellInt)
-	CreateORMCellString(CellString *CellString)
-	CreateORMDisplayedColumn(DisplayedColumn *DisplayedColumn)
-	CreateORMRow(Row *Row)
-	CreateORMSVGIcon(SVGIcon *SVGIcon)
-	CreateORMTable(Table *Table)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMButton(Button *Button)
-	DeleteORMCell(Cell *Cell)
-	DeleteORMCellBoolean(CellBoolean *CellBoolean)
-	DeleteORMCellFloat64(CellFloat64 *CellFloat64)
-	DeleteORMCellIcon(CellIcon *CellIcon)
-	DeleteORMCellInt(CellInt *CellInt)
-	DeleteORMCellString(CellString *CellString)
-	DeleteORMDisplayedColumn(DisplayedColumn *DisplayedColumn)
-	DeleteORMRow(Row *Row)
-	DeleteORMSVGIcon(SVGIcon *SVGIcon)
-	DeleteORMTable(Table *Table)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -2448,91 +2327,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Buttons = nil
-	stage.Buttons_mapString = nil
-
-	stage.Cells = nil
-	stage.Cells_mapString = nil
-
-	stage.CellBooleans = nil
-	stage.CellBooleans_mapString = nil
-
-	stage.CellFloat64s = nil
-	stage.CellFloat64s_mapString = nil
-
-	stage.CellIcons = nil
-	stage.CellIcons_mapString = nil
-
-	stage.CellInts = nil
-	stage.CellInts_mapString = nil
-
-	stage.CellStrings = nil
-	stage.CellStrings_mapString = nil
-
-	stage.DisplayedColumns = nil
-	stage.DisplayedColumns_mapString = nil
-
-	stage.Rows = nil
-	stage.Rows_mapString = nil
-
-	stage.SVGIcons = nil
-	stage.SVGIcons_mapString = nil
-
-	stage.Tables = nil
-	stage.Tables_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for button := range stage.Buttons {
-		button.Unstage(stage)
-	}
-
-	for cell := range stage.Cells {
-		cell.Unstage(stage)
-	}
-
-	for cellboolean := range stage.CellBooleans {
-		cellboolean.Unstage(stage)
-	}
-
-	for cellfloat64 := range stage.CellFloat64s {
-		cellfloat64.Unstage(stage)
-	}
-
-	for cellicon := range stage.CellIcons {
-		cellicon.Unstage(stage)
-	}
-
-	for cellint := range stage.CellInts {
-		cellint.Unstage(stage)
-	}
-
-	for cellstring := range stage.CellStrings {
-		cellstring.Unstage(stage)
-	}
-
-	for displayedcolumn := range stage.DisplayedColumns {
-		displayedcolumn.Unstage(stage)
-	}
-
-	for row := range stage.Rows {
-		row.Unstage(stage)
-	}
-
-	for svgicon := range stage.SVGIcons {
-		svgicon.Unstage(stage)
-	}
-
-	for table := range stage.Tables {
-		table.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -2550,13 +2344,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -3734,319 +3526,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		button.Name = value.GetValueString()
-	case "Icon":
-		button.Icon = value.GetValueString()
-	case "SVGIcon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			button.SVGIcon = nil
-			for __instance__ := range stage.SVGIcons {
-				if stage.SVGIcon_stagedOrder[__instance__] == uint(id) {
-					button.SVGIcon = __instance__
-					break
-				}
-			}
-		}
-	case "IsDisabled":
-		button.IsDisabled = value.GetValueBool()
-	case "HasToolTip":
-		button.HasToolTip = value.GetValueBool()
-	case "ToolTipText":
-		button.ToolTipText = value.GetValueString()
-	case "ToolTipPosition":
-		button.ToolTipPosition.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cell *Cell) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cell.Name = value.GetValueString()
-	case "CellString":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			cell.CellString = nil
-			for __instance__ := range stage.CellStrings {
-				if stage.CellString_stagedOrder[__instance__] == uint(id) {
-					cell.CellString = __instance__
-					break
-				}
-			}
-		}
-	case "CellFloat64":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			cell.CellFloat64 = nil
-			for __instance__ := range stage.CellFloat64s {
-				if stage.CellFloat64_stagedOrder[__instance__] == uint(id) {
-					cell.CellFloat64 = __instance__
-					break
-				}
-			}
-		}
-	case "CellInt":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			cell.CellInt = nil
-			for __instance__ := range stage.CellInts {
-				if stage.CellInt_stagedOrder[__instance__] == uint(id) {
-					cell.CellInt = __instance__
-					break
-				}
-			}
-		}
-	case "CellBool":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			cell.CellBool = nil
-			for __instance__ := range stage.CellBooleans {
-				if stage.CellBoolean_stagedOrder[__instance__] == uint(id) {
-					cell.CellBool = __instance__
-					break
-				}
-			}
-		}
-	case "CellIcon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			cell.CellIcon = nil
-			for __instance__ := range stage.CellIcons {
-				if stage.CellIcon_stagedOrder[__instance__] == uint(id) {
-					cell.CellIcon = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cellboolean *CellBoolean) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cellboolean.Name = value.GetValueString()
-	case "Value":
-		cellboolean.Value = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cellfloat64 *CellFloat64) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cellfloat64.Name = value.GetValueString()
-	case "Value":
-		cellfloat64.Value = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cellicon *CellIcon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cellicon.Name = value.GetValueString()
-	case "Icon":
-		cellicon.Icon = value.GetValueString()
-	case "NeedsConfirmation":
-		cellicon.NeedsConfirmation = value.GetValueBool()
-	case "ConfirmationMessage":
-		cellicon.ConfirmationMessage = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cellint *CellInt) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cellint.Name = value.GetValueString()
-	case "Value":
-		cellint.Value = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cellstring *CellString) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cellstring.Name = value.GetValueString()
-	case "Value":
-		cellstring.Value = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (displayedcolumn *DisplayedColumn) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		displayedcolumn.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (row *Row) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		row.Name = value.GetValueString()
-	case "Cells":
-		row.Cells = make([]*Cell, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Cells {
-					if stage.Cell_stagedOrder[__instance__] == uint(id) {
-						row.Cells = append(row.Cells, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsChecked":
-		row.IsChecked = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (svgicon *SVGIcon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		svgicon.Name = value.GetValueString()
-	case "SVG":
-		svgicon.SVG = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		table.Name = value.GetValueString()
-	case "DisplayedColumns":
-		table.DisplayedColumns = make([]*DisplayedColumn, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DisplayedColumns {
-					if stage.DisplayedColumn_stagedOrder[__instance__] == uint(id) {
-						table.DisplayedColumns = append(table.DisplayedColumns, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Rows":
-		table.Rows = make([]*Row, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Rows {
-					if stage.Row_stagedOrder[__instance__] == uint(id) {
-						table.Rows = append(table.Rows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "HasFiltering":
-		table.HasFiltering = value.GetValueBool()
-	case "HasColumnSorting":
-		table.HasColumnSorting = value.GetValueBool()
-	case "HasPaginator":
-		table.HasPaginator = value.GetValueBool()
-	case "HasCheckableRows":
-		table.HasCheckableRows = value.GetValueBool()
-	case "HasSaveButton":
-		table.HasSaveButton = value.GetValueBool()
-	case "SaveButtonLabel":
-		table.SaveButtonLabel = value.GetValueString()
-	case "HasBulkDeleteButton":
-		table.HasBulkDeleteButton = value.GetValueBool()
-	case "BulkDeleteButtonTooltip":
-		table.BulkDeleteButtonTooltip = value.GetValueString()
-	case "RowsSelectedForBulkDelete":
-		table.RowsSelectedForBulkDelete = make([]*Row, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Rows {
-					if stage.Row_stagedOrder[__instance__] == uint(id) {
-						table.RowsSelectedForBulkDelete = append(table.RowsSelectedForBulkDelete, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "CanDragDropRows":
-		table.CanDragDropRows = value.GetValueBool()
-	case "HasCloseButton":
-		table.HasCloseButton = value.GetValueBool()
-	case "SavingInProgress":
-		table.SavingInProgress = value.GetValueBool()
-	case "NbOfStickyColumns":
-		table.NbOfStickyColumns = int(value.GetValueInt())
-	case "Buttons":
-		table.Buttons = make([]*Button, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Buttons {
-					if stage.Button_stagedOrder[__instance__] == uint(id) {
-						table.Buttons = append(table.Buttons, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (button *Button) GongGetGongstructName() string {

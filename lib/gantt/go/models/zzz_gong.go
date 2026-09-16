@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	gantt_go "github.com/fullstack-lang/gong/lib/gantt/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -250,9 +237,6 @@ type Stage struct {
 	OnAfterMilestoneDeleteCallback OnAfterDeleteInterface[Milestone]
 	OnAfterMilestoneReadCallback   OnAfterReadInterface[Milestone]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -281,8 +265,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -662,14 +644,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -801,28 +775,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/gantt/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return gantt_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return gantt_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -963,15 +917,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Arrow"},
-			{name: "Bar"},
-			{name: "Gantt"},
-			{name: "Group"},
-			{name: "Lane"},
-			{name: "LaneUse"},
-			{name: "Milestone"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1195,9 +1140,6 @@ func (arrow *Arrow) Commit(stage *Stage) *Arrow {
 	return arrow
 }
 
-func (arrow *Arrow) CommitVoid(stage *Stage) {
-	arrow.Commit(stage)
-}
 
 func (arrow *Arrow) StageVoid(stage *Stage) {
 	arrow.Stage(stage)
@@ -1283,9 +1225,6 @@ func (bar *Bar) Commit(stage *Stage) *Bar {
 	return bar
 }
 
-func (bar *Bar) CommitVoid(stage *Stage) {
-	bar.Commit(stage)
-}
 
 func (bar *Bar) StageVoid(stage *Stage) {
 	bar.Stage(stage)
@@ -1371,9 +1310,6 @@ func (gantt *Gantt) Commit(stage *Stage) *Gantt {
 	return gantt
 }
 
-func (gantt *Gantt) CommitVoid(stage *Stage) {
-	gantt.Commit(stage)
-}
 
 func (gantt *Gantt) StageVoid(stage *Stage) {
 	gantt.Stage(stage)
@@ -1459,9 +1395,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	return group
 }
 
-func (group *Group) CommitVoid(stage *Stage) {
-	group.Commit(stage)
-}
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
@@ -1547,9 +1480,6 @@ func (lane *Lane) Commit(stage *Stage) *Lane {
 	return lane
 }
 
-func (lane *Lane) CommitVoid(stage *Stage) {
-	lane.Commit(stage)
-}
 
 func (lane *Lane) StageVoid(stage *Stage) {
 	lane.Stage(stage)
@@ -1635,9 +1565,6 @@ func (laneuse *LaneUse) Commit(stage *Stage) *LaneUse {
 	return laneuse
 }
 
-func (laneuse *LaneUse) CommitVoid(stage *Stage) {
-	laneuse.Commit(stage)
-}
 
 func (laneuse *LaneUse) StageVoid(stage *Stage) {
 	laneuse.Stage(stage)
@@ -1723,9 +1650,6 @@ func (milestone *Milestone) Commit(stage *Stage) *Milestone {
 	return milestone
 }
 
-func (milestone *Milestone) CommitVoid(stage *Stage) {
-	milestone.Commit(stage)
-}
 
 func (milestone *Milestone) StageVoid(stage *Stage) {
 	milestone.Stage(stage)
@@ -1749,27 +1673,6 @@ func (milestone *Milestone) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (milestone *Milestone) SetName(name string) {
 	milestone.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMArrow(Arrow *Arrow)
-	CreateORMBar(Bar *Bar)
-	CreateORMGantt(Gantt *Gantt)
-	CreateORMGroup(Group *Group)
-	CreateORMLane(Lane *Lane)
-	CreateORMLaneUse(LaneUse *LaneUse)
-	CreateORMMilestone(Milestone *Milestone)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMArrow(Arrow *Arrow)
-	DeleteORMBar(Bar *Bar)
-	DeleteORMGantt(Gantt *Gantt)
-	DeleteORMGroup(Group *Group)
-	DeleteORMLane(Lane *Lane)
-	DeleteORMLaneUse(LaneUse *LaneUse)
-	DeleteORMMilestone(Milestone *Milestone)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1816,63 +1719,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Arrows = nil
-	stage.Arrows_mapString = nil
-
-	stage.Bars = nil
-	stage.Bars_mapString = nil
-
-	stage.Gantts = nil
-	stage.Gantts_mapString = nil
-
-	stage.Groups = nil
-	stage.Groups_mapString = nil
-
-	stage.Lanes = nil
-	stage.Lanes_mapString = nil
-
-	stage.LaneUses = nil
-	stage.LaneUses_mapString = nil
-
-	stage.Milestones = nil
-	stage.Milestones_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for arrow := range stage.Arrows {
-		arrow.Unstage(stage)
-	}
-
-	for bar := range stage.Bars {
-		bar.Unstage(stage)
-	}
-
-	for gantt := range stage.Gantts {
-		gantt.Unstage(stage)
-	}
-
-	for group := range stage.Groups {
-		group.Unstage(stage)
-	}
-
-	for lane := range stage.Lanes {
-		lane.Unstage(stage)
-	}
-
-	for laneuse := range stage.LaneUses {
-		laneuse.Unstage(stage)
-	}
-
-	for milestone := range stage.Milestones {
-		milestone.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1890,13 +1736,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -3014,274 +2858,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (arrow *Arrow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		arrow.Name = value.GetValueString()
-	case "From":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			arrow.From = nil
-			for __instance__ := range stage.Bars {
-				if stage.Bar_stagedOrder[__instance__] == uint(id) {
-					arrow.From = __instance__
-					break
-				}
-			}
-		}
-	case "To":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			arrow.To = nil
-			for __instance__ := range stage.Bars {
-				if stage.Bar_stagedOrder[__instance__] == uint(id) {
-					arrow.To = __instance__
-					break
-				}
-			}
-		}
-	case "OptionnalColor":
-		arrow.OptionnalColor = value.GetValueString()
-	case "OptionnalStroke":
-		arrow.OptionnalStroke = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bar *Bar) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bar.Name = value.GetValueString()
-	case "OptionnalColor":
-		bar.OptionnalColor = value.GetValueString()
-	case "OptionnalStroke":
-		bar.OptionnalStroke = value.GetValueString()
-	case "FillOpacity":
-		bar.FillOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		bar.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		bar.StrokeDashArray = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		gantt.Name = value.GetValueString()
-	case "UseManualStartAndEndDates":
-		gantt.UseManualStartAndEndDates = value.GetValueBool()
-	case "LaneHeight":
-		gantt.LaneHeight = value.GetValueFloat()
-	case "RatioBarToLaneHeight":
-		gantt.RatioBarToLaneHeight = value.GetValueFloat()
-	case "YTopMargin":
-		gantt.YTopMargin = value.GetValueFloat()
-	case "XLeftText":
-		gantt.XLeftText = value.GetValueFloat()
-	case "TextHeight":
-		gantt.TextHeight = value.GetValueFloat()
-	case "XLeftLanes":
-		gantt.XLeftLanes = value.GetValueFloat()
-	case "XRightMargin":
-		gantt.XRightMargin = value.GetValueFloat()
-	case "ArrowLengthToTheRightOfStartBar":
-		gantt.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
-	case "ArrowTipLenght":
-		gantt.ArrowTipLenght = value.GetValueFloat()
-	case "TimeLine_Color":
-		gantt.TimeLine_Color = value.GetValueString()
-	case "TimeLine_FillOpacity":
-		gantt.TimeLine_FillOpacity = value.GetValueFloat()
-	case "TimeLine_Stroke":
-		gantt.TimeLine_Stroke = value.GetValueString()
-	case "TimeLine_StrokeWidth":
-		gantt.TimeLine_StrokeWidth = value.GetValueFloat()
-	case "Group_Stroke":
-		gantt.Group_Stroke = value.GetValueString()
-	case "Group_StrokeWidth":
-		gantt.Group_StrokeWidth = value.GetValueFloat()
-	case "Group_StrokeDashArray":
-		gantt.Group_StrokeDashArray = value.GetValueString()
-	case "DateYOffset":
-		gantt.DateYOffset = value.GetValueFloat()
-	case "AlignOnStartEndOnYearStart":
-		gantt.AlignOnStartEndOnYearStart = value.GetValueBool()
-	case "Lanes":
-		gantt.Lanes = make([]*Lane, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lanes {
-					if stage.Lane_stagedOrder[__instance__] == uint(id) {
-						gantt.Lanes = append(gantt.Lanes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Milestones":
-		gantt.Milestones = make([]*Milestone, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Milestones {
-					if stage.Milestone_stagedOrder[__instance__] == uint(id) {
-						gantt.Milestones = append(gantt.Milestones, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Groups":
-		gantt.Groups = make([]*Group, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Groups {
-					if stage.Group_stagedOrder[__instance__] == uint(id) {
-						gantt.Groups = append(gantt.Groups, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Arrows":
-		gantt.Arrows = make([]*Arrow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Arrows {
-					if stage.Arrow_stagedOrder[__instance__] == uint(id) {
-						gantt.Arrows = append(gantt.Arrows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group.Name = value.GetValueString()
-	case "GroupLanes":
-		group.GroupLanes = make([]*Lane, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lanes {
-					if stage.Lane_stagedOrder[__instance__] == uint(id) {
-						group.GroupLanes = append(group.GroupLanes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (lane *Lane) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		lane.Name = value.GetValueString()
-	case "Order":
-		lane.Order = int(value.GetValueInt())
-	case "Bars":
-		lane.Bars = make([]*Bar, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bars {
-					if stage.Bar_stagedOrder[__instance__] == uint(id) {
-						lane.Bars = append(lane.Bars, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (laneuse *LaneUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		laneuse.Name = value.GetValueString()
-	case "Lane":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			laneuse.Lane = nil
-			for __instance__ := range stage.Lanes {
-				if stage.Lane_stagedOrder[__instance__] == uint(id) {
-					laneuse.Lane = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		milestone.Name = value.GetValueString()
-	case "DisplayVerticalBar":
-		milestone.DisplayVerticalBar = value.GetValueBool()
-	case "LanesToDisplay":
-		milestone.LanesToDisplay = make([]*Lane, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lanes {
-					if stage.Lane_stagedOrder[__instance__] == uint(id) {
-						milestone.LanesToDisplay = append(milestone.LanesToDisplay, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (arrow *Arrow) GongGetGongstructName() string {

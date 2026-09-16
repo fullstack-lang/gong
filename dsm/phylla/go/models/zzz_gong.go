@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	phylla_go "github.com/fullstack-lang/gong/dsm/phylla/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -2439,9 +2426,6 @@ type Stage struct {
 	OnAfterVolumeKey3DShapeDeleteCallback OnAfterDeleteInterface[VolumeKey3DShape]
 	OnAfterVolumeKey3DShapeReadCallback   OnAfterReadInterface[VolumeKey3DShape]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -2470,8 +2454,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -5353,14 +5335,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -7438,28 +7412,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/phylla/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return phylla_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return phylla_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -9129,154 +9083,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Angle0Shape"},
-			{name: "ArcNormalVectorShape"},
-			{name: "ArcNormalVectorShapeGrid"},
-			{name: "AxesShape"},
-			{name: "BaseVectorShape"},
-			{name: "BaseVectorShapeGrid"},
-			{name: "ChosenP1P2PairShape"},
-			{name: "CircleGridShape"},
-			{name: "Circumference3DShape"},
-			{name: "Clock2DDiagram"},
-			{name: "Clock3DDiagram"},
-			{name: "ClockAbstract"},
-			{name: "ClockTopCurveShape"},
-			{name: "CutLine3DShape"},
-			{name: "EndArcShape"},
-			{name: "EndArcShapeGrid"},
-			{name: "EndHalfwayArcShape"},
-			{name: "EndHalfwayArcShapeGrid"},
-			{name: "ExplanationTextShape"},
-			{name: "Eye3DShape"},
-			{name: "EyeCornersSampledPoints3DShape"},
-			{name: "EyeSampledPoints3DShape"},
-			{name: "EyeSeatBottomCurveShape"},
-			{name: "EyeStoolBottomCurveShape"},
-			{name: "EyeVolume3DShape"},
-			{name: "GridPathShape"},
-			{name: "GrowthCurve2D"},
-			{name: "GrowthCurve2DRibbon"},
-			{name: "GrowthCurve2DRibbonEndShape"},
-			{name: "GrowthCurve2DRibbonStartShape"},
-			{name: "GrowthCurveRhombusGridShape"},
-			{name: "GrowthCurveRhombusShape"},
-			{name: "GrowthVectorShape"},
-			{name: "InitialRhombusGridShape"},
-			{name: "InitialRhombusShape"},
-			{name: "Key3DShape"},
-			{name: "KeyHole3DShape"},
-			{name: "KeyHoleShape"},
-			{name: "Leaves3DShape"},
-			{name: "Library"},
-			{name: "MidArcVectorShape"},
-			{name: "MidArcVectorShapeGrid"},
-			{name: "MusicAbstract"},
-			{name: "OriginalPoints3DShape"},
-			{name: "ParastichyMCurves3DShape"},
-			{name: "ParastichyNCurves3DShape"},
-			{name: "PartiallyGrowthCurve2DRibbon"},
-			{name: "PartiallyGrowthCurve2DRibbonEndShape"},
-			{name: "PartiallyGrowthCurve2DRibbonStartShape"},
-			{name: "PartiallyGrowthCurve2DTrajectory"},
-			{name: "PartiallyGrowthCurve2DTrajectoryP1CurveShape"},
-			{name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
-			{name: "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape"},
-			{name: "PartiallyGrowthCurve2DTrajectoryP1PointShape"},
-			{name: "PartiallyGrowthCurve2DTrajectoryP2CurveShape"},
-			{name: "PartiallyGrowthCurve2DTrajectoryP2PointShape"},
-			{name: "PartiallyGrowthCurve2DTrajectoryShape"},
-			{name: "PartiallyRotatedSeatBottomCurveShape"},
-			{name: "PartiallyRotatedSeatTopCurveShape"},
-			{name: "PartiallyRotatedTorusShape"},
-			{name: "PerpendicularVector"},
-			{name: "PerpendicularVectorGrid"},
-			{name: "PerpendicularVectorGridHalfway"},
-			{name: "PerpendicularVectorHalfway"},
-			{name: "Plant2DDiagram"},
-			{name: "Plant3DDiagram"},
-			{name: "PlantAbstract"},
-			{name: "PlantCircumferenceShape"},
-			{name: "PointsAndLines3DShape"},
-			{name: "PxShape"},
-			{name: "Rendered3DShape"},
-			{name: "RhombusShape"},
-			{name: "RhombusStuff"},
-			{name: "RotatedRhombusGridShape"},
-			{name: "RotatedRhombusShape"},
-			{name: "RotatedSampledPoints3DShape"},
-			{name: "RotatedSeatAndLegs3DShape"},
-			{name: "SampledPoints3DShape"},
-			{name: "Seat3DShape"},
-			{name: "SeatAndLegs3DShape"},
-			{name: "SeatBottomCurveShape"},
-			{name: "SeatTopCurveShape"},
-			{name: "ShiftedBottomTopStartArcShape"},
-			{name: "ShiftedBottomTopStartArcShapeGrid"},
-			{name: "ShiftedLeftGrowthCurve2DRibbon"},
-			{name: "ShiftedLeftGrowthCurve2DRibbonEndShape"},
-			{name: "ShiftedLeftGrowthCurve2DRibbonStartShape"},
-			{name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
-			{name: "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape"},
-			{name: "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape"},
-			{name: "ShiftedLeftStackGrowthCurveEndArcShape"},
-			{name: "ShiftedLeftStackGrowthCurveStartArcShape"},
-			{name: "ShiftedLeftStackNormalVector"},
-			{name: "ShiftedLeftStackOfGrowthCurve"},
-			{name: "ShiftedLeftStackOfNormalVector"},
-			{name: "ShiftedRightGrowthCurve2DRibbon"},
-			{name: "ShiftedRightGrowthCurve2DRibbonEndShape"},
-			{name: "ShiftedRightGrowthCurve2DRibbonStartShape"},
-			{name: "StackGrowthCurve2DEndHalfwayArcShape"},
-			{name: "StackGrowthCurve2DRibbonEndShape"},
-			{name: "StackGrowthCurve2DRibbonStartShape"},
-			{name: "StackGrowthCurve2DStartHalfwayArcShape"},
-			{name: "StackOfGrowthCurve2D"},
-			{name: "StackOfGrowthCurve2DByGrowthVector"},
-			{name: "StackOfGrowthCurve2DRibbon"},
-			{name: "StackOfPartiallyRotatedTorusShape"},
-			{name: "StackOfRotatedGrowthCurve2D"},
-			{name: "StackOfRotatedGrowthCurve2DRibbon"},
-			{name: "StackRotatedGrowthCurve2DEndArcShape"},
-			{name: "StackRotatedGrowthCurve2DRibbonEndShape"},
-			{name: "StackRotatedGrowthCurve2DRibbonStartShape"},
-			{name: "StackRotatedGrowthCurve2DStartArcShape"},
-			{name: "StartArcShape"},
-			{name: "StartArcShapeGrid"},
-			{name: "StartHalfwayArcShape"},
-			{name: "StartHalfwayArcShapeGrid"},
-			{name: "StemCylinder3DShape"},
-			{name: "Stool2DDiagram"},
-			{name: "Stool3DDiagram"},
-			{name: "StoolAbstract"},
-			{name: "TiledFloor3DShape"},
-			{name: "TopEndArcShape"},
-			{name: "TopEndArcShapeGrid"},
-			{name: "TopEndHalfwayArcShape"},
-			{name: "TopEndHalfwayArcShapeGrid"},
-			{name: "TopGrowthCurve2D"},
-			{name: "TopMidArcVectorShape"},
-			{name: "TopMidArcVectorShapeGrid"},
-			{name: "TopStackGrowthCurve2DEndHalfwayArcShape"},
-			{name: "TopStackGrowthCurve2DStartHalfwayArcShape"},
-			{name: "TopStackOfGrowthCurve2D"},
-			{name: "TopStackOfRotatedGrowthCurve2D"},
-			{name: "TopStackOfRotatedGrowthCurve2DEndArcShape"},
-			{name: "TopStackOfRotatedGrowthCurve2DStartArcShape"},
-			{name: "TopStartArcShape"},
-			{name: "TopStartArcShapeGrid"},
-			{name: "TopStartHalfwayArcShape"},
-			{name: "TopStartHalfwayArcShapeGrid"},
-			{name: "Torus3DShape"},
-			{name: "TorusEdge3DShape"},
-			{name: "TorusStackShape"},
-			{name: "TubeVase3DDiagram"},
-			{name: "TubeVaseAbstract"},
-			{name: "Vase2DDiagram"},
-			{name: "VerticalTorusStackShape"},
-			{name: "VolumeKey3DShape"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -10195,9 +10001,6 @@ func (angle0shape *Angle0Shape) Commit(stage *Stage) *Angle0Shape {
 	return angle0shape
 }
 
-func (angle0shape *Angle0Shape) CommitVoid(stage *Stage) {
-	angle0shape.Commit(stage)
-}
 
 func (angle0shape *Angle0Shape) StageVoid(stage *Stage) {
 	angle0shape.Stage(stage)
@@ -10283,9 +10086,6 @@ func (arcnormalvectorshape *ArcNormalVectorShape) Commit(stage *Stage) *ArcNorma
 	return arcnormalvectorshape
 }
 
-func (arcnormalvectorshape *ArcNormalVectorShape) CommitVoid(stage *Stage) {
-	arcnormalvectorshape.Commit(stage)
-}
 
 func (arcnormalvectorshape *ArcNormalVectorShape) StageVoid(stage *Stage) {
 	arcnormalvectorshape.Stage(stage)
@@ -10371,9 +10171,6 @@ func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) Commit(stage *Stage) *
 	return arcnormalvectorshapegrid
 }
 
-func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) CommitVoid(stage *Stage) {
-	arcnormalvectorshapegrid.Commit(stage)
-}
 
 func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) StageVoid(stage *Stage) {
 	arcnormalvectorshapegrid.Stage(stage)
@@ -10459,9 +10256,6 @@ func (axesshape *AxesShape) Commit(stage *Stage) *AxesShape {
 	return axesshape
 }
 
-func (axesshape *AxesShape) CommitVoid(stage *Stage) {
-	axesshape.Commit(stage)
-}
 
 func (axesshape *AxesShape) StageVoid(stage *Stage) {
 	axesshape.Stage(stage)
@@ -10547,9 +10341,6 @@ func (basevectorshape *BaseVectorShape) Commit(stage *Stage) *BaseVectorShape {
 	return basevectorshape
 }
 
-func (basevectorshape *BaseVectorShape) CommitVoid(stage *Stage) {
-	basevectorshape.Commit(stage)
-}
 
 func (basevectorshape *BaseVectorShape) StageVoid(stage *Stage) {
 	basevectorshape.Stage(stage)
@@ -10635,9 +10426,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) Commit(stage *Stage) *BaseVector
 	return basevectorshapegrid
 }
 
-func (basevectorshapegrid *BaseVectorShapeGrid) CommitVoid(stage *Stage) {
-	basevectorshapegrid.Commit(stage)
-}
 
 func (basevectorshapegrid *BaseVectorShapeGrid) StageVoid(stage *Stage) {
 	basevectorshapegrid.Stage(stage)
@@ -10723,9 +10511,6 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) Commit(stage *Stage) *ChosenP1P2
 	return chosenp1p2pairshape
 }
 
-func (chosenp1p2pairshape *ChosenP1P2PairShape) CommitVoid(stage *Stage) {
-	chosenp1p2pairshape.Commit(stage)
-}
 
 func (chosenp1p2pairshape *ChosenP1P2PairShape) StageVoid(stage *Stage) {
 	chosenp1p2pairshape.Stage(stage)
@@ -10811,9 +10596,6 @@ func (circlegridshape *CircleGridShape) Commit(stage *Stage) *CircleGridShape {
 	return circlegridshape
 }
 
-func (circlegridshape *CircleGridShape) CommitVoid(stage *Stage) {
-	circlegridshape.Commit(stage)
-}
 
 func (circlegridshape *CircleGridShape) StageVoid(stage *Stage) {
 	circlegridshape.Stage(stage)
@@ -10899,9 +10681,6 @@ func (circumference3dshape *Circumference3DShape) Commit(stage *Stage) *Circumfe
 	return circumference3dshape
 }
 
-func (circumference3dshape *Circumference3DShape) CommitVoid(stage *Stage) {
-	circumference3dshape.Commit(stage)
-}
 
 func (circumference3dshape *Circumference3DShape) StageVoid(stage *Stage) {
 	circumference3dshape.Stage(stage)
@@ -10987,9 +10766,6 @@ func (clock2ddiagram *Clock2DDiagram) Commit(stage *Stage) *Clock2DDiagram {
 	return clock2ddiagram
 }
 
-func (clock2ddiagram *Clock2DDiagram) CommitVoid(stage *Stage) {
-	clock2ddiagram.Commit(stage)
-}
 
 func (clock2ddiagram *Clock2DDiagram) StageVoid(stage *Stage) {
 	clock2ddiagram.Stage(stage)
@@ -11075,9 +10851,6 @@ func (clock3ddiagram *Clock3DDiagram) Commit(stage *Stage) *Clock3DDiagram {
 	return clock3ddiagram
 }
 
-func (clock3ddiagram *Clock3DDiagram) CommitVoid(stage *Stage) {
-	clock3ddiagram.Commit(stage)
-}
 
 func (clock3ddiagram *Clock3DDiagram) StageVoid(stage *Stage) {
 	clock3ddiagram.Stage(stage)
@@ -11163,9 +10936,6 @@ func (clockabstract *ClockAbstract) Commit(stage *Stage) *ClockAbstract {
 	return clockabstract
 }
 
-func (clockabstract *ClockAbstract) CommitVoid(stage *Stage) {
-	clockabstract.Commit(stage)
-}
 
 func (clockabstract *ClockAbstract) StageVoid(stage *Stage) {
 	clockabstract.Stage(stage)
@@ -11251,9 +11021,6 @@ func (clocktopcurveshape *ClockTopCurveShape) Commit(stage *Stage) *ClockTopCurv
 	return clocktopcurveshape
 }
 
-func (clocktopcurveshape *ClockTopCurveShape) CommitVoid(stage *Stage) {
-	clocktopcurveshape.Commit(stage)
-}
 
 func (clocktopcurveshape *ClockTopCurveShape) StageVoid(stage *Stage) {
 	clocktopcurveshape.Stage(stage)
@@ -11339,9 +11106,6 @@ func (cutline3dshape *CutLine3DShape) Commit(stage *Stage) *CutLine3DShape {
 	return cutline3dshape
 }
 
-func (cutline3dshape *CutLine3DShape) CommitVoid(stage *Stage) {
-	cutline3dshape.Commit(stage)
-}
 
 func (cutline3dshape *CutLine3DShape) StageVoid(stage *Stage) {
 	cutline3dshape.Stage(stage)
@@ -11427,9 +11191,6 @@ func (endarcshape *EndArcShape) Commit(stage *Stage) *EndArcShape {
 	return endarcshape
 }
 
-func (endarcshape *EndArcShape) CommitVoid(stage *Stage) {
-	endarcshape.Commit(stage)
-}
 
 func (endarcshape *EndArcShape) StageVoid(stage *Stage) {
 	endarcshape.Stage(stage)
@@ -11515,9 +11276,6 @@ func (endarcshapegrid *EndArcShapeGrid) Commit(stage *Stage) *EndArcShapeGrid {
 	return endarcshapegrid
 }
 
-func (endarcshapegrid *EndArcShapeGrid) CommitVoid(stage *Stage) {
-	endarcshapegrid.Commit(stage)
-}
 
 func (endarcshapegrid *EndArcShapeGrid) StageVoid(stage *Stage) {
 	endarcshapegrid.Stage(stage)
@@ -11603,9 +11361,6 @@ func (endhalfwayarcshape *EndHalfwayArcShape) Commit(stage *Stage) *EndHalfwayAr
 	return endhalfwayarcshape
 }
 
-func (endhalfwayarcshape *EndHalfwayArcShape) CommitVoid(stage *Stage) {
-	endhalfwayarcshape.Commit(stage)
-}
 
 func (endhalfwayarcshape *EndHalfwayArcShape) StageVoid(stage *Stage) {
 	endhalfwayarcshape.Stage(stage)
@@ -11691,9 +11446,6 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) Commit(stage *Stage) *EndH
 	return endhalfwayarcshapegrid
 }
 
-func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) CommitVoid(stage *Stage) {
-	endhalfwayarcshapegrid.Commit(stage)
-}
 
 func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	endhalfwayarcshapegrid.Stage(stage)
@@ -11779,9 +11531,6 @@ func (explanationtextshape *ExplanationTextShape) Commit(stage *Stage) *Explanat
 	return explanationtextshape
 }
 
-func (explanationtextshape *ExplanationTextShape) CommitVoid(stage *Stage) {
-	explanationtextshape.Commit(stage)
-}
 
 func (explanationtextshape *ExplanationTextShape) StageVoid(stage *Stage) {
 	explanationtextshape.Stage(stage)
@@ -11867,9 +11616,6 @@ func (eye3dshape *Eye3DShape) Commit(stage *Stage) *Eye3DShape {
 	return eye3dshape
 }
 
-func (eye3dshape *Eye3DShape) CommitVoid(stage *Stage) {
-	eye3dshape.Commit(stage)
-}
 
 func (eye3dshape *Eye3DShape) StageVoid(stage *Stage) {
 	eye3dshape.Stage(stage)
@@ -11955,9 +11701,6 @@ func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Commit(sta
 	return eyecornerssampledpoints3dshape
 }
 
-func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) CommitVoid(stage *Stage) {
-	eyecornerssampledpoints3dshape.Commit(stage)
-}
 
 func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) StageVoid(stage *Stage) {
 	eyecornerssampledpoints3dshape.Stage(stage)
@@ -12043,9 +11786,6 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) Commit(stage *Stage) *Ey
 	return eyesampledpoints3dshape
 }
 
-func (eyesampledpoints3dshape *EyeSampledPoints3DShape) CommitVoid(stage *Stage) {
-	eyesampledpoints3dshape.Commit(stage)
-}
 
 func (eyesampledpoints3dshape *EyeSampledPoints3DShape) StageVoid(stage *Stage) {
 	eyesampledpoints3dshape.Stage(stage)
@@ -12131,9 +11871,6 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Commit(stage *Stage) *Ey
 	return eyeseatbottomcurveshape
 }
 
-func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) CommitVoid(stage *Stage) {
-	eyeseatbottomcurveshape.Commit(stage)
-}
 
 func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) StageVoid(stage *Stage) {
 	eyeseatbottomcurveshape.Stage(stage)
@@ -12219,9 +11956,6 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Commit(stage *Stage) *
 	return eyestoolbottomcurveshape
 }
 
-func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) CommitVoid(stage *Stage) {
-	eyestoolbottomcurveshape.Commit(stage)
-}
 
 func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) StageVoid(stage *Stage) {
 	eyestoolbottomcurveshape.Stage(stage)
@@ -12307,9 +12041,6 @@ func (eyevolume3dshape *EyeVolume3DShape) Commit(stage *Stage) *EyeVolume3DShape
 	return eyevolume3dshape
 }
 
-func (eyevolume3dshape *EyeVolume3DShape) CommitVoid(stage *Stage) {
-	eyevolume3dshape.Commit(stage)
-}
 
 func (eyevolume3dshape *EyeVolume3DShape) StageVoid(stage *Stage) {
 	eyevolume3dshape.Stage(stage)
@@ -12395,9 +12126,6 @@ func (gridpathshape *GridPathShape) Commit(stage *Stage) *GridPathShape {
 	return gridpathshape
 }
 
-func (gridpathshape *GridPathShape) CommitVoid(stage *Stage) {
-	gridpathshape.Commit(stage)
-}
 
 func (gridpathshape *GridPathShape) StageVoid(stage *Stage) {
 	gridpathshape.Stage(stage)
@@ -12483,9 +12211,6 @@ func (growthcurve2d *GrowthCurve2D) Commit(stage *Stage) *GrowthCurve2D {
 	return growthcurve2d
 }
 
-func (growthcurve2d *GrowthCurve2D) CommitVoid(stage *Stage) {
-	growthcurve2d.Commit(stage)
-}
 
 func (growthcurve2d *GrowthCurve2D) StageVoid(stage *Stage) {
 	growthcurve2d.Stage(stage)
@@ -12571,9 +12296,6 @@ func (growthcurve2dribbon *GrowthCurve2DRibbon) Commit(stage *Stage) *GrowthCurv
 	return growthcurve2dribbon
 }
 
-func (growthcurve2dribbon *GrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	growthcurve2dribbon.Commit(stage)
-}
 
 func (growthcurve2dribbon *GrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	growthcurve2dribbon.Stage(stage)
@@ -12659,9 +12381,6 @@ func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) Commit(stage *St
 	return growthcurve2dribbonendshape
 }
 
-func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	growthcurve2dribbonendshape.Commit(stage)
-}
 
 func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	growthcurve2dribbonendshape.Stage(stage)
@@ -12747,9 +12466,6 @@ func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) Commit(stage
 	return growthcurve2dribbonstartshape
 }
 
-func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	growthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	growthcurve2dribbonstartshape.Stage(stage)
@@ -12835,9 +12551,6 @@ func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) Commit(stage *St
 	return growthcurverhombusgridshape
 }
 
-func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) CommitVoid(stage *Stage) {
-	growthcurverhombusgridshape.Commit(stage)
-}
 
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) StageVoid(stage *Stage) {
 	growthcurverhombusgridshape.Stage(stage)
@@ -12923,9 +12636,6 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) Commit(stage *Stage) *Gr
 	return growthcurverhombusshape
 }
 
-func (growthcurverhombusshape *GrowthCurveRhombusShape) CommitVoid(stage *Stage) {
-	growthcurverhombusshape.Commit(stage)
-}
 
 func (growthcurverhombusshape *GrowthCurveRhombusShape) StageVoid(stage *Stage) {
 	growthcurverhombusshape.Stage(stage)
@@ -13011,9 +12721,6 @@ func (growthvectorshape *GrowthVectorShape) Commit(stage *Stage) *GrowthVectorSh
 	return growthvectorshape
 }
 
-func (growthvectorshape *GrowthVectorShape) CommitVoid(stage *Stage) {
-	growthvectorshape.Commit(stage)
-}
 
 func (growthvectorshape *GrowthVectorShape) StageVoid(stage *Stage) {
 	growthvectorshape.Stage(stage)
@@ -13099,9 +12806,6 @@ func (initialrhombusgridshape *InitialRhombusGridShape) Commit(stage *Stage) *In
 	return initialrhombusgridshape
 }
 
-func (initialrhombusgridshape *InitialRhombusGridShape) CommitVoid(stage *Stage) {
-	initialrhombusgridshape.Commit(stage)
-}
 
 func (initialrhombusgridshape *InitialRhombusGridShape) StageVoid(stage *Stage) {
 	initialrhombusgridshape.Stage(stage)
@@ -13187,9 +12891,6 @@ func (initialrhombusshape *InitialRhombusShape) Commit(stage *Stage) *InitialRho
 	return initialrhombusshape
 }
 
-func (initialrhombusshape *InitialRhombusShape) CommitVoid(stage *Stage) {
-	initialrhombusshape.Commit(stage)
-}
 
 func (initialrhombusshape *InitialRhombusShape) StageVoid(stage *Stage) {
 	initialrhombusshape.Stage(stage)
@@ -13275,9 +12976,6 @@ func (key3dshape *Key3DShape) Commit(stage *Stage) *Key3DShape {
 	return key3dshape
 }
 
-func (key3dshape *Key3DShape) CommitVoid(stage *Stage) {
-	key3dshape.Commit(stage)
-}
 
 func (key3dshape *Key3DShape) StageVoid(stage *Stage) {
 	key3dshape.Stage(stage)
@@ -13363,9 +13061,6 @@ func (keyhole3dshape *KeyHole3DShape) Commit(stage *Stage) *KeyHole3DShape {
 	return keyhole3dshape
 }
 
-func (keyhole3dshape *KeyHole3DShape) CommitVoid(stage *Stage) {
-	keyhole3dshape.Commit(stage)
-}
 
 func (keyhole3dshape *KeyHole3DShape) StageVoid(stage *Stage) {
 	keyhole3dshape.Stage(stage)
@@ -13451,9 +13146,6 @@ func (keyholeshape *KeyHoleShape) Commit(stage *Stage) *KeyHoleShape {
 	return keyholeshape
 }
 
-func (keyholeshape *KeyHoleShape) CommitVoid(stage *Stage) {
-	keyholeshape.Commit(stage)
-}
 
 func (keyholeshape *KeyHoleShape) StageVoid(stage *Stage) {
 	keyholeshape.Stage(stage)
@@ -13539,9 +13231,6 @@ func (leaves3dshape *Leaves3DShape) Commit(stage *Stage) *Leaves3DShape {
 	return leaves3dshape
 }
 
-func (leaves3dshape *Leaves3DShape) CommitVoid(stage *Stage) {
-	leaves3dshape.Commit(stage)
-}
 
 func (leaves3dshape *Leaves3DShape) StageVoid(stage *Stage) {
 	leaves3dshape.Stage(stage)
@@ -13627,9 +13316,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -13715,9 +13401,6 @@ func (midarcvectorshape *MidArcVectorShape) Commit(stage *Stage) *MidArcVectorSh
 	return midarcvectorshape
 }
 
-func (midarcvectorshape *MidArcVectorShape) CommitVoid(stage *Stage) {
-	midarcvectorshape.Commit(stage)
-}
 
 func (midarcvectorshape *MidArcVectorShape) StageVoid(stage *Stage) {
 	midarcvectorshape.Stage(stage)
@@ -13803,9 +13486,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) Commit(stage *Stage) *MidArc
 	return midarcvectorshapegrid
 }
 
-func (midarcvectorshapegrid *MidArcVectorShapeGrid) CommitVoid(stage *Stage) {
-	midarcvectorshapegrid.Commit(stage)
-}
 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) StageVoid(stage *Stage) {
 	midarcvectorshapegrid.Stage(stage)
@@ -13891,9 +13571,6 @@ func (musicabstract *MusicAbstract) Commit(stage *Stage) *MusicAbstract {
 	return musicabstract
 }
 
-func (musicabstract *MusicAbstract) CommitVoid(stage *Stage) {
-	musicabstract.Commit(stage)
-}
 
 func (musicabstract *MusicAbstract) StageVoid(stage *Stage) {
 	musicabstract.Stage(stage)
@@ -13979,9 +13656,6 @@ func (originalpoints3dshape *OriginalPoints3DShape) Commit(stage *Stage) *Origin
 	return originalpoints3dshape
 }
 
-func (originalpoints3dshape *OriginalPoints3DShape) CommitVoid(stage *Stage) {
-	originalpoints3dshape.Commit(stage)
-}
 
 func (originalpoints3dshape *OriginalPoints3DShape) StageVoid(stage *Stage) {
 	originalpoints3dshape.Stage(stage)
@@ -14067,9 +13741,6 @@ func (parastichymcurves3dshape *ParastichyMCurves3DShape) Commit(stage *Stage) *
 	return parastichymcurves3dshape
 }
 
-func (parastichymcurves3dshape *ParastichyMCurves3DShape) CommitVoid(stage *Stage) {
-	parastichymcurves3dshape.Commit(stage)
-}
 
 func (parastichymcurves3dshape *ParastichyMCurves3DShape) StageVoid(stage *Stage) {
 	parastichymcurves3dshape.Stage(stage)
@@ -14155,9 +13826,6 @@ func (parastichyncurves3dshape *ParastichyNCurves3DShape) Commit(stage *Stage) *
 	return parastichyncurves3dshape
 }
 
-func (parastichyncurves3dshape *ParastichyNCurves3DShape) CommitVoid(stage *Stage) {
-	parastichyncurves3dshape.Commit(stage)
-}
 
 func (parastichyncurves3dshape *ParastichyNCurves3DShape) StageVoid(stage *Stage) {
 	parastichyncurves3dshape.Stage(stage)
@@ -14243,9 +13911,6 @@ func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) Commit(stage *
 	return partiallygrowthcurve2dribbon
 }
 
-func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dribbon.Commit(stage)
-}
 
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dribbon.Stage(stage)
@@ -14331,9 +13996,6 @@ func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape
 	return partiallygrowthcurve2dribbonendshape
 }
 
-func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dribbonendshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dribbonendshape.Stage(stage)
@@ -14419,9 +14081,6 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	return partiallygrowthcurve2dribbonstartshape
 }
 
-func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dribbonstartshape.Stage(stage)
@@ -14507,9 +14166,6 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) Commit
 	return partiallygrowthcurve2dtrajectory
 }
 
-func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectory.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectory.Stage(stage)
@@ -14595,9 +14251,6 @@ func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajec
 	return partiallygrowthcurve2dtrajectoryp1curveshape
 }
 
-func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryp1curveshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1curveshape.Stage(stage)
@@ -14683,9 +14336,6 @@ func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2
 	return partiallygrowthcurve2dtrajectoryp1p2
 }
 
-func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryp1p2.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1p2.Stage(stage)
@@ -14771,9 +14421,6 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DT
 	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape
 }
 
-func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Stage(stage)
@@ -14859,9 +14506,6 @@ func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajec
 	return partiallygrowthcurve2dtrajectoryp1pointshape
 }
 
-func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryp1pointshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp1pointshape.Stage(stage)
@@ -14947,9 +14591,6 @@ func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajec
 	return partiallygrowthcurve2dtrajectoryp2curveshape
 }
 
-func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryp2curveshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp2curveshape.Stage(stage)
@@ -15035,9 +14676,6 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 	return partiallygrowthcurve2dtrajectoryp2pointshape
 }
 
-func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryp2pointshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryp2pointshape.Stage(stage)
@@ -15123,9 +14761,6 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return partiallygrowthcurve2dtrajectoryshape
 }
 
-func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) CommitVoid(stage *Stage) {
-	partiallygrowthcurve2dtrajectoryshape.Commit(stage)
-}
 
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) StageVoid(stage *Stage) {
 	partiallygrowthcurve2dtrajectoryshape.Stage(stage)
@@ -15211,9 +14846,6 @@ func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape
 	return partiallyrotatedseatbottomcurveshape
 }
 
-func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) CommitVoid(stage *Stage) {
-	partiallyrotatedseatbottomcurveshape.Commit(stage)
-}
 
 func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) StageVoid(stage *Stage) {
 	partiallyrotatedseatbottomcurveshape.Stage(stage)
@@ -15299,9 +14931,6 @@ func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Comm
 	return partiallyrotatedseattopcurveshape
 }
 
-func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) CommitVoid(stage *Stage) {
-	partiallyrotatedseattopcurveshape.Commit(stage)
-}
 
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) StageVoid(stage *Stage) {
 	partiallyrotatedseattopcurveshape.Stage(stage)
@@ -15387,9 +15016,6 @@ func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) Commit(stage *Stag
 	return partiallyrotatedtorusshape
 }
 
-func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) CommitVoid(stage *Stage) {
-	partiallyrotatedtorusshape.Commit(stage)
-}
 
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) StageVoid(stage *Stage) {
 	partiallyrotatedtorusshape.Stage(stage)
@@ -15475,9 +15101,6 @@ func (perpendicularvector *PerpendicularVector) Commit(stage *Stage) *Perpendicu
 	return perpendicularvector
 }
 
-func (perpendicularvector *PerpendicularVector) CommitVoid(stage *Stage) {
-	perpendicularvector.Commit(stage)
-}
 
 func (perpendicularvector *PerpendicularVector) StageVoid(stage *Stage) {
 	perpendicularvector.Stage(stage)
@@ -15563,9 +15186,6 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) Commit(stage *Stage) *Pe
 	return perpendicularvectorgrid
 }
 
-func (perpendicularvectorgrid *PerpendicularVectorGrid) CommitVoid(stage *Stage) {
-	perpendicularvectorgrid.Commit(stage)
-}
 
 func (perpendicularvectorgrid *PerpendicularVectorGrid) StageVoid(stage *Stage) {
 	perpendicularvectorgrid.Stage(stage)
@@ -15651,9 +15271,6 @@ func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) Commit(sta
 	return perpendicularvectorgridhalfway
 }
 
-func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) CommitVoid(stage *Stage) {
-	perpendicularvectorgridhalfway.Commit(stage)
-}
 
 func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) StageVoid(stage *Stage) {
 	perpendicularvectorgridhalfway.Stage(stage)
@@ -15739,9 +15356,6 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) Commit(stage *Stag
 	return perpendicularvectorhalfway
 }
 
-func (perpendicularvectorhalfway *PerpendicularVectorHalfway) CommitVoid(stage *Stage) {
-	perpendicularvectorhalfway.Commit(stage)
-}
 
 func (perpendicularvectorhalfway *PerpendicularVectorHalfway) StageVoid(stage *Stage) {
 	perpendicularvectorhalfway.Stage(stage)
@@ -15827,9 +15441,6 @@ func (plant2ddiagram *Plant2DDiagram) Commit(stage *Stage) *Plant2DDiagram {
 	return plant2ddiagram
 }
 
-func (plant2ddiagram *Plant2DDiagram) CommitVoid(stage *Stage) {
-	plant2ddiagram.Commit(stage)
-}
 
 func (plant2ddiagram *Plant2DDiagram) StageVoid(stage *Stage) {
 	plant2ddiagram.Stage(stage)
@@ -15915,9 +15526,6 @@ func (plant3ddiagram *Plant3DDiagram) Commit(stage *Stage) *Plant3DDiagram {
 	return plant3ddiagram
 }
 
-func (plant3ddiagram *Plant3DDiagram) CommitVoid(stage *Stage) {
-	plant3ddiagram.Commit(stage)
-}
 
 func (plant3ddiagram *Plant3DDiagram) StageVoid(stage *Stage) {
 	plant3ddiagram.Stage(stage)
@@ -16003,9 +15611,6 @@ func (plantabstract *PlantAbstract) Commit(stage *Stage) *PlantAbstract {
 	return plantabstract
 }
 
-func (plantabstract *PlantAbstract) CommitVoid(stage *Stage) {
-	plantabstract.Commit(stage)
-}
 
 func (plantabstract *PlantAbstract) StageVoid(stage *Stage) {
 	plantabstract.Stage(stage)
@@ -16091,9 +15696,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) Commit(stage *Stage) *Pl
 	return plantcircumferenceshape
 }
 
-func (plantcircumferenceshape *PlantCircumferenceShape) CommitVoid(stage *Stage) {
-	plantcircumferenceshape.Commit(stage)
-}
 
 func (plantcircumferenceshape *PlantCircumferenceShape) StageVoid(stage *Stage) {
 	plantcircumferenceshape.Stage(stage)
@@ -16179,9 +15781,6 @@ func (pointsandlines3dshape *PointsAndLines3DShape) Commit(stage *Stage) *Points
 	return pointsandlines3dshape
 }
 
-func (pointsandlines3dshape *PointsAndLines3DShape) CommitVoid(stage *Stage) {
-	pointsandlines3dshape.Commit(stage)
-}
 
 func (pointsandlines3dshape *PointsAndLines3DShape) StageVoid(stage *Stage) {
 	pointsandlines3dshape.Stage(stage)
@@ -16267,9 +15866,6 @@ func (pxshape *PxShape) Commit(stage *Stage) *PxShape {
 	return pxshape
 }
 
-func (pxshape *PxShape) CommitVoid(stage *Stage) {
-	pxshape.Commit(stage)
-}
 
 func (pxshape *PxShape) StageVoid(stage *Stage) {
 	pxshape.Stage(stage)
@@ -16355,9 +15951,6 @@ func (rendered3dshape *Rendered3DShape) Commit(stage *Stage) *Rendered3DShape {
 	return rendered3dshape
 }
 
-func (rendered3dshape *Rendered3DShape) CommitVoid(stage *Stage) {
-	rendered3dshape.Commit(stage)
-}
 
 func (rendered3dshape *Rendered3DShape) StageVoid(stage *Stage) {
 	rendered3dshape.Stage(stage)
@@ -16443,9 +16036,6 @@ func (rhombusshape *RhombusShape) Commit(stage *Stage) *RhombusShape {
 	return rhombusshape
 }
 
-func (rhombusshape *RhombusShape) CommitVoid(stage *Stage) {
-	rhombusshape.Commit(stage)
-}
 
 func (rhombusshape *RhombusShape) StageVoid(stage *Stage) {
 	rhombusshape.Stage(stage)
@@ -16531,9 +16121,6 @@ func (rhombusstuff *RhombusStuff) Commit(stage *Stage) *RhombusStuff {
 	return rhombusstuff
 }
 
-func (rhombusstuff *RhombusStuff) CommitVoid(stage *Stage) {
-	rhombusstuff.Commit(stage)
-}
 
 func (rhombusstuff *RhombusStuff) StageVoid(stage *Stage) {
 	rhombusstuff.Stage(stage)
@@ -16619,9 +16206,6 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) Commit(stage *Stage) *Ro
 	return rotatedrhombusgridshape
 }
 
-func (rotatedrhombusgridshape *RotatedRhombusGridShape) CommitVoid(stage *Stage) {
-	rotatedrhombusgridshape.Commit(stage)
-}
 
 func (rotatedrhombusgridshape *RotatedRhombusGridShape) StageVoid(stage *Stage) {
 	rotatedrhombusgridshape.Stage(stage)
@@ -16707,9 +16291,6 @@ func (rotatedrhombusshape *RotatedRhombusShape) Commit(stage *Stage) *RotatedRho
 	return rotatedrhombusshape
 }
 
-func (rotatedrhombusshape *RotatedRhombusShape) CommitVoid(stage *Stage) {
-	rotatedrhombusshape.Commit(stage)
-}
 
 func (rotatedrhombusshape *RotatedRhombusShape) StageVoid(stage *Stage) {
 	rotatedrhombusshape.Stage(stage)
@@ -16795,9 +16376,6 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) Commit(stage *St
 	return rotatedsampledpoints3dshape
 }
 
-func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) CommitVoid(stage *Stage) {
-	rotatedsampledpoints3dshape.Commit(stage)
-}
 
 func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) StageVoid(stage *Stage) {
 	rotatedsampledpoints3dshape.Stage(stage)
@@ -16883,9 +16461,6 @@ func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) Commit(stage *Stage)
 	return rotatedseatandlegs3dshape
 }
 
-func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) CommitVoid(stage *Stage) {
-	rotatedseatandlegs3dshape.Commit(stage)
-}
 
 func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) StageVoid(stage *Stage) {
 	rotatedseatandlegs3dshape.Stage(stage)
@@ -16971,9 +16546,6 @@ func (sampledpoints3dshape *SampledPoints3DShape) Commit(stage *Stage) *SampledP
 	return sampledpoints3dshape
 }
 
-func (sampledpoints3dshape *SampledPoints3DShape) CommitVoid(stage *Stage) {
-	sampledpoints3dshape.Commit(stage)
-}
 
 func (sampledpoints3dshape *SampledPoints3DShape) StageVoid(stage *Stage) {
 	sampledpoints3dshape.Stage(stage)
@@ -17059,9 +16631,6 @@ func (seat3dshape *Seat3DShape) Commit(stage *Stage) *Seat3DShape {
 	return seat3dshape
 }
 
-func (seat3dshape *Seat3DShape) CommitVoid(stage *Stage) {
-	seat3dshape.Commit(stage)
-}
 
 func (seat3dshape *Seat3DShape) StageVoid(stage *Stage) {
 	seat3dshape.Stage(stage)
@@ -17147,9 +16716,6 @@ func (seatandlegs3dshape *SeatAndLegs3DShape) Commit(stage *Stage) *SeatAndLegs3
 	return seatandlegs3dshape
 }
 
-func (seatandlegs3dshape *SeatAndLegs3DShape) CommitVoid(stage *Stage) {
-	seatandlegs3dshape.Commit(stage)
-}
 
 func (seatandlegs3dshape *SeatAndLegs3DShape) StageVoid(stage *Stage) {
 	seatandlegs3dshape.Stage(stage)
@@ -17235,9 +16801,6 @@ func (seatbottomcurveshape *SeatBottomCurveShape) Commit(stage *Stage) *SeatBott
 	return seatbottomcurveshape
 }
 
-func (seatbottomcurveshape *SeatBottomCurveShape) CommitVoid(stage *Stage) {
-	seatbottomcurveshape.Commit(stage)
-}
 
 func (seatbottomcurveshape *SeatBottomCurveShape) StageVoid(stage *Stage) {
 	seatbottomcurveshape.Stage(stage)
@@ -17323,9 +16886,6 @@ func (seattopcurveshape *SeatTopCurveShape) Commit(stage *Stage) *SeatTopCurveSh
 	return seattopcurveshape
 }
 
-func (seattopcurveshape *SeatTopCurveShape) CommitVoid(stage *Stage) {
-	seattopcurveshape.Commit(stage)
-}
 
 func (seattopcurveshape *SeatTopCurveShape) StageVoid(stage *Stage) {
 	seattopcurveshape.Stage(stage)
@@ -17411,9 +16971,6 @@ func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Commit(stage
 	return shiftedbottomtopstartarcshape
 }
 
-func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) CommitVoid(stage *Stage) {
-	shiftedbottomtopstartarcshape.Commit(stage)
-}
 
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) StageVoid(stage *Stage) {
 	shiftedbottomtopstartarcshape.Stage(stage)
@@ -17499,9 +17056,6 @@ func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Comm
 	return shiftedbottomtopstartarcshapegrid
 }
 
-func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) CommitVoid(stage *Stage) {
-	shiftedbottomtopstartarcshapegrid.Commit(stage)
-}
 
 func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) StageVoid(stage *Stage) {
 	shiftedbottomtopstartarcshapegrid.Stage(stage)
@@ -17587,9 +17141,6 @@ func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) Commit(sta
 	return shiftedleftgrowthcurve2dribbon
 }
 
-func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	shiftedleftgrowthcurve2dribbon.Commit(stage)
-}
 
 func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	shiftedleftgrowthcurve2dribbon.Stage(stage)
@@ -17675,9 +17226,6 @@ func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndS
 	return shiftedleftgrowthcurve2dribbonendshape
 }
 
-func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	shiftedleftgrowthcurve2dribbonendshape.Commit(stage)
-}
 
 func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	shiftedleftgrowthcurve2dribbonendshape.Stage(stage)
@@ -17763,9 +17311,6 @@ func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonSt
 	return shiftedleftgrowthcurve2dribbonstartshape
 }
 
-func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	shiftedleftgrowthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	shiftedleftgrowthcurve2dribbonstartshape.Stage(stage)
@@ -17851,9 +17396,6 @@ func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2D
 	return shiftedleftpartiallygrowthcurve2dribbon
 }
 
-func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	shiftedleftpartiallygrowthcurve2dribbon.Commit(stage)
-}
 
 func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	shiftedleftpartiallygrowthcurve2dribbon.Stage(stage)
@@ -17939,9 +17481,6 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowt
 	return shiftedleftpartiallygrowthcurve2dribbonendshape
 }
 
-func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	shiftedleftpartiallygrowthcurve2dribbonendshape.Commit(stage)
-}
 
 func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	shiftedleftpartiallygrowthcurve2dribbonendshape.Stage(stage)
@@ -18027,9 +17566,6 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGro
 	return shiftedleftpartiallygrowthcurve2dribbonstartshape
 }
 
-func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	shiftedleftpartiallygrowthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	shiftedleftpartiallygrowthcurve2dribbonstartshape.Stage(stage)
@@ -18115,9 +17651,6 @@ func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcS
 	return shiftedleftstackgrowthcurveendarcshape
 }
 
-func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) CommitVoid(stage *Stage) {
-	shiftedleftstackgrowthcurveendarcshape.Commit(stage)
-}
 
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) StageVoid(stage *Stage) {
 	shiftedleftstackgrowthcurveendarcshape.Stage(stage)
@@ -18203,9 +17736,6 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return shiftedleftstackgrowthcurvestartarcshape
 }
 
-func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) CommitVoid(stage *Stage) {
-	shiftedleftstackgrowthcurvestartarcshape.Commit(stage)
-}
 
 func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) StageVoid(stage *Stage) {
 	shiftedleftstackgrowthcurvestartarcshape.Stage(stage)
@@ -18291,9 +17821,6 @@ func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) Commit(stage *
 	return shiftedleftstacknormalvector
 }
 
-func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) CommitVoid(stage *Stage) {
-	shiftedleftstacknormalvector.Commit(stage)
-}
 
 func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) StageVoid(stage *Stage) {
 	shiftedleftstacknormalvector.Stage(stage)
@@ -18379,9 +17906,6 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) Commit(stage
 	return shiftedleftstackofgrowthcurve
 }
 
-func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) CommitVoid(stage *Stage) {
-	shiftedleftstackofgrowthcurve.Commit(stage)
-}
 
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) StageVoid(stage *Stage) {
 	shiftedleftstackofgrowthcurve.Stage(stage)
@@ -18467,9 +17991,6 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) Commit(sta
 	return shiftedleftstackofnormalvector
 }
 
-func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) CommitVoid(stage *Stage) {
-	shiftedleftstackofnormalvector.Commit(stage)
-}
 
 func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) StageVoid(stage *Stage) {
 	shiftedleftstackofnormalvector.Stage(stage)
@@ -18555,9 +18076,6 @@ func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) Commit(s
 	return shiftedrightgrowthcurve2dribbon
 }
 
-func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	shiftedrightgrowthcurve2dribbon.Commit(stage)
-}
 
 func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	shiftedrightgrowthcurve2dribbon.Stage(stage)
@@ -18643,9 +18161,6 @@ func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEn
 	return shiftedrightgrowthcurve2dribbonendshape
 }
 
-func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	shiftedrightgrowthcurve2dribbonendshape.Commit(stage)
-}
 
 func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	shiftedrightgrowthcurve2dribbonendshape.Stage(stage)
@@ -18731,9 +18246,6 @@ func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbon
 	return shiftedrightgrowthcurve2dribbonstartshape
 }
 
-func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	shiftedrightgrowthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	shiftedrightgrowthcurve2dribbonstartshape.Stage(stage)
@@ -18819,9 +18331,6 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return stackgrowthcurve2dendhalfwayarcshape
 }
 
-func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) CommitVoid(stage *Stage) {
-	stackgrowthcurve2dendhalfwayarcshape.Commit(stage)
-}
 
 func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dendhalfwayarcshape.Stage(stage)
@@ -18907,9 +18416,6 @@ func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) Commit
 	return stackgrowthcurve2dribbonendshape
 }
 
-func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	stackgrowthcurve2dribbonendshape.Commit(stage)
-}
 
 func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dribbonendshape.Stage(stage)
@@ -18995,9 +18501,6 @@ func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Co
 	return stackgrowthcurve2dribbonstartshape
 }
 
-func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	stackgrowthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dribbonstartshape.Stage(stage)
@@ -19083,9 +18586,6 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 	return stackgrowthcurve2dstarthalfwayarcshape
 }
 
-func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) CommitVoid(stage *Stage) {
-	stackgrowthcurve2dstarthalfwayarcshape.Commit(stage)
-}
 
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) StageVoid(stage *Stage) {
 	stackgrowthcurve2dstarthalfwayarcshape.Stage(stage)
@@ -19171,9 +18671,6 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) Commit(stage *Stage) *StackOfG
 	return stackofgrowthcurve2d
 }
 
-func (stackofgrowthcurve2d *StackOfGrowthCurve2D) CommitVoid(stage *Stage) {
-	stackofgrowthcurve2d.Commit(stage)
-}
 
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) StageVoid(stage *Stage) {
 	stackofgrowthcurve2d.Stage(stage)
@@ -19259,9 +18756,6 @@ func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Co
 	return stackofgrowthcurve2dbygrowthvector
 }
 
-func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) CommitVoid(stage *Stage) {
-	stackofgrowthcurve2dbygrowthvector.Commit(stage)
-}
 
 func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) StageVoid(stage *Stage) {
 	stackofgrowthcurve2dbygrowthvector.Stage(stage)
@@ -19347,9 +18841,6 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Commit(stage *Stag
 	return stackofgrowthcurve2dribbon
 }
 
-func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	stackofgrowthcurve2dribbon.Commit(stage)
-}
 
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	stackofgrowthcurve2dribbon.Stage(stage)
@@ -19435,9 +18926,6 @@ func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) Comm
 	return stackofpartiallyrotatedtorusshape
 }
 
-func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) CommitVoid(stage *Stage) {
-	stackofpartiallyrotatedtorusshape.Commit(stage)
-}
 
 func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) StageVoid(stage *Stage) {
 	stackofpartiallyrotatedtorusshape.Stage(stage)
@@ -19523,9 +19011,6 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) Commit(stage *St
 	return stackofrotatedgrowthcurve2d
 }
 
-func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) CommitVoid(stage *Stage) {
-	stackofrotatedgrowthcurve2d.Commit(stage)
-}
 
 func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) StageVoid(stage *Stage) {
 	stackofrotatedgrowthcurve2d.Stage(stage)
@@ -19611,9 +19096,6 @@ func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) Comm
 	return stackofrotatedgrowthcurve2dribbon
 }
 
-func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
-	stackofrotatedgrowthcurve2dribbon.Commit(stage)
-}
 
 func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) StageVoid(stage *Stage) {
 	stackofrotatedgrowthcurve2dribbon.Stage(stage)
@@ -19699,9 +19181,6 @@ func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape
 	return stackrotatedgrowthcurve2dendarcshape
 }
 
-func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) CommitVoid(stage *Stage) {
-	stackrotatedgrowthcurve2dendarcshape.Commit(stage)
-}
 
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dendarcshape.Stage(stage)
@@ -19787,9 +19266,6 @@ func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEn
 	return stackrotatedgrowthcurve2dribbonendshape
 }
 
-func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
-	stackrotatedgrowthcurve2dribbonendshape.Commit(stage)
-}
 
 func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dribbonendshape.Stage(stage)
@@ -19875,9 +19351,6 @@ func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbon
 	return stackrotatedgrowthcurve2dribbonstartshape
 }
 
-func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
-	stackrotatedgrowthcurve2dribbonstartshape.Commit(stage)
-}
 
 func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dribbonstartshape.Stage(stage)
@@ -19963,9 +19436,6 @@ func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcS
 	return stackrotatedgrowthcurve2dstartarcshape
 }
 
-func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) CommitVoid(stage *Stage) {
-	stackrotatedgrowthcurve2dstartarcshape.Commit(stage)
-}
 
 func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) StageVoid(stage *Stage) {
 	stackrotatedgrowthcurve2dstartarcshape.Stage(stage)
@@ -20051,9 +19521,6 @@ func (startarcshape *StartArcShape) Commit(stage *Stage) *StartArcShape {
 	return startarcshape
 }
 
-func (startarcshape *StartArcShape) CommitVoid(stage *Stage) {
-	startarcshape.Commit(stage)
-}
 
 func (startarcshape *StartArcShape) StageVoid(stage *Stage) {
 	startarcshape.Stage(stage)
@@ -20139,9 +19606,6 @@ func (startarcshapegrid *StartArcShapeGrid) Commit(stage *Stage) *StartArcShapeG
 	return startarcshapegrid
 }
 
-func (startarcshapegrid *StartArcShapeGrid) CommitVoid(stage *Stage) {
-	startarcshapegrid.Commit(stage)
-}
 
 func (startarcshapegrid *StartArcShapeGrid) StageVoid(stage *Stage) {
 	startarcshapegrid.Stage(stage)
@@ -20227,9 +19691,6 @@ func (starthalfwayarcshape *StartHalfwayArcShape) Commit(stage *Stage) *StartHal
 	return starthalfwayarcshape
 }
 
-func (starthalfwayarcshape *StartHalfwayArcShape) CommitVoid(stage *Stage) {
-	starthalfwayarcshape.Commit(stage)
-}
 
 func (starthalfwayarcshape *StartHalfwayArcShape) StageVoid(stage *Stage) {
 	starthalfwayarcshape.Stage(stage)
@@ -20315,9 +19776,6 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) Commit(stage *Stage) *
 	return starthalfwayarcshapegrid
 }
 
-func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) CommitVoid(stage *Stage) {
-	starthalfwayarcshapegrid.Commit(stage)
-}
 
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	starthalfwayarcshapegrid.Stage(stage)
@@ -20403,9 +19861,6 @@ func (stemcylinder3dshape *StemCylinder3DShape) Commit(stage *Stage) *StemCylind
 	return stemcylinder3dshape
 }
 
-func (stemcylinder3dshape *StemCylinder3DShape) CommitVoid(stage *Stage) {
-	stemcylinder3dshape.Commit(stage)
-}
 
 func (stemcylinder3dshape *StemCylinder3DShape) StageVoid(stage *Stage) {
 	stemcylinder3dshape.Stage(stage)
@@ -20491,9 +19946,6 @@ func (stool2ddiagram *Stool2DDiagram) Commit(stage *Stage) *Stool2DDiagram {
 	return stool2ddiagram
 }
 
-func (stool2ddiagram *Stool2DDiagram) CommitVoid(stage *Stage) {
-	stool2ddiagram.Commit(stage)
-}
 
 func (stool2ddiagram *Stool2DDiagram) StageVoid(stage *Stage) {
 	stool2ddiagram.Stage(stage)
@@ -20579,9 +20031,6 @@ func (stool3ddiagram *Stool3DDiagram) Commit(stage *Stage) *Stool3DDiagram {
 	return stool3ddiagram
 }
 
-func (stool3ddiagram *Stool3DDiagram) CommitVoid(stage *Stage) {
-	stool3ddiagram.Commit(stage)
-}
 
 func (stool3ddiagram *Stool3DDiagram) StageVoid(stage *Stage) {
 	stool3ddiagram.Stage(stage)
@@ -20667,9 +20116,6 @@ func (stoolabstract *StoolAbstract) Commit(stage *Stage) *StoolAbstract {
 	return stoolabstract
 }
 
-func (stoolabstract *StoolAbstract) CommitVoid(stage *Stage) {
-	stoolabstract.Commit(stage)
-}
 
 func (stoolabstract *StoolAbstract) StageVoid(stage *Stage) {
 	stoolabstract.Stage(stage)
@@ -20755,9 +20201,6 @@ func (tiledfloor3dshape *TiledFloor3DShape) Commit(stage *Stage) *TiledFloor3DSh
 	return tiledfloor3dshape
 }
 
-func (tiledfloor3dshape *TiledFloor3DShape) CommitVoid(stage *Stage) {
-	tiledfloor3dshape.Commit(stage)
-}
 
 func (tiledfloor3dshape *TiledFloor3DShape) StageVoid(stage *Stage) {
 	tiledfloor3dshape.Stage(stage)
@@ -20843,9 +20286,6 @@ func (topendarcshape *TopEndArcShape) Commit(stage *Stage) *TopEndArcShape {
 	return topendarcshape
 }
 
-func (topendarcshape *TopEndArcShape) CommitVoid(stage *Stage) {
-	topendarcshape.Commit(stage)
-}
 
 func (topendarcshape *TopEndArcShape) StageVoid(stage *Stage) {
 	topendarcshape.Stage(stage)
@@ -20931,9 +20371,6 @@ func (topendarcshapegrid *TopEndArcShapeGrid) Commit(stage *Stage) *TopEndArcSha
 	return topendarcshapegrid
 }
 
-func (topendarcshapegrid *TopEndArcShapeGrid) CommitVoid(stage *Stage) {
-	topendarcshapegrid.Commit(stage)
-}
 
 func (topendarcshapegrid *TopEndArcShapeGrid) StageVoid(stage *Stage) {
 	topendarcshapegrid.Stage(stage)
@@ -21019,9 +20456,6 @@ func (topendhalfwayarcshape *TopEndHalfwayArcShape) Commit(stage *Stage) *TopEnd
 	return topendhalfwayarcshape
 }
 
-func (topendhalfwayarcshape *TopEndHalfwayArcShape) CommitVoid(stage *Stage) {
-	topendhalfwayarcshape.Commit(stage)
-}
 
 func (topendhalfwayarcshape *TopEndHalfwayArcShape) StageVoid(stage *Stage) {
 	topendhalfwayarcshape.Stage(stage)
@@ -21107,9 +20541,6 @@ func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) Commit(stage *Stage)
 	return topendhalfwayarcshapegrid
 }
 
-func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) CommitVoid(stage *Stage) {
-	topendhalfwayarcshapegrid.Commit(stage)
-}
 
 func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	topendhalfwayarcshapegrid.Stage(stage)
@@ -21195,9 +20626,6 @@ func (topgrowthcurve2d *TopGrowthCurve2D) Commit(stage *Stage) *TopGrowthCurve2D
 	return topgrowthcurve2d
 }
 
-func (topgrowthcurve2d *TopGrowthCurve2D) CommitVoid(stage *Stage) {
-	topgrowthcurve2d.Commit(stage)
-}
 
 func (topgrowthcurve2d *TopGrowthCurve2D) StageVoid(stage *Stage) {
 	topgrowthcurve2d.Stage(stage)
@@ -21283,9 +20711,6 @@ func (topmidarcvectorshape *TopMidArcVectorShape) Commit(stage *Stage) *TopMidAr
 	return topmidarcvectorshape
 }
 
-func (topmidarcvectorshape *TopMidArcVectorShape) CommitVoid(stage *Stage) {
-	topmidarcvectorshape.Commit(stage)
-}
 
 func (topmidarcvectorshape *TopMidArcVectorShape) StageVoid(stage *Stage) {
 	topmidarcvectorshape.Stage(stage)
@@ -21371,9 +20796,6 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) Commit(stage *Stage) *
 	return topmidarcvectorshapegrid
 }
 
-func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) CommitVoid(stage *Stage) {
-	topmidarcvectorshapegrid.Commit(stage)
-}
 
 func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) StageVoid(stage *Stage) {
 	topmidarcvectorshapegrid.Stage(stage)
@@ -21459,9 +20881,6 @@ func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayAr
 	return topstackgrowthcurve2dendhalfwayarcshape
 }
 
-func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) CommitVoid(stage *Stage) {
-	topstackgrowthcurve2dendhalfwayarcshape.Commit(stage)
-}
 
 func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) StageVoid(stage *Stage) {
 	topstackgrowthcurve2dendhalfwayarcshape.Stage(stage)
@@ -21547,9 +20966,6 @@ func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfw
 	return topstackgrowthcurve2dstarthalfwayarcshape
 }
 
-func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) CommitVoid(stage *Stage) {
-	topstackgrowthcurve2dstarthalfwayarcshape.Commit(stage)
-}
 
 func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) StageVoid(stage *Stage) {
 	topstackgrowthcurve2dstarthalfwayarcshape.Stage(stage)
@@ -21635,9 +21051,6 @@ func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) Commit(stage *Stage) *To
 	return topstackofgrowthcurve2d
 }
 
-func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) CommitVoid(stage *Stage) {
-	topstackofgrowthcurve2d.Commit(stage)
-}
 
 func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) StageVoid(stage *Stage) {
 	topstackofgrowthcurve2d.Stage(stage)
@@ -21723,9 +21136,6 @@ func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) Commit(sta
 	return topstackofrotatedgrowthcurve2d
 }
 
-func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) CommitVoid(stage *Stage) {
-	topstackofrotatedgrowthcurve2d.Commit(stage)
-}
 
 func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) StageVoid(stage *Stage) {
 	topstackofrotatedgrowthcurve2d.Stage(stage)
@@ -21811,9 +21221,6 @@ func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DE
 	return topstackofrotatedgrowthcurve2dendarcshape
 }
 
-func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) CommitVoid(stage *Stage) {
-	topstackofrotatedgrowthcurve2dendarcshape.Commit(stage)
-}
 
 func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) StageVoid(stage *Stage) {
 	topstackofrotatedgrowthcurve2dendarcshape.Stage(stage)
@@ -21899,9 +21306,6 @@ func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2
 	return topstackofrotatedgrowthcurve2dstartarcshape
 }
 
-func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) CommitVoid(stage *Stage) {
-	topstackofrotatedgrowthcurve2dstartarcshape.Commit(stage)
-}
 
 func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) StageVoid(stage *Stage) {
 	topstackofrotatedgrowthcurve2dstartarcshape.Stage(stage)
@@ -21987,9 +21391,6 @@ func (topstartarcshape *TopStartArcShape) Commit(stage *Stage) *TopStartArcShape
 	return topstartarcshape
 }
 
-func (topstartarcshape *TopStartArcShape) CommitVoid(stage *Stage) {
-	topstartarcshape.Commit(stage)
-}
 
 func (topstartarcshape *TopStartArcShape) StageVoid(stage *Stage) {
 	topstartarcshape.Stage(stage)
@@ -22075,9 +21476,6 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) Commit(stage *Stage) *TopStart
 	return topstartarcshapegrid
 }
 
-func (topstartarcshapegrid *TopStartArcShapeGrid) CommitVoid(stage *Stage) {
-	topstartarcshapegrid.Commit(stage)
-}
 
 func (topstartarcshapegrid *TopStartArcShapeGrid) StageVoid(stage *Stage) {
 	topstartarcshapegrid.Stage(stage)
@@ -22163,9 +21561,6 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) Commit(stage *Stage) *To
 	return topstarthalfwayarcshape
 }
 
-func (topstarthalfwayarcshape *TopStartHalfwayArcShape) CommitVoid(stage *Stage) {
-	topstarthalfwayarcshape.Commit(stage)
-}
 
 func (topstarthalfwayarcshape *TopStartHalfwayArcShape) StageVoid(stage *Stage) {
 	topstarthalfwayarcshape.Stage(stage)
@@ -22251,9 +21646,6 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) Commit(stage *St
 	return topstarthalfwayarcshapegrid
 }
 
-func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) CommitVoid(stage *Stage) {
-	topstarthalfwayarcshapegrid.Commit(stage)
-}
 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) StageVoid(stage *Stage) {
 	topstarthalfwayarcshapegrid.Stage(stage)
@@ -22339,9 +21731,6 @@ func (torus3dshape *Torus3DShape) Commit(stage *Stage) *Torus3DShape {
 	return torus3dshape
 }
 
-func (torus3dshape *Torus3DShape) CommitVoid(stage *Stage) {
-	torus3dshape.Commit(stage)
-}
 
 func (torus3dshape *Torus3DShape) StageVoid(stage *Stage) {
 	torus3dshape.Stage(stage)
@@ -22427,9 +21816,6 @@ func (torusedge3dshape *TorusEdge3DShape) Commit(stage *Stage) *TorusEdge3DShape
 	return torusedge3dshape
 }
 
-func (torusedge3dshape *TorusEdge3DShape) CommitVoid(stage *Stage) {
-	torusedge3dshape.Commit(stage)
-}
 
 func (torusedge3dshape *TorusEdge3DShape) StageVoid(stage *Stage) {
 	torusedge3dshape.Stage(stage)
@@ -22515,9 +21901,6 @@ func (torusstackshape *TorusStackShape) Commit(stage *Stage) *TorusStackShape {
 	return torusstackshape
 }
 
-func (torusstackshape *TorusStackShape) CommitVoid(stage *Stage) {
-	torusstackshape.Commit(stage)
-}
 
 func (torusstackshape *TorusStackShape) StageVoid(stage *Stage) {
 	torusstackshape.Stage(stage)
@@ -22603,9 +21986,6 @@ func (tubevase3ddiagram *TubeVase3DDiagram) Commit(stage *Stage) *TubeVase3DDiag
 	return tubevase3ddiagram
 }
 
-func (tubevase3ddiagram *TubeVase3DDiagram) CommitVoid(stage *Stage) {
-	tubevase3ddiagram.Commit(stage)
-}
 
 func (tubevase3ddiagram *TubeVase3DDiagram) StageVoid(stage *Stage) {
 	tubevase3ddiagram.Stage(stage)
@@ -22691,9 +22071,6 @@ func (tubevaseabstract *TubeVaseAbstract) Commit(stage *Stage) *TubeVaseAbstract
 	return tubevaseabstract
 }
 
-func (tubevaseabstract *TubeVaseAbstract) CommitVoid(stage *Stage) {
-	tubevaseabstract.Commit(stage)
-}
 
 func (tubevaseabstract *TubeVaseAbstract) StageVoid(stage *Stage) {
 	tubevaseabstract.Stage(stage)
@@ -22779,9 +22156,6 @@ func (vase2ddiagram *Vase2DDiagram) Commit(stage *Stage) *Vase2DDiagram {
 	return vase2ddiagram
 }
 
-func (vase2ddiagram *Vase2DDiagram) CommitVoid(stage *Stage) {
-	vase2ddiagram.Commit(stage)
-}
 
 func (vase2ddiagram *Vase2DDiagram) StageVoid(stage *Stage) {
 	vase2ddiagram.Stage(stage)
@@ -22867,9 +22241,6 @@ func (verticaltorusstackshape *VerticalTorusStackShape) Commit(stage *Stage) *Ve
 	return verticaltorusstackshape
 }
 
-func (verticaltorusstackshape *VerticalTorusStackShape) CommitVoid(stage *Stage) {
-	verticaltorusstackshape.Commit(stage)
-}
 
 func (verticaltorusstackshape *VerticalTorusStackShape) StageVoid(stage *Stage) {
 	verticaltorusstackshape.Stage(stage)
@@ -22955,9 +22326,6 @@ func (volumekey3dshape *VolumeKey3DShape) Commit(stage *Stage) *VolumeKey3DShape
 	return volumekey3dshape
 }
 
-func (volumekey3dshape *VolumeKey3DShape) CommitVoid(stage *Stage) {
-	volumekey3dshape.Commit(stage)
-}
 
 func (volumekey3dshape *VolumeKey3DShape) StageVoid(stage *Stage) {
 	volumekey3dshape.Stage(stage)
@@ -22981,305 +22349,6 @@ func (volumekey3dshape *VolumeKey3DShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (volumekey3dshape *VolumeKey3DShape) SetName(name string) {
 	volumekey3dshape.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAngle0Shape(Angle0Shape *Angle0Shape)
-	CreateORMArcNormalVectorShape(ArcNormalVectorShape *ArcNormalVectorShape)
-	CreateORMArcNormalVectorShapeGrid(ArcNormalVectorShapeGrid *ArcNormalVectorShapeGrid)
-	CreateORMAxesShape(AxesShape *AxesShape)
-	CreateORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
-	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
-	CreateORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
-	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
-	CreateORMCircumference3DShape(Circumference3DShape *Circumference3DShape)
-	CreateORMClock2DDiagram(Clock2DDiagram *Clock2DDiagram)
-	CreateORMClock3DDiagram(Clock3DDiagram *Clock3DDiagram)
-	CreateORMClockAbstract(ClockAbstract *ClockAbstract)
-	CreateORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
-	CreateORMCutLine3DShape(CutLine3DShape *CutLine3DShape)
-	CreateORMEndArcShape(EndArcShape *EndArcShape)
-	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
-	CreateORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
-	CreateORMEndHalfwayArcShapeGrid(EndHalfwayArcShapeGrid *EndHalfwayArcShapeGrid)
-	CreateORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
-	CreateORMEye3DShape(Eye3DShape *Eye3DShape)
-	CreateORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
-	CreateORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
-	CreateORMEyeSeatBottomCurveShape(EyeSeatBottomCurveShape *EyeSeatBottomCurveShape)
-	CreateORMEyeStoolBottomCurveShape(EyeStoolBottomCurveShape *EyeStoolBottomCurveShape)
-	CreateORMEyeVolume3DShape(EyeVolume3DShape *EyeVolume3DShape)
-	CreateORMGridPathShape(GridPathShape *GridPathShape)
-	CreateORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
-	CreateORMGrowthCurve2DRibbon(GrowthCurve2DRibbon *GrowthCurve2DRibbon)
-	CreateORMGrowthCurve2DRibbonEndShape(GrowthCurve2DRibbonEndShape *GrowthCurve2DRibbonEndShape)
-	CreateORMGrowthCurve2DRibbonStartShape(GrowthCurve2DRibbonStartShape *GrowthCurve2DRibbonStartShape)
-	CreateORMGrowthCurveRhombusGridShape(GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape)
-	CreateORMGrowthCurveRhombusShape(GrowthCurveRhombusShape *GrowthCurveRhombusShape)
-	CreateORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
-	CreateORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
-	CreateORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
-	CreateORMKey3DShape(Key3DShape *Key3DShape)
-	CreateORMKeyHole3DShape(KeyHole3DShape *KeyHole3DShape)
-	CreateORMKeyHoleShape(KeyHoleShape *KeyHoleShape)
-	CreateORMLeaves3DShape(Leaves3DShape *Leaves3DShape)
-	CreateORMLibrary(Library *Library)
-	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
-	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
-	CreateORMMusicAbstract(MusicAbstract *MusicAbstract)
-	CreateORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
-	CreateORMParastichyMCurves3DShape(ParastichyMCurves3DShape *ParastichyMCurves3DShape)
-	CreateORMParastichyNCurves3DShape(ParastichyNCurves3DShape *ParastichyNCurves3DShape)
-	CreateORMPartiallyGrowthCurve2DRibbon(PartiallyGrowthCurve2DRibbon *PartiallyGrowthCurve2DRibbon)
-	CreateORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
-	CreateORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
-	CreateORMPartiallyGrowthCurve2DTrajectory(PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory)
-	CreateORMPartiallyGrowthCurve2DTrajectoryP1CurveShape(PartiallyGrowthCurve2DTrajectoryP1CurveShape *PartiallyGrowthCurve2DTrajectoryP1CurveShape)
-	CreateORMPartiallyGrowthCurve2DTrajectoryP1P2(PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2)
-	CreateORMPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
-	CreateORMPartiallyGrowthCurve2DTrajectoryP1PointShape(PartiallyGrowthCurve2DTrajectoryP1PointShape *PartiallyGrowthCurve2DTrajectoryP1PointShape)
-	CreateORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
-	CreateORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
-	CreateORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
-	CreateORMPartiallyRotatedSeatBottomCurveShape(PartiallyRotatedSeatBottomCurveShape *PartiallyRotatedSeatBottomCurveShape)
-	CreateORMPartiallyRotatedSeatTopCurveShape(PartiallyRotatedSeatTopCurveShape *PartiallyRotatedSeatTopCurveShape)
-	CreateORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
-	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
-	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
-	CreateORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
-	CreateORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
-	CreateORMPlant2DDiagram(Plant2DDiagram *Plant2DDiagram)
-	CreateORMPlant3DDiagram(Plant3DDiagram *Plant3DDiagram)
-	CreateORMPlantAbstract(PlantAbstract *PlantAbstract)
-	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
-	CreateORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
-	CreateORMPxShape(PxShape *PxShape)
-	CreateORMRendered3DShape(Rendered3DShape *Rendered3DShape)
-	CreateORMRhombusShape(RhombusShape *RhombusShape)
-	CreateORMRhombusStuff(RhombusStuff *RhombusStuff)
-	CreateORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
-	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
-	CreateORMRotatedSampledPoints3DShape(RotatedSampledPoints3DShape *RotatedSampledPoints3DShape)
-	CreateORMRotatedSeatAndLegs3DShape(RotatedSeatAndLegs3DShape *RotatedSeatAndLegs3DShape)
-	CreateORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
-	CreateORMSeat3DShape(Seat3DShape *Seat3DShape)
-	CreateORMSeatAndLegs3DShape(SeatAndLegs3DShape *SeatAndLegs3DShape)
-	CreateORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
-	CreateORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
-	CreateORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
-	CreateORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
-	CreateORMShiftedLeftGrowthCurve2DRibbon(ShiftedLeftGrowthCurve2DRibbon *ShiftedLeftGrowthCurve2DRibbon)
-	CreateORMShiftedLeftGrowthCurve2DRibbonEndShape(ShiftedLeftGrowthCurve2DRibbonEndShape *ShiftedLeftGrowthCurve2DRibbonEndShape)
-	CreateORMShiftedLeftGrowthCurve2DRibbonStartShape(ShiftedLeftGrowthCurve2DRibbonStartShape *ShiftedLeftGrowthCurve2DRibbonStartShape)
-	CreateORMShiftedLeftPartiallyGrowthCurve2DRibbon(ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon)
-	CreateORMShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)
-	CreateORMShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)
-	CreateORMShiftedLeftStackGrowthCurveEndArcShape(ShiftedLeftStackGrowthCurveEndArcShape *ShiftedLeftStackGrowthCurveEndArcShape)
-	CreateORMShiftedLeftStackGrowthCurveStartArcShape(ShiftedLeftStackGrowthCurveStartArcShape *ShiftedLeftStackGrowthCurveStartArcShape)
-	CreateORMShiftedLeftStackNormalVector(ShiftedLeftStackNormalVector *ShiftedLeftStackNormalVector)
-	CreateORMShiftedLeftStackOfGrowthCurve(ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve)
-	CreateORMShiftedLeftStackOfNormalVector(ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector)
-	CreateORMShiftedRightGrowthCurve2DRibbon(ShiftedRightGrowthCurve2DRibbon *ShiftedRightGrowthCurve2DRibbon)
-	CreateORMShiftedRightGrowthCurve2DRibbonEndShape(ShiftedRightGrowthCurve2DRibbonEndShape *ShiftedRightGrowthCurve2DRibbonEndShape)
-	CreateORMShiftedRightGrowthCurve2DRibbonStartShape(ShiftedRightGrowthCurve2DRibbonStartShape *ShiftedRightGrowthCurve2DRibbonStartShape)
-	CreateORMStackGrowthCurve2DEndHalfwayArcShape(StackGrowthCurve2DEndHalfwayArcShape *StackGrowthCurve2DEndHalfwayArcShape)
-	CreateORMStackGrowthCurve2DRibbonEndShape(StackGrowthCurve2DRibbonEndShape *StackGrowthCurve2DRibbonEndShape)
-	CreateORMStackGrowthCurve2DRibbonStartShape(StackGrowthCurve2DRibbonStartShape *StackGrowthCurve2DRibbonStartShape)
-	CreateORMStackGrowthCurve2DStartHalfwayArcShape(StackGrowthCurve2DStartHalfwayArcShape *StackGrowthCurve2DStartHalfwayArcShape)
-	CreateORMStackOfGrowthCurve2D(StackOfGrowthCurve2D *StackOfGrowthCurve2D)
-	CreateORMStackOfGrowthCurve2DByGrowthVector(StackOfGrowthCurve2DByGrowthVector *StackOfGrowthCurve2DByGrowthVector)
-	CreateORMStackOfGrowthCurve2DRibbon(StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon)
-	CreateORMStackOfPartiallyRotatedTorusShape(StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape)
-	CreateORMStackOfRotatedGrowthCurve2D(StackOfRotatedGrowthCurve2D *StackOfRotatedGrowthCurve2D)
-	CreateORMStackOfRotatedGrowthCurve2DRibbon(StackOfRotatedGrowthCurve2DRibbon *StackOfRotatedGrowthCurve2DRibbon)
-	CreateORMStackRotatedGrowthCurve2DEndArcShape(StackRotatedGrowthCurve2DEndArcShape *StackRotatedGrowthCurve2DEndArcShape)
-	CreateORMStackRotatedGrowthCurve2DRibbonEndShape(StackRotatedGrowthCurve2DRibbonEndShape *StackRotatedGrowthCurve2DRibbonEndShape)
-	CreateORMStackRotatedGrowthCurve2DRibbonStartShape(StackRotatedGrowthCurve2DRibbonStartShape *StackRotatedGrowthCurve2DRibbonStartShape)
-	CreateORMStackRotatedGrowthCurve2DStartArcShape(StackRotatedGrowthCurve2DStartArcShape *StackRotatedGrowthCurve2DStartArcShape)
-	CreateORMStartArcShape(StartArcShape *StartArcShape)
-	CreateORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
-	CreateORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
-	CreateORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
-	CreateORMStemCylinder3DShape(StemCylinder3DShape *StemCylinder3DShape)
-	CreateORMStool2DDiagram(Stool2DDiagram *Stool2DDiagram)
-	CreateORMStool3DDiagram(Stool3DDiagram *Stool3DDiagram)
-	CreateORMStoolAbstract(StoolAbstract *StoolAbstract)
-	CreateORMTiledFloor3DShape(TiledFloor3DShape *TiledFloor3DShape)
-	CreateORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
-	CreateORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
-	CreateORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
-	CreateORMTopEndHalfwayArcShapeGrid(TopEndHalfwayArcShapeGrid *TopEndHalfwayArcShapeGrid)
-	CreateORMTopGrowthCurve2D(TopGrowthCurve2D *TopGrowthCurve2D)
-	CreateORMTopMidArcVectorShape(TopMidArcVectorShape *TopMidArcVectorShape)
-	CreateORMTopMidArcVectorShapeGrid(TopMidArcVectorShapeGrid *TopMidArcVectorShapeGrid)
-	CreateORMTopStackGrowthCurve2DEndHalfwayArcShape(TopStackGrowthCurve2DEndHalfwayArcShape *TopStackGrowthCurve2DEndHalfwayArcShape)
-	CreateORMTopStackGrowthCurve2DStartHalfwayArcShape(TopStackGrowthCurve2DStartHalfwayArcShape *TopStackGrowthCurve2DStartHalfwayArcShape)
-	CreateORMTopStackOfGrowthCurve2D(TopStackOfGrowthCurve2D *TopStackOfGrowthCurve2D)
-	CreateORMTopStackOfRotatedGrowthCurve2D(TopStackOfRotatedGrowthCurve2D *TopStackOfRotatedGrowthCurve2D)
-	CreateORMTopStackOfRotatedGrowthCurve2DEndArcShape(TopStackOfRotatedGrowthCurve2DEndArcShape *TopStackOfRotatedGrowthCurve2DEndArcShape)
-	CreateORMTopStackOfRotatedGrowthCurve2DStartArcShape(TopStackOfRotatedGrowthCurve2DStartArcShape *TopStackOfRotatedGrowthCurve2DStartArcShape)
-	CreateORMTopStartArcShape(TopStartArcShape *TopStartArcShape)
-	CreateORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
-	CreateORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
-	CreateORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
-	CreateORMTorus3DShape(Torus3DShape *Torus3DShape)
-	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
-	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
-	CreateORMTubeVase3DDiagram(TubeVase3DDiagram *TubeVase3DDiagram)
-	CreateORMTubeVaseAbstract(TubeVaseAbstract *TubeVaseAbstract)
-	CreateORMVase2DDiagram(Vase2DDiagram *Vase2DDiagram)
-	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
-	CreateORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAngle0Shape(Angle0Shape *Angle0Shape)
-	DeleteORMArcNormalVectorShape(ArcNormalVectorShape *ArcNormalVectorShape)
-	DeleteORMArcNormalVectorShapeGrid(ArcNormalVectorShapeGrid *ArcNormalVectorShapeGrid)
-	DeleteORMAxesShape(AxesShape *AxesShape)
-	DeleteORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
-	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
-	DeleteORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
-	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
-	DeleteORMCircumference3DShape(Circumference3DShape *Circumference3DShape)
-	DeleteORMClock2DDiagram(Clock2DDiagram *Clock2DDiagram)
-	DeleteORMClock3DDiagram(Clock3DDiagram *Clock3DDiagram)
-	DeleteORMClockAbstract(ClockAbstract *ClockAbstract)
-	DeleteORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
-	DeleteORMCutLine3DShape(CutLine3DShape *CutLine3DShape)
-	DeleteORMEndArcShape(EndArcShape *EndArcShape)
-	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
-	DeleteORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
-	DeleteORMEndHalfwayArcShapeGrid(EndHalfwayArcShapeGrid *EndHalfwayArcShapeGrid)
-	DeleteORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
-	DeleteORMEye3DShape(Eye3DShape *Eye3DShape)
-	DeleteORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
-	DeleteORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
-	DeleteORMEyeSeatBottomCurveShape(EyeSeatBottomCurveShape *EyeSeatBottomCurveShape)
-	DeleteORMEyeStoolBottomCurveShape(EyeStoolBottomCurveShape *EyeStoolBottomCurveShape)
-	DeleteORMEyeVolume3DShape(EyeVolume3DShape *EyeVolume3DShape)
-	DeleteORMGridPathShape(GridPathShape *GridPathShape)
-	DeleteORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
-	DeleteORMGrowthCurve2DRibbon(GrowthCurve2DRibbon *GrowthCurve2DRibbon)
-	DeleteORMGrowthCurve2DRibbonEndShape(GrowthCurve2DRibbonEndShape *GrowthCurve2DRibbonEndShape)
-	DeleteORMGrowthCurve2DRibbonStartShape(GrowthCurve2DRibbonStartShape *GrowthCurve2DRibbonStartShape)
-	DeleteORMGrowthCurveRhombusGridShape(GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape)
-	DeleteORMGrowthCurveRhombusShape(GrowthCurveRhombusShape *GrowthCurveRhombusShape)
-	DeleteORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
-	DeleteORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
-	DeleteORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
-	DeleteORMKey3DShape(Key3DShape *Key3DShape)
-	DeleteORMKeyHole3DShape(KeyHole3DShape *KeyHole3DShape)
-	DeleteORMKeyHoleShape(KeyHoleShape *KeyHoleShape)
-	DeleteORMLeaves3DShape(Leaves3DShape *Leaves3DShape)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
-	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
-	DeleteORMMusicAbstract(MusicAbstract *MusicAbstract)
-	DeleteORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
-	DeleteORMParastichyMCurves3DShape(ParastichyMCurves3DShape *ParastichyMCurves3DShape)
-	DeleteORMParastichyNCurves3DShape(ParastichyNCurves3DShape *ParastichyNCurves3DShape)
-	DeleteORMPartiallyGrowthCurve2DRibbon(PartiallyGrowthCurve2DRibbon *PartiallyGrowthCurve2DRibbon)
-	DeleteORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
-	DeleteORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
-	DeleteORMPartiallyGrowthCurve2DTrajectory(PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryP1CurveShape(PartiallyGrowthCurve2DTrajectoryP1CurveShape *PartiallyGrowthCurve2DTrajectoryP1CurveShape)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryP1P2(PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryP1PointShape(PartiallyGrowthCurve2DTrajectoryP1PointShape *PartiallyGrowthCurve2DTrajectoryP1PointShape)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
-	DeleteORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
-	DeleteORMPartiallyRotatedSeatBottomCurveShape(PartiallyRotatedSeatBottomCurveShape *PartiallyRotatedSeatBottomCurveShape)
-	DeleteORMPartiallyRotatedSeatTopCurveShape(PartiallyRotatedSeatTopCurveShape *PartiallyRotatedSeatTopCurveShape)
-	DeleteORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
-	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
-	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
-	DeleteORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
-	DeleteORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
-	DeleteORMPlant2DDiagram(Plant2DDiagram *Plant2DDiagram)
-	DeleteORMPlant3DDiagram(Plant3DDiagram *Plant3DDiagram)
-	DeleteORMPlantAbstract(PlantAbstract *PlantAbstract)
-	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
-	DeleteORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
-	DeleteORMPxShape(PxShape *PxShape)
-	DeleteORMRendered3DShape(Rendered3DShape *Rendered3DShape)
-	DeleteORMRhombusShape(RhombusShape *RhombusShape)
-	DeleteORMRhombusStuff(RhombusStuff *RhombusStuff)
-	DeleteORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
-	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
-	DeleteORMRotatedSampledPoints3DShape(RotatedSampledPoints3DShape *RotatedSampledPoints3DShape)
-	DeleteORMRotatedSeatAndLegs3DShape(RotatedSeatAndLegs3DShape *RotatedSeatAndLegs3DShape)
-	DeleteORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
-	DeleteORMSeat3DShape(Seat3DShape *Seat3DShape)
-	DeleteORMSeatAndLegs3DShape(SeatAndLegs3DShape *SeatAndLegs3DShape)
-	DeleteORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
-	DeleteORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
-	DeleteORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
-	DeleteORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
-	DeleteORMShiftedLeftGrowthCurve2DRibbon(ShiftedLeftGrowthCurve2DRibbon *ShiftedLeftGrowthCurve2DRibbon)
-	DeleteORMShiftedLeftGrowthCurve2DRibbonEndShape(ShiftedLeftGrowthCurve2DRibbonEndShape *ShiftedLeftGrowthCurve2DRibbonEndShape)
-	DeleteORMShiftedLeftGrowthCurve2DRibbonStartShape(ShiftedLeftGrowthCurve2DRibbonStartShape *ShiftedLeftGrowthCurve2DRibbonStartShape)
-	DeleteORMShiftedLeftPartiallyGrowthCurve2DRibbon(ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon)
-	DeleteORMShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)
-	DeleteORMShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)
-	DeleteORMShiftedLeftStackGrowthCurveEndArcShape(ShiftedLeftStackGrowthCurveEndArcShape *ShiftedLeftStackGrowthCurveEndArcShape)
-	DeleteORMShiftedLeftStackGrowthCurveStartArcShape(ShiftedLeftStackGrowthCurveStartArcShape *ShiftedLeftStackGrowthCurveStartArcShape)
-	DeleteORMShiftedLeftStackNormalVector(ShiftedLeftStackNormalVector *ShiftedLeftStackNormalVector)
-	DeleteORMShiftedLeftStackOfGrowthCurve(ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve)
-	DeleteORMShiftedLeftStackOfNormalVector(ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector)
-	DeleteORMShiftedRightGrowthCurve2DRibbon(ShiftedRightGrowthCurve2DRibbon *ShiftedRightGrowthCurve2DRibbon)
-	DeleteORMShiftedRightGrowthCurve2DRibbonEndShape(ShiftedRightGrowthCurve2DRibbonEndShape *ShiftedRightGrowthCurve2DRibbonEndShape)
-	DeleteORMShiftedRightGrowthCurve2DRibbonStartShape(ShiftedRightGrowthCurve2DRibbonStartShape *ShiftedRightGrowthCurve2DRibbonStartShape)
-	DeleteORMStackGrowthCurve2DEndHalfwayArcShape(StackGrowthCurve2DEndHalfwayArcShape *StackGrowthCurve2DEndHalfwayArcShape)
-	DeleteORMStackGrowthCurve2DRibbonEndShape(StackGrowthCurve2DRibbonEndShape *StackGrowthCurve2DRibbonEndShape)
-	DeleteORMStackGrowthCurve2DRibbonStartShape(StackGrowthCurve2DRibbonStartShape *StackGrowthCurve2DRibbonStartShape)
-	DeleteORMStackGrowthCurve2DStartHalfwayArcShape(StackGrowthCurve2DStartHalfwayArcShape *StackGrowthCurve2DStartHalfwayArcShape)
-	DeleteORMStackOfGrowthCurve2D(StackOfGrowthCurve2D *StackOfGrowthCurve2D)
-	DeleteORMStackOfGrowthCurve2DByGrowthVector(StackOfGrowthCurve2DByGrowthVector *StackOfGrowthCurve2DByGrowthVector)
-	DeleteORMStackOfGrowthCurve2DRibbon(StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon)
-	DeleteORMStackOfPartiallyRotatedTorusShape(StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape)
-	DeleteORMStackOfRotatedGrowthCurve2D(StackOfRotatedGrowthCurve2D *StackOfRotatedGrowthCurve2D)
-	DeleteORMStackOfRotatedGrowthCurve2DRibbon(StackOfRotatedGrowthCurve2DRibbon *StackOfRotatedGrowthCurve2DRibbon)
-	DeleteORMStackRotatedGrowthCurve2DEndArcShape(StackRotatedGrowthCurve2DEndArcShape *StackRotatedGrowthCurve2DEndArcShape)
-	DeleteORMStackRotatedGrowthCurve2DRibbonEndShape(StackRotatedGrowthCurve2DRibbonEndShape *StackRotatedGrowthCurve2DRibbonEndShape)
-	DeleteORMStackRotatedGrowthCurve2DRibbonStartShape(StackRotatedGrowthCurve2DRibbonStartShape *StackRotatedGrowthCurve2DRibbonStartShape)
-	DeleteORMStackRotatedGrowthCurve2DStartArcShape(StackRotatedGrowthCurve2DStartArcShape *StackRotatedGrowthCurve2DStartArcShape)
-	DeleteORMStartArcShape(StartArcShape *StartArcShape)
-	DeleteORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
-	DeleteORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
-	DeleteORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
-	DeleteORMStemCylinder3DShape(StemCylinder3DShape *StemCylinder3DShape)
-	DeleteORMStool2DDiagram(Stool2DDiagram *Stool2DDiagram)
-	DeleteORMStool3DDiagram(Stool3DDiagram *Stool3DDiagram)
-	DeleteORMStoolAbstract(StoolAbstract *StoolAbstract)
-	DeleteORMTiledFloor3DShape(TiledFloor3DShape *TiledFloor3DShape)
-	DeleteORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
-	DeleteORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
-	DeleteORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
-	DeleteORMTopEndHalfwayArcShapeGrid(TopEndHalfwayArcShapeGrid *TopEndHalfwayArcShapeGrid)
-	DeleteORMTopGrowthCurve2D(TopGrowthCurve2D *TopGrowthCurve2D)
-	DeleteORMTopMidArcVectorShape(TopMidArcVectorShape *TopMidArcVectorShape)
-	DeleteORMTopMidArcVectorShapeGrid(TopMidArcVectorShapeGrid *TopMidArcVectorShapeGrid)
-	DeleteORMTopStackGrowthCurve2DEndHalfwayArcShape(TopStackGrowthCurve2DEndHalfwayArcShape *TopStackGrowthCurve2DEndHalfwayArcShape)
-	DeleteORMTopStackGrowthCurve2DStartHalfwayArcShape(TopStackGrowthCurve2DStartHalfwayArcShape *TopStackGrowthCurve2DStartHalfwayArcShape)
-	DeleteORMTopStackOfGrowthCurve2D(TopStackOfGrowthCurve2D *TopStackOfGrowthCurve2D)
-	DeleteORMTopStackOfRotatedGrowthCurve2D(TopStackOfRotatedGrowthCurve2D *TopStackOfRotatedGrowthCurve2D)
-	DeleteORMTopStackOfRotatedGrowthCurve2DEndArcShape(TopStackOfRotatedGrowthCurve2DEndArcShape *TopStackOfRotatedGrowthCurve2DEndArcShape)
-	DeleteORMTopStackOfRotatedGrowthCurve2DStartArcShape(TopStackOfRotatedGrowthCurve2DStartArcShape *TopStackOfRotatedGrowthCurve2DStartArcShape)
-	DeleteORMTopStartArcShape(TopStartArcShape *TopStartArcShape)
-	DeleteORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
-	DeleteORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
-	DeleteORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
-	DeleteORMTorus3DShape(Torus3DShape *Torus3DShape)
-	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
-	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
-	DeleteORMTubeVase3DDiagram(TubeVase3DDiagram *TubeVase3DDiagram)
-	DeleteORMTubeVaseAbstract(TubeVaseAbstract *TubeVaseAbstract)
-	DeleteORMVase2DDiagram(Vase2DDiagram *Vase2DDiagram)
-	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
-	DeleteORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -24021,1036 +23090,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Angle0Shapes = nil
-	stage.Angle0Shapes_mapString = nil
-
-	stage.ArcNormalVectorShapes = nil
-	stage.ArcNormalVectorShapes_mapString = nil
-
-	stage.ArcNormalVectorShapeGrids = nil
-	stage.ArcNormalVectorShapeGrids_mapString = nil
-
-	stage.AxesShapes = nil
-	stage.AxesShapes_mapString = nil
-
-	stage.BaseVectorShapes = nil
-	stage.BaseVectorShapes_mapString = nil
-
-	stage.BaseVectorShapeGrids = nil
-	stage.BaseVectorShapeGrids_mapString = nil
-
-	stage.ChosenP1P2PairShapes = nil
-	stage.ChosenP1P2PairShapes_mapString = nil
-
-	stage.CircleGridShapes = nil
-	stage.CircleGridShapes_mapString = nil
-
-	stage.Circumference3DShapes = nil
-	stage.Circumference3DShapes_mapString = nil
-
-	stage.Clock2DDiagrams = nil
-	stage.Clock2DDiagrams_mapString = nil
-
-	stage.Clock3DDiagrams = nil
-	stage.Clock3DDiagrams_mapString = nil
-
-	stage.ClockAbstracts = nil
-	stage.ClockAbstracts_mapString = nil
-
-	stage.ClockTopCurveShapes = nil
-	stage.ClockTopCurveShapes_mapString = nil
-
-	stage.CutLine3DShapes = nil
-	stage.CutLine3DShapes_mapString = nil
-
-	stage.EndArcShapes = nil
-	stage.EndArcShapes_mapString = nil
-
-	stage.EndArcShapeGrids = nil
-	stage.EndArcShapeGrids_mapString = nil
-
-	stage.EndHalfwayArcShapes = nil
-	stage.EndHalfwayArcShapes_mapString = nil
-
-	stage.EndHalfwayArcShapeGrids = nil
-	stage.EndHalfwayArcShapeGrids_mapString = nil
-
-	stage.ExplanationTextShapes = nil
-	stage.ExplanationTextShapes_mapString = nil
-
-	stage.Eye3DShapes = nil
-	stage.Eye3DShapes_mapString = nil
-
-	stage.EyeCornersSampledPoints3DShapes = nil
-	stage.EyeCornersSampledPoints3DShapes_mapString = nil
-
-	stage.EyeSampledPoints3DShapes = nil
-	stage.EyeSampledPoints3DShapes_mapString = nil
-
-	stage.EyeSeatBottomCurveShapes = nil
-	stage.EyeSeatBottomCurveShapes_mapString = nil
-
-	stage.EyeStoolBottomCurveShapes = nil
-	stage.EyeStoolBottomCurveShapes_mapString = nil
-
-	stage.EyeVolume3DShapes = nil
-	stage.EyeVolume3DShapes_mapString = nil
-
-	stage.GridPathShapes = nil
-	stage.GridPathShapes_mapString = nil
-
-	stage.GrowthCurve2Ds = nil
-	stage.GrowthCurve2Ds_mapString = nil
-
-	stage.GrowthCurve2DRibbons = nil
-	stage.GrowthCurve2DRibbons_mapString = nil
-
-	stage.GrowthCurve2DRibbonEndShapes = nil
-	stage.GrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.GrowthCurve2DRibbonStartShapes = nil
-	stage.GrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.GrowthCurveRhombusGridShapes = nil
-	stage.GrowthCurveRhombusGridShapes_mapString = nil
-
-	stage.GrowthCurveRhombusShapes = nil
-	stage.GrowthCurveRhombusShapes_mapString = nil
-
-	stage.GrowthVectorShapes = nil
-	stage.GrowthVectorShapes_mapString = nil
-
-	stage.InitialRhombusGridShapes = nil
-	stage.InitialRhombusGridShapes_mapString = nil
-
-	stage.InitialRhombusShapes = nil
-	stage.InitialRhombusShapes_mapString = nil
-
-	stage.Key3DShapes = nil
-	stage.Key3DShapes_mapString = nil
-
-	stage.KeyHole3DShapes = nil
-	stage.KeyHole3DShapes_mapString = nil
-
-	stage.KeyHoleShapes = nil
-	stage.KeyHoleShapes_mapString = nil
-
-	stage.Leaves3DShapes = nil
-	stage.Leaves3DShapes_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.MidArcVectorShapes = nil
-	stage.MidArcVectorShapes_mapString = nil
-
-	stage.MidArcVectorShapeGrids = nil
-	stage.MidArcVectorShapeGrids_mapString = nil
-
-	stage.MusicAbstracts = nil
-	stage.MusicAbstracts_mapString = nil
-
-	stage.OriginalPoints3DShapes = nil
-	stage.OriginalPoints3DShapes_mapString = nil
-
-	stage.ParastichyMCurves3DShapes = nil
-	stage.ParastichyMCurves3DShapes_mapString = nil
-
-	stage.ParastichyNCurves3DShapes = nil
-	stage.ParastichyNCurves3DShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DRibbons = nil
-	stage.PartiallyGrowthCurve2DRibbons_mapString = nil
-
-	stage.PartiallyGrowthCurve2DRibbonEndShapes = nil
-	stage.PartiallyGrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DRibbonStartShapes = nil
-	stage.PartiallyGrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectorys = nil
-	stage.PartiallyGrowthCurve2DTrajectorys_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes = nil
-	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryP1P2s = nil
-	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes = nil
-	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes = nil
-	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes = nil
-	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes = nil
-	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString = nil
-
-	stage.PartiallyGrowthCurve2DTrajectoryShapes = nil
-	stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString = nil
-
-	stage.PartiallyRotatedSeatBottomCurveShapes = nil
-	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = nil
-
-	stage.PartiallyRotatedSeatTopCurveShapes = nil
-	stage.PartiallyRotatedSeatTopCurveShapes_mapString = nil
-
-	stage.PartiallyRotatedTorusShapes = nil
-	stage.PartiallyRotatedTorusShapes_mapString = nil
-
-	stage.PerpendicularVectors = nil
-	stage.PerpendicularVectors_mapString = nil
-
-	stage.PerpendicularVectorGrids = nil
-	stage.PerpendicularVectorGrids_mapString = nil
-
-	stage.PerpendicularVectorGridHalfways = nil
-	stage.PerpendicularVectorGridHalfways_mapString = nil
-
-	stage.PerpendicularVectorHalfways = nil
-	stage.PerpendicularVectorHalfways_mapString = nil
-
-	stage.Plant2DDiagrams = nil
-	stage.Plant2DDiagrams_mapString = nil
-
-	stage.Plant3DDiagrams = nil
-	stage.Plant3DDiagrams_mapString = nil
-
-	stage.PlantAbstracts = nil
-	stage.PlantAbstracts_mapString = nil
-
-	stage.PlantCircumferenceShapes = nil
-	stage.PlantCircumferenceShapes_mapString = nil
-
-	stage.PointsAndLines3DShapes = nil
-	stage.PointsAndLines3DShapes_mapString = nil
-
-	stage.PxShapes = nil
-	stage.PxShapes_mapString = nil
-
-	stage.Rendered3DShapes = nil
-	stage.Rendered3DShapes_mapString = nil
-
-	stage.RhombusShapes = nil
-	stage.RhombusShapes_mapString = nil
-
-	stage.RhombusStuffs = nil
-	stage.RhombusStuffs_mapString = nil
-
-	stage.RotatedRhombusGridShapes = nil
-	stage.RotatedRhombusGridShapes_mapString = nil
-
-	stage.RotatedRhombusShapes = nil
-	stage.RotatedRhombusShapes_mapString = nil
-
-	stage.RotatedSampledPoints3DShapes = nil
-	stage.RotatedSampledPoints3DShapes_mapString = nil
-
-	stage.RotatedSeatAndLegs3DShapes = nil
-	stage.RotatedSeatAndLegs3DShapes_mapString = nil
-
-	stage.SampledPoints3DShapes = nil
-	stage.SampledPoints3DShapes_mapString = nil
-
-	stage.Seat3DShapes = nil
-	stage.Seat3DShapes_mapString = nil
-
-	stage.SeatAndLegs3DShapes = nil
-	stage.SeatAndLegs3DShapes_mapString = nil
-
-	stage.SeatBottomCurveShapes = nil
-	stage.SeatBottomCurveShapes_mapString = nil
-
-	stage.SeatTopCurveShapes = nil
-	stage.SeatTopCurveShapes_mapString = nil
-
-	stage.ShiftedBottomTopStartArcShapes = nil
-	stage.ShiftedBottomTopStartArcShapes_mapString = nil
-
-	stage.ShiftedBottomTopStartArcShapeGrids = nil
-	stage.ShiftedBottomTopStartArcShapeGrids_mapString = nil
-
-	stage.ShiftedLeftGrowthCurve2DRibbons = nil
-	stage.ShiftedLeftGrowthCurve2DRibbons_mapString = nil
-
-	stage.ShiftedLeftGrowthCurve2DRibbonEndShapes = nil
-	stage.ShiftedLeftGrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.ShiftedLeftGrowthCurve2DRibbonStartShapes = nil
-	stage.ShiftedLeftGrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.ShiftedLeftPartiallyGrowthCurve2DRibbons = nil
-	stage.ShiftedLeftPartiallyGrowthCurve2DRibbons_mapString = nil
-
-	stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes = nil
-	stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes = nil
-	stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.ShiftedLeftStackGrowthCurveEndArcShapes = nil
-	stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString = nil
-
-	stage.ShiftedLeftStackGrowthCurveStartArcShapes = nil
-	stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString = nil
-
-	stage.ShiftedLeftStackNormalVectors = nil
-	stage.ShiftedLeftStackNormalVectors_mapString = nil
-
-	stage.ShiftedLeftStackOfGrowthCurves = nil
-	stage.ShiftedLeftStackOfGrowthCurves_mapString = nil
-
-	stage.ShiftedLeftStackOfNormalVectors = nil
-	stage.ShiftedLeftStackOfNormalVectors_mapString = nil
-
-	stage.ShiftedRightGrowthCurve2DRibbons = nil
-	stage.ShiftedRightGrowthCurve2DRibbons_mapString = nil
-
-	stage.ShiftedRightGrowthCurve2DRibbonEndShapes = nil
-	stage.ShiftedRightGrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.ShiftedRightGrowthCurve2DRibbonStartShapes = nil
-	stage.ShiftedRightGrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.StackGrowthCurve2DEndHalfwayArcShapes = nil
-	stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString = nil
-
-	stage.StackGrowthCurve2DRibbonEndShapes = nil
-	stage.StackGrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.StackGrowthCurve2DRibbonStartShapes = nil
-	stage.StackGrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.StackGrowthCurve2DStartHalfwayArcShapes = nil
-	stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString = nil
-
-	stage.StackOfGrowthCurve2Ds = nil
-	stage.StackOfGrowthCurve2Ds_mapString = nil
-
-	stage.StackOfGrowthCurve2DByGrowthVectors = nil
-	stage.StackOfGrowthCurve2DByGrowthVectors_mapString = nil
-
-	stage.StackOfGrowthCurve2DRibbons = nil
-	stage.StackOfGrowthCurve2DRibbons_mapString = nil
-
-	stage.StackOfPartiallyRotatedTorusShapes = nil
-	stage.StackOfPartiallyRotatedTorusShapes_mapString = nil
-
-	stage.StackOfRotatedGrowthCurve2Ds = nil
-	stage.StackOfRotatedGrowthCurve2Ds_mapString = nil
-
-	stage.StackOfRotatedGrowthCurve2DRibbons = nil
-	stage.StackOfRotatedGrowthCurve2DRibbons_mapString = nil
-
-	stage.StackRotatedGrowthCurve2DEndArcShapes = nil
-	stage.StackRotatedGrowthCurve2DEndArcShapes_mapString = nil
-
-	stage.StackRotatedGrowthCurve2DRibbonEndShapes = nil
-	stage.StackRotatedGrowthCurve2DRibbonEndShapes_mapString = nil
-
-	stage.StackRotatedGrowthCurve2DRibbonStartShapes = nil
-	stage.StackRotatedGrowthCurve2DRibbonStartShapes_mapString = nil
-
-	stage.StackRotatedGrowthCurve2DStartArcShapes = nil
-	stage.StackRotatedGrowthCurve2DStartArcShapes_mapString = nil
-
-	stage.StartArcShapes = nil
-	stage.StartArcShapes_mapString = nil
-
-	stage.StartArcShapeGrids = nil
-	stage.StartArcShapeGrids_mapString = nil
-
-	stage.StartHalfwayArcShapes = nil
-	stage.StartHalfwayArcShapes_mapString = nil
-
-	stage.StartHalfwayArcShapeGrids = nil
-	stage.StartHalfwayArcShapeGrids_mapString = nil
-
-	stage.StemCylinder3DShapes = nil
-	stage.StemCylinder3DShapes_mapString = nil
-
-	stage.Stool2DDiagrams = nil
-	stage.Stool2DDiagrams_mapString = nil
-
-	stage.Stool3DDiagrams = nil
-	stage.Stool3DDiagrams_mapString = nil
-
-	stage.StoolAbstracts = nil
-	stage.StoolAbstracts_mapString = nil
-
-	stage.TiledFloor3DShapes = nil
-	stage.TiledFloor3DShapes_mapString = nil
-
-	stage.TopEndArcShapes = nil
-	stage.TopEndArcShapes_mapString = nil
-
-	stage.TopEndArcShapeGrids = nil
-	stage.TopEndArcShapeGrids_mapString = nil
-
-	stage.TopEndHalfwayArcShapes = nil
-	stage.TopEndHalfwayArcShapes_mapString = nil
-
-	stage.TopEndHalfwayArcShapeGrids = nil
-	stage.TopEndHalfwayArcShapeGrids_mapString = nil
-
-	stage.TopGrowthCurve2Ds = nil
-	stage.TopGrowthCurve2Ds_mapString = nil
-
-	stage.TopMidArcVectorShapes = nil
-	stage.TopMidArcVectorShapes_mapString = nil
-
-	stage.TopMidArcVectorShapeGrids = nil
-	stage.TopMidArcVectorShapeGrids_mapString = nil
-
-	stage.TopStackGrowthCurve2DEndHalfwayArcShapes = nil
-	stage.TopStackGrowthCurve2DEndHalfwayArcShapes_mapString = nil
-
-	stage.TopStackGrowthCurve2DStartHalfwayArcShapes = nil
-	stage.TopStackGrowthCurve2DStartHalfwayArcShapes_mapString = nil
-
-	stage.TopStackOfGrowthCurve2Ds = nil
-	stage.TopStackOfGrowthCurve2Ds_mapString = nil
-
-	stage.TopStackOfRotatedGrowthCurve2Ds = nil
-	stage.TopStackOfRotatedGrowthCurve2Ds_mapString = nil
-
-	stage.TopStackOfRotatedGrowthCurve2DEndArcShapes = nil
-	stage.TopStackOfRotatedGrowthCurve2DEndArcShapes_mapString = nil
-
-	stage.TopStackOfRotatedGrowthCurve2DStartArcShapes = nil
-	stage.TopStackOfRotatedGrowthCurve2DStartArcShapes_mapString = nil
-
-	stage.TopStartArcShapes = nil
-	stage.TopStartArcShapes_mapString = nil
-
-	stage.TopStartArcShapeGrids = nil
-	stage.TopStartArcShapeGrids_mapString = nil
-
-	stage.TopStartHalfwayArcShapes = nil
-	stage.TopStartHalfwayArcShapes_mapString = nil
-
-	stage.TopStartHalfwayArcShapeGrids = nil
-	stage.TopStartHalfwayArcShapeGrids_mapString = nil
-
-	stage.Torus3DShapes = nil
-	stage.Torus3DShapes_mapString = nil
-
-	stage.TorusEdge3DShapes = nil
-	stage.TorusEdge3DShapes_mapString = nil
-
-	stage.TorusStackShapes = nil
-	stage.TorusStackShapes_mapString = nil
-
-	stage.TubeVase3DDiagrams = nil
-	stage.TubeVase3DDiagrams_mapString = nil
-
-	stage.TubeVaseAbstracts = nil
-	stage.TubeVaseAbstracts_mapString = nil
-
-	stage.Vase2DDiagrams = nil
-	stage.Vase2DDiagrams_mapString = nil
-
-	stage.VerticalTorusStackShapes = nil
-	stage.VerticalTorusStackShapes_mapString = nil
-
-	stage.VolumeKey3DShapes = nil
-	stage.VolumeKey3DShapes_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for angle0shape := range stage.Angle0Shapes {
-		angle0shape.Unstage(stage)
-	}
-
-	for arcnormalvectorshape := range stage.ArcNormalVectorShapes {
-		arcnormalvectorshape.Unstage(stage)
-	}
-
-	for arcnormalvectorshapegrid := range stage.ArcNormalVectorShapeGrids {
-		arcnormalvectorshapegrid.Unstage(stage)
-	}
-
-	for axesshape := range stage.AxesShapes {
-		axesshape.Unstage(stage)
-	}
-
-	for basevectorshape := range stage.BaseVectorShapes {
-		basevectorshape.Unstage(stage)
-	}
-
-	for basevectorshapegrid := range stage.BaseVectorShapeGrids {
-		basevectorshapegrid.Unstage(stage)
-	}
-
-	for chosenp1p2pairshape := range stage.ChosenP1P2PairShapes {
-		chosenp1p2pairshape.Unstage(stage)
-	}
-
-	for circlegridshape := range stage.CircleGridShapes {
-		circlegridshape.Unstage(stage)
-	}
-
-	for circumference3dshape := range stage.Circumference3DShapes {
-		circumference3dshape.Unstage(stage)
-	}
-
-	for clock2ddiagram := range stage.Clock2DDiagrams {
-		clock2ddiagram.Unstage(stage)
-	}
-
-	for clock3ddiagram := range stage.Clock3DDiagrams {
-		clock3ddiagram.Unstage(stage)
-	}
-
-	for clockabstract := range stage.ClockAbstracts {
-		clockabstract.Unstage(stage)
-	}
-
-	for clocktopcurveshape := range stage.ClockTopCurveShapes {
-		clocktopcurveshape.Unstage(stage)
-	}
-
-	for cutline3dshape := range stage.CutLine3DShapes {
-		cutline3dshape.Unstage(stage)
-	}
-
-	for endarcshape := range stage.EndArcShapes {
-		endarcshape.Unstage(stage)
-	}
-
-	for endarcshapegrid := range stage.EndArcShapeGrids {
-		endarcshapegrid.Unstage(stage)
-	}
-
-	for endhalfwayarcshape := range stage.EndHalfwayArcShapes {
-		endhalfwayarcshape.Unstage(stage)
-	}
-
-	for endhalfwayarcshapegrid := range stage.EndHalfwayArcShapeGrids {
-		endhalfwayarcshapegrid.Unstage(stage)
-	}
-
-	for explanationtextshape := range stage.ExplanationTextShapes {
-		explanationtextshape.Unstage(stage)
-	}
-
-	for eye3dshape := range stage.Eye3DShapes {
-		eye3dshape.Unstage(stage)
-	}
-
-	for eyecornerssampledpoints3dshape := range stage.EyeCornersSampledPoints3DShapes {
-		eyecornerssampledpoints3dshape.Unstage(stage)
-	}
-
-	for eyesampledpoints3dshape := range stage.EyeSampledPoints3DShapes {
-		eyesampledpoints3dshape.Unstage(stage)
-	}
-
-	for eyeseatbottomcurveshape := range stage.EyeSeatBottomCurveShapes {
-		eyeseatbottomcurveshape.Unstage(stage)
-	}
-
-	for eyestoolbottomcurveshape := range stage.EyeStoolBottomCurveShapes {
-		eyestoolbottomcurveshape.Unstage(stage)
-	}
-
-	for eyevolume3dshape := range stage.EyeVolume3DShapes {
-		eyevolume3dshape.Unstage(stage)
-	}
-
-	for gridpathshape := range stage.GridPathShapes {
-		gridpathshape.Unstage(stage)
-	}
-
-	for growthcurve2d := range stage.GrowthCurve2Ds {
-		growthcurve2d.Unstage(stage)
-	}
-
-	for growthcurve2dribbon := range stage.GrowthCurve2DRibbons {
-		growthcurve2dribbon.Unstage(stage)
-	}
-
-	for growthcurve2dribbonendshape := range stage.GrowthCurve2DRibbonEndShapes {
-		growthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for growthcurve2dribbonstartshape := range stage.GrowthCurve2DRibbonStartShapes {
-		growthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for growthcurverhombusgridshape := range stage.GrowthCurveRhombusGridShapes {
-		growthcurverhombusgridshape.Unstage(stage)
-	}
-
-	for growthcurverhombusshape := range stage.GrowthCurveRhombusShapes {
-		growthcurverhombusshape.Unstage(stage)
-	}
-
-	for growthvectorshape := range stage.GrowthVectorShapes {
-		growthvectorshape.Unstage(stage)
-	}
-
-	for initialrhombusgridshape := range stage.InitialRhombusGridShapes {
-		initialrhombusgridshape.Unstage(stage)
-	}
-
-	for initialrhombusshape := range stage.InitialRhombusShapes {
-		initialrhombusshape.Unstage(stage)
-	}
-
-	for key3dshape := range stage.Key3DShapes {
-		key3dshape.Unstage(stage)
-	}
-
-	for keyhole3dshape := range stage.KeyHole3DShapes {
-		keyhole3dshape.Unstage(stage)
-	}
-
-	for keyholeshape := range stage.KeyHoleShapes {
-		keyholeshape.Unstage(stage)
-	}
-
-	for leaves3dshape := range stage.Leaves3DShapes {
-		leaves3dshape.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for midarcvectorshape := range stage.MidArcVectorShapes {
-		midarcvectorshape.Unstage(stage)
-	}
-
-	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
-		midarcvectorshapegrid.Unstage(stage)
-	}
-
-	for musicabstract := range stage.MusicAbstracts {
-		musicabstract.Unstage(stage)
-	}
-
-	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
-		originalpoints3dshape.Unstage(stage)
-	}
-
-	for parastichymcurves3dshape := range stage.ParastichyMCurves3DShapes {
-		parastichymcurves3dshape.Unstage(stage)
-	}
-
-	for parastichyncurves3dshape := range stage.ParastichyNCurves3DShapes {
-		parastichyncurves3dshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dribbon := range stage.PartiallyGrowthCurve2DRibbons {
-		partiallygrowthcurve2dribbon.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dribbonendshape := range stage.PartiallyGrowthCurve2DRibbonEndShapes {
-		partiallygrowthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dribbonstartshape := range stage.PartiallyGrowthCurve2DRibbonStartShapes {
-		partiallygrowthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectory := range stage.PartiallyGrowthCurve2DTrajectorys {
-		partiallygrowthcurve2dtrajectory.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryp1curveshape := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
-		partiallygrowthcurve2dtrajectoryp1curveshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
-		partiallygrowthcurve2dtrajectoryp1p2.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryp1p2pairlineshape := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
-		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryp1pointshape := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
-		partiallygrowthcurve2dtrajectoryp1pointshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryp2curveshape := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
-		partiallygrowthcurve2dtrajectoryp2curveshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryp2pointshape := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
-		partiallygrowthcurve2dtrajectoryp2pointshape.Unstage(stage)
-	}
-
-	for partiallygrowthcurve2dtrajectoryshape := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
-		partiallygrowthcurve2dtrajectoryshape.Unstage(stage)
-	}
-
-	for partiallyrotatedseatbottomcurveshape := range stage.PartiallyRotatedSeatBottomCurveShapes {
-		partiallyrotatedseatbottomcurveshape.Unstage(stage)
-	}
-
-	for partiallyrotatedseattopcurveshape := range stage.PartiallyRotatedSeatTopCurveShapes {
-		partiallyrotatedseattopcurveshape.Unstage(stage)
-	}
-
-	for partiallyrotatedtorusshape := range stage.PartiallyRotatedTorusShapes {
-		partiallyrotatedtorusshape.Unstage(stage)
-	}
-
-	for perpendicularvector := range stage.PerpendicularVectors {
-		perpendicularvector.Unstage(stage)
-	}
-
-	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
-		perpendicularvectorgrid.Unstage(stage)
-	}
-
-	for perpendicularvectorgridhalfway := range stage.PerpendicularVectorGridHalfways {
-		perpendicularvectorgridhalfway.Unstage(stage)
-	}
-
-	for perpendicularvectorhalfway := range stage.PerpendicularVectorHalfways {
-		perpendicularvectorhalfway.Unstage(stage)
-	}
-
-	for plant2ddiagram := range stage.Plant2DDiagrams {
-		plant2ddiagram.Unstage(stage)
-	}
-
-	for plant3ddiagram := range stage.Plant3DDiagrams {
-		plant3ddiagram.Unstage(stage)
-	}
-
-	for plantabstract := range stage.PlantAbstracts {
-		plantabstract.Unstage(stage)
-	}
-
-	for plantcircumferenceshape := range stage.PlantCircumferenceShapes {
-		plantcircumferenceshape.Unstage(stage)
-	}
-
-	for pointsandlines3dshape := range stage.PointsAndLines3DShapes {
-		pointsandlines3dshape.Unstage(stage)
-	}
-
-	for pxshape := range stage.PxShapes {
-		pxshape.Unstage(stage)
-	}
-
-	for rendered3dshape := range stage.Rendered3DShapes {
-		rendered3dshape.Unstage(stage)
-	}
-
-	for rhombusshape := range stage.RhombusShapes {
-		rhombusshape.Unstage(stage)
-	}
-
-	for rhombusstuff := range stage.RhombusStuffs {
-		rhombusstuff.Unstage(stage)
-	}
-
-	for rotatedrhombusgridshape := range stage.RotatedRhombusGridShapes {
-		rotatedrhombusgridshape.Unstage(stage)
-	}
-
-	for rotatedrhombusshape := range stage.RotatedRhombusShapes {
-		rotatedrhombusshape.Unstage(stage)
-	}
-
-	for rotatedsampledpoints3dshape := range stage.RotatedSampledPoints3DShapes {
-		rotatedsampledpoints3dshape.Unstage(stage)
-	}
-
-	for rotatedseatandlegs3dshape := range stage.RotatedSeatAndLegs3DShapes {
-		rotatedseatandlegs3dshape.Unstage(stage)
-	}
-
-	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
-		sampledpoints3dshape.Unstage(stage)
-	}
-
-	for seat3dshape := range stage.Seat3DShapes {
-		seat3dshape.Unstage(stage)
-	}
-
-	for seatandlegs3dshape := range stage.SeatAndLegs3DShapes {
-		seatandlegs3dshape.Unstage(stage)
-	}
-
-	for seatbottomcurveshape := range stage.SeatBottomCurveShapes {
-		seatbottomcurveshape.Unstage(stage)
-	}
-
-	for seattopcurveshape := range stage.SeatTopCurveShapes {
-		seattopcurveshape.Unstage(stage)
-	}
-
-	for shiftedbottomtopstartarcshape := range stage.ShiftedBottomTopStartArcShapes {
-		shiftedbottomtopstartarcshape.Unstage(stage)
-	}
-
-	for shiftedbottomtopstartarcshapegrid := range stage.ShiftedBottomTopStartArcShapeGrids {
-		shiftedbottomtopstartarcshapegrid.Unstage(stage)
-	}
-
-	for shiftedleftgrowthcurve2dribbon := range stage.ShiftedLeftGrowthCurve2DRibbons {
-		shiftedleftgrowthcurve2dribbon.Unstage(stage)
-	}
-
-	for shiftedleftgrowthcurve2dribbonendshape := range stage.ShiftedLeftGrowthCurve2DRibbonEndShapes {
-		shiftedleftgrowthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for shiftedleftgrowthcurve2dribbonstartshape := range stage.ShiftedLeftGrowthCurve2DRibbonStartShapes {
-		shiftedleftgrowthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for shiftedleftpartiallygrowthcurve2dribbon := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-		shiftedleftpartiallygrowthcurve2dribbon.Unstage(stage)
-	}
-
-	for shiftedleftpartiallygrowthcurve2dribbonendshape := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
-		shiftedleftpartiallygrowthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for shiftedleftpartiallygrowthcurve2dribbonstartshape := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for shiftedleftstackgrowthcurveendarcshape := range stage.ShiftedLeftStackGrowthCurveEndArcShapes {
-		shiftedleftstackgrowthcurveendarcshape.Unstage(stage)
-	}
-
-	for shiftedleftstackgrowthcurvestartarcshape := range stage.ShiftedLeftStackGrowthCurveStartArcShapes {
-		shiftedleftstackgrowthcurvestartarcshape.Unstage(stage)
-	}
-
-	for shiftedleftstacknormalvector := range stage.ShiftedLeftStackNormalVectors {
-		shiftedleftstacknormalvector.Unstage(stage)
-	}
-
-	for shiftedleftstackofgrowthcurve := range stage.ShiftedLeftStackOfGrowthCurves {
-		shiftedleftstackofgrowthcurve.Unstage(stage)
-	}
-
-	for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
-		shiftedleftstackofnormalvector.Unstage(stage)
-	}
-
-	for shiftedrightgrowthcurve2dribbon := range stage.ShiftedRightGrowthCurve2DRibbons {
-		shiftedrightgrowthcurve2dribbon.Unstage(stage)
-	}
-
-	for shiftedrightgrowthcurve2dribbonendshape := range stage.ShiftedRightGrowthCurve2DRibbonEndShapes {
-		shiftedrightgrowthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for shiftedrightgrowthcurve2dribbonstartshape := range stage.ShiftedRightGrowthCurve2DRibbonStartShapes {
-		shiftedrightgrowthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for stackgrowthcurve2dendhalfwayarcshape := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
-		stackgrowthcurve2dendhalfwayarcshape.Unstage(stage)
-	}
-
-	for stackgrowthcurve2dribbonendshape := range stage.StackGrowthCurve2DRibbonEndShapes {
-		stackgrowthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for stackgrowthcurve2dribbonstartshape := range stage.StackGrowthCurve2DRibbonStartShapes {
-		stackgrowthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for stackgrowthcurve2dstarthalfwayarcshape := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
-		stackgrowthcurve2dstarthalfwayarcshape.Unstage(stage)
-	}
-
-	for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
-		stackofgrowthcurve2d.Unstage(stage)
-	}
-
-	for stackofgrowthcurve2dbygrowthvector := range stage.StackOfGrowthCurve2DByGrowthVectors {
-		stackofgrowthcurve2dbygrowthvector.Unstage(stage)
-	}
-
-	for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
-		stackofgrowthcurve2dribbon.Unstage(stage)
-	}
-
-	for stackofpartiallyrotatedtorusshape := range stage.StackOfPartiallyRotatedTorusShapes {
-		stackofpartiallyrotatedtorusshape.Unstage(stage)
-	}
-
-	for stackofrotatedgrowthcurve2d := range stage.StackOfRotatedGrowthCurve2Ds {
-		stackofrotatedgrowthcurve2d.Unstage(stage)
-	}
-
-	for stackofrotatedgrowthcurve2dribbon := range stage.StackOfRotatedGrowthCurve2DRibbons {
-		stackofrotatedgrowthcurve2dribbon.Unstage(stage)
-	}
-
-	for stackrotatedgrowthcurve2dendarcshape := range stage.StackRotatedGrowthCurve2DEndArcShapes {
-		stackrotatedgrowthcurve2dendarcshape.Unstage(stage)
-	}
-
-	for stackrotatedgrowthcurve2dribbonendshape := range stage.StackRotatedGrowthCurve2DRibbonEndShapes {
-		stackrotatedgrowthcurve2dribbonendshape.Unstage(stage)
-	}
-
-	for stackrotatedgrowthcurve2dribbonstartshape := range stage.StackRotatedGrowthCurve2DRibbonStartShapes {
-		stackrotatedgrowthcurve2dribbonstartshape.Unstage(stage)
-	}
-
-	for stackrotatedgrowthcurve2dstartarcshape := range stage.StackRotatedGrowthCurve2DStartArcShapes {
-		stackrotatedgrowthcurve2dstartarcshape.Unstage(stage)
-	}
-
-	for startarcshape := range stage.StartArcShapes {
-		startarcshape.Unstage(stage)
-	}
-
-	for startarcshapegrid := range stage.StartArcShapeGrids {
-		startarcshapegrid.Unstage(stage)
-	}
-
-	for starthalfwayarcshape := range stage.StartHalfwayArcShapes {
-		starthalfwayarcshape.Unstage(stage)
-	}
-
-	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
-		starthalfwayarcshapegrid.Unstage(stage)
-	}
-
-	for stemcylinder3dshape := range stage.StemCylinder3DShapes {
-		stemcylinder3dshape.Unstage(stage)
-	}
-
-	for stool2ddiagram := range stage.Stool2DDiagrams {
-		stool2ddiagram.Unstage(stage)
-	}
-
-	for stool3ddiagram := range stage.Stool3DDiagrams {
-		stool3ddiagram.Unstage(stage)
-	}
-
-	for stoolabstract := range stage.StoolAbstracts {
-		stoolabstract.Unstage(stage)
-	}
-
-	for tiledfloor3dshape := range stage.TiledFloor3DShapes {
-		tiledfloor3dshape.Unstage(stage)
-	}
-
-	for topendarcshape := range stage.TopEndArcShapes {
-		topendarcshape.Unstage(stage)
-	}
-
-	for topendarcshapegrid := range stage.TopEndArcShapeGrids {
-		topendarcshapegrid.Unstage(stage)
-	}
-
-	for topendhalfwayarcshape := range stage.TopEndHalfwayArcShapes {
-		topendhalfwayarcshape.Unstage(stage)
-	}
-
-	for topendhalfwayarcshapegrid := range stage.TopEndHalfwayArcShapeGrids {
-		topendhalfwayarcshapegrid.Unstage(stage)
-	}
-
-	for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
-		topgrowthcurve2d.Unstage(stage)
-	}
-
-	for topmidarcvectorshape := range stage.TopMidArcVectorShapes {
-		topmidarcvectorshape.Unstage(stage)
-	}
-
-	for topmidarcvectorshapegrid := range stage.TopMidArcVectorShapeGrids {
-		topmidarcvectorshapegrid.Unstage(stage)
-	}
-
-	for topstackgrowthcurve2dendhalfwayarcshape := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
-		topstackgrowthcurve2dendhalfwayarcshape.Unstage(stage)
-	}
-
-	for topstackgrowthcurve2dstarthalfwayarcshape := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
-		topstackgrowthcurve2dstarthalfwayarcshape.Unstage(stage)
-	}
-
-	for topstackofgrowthcurve2d := range stage.TopStackOfGrowthCurve2Ds {
-		topstackofgrowthcurve2d.Unstage(stage)
-	}
-
-	for topstackofrotatedgrowthcurve2d := range stage.TopStackOfRotatedGrowthCurve2Ds {
-		topstackofrotatedgrowthcurve2d.Unstage(stage)
-	}
-
-	for topstackofrotatedgrowthcurve2dendarcshape := range stage.TopStackOfRotatedGrowthCurve2DEndArcShapes {
-		topstackofrotatedgrowthcurve2dendarcshape.Unstage(stage)
-	}
-
-	for topstackofrotatedgrowthcurve2dstartarcshape := range stage.TopStackOfRotatedGrowthCurve2DStartArcShapes {
-		topstackofrotatedgrowthcurve2dstartarcshape.Unstage(stage)
-	}
-
-	for topstartarcshape := range stage.TopStartArcShapes {
-		topstartarcshape.Unstage(stage)
-	}
-
-	for topstartarcshapegrid := range stage.TopStartArcShapeGrids {
-		topstartarcshapegrid.Unstage(stage)
-	}
-
-	for topstarthalfwayarcshape := range stage.TopStartHalfwayArcShapes {
-		topstarthalfwayarcshape.Unstage(stage)
-	}
-
-	for topstarthalfwayarcshapegrid := range stage.TopStartHalfwayArcShapeGrids {
-		topstarthalfwayarcshapegrid.Unstage(stage)
-	}
-
-	for torus3dshape := range stage.Torus3DShapes {
-		torus3dshape.Unstage(stage)
-	}
-
-	for torusedge3dshape := range stage.TorusEdge3DShapes {
-		torusedge3dshape.Unstage(stage)
-	}
-
-	for torusstackshape := range stage.TorusStackShapes {
-		torusstackshape.Unstage(stage)
-	}
-
-	for tubevase3ddiagram := range stage.TubeVase3DDiagrams {
-		tubevase3ddiagram.Unstage(stage)
-	}
-
-	for tubevaseabstract := range stage.TubeVaseAbstracts {
-		tubevaseabstract.Unstage(stage)
-	}
-
-	for vase2ddiagram := range stage.Vase2DDiagrams {
-		vase2ddiagram.Unstage(stage)
-	}
-
-	for verticaltorusstackshape := range stage.VerticalTorusStackShapes {
-		verticaltorusstackshape.Unstage(stage)
-	}
-
-	for volumekey3dshape := range stage.VolumeKey3DShapes {
-		volumekey3dshape.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -25068,13 +23107,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -42005,5003 +40042,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (angle0shape *Angle0Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		angle0shape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (arcnormalvectorshape *ArcNormalVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		arcnormalvectorshape.Name = value.GetValueString()
-	case "StartX":
-		arcnormalvectorshape.StartX = value.GetValueFloat()
-	case "StartY":
-		arcnormalvectorshape.StartY = value.GetValueFloat()
-	case "EndX":
-		arcnormalvectorshape.EndX = value.GetValueFloat()
-	case "EndY":
-		arcnormalvectorshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		arcnormalvectorshapegrid.Name = value.GetValueString()
-	case "ArcNormalVectorShapes":
-		arcnormalvectorshapegrid.ArcNormalVectorShapes = make([]*ArcNormalVectorShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ArcNormalVectorShapes {
-					if stage.ArcNormalVectorShape_stagedOrder[__instance__] == uint(id) {
-						arcnormalvectorshapegrid.ArcNormalVectorShapes = append(arcnormalvectorshapegrid.ArcNormalVectorShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (axesshape *AxesShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		axesshape.Name = value.GetValueString()
-	case "LengthX":
-		axesshape.LengthX = value.GetValueFloat()
-	case "LengthY":
-		axesshape.LengthY = value.GetValueFloat()
-	case "IsWithHiddenHandle":
-		axesshape.IsWithHiddenHandle = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (basevectorshape *BaseVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		basevectorshape.Name = value.GetValueString()
-	case "StartX":
-		basevectorshape.StartX = value.GetValueFloat()
-	case "StartY":
-		basevectorshape.StartY = value.GetValueFloat()
-	case "EndX":
-		basevectorshape.EndX = value.GetValueFloat()
-	case "EndY":
-		basevectorshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (basevectorshapegrid *BaseVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		basevectorshapegrid.Name = value.GetValueString()
-	case "BaseVectorShapes":
-		basevectorshapegrid.BaseVectorShapes = make([]*BaseVectorShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.BaseVectorShapes {
-					if stage.BaseVectorShape_stagedOrder[__instance__] == uint(id) {
-						basevectorshapegrid.BaseVectorShapes = append(basevectorshapegrid.BaseVectorShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (chosenp1p2pairshape *ChosenP1P2PairShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		chosenp1p2pairshape.Name = value.GetValueString()
-	case "P1X":
-		chosenp1p2pairshape.P1X = value.GetValueFloat()
-	case "P1Y":
-		chosenp1p2pairshape.P1Y = value.GetValueFloat()
-	case "P2X":
-		chosenp1p2pairshape.P2X = value.GetValueFloat()
-	case "P2Y":
-		chosenp1p2pairshape.P2Y = value.GetValueFloat()
-	case "PxX":
-		chosenp1p2pairshape.PxX = value.GetValueFloat()
-	case "PxY":
-		chosenp1p2pairshape.PxY = value.GetValueFloat()
-	case "DistanceP1Px":
-		chosenp1p2pairshape.DistanceP1Px = value.GetValueFloat()
-	case "DistanceP2Px":
-		chosenp1p2pairshape.DistanceP2Px = value.GetValueFloat()
-	case "DistanceSum":
-		chosenp1p2pairshape.DistanceSum = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		circlegridshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (circumference3dshape *Circumference3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		circumference3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (clock2ddiagram *Clock2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		clock2ddiagram.Name = value.GetValueString()
-	case "Zoom":
-		clock2ddiagram.Zoom = value.GetValueFloat()
-	case "IsHiddenAxesShape":
-		clock2ddiagram.IsHiddenAxesShape = value.GetValueBool()
-	case "IsChecked":
-		clock2ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		clock2ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		clock2ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (clock3ddiagram *Clock3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		clock3ddiagram.Name = value.GetValueString()
-	case "IsHiddenClockTopCurveShape":
-		clock3ddiagram.IsHiddenClockTopCurveShape = value.GetValueBool()
-	case "ClockTopCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			clock3ddiagram.ClockTopCurveShape = nil
-			for __instance__ := range stage.ClockTopCurveShapes {
-				if stage.ClockTopCurveShape_stagedOrder[__instance__] == uint(id) {
-					clock3ddiagram.ClockTopCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenTorus3DShape":
-		clock3ddiagram.IsHiddenTorus3DShape = value.GetValueBool()
-	case "Torus3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			clock3ddiagram.Torus3DShape = nil
-			for __instance__ := range stage.Torus3DShapes {
-				if stage.Torus3DShape_stagedOrder[__instance__] == uint(id) {
-					clock3ddiagram.Torus3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenSampledPoints3DShape":
-		clock3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
-	case "SampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			clock3ddiagram.SampledPoints3DShape = nil
-			for __instance__ := range stage.SampledPoints3DShapes {
-				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					clock3ddiagram.SampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenTiledFloor3DShape":
-		clock3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
-	case "TiledFloor3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			clock3ddiagram.TiledFloor3DShape = nil
-			for __instance__ := range stage.TiledFloor3DShapes {
-				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
-					clock3ddiagram.TiledFloor3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Rendered3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			clock3ddiagram.Rendered3DShape = nil
-			for __instance__ := range stage.Rendered3DShapes {
-				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
-					clock3ddiagram.Rendered3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsChecked":
-		clock3ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		clock3ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		clock3ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (clockabstract *ClockAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		clockabstract.Name = value.GetValueString()
-	case "RadialRepetitions":
-		clockabstract.RadialRepetitions = int(value.GetValueInt())
-	case "Transparency":
-		clockabstract.Transparency = value.GetValueFloat()
-	case "RelativeTubeDiameter":
-		clockabstract.RelativeTubeDiameter = value.GetValueFloat()
-	case "RelativeHeight3DTorus":
-		clockabstract.RelativeHeight3DTorus = value.GetValueFloat()
-	case "ClockTorusVerticalScale":
-		clockabstract.ClockTorusVerticalScale = value.GetValueFloat()
-	case "RelativeHeight":
-		clockabstract.RelativeHeight = value.GetValueFloat()
-	case "ProjectionAngle":
-		clockabstract.ProjectionAngle = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (clocktopcurveshape *ClockTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		clocktopcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cutline3dshape *CutLine3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cutline3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (endarcshape *EndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		endarcshape.Name = value.GetValueString()
-	case "StartX":
-		endarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		endarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		endarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		endarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		endarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		endarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		endarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		endarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		endarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (endarcshapegrid *EndArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		endarcshapegrid.Name = value.GetValueString()
-	case "EndArcShapes":
-		endarcshapegrid.EndArcShapes = make([]*EndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.EndArcShapes {
-					if stage.EndArcShape_stagedOrder[__instance__] == uint(id) {
-						endarcshapegrid.EndArcShapes = append(endarcshapegrid.EndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (endhalfwayarcshape *EndHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		endhalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		endhalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		endhalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		endhalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		endhalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		endhalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		endhalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		endhalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		endhalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		endhalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		endhalfwayarcshapegrid.Name = value.GetValueString()
-	case "EndHalfwayArcShapes":
-		endhalfwayarcshapegrid.EndHalfwayArcShapes = make([]*EndHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.EndHalfwayArcShapes {
-					if stage.EndHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						endhalfwayarcshapegrid.EndHalfwayArcShapes = append(endhalfwayarcshapegrid.EndHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (explanationtextshape *ExplanationTextShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		explanationtextshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (eye3dshape *Eye3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		eye3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		eyecornerssampledpoints3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		eyesampledpoints3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		eyeseatbottomcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		eyestoolbottomcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (eyevolume3dshape *EyeVolume3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		eyevolume3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (gridpathshape *GridPathShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		gridpathshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthcurve2d *GrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthcurve2d.Name = value.GetValueString()
-	case "StartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			growthcurve2d.StartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.StartHalfwayArcShapeGrids {
-				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					growthcurve2d.StartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			growthcurve2d.EndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.EndHalfwayArcShapeGrids {
-				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					growthcurve2d.EndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthcurve2dribbon *GrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthcurve2dribbon.Name = value.GetValueString()
-	case "GrowthCurve2DRibbonStartShapes":
-		growthcurve2dribbon.GrowthCurve2DRibbonStartShapes = make([]*GrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GrowthCurve2DRibbonStartShapes {
-					if stage.GrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						growthcurve2dribbon.GrowthCurve2DRibbonStartShapes = append(growthcurve2dribbon.GrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "GrowthCurve2DRibbonEndShapes":
-		growthcurve2dribbon.GrowthCurve2DRibbonEndShapes = make([]*GrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GrowthCurve2DRibbonEndShapes {
-					if stage.GrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						growthcurve2dribbon.GrowthCurve2DRibbonEndShapes = append(growthcurve2dribbon.GrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		growthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		growthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		growthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		growthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		growthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		growthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		growthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		growthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		growthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		growthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		growthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		growthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		growthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		growthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		growthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		growthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		growthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		growthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		growthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		growthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		growthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		growthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		growthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		growthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		growthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		growthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		growthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		growthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		growthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		growthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		growthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		growthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		growthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		growthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		growthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		growthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthcurverhombusgridshape.Name = value.GetValueString()
-	case "GrowthCurveRhombusShapes":
-		growthcurverhombusgridshape.GrowthCurveRhombusShapes = make([]*GrowthCurveRhombusShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.GrowthCurveRhombusShapes {
-					if stage.GrowthCurveRhombusShape_stagedOrder[__instance__] == uint(id) {
-						growthcurverhombusgridshape.GrowthCurveRhombusShapes = append(growthcurverhombusgridshape.GrowthCurveRhombusShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthcurverhombusshape *GrowthCurveRhombusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthcurverhombusshape.Name = value.GetValueString()
-	case "X":
-		growthcurverhombusshape.X = value.GetValueFloat()
-	case "Y":
-		growthcurverhombusshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthvectorshape *GrowthVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthvectorshape.Name = value.GetValueString()
-	case "X":
-		growthvectorshape.X = value.GetValueFloat()
-	case "Y":
-		growthvectorshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (initialrhombusgridshape *InitialRhombusGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		initialrhombusgridshape.Name = value.GetValueString()
-	case "InitialRhombusShapes":
-		initialrhombusgridshape.InitialRhombusShapes = make([]*InitialRhombusShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.InitialRhombusShapes {
-					if stage.InitialRhombusShape_stagedOrder[__instance__] == uint(id) {
-						initialrhombusgridshape.InitialRhombusShapes = append(initialrhombusgridshape.InitialRhombusShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (initialrhombusshape *InitialRhombusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		initialrhombusshape.Name = value.GetValueString()
-	case "X":
-		initialrhombusshape.X = value.GetValueFloat()
-	case "Y":
-		initialrhombusshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (key3dshape *Key3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		key3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (keyhole3dshape *KeyHole3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		keyhole3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (keyholeshape *KeyHoleShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		keyholeshape.Name = value.GetValueString()
-	case "X":
-		keyholeshape.X = value.GetValueFloat()
-	case "Y":
-		keyholeshape.Y = value.GetValueFloat()
-	case "Width":
-		keyholeshape.Width = value.GetValueFloat()
-	case "Height":
-		keyholeshape.Height = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (leaves3dshape *Leaves3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		leaves3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "Plants":
-		library.Plants = make([]*PlantAbstract, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PlantAbstracts {
-					if stage.PlantAbstract_stagedOrder[__instance__] == uint(id) {
-						library.Plants = append(library.Plants, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (midarcvectorshape *MidArcVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		midarcvectorshape.Name = value.GetValueString()
-	case "StartX":
-		midarcvectorshape.StartX = value.GetValueFloat()
-	case "StartY":
-		midarcvectorshape.StartY = value.GetValueFloat()
-	case "EndX":
-		midarcvectorshape.EndX = value.GetValueFloat()
-	case "EndY":
-		midarcvectorshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		midarcvectorshapegrid.Name = value.GetValueString()
-	case "MidArcVectorShapes":
-		midarcvectorshapegrid.MidArcVectorShapes = make([]*MidArcVectorShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.MidArcVectorShapes {
-					if stage.MidArcVectorShape_stagedOrder[__instance__] == uint(id) {
-						midarcvectorshapegrid.MidArcVectorShapes = append(midarcvectorshapegrid.MidArcVectorShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (musicabstract *MusicAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		musicabstract.Name = value.GetValueString()
-	case "IsChecked":
-		musicabstract.IsChecked = value.GetValueBool()
-	case "PitchHeight":
-		musicabstract.PitchHeight = value.GetValueFloat()
-	case "NbOfBeatsInTheme":
-		musicabstract.NbOfBeatsInTheme = int(value.GetValueInt())
-	case "BeatsPerSecond":
-		musicabstract.BeatsPerSecond = value.GetValueFloat()
-	case "FirstVoiceShiftX":
-		musicabstract.FirstVoiceShiftX = value.GetValueFloat()
-	case "FirstVoiceShiftY":
-		musicabstract.FirstVoiceShiftY = value.GetValueFloat()
-	case "PitchDifference":
-		musicabstract.PitchDifference = int(value.GetValueInt())
-	case "Level":
-		musicabstract.Level = value.GetValueFloat()
-	case "ActualBeatsTemporalShift":
-		musicabstract.ActualBeatsTemporalShift = int(value.GetValueInt())
-	case "IsMinor":
-		musicabstract.IsMinor = value.GetValueBool()
-	case "ThemeBinaryEncoding":
-		musicabstract.ThemeBinaryEncoding = int(value.GetValueInt())
-	case "BezierControlLengthRatio":
-		musicabstract.BezierControlLengthRatio = value.GetValueFloat()
-	case "NbPitchLines":
-		musicabstract.NbPitchLines = int(value.GetValueInt())
-	case "NbBeatLines":
-		musicabstract.NbBeatLines = int(value.GetValueInt())
-	case "OriginX":
-		musicabstract.OriginX = value.GetValueFloat()
-	case "OriginY":
-		musicabstract.OriginY = value.GetValueFloat()
-	case "ScoreScale":
-		musicabstract.ScoreScale = value.GetValueFloat()
-	case "ShowFirstVoice":
-		musicabstract.ShowFirstVoice = value.GetValueBool()
-	case "ShowFirstVoiceShiftRight":
-		musicabstract.ShowFirstVoiceShiftRight = value.GetValueBool()
-	case "ShowSecondVoice":
-		musicabstract.ShowSecondVoice = value.GetValueBool()
-	case "ShowSecondVoiceShiftRight":
-		musicabstract.ShowSecondVoiceShiftRight = value.GetValueBool()
-	case "ShowFirstVoiceNotes":
-		musicabstract.ShowFirstVoiceNotes = value.GetValueBool()
-	case "ShowFirstVoiceNotesShiftRight":
-		musicabstract.ShowFirstVoiceNotesShiftRight = value.GetValueBool()
-	case "ShowSecondVoiceNotes":
-		musicabstract.ShowSecondVoiceNotes = value.GetValueBool()
-	case "ShowSecondVoiceNotesShiftRight":
-		musicabstract.ShowSecondVoiceNotesShiftRight = value.GetValueBool()
-	case "IsComposerNodeExpanded":
-		musicabstract.IsComposerNodeExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (originalpoints3dshape *OriginalPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		originalpoints3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parastichymcurves3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		parastichyncurves3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dribbon.Name = value.GetValueString()
-	case "PartiallyGrowthCurve2DRibbonStartShapes":
-		partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes = make([]*PartiallyGrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DRibbonStartShapes {
-					if stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes = append(partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DRibbonEndShapes":
-		partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes = make([]*PartiallyGrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DRibbonEndShapes {
-					if stage.PartiallyGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes = append(partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		partiallygrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		partiallygrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		partiallygrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		partiallygrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		partiallygrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		partiallygrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		partiallygrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		partiallygrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		partiallygrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		partiallygrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		partiallygrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		partiallygrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		partiallygrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		partiallygrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		partiallygrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		partiallygrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		partiallygrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		partiallygrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		partiallygrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		partiallygrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		partiallygrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		partiallygrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		partiallygrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		partiallygrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		partiallygrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		partiallygrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		partiallygrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		partiallygrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		partiallygrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		partiallygrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		partiallygrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		partiallygrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		partiallygrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		partiallygrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		partiallygrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		partiallygrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectory.Name = value.GetValueString()
-	case "PartiallyGrowthCurve2DTrajectoryShapes":
-		partiallygrowthcurve2dtrajectory.PartiallyGrowthCurve2DTrajectoryShapes = make([]*PartiallyGrowthCurve2DTrajectoryShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
-					if stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dtrajectory.PartiallyGrowthCurve2DTrajectoryShapes = append(partiallygrowthcurve2dtrajectory.PartiallyGrowthCurve2DTrajectoryShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryp1curveshape.Name = value.GetValueString()
-	case "StartX":
-		partiallygrowthcurve2dtrajectoryp1curveshape.StartX = value.GetValueFloat()
-	case "StartY":
-		partiallygrowthcurve2dtrajectoryp1curveshape.StartY = value.GetValueFloat()
-	case "EndX":
-		partiallygrowthcurve2dtrajectoryp1curveshape.EndX = value.GetValueFloat()
-	case "EndY":
-		partiallygrowthcurve2dtrajectoryp1curveshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryp1p2.Name = value.GetValueString()
-	case "P1PointShapes":
-		partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1PointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
-					if stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "P2PointShapes":
-		partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes = make([]*PartiallyGrowthCurve2DTrajectoryP2PointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
-					if stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "P1CurveShapes":
-		partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1CurveShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
-					if stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "P2CurveShapes":
-		partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes = make([]*PartiallyGrowthCurve2DTrajectoryP2CurveShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
-					if stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "P1P2PairLineShapes":
-		partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
-					if stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[__instance__] == uint(id) {
-						partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name = value.GetValueString()
-	case "StartX":
-		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartX = value.GetValueFloat()
-	case "StartY":
-		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartY = value.GetValueFloat()
-	case "EndX":
-		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndX = value.GetValueFloat()
-	case "EndY":
-		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryp1pointshape.Name = value.GetValueString()
-	case "X":
-		partiallygrowthcurve2dtrajectoryp1pointshape.X = value.GetValueFloat()
-	case "Y":
-		partiallygrowthcurve2dtrajectoryp1pointshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryp2curveshape.Name = value.GetValueString()
-	case "StartX":
-		partiallygrowthcurve2dtrajectoryp2curveshape.StartX = value.GetValueFloat()
-	case "StartY":
-		partiallygrowthcurve2dtrajectoryp2curveshape.StartY = value.GetValueFloat()
-	case "EndX":
-		partiallygrowthcurve2dtrajectoryp2curveshape.EndX = value.GetValueFloat()
-	case "EndY":
-		partiallygrowthcurve2dtrajectoryp2curveshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryp2pointshape.Name = value.GetValueString()
-	case "X":
-		partiallygrowthcurve2dtrajectoryp2pointshape.X = value.GetValueFloat()
-	case "Y":
-		partiallygrowthcurve2dtrajectoryp2pointshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallygrowthcurve2dtrajectoryshape.Name = value.GetValueString()
-	case "StartX":
-		partiallygrowthcurve2dtrajectoryshape.StartX = value.GetValueFloat()
-	case "StartY":
-		partiallygrowthcurve2dtrajectoryshape.StartY = value.GetValueFloat()
-	case "EndX":
-		partiallygrowthcurve2dtrajectoryshape.EndX = value.GetValueFloat()
-	case "EndY":
-		partiallygrowthcurve2dtrajectoryshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallyrotatedseatbottomcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallyrotatedseattopcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partiallyrotatedtorusshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (perpendicularvector *PerpendicularVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		perpendicularvector.Name = value.GetValueString()
-	case "StartX":
-		perpendicularvector.StartX = value.GetValueFloat()
-	case "StartY":
-		perpendicularvector.StartY = value.GetValueFloat()
-	case "EndX":
-		perpendicularvector.EndX = value.GetValueFloat()
-	case "EndY":
-		perpendicularvector.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (perpendicularvectorgrid *PerpendicularVectorGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		perpendicularvectorgrid.Name = value.GetValueString()
-	case "PerpendicularVectors":
-		perpendicularvectorgrid.PerpendicularVectors = make([]*PerpendicularVector, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PerpendicularVectors {
-					if stage.PerpendicularVector_stagedOrder[__instance__] == uint(id) {
-						perpendicularvectorgrid.PerpendicularVectors = append(perpendicularvectorgrid.PerpendicularVectors, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		perpendicularvectorgridhalfway.Name = value.GetValueString()
-	case "PerpendicularVectorHalfways":
-		perpendicularvectorgridhalfway.PerpendicularVectorHalfways = make([]*PerpendicularVectorHalfway, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PerpendicularVectorHalfways {
-					if stage.PerpendicularVectorHalfway_stagedOrder[__instance__] == uint(id) {
-						perpendicularvectorgridhalfway.PerpendicularVectorHalfways = append(perpendicularvectorgridhalfway.PerpendicularVectorHalfways, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		perpendicularvectorhalfway.Name = value.GetValueString()
-	case "StartX":
-		perpendicularvectorhalfway.StartX = value.GetValueFloat()
-	case "StartY":
-		perpendicularvectorhalfway.StartY = value.GetValueFloat()
-	case "EndX":
-		perpendicularvectorhalfway.EndX = value.GetValueFloat()
-	case "EndY":
-		perpendicularvectorhalfway.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (plant2ddiagram *Plant2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		plant2ddiagram.Name = value.GetValueString()
-	case "OriginX":
-		plant2ddiagram.OriginX = value.GetValueFloat()
-	case "OriginY":
-		plant2ddiagram.OriginY = value.GetValueFloat()
-	case "Zoom":
-		plant2ddiagram.Zoom = value.GetValueFloat()
-	case "IsRhombusNodesExpanded":
-		plant2ddiagram.IsRhombusNodesExpanded = value.GetValueBool()
-	case "IsArcNodesExpanded":
-		plant2ddiagram.IsArcNodesExpanded = value.GetValueBool()
-	case "IsHiddenAxesShape":
-		plant2ddiagram.IsHiddenAxesShape = value.GetValueBool()
-	case "IsHiddenReferenceRhombus":
-		plant2ddiagram.IsHiddenReferenceRhombus = value.GetValueBool()
-	case "IsHiddenPlantCircumferenceShape":
-		plant2ddiagram.IsHiddenPlantCircumferenceShape = value.GetValueBool()
-	case "IsHiddenGridPathShape":
-		plant2ddiagram.IsHiddenGridPathShape = value.GetValueBool()
-	case "IsHiddenRhombusGridShape":
-		plant2ddiagram.IsHiddenRhombusGridShape = value.GetValueBool()
-	case "IsHiddenExplanationTextShape":
-		plant2ddiagram.IsHiddenExplanationTextShape = value.GetValueBool()
-	case "IsHiddenRotatedReferenceRhombus":
-		plant2ddiagram.IsHiddenRotatedReferenceRhombus = value.GetValueBool()
-	case "IsHiddenRotatedPlantCircumferenceShape":
-		plant2ddiagram.IsHiddenRotatedPlantCircumferenceShape = value.GetValueBool()
-	case "IsHiddenRotatedGridPathShape":
-		plant2ddiagram.IsHiddenRotatedGridPathShape = value.GetValueBool()
-	case "IsHiddenRotatedRhombusGridShape":
-		plant2ddiagram.IsHiddenRotatedRhombusGridShape = value.GetValueBool()
-	case "IsHiddenGrowthPathRhombusGridShape":
-		plant2ddiagram.IsHiddenGrowthPathRhombusGridShape = value.GetValueBool()
-	case "IsHiddenGrowthVectorShape":
-		plant2ddiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
-	case "IsHiddenPerpendicularVectorGrid":
-		plant2ddiagram.IsHiddenPerpendicularVectorGrid = value.GetValueBool()
-	case "IsHiddenBaseVectorShapeGrid":
-		plant2ddiagram.IsHiddenBaseVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenArcNormalVectorShapeGrid":
-		plant2ddiagram.IsHiddenArcNormalVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenStartArcShapeGrid":
-		plant2ddiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenMidArcVectorShapeGrid":
-		plant2ddiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenEndArcShapeGrid":
-		plant2ddiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenGrowthCurve2D":
-		plant2ddiagram.IsHiddenGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
-		plant2ddiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector = value.GetValueBool()
-	case "IsChecked":
-		plant2ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		plant2ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		plant2ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (plant3ddiagram *Plant3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		plant3ddiagram.Name = value.GetValueString()
-	case "IsHiddenStemCylinder3DShape":
-		plant3ddiagram.IsHiddenStemCylinder3DShape = value.GetValueBool()
-	case "StemCylinder3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.StemCylinder3DShape = nil
-			for __instance__ := range stage.StemCylinder3DShapes {
-				if stage.StemCylinder3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.StemCylinder3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenParastichyNCurves3DShape":
-		plant3ddiagram.IsHiddenParastichyNCurves3DShape = value.GetValueBool()
-	case "ParastichyNCurves3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.ParastichyNCurves3DShape = nil
-			for __instance__ := range stage.ParastichyNCurves3DShapes {
-				if stage.ParastichyNCurves3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.ParastichyNCurves3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenParastichyMCurves3DShape":
-		plant3ddiagram.IsHiddenParastichyMCurves3DShape = value.GetValueBool()
-	case "ParastichyMCurves3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.ParastichyMCurves3DShape = nil
-			for __instance__ := range stage.ParastichyMCurves3DShapes {
-				if stage.ParastichyMCurves3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.ParastichyMCurves3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenCutLine3DShape":
-		plant3ddiagram.IsHiddenCutLine3DShape = value.GetValueBool()
-	case "CutLine3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.CutLine3DShape = nil
-			for __instance__ := range stage.CutLine3DShapes {
-				if stage.CutLine3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.CutLine3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenCircumference3DShape":
-		plant3ddiagram.IsHiddenCircumference3DShape = value.GetValueBool()
-	case "Circumference3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.Circumference3DShape = nil
-			for __instance__ := range stage.Circumference3DShapes {
-				if stage.Circumference3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.Circumference3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenTiledFloor3DShape":
-		plant3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
-	case "TiledFloor3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.TiledFloor3DShape = nil
-			for __instance__ := range stage.TiledFloor3DShapes {
-				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.TiledFloor3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenLeaves3DShape":
-		plant3ddiagram.IsHiddenLeaves3DShape = value.GetValueBool()
-	case "Leaves3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.Leaves3DShape = nil
-			for __instance__ := range stage.Leaves3DShapes {
-				if stage.Leaves3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.Leaves3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Rendered3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant3ddiagram.Rendered3DShape = nil
-			for __instance__ := range stage.Rendered3DShapes {
-				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
-					plant3ddiagram.Rendered3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsChecked":
-		plant3ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		plant3ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		plant3ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		plantabstract.Name = value.GetValueString()
-	case "N":
-		plantabstract.N = int(value.GetValueInt())
-	case "M":
-		plantabstract.M = int(value.GetValueInt())
-	case "StackHeight":
-		plantabstract.StackHeight = int(value.GetValueInt())
-	case "RhombusInsideAngle":
-		plantabstract.RhombusInsideAngle = value.GetValueFloat()
-	case "RhombusSideLength":
-		plantabstract.RhombusSideLength = value.GetValueFloat()
-	case "PlantType":
-		plantabstract.PlantType.FromCodeString(value.GetValueString())
-	case "TubeVaseAbstract":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TubeVaseAbstract = nil
-			for __instance__ := range stage.TubeVaseAbstracts {
-				if stage.TubeVaseAbstract_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TubeVaseAbstract = __instance__
-					break
-				}
-			}
-		}
-	case "StoolAbstract":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StoolAbstract = nil
-			for __instance__ := range stage.StoolAbstracts {
-				if stage.StoolAbstract_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StoolAbstract = __instance__
-					break
-				}
-			}
-		}
-	case "ClockAbstract":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ClockAbstract = nil
-			for __instance__ := range stage.ClockAbstracts {
-				if stage.ClockAbstract_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ClockAbstract = __instance__
-					break
-				}
-			}
-		}
-	case "MusicAbstract":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.MusicAbstract = nil
-			for __instance__ := range stage.MusicAbstracts {
-				if stage.MusicAbstract_stagedOrder[__instance__] == uint(id) {
-					plantabstract.MusicAbstract = __instance__
-					break
-				}
-			}
-		}
-	case "CurrentView":
-		plantabstract.CurrentView.FromCodeString(value.GetValueString())
-	case "ComputedPrefix":
-		plantabstract.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		plantabstract.IsExpanded = value.GetValueBool()
-	case "IsSelected":
-		plantabstract.IsSelected = value.GetValueBool()
-	case "IsPlant2DDiagramsNodeExpanded":
-		plantabstract.IsPlant2DDiagramsNodeExpanded = value.GetValueBool()
-	case "Plant2DDiagrams":
-		plantabstract.Plant2DDiagrams = make([]*Plant2DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Plant2DDiagrams {
-					if stage.Plant2DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Plant2DDiagrams = append(plantabstract.Plant2DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPlant3DDiagramsNodeExpanded":
-		plantabstract.IsPlant3DDiagramsNodeExpanded = value.GetValueBool()
-	case "Plant3DDiagrams":
-		plantabstract.Plant3DDiagrams = make([]*Plant3DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Plant3DDiagrams {
-					if stage.Plant3DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Plant3DDiagrams = append(plantabstract.Plant3DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsVase2DDiagramsNodeExpanded":
-		plantabstract.IsVase2DDiagramsNodeExpanded = value.GetValueBool()
-	case "Vase2DDiagrams":
-		plantabstract.Vase2DDiagrams = make([]*Vase2DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Vase2DDiagrams {
-					if stage.Vase2DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Vase2DDiagrams = append(plantabstract.Vase2DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsTubeVase3DDiagramsNodeExpanded":
-		plantabstract.IsTubeVase3DDiagramsNodeExpanded = value.GetValueBool()
-	case "TubeVase3DDiagrams":
-		plantabstract.TubeVase3DDiagrams = make([]*TubeVase3DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TubeVase3DDiagrams {
-					if stage.TubeVase3DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.TubeVase3DDiagrams = append(plantabstract.TubeVase3DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsStool2DDiagramsNodeExpanded":
-		plantabstract.IsStool2DDiagramsNodeExpanded = value.GetValueBool()
-	case "Stool2DDiagrams":
-		plantabstract.Stool2DDiagrams = make([]*Stool2DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Stool2DDiagrams {
-					if stage.Stool2DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Stool2DDiagrams = append(plantabstract.Stool2DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsStool3DDiagramsNodeExpanded":
-		plantabstract.IsStool3DDiagramsNodeExpanded = value.GetValueBool()
-	case "Stool3DDiagrams":
-		plantabstract.Stool3DDiagrams = make([]*Stool3DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Stool3DDiagrams {
-					if stage.Stool3DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Stool3DDiagrams = append(plantabstract.Stool3DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsClock2DDiagramsNodeExpanded":
-		plantabstract.IsClock2DDiagramsNodeExpanded = value.GetValueBool()
-	case "Clock2DDiagrams":
-		plantabstract.Clock2DDiagrams = make([]*Clock2DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Clock2DDiagrams {
-					if stage.Clock2DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Clock2DDiagrams = append(plantabstract.Clock2DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsClock3DDiagramsNodeExpanded":
-		plantabstract.IsClock3DDiagramsNodeExpanded = value.GetValueBool()
-	case "Clock3DDiagrams":
-		plantabstract.Clock3DDiagrams = make([]*Clock3DDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Clock3DDiagrams {
-					if stage.Clock3DDiagram_stagedOrder[__instance__] == uint(id) {
-						plantabstract.Clock3DDiagrams = append(plantabstract.Clock3DDiagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AxesShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.AxesShape = nil
-			for __instance__ := range stage.AxesShapes {
-				if stage.AxesShape_stagedOrder[__instance__] == uint(id) {
-					plantabstract.AxesShape = __instance__
-					break
-				}
-			}
-		}
-	case "RhombusStuff":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.RhombusStuff = nil
-			for __instance__ := range stage.RhombusStuffs {
-				if stage.RhombusStuff_stagedOrder[__instance__] == uint(id) {
-					plantabstract.RhombusStuff = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthVectorShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.GrowthVectorShape = nil
-			for __instance__ := range stage.GrowthVectorShapes {
-				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
-					plantabstract.GrowthVectorShape = __instance__
-					break
-				}
-			}
-		}
-	case "PerpendicularVectorGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.PerpendicularVectorGrid = nil
-			for __instance__ := range stage.PerpendicularVectorGrids {
-				if stage.PerpendicularVectorGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.PerpendicularVectorGrid = __instance__
-					break
-				}
-			}
-		}
-	case "BaseVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.BaseVectorShapeGrid = nil
-			for __instance__ := range stage.BaseVectorShapeGrids {
-				if stage.BaseVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.BaseVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "ArcNormalVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ArcNormalVectorShapeGrid = nil
-			for __instance__ := range stage.ArcNormalVectorShapeGrids {
-				if stage.ArcNormalVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ArcNormalVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StartArcShapeGrid = nil
-			for __instance__ := range stage.StartArcShapeGrids {
-				if stage.StartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "MidArcVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.MidArcVectorShapeGrid = nil
-			for __instance__ := range stage.MidArcVectorShapeGrids {
-				if stage.MidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.MidArcVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.EndArcShapeGrid = nil
-			for __instance__ := range stage.EndArcShapeGrids {
-				if stage.EndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.EndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.GrowthCurve2D = nil
-			for __instance__ := range stage.GrowthCurve2Ds {
-				if stage.GrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plantabstract.GrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2DByGrowthVector":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StackOfGrowthCurve2DByGrowthVector = nil
-			for __instance__ := range stage.StackOfGrowthCurve2DByGrowthVectors {
-				if stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StackOfGrowthCurve2DByGrowthVector = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (plantcircumferenceshape *PlantCircumferenceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		plantcircumferenceshape.Name = value.GetValueString()
-	case "AngleDegree":
-		plantcircumferenceshape.AngleDegree = value.GetValueFloat()
-	case "Length":
-		plantcircumferenceshape.Length = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pointsandlines3dshape *PointsAndLines3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pointsandlines3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pxshape *PxShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pxshape.Name = value.GetValueString()
-	case "X":
-		pxshape.X = value.GetValueFloat()
-	case "Y":
-		pxshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rendered3dshape *Rendered3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rendered3dshape.Name = value.GetValueString()
-	case "ViewX":
-		rendered3dshape.ViewX = value.GetValueFloat()
-	case "ViewY":
-		rendered3dshape.ViewY = value.GetValueFloat()
-	case "ViewZ":
-		rendered3dshape.ViewZ = value.GetValueFloat()
-	case "TargetX":
-		rendered3dshape.TargetX = value.GetValueFloat()
-	case "TargetY":
-		rendered3dshape.TargetY = value.GetValueFloat()
-	case "TargetZ":
-		rendered3dshape.TargetZ = value.GetValueFloat()
-	case "Fov":
-		rendered3dshape.Fov = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rhombusshape *RhombusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rhombusshape.Name = value.GetValueString()
-	case "X":
-		rhombusshape.X = value.GetValueFloat()
-	case "Y":
-		rhombusshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rhombusstuff *RhombusStuff) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rhombusstuff.Name = value.GetValueString()
-	case "ReferenceRhombus":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.ReferenceRhombus = nil
-			for __instance__ := range stage.RhombusShapes {
-				if stage.RhombusShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.ReferenceRhombus = __instance__
-					break
-				}
-			}
-		}
-	case "PlantCircumferenceShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.PlantCircumferenceShape = nil
-			for __instance__ := range stage.PlantCircumferenceShapes {
-				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.PlantCircumferenceShape = __instance__
-					break
-				}
-			}
-		}
-	case "GridPathShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.GridPathShape = nil
-			for __instance__ := range stage.GridPathShapes {
-				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.GridPathShape = __instance__
-					break
-				}
-			}
-		}
-	case "InitialRhombusGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.InitialRhombusGridShape = nil
-			for __instance__ := range stage.InitialRhombusGridShapes {
-				if stage.InitialRhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.InitialRhombusGridShape = __instance__
-					break
-				}
-			}
-		}
-	case "ExplanationTextShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.ExplanationTextShape = nil
-			for __instance__ := range stage.ExplanationTextShapes {
-				if stage.ExplanationTextShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.ExplanationTextShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedReferenceRhombus":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.RotatedReferenceRhombus = nil
-			for __instance__ := range stage.RhombusShapes {
-				if stage.RhombusShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.RotatedReferenceRhombus = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedPlantCircumferenceShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.RotatedPlantCircumferenceShape = nil
-			for __instance__ := range stage.PlantCircumferenceShapes {
-				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.RotatedPlantCircumferenceShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedGridPathShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.RotatedGridPathShape = nil
-			for __instance__ := range stage.GridPathShapes {
-				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.RotatedGridPathShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedRhombusGridShape2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.RotatedRhombusGridShape2 = nil
-			for __instance__ := range stage.RotatedRhombusGridShapes {
-				if stage.RotatedRhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.RotatedRhombusGridShape2 = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurveRhombusGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rhombusstuff.GrowthCurveRhombusGridShape = nil
-			for __instance__ := range stage.GrowthCurveRhombusGridShapes {
-				if stage.GrowthCurveRhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					rhombusstuff.GrowthCurveRhombusGridShape = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rotatedrhombusgridshape.Name = value.GetValueString()
-	case "RotatedRhombusShapes":
-		rotatedrhombusgridshape.RotatedRhombusShapes = make([]*RotatedRhombusShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RotatedRhombusShapes {
-					if stage.RotatedRhombusShape_stagedOrder[__instance__] == uint(id) {
-						rotatedrhombusgridshape.RotatedRhombusShapes = append(rotatedrhombusgridshape.RotatedRhombusShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rotatedrhombusshape *RotatedRhombusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rotatedrhombusshape.Name = value.GetValueString()
-	case "X":
-		rotatedrhombusshape.X = value.GetValueFloat()
-	case "Y":
-		rotatedrhombusshape.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rotatedsampledpoints3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rotatedseatandlegs3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (sampledpoints3dshape *SampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		sampledpoints3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (seat3dshape *Seat3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		seat3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (seatandlegs3dshape *SeatAndLegs3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		seatandlegs3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (seatbottomcurveshape *SeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		seatbottomcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (seattopcurveshape *SeatTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		seattopcurveshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedbottomtopstartarcshape.Name = value.GetValueString()
-	case "StartX":
-		shiftedbottomtopstartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		shiftedbottomtopstartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		shiftedbottomtopstartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		shiftedbottomtopstartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		shiftedbottomtopstartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		shiftedbottomtopstartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		shiftedbottomtopstartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		shiftedbottomtopstartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		shiftedbottomtopstartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedbottomtopstartarcshapegrid.Name = value.GetValueString()
-	case "ShiftedBottomTopStartArcShapes":
-		shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes = make([]*ShiftedBottomTopStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedBottomTopStartArcShapes {
-					if stage.ShiftedBottomTopStartArcShape_stagedOrder[__instance__] == uint(id) {
-						shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes = append(shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftgrowthcurve2dribbon.Name = value.GetValueString()
-	case "ShiftedLeftGrowthCurve2DRibbonStartShapes":
-		shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonStartShapes = make([]*ShiftedLeftGrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbonStartShapes {
-					if stage.ShiftedLeftGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonStartShapes = append(shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbonEndShapes":
-		shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonEndShapes = make([]*ShiftedLeftGrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbonEndShapes {
-					if stage.ShiftedLeftGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonEndShapes = append(shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftgrowthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		shiftedleftgrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		shiftedleftgrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		shiftedleftgrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		shiftedleftgrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		shiftedleftgrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		shiftedleftgrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		shiftedleftgrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		shiftedleftgrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		shiftedleftgrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		shiftedleftgrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		shiftedleftgrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		shiftedleftgrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		shiftedleftgrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		shiftedleftgrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		shiftedleftgrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		shiftedleftgrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		shiftedleftgrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		shiftedleftgrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftgrowthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		shiftedleftgrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		shiftedleftgrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		shiftedleftgrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		shiftedleftgrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		shiftedleftgrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		shiftedleftgrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		shiftedleftgrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		shiftedleftgrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		shiftedleftgrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		shiftedleftgrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftpartiallygrowthcurve2dribbon.Name = value.GetValueString()
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes":
-		shiftedleftpartiallygrowthcurve2dribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes = make([]*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
-					if stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						shiftedleftpartiallygrowthcurve2dribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes = append(shiftedleftpartiallygrowthcurve2dribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes":
-		shiftedleftpartiallygrowthcurve2dribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes = make([]*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
-					if stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						shiftedleftpartiallygrowthcurve2dribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes = append(shiftedleftpartiallygrowthcurve2dribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		shiftedleftpartiallygrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		shiftedleftpartiallygrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftstackgrowthcurveendarcshape.Name = value.GetValueString()
-	case "StartX":
-		shiftedleftstackgrowthcurveendarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		shiftedleftstackgrowthcurveendarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		shiftedleftstackgrowthcurveendarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		shiftedleftstackgrowthcurveendarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		shiftedleftstackgrowthcurveendarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		shiftedleftstackgrowthcurveendarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		shiftedleftstackgrowthcurveendarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		shiftedleftstackgrowthcurveendarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		shiftedleftstackgrowthcurveendarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftstackgrowthcurvestartarcshape.Name = value.GetValueString()
-	case "StartX":
-		shiftedleftstackgrowthcurvestartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		shiftedleftstackgrowthcurvestartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		shiftedleftstackgrowthcurvestartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		shiftedleftstackgrowthcurvestartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		shiftedleftstackgrowthcurvestartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		shiftedleftstackgrowthcurvestartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		shiftedleftstackgrowthcurvestartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		shiftedleftstackgrowthcurvestartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		shiftedleftstackgrowthcurvestartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftstacknormalvector.Name = value.GetValueString()
-	case "StartX":
-		shiftedleftstacknormalvector.StartX = value.GetValueFloat()
-	case "StartY":
-		shiftedleftstacknormalvector.StartY = value.GetValueFloat()
-	case "EndX":
-		shiftedleftstacknormalvector.EndX = value.GetValueFloat()
-	case "EndY":
-		shiftedleftstacknormalvector.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftstackofgrowthcurve.Name = value.GetValueString()
-	case "ShiftedLeftStackGrowthCurveStartArcShapes":
-		shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes = make([]*ShiftedLeftStackGrowthCurveStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftStackGrowthCurveStartArcShapes {
-					if stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder[__instance__] == uint(id) {
-						shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes = append(shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ShiftedLeftStackGrowthCurveEndArcShapes":
-		shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes = make([]*ShiftedLeftStackGrowthCurveEndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftStackGrowthCurveEndArcShapes {
-					if stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[__instance__] == uint(id) {
-						shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes = append(shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedleftstackofnormalvector.Name = value.GetValueString()
-	case "ShiftedLeftStackNormalVectors":
-		shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors = make([]*ShiftedLeftStackNormalVector, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedLeftStackNormalVectors {
-					if stage.ShiftedLeftStackNormalVector_stagedOrder[__instance__] == uint(id) {
-						shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors = append(shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedrightgrowthcurve2dribbon.Name = value.GetValueString()
-	case "ShiftedRightGrowthCurve2DRibbonStartShapes":
-		shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes = make([]*ShiftedRightGrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbonStartShapes {
-					if stage.ShiftedRightGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes = append(shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbonEndShapes":
-		shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes = make([]*ShiftedRightGrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbonEndShapes {
-					if stage.ShiftedRightGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes = append(shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedrightgrowthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		shiftedrightgrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		shiftedrightgrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		shiftedrightgrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		shiftedrightgrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		shiftedrightgrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		shiftedrightgrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		shiftedrightgrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		shiftedrightgrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		shiftedrightgrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		shiftedrightgrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		shiftedrightgrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		shiftedrightgrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		shiftedrightgrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		shiftedrightgrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		shiftedrightgrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		shiftedrightgrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		shiftedrightgrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		shiftedrightgrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shiftedrightgrowthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		shiftedrightgrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		shiftedrightgrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		shiftedrightgrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		shiftedrightgrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		shiftedrightgrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		shiftedrightgrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		shiftedrightgrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		shiftedrightgrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		shiftedrightgrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		shiftedrightgrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackgrowthcurve2dendhalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		stackgrowthcurve2dendhalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		stackgrowthcurve2dendhalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		stackgrowthcurve2dendhalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		stackgrowthcurve2dendhalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		stackgrowthcurve2dendhalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		stackgrowthcurve2dendhalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		stackgrowthcurve2dendhalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		stackgrowthcurve2dendhalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		stackgrowthcurve2dendhalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackgrowthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		stackgrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		stackgrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		stackgrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		stackgrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		stackgrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		stackgrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		stackgrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		stackgrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		stackgrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		stackgrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		stackgrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		stackgrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		stackgrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		stackgrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		stackgrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		stackgrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		stackgrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		stackgrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackgrowthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		stackgrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		stackgrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		stackgrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		stackgrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		stackgrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		stackgrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		stackgrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		stackgrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		stackgrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		stackgrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		stackgrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		stackgrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		stackgrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		stackgrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		stackgrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		stackgrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		stackgrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		stackgrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackgrowthcurve2dstarthalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		stackgrowthcurve2dstarthalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		stackgrowthcurve2dstarthalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		stackgrowthcurve2dstarthalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		stackgrowthcurve2dstarthalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		stackgrowthcurve2dstarthalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		stackgrowthcurve2dstarthalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		stackgrowthcurve2dstarthalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		stackgrowthcurve2dstarthalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		stackgrowthcurve2dstarthalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackofgrowthcurve2d.Name = value.GetValueString()
-	case "StackGrowthCurve2DStartHalfwayArcShapes":
-		stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes = make([]*StackGrowthCurve2DStartHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
-					if stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes = append(stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "StackGrowthCurve2DEndHalfwayArcShapes":
-		stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes = make([]*StackGrowthCurve2DEndHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
-					if stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes = append(stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackofgrowthcurve2dbygrowthvector.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackofgrowthcurve2dribbon.Name = value.GetValueString()
-	case "StackGrowthCurve2DRibbonStartShapes":
-		stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes = make([]*StackGrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackGrowthCurve2DRibbonStartShapes {
-					if stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes = append(stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "StackGrowthCurve2DRibbonEndShapes":
-		stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes = make([]*StackGrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackGrowthCurve2DRibbonEndShapes {
-					if stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes = append(stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackofpartiallyrotatedtorusshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackofrotatedgrowthcurve2d.Name = value.GetValueString()
-	case "StackRotatedGrowthCurve2DStartArcShapes":
-		stackofrotatedgrowthcurve2d.StackRotatedGrowthCurve2DStartArcShapes = make([]*StackRotatedGrowthCurve2DStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackRotatedGrowthCurve2DStartArcShapes {
-					if stage.StackRotatedGrowthCurve2DStartArcShape_stagedOrder[__instance__] == uint(id) {
-						stackofrotatedgrowthcurve2d.StackRotatedGrowthCurve2DStartArcShapes = append(stackofrotatedgrowthcurve2d.StackRotatedGrowthCurve2DStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "StackRotatedGrowthCurve2DEndArcShapes":
-		stackofrotatedgrowthcurve2d.StackRotatedGrowthCurve2DEndArcShapes = make([]*StackRotatedGrowthCurve2DEndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackRotatedGrowthCurve2DEndArcShapes {
-					if stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder[__instance__] == uint(id) {
-						stackofrotatedgrowthcurve2d.StackRotatedGrowthCurve2DEndArcShapes = append(stackofrotatedgrowthcurve2d.StackRotatedGrowthCurve2DEndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackofrotatedgrowthcurve2dribbon.Name = value.GetValueString()
-	case "StackRotatedGrowthCurve2DRibbonStartShapes":
-		stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes = make([]*StackRotatedGrowthCurve2DRibbonStartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackRotatedGrowthCurve2DRibbonStartShapes {
-					if stage.StackRotatedGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
-						stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes = append(stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "StackRotatedGrowthCurve2DRibbonEndShapes":
-		stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes = make([]*StackRotatedGrowthCurve2DRibbonEndShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StackRotatedGrowthCurve2DRibbonEndShapes {
-					if stage.StackRotatedGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
-						stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes = append(stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackrotatedgrowthcurve2dendarcshape.Name = value.GetValueString()
-	case "StartX":
-		stackrotatedgrowthcurve2dendarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		stackrotatedgrowthcurve2dendarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		stackrotatedgrowthcurve2dendarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		stackrotatedgrowthcurve2dendarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		stackrotatedgrowthcurve2dendarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		stackrotatedgrowthcurve2dendarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		stackrotatedgrowthcurve2dendarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		stackrotatedgrowthcurve2dendarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		stackrotatedgrowthcurve2dendarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackrotatedgrowthcurve2dribbonendshape.Name = value.GetValueString()
-	case "BottomStartX":
-		stackrotatedgrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		stackrotatedgrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		stackrotatedgrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		stackrotatedgrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		stackrotatedgrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		stackrotatedgrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		stackrotatedgrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		stackrotatedgrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		stackrotatedgrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		stackrotatedgrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		stackrotatedgrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		stackrotatedgrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		stackrotatedgrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		stackrotatedgrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		stackrotatedgrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		stackrotatedgrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		stackrotatedgrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		stackrotatedgrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackrotatedgrowthcurve2dribbonstartshape.Name = value.GetValueString()
-	case "BottomStartX":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
-	case "BottomStartY":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
-	case "BottomEndX":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
-	case "BottomEndY":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
-	case "BottomRadiusX":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
-	case "BottomRadiusY":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
-	case "BottomXAxisRotation":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
-	case "BottomLargeArcFlag":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
-	case "BottomSweepFlag":
-		stackrotatedgrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
-	case "TopStartX":
-		stackrotatedgrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
-	case "TopStartY":
-		stackrotatedgrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
-	case "TopEndX":
-		stackrotatedgrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
-	case "TopEndY":
-		stackrotatedgrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
-	case "TopRadiusX":
-		stackrotatedgrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
-	case "TopRadiusY":
-		stackrotatedgrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
-	case "TopXAxisRotation":
-		stackrotatedgrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
-	case "TopLargeArcFlag":
-		stackrotatedgrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
-	case "TopSweepFlag":
-		stackrotatedgrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stackrotatedgrowthcurve2dstartarcshape.Name = value.GetValueString()
-	case "StartX":
-		stackrotatedgrowthcurve2dstartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		stackrotatedgrowthcurve2dstartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		stackrotatedgrowthcurve2dstartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		stackrotatedgrowthcurve2dstartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		stackrotatedgrowthcurve2dstartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		stackrotatedgrowthcurve2dstartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		stackrotatedgrowthcurve2dstartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		stackrotatedgrowthcurve2dstartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		stackrotatedgrowthcurve2dstartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (startarcshape *StartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		startarcshape.Name = value.GetValueString()
-	case "StartX":
-		startarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		startarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		startarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		startarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		startarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		startarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		startarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		startarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		startarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (startarcshapegrid *StartArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		startarcshapegrid.Name = value.GetValueString()
-	case "StartArcShapes":
-		startarcshapegrid.StartArcShapes = make([]*StartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StartArcShapes {
-					if stage.StartArcShape_stagedOrder[__instance__] == uint(id) {
-						startarcshapegrid.StartArcShapes = append(startarcshapegrid.StartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (starthalfwayarcshape *StartHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		starthalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		starthalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		starthalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		starthalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		starthalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		starthalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		starthalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		starthalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		starthalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		starthalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		starthalfwayarcshapegrid.Name = value.GetValueString()
-	case "StartHalfwayArcShapes":
-		starthalfwayarcshapegrid.StartHalfwayArcShapes = make([]*StartHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StartHalfwayArcShapes {
-					if stage.StartHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						starthalfwayarcshapegrid.StartHalfwayArcShapes = append(starthalfwayarcshapegrid.StartHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stemcylinder3dshape *StemCylinder3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stemcylinder3dshape.Name = value.GetValueString()
-	case "Transparency":
-		stemcylinder3dshape.Transparency = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stool2ddiagram *Stool2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stool2ddiagram.Name = value.GetValueString()
-	case "Zoom":
-		stool2ddiagram.Zoom = value.GetValueFloat()
-	case "IsHiddenAxesShape":
-		stool2ddiagram.IsHiddenAxesShape = value.GetValueBool()
-	case "IsChecked":
-		stool2ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		stool2ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		stool2ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stool3ddiagram *Stool3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stool3ddiagram.Name = value.GetValueString()
-	case "IsHiddenSeatTopCurveShape":
-		stool3ddiagram.IsHiddenSeatTopCurveShape = value.GetValueBool()
-	case "SeatTopCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.SeatTopCurveShape = nil
-			for __instance__ := range stage.SeatTopCurveShapes {
-				if stage.SeatTopCurveShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.SeatTopCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenRotatedSeatTopCurveShape":
-		stool3ddiagram.IsHiddenRotatedSeatTopCurveShape = value.GetValueBool()
-	case "RotatedSeatTopCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.RotatedSeatTopCurveShape = nil
-			for __instance__ := range stage.PartiallyRotatedSeatTopCurveShapes {
-				if stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.RotatedSeatTopCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenSeatBottomCurveShape":
-		stool3ddiagram.IsHiddenSeatBottomCurveShape = value.GetValueBool()
-	case "SeatBottomCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.SeatBottomCurveShape = nil
-			for __instance__ := range stage.SeatBottomCurveShapes {
-				if stage.SeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.SeatBottomCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenRotatedSeatBottomCurveShape":
-		stool3ddiagram.IsHiddenRotatedSeatBottomCurveShape = value.GetValueBool()
-	case "RotatedSeatBottomCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.RotatedSeatBottomCurveShape = nil
-			for __instance__ := range stage.PartiallyRotatedSeatBottomCurveShapes {
-				if stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.RotatedSeatBottomCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenTorus3DShape":
-		stool3ddiagram.IsHiddenTorus3DShape = value.GetValueBool()
-	case "Torus3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.Torus3DShape = nil
-			for __instance__ := range stage.Torus3DShapes {
-				if stage.Torus3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.Torus3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenRotatedTorusShape":
-		stool3ddiagram.IsHiddenRotatedTorusShape = value.GetValueBool()
-	case "RotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.RotatedTorusShape = nil
-			for __instance__ := range stage.PartiallyRotatedTorusShapes {
-				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.RotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenSampledPoints3DShape":
-		stool3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
-	case "SampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.SampledPoints3DShape = nil
-			for __instance__ := range stage.SampledPoints3DShapes {
-				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.SampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenRotatedSampledPoints3DShape":
-		stool3ddiagram.IsHiddenRotatedSampledPoints3DShape = value.GetValueBool()
-	case "RotatedSampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.RotatedSampledPoints3DShape = nil
-			for __instance__ := range stage.RotatedSampledPoints3DShapes {
-				if stage.RotatedSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.RotatedSampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenEyeSampledPoints3DShape":
-		stool3ddiagram.IsHiddenEyeSampledPoints3DShape = value.GetValueBool()
-	case "EyeSampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.EyeSampledPoints3DShape = nil
-			for __instance__ := range stage.EyeSampledPoints3DShapes {
-				if stage.EyeSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.EyeSampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenEyeCornersSampledPoints3DShape":
-		stool3ddiagram.IsHiddenEyeCornersSampledPoints3DShape = value.GetValueBool()
-	case "EyeCornersSampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.EyeCornersSampledPoints3DShape = nil
-			for __instance__ := range stage.EyeCornersSampledPoints3DShapes {
-				if stage.EyeCornersSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.EyeCornersSampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenEye3DShape":
-		stool3ddiagram.IsHiddenEye3DShape = value.GetValueBool()
-	case "Eye3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.Eye3DShape = nil
-			for __instance__ := range stage.Eye3DShapes {
-				if stage.Eye3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.Eye3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenEyeSeatBottomCurveShape":
-		stool3ddiagram.IsHiddenEyeSeatBottomCurveShape = value.GetValueBool()
-	case "EyeSeatBottomCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.EyeSeatBottomCurveShape = nil
-			for __instance__ := range stage.EyeSeatBottomCurveShapes {
-				if stage.EyeSeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.EyeSeatBottomCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenEyeStoolBottomCurveShape":
-		stool3ddiagram.IsHiddenEyeStoolBottomCurveShape = value.GetValueBool()
-	case "EyeStoolBottomCurveShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.EyeStoolBottomCurveShape = nil
-			for __instance__ := range stage.EyeStoolBottomCurveShapes {
-				if stage.EyeStoolBottomCurveShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.EyeStoolBottomCurveShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenSeat3DShape":
-		stool3ddiagram.IsHiddenSeat3DShape = value.GetValueBool()
-	case "Seat3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.Seat3DShape = nil
-			for __instance__ := range stage.Seat3DShapes {
-				if stage.Seat3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.Seat3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenEyeVolume3DShape":
-		stool3ddiagram.IsHiddenEyeVolume3DShape = value.GetValueBool()
-	case "EyeVolume3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.EyeVolume3DShape = nil
-			for __instance__ := range stage.EyeVolume3DShapes {
-				if stage.EyeVolume3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.EyeVolume3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenSeatAndLegs3DShape":
-		stool3ddiagram.IsHiddenSeatAndLegs3DShape = value.GetValueBool()
-	case "SeatAndLegs3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.SeatAndLegs3DShape = nil
-			for __instance__ := range stage.SeatAndLegs3DShapes {
-				if stage.SeatAndLegs3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.SeatAndLegs3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenRotatedSeatAndLegs3DShape":
-		stool3ddiagram.IsHiddenRotatedSeatAndLegs3DShape = value.GetValueBool()
-	case "RotatedSeatAndLegs3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.RotatedSeatAndLegs3DShape = nil
-			for __instance__ := range stage.RotatedSeatAndLegs3DShapes {
-				if stage.RotatedSeatAndLegs3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.RotatedSeatAndLegs3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsHiddenTiledFloor3DShape":
-		stool3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
-	case "TiledFloor3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.TiledFloor3DShape = nil
-			for __instance__ := range stage.TiledFloor3DShapes {
-				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.TiledFloor3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Rendered3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stool3ddiagram.Rendered3DShape = nil
-			for __instance__ := range stage.Rendered3DShapes {
-				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
-					stool3ddiagram.Rendered3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsChecked":
-		stool3ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		stool3ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		stool3ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stoolabstract.Name = value.GetValueString()
-	case "RadialRepetitions":
-		stoolabstract.RadialRepetitions = int(value.GetValueInt())
-	case "Transparency":
-		stoolabstract.Transparency = value.GetValueFloat()
-	case "RelativeTubeDiameter":
-		stoolabstract.RelativeTubeDiameter = value.GetValueFloat()
-	case "RelativeHeight3DTorus":
-		stoolabstract.RelativeHeight3DTorus = value.GetValueFloat()
-	case "StoolTorusVerticalScale":
-		stoolabstract.StoolTorusVerticalScale = value.GetValueFloat()
-	case "RelativeHeight":
-		stoolabstract.RelativeHeight = value.GetValueFloat()
-	case "RelativeSeatThickness":
-		stoolabstract.RelativeSeatThickness = value.GetValueFloat()
-	case "ProjectionAngle":
-		stoolabstract.ProjectionAngle = value.GetValueFloat()
-	case "RelativeEyeSeparationCriteria":
-		stoolabstract.RelativeEyeSeparationCriteria = value.GetValueFloat()
-	case "RelativeEyeCornerControlVectorStrength":
-		stoolabstract.RelativeEyeCornerControlVectorStrength = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tiledfloor3dshape *TiledFloor3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tiledfloor3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topendarcshape *TopEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topendarcshape.Name = value.GetValueString()
-	case "StartX":
-		topendarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topendarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topendarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topendarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		topendarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topendarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topendarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		topendarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topendarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topendarcshapegrid *TopEndArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topendarcshapegrid.Name = value.GetValueString()
-	case "TopEndArcShapes":
-		topendarcshapegrid.TopEndArcShapes = make([]*TopEndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopEndArcShapes {
-					if stage.TopEndArcShape_stagedOrder[__instance__] == uint(id) {
-						topendarcshapegrid.TopEndArcShapes = append(topendarcshapegrid.TopEndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topendhalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		topendhalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topendhalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topendhalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topendhalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		topendhalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topendhalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		topendhalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topendhalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topendhalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topendhalfwayarcshapegrid.Name = value.GetValueString()
-	case "TopEndHalfwayArcShapes":
-		topendhalfwayarcshapegrid.TopEndHalfwayArcShapes = make([]*TopEndHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopEndHalfwayArcShapes {
-					if stage.TopEndHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						topendhalfwayarcshapegrid.TopEndHalfwayArcShapes = append(topendhalfwayarcshapegrid.TopEndHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topgrowthcurve2d *TopGrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topgrowthcurve2d.Name = value.GetValueString()
-	case "TopStartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			topgrowthcurve2d.TopStartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
-				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					topgrowthcurve2d.TopStartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			topgrowthcurve2d.TopEndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
-				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					topgrowthcurve2d.TopEndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topmidarcvectorshape *TopMidArcVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topmidarcvectorshape.Name = value.GetValueString()
-	case "StartX":
-		topmidarcvectorshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topmidarcvectorshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topmidarcvectorshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topmidarcvectorshape.EndY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topmidarcvectorshapegrid.Name = value.GetValueString()
-	case "TopMidArcVectorShapes":
-		topmidarcvectorshapegrid.TopMidArcVectorShapes = make([]*TopMidArcVectorShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopMidArcVectorShapes {
-					if stage.TopMidArcVectorShape_stagedOrder[__instance__] == uint(id) {
-						topmidarcvectorshapegrid.TopMidArcVectorShapes = append(topmidarcvectorshapegrid.TopMidArcVectorShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstackgrowthcurve2dendhalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		topstackgrowthcurve2dendhalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topstackgrowthcurve2dendhalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topstackgrowthcurve2dendhalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topstackgrowthcurve2dendhalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		topstackgrowthcurve2dendhalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topstackgrowthcurve2dendhalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		topstackgrowthcurve2dendhalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topstackgrowthcurve2dendhalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topstackgrowthcurve2dendhalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstackgrowthcurve2dstarthalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		topstackgrowthcurve2dstarthalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topstackgrowthcurve2dstarthalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topstackgrowthcurve2dstarthalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topstackgrowthcurve2dstarthalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		topstackgrowthcurve2dstarthalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topstackgrowthcurve2dstarthalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		topstackgrowthcurve2dstarthalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topstackgrowthcurve2dstarthalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topstackgrowthcurve2dstarthalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstackofgrowthcurve2d.Name = value.GetValueString()
-	case "TopStackGrowthCurve2DStartHalfwayArcShapes":
-		topstackofgrowthcurve2d.TopStackGrowthCurve2DStartHalfwayArcShapes = make([]*TopStackGrowthCurve2DStartHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
-					if stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						topstackofgrowthcurve2d.TopStackGrowthCurve2DStartHalfwayArcShapes = append(topstackofgrowthcurve2d.TopStackGrowthCurve2DStartHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TopStackGrowthCurve2DEndHalfwayArcShapes":
-		topstackofgrowthcurve2d.TopStackGrowthCurve2DEndHalfwayArcShapes = make([]*TopStackGrowthCurve2DEndHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
-					if stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						topstackofgrowthcurve2d.TopStackGrowthCurve2DEndHalfwayArcShapes = append(topstackofgrowthcurve2d.TopStackGrowthCurve2DEndHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstackofrotatedgrowthcurve2d.Name = value.GetValueString()
-	case "TopStackOfRotatedGrowthCurve2DStartArcShapes":
-		topstackofrotatedgrowthcurve2d.TopStackOfRotatedGrowthCurve2DStartArcShapes = make([]*TopStackOfRotatedGrowthCurve2DStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopStackOfRotatedGrowthCurve2DStartArcShapes {
-					if stage.TopStackOfRotatedGrowthCurve2DStartArcShape_stagedOrder[__instance__] == uint(id) {
-						topstackofrotatedgrowthcurve2d.TopStackOfRotatedGrowthCurve2DStartArcShapes = append(topstackofrotatedgrowthcurve2d.TopStackOfRotatedGrowthCurve2DStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TopStackOfRotatedGrowthCurve2DEndArcShapes":
-		topstackofrotatedgrowthcurve2d.TopStackOfRotatedGrowthCurve2DEndArcShapes = make([]*TopStackOfRotatedGrowthCurve2DEndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopStackOfRotatedGrowthCurve2DEndArcShapes {
-					if stage.TopStackOfRotatedGrowthCurve2DEndArcShape_stagedOrder[__instance__] == uint(id) {
-						topstackofrotatedgrowthcurve2d.TopStackOfRotatedGrowthCurve2DEndArcShapes = append(topstackofrotatedgrowthcurve2d.TopStackOfRotatedGrowthCurve2DEndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstackofrotatedgrowthcurve2dendarcshape.Name = value.GetValueString()
-	case "StartX":
-		topstackofrotatedgrowthcurve2dendarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topstackofrotatedgrowthcurve2dendarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topstackofrotatedgrowthcurve2dendarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topstackofrotatedgrowthcurve2dendarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		topstackofrotatedgrowthcurve2dendarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topstackofrotatedgrowthcurve2dendarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topstackofrotatedgrowthcurve2dendarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		topstackofrotatedgrowthcurve2dendarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topstackofrotatedgrowthcurve2dendarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstackofrotatedgrowthcurve2dstartarcshape.Name = value.GetValueString()
-	case "StartX":
-		topstackofrotatedgrowthcurve2dstartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topstackofrotatedgrowthcurve2dstartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topstackofrotatedgrowthcurve2dstartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topstackofrotatedgrowthcurve2dstartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		topstackofrotatedgrowthcurve2dstartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topstackofrotatedgrowthcurve2dstartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topstackofrotatedgrowthcurve2dstartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		topstackofrotatedgrowthcurve2dstartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topstackofrotatedgrowthcurve2dstartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstartarcshape *TopStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstartarcshape.Name = value.GetValueString()
-	case "StartX":
-		topstartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topstartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topstartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topstartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		topstartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topstartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topstartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		topstartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topstartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstartarcshapegrid *TopStartArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstartarcshapegrid.Name = value.GetValueString()
-	case "TopStartArcShapes":
-		topstartarcshapegrid.TopStartArcShapes = make([]*TopStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopStartArcShapes {
-					if stage.TopStartArcShape_stagedOrder[__instance__] == uint(id) {
-						topstartarcshapegrid.TopStartArcShapes = append(topstartarcshapegrid.TopStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstarthalfwayarcshape.Name = value.GetValueString()
-	case "StartX":
-		topstarthalfwayarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		topstarthalfwayarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		topstarthalfwayarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		topstarthalfwayarcshape.EndY = value.GetValueFloat()
-	case "RadiusX":
-		topstarthalfwayarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		topstarthalfwayarcshape.RadiusY = value.GetValueFloat()
-	case "XAxisRotation":
-		topstarthalfwayarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		topstarthalfwayarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		topstarthalfwayarcshape.SweepFlag = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		topstarthalfwayarcshapegrid.Name = value.GetValueString()
-	case "TopStartHalfwayArcShapes":
-		topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes = make([]*TopStartHalfwayArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TopStartHalfwayArcShapes {
-					if stage.TopStartHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
-						topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes = append(topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (torus3dshape *Torus3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		torus3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (torusedge3dshape *TorusEdge3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		torusedge3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (torusstackshape *TorusStackShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		torusstackshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tubevase3ddiagram *TubeVase3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tubevase3ddiagram.Name = value.GetValueString()
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenTorusStackShape":
-		tubevase3ddiagram.IsHiddenTorusStackShape = value.GetValueBool()
-	case "IsHiddenVerticalTorusStackShape":
-		tubevase3ddiagram.IsHiddenVerticalTorusStackShape = value.GetValueBool()
-	case "IsHiddenPartiallyRotatedTorusShape":
-		tubevase3ddiagram.IsHiddenPartiallyRotatedTorusShape = value.GetValueBool()
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape = value.GetValueBool()
-	case "IsHiddenPointsAndLines3DShape":
-		tubevase3ddiagram.IsHiddenPointsAndLines3DShape = value.GetValueBool()
-	case "IsHiddenKeyHole3DShape":
-		tubevase3ddiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
-	case "IsHiddenKey3DShape":
-		tubevase3ddiagram.IsHiddenKey3DShape = value.GetValueBool()
-	case "IsHiddenVolumeKey3DShape":
-		tubevase3ddiagram.IsHiddenVolumeKey3DShape = value.GetValueBool()
-	case "IsHiddenTorusEdge3DShape":
-		tubevase3ddiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
-	case "IsHiddenSampledPoints3DShape":
-		tubevase3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
-	case "IsHiddenOriginalPoints3DShape":
-		tubevase3ddiagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
-	case "IsHiddenAngle0Shape":
-		tubevase3ddiagram.IsHiddenAngle0Shape = value.GetValueBool()
-	case "IsHiddenTiledFloor3DShape":
-		tubevase3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
-	case "Rendered3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.Rendered3DShape = nil
-			for __instance__ := range stage.Rendered3DShapes {
-				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.Rendered3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TorusStackShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.TorusStackShape = nil
-			for __instance__ := range stage.TorusStackShapes {
-				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.TorusStackShape = __instance__
-					break
-				}
-			}
-		}
-	case "VerticalTorusStackShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.VerticalTorusStackShape = nil
-			for __instance__ := range stage.VerticalTorusStackShapes {
-				if stage.VerticalTorusStackShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.VerticalTorusStackShape = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyRotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.PartiallyRotatedTorusShape = nil
-			for __instance__ := range stage.PartiallyRotatedTorusShapes {
-				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.PartiallyRotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfPartiallyRotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.StackOfPartiallyRotatedTorusShape = nil
-			for __instance__ := range stage.StackOfPartiallyRotatedTorusShapes {
-				if stage.StackOfPartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.StackOfPartiallyRotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "PointsAndLines3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.PointsAndLines3DShape = nil
-			for __instance__ := range stage.PointsAndLines3DShapes {
-				if stage.PointsAndLines3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.PointsAndLines3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "SampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.SampledPoints3DShape = nil
-			for __instance__ := range stage.SampledPoints3DShapes {
-				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.SampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "OriginalPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.OriginalPoints3DShape = nil
-			for __instance__ := range stage.OriginalPoints3DShapes {
-				if stage.OriginalPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.OriginalPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Angle0Shape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.Angle0Shape = nil
-			for __instance__ := range stage.Angle0Shapes {
-				if stage.Angle0Shape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.Angle0Shape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHole3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.KeyHole3DShape = nil
-			for __instance__ := range stage.KeyHole3DShapes {
-				if stage.KeyHole3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.KeyHole3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Key3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.Key3DShape = nil
-			for __instance__ := range stage.Key3DShapes {
-				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.Key3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "VolumeKey3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.VolumeKey3DShape = nil
-			for __instance__ := range stage.VolumeKey3DShapes {
-				if stage.VolumeKey3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.VolumeKey3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TorusEdge3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.TorusEdge3DShape = nil
-			for __instance__ := range stage.TorusEdge3DShapes {
-				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.TorusEdge3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TiledFloor3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevase3ddiagram.TiledFloor3DShape = nil
-			for __instance__ := range stage.TiledFloor3DShapes {
-				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
-					tubevase3ddiagram.TiledFloor3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "IsChecked":
-		tubevase3ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		tubevase3ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		tubevase3ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tubevaseabstract *TubeVaseAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tubevaseabstract.Name = value.GetValueString()
-	case "RelativeVerticalThickness":
-		tubevaseabstract.RelativeVerticalThickness = value.GetValueFloat()
-	case "RelativeRadialThickness":
-		tubevaseabstract.RelativeRadialThickness = value.GetValueFloat()
-	case "RelativeCuttedStackFloorHeight":
-		tubevaseabstract.RelativeCuttedStackFloorHeight = value.GetValueFloat()
-	case "RelativeRotatedTorusSeparation":
-		tubevaseabstract.RelativeRotatedTorusSeparation = value.GetValueFloat()
-	case "RotationRatio":
-		tubevaseabstract.RotationRatio = value.GetValueFloat()
-	case "RadialRepetitions":
-		tubevaseabstract.RadialRepetitions = int(value.GetValueInt())
-	case "Transparency":
-		tubevaseabstract.Transparency = value.GetValueFloat()
-	case "HasAlternatingRingColors":
-		tubevaseabstract.HasAlternatingRingColors = value.GetValueBool()
-	case "RelativeTrajectoryOffsetX":
-		tubevaseabstract.RelativeTrajectoryOffsetX = value.GetValueFloat()
-	case "RelativeTrajectoryOffsetY":
-		tubevaseabstract.RelativeTrajectoryOffsetY = value.GetValueFloat()
-	case "NbStepP1P2":
-		tubevaseabstract.NbStepP1P2 = int(value.GetValueInt())
-	case "ChosenStep":
-		tubevaseabstract.ChosenStep = int(value.GetValueInt())
-	case "RelativeHorizontalRingsHeight":
-		tubevaseabstract.RelativeHorizontalRingsHeight = value.GetValueFloat()
-	case "OffsetKeyX":
-		tubevaseabstract.OffsetKeyX = value.GetValueFloat()
-	case "OffsetKeyY":
-		tubevaseabstract.OffsetKeyY = value.GetValueFloat()
-	case "HeightKey":
-		tubevaseabstract.HeightKey = value.GetValueFloat()
-	case "WidthKey":
-		tubevaseabstract.WidthKey = value.GetValueFloat()
-	case "RelativeKeySize":
-		tubevaseabstract.RelativeKeySize = value.GetValueFloat()
-	case "MovieNbFrames":
-		tubevaseabstract.MovieNbFrames = int(value.GetValueInt())
-	case "PerpendicularVectorGridHalfway":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.PerpendicularVectorGridHalfway = nil
-			for __instance__ := range stage.PerpendicularVectorGridHalfways {
-				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.PerpendicularVectorGridHalfway = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopStartArcShapeGrid = nil
-			for __instance__ := range stage.TopStartArcShapeGrids {
-				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopEndArcShapeGrid = nil
-			for __instance__ := range stage.TopEndArcShapeGrids {
-				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopEndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.ShiftedBottomTopStartArcShapeGrid = nil
-			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
-				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopMidArcVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopMidArcVectorShapeGrid = nil
-			for __instance__ := range stage.TopMidArcVectorShapeGrids {
-				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopMidArcVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.StartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.StartHalfwayArcShapeGrids {
-				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.StartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopStartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
-				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopStartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.EndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.EndHalfwayArcShapeGrids {
-				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.EndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopEndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
-				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopEndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.StackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
-				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.StackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopStackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
-				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopStackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopGrowthCurve2D = nil
-			for __instance__ := range stage.TopGrowthCurve2Ds {
-				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.StackOfGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfGrowthCurve2Ds {
-				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.StackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.TopStackOfGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
-				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.TopStackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.StackOfGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
-				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.StackOfGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
-				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.GrowthCurve2DRibbon = nil
-			for __instance__ := range stage.GrowthCurve2DRibbons {
-				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.GrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.ShiftedRightGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
-				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
-				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.PartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
-				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.PartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.PartiallyGrowthCurve2DTrajectory = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
-				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.PartiallyGrowthCurve2DTrajectory = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
-				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
-					break
-				}
-			}
-		}
-	case "PxShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.PxShape = nil
-			for __instance__ := range stage.PxShapes {
-				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.PxShape = __instance__
-					break
-				}
-			}
-		}
-	case "ChosenP1P2PairShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.ChosenP1P2PairShape = nil
-			for __instance__ := range stage.ChosenP1P2PairShapes {
-				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.ChosenP1P2PairShape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHoleShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubevaseabstract.KeyHoleShape = nil
-			for __instance__ := range stage.KeyHoleShapes {
-				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
-					tubevaseabstract.KeyHoleShape = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		vase2ddiagram.Name = value.GetValueString()
-	case "Zoom":
-		vase2ddiagram.Zoom = value.GetValueFloat()
-	case "IsVaseArcNodesExpanded":
-		vase2ddiagram.IsVaseArcNodesExpanded = value.GetValueBool()
-	case "IsVaseClampingNodesExpanded":
-		vase2ddiagram.IsVaseClampingNodesExpanded = value.GetValueBool()
-	case "IsHiddenAxesShape":
-		vase2ddiagram.IsHiddenAxesShape = value.GetValueBool()
-	case "IsHiddenBottomStartArcShapeGrid":
-		vase2ddiagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomEndArcShapeGrid":
-		vase2ddiagram.IsHiddenBottomEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomStackOfGrowthCurve":
-		vase2ddiagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		vase2ddiagram.IsHiddenShiftedLeftStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		vase2ddiagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
-	case "IsHiddenPerpendicularVectorGridHalfway":
-		vase2ddiagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
-	case "IsHiddenTopStartArcShapeGrid":
-		vase2ddiagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-		vase2ddiagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopMidArcVectorShapeGrid":
-		vase2ddiagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenStartHalfwayArcShapeGrid":
-		vase2ddiagram.IsHiddenStartHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopStartHalfwayArcShapeGrid":
-		vase2ddiagram.IsHiddenTopStartHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenEndHalfwayArcShapeGrid":
-		vase2ddiagram.IsHiddenEndHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopEndHalfwayArcShapeGrid":
-		vase2ddiagram.IsHiddenTopEndHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopEndArcShapeGrid":
-		vase2ddiagram.IsHiddenTopEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve":
-		vase2ddiagram.IsHiddenStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenTopStackOfGrowthCurve":
-		vase2ddiagram.IsHiddenTopStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenTopGrowthCurve2D":
-		vase2ddiagram.IsHiddenTopGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2D":
-		vase2ddiagram.IsHiddenStackOfGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenTopStackOfGrowthCurve2D":
-		vase2ddiagram.IsHiddenTopStackOfGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenShiftedRightGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenPartiallyGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-		vase2ddiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-		vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-		vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
-	case "IsHiddenPxShape":
-		vase2ddiagram.IsHiddenPxShape = value.GetValueBool()
-	case "IsHiddenChosenP1P2PairShape":
-		vase2ddiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
-	case "IsHiddenKeyHoleShape":
-		vase2ddiagram.IsHiddenKeyHoleShape = value.GetValueBool()
-	case "IsChecked":
-		vase2ddiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		vase2ddiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		vase2ddiagram.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (verticaltorusstackshape *VerticalTorusStackShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		verticaltorusstackshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (volumekey3dshape *VolumeKey3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		volumekey3dshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (angle0shape *Angle0Shape) GongGetGongstructName() string {

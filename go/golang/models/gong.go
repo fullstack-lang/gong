@@ -22,13 +22,9 @@ type ModelGongStructInsertionId int
 const (
 	ModelGongStructInsertionCommitCheckout ModelGongStructInsertionId = iota
 	ModelGongStructInsertionStageFunctions
-	ModelGongStructInsertionCreateCallback
-	ModelGongStructInsertionDeleteCallback
 	ModelGongStructInsertionArrayDefintion
 	ModelGongStructInsertionArrayInitialisation
 	ModelGongStructInsertionArrayReset
-	ModelGongStructInsertionArrayNil
-	ModelGongStructInsertionArrayUnstage
 	ModelGongStructInsertionUnmarshallDeclarations
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
@@ -50,7 +46,6 @@ const (
 
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
 
-	ModelGongStructInsertionGenericSetFieldValuesFromPointer
 	ModelGongStructInsertionGenericGetGongstructName
 	ModelGongStructInsertionMapStringReset
 
@@ -60,7 +55,6 @@ const (
 	ModelGongGetInstanceFromOrder
 
 	ModelGongNamedStructsUnmarshallers
-	ModelGongNamedStructsSliceInit
 
 	ModelGongNamedStructSortedOrderInstances
 
@@ -104,16 +98,6 @@ func ({{structname}} *{{Structname}}) GongGetFieldValue(fieldName string, stage 
 }
 `,
 
-	ModelGongStructInsertionGenericSetFieldValuesFromPointer: `
-func ({{structname}} *{{Structname}}) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code{{SetFieldValues}}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-`,
 
 	ModelGongStructInsertionGenericGetGongstructName: `
 func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
@@ -188,9 +172,6 @@ func ({{structname}} *{{Structname}}) Commit(stage *Stage) *{{Structname}} {
 	return {{structname}}
 }
 
-func ({{structname}} *{{Structname}}) CommitVoid(stage *Stage) {
-	{{structname}}.Commit(stage)
-}
 
 func ({{structname}} *{{Structname}}) StageVoid(stage *Stage) {
 	{{structname}}.Stage(stage)
@@ -217,11 +198,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 }
 `,
 
-	ModelGongStructInsertionCreateCallback: `
-	CreateORM{{Structname}}({{Structname}} *{{Structname}})`,
-
-	ModelGongStructInsertionDeleteCallback: `
-	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s                map[*{{Structname}}]struct{}
@@ -252,15 +228,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	stage.{{Structname}}Order = 0
 `,
 
-	ModelGongStructInsertionArrayNil: `
-	stage.{{Structname}}s = nil
-	stage.{{Structname}}s_mapString = nil
-`,
-	ModelGongStructInsertionArrayUnstage: `
-	for {{structname}} := range stage.{{Structname}}s {
-		{{structname}}.Unstage(stage)
-	}
-`,
+
 	ModelGongStructInsertionUnmarshallDeclarations: `
 
 	{{structname}}Ordered := []*{{Structname}}{}
@@ -353,8 +321,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 			"{{Structname}}": &{{Structname}}Unmarshaller{},
 `,
 
-	ModelGongNamedStructsSliceInit: `
-			{name: "{{Structname}}"},`,
 
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
@@ -427,14 +393,6 @@ const (
 	GongFileFieldSubTmplStringValuePointerField
 	GongFileFieldSubTmplStringValueSliceOfPointersField
 
-	GongFileFieldSubTmplSetBasicString
-	GongFileFieldSubTmplSetBasicBool
-	GongFileFieldSubTmplSetBasicInt
-	GongFileFieldSubTmplSetBasicFloat
-	GongFileFieldSubTmplSetEnumString
-	GongFileFieldSubTmplSetEnumInt
-	GongFileFieldSubTmplSetPointer
-	GongFileFieldSubTmplSetSliceOfPointers
 
 	GongFileFieldSubTmplAssociationNamePointerField
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField
@@ -606,51 +564,6 @@ map[GongFilePerStructSubTemplateId]string{
 			res.ids += __instance__.GongGetUUID(stage)
 		}`,
 
-	GongFileFieldSubTmplSetBasicString: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}} = value.GetValueString()`,
-	GongFileFieldSubTmplSetBasicBool: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}} = value.GetValueBool()`,
-	GongFileFieldSubTmplSetBasicInt: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}} = int(value.GetValueInt())`,
-	GongFileFieldSubTmplSetBasicFloat: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}} = value.GetValueFloat()`,
-	GongFileFieldSubTmplSetEnumString: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}}.FromCodeString(value.GetValueString())`,
-	GongFileFieldSubTmplSetEnumInt: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}}.FromCodeString(value.GetValueString())`,
-	GongFileFieldSubTmplSetPointer: `
-	case "{{FieldName}}":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			{{structname}}.{{FieldName}} = nil
-			for __instance__ := range stage.{{AssocStructName}}s {
-				if stage.{{AssocStructName}}_stagedOrder[__instance__] == uint(id) {
-					{{structname}}.{{FieldName}} = __instance__
-					break
-				}
-			}
-		}`,
-	GongFileFieldSubTmplSetSliceOfPointers: `
-	case "{{FieldName}}":
-		{{structname}}.{{FieldName}} = make([]*{{AssocStructName}}, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.{{AssocStructName}}s {
-					if stage.{{AssocStructName}}_stagedOrder[__instance__] == uint(id) {
-						{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, __instance__)
-						break
-					}
-				}
-			}
-		}`,
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
@@ -733,7 +646,6 @@ func CodeGeneratorModelGong(
 		var rf ReverseField
 		_ = rf`
 			fieldStringValues := ``
-			fieldSetValues := ``
 			fieldReversePointerAssociationMapCode := ``
 			fieldReverseSliceOfPointersAssociationMapCode := ``
 			associationFieldInitialization := ``
@@ -761,18 +673,12 @@ func CodeGeneratorModelGong(
 							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldString],
 								"{{FieldName}}", field.Name)
-							fieldSetValues += models.Replace1(
-								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicString],
-								"{{FieldName}}", field.Name)
 							fieldHeaders += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldString],
 								"{{FieldName}}", field.GetName())
 						} else {
 							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumString],
-								"{{FieldName}}", field.Name)
-							fieldSetValues += models.Replace1(
-								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetEnumString],
 								"{{FieldName}}", field.Name)
 							fieldHeaders += models.Replace2(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldEnumString],
@@ -784,18 +690,12 @@ func CodeGeneratorModelGong(
 						fieldStringValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldBool],
 							"{{FieldName}}", field.Name)
-						fieldSetValues += models.Replace1(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicBool],
-							"{{FieldName}}", field.Name)
 						fieldHeaders += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldBool],
 							"{{FieldName}}", field.GetName())
 					case types.Float64:
 						fieldStringValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldFloat64],
-							"{{FieldName}}", field.Name)
-						fieldSetValues += models.Replace1(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFloat],
 							"{{FieldName}}", field.Name)
 						fieldHeaders += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldFloat64],
@@ -814,9 +714,6 @@ func CodeGeneratorModelGong(
 							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldInt],
 								"{{FieldName}}", field.Name)
-							fieldSetValues += models.Replace1(
-								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicInt],
-								"{{FieldName}}", field.Name)
 							fieldHeaders += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldInt],
 								"{{FieldName}}", field.GetName())
@@ -824,9 +721,6 @@ func CodeGeneratorModelGong(
 						}
 						fieldStringValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumInt],
-							"{{FieldName}}", field.Name)
-						fieldSetValues += models.Replace1(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetEnumInt],
 							"{{FieldName}}", field.Name)
 						fieldHeaders += models.Replace2(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldEnumInt],
@@ -858,10 +752,6 @@ func CodeGeneratorModelGong(
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValuePointerField],
 						"{{FieldName}}", field.Name)
-					fieldSetValues += models.Replace2(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetPointer],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name)
 					fieldReversePointerAssociationMapCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction],
 						"{{FieldName}}", field.Name,
@@ -883,10 +773,6 @@ func CodeGeneratorModelGong(
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueSliceOfPointersField],
 						"{{FieldName}}", field.Name)
-					fieldSetValues += models.Replace2(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetSliceOfPointers],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name)
 					fieldReverseSliceOfPointersAssociationMapCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction],
 						"{{FieldName}}", field.Name,
@@ -943,10 +829,6 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			fieldSetValues = models.Replace2(fieldSetValues,
-				"{{structname}}", strings.ToLower(gongStruct.Name),
-				"{{Structname}}", gongStruct.Name)
-
 			fieldReversePointerAssociationMapCode = models.Replace2(fieldReversePointerAssociationMapCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
@@ -964,14 +846,13 @@ func CodeGeneratorModelGong(
 	}`
 
 
-			generatedCodeFromSubTemplate := models.Replace11(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ListOfFieldsName}}", fieldNames,
 				"{{ListOfFieldHeaders}}", fieldHeaders,
 				"{{ListOfReverseFields}}", reverseFields,
 				"{{StringValueOfFields}}", fieldStringValues,
-				"{{SetFieldValues}}", fieldSetValues,
 				"{{fieldReversePointerAssociationMapCode}}", fieldReversePointerAssociationMapCode,
 				"{{SliceOfPointersReverseMaps}}", sliceOfPointersReverseMapStorageCode,
 				"{{fieldReverseSliceOfPointersAssociationMapCode}}", fieldReverseSliceOfPointersAssociationMapCode,

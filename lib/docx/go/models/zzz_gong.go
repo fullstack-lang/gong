@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	docx_go "github.com/fullstack-lang/gong/lib/docx/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -387,9 +374,6 @@ type Stage struct {
 	OnAfterTextDeleteCallback OnAfterDeleteInterface[Text]
 	OnAfterTextReadCallback   OnAfterReadInterface[Text]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -418,8 +402,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -961,14 +943,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1226,28 +1200,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/docx/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return docx_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return docx_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1487,24 +1441,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Body"},
-			{name: "Document"},
-			{name: "Docx"},
-			{name: "File"},
-			{name: "Node"},
-			{name: "Paragraph"},
-			{name: "ParagraphProperties"},
-			{name: "ParagraphStyle"},
-			{name: "Rune"},
-			{name: "RuneProperties"},
-			{name: "Table"},
-			{name: "TableColumn"},
-			{name: "TableProperties"},
-			{name: "TableRow"},
-			{name: "TableStyle"},
-			{name: "Text"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1773,9 +1709,6 @@ func (body *Body) Commit(stage *Stage) *Body {
 	return body
 }
 
-func (body *Body) CommitVoid(stage *Stage) {
-	body.Commit(stage)
-}
 
 func (body *Body) StageVoid(stage *Stage) {
 	body.Stage(stage)
@@ -1861,9 +1794,6 @@ func (document *Document) Commit(stage *Stage) *Document {
 	return document
 }
 
-func (document *Document) CommitVoid(stage *Stage) {
-	document.Commit(stage)
-}
 
 func (document *Document) StageVoid(stage *Stage) {
 	document.Stage(stage)
@@ -1949,9 +1879,6 @@ func (docx *Docx) Commit(stage *Stage) *Docx {
 	return docx
 }
 
-func (docx *Docx) CommitVoid(stage *Stage) {
-	docx.Commit(stage)
-}
 
 func (docx *Docx) StageVoid(stage *Stage) {
 	docx.Stage(stage)
@@ -2037,9 +1964,6 @@ func (file *File) Commit(stage *Stage) *File {
 	return file
 }
 
-func (file *File) CommitVoid(stage *Stage) {
-	file.Commit(stage)
-}
 
 func (file *File) StageVoid(stage *Stage) {
 	file.Stage(stage)
@@ -2125,9 +2049,6 @@ func (node *Node) Commit(stage *Stage) *Node {
 	return node
 }
 
-func (node *Node) CommitVoid(stage *Stage) {
-	node.Commit(stage)
-}
 
 func (node *Node) StageVoid(stage *Stage) {
 	node.Stage(stage)
@@ -2213,9 +2134,6 @@ func (paragraph *Paragraph) Commit(stage *Stage) *Paragraph {
 	return paragraph
 }
 
-func (paragraph *Paragraph) CommitVoid(stage *Stage) {
-	paragraph.Commit(stage)
-}
 
 func (paragraph *Paragraph) StageVoid(stage *Stage) {
 	paragraph.Stage(stage)
@@ -2301,9 +2219,6 @@ func (paragraphproperties *ParagraphProperties) Commit(stage *Stage) *ParagraphP
 	return paragraphproperties
 }
 
-func (paragraphproperties *ParagraphProperties) CommitVoid(stage *Stage) {
-	paragraphproperties.Commit(stage)
-}
 
 func (paragraphproperties *ParagraphProperties) StageVoid(stage *Stage) {
 	paragraphproperties.Stage(stage)
@@ -2389,9 +2304,6 @@ func (paragraphstyle *ParagraphStyle) Commit(stage *Stage) *ParagraphStyle {
 	return paragraphstyle
 }
 
-func (paragraphstyle *ParagraphStyle) CommitVoid(stage *Stage) {
-	paragraphstyle.Commit(stage)
-}
 
 func (paragraphstyle *ParagraphStyle) StageVoid(stage *Stage) {
 	paragraphstyle.Stage(stage)
@@ -2477,9 +2389,6 @@ func (rune *Rune) Commit(stage *Stage) *Rune {
 	return rune
 }
 
-func (rune *Rune) CommitVoid(stage *Stage) {
-	rune.Commit(stage)
-}
 
 func (rune *Rune) StageVoid(stage *Stage) {
 	rune.Stage(stage)
@@ -2565,9 +2474,6 @@ func (runeproperties *RuneProperties) Commit(stage *Stage) *RuneProperties {
 	return runeproperties
 }
 
-func (runeproperties *RuneProperties) CommitVoid(stage *Stage) {
-	runeproperties.Commit(stage)
-}
 
 func (runeproperties *RuneProperties) StageVoid(stage *Stage) {
 	runeproperties.Stage(stage)
@@ -2653,9 +2559,6 @@ func (table *Table) Commit(stage *Stage) *Table {
 	return table
 }
 
-func (table *Table) CommitVoid(stage *Stage) {
-	table.Commit(stage)
-}
 
 func (table *Table) StageVoid(stage *Stage) {
 	table.Stage(stage)
@@ -2741,9 +2644,6 @@ func (tablecolumn *TableColumn) Commit(stage *Stage) *TableColumn {
 	return tablecolumn
 }
 
-func (tablecolumn *TableColumn) CommitVoid(stage *Stage) {
-	tablecolumn.Commit(stage)
-}
 
 func (tablecolumn *TableColumn) StageVoid(stage *Stage) {
 	tablecolumn.Stage(stage)
@@ -2829,9 +2729,6 @@ func (tableproperties *TableProperties) Commit(stage *Stage) *TableProperties {
 	return tableproperties
 }
 
-func (tableproperties *TableProperties) CommitVoid(stage *Stage) {
-	tableproperties.Commit(stage)
-}
 
 func (tableproperties *TableProperties) StageVoid(stage *Stage) {
 	tableproperties.Stage(stage)
@@ -2917,9 +2814,6 @@ func (tablerow *TableRow) Commit(stage *Stage) *TableRow {
 	return tablerow
 }
 
-func (tablerow *TableRow) CommitVoid(stage *Stage) {
-	tablerow.Commit(stage)
-}
 
 func (tablerow *TableRow) StageVoid(stage *Stage) {
 	tablerow.Stage(stage)
@@ -3005,9 +2899,6 @@ func (tablestyle *TableStyle) Commit(stage *Stage) *TableStyle {
 	return tablestyle
 }
 
-func (tablestyle *TableStyle) CommitVoid(stage *Stage) {
-	tablestyle.Commit(stage)
-}
 
 func (tablestyle *TableStyle) StageVoid(stage *Stage) {
 	tablestyle.Stage(stage)
@@ -3093,9 +2984,6 @@ func (text *Text) Commit(stage *Stage) *Text {
 	return text
 }
 
-func (text *Text) CommitVoid(stage *Stage) {
-	text.Commit(stage)
-}
 
 func (text *Text) StageVoid(stage *Stage) {
 	text.Stage(stage)
@@ -3119,45 +3007,6 @@ func (text *Text) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (text *Text) SetName(name string) {
 	text.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMBody(Body *Body)
-	CreateORMDocument(Document *Document)
-	CreateORMDocx(Docx *Docx)
-	CreateORMFile(File *File)
-	CreateORMNode(Node *Node)
-	CreateORMParagraph(Paragraph *Paragraph)
-	CreateORMParagraphProperties(ParagraphProperties *ParagraphProperties)
-	CreateORMParagraphStyle(ParagraphStyle *ParagraphStyle)
-	CreateORMRune(Rune *Rune)
-	CreateORMRuneProperties(RuneProperties *RuneProperties)
-	CreateORMTable(Table *Table)
-	CreateORMTableColumn(TableColumn *TableColumn)
-	CreateORMTableProperties(TableProperties *TableProperties)
-	CreateORMTableRow(TableRow *TableRow)
-	CreateORMTableStyle(TableStyle *TableStyle)
-	CreateORMText(Text *Text)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMBody(Body *Body)
-	DeleteORMDocument(Document *Document)
-	DeleteORMDocx(Docx *Docx)
-	DeleteORMFile(File *File)
-	DeleteORMNode(Node *Node)
-	DeleteORMParagraph(Paragraph *Paragraph)
-	DeleteORMParagraphProperties(ParagraphProperties *ParagraphProperties)
-	DeleteORMParagraphStyle(ParagraphStyle *ParagraphStyle)
-	DeleteORMRune(Rune *Rune)
-	DeleteORMRuneProperties(RuneProperties *RuneProperties)
-	DeleteORMTable(Table *Table)
-	DeleteORMTableColumn(TableColumn *TableColumn)
-	DeleteORMTableProperties(TableProperties *TableProperties)
-	DeleteORMTableRow(TableRow *TableRow)
-	DeleteORMTableStyle(TableStyle *TableStyle)
-	DeleteORMText(Text *Text)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -3249,126 +3098,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Bodys = nil
-	stage.Bodys_mapString = nil
-
-	stage.Documents = nil
-	stage.Documents_mapString = nil
-
-	stage.Docxs = nil
-	stage.Docxs_mapString = nil
-
-	stage.Files = nil
-	stage.Files_mapString = nil
-
-	stage.Nodes = nil
-	stage.Nodes_mapString = nil
-
-	stage.Paragraphs = nil
-	stage.Paragraphs_mapString = nil
-
-	stage.ParagraphPropertiess = nil
-	stage.ParagraphPropertiess_mapString = nil
-
-	stage.ParagraphStyles = nil
-	stage.ParagraphStyles_mapString = nil
-
-	stage.Runes = nil
-	stage.Runes_mapString = nil
-
-	stage.RunePropertiess = nil
-	stage.RunePropertiess_mapString = nil
-
-	stage.Tables = nil
-	stage.Tables_mapString = nil
-
-	stage.TableColumns = nil
-	stage.TableColumns_mapString = nil
-
-	stage.TablePropertiess = nil
-	stage.TablePropertiess_mapString = nil
-
-	stage.TableRows = nil
-	stage.TableRows_mapString = nil
-
-	stage.TableStyles = nil
-	stage.TableStyles_mapString = nil
-
-	stage.Texts = nil
-	stage.Texts_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for body := range stage.Bodys {
-		body.Unstage(stage)
-	}
-
-	for document := range stage.Documents {
-		document.Unstage(stage)
-	}
-
-	for docx := range stage.Docxs {
-		docx.Unstage(stage)
-	}
-
-	for file := range stage.Files {
-		file.Unstage(stage)
-	}
-
-	for node := range stage.Nodes {
-		node.Unstage(stage)
-	}
-
-	for paragraph := range stage.Paragraphs {
-		paragraph.Unstage(stage)
-	}
-
-	for paragraphproperties := range stage.ParagraphPropertiess {
-		paragraphproperties.Unstage(stage)
-	}
-
-	for paragraphstyle := range stage.ParagraphStyles {
-		paragraphstyle.Unstage(stage)
-	}
-
-	for rune := range stage.Runes {
-		rune.Unstage(stage)
-	}
-
-	for runeproperties := range stage.RunePropertiess {
-		runeproperties.Unstage(stage)
-	}
-
-	for table := range stage.Tables {
-		table.Unstage(stage)
-	}
-
-	for tablecolumn := range stage.TableColumns {
-		tablecolumn.Unstage(stage)
-	}
-
-	for tableproperties := range stage.TablePropertiess {
-		tableproperties.Unstage(stage)
-	}
-
-	for tablerow := range stage.TableRows {
-		tablerow.Unstage(stage)
-	}
-
-	for tablestyle := range stage.TableStyles {
-		tablestyle.Unstage(stage)
-	}
-
-	for text := range stage.Texts {
-		text.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -3386,13 +3115,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -5453,642 +5180,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (body *Body) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		body.Name = value.GetValueString()
-	case "Paragraphs":
-		body.Paragraphs = make([]*Paragraph, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Paragraphs {
-					if stage.Paragraph_stagedOrder[__instance__] == uint(id) {
-						body.Paragraphs = append(body.Paragraphs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tables":
-		body.Tables = make([]*Table, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tables {
-					if stage.Table_stagedOrder[__instance__] == uint(id) {
-						body.Tables = append(body.Tables, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "LastParagraph":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			body.LastParagraph = nil
-			for __instance__ := range stage.Paragraphs {
-				if stage.Paragraph_stagedOrder[__instance__] == uint(id) {
-					body.LastParagraph = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (document *Document) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		document.Name = value.GetValueString()
-	case "File":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			document.File = nil
-			for __instance__ := range stage.Files {
-				if stage.File_stagedOrder[__instance__] == uint(id) {
-					document.File = __instance__
-					break
-				}
-			}
-		}
-	case "Root":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			document.Root = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					document.Root = __instance__
-					break
-				}
-			}
-		}
-	case "Body":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			document.Body = nil
-			for __instance__ := range stage.Bodys {
-				if stage.Body_stagedOrder[__instance__] == uint(id) {
-					document.Body = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (docx *Docx) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		docx.Name = value.GetValueString()
-	case "Files":
-		docx.Files = make([]*File, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Files {
-					if stage.File_stagedOrder[__instance__] == uint(id) {
-						docx.Files = append(docx.Files, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Document":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			docx.Document = nil
-			for __instance__ := range stage.Documents {
-				if stage.Document_stagedOrder[__instance__] == uint(id) {
-					docx.Document = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (file *File) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		file.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		node.Name = value.GetValueString()
-	case "Nodes":
-		node.Nodes = make([]*Node, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Nodes {
-					if stage.Node_stagedOrder[__instance__] == uint(id) {
-						node.Nodes = append(node.Nodes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (paragraph *Paragraph) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		paragraph.Name = value.GetValueString()
-	case "Content":
-		paragraph.Content = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraph.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					paragraph.Node = __instance__
-					break
-				}
-			}
-		}
-	case "ParagraphProperties":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraph.ParagraphProperties = nil
-			for __instance__ := range stage.ParagraphPropertiess {
-				if stage.ParagraphProperties_stagedOrder[__instance__] == uint(id) {
-					paragraph.ParagraphProperties = __instance__
-					break
-				}
-			}
-		}
-	case "Runes":
-		paragraph.Runes = make([]*Rune, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Runes {
-					if stage.Rune_stagedOrder[__instance__] == uint(id) {
-						paragraph.Runes = append(paragraph.Runes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "CollatedText":
-		paragraph.CollatedText = value.GetValueString()
-	case "Next":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraph.Next = nil
-			for __instance__ := range stage.Paragraphs {
-				if stage.Paragraph_stagedOrder[__instance__] == uint(id) {
-					paragraph.Next = __instance__
-					break
-				}
-			}
-		}
-	case "Previous":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraph.Previous = nil
-			for __instance__ := range stage.Paragraphs {
-				if stage.Paragraph_stagedOrder[__instance__] == uint(id) {
-					paragraph.Previous = __instance__
-					break
-				}
-			}
-		}
-	case "EnclosingBody":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraph.EnclosingBody = nil
-			for __instance__ := range stage.Bodys {
-				if stage.Body_stagedOrder[__instance__] == uint(id) {
-					paragraph.EnclosingBody = __instance__
-					break
-				}
-			}
-		}
-	case "EnclosingTableColumn":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraph.EnclosingTableColumn = nil
-			for __instance__ := range stage.TableColumns {
-				if stage.TableColumn_stagedOrder[__instance__] == uint(id) {
-					paragraph.EnclosingTableColumn = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (paragraphproperties *ParagraphProperties) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		paragraphproperties.Name = value.GetValueString()
-	case "Content":
-		paragraphproperties.Content = value.GetValueString()
-	case "ParagraphStyle":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraphproperties.ParagraphStyle = nil
-			for __instance__ := range stage.ParagraphStyles {
-				if stage.ParagraphStyle_stagedOrder[__instance__] == uint(id) {
-					paragraphproperties.ParagraphStyle = __instance__
-					break
-				}
-			}
-		}
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraphproperties.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					paragraphproperties.Node = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (paragraphstyle *ParagraphStyle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		paragraphstyle.Name = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			paragraphstyle.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					paragraphstyle.Node = __instance__
-					break
-				}
-			}
-		}
-	case "Content":
-		paragraphstyle.Content = value.GetValueString()
-	case "ValAttr":
-		paragraphstyle.ValAttr = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rune *Rune) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rune.Name = value.GetValueString()
-	case "Content":
-		rune.Content = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rune.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					rune.Node = __instance__
-					break
-				}
-			}
-		}
-	case "Text":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rune.Text = nil
-			for __instance__ := range stage.Texts {
-				if stage.Text_stagedOrder[__instance__] == uint(id) {
-					rune.Text = __instance__
-					break
-				}
-			}
-		}
-	case "RuneProperties":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rune.RuneProperties = nil
-			for __instance__ := range stage.RunePropertiess {
-				if stage.RuneProperties_stagedOrder[__instance__] == uint(id) {
-					rune.RuneProperties = __instance__
-					break
-				}
-			}
-		}
-	case "EnclosingParagraph":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rune.EnclosingParagraph = nil
-			for __instance__ := range stage.Paragraphs {
-				if stage.Paragraph_stagedOrder[__instance__] == uint(id) {
-					rune.EnclosingParagraph = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (runeproperties *RuneProperties) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		runeproperties.Name = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			runeproperties.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					runeproperties.Node = __instance__
-					break
-				}
-			}
-		}
-	case "IsBold":
-		runeproperties.IsBold = value.GetValueBool()
-	case "IsStrike":
-		runeproperties.IsStrike = value.GetValueBool()
-	case "IsItalic":
-		runeproperties.IsItalic = value.GetValueBool()
-	case "Content":
-		runeproperties.Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		table.Name = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			table.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					table.Node = __instance__
-					break
-				}
-			}
-		}
-	case "Content":
-		table.Content = value.GetValueString()
-	case "TableProperties":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			table.TableProperties = nil
-			for __instance__ := range stage.TablePropertiess {
-				if stage.TableProperties_stagedOrder[__instance__] == uint(id) {
-					table.TableProperties = __instance__
-					break
-				}
-			}
-		}
-	case "TableRows":
-		table.TableRows = make([]*TableRow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TableRows {
-					if stage.TableRow_stagedOrder[__instance__] == uint(id) {
-						table.TableRows = append(table.TableRows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tablecolumn *TableColumn) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tablecolumn.Name = value.GetValueString()
-	case "Content":
-		tablecolumn.Content = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tablecolumn.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					tablecolumn.Node = __instance__
-					break
-				}
-			}
-		}
-	case "Paragraphs":
-		tablecolumn.Paragraphs = make([]*Paragraph, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Paragraphs {
-					if stage.Paragraph_stagedOrder[__instance__] == uint(id) {
-						tablecolumn.Paragraphs = append(tablecolumn.Paragraphs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tableproperties *TableProperties) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tableproperties.Name = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tableproperties.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					tableproperties.Node = __instance__
-					break
-				}
-			}
-		}
-	case "Content":
-		tableproperties.Content = value.GetValueString()
-	case "TableStyle":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tableproperties.TableStyle = nil
-			for __instance__ := range stage.TableStyles {
-				if stage.TableStyle_stagedOrder[__instance__] == uint(id) {
-					tableproperties.TableStyle = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tablerow *TableRow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tablerow.Name = value.GetValueString()
-	case "Content":
-		tablerow.Content = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tablerow.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					tablerow.Node = __instance__
-					break
-				}
-			}
-		}
-	case "TableColumns":
-		tablerow.TableColumns = make([]*TableColumn, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TableColumns {
-					if stage.TableColumn_stagedOrder[__instance__] == uint(id) {
-						tablerow.TableColumns = append(tablerow.TableColumns, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tablestyle *TableStyle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tablestyle.Name = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tablestyle.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					tablestyle.Node = __instance__
-					break
-				}
-			}
-		}
-	case "Content":
-		tablestyle.Content = value.GetValueString()
-	case "Val":
-		tablestyle.Val = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (text *Text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		text.Name = value.GetValueString()
-	case "Content":
-		text.Content = value.GetValueString()
-	case "Node":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			text.Node = nil
-			for __instance__ := range stage.Nodes {
-				if stage.Node_stagedOrder[__instance__] == uint(id) {
-					text.Node = __instance__
-					break
-				}
-			}
-		}
-	case "PreserveWhiteSpace":
-		text.PreserveWhiteSpace = value.GetValueBool()
-	case "EnclosingRune":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			text.EnclosingRune = nil
-			for __instance__ := range stage.Runes {
-				if stage.Rune_stagedOrder[__instance__] == uint(id) {
-					text.EnclosingRune = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (body *Body) GongGetGongstructName() string {

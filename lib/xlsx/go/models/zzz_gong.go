@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	xlsx_go "github.com/fullstack-lang/gong/lib/xlsx/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -214,9 +201,6 @@ type Stage struct {
 	OnAfterXLSheetDeleteCallback OnAfterDeleteInterface[XLSheet]
 	OnAfterXLSheetReadCallback   OnAfterReadInterface[XLSheet]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -245,8 +229,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -590,14 +572,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -701,28 +675,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/xlsx/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return xlsx_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return xlsx_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -841,13 +795,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "DisplaySelection"},
-			{name: "XLCell"},
-			{name: "XLFile"},
-			{name: "XLRow"},
-			{name: "XLSheet"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1061,9 +1008,6 @@ func (displayselection *DisplaySelection) Commit(stage *Stage) *DisplaySelection
 	return displayselection
 }
 
-func (displayselection *DisplaySelection) CommitVoid(stage *Stage) {
-	displayselection.Commit(stage)
-}
 
 func (displayselection *DisplaySelection) StageVoid(stage *Stage) {
 	displayselection.Stage(stage)
@@ -1149,9 +1093,6 @@ func (xlcell *XLCell) Commit(stage *Stage) *XLCell {
 	return xlcell
 }
 
-func (xlcell *XLCell) CommitVoid(stage *Stage) {
-	xlcell.Commit(stage)
-}
 
 func (xlcell *XLCell) StageVoid(stage *Stage) {
 	xlcell.Stage(stage)
@@ -1237,9 +1178,6 @@ func (xlfile *XLFile) Commit(stage *Stage) *XLFile {
 	return xlfile
 }
 
-func (xlfile *XLFile) CommitVoid(stage *Stage) {
-	xlfile.Commit(stage)
-}
 
 func (xlfile *XLFile) StageVoid(stage *Stage) {
 	xlfile.Stage(stage)
@@ -1325,9 +1263,6 @@ func (xlrow *XLRow) Commit(stage *Stage) *XLRow {
 	return xlrow
 }
 
-func (xlrow *XLRow) CommitVoid(stage *Stage) {
-	xlrow.Commit(stage)
-}
 
 func (xlrow *XLRow) StageVoid(stage *Stage) {
 	xlrow.Stage(stage)
@@ -1413,9 +1348,6 @@ func (xlsheet *XLSheet) Commit(stage *Stage) *XLSheet {
 	return xlsheet
 }
 
-func (xlsheet *XLSheet) CommitVoid(stage *Stage) {
-	xlsheet.Commit(stage)
-}
 
 func (xlsheet *XLSheet) StageVoid(stage *Stage) {
 	xlsheet.Stage(stage)
@@ -1439,23 +1371,6 @@ func (xlsheet *XLSheet) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (xlsheet *XLSheet) SetName(name string) {
 	xlsheet.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMDisplaySelection(DisplaySelection *DisplaySelection)
-	CreateORMXLCell(XLCell *XLCell)
-	CreateORMXLFile(XLFile *XLFile)
-	CreateORMXLRow(XLRow *XLRow)
-	CreateORMXLSheet(XLSheet *XLSheet)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMDisplaySelection(DisplaySelection *DisplaySelection)
-	DeleteORMXLCell(XLCell *XLCell)
-	DeleteORMXLFile(XLFile *XLFile)
-	DeleteORMXLRow(XLRow *XLRow)
-	DeleteORMXLSheet(XLSheet *XLSheet)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1492,49 +1407,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.DisplaySelections = nil
-	stage.DisplaySelections_mapString = nil
-
-	stage.XLCells = nil
-	stage.XLCells_mapString = nil
-
-	stage.XLFiles = nil
-	stage.XLFiles_mapString = nil
-
-	stage.XLRows = nil
-	stage.XLRows_mapString = nil
-
-	stage.XLSheets = nil
-	stage.XLSheets_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for displayselection := range stage.DisplaySelections {
-		displayselection.Unstage(stage)
-	}
-
-	for xlcell := range stage.XLCells {
-		xlcell.Unstage(stage)
-	}
-
-	for xlfile := range stage.XLFiles {
-		xlfile.Unstage(stage)
-	}
-
-	for xlrow := range stage.XLRows {
-		xlrow.Unstage(stage)
-	}
-
-	for xlsheet := range stage.XLSheets {
-		xlsheet.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1552,13 +1424,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -2194,157 +2064,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (displayselection *DisplaySelection) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		displayselection.Name = value.GetValueString()
-	case "XLFile":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			displayselection.XLFile = nil
-			for __instance__ := range stage.XLFiles {
-				if stage.XLFile_stagedOrder[__instance__] == uint(id) {
-					displayselection.XLFile = __instance__
-					break
-				}
-			}
-		}
-	case "XLSheet":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			displayselection.XLSheet = nil
-			for __instance__ := range stage.XLSheets {
-				if stage.XLSheet_stagedOrder[__instance__] == uint(id) {
-					displayselection.XLSheet = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (xlcell *XLCell) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		xlcell.Name = value.GetValueString()
-	case "X":
-		xlcell.X = int(value.GetValueInt())
-	case "Y":
-		xlcell.Y = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (xlfile *XLFile) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		xlfile.Name = value.GetValueString()
-	case "NbSheets":
-		xlfile.NbSheets = int(value.GetValueInt())
-	case "Sheets":
-		xlfile.Sheets = make([]*XLSheet, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.XLSheets {
-					if stage.XLSheet_stagedOrder[__instance__] == uint(id) {
-						xlfile.Sheets = append(xlfile.Sheets, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (xlrow *XLRow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		xlrow.Name = value.GetValueString()
-	case "RowIndex":
-		xlrow.RowIndex = int(value.GetValueInt())
-	case "Cells":
-		xlrow.Cells = make([]*XLCell, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.XLCells {
-					if stage.XLCell_stagedOrder[__instance__] == uint(id) {
-						xlrow.Cells = append(xlrow.Cells, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (xlsheet *XLSheet) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		xlsheet.Name = value.GetValueString()
-	case "MaxRow":
-		xlsheet.MaxRow = int(value.GetValueInt())
-	case "MaxCol":
-		xlsheet.MaxCol = int(value.GetValueInt())
-	case "NbRows":
-		xlsheet.NbRows = int(value.GetValueInt())
-	case "Rows":
-		xlsheet.Rows = make([]*XLRow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.XLRows {
-					if stage.XLRow_stagedOrder[__instance__] == uint(id) {
-						xlsheet.Rows = append(xlsheet.Rows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SheetCells":
-		xlsheet.SheetCells = make([]*XLCell, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.XLCells {
-					if stage.XLCell_stagedOrder[__instance__] == uint(id) {
-						xlsheet.SheetCells = append(xlsheet.SheetCells, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (displayselection *DisplaySelection) GongGetGongstructName() string {

@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	threejs_go "github.com/fullstack-lang/gong/lib/threejs/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -443,9 +430,6 @@ type Stage struct {
 	OnAfterVector3DeleteCallback OnAfterDeleteInterface[Vector3]
 	OnAfterVector3ReadCallback   OnAfterReadInterface[Vector3]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -474,8 +458,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1089,14 +1071,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1410,28 +1384,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/threejs/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return threejs_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return threejs_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1715,28 +1669,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "AmbiantLight"},
-			{name: "BoxGeometry"},
-			{name: "BufferGeometry"},
-			{name: "Camera"},
-			{name: "Canvas"},
-			{name: "Curve"},
-			{name: "CylinderGeometry"},
-			{name: "DirectionalLight"},
-			{name: "ExtrudeGeometry"},
-			{name: "Mesh"},
-			{name: "MeshMaterialBasic"},
-			{name: "MeshPhysicalMaterial"},
-			{name: "PlaneGeometry"},
-			{name: "Shape"},
-			{name: "SphereGeometry"},
-			{name: "TorusGeometry"},
-			{name: "Triangle"},
-			{name: "TubeGeometry"},
-			{name: "Vector2"},
-			{name: "Vector3"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2025,9 +1957,6 @@ func (ambiantlight *AmbiantLight) Commit(stage *Stage) *AmbiantLight {
 	return ambiantlight
 }
 
-func (ambiantlight *AmbiantLight) CommitVoid(stage *Stage) {
-	ambiantlight.Commit(stage)
-}
 
 func (ambiantlight *AmbiantLight) StageVoid(stage *Stage) {
 	ambiantlight.Stage(stage)
@@ -2113,9 +2042,6 @@ func (boxgeometry *BoxGeometry) Commit(stage *Stage) *BoxGeometry {
 	return boxgeometry
 }
 
-func (boxgeometry *BoxGeometry) CommitVoid(stage *Stage) {
-	boxgeometry.Commit(stage)
-}
 
 func (boxgeometry *BoxGeometry) StageVoid(stage *Stage) {
 	boxgeometry.Stage(stage)
@@ -2201,9 +2127,6 @@ func (buffergeometry *BufferGeometry) Commit(stage *Stage) *BufferGeometry {
 	return buffergeometry
 }
 
-func (buffergeometry *BufferGeometry) CommitVoid(stage *Stage) {
-	buffergeometry.Commit(stage)
-}
 
 func (buffergeometry *BufferGeometry) StageVoid(stage *Stage) {
 	buffergeometry.Stage(stage)
@@ -2289,9 +2212,6 @@ func (camera *Camera) Commit(stage *Stage) *Camera {
 	return camera
 }
 
-func (camera *Camera) CommitVoid(stage *Stage) {
-	camera.Commit(stage)
-}
 
 func (camera *Camera) StageVoid(stage *Stage) {
 	camera.Stage(stage)
@@ -2377,9 +2297,6 @@ func (canvas *Canvas) Commit(stage *Stage) *Canvas {
 	return canvas
 }
 
-func (canvas *Canvas) CommitVoid(stage *Stage) {
-	canvas.Commit(stage)
-}
 
 func (canvas *Canvas) StageVoid(stage *Stage) {
 	canvas.Stage(stage)
@@ -2465,9 +2382,6 @@ func (curve *Curve) Commit(stage *Stage) *Curve {
 	return curve
 }
 
-func (curve *Curve) CommitVoid(stage *Stage) {
-	curve.Commit(stage)
-}
 
 func (curve *Curve) StageVoid(stage *Stage) {
 	curve.Stage(stage)
@@ -2553,9 +2467,6 @@ func (cylindergeometry *CylinderGeometry) Commit(stage *Stage) *CylinderGeometry
 	return cylindergeometry
 }
 
-func (cylindergeometry *CylinderGeometry) CommitVoid(stage *Stage) {
-	cylindergeometry.Commit(stage)
-}
 
 func (cylindergeometry *CylinderGeometry) StageVoid(stage *Stage) {
 	cylindergeometry.Stage(stage)
@@ -2641,9 +2552,6 @@ func (directionallight *DirectionalLight) Commit(stage *Stage) *DirectionalLight
 	return directionallight
 }
 
-func (directionallight *DirectionalLight) CommitVoid(stage *Stage) {
-	directionallight.Commit(stage)
-}
 
 func (directionallight *DirectionalLight) StageVoid(stage *Stage) {
 	directionallight.Stage(stage)
@@ -2729,9 +2637,6 @@ func (extrudegeometry *ExtrudeGeometry) Commit(stage *Stage) *ExtrudeGeometry {
 	return extrudegeometry
 }
 
-func (extrudegeometry *ExtrudeGeometry) CommitVoid(stage *Stage) {
-	extrudegeometry.Commit(stage)
-}
 
 func (extrudegeometry *ExtrudeGeometry) StageVoid(stage *Stage) {
 	extrudegeometry.Stage(stage)
@@ -2817,9 +2722,6 @@ func (mesh *Mesh) Commit(stage *Stage) *Mesh {
 	return mesh
 }
 
-func (mesh *Mesh) CommitVoid(stage *Stage) {
-	mesh.Commit(stage)
-}
 
 func (mesh *Mesh) StageVoid(stage *Stage) {
 	mesh.Stage(stage)
@@ -2905,9 +2807,6 @@ func (meshmaterialbasic *MeshMaterialBasic) Commit(stage *Stage) *MeshMaterialBa
 	return meshmaterialbasic
 }
 
-func (meshmaterialbasic *MeshMaterialBasic) CommitVoid(stage *Stage) {
-	meshmaterialbasic.Commit(stage)
-}
 
 func (meshmaterialbasic *MeshMaterialBasic) StageVoid(stage *Stage) {
 	meshmaterialbasic.Stage(stage)
@@ -2993,9 +2892,6 @@ func (meshphysicalmaterial *MeshPhysicalMaterial) Commit(stage *Stage) *MeshPhys
 	return meshphysicalmaterial
 }
 
-func (meshphysicalmaterial *MeshPhysicalMaterial) CommitVoid(stage *Stage) {
-	meshphysicalmaterial.Commit(stage)
-}
 
 func (meshphysicalmaterial *MeshPhysicalMaterial) StageVoid(stage *Stage) {
 	meshphysicalmaterial.Stage(stage)
@@ -3081,9 +2977,6 @@ func (planegeometry *PlaneGeometry) Commit(stage *Stage) *PlaneGeometry {
 	return planegeometry
 }
 
-func (planegeometry *PlaneGeometry) CommitVoid(stage *Stage) {
-	planegeometry.Commit(stage)
-}
 
 func (planegeometry *PlaneGeometry) StageVoid(stage *Stage) {
 	planegeometry.Stage(stage)
@@ -3169,9 +3062,6 @@ func (shape *Shape) Commit(stage *Stage) *Shape {
 	return shape
 }
 
-func (shape *Shape) CommitVoid(stage *Stage) {
-	shape.Commit(stage)
-}
 
 func (shape *Shape) StageVoid(stage *Stage) {
 	shape.Stage(stage)
@@ -3257,9 +3147,6 @@ func (spheregeometry *SphereGeometry) Commit(stage *Stage) *SphereGeometry {
 	return spheregeometry
 }
 
-func (spheregeometry *SphereGeometry) CommitVoid(stage *Stage) {
-	spheregeometry.Commit(stage)
-}
 
 func (spheregeometry *SphereGeometry) StageVoid(stage *Stage) {
 	spheregeometry.Stage(stage)
@@ -3345,9 +3232,6 @@ func (torusgeometry *TorusGeometry) Commit(stage *Stage) *TorusGeometry {
 	return torusgeometry
 }
 
-func (torusgeometry *TorusGeometry) CommitVoid(stage *Stage) {
-	torusgeometry.Commit(stage)
-}
 
 func (torusgeometry *TorusGeometry) StageVoid(stage *Stage) {
 	torusgeometry.Stage(stage)
@@ -3433,9 +3317,6 @@ func (triangle *Triangle) Commit(stage *Stage) *Triangle {
 	return triangle
 }
 
-func (triangle *Triangle) CommitVoid(stage *Stage) {
-	triangle.Commit(stage)
-}
 
 func (triangle *Triangle) StageVoid(stage *Stage) {
 	triangle.Stage(stage)
@@ -3521,9 +3402,6 @@ func (tubegeometry *TubeGeometry) Commit(stage *Stage) *TubeGeometry {
 	return tubegeometry
 }
 
-func (tubegeometry *TubeGeometry) CommitVoid(stage *Stage) {
-	tubegeometry.Commit(stage)
-}
 
 func (tubegeometry *TubeGeometry) StageVoid(stage *Stage) {
 	tubegeometry.Stage(stage)
@@ -3609,9 +3487,6 @@ func (vector2 *Vector2) Commit(stage *Stage) *Vector2 {
 	return vector2
 }
 
-func (vector2 *Vector2) CommitVoid(stage *Stage) {
-	vector2.Commit(stage)
-}
 
 func (vector2 *Vector2) StageVoid(stage *Stage) {
 	vector2.Stage(stage)
@@ -3697,9 +3572,6 @@ func (vector3 *Vector3) Commit(stage *Stage) *Vector3 {
 	return vector3
 }
 
-func (vector3 *Vector3) CommitVoid(stage *Stage) {
-	vector3.Commit(stage)
-}
 
 func (vector3 *Vector3) StageVoid(stage *Stage) {
 	vector3.Stage(stage)
@@ -3723,53 +3595,6 @@ func (vector3 *Vector3) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (vector3 *Vector3) SetName(name string) {
 	vector3.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAmbiantLight(AmbiantLight *AmbiantLight)
-	CreateORMBoxGeometry(BoxGeometry *BoxGeometry)
-	CreateORMBufferGeometry(BufferGeometry *BufferGeometry)
-	CreateORMCamera(Camera *Camera)
-	CreateORMCanvas(Canvas *Canvas)
-	CreateORMCurve(Curve *Curve)
-	CreateORMCylinderGeometry(CylinderGeometry *CylinderGeometry)
-	CreateORMDirectionalLight(DirectionalLight *DirectionalLight)
-	CreateORMExtrudeGeometry(ExtrudeGeometry *ExtrudeGeometry)
-	CreateORMMesh(Mesh *Mesh)
-	CreateORMMeshMaterialBasic(MeshMaterialBasic *MeshMaterialBasic)
-	CreateORMMeshPhysicalMaterial(MeshPhysicalMaterial *MeshPhysicalMaterial)
-	CreateORMPlaneGeometry(PlaneGeometry *PlaneGeometry)
-	CreateORMShape(Shape *Shape)
-	CreateORMSphereGeometry(SphereGeometry *SphereGeometry)
-	CreateORMTorusGeometry(TorusGeometry *TorusGeometry)
-	CreateORMTriangle(Triangle *Triangle)
-	CreateORMTubeGeometry(TubeGeometry *TubeGeometry)
-	CreateORMVector2(Vector2 *Vector2)
-	CreateORMVector3(Vector3 *Vector3)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAmbiantLight(AmbiantLight *AmbiantLight)
-	DeleteORMBoxGeometry(BoxGeometry *BoxGeometry)
-	DeleteORMBufferGeometry(BufferGeometry *BufferGeometry)
-	DeleteORMCamera(Camera *Camera)
-	DeleteORMCanvas(Canvas *Canvas)
-	DeleteORMCurve(Curve *Curve)
-	DeleteORMCylinderGeometry(CylinderGeometry *CylinderGeometry)
-	DeleteORMDirectionalLight(DirectionalLight *DirectionalLight)
-	DeleteORMExtrudeGeometry(ExtrudeGeometry *ExtrudeGeometry)
-	DeleteORMMesh(Mesh *Mesh)
-	DeleteORMMeshMaterialBasic(MeshMaterialBasic *MeshMaterialBasic)
-	DeleteORMMeshPhysicalMaterial(MeshPhysicalMaterial *MeshPhysicalMaterial)
-	DeleteORMPlaneGeometry(PlaneGeometry *PlaneGeometry)
-	DeleteORMShape(Shape *Shape)
-	DeleteORMSphereGeometry(SphereGeometry *SphereGeometry)
-	DeleteORMTorusGeometry(TorusGeometry *TorusGeometry)
-	DeleteORMTriangle(Triangle *Triangle)
-	DeleteORMTubeGeometry(TubeGeometry *TubeGeometry)
-	DeleteORMVector2(Vector2 *Vector2)
-	DeleteORMVector3(Vector3 *Vector3)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -3881,154 +3706,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.AmbiantLights = nil
-	stage.AmbiantLights_mapString = nil
-
-	stage.BoxGeometrys = nil
-	stage.BoxGeometrys_mapString = nil
-
-	stage.BufferGeometrys = nil
-	stage.BufferGeometrys_mapString = nil
-
-	stage.Cameras = nil
-	stage.Cameras_mapString = nil
-
-	stage.Canvass = nil
-	stage.Canvass_mapString = nil
-
-	stage.Curves = nil
-	stage.Curves_mapString = nil
-
-	stage.CylinderGeometrys = nil
-	stage.CylinderGeometrys_mapString = nil
-
-	stage.DirectionalLights = nil
-	stage.DirectionalLights_mapString = nil
-
-	stage.ExtrudeGeometrys = nil
-	stage.ExtrudeGeometrys_mapString = nil
-
-	stage.Meshs = nil
-	stage.Meshs_mapString = nil
-
-	stage.MeshMaterialBasics = nil
-	stage.MeshMaterialBasics_mapString = nil
-
-	stage.MeshPhysicalMaterials = nil
-	stage.MeshPhysicalMaterials_mapString = nil
-
-	stage.PlaneGeometrys = nil
-	stage.PlaneGeometrys_mapString = nil
-
-	stage.Shapes = nil
-	stage.Shapes_mapString = nil
-
-	stage.SphereGeometrys = nil
-	stage.SphereGeometrys_mapString = nil
-
-	stage.TorusGeometrys = nil
-	stage.TorusGeometrys_mapString = nil
-
-	stage.Triangles = nil
-	stage.Triangles_mapString = nil
-
-	stage.TubeGeometrys = nil
-	stage.TubeGeometrys_mapString = nil
-
-	stage.Vector2s = nil
-	stage.Vector2s_mapString = nil
-
-	stage.Vector3s = nil
-	stage.Vector3s_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for ambiantlight := range stage.AmbiantLights {
-		ambiantlight.Unstage(stage)
-	}
-
-	for boxgeometry := range stage.BoxGeometrys {
-		boxgeometry.Unstage(stage)
-	}
-
-	for buffergeometry := range stage.BufferGeometrys {
-		buffergeometry.Unstage(stage)
-	}
-
-	for camera := range stage.Cameras {
-		camera.Unstage(stage)
-	}
-
-	for canvas := range stage.Canvass {
-		canvas.Unstage(stage)
-	}
-
-	for curve := range stage.Curves {
-		curve.Unstage(stage)
-	}
-
-	for cylindergeometry := range stage.CylinderGeometrys {
-		cylindergeometry.Unstage(stage)
-	}
-
-	for directionallight := range stage.DirectionalLights {
-		directionallight.Unstage(stage)
-	}
-
-	for extrudegeometry := range stage.ExtrudeGeometrys {
-		extrudegeometry.Unstage(stage)
-	}
-
-	for mesh := range stage.Meshs {
-		mesh.Unstage(stage)
-	}
-
-	for meshmaterialbasic := range stage.MeshMaterialBasics {
-		meshmaterialbasic.Unstage(stage)
-	}
-
-	for meshphysicalmaterial := range stage.MeshPhysicalMaterials {
-		meshphysicalmaterial.Unstage(stage)
-	}
-
-	for planegeometry := range stage.PlaneGeometrys {
-		planegeometry.Unstage(stage)
-	}
-
-	for shape := range stage.Shapes {
-		shape.Unstage(stage)
-	}
-
-	for spheregeometry := range stage.SphereGeometrys {
-		spheregeometry.Unstage(stage)
-	}
-
-	for torusgeometry := range stage.TorusGeometrys {
-		torusgeometry.Unstage(stage)
-	}
-
-	for triangle := range stage.Triangles {
-		triangle.Unstage(stage)
-	}
-
-	for tubegeometry := range stage.TubeGeometrys {
-		tubegeometry.Unstage(stage)
-	}
-
-	for vector2 := range stage.Vector2s {
-		vector2.Unstage(stage)
-	}
-
-	for vector3 := range stage.Vector3s {
-		vector3.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -4046,13 +3723,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -6259,613 +5934,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (ambiantlight *AmbiantLight) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		ambiantlight.Name = value.GetValueString()
-	case "Intensity":
-		ambiantlight.Intensity = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (boxgeometry *BoxGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		boxgeometry.Name = value.GetValueString()
-	case "Width":
-		boxgeometry.Width = value.GetValueFloat()
-	case "Height":
-		boxgeometry.Height = value.GetValueFloat()
-	case "Depth":
-		boxgeometry.Depth = value.GetValueFloat()
-	case "WidthSegments":
-		boxgeometry.WidthSegments = int(value.GetValueInt())
-	case "HeightSegments":
-		boxgeometry.HeightSegments = int(value.GetValueInt())
-	case "DepthSegments":
-		boxgeometry.DepthSegments = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (buffergeometry *BufferGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		buffergeometry.Name = value.GetValueString()
-	case "Vertices":
-		buffergeometry.Vertices = make([]*Vector3, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Vector3s {
-					if stage.Vector3_stagedOrder[__instance__] == uint(id) {
-						buffergeometry.Vertices = append(buffergeometry.Vertices, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Faces":
-		buffergeometry.Faces = make([]*Triangle, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Triangles {
-					if stage.Triangle_stagedOrder[__instance__] == uint(id) {
-						buffergeometry.Faces = append(buffergeometry.Faces, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (camera *Camera) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		camera.Name = value.GetValueString()
-	case "X":
-		camera.X = value.GetValueFloat()
-	case "Y":
-		camera.Y = value.GetValueFloat()
-	case "Z":
-		camera.Z = value.GetValueFloat()
-	case "TargetX":
-		camera.TargetX = value.GetValueFloat()
-	case "TargetY":
-		camera.TargetY = value.GetValueFloat()
-	case "TargetZ":
-		camera.TargetZ = value.GetValueFloat()
-	case "Fov":
-		camera.Fov = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (canvas *Canvas) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		canvas.Name = value.GetValueString()
-	case "DirectionalLights":
-		canvas.DirectionalLights = make([]*DirectionalLight, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DirectionalLights {
-					if stage.DirectionalLight_stagedOrder[__instance__] == uint(id) {
-						canvas.DirectionalLights = append(canvas.DirectionalLights, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AmbiantLight":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			canvas.AmbiantLight = nil
-			for __instance__ := range stage.AmbiantLights {
-				if stage.AmbiantLight_stagedOrder[__instance__] == uint(id) {
-					canvas.AmbiantLight = __instance__
-					break
-				}
-			}
-		}
-	case "Meshs":
-		canvas.Meshs = make([]*Mesh, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Meshs {
-					if stage.Mesh_stagedOrder[__instance__] == uint(id) {
-						canvas.Meshs = append(canvas.Meshs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Camera":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			canvas.Camera = nil
-			for __instance__ := range stage.Cameras {
-				if stage.Camera_stagedOrder[__instance__] == uint(id) {
-					canvas.Camera = __instance__
-					break
-				}
-			}
-		}
-	case "IsWithLastRenderingUpdate":
-		canvas.IsWithLastRenderingUpdate = value.GetValueBool()
-	case "Frame64BitsEncoded":
-		canvas.Frame64BitsEncoded = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (curve *Curve) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		curve.Name = value.GetValueString()
-	case "Points":
-		curve.Points = make([]*Vector3, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Vector3s {
-					if stage.Vector3_stagedOrder[__instance__] == uint(id) {
-						curve.Points = append(curve.Points, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cylindergeometry *CylinderGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cylindergeometry.Name = value.GetValueString()
-	case "RadiusTop":
-		cylindergeometry.RadiusTop = value.GetValueFloat()
-	case "RadiusBottom":
-		cylindergeometry.RadiusBottom = value.GetValueFloat()
-	case "Height":
-		cylindergeometry.Height = value.GetValueFloat()
-	case "RadialSegments":
-		cylindergeometry.RadialSegments = int(value.GetValueInt())
-	case "HeightSegments":
-		cylindergeometry.HeightSegments = int(value.GetValueInt())
-	case "OpenEnded":
-		cylindergeometry.OpenEnded = value.GetValueBool()
-	case "ThetaStart":
-		cylindergeometry.ThetaStart = value.GetValueFloat()
-	case "ThetaLength":
-		cylindergeometry.ThetaLength = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (directionallight *DirectionalLight) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		directionallight.Name = value.GetValueString()
-	case "X":
-		directionallight.X = value.GetValueFloat()
-	case "Y":
-		directionallight.Y = value.GetValueFloat()
-	case "Z":
-		directionallight.Z = value.GetValueFloat()
-	case "Intensity":
-		directionallight.Intensity = value.GetValueFloat()
-	case "IsWithCastShadow":
-		directionallight.IsWithCastShadow = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (extrudegeometry *ExtrudeGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		extrudegeometry.Name = value.GetValueString()
-	case "Shape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			extrudegeometry.Shape = nil
-			for __instance__ := range stage.Shapes {
-				if stage.Shape_stagedOrder[__instance__] == uint(id) {
-					extrudegeometry.Shape = __instance__
-					break
-				}
-			}
-		}
-	case "ExtrudePath":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			extrudegeometry.ExtrudePath = nil
-			for __instance__ := range stage.Curves {
-				if stage.Curve_stagedOrder[__instance__] == uint(id) {
-					extrudegeometry.ExtrudePath = __instance__
-					break
-				}
-			}
-		}
-	case "Steps":
-		extrudegeometry.Steps = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (mesh *Mesh) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		mesh.Name = value.GetValueString()
-	case "X":
-		mesh.X = value.GetValueFloat()
-	case "Y":
-		mesh.Y = value.GetValueFloat()
-	case "Z":
-		mesh.Z = value.GetValueFloat()
-	case "MeshMaterialBasic":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.MeshMaterialBasic = nil
-			for __instance__ := range stage.MeshMaterialBasics {
-				if stage.MeshMaterialBasic_stagedOrder[__instance__] == uint(id) {
-					mesh.MeshMaterialBasic = __instance__
-					break
-				}
-			}
-		}
-	case "MeshPhysicalMaterial":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.MeshPhysicalMaterial = nil
-			for __instance__ := range stage.MeshPhysicalMaterials {
-				if stage.MeshPhysicalMaterial_stagedOrder[__instance__] == uint(id) {
-					mesh.MeshPhysicalMaterial = __instance__
-					break
-				}
-			}
-		}
-	case "CylinderGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.CylinderGeometry = nil
-			for __instance__ := range stage.CylinderGeometrys {
-				if stage.CylinderGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.CylinderGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "BoxGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.BoxGeometry = nil
-			for __instance__ := range stage.BoxGeometrys {
-				if stage.BoxGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.BoxGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "SphereGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.SphereGeometry = nil
-			for __instance__ := range stage.SphereGeometrys {
-				if stage.SphereGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.SphereGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "TorusGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.TorusGeometry = nil
-			for __instance__ := range stage.TorusGeometrys {
-				if stage.TorusGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.TorusGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "PlaneGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.PlaneGeometry = nil
-			for __instance__ := range stage.PlaneGeometrys {
-				if stage.PlaneGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.PlaneGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "TubeGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.TubeGeometry = nil
-			for __instance__ := range stage.TubeGeometrys {
-				if stage.TubeGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.TubeGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "ExtrudeGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.ExtrudeGeometry = nil
-			for __instance__ := range stage.ExtrudeGeometrys {
-				if stage.ExtrudeGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.ExtrudeGeometry = __instance__
-					break
-				}
-			}
-		}
-	case "BufferGeometry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			mesh.BufferGeometry = nil
-			for __instance__ := range stage.BufferGeometrys {
-				if stage.BufferGeometry_stagedOrder[__instance__] == uint(id) {
-					mesh.BufferGeometry = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (meshmaterialbasic *MeshMaterialBasic) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		meshmaterialbasic.Name = value.GetValueString()
-	case "Color":
-		meshmaterialbasic.Color = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (meshphysicalmaterial *MeshPhysicalMaterial) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		meshphysicalmaterial.Name = value.GetValueString()
-	case "Color":
-		meshphysicalmaterial.Color = value.GetValueString()
-	case "Wireframe":
-		meshphysicalmaterial.Wireframe = value.GetValueBool()
-	case "Opacity":
-		meshphysicalmaterial.Opacity = value.GetValueFloat()
-	case "Transparent":
-		meshphysicalmaterial.Transparent = value.GetValueBool()
-	case "Visible":
-		meshphysicalmaterial.Visible = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (planegeometry *PlaneGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		planegeometry.Name = value.GetValueString()
-	case "Width":
-		planegeometry.Width = value.GetValueFloat()
-	case "Height":
-		planegeometry.Height = value.GetValueFloat()
-	case "WidthSegments":
-		planegeometry.WidthSegments = int(value.GetValueInt())
-	case "HeightSegments":
-		planegeometry.HeightSegments = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (shape *Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		shape.Name = value.GetValueString()
-	case "Points":
-		shape.Points = make([]*Vector2, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Vector2s {
-					if stage.Vector2_stagedOrder[__instance__] == uint(id) {
-						shape.Points = append(shape.Points, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (spheregeometry *SphereGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		spheregeometry.Name = value.GetValueString()
-	case "Radius":
-		spheregeometry.Radius = value.GetValueFloat()
-	case "WidthSegments":
-		spheregeometry.WidthSegments = int(value.GetValueInt())
-	case "HeightSegments":
-		spheregeometry.HeightSegments = int(value.GetValueInt())
-	case "PhiStart":
-		spheregeometry.PhiStart = value.GetValueFloat()
-	case "PhiLength":
-		spheregeometry.PhiLength = value.GetValueFloat()
-	case "ThetaStart":
-		spheregeometry.ThetaStart = value.GetValueFloat()
-	case "ThetaLength":
-		spheregeometry.ThetaLength = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (torusgeometry *TorusGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		torusgeometry.Name = value.GetValueString()
-	case "Radius":
-		torusgeometry.Radius = value.GetValueFloat()
-	case "Tube":
-		torusgeometry.Tube = value.GetValueFloat()
-	case "RadialSegments":
-		torusgeometry.RadialSegments = int(value.GetValueInt())
-	case "TubularSegments":
-		torusgeometry.TubularSegments = int(value.GetValueInt())
-	case "Arc":
-		torusgeometry.Arc = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (triangle *Triangle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		triangle.Name = value.GetValueString()
-	case "V1":
-		triangle.V1 = int(value.GetValueInt())
-	case "V2":
-		triangle.V2 = int(value.GetValueInt())
-	case "V3":
-		triangle.V3 = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tubegeometry *TubeGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tubegeometry.Name = value.GetValueString()
-	case "Path":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tubegeometry.Path = nil
-			for __instance__ := range stage.Curves {
-				if stage.Curve_stagedOrder[__instance__] == uint(id) {
-					tubegeometry.Path = __instance__
-					break
-				}
-			}
-		}
-	case "TubularSegments":
-		tubegeometry.TubularSegments = int(value.GetValueInt())
-	case "Radius":
-		tubegeometry.Radius = value.GetValueFloat()
-	case "RadialSegments":
-		tubegeometry.RadialSegments = int(value.GetValueInt())
-	case "Closed":
-		tubegeometry.Closed = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (vector2 *Vector2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		vector2.Name = value.GetValueString()
-	case "X":
-		vector2.X = value.GetValueFloat()
-	case "Y":
-		vector2.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (vector3 *Vector3) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		vector3.Name = value.GetValueString()
-	case "X":
-		vector3.X = value.GetValueFloat()
-	case "Y":
-		vector3.Y = value.GetValueFloat()
-	case "Z":
-		vector3.Z = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (ambiantlight *AmbiantLight) GongGetGongstructName() string {

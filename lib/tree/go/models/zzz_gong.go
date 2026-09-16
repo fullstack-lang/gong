@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	tree_go "github.com/fullstack-lang/gong/lib/tree/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -214,9 +201,6 @@ type Stage struct {
 	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
 	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -245,8 +229,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -590,14 +572,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -701,28 +675,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/tree/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return tree_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return tree_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -841,13 +795,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Button"},
-			{name: "Menu"},
-			{name: "Node"},
-			{name: "SVGIcon"},
-			{name: "Tree"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1061,9 +1008,6 @@ func (button *Button) Commit(stage *Stage) *Button {
 	return button
 }
 
-func (button *Button) CommitVoid(stage *Stage) {
-	button.Commit(stage)
-}
 
 func (button *Button) StageVoid(stage *Stage) {
 	button.Stage(stage)
@@ -1149,9 +1093,6 @@ func (menu *Menu) Commit(stage *Stage) *Menu {
 	return menu
 }
 
-func (menu *Menu) CommitVoid(stage *Stage) {
-	menu.Commit(stage)
-}
 
 func (menu *Menu) StageVoid(stage *Stage) {
 	menu.Stage(stage)
@@ -1237,9 +1178,6 @@ func (node *Node) Commit(stage *Stage) *Node {
 	return node
 }
 
-func (node *Node) CommitVoid(stage *Stage) {
-	node.Commit(stage)
-}
 
 func (node *Node) StageVoid(stage *Stage) {
 	node.Stage(stage)
@@ -1325,9 +1263,6 @@ func (svgicon *SVGIcon) Commit(stage *Stage) *SVGIcon {
 	return svgicon
 }
 
-func (svgicon *SVGIcon) CommitVoid(stage *Stage) {
-	svgicon.Commit(stage)
-}
 
 func (svgicon *SVGIcon) StageVoid(stage *Stage) {
 	svgicon.Stage(stage)
@@ -1413,9 +1348,6 @@ func (tree *Tree) Commit(stage *Stage) *Tree {
 	return tree
 }
 
-func (tree *Tree) CommitVoid(stage *Stage) {
-	tree.Commit(stage)
-}
 
 func (tree *Tree) StageVoid(stage *Stage) {
 	tree.Stage(stage)
@@ -1439,23 +1371,6 @@ func (tree *Tree) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (tree *Tree) SetName(name string) {
 	tree.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMButton(Button *Button)
-	CreateORMMenu(Menu *Menu)
-	CreateORMNode(Node *Node)
-	CreateORMSVGIcon(SVGIcon *SVGIcon)
-	CreateORMTree(Tree *Tree)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMButton(Button *Button)
-	DeleteORMMenu(Menu *Menu)
-	DeleteORMNode(Node *Node)
-	DeleteORMSVGIcon(SVGIcon *SVGIcon)
-	DeleteORMTree(Tree *Tree)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1492,49 +1407,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Buttons = nil
-	stage.Buttons_mapString = nil
-
-	stage.Menus = nil
-	stage.Menus_mapString = nil
-
-	stage.Nodes = nil
-	stage.Nodes_mapString = nil
-
-	stage.SVGIcons = nil
-	stage.SVGIcons_mapString = nil
-
-	stage.Trees = nil
-	stage.Trees_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for button := range stage.Buttons {
-		button.Unstage(stage)
-	}
-
-	for menu := range stage.Menus {
-		menu.Unstage(stage)
-	}
-
-	for node := range stage.Nodes {
-		node.Unstage(stage)
-	}
-
-	for svgicon := range stage.SVGIcons {
-		svgicon.Unstage(stage)
-	}
-
-	for tree := range stage.Trees {
-		tree.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1552,13 +1424,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -2428,224 +2298,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		button.Name = value.GetValueString()
-	case "Icon":
-		button.Icon = value.GetValueString()
-	case "SVGIcon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			button.SVGIcon = nil
-			for __instance__ := range stage.SVGIcons {
-				if stage.SVGIcon_stagedOrder[__instance__] == uint(id) {
-					button.SVGIcon = __instance__
-					break
-				}
-			}
-		}
-	case "IsDisabled":
-		button.IsDisabled = value.GetValueBool()
-	case "HasToolTip":
-		button.HasToolTip = value.GetValueBool()
-	case "ToolTipText":
-		button.ToolTipText = value.GetValueString()
-	case "ToolTipPosition":
-		button.ToolTipPosition.FromCodeString(value.GetValueString())
-	case "ClientOnX":
-		button.ClientOnX = value.GetValueFloat()
-	case "ClientOnY":
-		button.ClientOnY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (menu *Menu) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		menu.Name = value.GetValueString()
-	case "Buttons":
-		menu.Buttons = make([]*Button, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Buttons {
-					if stage.Button_stagedOrder[__instance__] == uint(id) {
-						menu.Buttons = append(menu.Buttons, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		node.Name = value.GetValueString()
-	case "IsWithPrefix":
-		node.IsWithPrefix = value.GetValueBool()
-	case "Prefix":
-		node.Prefix = value.GetValueString()
-	case "FontStyle":
-		node.FontStyle.FromCodeString(value.GetValueString())
-	case "BackgroundColor":
-		node.BackgroundColor = value.GetValueString()
-	case "IsExpanded":
-		node.IsExpanded = value.GetValueBool()
-	case "HasCheckboxButton":
-		node.HasCheckboxButton = value.GetValueBool()
-	case "IsChecked":
-		node.IsChecked = value.GetValueBool()
-	case "IsCheckboxDisabled":
-		node.IsCheckboxDisabled = value.GetValueBool()
-	case "CheckboxHasToolTip":
-		node.CheckboxHasToolTip = value.GetValueBool()
-	case "CheckboxToolTipText":
-		node.CheckboxToolTipText = value.GetValueString()
-	case "CheckboxToolTipPosition":
-		node.CheckboxToolTipPosition.FromCodeString(value.GetValueString())
-	case "HasSecondCheckboxButton":
-		node.HasSecondCheckboxButton = value.GetValueBool()
-	case "IsSecondCheckboxChecked":
-		node.IsSecondCheckboxChecked = value.GetValueBool()
-	case "IsSecondCheckboxDisabled":
-		node.IsSecondCheckboxDisabled = value.GetValueBool()
-	case "SecondCheckboxHasToolTip":
-		node.SecondCheckboxHasToolTip = value.GetValueBool()
-	case "SecondCheckboxToolTipText":
-		node.SecondCheckboxToolTipText = value.GetValueString()
-	case "SecondCheckboxToolTipPosition":
-		node.SecondCheckboxToolTipPosition.FromCodeString(value.GetValueString())
-	case "TextAfterSecondCheckbox":
-		node.TextAfterSecondCheckbox = value.GetValueString()
-	case "HasToolTip":
-		node.HasToolTip = value.GetValueBool()
-	case "ToolTipText":
-		node.ToolTipText = value.GetValueString()
-	case "ToolTipPosition":
-		node.ToolTipPosition.FromCodeString(value.GetValueString())
-	case "ClientOnY":
-		node.ClientOnY = value.GetValueFloat()
-	case "IsInEditMode":
-		node.IsInEditMode = value.GetValueBool()
-	case "IsNodeClickable":
-		node.IsNodeClickable = value.GetValueBool()
-	case "IsWithPreceedingIcon":
-		node.IsWithPreceedingIcon = value.GetValueBool()
-	case "PreceedingIcon":
-		node.PreceedingIcon = value.GetValueString()
-	case "PreceedingSVGIcon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			node.PreceedingSVGIcon = nil
-			for __instance__ := range stage.SVGIcons {
-				if stage.SVGIcon_stagedOrder[__instance__] == uint(id) {
-					node.PreceedingSVGIcon = __instance__
-					break
-				}
-			}
-		}
-	case "Children":
-		node.Children = make([]*Node, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Nodes {
-					if stage.Node_stagedOrder[__instance__] == uint(id) {
-						node.Children = append(node.Children, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Buttons":
-		node.Buttons = make([]*Button, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Buttons {
-					if stage.Button_stagedOrder[__instance__] == uint(id) {
-						node.Buttons = append(node.Buttons, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Menu":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			node.Menu = nil
-			for __instance__ := range stage.Menus {
-				if stage.Menu_stagedOrder[__instance__] == uint(id) {
-					node.Menu = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (svgicon *SVGIcon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		svgicon.Name = value.GetValueString()
-	case "SVG":
-		svgicon.SVG = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tree *Tree) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tree.Name = value.GetValueString()
-	case "RootNodes":
-		tree.RootNodes = make([]*Node, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Nodes {
-					if stage.Node_stagedOrder[__instance__] == uint(id) {
-						tree.RootNodes = append(tree.RootNodes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "HaveSearch":
-		tree.HaveSearch = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (button *Button) GongGetGongstructName() string {

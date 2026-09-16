@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	sim_go "github.com/fullstack-lang/gong/lib/sim/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -221,9 +208,6 @@ type Stage struct {
 	OnAfterUpdateStateDeleteCallback OnAfterDeleteInterface[UpdateState]
 	OnAfterUpdateStateReadCallback   OnAfterReadInterface[UpdateState]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -252,8 +236,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -615,14 +597,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -740,28 +714,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/sim/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return sim_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return sim_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -891,14 +845,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Command"},
-			{name: "DummyAgent"},
-			{name: "Engine"},
-			{name: "Event"},
-			{name: "Status"},
-			{name: "UpdateState"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1117,9 +1063,6 @@ func (command *Command) Commit(stage *Stage) *Command {
 	return command
 }
 
-func (command *Command) CommitVoid(stage *Stage) {
-	command.Commit(stage)
-}
 
 func (command *Command) StageVoid(stage *Stage) {
 	command.Stage(stage)
@@ -1205,9 +1148,6 @@ func (dummyagent *DummyAgent) Commit(stage *Stage) *DummyAgent {
 	return dummyagent
 }
 
-func (dummyagent *DummyAgent) CommitVoid(stage *Stage) {
-	dummyagent.Commit(stage)
-}
 
 func (dummyagent *DummyAgent) StageVoid(stage *Stage) {
 	dummyagent.Stage(stage)
@@ -1293,9 +1233,6 @@ func (engine *Engine) Commit(stage *Stage) *Engine {
 	return engine
 }
 
-func (engine *Engine) CommitVoid(stage *Stage) {
-	engine.Commit(stage)
-}
 
 func (engine *Engine) StageVoid(stage *Stage) {
 	engine.Stage(stage)
@@ -1381,9 +1318,6 @@ func (event *Event) Commit(stage *Stage) *Event {
 	return event
 }
 
-func (event *Event) CommitVoid(stage *Stage) {
-	event.Commit(stage)
-}
 
 func (event *Event) StageVoid(stage *Stage) {
 	event.Stage(stage)
@@ -1469,9 +1403,6 @@ func (status *Status) Commit(stage *Stage) *Status {
 	return status
 }
 
-func (status *Status) CommitVoid(stage *Stage) {
-	status.Commit(stage)
-}
 
 func (status *Status) StageVoid(stage *Stage) {
 	status.Stage(stage)
@@ -1557,9 +1488,6 @@ func (updatestate *UpdateState) Commit(stage *Stage) *UpdateState {
 	return updatestate
 }
 
-func (updatestate *UpdateState) CommitVoid(stage *Stage) {
-	updatestate.Commit(stage)
-}
 
 func (updatestate *UpdateState) StageVoid(stage *Stage) {
 	updatestate.Stage(stage)
@@ -1583,25 +1511,6 @@ func (updatestate *UpdateState) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (updatestate *UpdateState) SetName(name string) {
 	updatestate.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMCommand(Command *Command)
-	CreateORMDummyAgent(DummyAgent *DummyAgent)
-	CreateORMEngine(Engine *Engine)
-	CreateORMEvent(Event *Event)
-	CreateORMStatus(Status *Status)
-	CreateORMUpdateState(UpdateState *UpdateState)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMCommand(Command *Command)
-	DeleteORMDummyAgent(DummyAgent *DummyAgent)
-	DeleteORMEngine(Engine *Engine)
-	DeleteORMEvent(Event *Event)
-	DeleteORMStatus(Status *Status)
-	DeleteORMUpdateState(UpdateState *UpdateState)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1643,56 +1552,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Commands = nil
-	stage.Commands_mapString = nil
-
-	stage.DummyAgents = nil
-	stage.DummyAgents_mapString = nil
-
-	stage.Engines = nil
-	stage.Engines_mapString = nil
-
-	stage.Events = nil
-	stage.Events_mapString = nil
-
-	stage.Statuss = nil
-	stage.Statuss_mapString = nil
-
-	stage.UpdateStates = nil
-	stage.UpdateStates_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for command := range stage.Commands {
-		command.Unstage(stage)
-	}
-
-	for dummyagent := range stage.DummyAgents {
-		dummyagent.Unstage(stage)
-	}
-
-	for engine := range stage.Engines {
-		engine.Unstage(stage)
-	}
-
-	for event := range stage.Events {
-		event.Unstage(stage)
-	}
-
-	for status := range stage.Statuss {
-		status.Unstage(stage)
-	}
-
-	for updatestate := range stage.UpdateStates {
-		updatestate.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1710,13 +1569,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -2438,117 +2295,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (command *Command) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		command.Name = value.GetValueString()
-	case "Command":
-		command.Command.FromCodeString(value.GetValueString())
-	case "CommandDate":
-		command.CommandDate = value.GetValueString()
-	case "Engine":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			command.Engine = nil
-			for __instance__ := range stage.Engines {
-				if stage.Engine_stagedOrder[__instance__] == uint(id) {
-					command.Engine = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dummyagent *DummyAgent) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "TechName":
-		dummyagent.TechName = value.GetValueString()
-	case "Name":
-		dummyagent.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (engine *Engine) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		engine.Name = value.GetValueString()
-	case "EndTime":
-		engine.EndTime = value.GetValueString()
-	case "CurrentTime":
-		engine.CurrentTime = value.GetValueString()
-	case "DisplayFormat":
-		engine.DisplayFormat = value.GetValueString()
-	case "SecondsSinceStart":
-		engine.SecondsSinceStart = value.GetValueFloat()
-	case "Fired":
-		engine.Fired = int(value.GetValueInt())
-	case "ControlMode":
-		engine.ControlMode.FromCodeString(value.GetValueString())
-	case "State":
-		engine.State.FromCodeString(value.GetValueString())
-	case "Speed":
-		engine.Speed = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (event *Event) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		event.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (status *Status) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		status.Name = value.GetValueString()
-	case "CurrentCommand":
-		status.CurrentCommand.FromCodeString(value.GetValueString())
-	case "CompletionDate":
-		status.CompletionDate = value.GetValueString()
-	case "CurrentSpeedCommand":
-		status.CurrentSpeedCommand.FromCodeString(value.GetValueString())
-	case "SpeedCommandCompletionDate":
-		status.SpeedCommandCompletionDate = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (updatestate *UpdateState) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		updatestate.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (command *Command) GongGetGongstructName() string {

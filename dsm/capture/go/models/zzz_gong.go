@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	capture_go "github.com/fullstack-lang/gong/dsm/capture/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -692,9 +679,6 @@ type Stage struct {
 	OnAfterToolDeleteCallback OnAfterDeleteInterface[Tool]
 	OnAfterToolReadCallback   OnAfterReadInterface[Tool]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -723,8 +707,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1500,14 +1482,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1947,28 +1921,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/capture/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return capture_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return capture_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -2351,37 +2305,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "AnalysisNeed"},
-			{name: "Concept"},
-			{name: "ConceptShape"},
-			{name: "Concern"},
-			{name: "ConcernCompositionShape"},
-			{name: "ConcernInputShape"},
-			{name: "ConcernOutputShape"},
-			{name: "ConcernShape"},
-			{name: "ControlPointShape"},
-			{name: "Deliverable"},
-			{name: "DeliverableCompositionShape"},
-			{name: "DeliverableConceptShape"},
-			{name: "DeliverableShape"},
-			{name: "Diagram"},
-			{name: "DiagramShape"},
-			{name: "Library"},
-			{name: "Note"},
-			{name: "NoteDeliverableShape"},
-			{name: "NoteShape"},
-			{name: "NoteStakeholderShape"},
-			{name: "NoteTaskShape"},
-			{name: "Requirement"},
-			{name: "RequirementShape"},
-			{name: "Stakeholder"},
-			{name: "StakeholderCompositionShape"},
-			{name: "StakeholderConcernShape"},
-			{name: "StakeholderShape"},
-			{name: "SupportLevel"},
-			{name: "Tool"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2715,9 +2638,6 @@ func (analysisneed *AnalysisNeed) Commit(stage *Stage) *AnalysisNeed {
 	return analysisneed
 }
 
-func (analysisneed *AnalysisNeed) CommitVoid(stage *Stage) {
-	analysisneed.Commit(stage)
-}
 
 func (analysisneed *AnalysisNeed) StageVoid(stage *Stage) {
 	analysisneed.Stage(stage)
@@ -2803,9 +2723,6 @@ func (concept *Concept) Commit(stage *Stage) *Concept {
 	return concept
 }
 
-func (concept *Concept) CommitVoid(stage *Stage) {
-	concept.Commit(stage)
-}
 
 func (concept *Concept) StageVoid(stage *Stage) {
 	concept.Stage(stage)
@@ -2891,9 +2808,6 @@ func (conceptshape *ConceptShape) Commit(stage *Stage) *ConceptShape {
 	return conceptshape
 }
 
-func (conceptshape *ConceptShape) CommitVoid(stage *Stage) {
-	conceptshape.Commit(stage)
-}
 
 func (conceptshape *ConceptShape) StageVoid(stage *Stage) {
 	conceptshape.Stage(stage)
@@ -2979,9 +2893,6 @@ func (concern *Concern) Commit(stage *Stage) *Concern {
 	return concern
 }
 
-func (concern *Concern) CommitVoid(stage *Stage) {
-	concern.Commit(stage)
-}
 
 func (concern *Concern) StageVoid(stage *Stage) {
 	concern.Stage(stage)
@@ -3067,9 +2978,6 @@ func (concerncompositionshape *ConcernCompositionShape) Commit(stage *Stage) *Co
 	return concerncompositionshape
 }
 
-func (concerncompositionshape *ConcernCompositionShape) CommitVoid(stage *Stage) {
-	concerncompositionshape.Commit(stage)
-}
 
 func (concerncompositionshape *ConcernCompositionShape) StageVoid(stage *Stage) {
 	concerncompositionshape.Stage(stage)
@@ -3155,9 +3063,6 @@ func (concerninputshape *ConcernInputShape) Commit(stage *Stage) *ConcernInputSh
 	return concerninputshape
 }
 
-func (concerninputshape *ConcernInputShape) CommitVoid(stage *Stage) {
-	concerninputshape.Commit(stage)
-}
 
 func (concerninputshape *ConcernInputShape) StageVoid(stage *Stage) {
 	concerninputshape.Stage(stage)
@@ -3243,9 +3148,6 @@ func (concernoutputshape *ConcernOutputShape) Commit(stage *Stage) *ConcernOutpu
 	return concernoutputshape
 }
 
-func (concernoutputshape *ConcernOutputShape) CommitVoid(stage *Stage) {
-	concernoutputshape.Commit(stage)
-}
 
 func (concernoutputshape *ConcernOutputShape) StageVoid(stage *Stage) {
 	concernoutputshape.Stage(stage)
@@ -3331,9 +3233,6 @@ func (concernshape *ConcernShape) Commit(stage *Stage) *ConcernShape {
 	return concernshape
 }
 
-func (concernshape *ConcernShape) CommitVoid(stage *Stage) {
-	concernshape.Commit(stage)
-}
 
 func (concernshape *ConcernShape) StageVoid(stage *Stage) {
 	concernshape.Stage(stage)
@@ -3419,9 +3318,6 @@ func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointSh
 	return controlpointshape
 }
 
-func (controlpointshape *ControlPointShape) CommitVoid(stage *Stage) {
-	controlpointshape.Commit(stage)
-}
 
 func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
 	controlpointshape.Stage(stage)
@@ -3507,9 +3403,6 @@ func (deliverable *Deliverable) Commit(stage *Stage) *Deliverable {
 	return deliverable
 }
 
-func (deliverable *Deliverable) CommitVoid(stage *Stage) {
-	deliverable.Commit(stage)
-}
 
 func (deliverable *Deliverable) StageVoid(stage *Stage) {
 	deliverable.Stage(stage)
@@ -3595,9 +3488,6 @@ func (deliverablecompositionshape *DeliverableCompositionShape) Commit(stage *St
 	return deliverablecompositionshape
 }
 
-func (deliverablecompositionshape *DeliverableCompositionShape) CommitVoid(stage *Stage) {
-	deliverablecompositionshape.Commit(stage)
-}
 
 func (deliverablecompositionshape *DeliverableCompositionShape) StageVoid(stage *Stage) {
 	deliverablecompositionshape.Stage(stage)
@@ -3683,9 +3573,6 @@ func (deliverableconceptshape *DeliverableConceptShape) Commit(stage *Stage) *De
 	return deliverableconceptshape
 }
 
-func (deliverableconceptshape *DeliverableConceptShape) CommitVoid(stage *Stage) {
-	deliverableconceptshape.Commit(stage)
-}
 
 func (deliverableconceptshape *DeliverableConceptShape) StageVoid(stage *Stage) {
 	deliverableconceptshape.Stage(stage)
@@ -3771,9 +3658,6 @@ func (deliverableshape *DeliverableShape) Commit(stage *Stage) *DeliverableShape
 	return deliverableshape
 }
 
-func (deliverableshape *DeliverableShape) CommitVoid(stage *Stage) {
-	deliverableshape.Commit(stage)
-}
 
 func (deliverableshape *DeliverableShape) StageVoid(stage *Stage) {
 	deliverableshape.Stage(stage)
@@ -3859,9 +3743,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-func (diagram *Diagram) CommitVoid(stage *Stage) {
-	diagram.Commit(stage)
-}
 
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
@@ -3947,9 +3828,6 @@ func (diagramshape *DiagramShape) Commit(stage *Stage) *DiagramShape {
 	return diagramshape
 }
 
-func (diagramshape *DiagramShape) CommitVoid(stage *Stage) {
-	diagramshape.Commit(stage)
-}
 
 func (diagramshape *DiagramShape) StageVoid(stage *Stage) {
 	diagramshape.Stage(stage)
@@ -4035,9 +3913,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -4123,9 +3998,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -4211,9 +4083,6 @@ func (notedeliverableshape *NoteDeliverableShape) Commit(stage *Stage) *NoteDeli
 	return notedeliverableshape
 }
 
-func (notedeliverableshape *NoteDeliverableShape) CommitVoid(stage *Stage) {
-	notedeliverableshape.Commit(stage)
-}
 
 func (notedeliverableshape *NoteDeliverableShape) StageVoid(stage *Stage) {
 	notedeliverableshape.Stage(stage)
@@ -4299,9 +4168,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *Stage) {
-	noteshape.Commit(stage)
-}
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -4387,9 +4253,6 @@ func (notestakeholdershape *NoteStakeholderShape) Commit(stage *Stage) *NoteStak
 	return notestakeholdershape
 }
 
-func (notestakeholdershape *NoteStakeholderShape) CommitVoid(stage *Stage) {
-	notestakeholdershape.Commit(stage)
-}
 
 func (notestakeholdershape *NoteStakeholderShape) StageVoid(stage *Stage) {
 	notestakeholdershape.Stage(stage)
@@ -4475,9 +4338,6 @@ func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
 	return notetaskshape
 }
 
-func (notetaskshape *NoteTaskShape) CommitVoid(stage *Stage) {
-	notetaskshape.Commit(stage)
-}
 
 func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
 	notetaskshape.Stage(stage)
@@ -4563,9 +4423,6 @@ func (requirement *Requirement) Commit(stage *Stage) *Requirement {
 	return requirement
 }
 
-func (requirement *Requirement) CommitVoid(stage *Stage) {
-	requirement.Commit(stage)
-}
 
 func (requirement *Requirement) StageVoid(stage *Stage) {
 	requirement.Stage(stage)
@@ -4651,9 +4508,6 @@ func (requirementshape *RequirementShape) Commit(stage *Stage) *RequirementShape
 	return requirementshape
 }
 
-func (requirementshape *RequirementShape) CommitVoid(stage *Stage) {
-	requirementshape.Commit(stage)
-}
 
 func (requirementshape *RequirementShape) StageVoid(stage *Stage) {
 	requirementshape.Stage(stage)
@@ -4739,9 +4593,6 @@ func (stakeholder *Stakeholder) Commit(stage *Stage) *Stakeholder {
 	return stakeholder
 }
 
-func (stakeholder *Stakeholder) CommitVoid(stage *Stage) {
-	stakeholder.Commit(stage)
-}
 
 func (stakeholder *Stakeholder) StageVoid(stage *Stage) {
 	stakeholder.Stage(stage)
@@ -4827,9 +4678,6 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) Commit(stage *St
 	return stakeholdercompositionshape
 }
 
-func (stakeholdercompositionshape *StakeholderCompositionShape) CommitVoid(stage *Stage) {
-	stakeholdercompositionshape.Commit(stage)
-}
 
 func (stakeholdercompositionshape *StakeholderCompositionShape) StageVoid(stage *Stage) {
 	stakeholdercompositionshape.Stage(stage)
@@ -4915,9 +4763,6 @@ func (stakeholderconcernshape *StakeholderConcernShape) Commit(stage *Stage) *St
 	return stakeholderconcernshape
 }
 
-func (stakeholderconcernshape *StakeholderConcernShape) CommitVoid(stage *Stage) {
-	stakeholderconcernshape.Commit(stage)
-}
 
 func (stakeholderconcernshape *StakeholderConcernShape) StageVoid(stage *Stage) {
 	stakeholderconcernshape.Stage(stage)
@@ -5003,9 +4848,6 @@ func (stakeholdershape *StakeholderShape) Commit(stage *Stage) *StakeholderShape
 	return stakeholdershape
 }
 
-func (stakeholdershape *StakeholderShape) CommitVoid(stage *Stage) {
-	stakeholdershape.Commit(stage)
-}
 
 func (stakeholdershape *StakeholderShape) StageVoid(stage *Stage) {
 	stakeholdershape.Stage(stage)
@@ -5091,9 +4933,6 @@ func (supportlevel *SupportLevel) Commit(stage *Stage) *SupportLevel {
 	return supportlevel
 }
 
-func (supportlevel *SupportLevel) CommitVoid(stage *Stage) {
-	supportlevel.Commit(stage)
-}
 
 func (supportlevel *SupportLevel) StageVoid(stage *Stage) {
 	supportlevel.Stage(stage)
@@ -5179,9 +5018,6 @@ func (tool *Tool) Commit(stage *Stage) *Tool {
 	return tool
 }
 
-func (tool *Tool) CommitVoid(stage *Stage) {
-	tool.Commit(stage)
-}
 
 func (tool *Tool) StageVoid(stage *Stage) {
 	tool.Stage(stage)
@@ -5205,71 +5041,6 @@ func (tool *Tool) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (tool *Tool) SetName(name string) {
 	tool.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAnalysisNeed(AnalysisNeed *AnalysisNeed)
-	CreateORMConcept(Concept *Concept)
-	CreateORMConceptShape(ConceptShape *ConceptShape)
-	CreateORMConcern(Concern *Concern)
-	CreateORMConcernCompositionShape(ConcernCompositionShape *ConcernCompositionShape)
-	CreateORMConcernInputShape(ConcernInputShape *ConcernInputShape)
-	CreateORMConcernOutputShape(ConcernOutputShape *ConcernOutputShape)
-	CreateORMConcernShape(ConcernShape *ConcernShape)
-	CreateORMControlPointShape(ControlPointShape *ControlPointShape)
-	CreateORMDeliverable(Deliverable *Deliverable)
-	CreateORMDeliverableCompositionShape(DeliverableCompositionShape *DeliverableCompositionShape)
-	CreateORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
-	CreateORMDeliverableShape(DeliverableShape *DeliverableShape)
-	CreateORMDiagram(Diagram *Diagram)
-	CreateORMDiagramShape(DiagramShape *DiagramShape)
-	CreateORMLibrary(Library *Library)
-	CreateORMNote(Note *Note)
-	CreateORMNoteDeliverableShape(NoteDeliverableShape *NoteDeliverableShape)
-	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMNoteStakeholderShape(NoteStakeholderShape *NoteStakeholderShape)
-	CreateORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	CreateORMRequirement(Requirement *Requirement)
-	CreateORMRequirementShape(RequirementShape *RequirementShape)
-	CreateORMStakeholder(Stakeholder *Stakeholder)
-	CreateORMStakeholderCompositionShape(StakeholderCompositionShape *StakeholderCompositionShape)
-	CreateORMStakeholderConcernShape(StakeholderConcernShape *StakeholderConcernShape)
-	CreateORMStakeholderShape(StakeholderShape *StakeholderShape)
-	CreateORMSupportLevel(SupportLevel *SupportLevel)
-	CreateORMTool(Tool *Tool)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAnalysisNeed(AnalysisNeed *AnalysisNeed)
-	DeleteORMConcept(Concept *Concept)
-	DeleteORMConceptShape(ConceptShape *ConceptShape)
-	DeleteORMConcern(Concern *Concern)
-	DeleteORMConcernCompositionShape(ConcernCompositionShape *ConcernCompositionShape)
-	DeleteORMConcernInputShape(ConcernInputShape *ConcernInputShape)
-	DeleteORMConcernOutputShape(ConcernOutputShape *ConcernOutputShape)
-	DeleteORMConcernShape(ConcernShape *ConcernShape)
-	DeleteORMControlPointShape(ControlPointShape *ControlPointShape)
-	DeleteORMDeliverable(Deliverable *Deliverable)
-	DeleteORMDeliverableCompositionShape(DeliverableCompositionShape *DeliverableCompositionShape)
-	DeleteORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
-	DeleteORMDeliverableShape(DeliverableShape *DeliverableShape)
-	DeleteORMDiagram(Diagram *Diagram)
-	DeleteORMDiagramShape(DiagramShape *DiagramShape)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMNote(Note *Note)
-	DeleteORMNoteDeliverableShape(NoteDeliverableShape *NoteDeliverableShape)
-	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMNoteStakeholderShape(NoteStakeholderShape *NoteStakeholderShape)
-	DeleteORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	DeleteORMRequirement(Requirement *Requirement)
-	DeleteORMRequirementShape(RequirementShape *RequirementShape)
-	DeleteORMStakeholder(Stakeholder *Stakeholder)
-	DeleteORMStakeholderCompositionShape(StakeholderCompositionShape *StakeholderCompositionShape)
-	DeleteORMStakeholderConcernShape(StakeholderConcernShape *StakeholderConcernShape)
-	DeleteORMStakeholderShape(StakeholderShape *StakeholderShape)
-	DeleteORMSupportLevel(SupportLevel *SupportLevel)
-	DeleteORMTool(Tool *Tool)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -5426,217 +5197,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.AnalysisNeeds = nil
-	stage.AnalysisNeeds_mapString = nil
-
-	stage.Concepts = nil
-	stage.Concepts_mapString = nil
-
-	stage.ConceptShapes = nil
-	stage.ConceptShapes_mapString = nil
-
-	stage.Concerns = nil
-	stage.Concerns_mapString = nil
-
-	stage.ConcernCompositionShapes = nil
-	stage.ConcernCompositionShapes_mapString = nil
-
-	stage.ConcernInputShapes = nil
-	stage.ConcernInputShapes_mapString = nil
-
-	stage.ConcernOutputShapes = nil
-	stage.ConcernOutputShapes_mapString = nil
-
-	stage.ConcernShapes = nil
-	stage.ConcernShapes_mapString = nil
-
-	stage.ControlPointShapes = nil
-	stage.ControlPointShapes_mapString = nil
-
-	stage.Deliverables = nil
-	stage.Deliverables_mapString = nil
-
-	stage.DeliverableCompositionShapes = nil
-	stage.DeliverableCompositionShapes_mapString = nil
-
-	stage.DeliverableConceptShapes = nil
-	stage.DeliverableConceptShapes_mapString = nil
-
-	stage.DeliverableShapes = nil
-	stage.DeliverableShapes_mapString = nil
-
-	stage.Diagrams = nil
-	stage.Diagrams_mapString = nil
-
-	stage.DiagramShapes = nil
-	stage.DiagramShapes_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.NoteDeliverableShapes = nil
-	stage.NoteDeliverableShapes_mapString = nil
-
-	stage.NoteShapes = nil
-	stage.NoteShapes_mapString = nil
-
-	stage.NoteStakeholderShapes = nil
-	stage.NoteStakeholderShapes_mapString = nil
-
-	stage.NoteTaskShapes = nil
-	stage.NoteTaskShapes_mapString = nil
-
-	stage.Requirements = nil
-	stage.Requirements_mapString = nil
-
-	stage.RequirementShapes = nil
-	stage.RequirementShapes_mapString = nil
-
-	stage.Stakeholders = nil
-	stage.Stakeholders_mapString = nil
-
-	stage.StakeholderCompositionShapes = nil
-	stage.StakeholderCompositionShapes_mapString = nil
-
-	stage.StakeholderConcernShapes = nil
-	stage.StakeholderConcernShapes_mapString = nil
-
-	stage.StakeholderShapes = nil
-	stage.StakeholderShapes_mapString = nil
-
-	stage.SupportLevels = nil
-	stage.SupportLevels_mapString = nil
-
-	stage.Tools = nil
-	stage.Tools_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for analysisneed := range stage.AnalysisNeeds {
-		analysisneed.Unstage(stage)
-	}
-
-	for concept := range stage.Concepts {
-		concept.Unstage(stage)
-	}
-
-	for conceptshape := range stage.ConceptShapes {
-		conceptshape.Unstage(stage)
-	}
-
-	for concern := range stage.Concerns {
-		concern.Unstage(stage)
-	}
-
-	for concerncompositionshape := range stage.ConcernCompositionShapes {
-		concerncompositionshape.Unstage(stage)
-	}
-
-	for concerninputshape := range stage.ConcernInputShapes {
-		concerninputshape.Unstage(stage)
-	}
-
-	for concernoutputshape := range stage.ConcernOutputShapes {
-		concernoutputshape.Unstage(stage)
-	}
-
-	for concernshape := range stage.ConcernShapes {
-		concernshape.Unstage(stage)
-	}
-
-	for controlpointshape := range stage.ControlPointShapes {
-		controlpointshape.Unstage(stage)
-	}
-
-	for deliverable := range stage.Deliverables {
-		deliverable.Unstage(stage)
-	}
-
-	for deliverablecompositionshape := range stage.DeliverableCompositionShapes {
-		deliverablecompositionshape.Unstage(stage)
-	}
-
-	for deliverableconceptshape := range stage.DeliverableConceptShapes {
-		deliverableconceptshape.Unstage(stage)
-	}
-
-	for deliverableshape := range stage.DeliverableShapes {
-		deliverableshape.Unstage(stage)
-	}
-
-	for diagram := range stage.Diagrams {
-		diagram.Unstage(stage)
-	}
-
-	for diagramshape := range stage.DiagramShapes {
-		diagramshape.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for notedeliverableshape := range stage.NoteDeliverableShapes {
-		notedeliverableshape.Unstage(stage)
-	}
-
-	for noteshape := range stage.NoteShapes {
-		noteshape.Unstage(stage)
-	}
-
-	for notestakeholdershape := range stage.NoteStakeholderShapes {
-		notestakeholdershape.Unstage(stage)
-	}
-
-	for notetaskshape := range stage.NoteTaskShapes {
-		notetaskshape.Unstage(stage)
-	}
-
-	for requirement := range stage.Requirements {
-		requirement.Unstage(stage)
-	}
-
-	for requirementshape := range stage.RequirementShapes {
-		requirementshape.Unstage(stage)
-	}
-
-	for stakeholder := range stage.Stakeholders {
-		stakeholder.Unstage(stage)
-	}
-
-	for stakeholdercompositionshape := range stage.StakeholderCompositionShapes {
-		stakeholdercompositionshape.Unstage(stage)
-	}
-
-	for stakeholderconcernshape := range stage.StakeholderConcernShapes {
-		stakeholderconcernshape.Unstage(stage)
-	}
-
-	for stakeholdershape := range stage.StakeholderShapes {
-		stakeholdershape.Unstage(stage)
-	}
-
-	for supportlevel := range stage.SupportLevels {
-		supportlevel.Unstage(stage)
-	}
-
-	for tool := range stage.Tools {
-		tool.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -5654,13 +5214,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -10794,1788 +10352,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (analysisneed *AnalysisNeed) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		analysisneed.Name = value.GetValueString()
-	case "ComputedPrefix":
-		analysisneed.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		analysisneed.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (concept *Concept) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		concept.Name = value.GetValueString()
-	case "ComputedPrefix":
-		concept.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		concept.IsExpanded = value.GetValueBool()
-	case "Tools":
-		concept.Tools = make([]*Tool, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tools {
-					if stage.Tool_stagedOrder[__instance__] == uint(id) {
-						concept.Tools = append(concept.Tools, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (conceptshape *ConceptShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		conceptshape.Name = value.GetValueString()
-	case "Concept":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			conceptshape.Concept = nil
-			for __instance__ := range stage.Concepts {
-				if stage.Concept_stagedOrder[__instance__] == uint(id) {
-					conceptshape.Concept = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		conceptshape.IsExpanded = value.GetValueBool()
-	case "X":
-		conceptshape.X = value.GetValueFloat()
-	case "Y":
-		conceptshape.Y = value.GetValueFloat()
-	case "Width":
-		conceptshape.Width = value.GetValueFloat()
-	case "Height":
-		conceptshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		conceptshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (concern *Concern) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		concern.Name = value.GetValueString()
-	case "IDAirbus":
-		concern.IDAirbus = value.GetValueString()
-	case "Priority":
-		concern.Priority.FromCodeString(value.GetValueString())
-	case "ComputedPrefix":
-		concern.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		concern.IsExpanded = value.GetValueBool()
-	case "Description":
-		concern.Description = value.GetValueString()
-	case "SubConcerns":
-		concern.SubConcerns = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						concern.SubConcerns = append(concern.SubConcerns, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Inputs":
-		concern.Inputs = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						concern.Inputs = append(concern.Inputs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsInputsNodeExpanded":
-		concern.IsInputsNodeExpanded = value.GetValueBool()
-	case "Outputs":
-		concern.Outputs = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						concern.Outputs = append(concern.Outputs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsOutputsNodeExpanded":
-		concern.IsOutputsNodeExpanded = value.GetValueBool()
-	case "IsWithCompletion":
-		concern.IsWithCompletion = value.GetValueBool()
-	case "Completion":
-		concern.Completion.FromCodeString(value.GetValueString())
-	case "Requirements":
-		concern.Requirements = make([]*Requirement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Requirements {
-					if stage.Requirement_stagedOrder[__instance__] == uint(id) {
-						concern.Requirements = append(concern.Requirements, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (concerncompositionshape *ConcernCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		concerncompositionshape.Name = value.GetValueString()
-	case "Concern":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concerncompositionshape.Concern = nil
-			for __instance__ := range stage.Concerns {
-				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					concerncompositionshape.Concern = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		concerncompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		concerncompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		concerncompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		concerncompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		concerncompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		concerncompositionshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		concerncompositionshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						concerncompositionshape.ControlPointShapes = append(concerncompositionshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (concerninputshape *ConcernInputShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		concerninputshape.Name = value.GetValueString()
-	case "Deliverable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concerninputshape.Deliverable = nil
-			for __instance__ := range stage.Deliverables {
-				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-					concerninputshape.Deliverable = __instance__
-					break
-				}
-			}
-		}
-	case "Concern":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concerninputshape.Concern = nil
-			for __instance__ := range stage.Concerns {
-				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					concerninputshape.Concern = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		concerninputshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		concerninputshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		concerninputshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		concerninputshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		concerninputshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		concerninputshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		concerninputshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						concerninputshape.ControlPointShapes = append(concerninputshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (concernoutputshape *ConcernOutputShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		concernoutputshape.Name = value.GetValueString()
-	case "Concern":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concernoutputshape.Concern = nil
-			for __instance__ := range stage.Concerns {
-				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					concernoutputshape.Concern = __instance__
-					break
-				}
-			}
-		}
-	case "Deliverable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concernoutputshape.Deliverable = nil
-			for __instance__ := range stage.Deliverables {
-				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-					concernoutputshape.Deliverable = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		concernoutputshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		concernoutputshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		concernoutputshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		concernoutputshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		concernoutputshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		concernoutputshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		concernoutputshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						concernoutputshape.ControlPointShapes = append(concernoutputshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (concernshape *ConcernShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		concernshape.Name = value.GetValueString()
-	case "Concern":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concernshape.Concern = nil
-			for __instance__ := range stage.Concerns {
-				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					concernshape.Concern = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		concernshape.IsExpanded = value.GetValueBool()
-	case "X":
-		concernshape.X = value.GetValueFloat()
-	case "Y":
-		concernshape.Y = value.GetValueFloat()
-	case "Width":
-		concernshape.Width = value.GetValueFloat()
-	case "Height":
-		concernshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		concernshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlpointshape *ControlPointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlpointshape.Name = value.GetValueString()
-	case "X_Relative":
-		controlpointshape.X_Relative = value.GetValueFloat()
-	case "Y_Relative":
-		controlpointshape.Y_Relative = value.GetValueFloat()
-	case "IsStartShapeTheClosestShape":
-		controlpointshape.IsStartShapeTheClosestShape = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (deliverable *Deliverable) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		deliverable.Name = value.GetValueString()
-	case "ComputedPrefix":
-		deliverable.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		deliverable.IsExpanded = value.GetValueBool()
-	case "Description":
-		deliverable.Description = value.GetValueString()
-	case "SubDeliverables":
-		deliverable.SubDeliverables = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						deliverable.SubDeliverables = append(deliverable.SubDeliverables, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsProducersNodeExpanded":
-		deliverable.IsProducersNodeExpanded = value.GetValueBool()
-	case "IsConsumersNodeExpanded":
-		deliverable.IsConsumersNodeExpanded = value.GetValueBool()
-	case "Concepts":
-		deliverable.Concepts = make([]*Concept, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concepts {
-					if stage.Concept_stagedOrder[__instance__] == uint(id) {
-						deliverable.Concepts = append(deliverable.Concepts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (deliverablecompositionshape *DeliverableCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		deliverablecompositionshape.Name = value.GetValueString()
-	case "Deliverable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			deliverablecompositionshape.Deliverable = nil
-			for __instance__ := range stage.Deliverables {
-				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-					deliverablecompositionshape.Deliverable = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		deliverablecompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		deliverablecompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		deliverablecompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		deliverablecompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		deliverablecompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		deliverablecompositionshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		deliverablecompositionshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						deliverablecompositionshape.ControlPointShapes = append(deliverablecompositionshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (deliverableconceptshape *DeliverableConceptShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		deliverableconceptshape.Name = value.GetValueString()
-	case "Deliverable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			deliverableconceptshape.Deliverable = nil
-			for __instance__ := range stage.Deliverables {
-				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-					deliverableconceptshape.Deliverable = __instance__
-					break
-				}
-			}
-		}
-	case "Concept":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			deliverableconceptshape.Concept = nil
-			for __instance__ := range stage.Concepts {
-				if stage.Concept_stagedOrder[__instance__] == uint(id) {
-					deliverableconceptshape.Concept = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		deliverableconceptshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		deliverableconceptshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		deliverableconceptshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		deliverableconceptshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		deliverableconceptshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		deliverableconceptshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		deliverableconceptshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						deliverableconceptshape.ControlPointShapes = append(deliverableconceptshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (deliverableshape *DeliverableShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		deliverableshape.Name = value.GetValueString()
-	case "Deliverable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			deliverableshape.Deliverable = nil
-			for __instance__ := range stage.Deliverables {
-				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-					deliverableshape.Deliverable = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		deliverableshape.IsExpanded = value.GetValueBool()
-	case "X":
-		deliverableshape.X = value.GetValueFloat()
-	case "Y":
-		deliverableshape.Y = value.GetValueFloat()
-	case "Width":
-		deliverableshape.Width = value.GetValueFloat()
-	case "Height":
-		deliverableshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		deliverableshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagram.Name = value.GetValueString()
-	case "ComputedPrefix":
-		diagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
-	case "IsEditable_":
-		diagram.IsEditable_ = value.GetValueBool()
-	case "ShowPrefix":
-		diagram.ShowPrefix = value.GetValueBool()
-	case "DefaultBoxWidth":
-		diagram.DefaultBoxWidth = value.GetValueFloat()
-	case "DefaultBoxHeigth":
-		diagram.DefaultBoxHeigth = value.GetValueFloat()
-	case "Width":
-		diagram.Width = value.GetValueFloat()
-	case "Height":
-		diagram.Height = value.GetValueFloat()
-	case "ConcernsWhoseRequirementsNodeIsExpanded":
-		diagram.ConcernsWhoseRequirementsNodeIsExpanded = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernsWhoseRequirementsNodeIsExpanded = append(diagram.ConcernsWhoseRequirementsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsRequirementsNodeExpanded":
-		diagram.IsRequirementsNodeExpanded = value.GetValueBool()
-	case "IsConceptsNodeExpanded":
-		diagram.IsConceptsNodeExpanded = value.GetValueBool()
-	case "Deliverable_Shapes":
-		diagram.Deliverable_Shapes = make([]*DeliverableShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DeliverableShapes {
-					if stage.DeliverableShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Deliverable_Shapes = append(diagram.Deliverable_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DeliverablesWhoseNodeIsExpanded":
-		diagram.DeliverablesWhoseNodeIsExpanded = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						diagram.DeliverablesWhoseNodeIsExpanded = append(diagram.DeliverablesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DeliverablesWhoseConceptsNodeIsExpanded":
-		diagram.DeliverablesWhoseConceptsNodeIsExpanded = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						diagram.DeliverablesWhoseConceptsNodeIsExpanded = append(diagram.DeliverablesWhoseConceptsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPBSNodeExpanded":
-		diagram.IsPBSNodeExpanded = value.GetValueBool()
-	case "DeliverableComposition_Shapes":
-		diagram.DeliverableComposition_Shapes = make([]*DeliverableCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DeliverableCompositionShapes {
-					if stage.DeliverableCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.DeliverableComposition_Shapes = append(diagram.DeliverableComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsConcernsNodeExpanded":
-		diagram.IsConcernsNodeExpanded = value.GetValueBool()
-	case "Concern_Shapes":
-		diagram.Concern_Shapes = make([]*ConcernShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ConcernShapes {
-					if stage.ConcernShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Concern_Shapes = append(diagram.Concern_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernsWhoseNodeIsExpanded":
-		diagram.ConcernsWhoseNodeIsExpanded = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernsWhoseNodeIsExpanded = append(diagram.ConcernsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernsWhoseInputNodeIsExpanded":
-		diagram.ConcernsWhoseInputNodeIsExpanded = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernsWhoseInputNodeIsExpanded = append(diagram.ConcernsWhoseInputNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernsWhoseStakeholderNodeIsExpanded":
-		diagram.ConcernsWhoseStakeholderNodeIsExpanded = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernsWhoseStakeholderNodeIsExpanded = append(diagram.ConcernsWhoseStakeholderNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernssWhoseOutputNodeIsExpanded":
-		diagram.ConcernssWhoseOutputNodeIsExpanded = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernssWhoseOutputNodeIsExpanded = append(diagram.ConcernssWhoseOutputNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernComposition_Shapes":
-		diagram.ConcernComposition_Shapes = make([]*ConcernCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ConcernCompositionShapes {
-					if stage.ConcernCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernComposition_Shapes = append(diagram.ConcernComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernInputShapes":
-		diagram.ConcernInputShapes = make([]*ConcernInputShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ConcernInputShapes {
-					if stage.ConcernInputShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernInputShapes = append(diagram.ConcernInputShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConcernOutputShapes":
-		diagram.ConcernOutputShapes = make([]*ConcernOutputShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ConcernOutputShapes {
-					if stage.ConcernOutputShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ConcernOutputShapes = append(diagram.ConcernOutputShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Note_Shapes":
-		diagram.Note_Shapes = make([]*NoteShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Note_Shapes = append(diagram.Note_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NotesWhoseNodeIsExpanded":
-		diagram.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagram.NotesWhoseNodeIsExpanded = append(diagram.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		diagram.IsNotesNodeExpanded = value.GetValueBool()
-	case "NoteDeliverableShapes":
-		diagram.NoteDeliverableShapes = make([]*NoteDeliverableShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteDeliverableShapes {
-					if stage.NoteDeliverableShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteDeliverableShapes = append(diagram.NoteDeliverableShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteTaskShapes":
-		diagram.NoteTaskShapes = make([]*NoteTaskShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteTaskShapes {
-					if stage.NoteTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteTaskShapes = append(diagram.NoteTaskShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteResourceShapes":
-		diagram.NoteResourceShapes = make([]*NoteStakeholderShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteStakeholderShapes {
-					if stage.NoteStakeholderShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteResourceShapes = append(diagram.NoteResourceShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Stakeholder_Shapes":
-		diagram.Stakeholder_Shapes = make([]*StakeholderShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StakeholderShapes {
-					if stage.StakeholderShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Stakeholder_Shapes = append(diagram.Stakeholder_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ResourcesWhoseNodeIsExpanded":
-		diagram.ResourcesWhoseNodeIsExpanded = make([]*Stakeholder, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Stakeholders {
-					if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourcesWhoseNodeIsExpanded = append(diagram.ResourcesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsStakeholdersNodeExpanded":
-		diagram.IsStakeholdersNodeExpanded = value.GetValueBool()
-	case "ResourceComposition_Shapes":
-		diagram.ResourceComposition_Shapes = make([]*StakeholderCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StakeholderCompositionShapes {
-					if stage.StakeholderCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourceComposition_Shapes = append(diagram.ResourceComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "StakeholderConcernShapes":
-		diagram.StakeholderConcernShapes = make([]*StakeholderConcernShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StakeholderConcernShapes {
-					if stage.StakeholderConcernShape_stagedOrder[__instance__] == uint(id) {
-						diagram.StakeholderConcernShapes = append(diagram.StakeholderConcernShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Requirement_Shapes":
-		diagram.Requirement_Shapes = make([]*RequirementShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RequirementShapes {
-					if stage.RequirementShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Requirement_Shapes = append(diagram.Requirement_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RequirementsWhoseNodeIsExpanded":
-		diagram.RequirementsWhoseNodeIsExpanded = make([]*Requirement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Requirements {
-					if stage.Requirement_stagedOrder[__instance__] == uint(id) {
-						diagram.RequirementsWhoseNodeIsExpanded = append(diagram.RequirementsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Concept_Shapes":
-		diagram.Concept_Shapes = make([]*ConceptShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ConceptShapes {
-					if stage.ConceptShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Concept_Shapes = append(diagram.Concept_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConceptsWhoseNodeIsExpanded":
-		diagram.ConceptsWhoseNodeIsExpanded = make([]*Concept, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concepts {
-					if stage.Concept_stagedOrder[__instance__] == uint(id) {
-						diagram.ConceptsWhoseNodeIsExpanded = append(diagram.ConceptsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ConceptsWhoseDeliverablesNodeIsExpanded":
-		diagram.ConceptsWhoseDeliverablesNodeIsExpanded = make([]*Concept, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concepts {
-					if stage.Concept_stagedOrder[__instance__] == uint(id) {
-						diagram.ConceptsWhoseDeliverablesNodeIsExpanded = append(diagram.ConceptsWhoseDeliverablesNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DeliverableConceptShapes":
-		diagram.DeliverableConceptShapes = make([]*DeliverableConceptShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DeliverableConceptShapes {
-					if stage.DeliverableConceptShape_stagedOrder[__instance__] == uint(id) {
-						diagram.DeliverableConceptShapes = append(diagram.DeliverableConceptShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Diagram_Shapes":
-		diagram.Diagram_Shapes = make([]*DiagramShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramShapes {
-					if stage.DiagramShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Diagram_Shapes = append(diagram.Diagram_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDiagramsNodeExpanded":
-		diagram.IsDiagramsNodeExpanded = value.GetValueBool()
-	case "DiagramsWhoseNodeIsExpanded":
-		diagram.DiagramsWhoseNodeIsExpanded = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						diagram.DiagramsWhoseNodeIsExpanded = append(diagram.DiagramsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagramshape *DiagramShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagramshape.Name = value.GetValueString()
-	case "Diagram":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			diagramshape.Diagram = nil
-			for __instance__ := range stage.Diagrams {
-				if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-					diagramshape.Diagram = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		diagramshape.IsExpanded = value.GetValueBool()
-	case "X":
-		diagramshape.X = value.GetValueFloat()
-	case "Y":
-		diagramshape.Y = value.GetValueFloat()
-	case "Width":
-		diagramshape.Width = value.GetValueFloat()
-	case "Height":
-		diagramshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		diagramshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "RootDeliverables":
-		library.RootDeliverables = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						library.RootDeliverables = append(library.RootDeliverables, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootConcerns":
-		library.RootConcerns = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						library.RootConcerns = append(library.RootConcerns, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootStakeholders":
-		library.RootStakeholders = make([]*Stakeholder, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Stakeholders {
-					if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-						library.RootStakeholders = append(library.RootStakeholders, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootRequirements":
-		library.RootRequirements = make([]*Requirement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Requirements {
-					if stage.Requirement_stagedOrder[__instance__] == uint(id) {
-						library.RootRequirements = append(library.RootRequirements, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootConcepts":
-		library.RootConcepts = make([]*Concept, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concepts {
-					if stage.Concept_stagedOrder[__instance__] == uint(id) {
-						library.RootConcepts = append(library.RootConcepts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AnalysisNeeds":
-		library.AnalysisNeeds = make([]*AnalysisNeed, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AnalysisNeeds {
-					if stage.AnalysisNeed_stagedOrder[__instance__] == uint(id) {
-						library.AnalysisNeeds = append(library.AnalysisNeeds, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Notes":
-		library.Notes = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.Notes = append(library.Notes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Diagrams":
-		library.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						library.Diagrams = append(library.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "Deliverables":
-		note.Deliverables = make([]*Deliverable, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Deliverables {
-					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-						note.Deliverables = append(note.Deliverables, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tasks":
-		note.Tasks = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						note.Tasks = append(note.Tasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Resources":
-		note.Resources = make([]*Stakeholder, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Stakeholders {
-					if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-						note.Resources = append(note.Resources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notedeliverableshape *NoteDeliverableShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notedeliverableshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notedeliverableshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notedeliverableshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Deliverable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notedeliverableshape.Deliverable = nil
-			for __instance__ := range stage.Deliverables {
-				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
-					notedeliverableshape.Deliverable = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notedeliverableshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notedeliverableshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notedeliverableshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notedeliverableshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notedeliverableshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notedeliverableshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		notedeliverableshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						notedeliverableshape.ControlPointShapes = append(notedeliverableshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		noteshape.IsExpanded = value.GetValueBool()
-	case "X":
-		noteshape.X = value.GetValueFloat()
-	case "Y":
-		noteshape.Y = value.GetValueFloat()
-	case "Width":
-		noteshape.Width = value.GetValueFloat()
-	case "Height":
-		noteshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		noteshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notestakeholdershape *NoteStakeholderShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notestakeholdershape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notestakeholdershape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notestakeholdershape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Stakeholder":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notestakeholdershape.Stakeholder = nil
-			for __instance__ := range stage.Stakeholders {
-				if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-					notestakeholdershape.Stakeholder = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notestakeholdershape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notestakeholdershape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notestakeholdershape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notestakeholdershape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notestakeholdershape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notestakeholdershape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		notestakeholdershape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						notestakeholdershape.ControlPointShapes = append(notestakeholdershape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notetaskshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Task = nil
-			for __instance__ := range stage.Concerns {
-				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notetaskshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notetaskshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notetaskshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notetaskshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notetaskshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notetaskshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		notetaskshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						notetaskshape.ControlPointShapes = append(notetaskshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (requirement *Requirement) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		requirement.Name = value.GetValueString()
-	case "ComputedPrefix":
-		requirement.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		requirement.IsExpanded = value.GetValueBool()
-	case "SupportLevels":
-		requirement.SupportLevels = make([]*SupportLevel, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SupportLevels {
-					if stage.SupportLevel_stagedOrder[__instance__] == uint(id) {
-						requirement.SupportLevels = append(requirement.SupportLevels, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Concepts":
-		requirement.Concepts = make([]*Concept, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concepts {
-					if stage.Concept_stagedOrder[__instance__] == uint(id) {
-						requirement.Concepts = append(requirement.Concepts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (requirementshape *RequirementShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		requirementshape.Name = value.GetValueString()
-	case "Requirement":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			requirementshape.Requirement = nil
-			for __instance__ := range stage.Requirements {
-				if stage.Requirement_stagedOrder[__instance__] == uint(id) {
-					requirementshape.Requirement = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		requirementshape.IsExpanded = value.GetValueBool()
-	case "X":
-		requirementshape.X = value.GetValueFloat()
-	case "Y":
-		requirementshape.Y = value.GetValueFloat()
-	case "Width":
-		requirementshape.Width = value.GetValueFloat()
-	case "Height":
-		requirementshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		requirementshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stakeholder *Stakeholder) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stakeholder.Name = value.GetValueString()
-	case "IDAirbus":
-		stakeholder.IDAirbus = value.GetValueString()
-	case "ComputedPrefix":
-		stakeholder.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		stakeholder.IsExpanded = value.GetValueBool()
-	case "Description":
-		stakeholder.Description = value.GetValueString()
-	case "Concerns":
-		stakeholder.Concerns = make([]*Concern, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Concerns {
-					if stage.Concern_stagedOrder[__instance__] == uint(id) {
-						stakeholder.Concerns = append(stakeholder.Concerns, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubStakeholders":
-		stakeholder.SubStakeholders = make([]*Stakeholder, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Stakeholders {
-					if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-						stakeholder.SubStakeholders = append(stakeholder.SubStakeholders, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stakeholdercompositionshape *StakeholderCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stakeholdercompositionshape.Name = value.GetValueString()
-	case "Stakeholder":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stakeholdercompositionshape.Stakeholder = nil
-			for __instance__ := range stage.Stakeholders {
-				if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-					stakeholdercompositionshape.Stakeholder = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		stakeholdercompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		stakeholdercompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		stakeholdercompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		stakeholdercompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		stakeholdercompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		stakeholdercompositionshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		stakeholdercompositionshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						stakeholdercompositionshape.ControlPointShapes = append(stakeholdercompositionshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stakeholderconcernshape *StakeholderConcernShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stakeholderconcernshape.Name = value.GetValueString()
-	case "Stakeholder":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stakeholderconcernshape.Stakeholder = nil
-			for __instance__ := range stage.Stakeholders {
-				if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-					stakeholderconcernshape.Stakeholder = __instance__
-					break
-				}
-			}
-		}
-	case "Concern":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stakeholderconcernshape.Concern = nil
-			for __instance__ := range stage.Concerns {
-				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					stakeholderconcernshape.Concern = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		stakeholderconcernshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		stakeholderconcernshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		stakeholderconcernshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		stakeholderconcernshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		stakeholderconcernshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		stakeholderconcernshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		stakeholderconcernshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						stakeholderconcernshape.ControlPointShapes = append(stakeholderconcernshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stakeholdershape *StakeholderShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stakeholdershape.Name = value.GetValueString()
-	case "Stakeholder":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stakeholdershape.Stakeholder = nil
-			for __instance__ := range stage.Stakeholders {
-				if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
-					stakeholdershape.Stakeholder = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		stakeholdershape.IsExpanded = value.GetValueBool()
-	case "X":
-		stakeholdershape.X = value.GetValueFloat()
-	case "Y":
-		stakeholdershape.Y = value.GetValueFloat()
-	case "Width":
-		stakeholdershape.Width = value.GetValueFloat()
-	case "Height":
-		stakeholdershape.Height = value.GetValueFloat()
-	case "IsHidden":
-		stakeholdershape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (supportlevel *SupportLevel) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		supportlevel.Name = value.GetValueString()
-	case "Tool":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			supportlevel.Tool = nil
-			for __instance__ := range stage.Tools {
-				if stage.Tool_stagedOrder[__instance__] == uint(id) {
-					supportlevel.Tool = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tool *Tool) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tool.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (analysisneed *AnalysisNeed) GongGetGongstructName() string {

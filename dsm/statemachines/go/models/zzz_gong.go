@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	statemachines_go "github.com/fullstack-lang/gong/dsm/statemachines/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -445,9 +432,6 @@ type Stage struct {
 	OnAfterTransition_ShapeDeleteCallback OnAfterDeleteInterface[Transition_Shape]
 	OnAfterTransition_ShapeReadCallback   OnAfterReadInterface[Transition_Shape]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -476,8 +460,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1055,14 +1037,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1348,28 +1322,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/statemachines/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return statemachines_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return statemachines_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1631,26 +1585,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Action"},
-			{name: "Activities"},
-			{name: "Diagram"},
-			{name: "Guard"},
-			{name: "Kill"},
-			{name: "Library"},
-			{name: "Message"},
-			{name: "MessageType"},
-			{name: "Note"},
-			{name: "NoteShape"},
-			{name: "NoteStateShape"},
-			{name: "Object"},
-			{name: "Role"},
-			{name: "State"},
-			{name: "StateMachine"},
-			{name: "StateShape"},
-			{name: "Transition"},
-			{name: "Transition_Shape"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1929,9 +1863,6 @@ func (action *Action) Commit(stage *Stage) *Action {
 	return action
 }
 
-func (action *Action) CommitVoid(stage *Stage) {
-	action.Commit(stage)
-}
 
 func (action *Action) StageVoid(stage *Stage) {
 	action.Stage(stage)
@@ -2017,9 +1948,6 @@ func (activities *Activities) Commit(stage *Stage) *Activities {
 	return activities
 }
 
-func (activities *Activities) CommitVoid(stage *Stage) {
-	activities.Commit(stage)
-}
 
 func (activities *Activities) StageVoid(stage *Stage) {
 	activities.Stage(stage)
@@ -2105,9 +2033,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-func (diagram *Diagram) CommitVoid(stage *Stage) {
-	diagram.Commit(stage)
-}
 
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
@@ -2193,9 +2118,6 @@ func (guard *Guard) Commit(stage *Stage) *Guard {
 	return guard
 }
 
-func (guard *Guard) CommitVoid(stage *Stage) {
-	guard.Commit(stage)
-}
 
 func (guard *Guard) StageVoid(stage *Stage) {
 	guard.Stage(stage)
@@ -2281,9 +2203,6 @@ func (kill *Kill) Commit(stage *Stage) *Kill {
 	return kill
 }
 
-func (kill *Kill) CommitVoid(stage *Stage) {
-	kill.Commit(stage)
-}
 
 func (kill *Kill) StageVoid(stage *Stage) {
 	kill.Stage(stage)
@@ -2369,9 +2288,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2457,9 +2373,6 @@ func (message *Message) Commit(stage *Stage) *Message {
 	return message
 }
 
-func (message *Message) CommitVoid(stage *Stage) {
-	message.Commit(stage)
-}
 
 func (message *Message) StageVoid(stage *Stage) {
 	message.Stage(stage)
@@ -2545,9 +2458,6 @@ func (messagetype *MessageType) Commit(stage *Stage) *MessageType {
 	return messagetype
 }
 
-func (messagetype *MessageType) CommitVoid(stage *Stage) {
-	messagetype.Commit(stage)
-}
 
 func (messagetype *MessageType) StageVoid(stage *Stage) {
 	messagetype.Stage(stage)
@@ -2633,9 +2543,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -2721,9 +2628,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *Stage) {
-	noteshape.Commit(stage)
-}
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -2809,9 +2713,6 @@ func (notestateshape *NoteStateShape) Commit(stage *Stage) *NoteStateShape {
 	return notestateshape
 }
 
-func (notestateshape *NoteStateShape) CommitVoid(stage *Stage) {
-	notestateshape.Commit(stage)
-}
 
 func (notestateshape *NoteStateShape) StageVoid(stage *Stage) {
 	notestateshape.Stage(stage)
@@ -2897,9 +2798,6 @@ func (object *Object) Commit(stage *Stage) *Object {
 	return object
 }
 
-func (object *Object) CommitVoid(stage *Stage) {
-	object.Commit(stage)
-}
 
 func (object *Object) StageVoid(stage *Stage) {
 	object.Stage(stage)
@@ -2985,9 +2883,6 @@ func (role *Role) Commit(stage *Stage) *Role {
 	return role
 }
 
-func (role *Role) CommitVoid(stage *Stage) {
-	role.Commit(stage)
-}
 
 func (role *Role) StageVoid(stage *Stage) {
 	role.Stage(stage)
@@ -3073,9 +2968,6 @@ func (state *State) Commit(stage *Stage) *State {
 	return state
 }
 
-func (state *State) CommitVoid(stage *Stage) {
-	state.Commit(stage)
-}
 
 func (state *State) StageVoid(stage *Stage) {
 	state.Stage(stage)
@@ -3161,9 +3053,6 @@ func (statemachine *StateMachine) Commit(stage *Stage) *StateMachine {
 	return statemachine
 }
 
-func (statemachine *StateMachine) CommitVoid(stage *Stage) {
-	statemachine.Commit(stage)
-}
 
 func (statemachine *StateMachine) StageVoid(stage *Stage) {
 	statemachine.Stage(stage)
@@ -3249,9 +3138,6 @@ func (stateshape *StateShape) Commit(stage *Stage) *StateShape {
 	return stateshape
 }
 
-func (stateshape *StateShape) CommitVoid(stage *Stage) {
-	stateshape.Commit(stage)
-}
 
 func (stateshape *StateShape) StageVoid(stage *Stage) {
 	stateshape.Stage(stage)
@@ -3337,9 +3223,6 @@ func (transition *Transition) Commit(stage *Stage) *Transition {
 	return transition
 }
 
-func (transition *Transition) CommitVoid(stage *Stage) {
-	transition.Commit(stage)
-}
 
 func (transition *Transition) StageVoid(stage *Stage) {
 	transition.Stage(stage)
@@ -3425,9 +3308,6 @@ func (transition_shape *Transition_Shape) Commit(stage *Stage) *Transition_Shape
 	return transition_shape
 }
 
-func (transition_shape *Transition_Shape) CommitVoid(stage *Stage) {
-	transition_shape.Commit(stage)
-}
 
 func (transition_shape *Transition_Shape) StageVoid(stage *Stage) {
 	transition_shape.Stage(stage)
@@ -3451,49 +3331,6 @@ func (transition_shape *Transition_Shape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (transition_shape *Transition_Shape) SetName(name string) {
 	transition_shape.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAction(Action *Action)
-	CreateORMActivities(Activities *Activities)
-	CreateORMDiagram(Diagram *Diagram)
-	CreateORMGuard(Guard *Guard)
-	CreateORMKill(Kill *Kill)
-	CreateORMLibrary(Library *Library)
-	CreateORMMessage(Message *Message)
-	CreateORMMessageType(MessageType *MessageType)
-	CreateORMNote(Note *Note)
-	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMNoteStateShape(NoteStateShape *NoteStateShape)
-	CreateORMObject(Object *Object)
-	CreateORMRole(Role *Role)
-	CreateORMState(State *State)
-	CreateORMStateMachine(StateMachine *StateMachine)
-	CreateORMStateShape(StateShape *StateShape)
-	CreateORMTransition(Transition *Transition)
-	CreateORMTransition_Shape(Transition_Shape *Transition_Shape)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAction(Action *Action)
-	DeleteORMActivities(Activities *Activities)
-	DeleteORMDiagram(Diagram *Diagram)
-	DeleteORMGuard(Guard *Guard)
-	DeleteORMKill(Kill *Kill)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMMessage(Message *Message)
-	DeleteORMMessageType(MessageType *MessageType)
-	DeleteORMNote(Note *Note)
-	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMNoteStateShape(NoteStateShape *NoteStateShape)
-	DeleteORMObject(Object *Object)
-	DeleteORMRole(Role *Role)
-	DeleteORMState(State *State)
-	DeleteORMStateMachine(StateMachine *StateMachine)
-	DeleteORMStateShape(StateShape *StateShape)
-	DeleteORMTransition(Transition *Transition)
-	DeleteORMTransition_Shape(Transition_Shape *Transition_Shape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -3595,140 +3432,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Actions = nil
-	stage.Actions_mapString = nil
-
-	stage.Activitiess = nil
-	stage.Activitiess_mapString = nil
-
-	stage.Diagrams = nil
-	stage.Diagrams_mapString = nil
-
-	stage.Guards = nil
-	stage.Guards_mapString = nil
-
-	stage.Kills = nil
-	stage.Kills_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Messages = nil
-	stage.Messages_mapString = nil
-
-	stage.MessageTypes = nil
-	stage.MessageTypes_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.NoteShapes = nil
-	stage.NoteShapes_mapString = nil
-
-	stage.NoteStateShapes = nil
-	stage.NoteStateShapes_mapString = nil
-
-	stage.Objects = nil
-	stage.Objects_mapString = nil
-
-	stage.Roles = nil
-	stage.Roles_mapString = nil
-
-	stage.States = nil
-	stage.States_mapString = nil
-
-	stage.StateMachines = nil
-	stage.StateMachines_mapString = nil
-
-	stage.StateShapes = nil
-	stage.StateShapes_mapString = nil
-
-	stage.Transitions = nil
-	stage.Transitions_mapString = nil
-
-	stage.Transition_Shapes = nil
-	stage.Transition_Shapes_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for action := range stage.Actions {
-		action.Unstage(stage)
-	}
-
-	for activities := range stage.Activitiess {
-		activities.Unstage(stage)
-	}
-
-	for diagram := range stage.Diagrams {
-		diagram.Unstage(stage)
-	}
-
-	for guard := range stage.Guards {
-		guard.Unstage(stage)
-	}
-
-	for kill := range stage.Kills {
-		kill.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for message := range stage.Messages {
-		message.Unstage(stage)
-	}
-
-	for messagetype := range stage.MessageTypes {
-		messagetype.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for noteshape := range stage.NoteShapes {
-		noteshape.Unstage(stage)
-	}
-
-	for notestateshape := range stage.NoteStateShapes {
-		notestateshape.Unstage(stage)
-	}
-
-	for object := range stage.Objects {
-		object.Unstage(stage)
-	}
-
-	for role := range stage.Roles {
-		role.Unstage(stage)
-	}
-
-	for state := range stage.States {
-		state.Unstage(stage)
-	}
-
-	for statemachine := range stage.StateMachines {
-		statemachine.Unstage(stage)
-	}
-
-	for stateshape := range stage.StateShapes {
-		stateshape.Unstage(stage)
-	}
-
-	for transition := range stage.Transitions {
-		transition.Unstage(stage)
-	}
-
-	for transition_shape := range stage.Transition_Shapes {
-		transition_shape.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -3746,13 +3449,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -6217,794 +5918,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (action *Action) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		action.Name = value.GetValueString()
-	case "Criticality":
-		action.Criticality.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (activities *Activities) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		activities.Name = value.GetValueString()
-	case "Criticality":
-		activities.Criticality.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagram.Name = value.GetValueString()
-	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
-	case "IsEditable_":
-		diagram.IsEditable_ = value.GetValueBool()
-	case "IsStatesNodeExpanded":
-		diagram.IsStatesNodeExpanded = value.GetValueBool()
-	case "State_Shapes":
-		diagram.State_Shapes = make([]*StateShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StateShapes {
-					if stage.StateShape_stagedOrder[__instance__] == uint(id) {
-						diagram.State_Shapes = append(diagram.State_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "StatesWhoseNodeIsExpanded":
-		diagram.StatesWhoseNodeIsExpanded = make([]*State, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.States {
-					if stage.State_stagedOrder[__instance__] == uint(id) {
-						diagram.StatesWhoseNodeIsExpanded = append(diagram.StatesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Transition_Shapes":
-		diagram.Transition_Shapes = make([]*Transition_Shape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Transition_Shapes {
-					if stage.Transition_Shape_stagedOrder[__instance__] == uint(id) {
-						diagram.Transition_Shapes = append(diagram.Transition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Note_Shapes":
-		diagram.Note_Shapes = make([]*NoteShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Note_Shapes = append(diagram.Note_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteState_Shapes":
-		diagram.NoteState_Shapes = make([]*NoteStateShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteStateShapes {
-					if stage.NoteStateShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteState_Shapes = append(diagram.NoteState_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (guard *Guard) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		guard.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (kill *Kill) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		kill.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "Diagrams":
-		library.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						library.Diagrams = append(library.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootStateMachines":
-		library.RootStateMachines = make([]*StateMachine, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StateMachines {
-					if stage.StateMachine_stagedOrder[__instance__] == uint(id) {
-						library.RootStateMachines = append(library.RootStateMachines, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsStateMachinesNodeExpanded":
-		library.IsStateMachinesNodeExpanded = value.GetValueBool()
-	case "StateMachinesWhoseNodeIsExpanded":
-		library.StateMachinesWhoseNodeIsExpanded = make([]*StateMachine, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.StateMachines {
-					if stage.StateMachine_stagedOrder[__instance__] == uint(id) {
-						library.StateMachinesWhoseNodeIsExpanded = append(library.StateMachinesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubLibrariesNodeExpanded":
-		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsExpandedTmp":
-		library.IsExpandedTmp = value.GetValueBool()
-	case "Roles":
-		library.Roles = make([]*Role, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Roles {
-					if stage.Role_stagedOrder[__instance__] == uint(id) {
-						library.Roles = append(library.Roles, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		message.Name = value.GetValueString()
-	case "IsSelected":
-		message.IsSelected = value.GetValueBool()
-	case "MessageType":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			message.MessageType = nil
-			for __instance__ := range stage.MessageTypes {
-				if stage.MessageType_stagedOrder[__instance__] == uint(id) {
-					message.MessageType = __instance__
-					break
-				}
-			}
-		}
-	case "OriginTransition":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			message.OriginTransition = nil
-			for __instance__ := range stage.Transitions {
-				if stage.Transition_stagedOrder[__instance__] == uint(id) {
-					message.OriginTransition = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (messagetype *MessageType) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		messagetype.Name = value.GetValueString()
-	case "Description":
-		messagetype.Description = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "State":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.State = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					note.State = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "OverideLayoutDirection":
-		noteshape.OverideLayoutDirection = value.GetValueBool()
-	case "LayoutDirection":
-		noteshape.LayoutDirection.FromCodeString(value.GetValueString())
-	case "X":
-		noteshape.X = value.GetValueFloat()
-	case "Y":
-		noteshape.Y = value.GetValueFloat()
-	case "Width":
-		noteshape.Width = value.GetValueFloat()
-	case "Height":
-		noteshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		noteshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notestateshape *NoteStateShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notestateshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notestateshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notestateshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "State":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notestateshape.State = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					notestateshape.State = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notestateshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notestateshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notestateshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notestateshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notestateshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notestateshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (object *Object) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		object.Name = value.GetValueString()
-	case "State":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			object.State = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					object.State = __instance__
-					break
-				}
-			}
-		}
-	case "IsSelected":
-		object.IsSelected = value.GetValueBool()
-	case "Rank":
-		object.Rank = int(value.GetValueInt())
-	case "Messages":
-		object.Messages = make([]*Message, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Messages {
-					if stage.Message_stagedOrder[__instance__] == uint(id) {
-						object.Messages = append(object.Messages, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (role *Role) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		role.Name = value.GetValueString()
-	case "Acronym":
-		role.Acronym = value.GetValueString()
-	case "RolesWithSamePermissions":
-		role.RolesWithSamePermissions = make([]*Role, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Roles {
-					if stage.Role_stagedOrder[__instance__] == uint(id) {
-						role.RolesWithSamePermissions = append(role.RolesWithSamePermissions, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		state.Name = value.GetValueString()
-	case "IsEndState":
-		state.IsEndState = value.GetValueBool()
-	case "IsDecisionNode":
-		state.IsDecisionNode = value.GetValueBool()
-	case "SubStates":
-		state.SubStates = make([]*State, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.States {
-					if stage.State_stagedOrder[__instance__] == uint(id) {
-						state.SubStates = append(state.SubStates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Entry":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			state.Entry = nil
-			for __instance__ := range stage.Actions {
-				if stage.Action_stagedOrder[__instance__] == uint(id) {
-					state.Entry = __instance__
-					break
-				}
-			}
-		}
-	case "Activities":
-		state.Activities = make([]*Activities, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Activitiess {
-					if stage.Activities_stagedOrder[__instance__] == uint(id) {
-						state.Activities = append(state.Activities, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Exit":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			state.Exit = nil
-			for __instance__ := range stage.Actions {
-				if stage.Action_stagedOrder[__instance__] == uint(id) {
-					state.Exit = __instance__
-					break
-				}
-			}
-		}
-	case "Parent":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			state.Parent = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					state.Parent = __instance__
-					break
-				}
-			}
-		}
-	case "IsFictious":
-		state.IsFictious = value.GetValueBool()
-	case "Diagrams":
-		state.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						state.Diagrams = append(state.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Notes":
-		state.Notes = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						state.Notes = append(state.Notes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		statemachine.Name = value.GetValueString()
-	case "InitialState":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			statemachine.InitialState = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					statemachine.InitialState = __instance__
-					break
-				}
-			}
-		}
-	case "States":
-		statemachine.States = make([]*State, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.States {
-					if stage.State_stagedOrder[__instance__] == uint(id) {
-						statemachine.States = append(statemachine.States, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Diagrams":
-		statemachine.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						statemachine.Diagrams = append(statemachine.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsWithTransitionNameAutonamticalyGenerated":
-		statemachine.IsWithTransitionNameAutonamticalyGenerated = value.GetValueBool()
-	case "ComputedPrefix":
-		statemachine.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		statemachine.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stateshape *StateShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stateshape.Name = value.GetValueString()
-	case "State":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stateshape.State = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					stateshape.State = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		stateshape.X = value.GetValueFloat()
-	case "Y":
-		stateshape.Y = value.GetValueFloat()
-	case "Width":
-		stateshape.Width = value.GetValueFloat()
-	case "Height":
-		stateshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		stateshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (transition *Transition) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		transition.Name = value.GetValueString()
-	case "Start":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			transition.Start = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					transition.Start = __instance__
-					break
-				}
-			}
-		}
-	case "End":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			transition.End = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					transition.End = __instance__
-					break
-				}
-			}
-		}
-	case "RolesWithPermissions":
-		transition.RolesWithPermissions = make([]*Role, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Roles {
-					if stage.Role_stagedOrder[__instance__] == uint(id) {
-						transition.RolesWithPermissions = append(transition.RolesWithPermissions, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "GeneratedMessages":
-		transition.GeneratedMessages = make([]*MessageType, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.MessageTypes {
-					if stage.MessageType_stagedOrder[__instance__] == uint(id) {
-						transition.GeneratedMessages = append(transition.GeneratedMessages, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Guard":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			transition.Guard = nil
-			for __instance__ := range stage.Guards {
-				if stage.Guard_stagedOrder[__instance__] == uint(id) {
-					transition.Guard = __instance__
-					break
-				}
-			}
-		}
-	case "Diagrams":
-		transition.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						transition.Diagrams = append(transition.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (transition_shape *Transition_Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		transition_shape.Name = value.GetValueString()
-	case "Transition":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			transition_shape.Transition = nil
-			for __instance__ := range stage.Transitions {
-				if stage.Transition_stagedOrder[__instance__] == uint(id) {
-					transition_shape.Transition = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		transition_shape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		transition_shape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		transition_shape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		transition_shape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		transition_shape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		transition_shape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (action *Action) GongGetGongstructName() string {

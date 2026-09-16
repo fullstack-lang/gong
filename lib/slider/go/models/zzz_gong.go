@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	slider_go "github.com/fullstack-lang/gong/lib/slider/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -197,9 +184,6 @@ type Stage struct {
 	OnAfterSliderDeleteCallback OnAfterDeleteInterface[Slider]
 	OnAfterSliderReadCallback   OnAfterReadInterface[Slider]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -228,8 +212,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -555,14 +537,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -652,28 +626,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/slider/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return slider_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return slider_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -781,12 +735,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Checkbox"},
-			{name: "Group"},
-			{name: "Layout"},
-			{name: "Slider"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -995,9 +943,6 @@ func (checkbox *Checkbox) Commit(stage *Stage) *Checkbox {
 	return checkbox
 }
 
-func (checkbox *Checkbox) CommitVoid(stage *Stage) {
-	checkbox.Commit(stage)
-}
 
 func (checkbox *Checkbox) StageVoid(stage *Stage) {
 	checkbox.Stage(stage)
@@ -1083,9 +1028,6 @@ func (group *Group) Commit(stage *Stage) *Group {
 	return group
 }
 
-func (group *Group) CommitVoid(stage *Stage) {
-	group.Commit(stage)
-}
 
 func (group *Group) StageVoid(stage *Stage) {
 	group.Stage(stage)
@@ -1171,9 +1113,6 @@ func (layout *Layout) Commit(stage *Stage) *Layout {
 	return layout
 }
 
-func (layout *Layout) CommitVoid(stage *Stage) {
-	layout.Commit(stage)
-}
 
 func (layout *Layout) StageVoid(stage *Stage) {
 	layout.Stage(stage)
@@ -1259,9 +1198,6 @@ func (slider *Slider) Commit(stage *Stage) *Slider {
 	return slider
 }
 
-func (slider *Slider) CommitVoid(stage *Stage) {
-	slider.Commit(stage)
-}
 
 func (slider *Slider) StageVoid(stage *Stage) {
 	slider.Stage(stage)
@@ -1285,21 +1221,6 @@ func (slider *Slider) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (slider *Slider) SetName(name string) {
 	slider.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMCheckbox(Checkbox *Checkbox)
-	CreateORMGroup(Group *Group)
-	CreateORMLayout(Layout *Layout)
-	CreateORMSlider(Slider *Slider)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMCheckbox(Checkbox *Checkbox)
-	DeleteORMGroup(Group *Group)
-	DeleteORMLayout(Layout *Layout)
-	DeleteORMSlider(Slider *Slider)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1331,42 +1252,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Checkboxs = nil
-	stage.Checkboxs_mapString = nil
-
-	stage.Groups = nil
-	stage.Groups_mapString = nil
-
-	stage.Layouts = nil
-	stage.Layouts_mapString = nil
-
-	stage.Sliders = nil
-	stage.Sliders_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for checkbox := range stage.Checkboxs {
-		checkbox.Unstage(stage)
-	}
-
-	for group := range stage.Groups {
-		group.Unstage(stage)
-	}
-
-	for layout := range stage.Layouts {
-		layout.Unstage(stage)
-	}
-
-	for slider := range stage.Sliders {
-		slider.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1384,13 +1269,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -1971,130 +1854,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (checkbox *Checkbox) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		checkbox.Name = value.GetValueString()
-	case "ValueBool":
-		checkbox.ValueBool = value.GetValueBool()
-	case "LabelForTrue":
-		checkbox.LabelForTrue = value.GetValueString()
-	case "LabelForFalse":
-		checkbox.LabelForFalse = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group.Name = value.GetValueString()
-	case "Percentage":
-		group.Percentage = value.GetValueFloat()
-	case "Sliders":
-		group.Sliders = make([]*Slider, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Sliders {
-					if stage.Slider_stagedOrder[__instance__] == uint(id) {
-						group.Sliders = append(group.Sliders, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Checkboxes":
-		group.Checkboxes = make([]*Checkbox, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Checkboxs {
-					if stage.Checkbox_stagedOrder[__instance__] == uint(id) {
-						group.Checkboxes = append(group.Checkboxes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (layout *Layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		layout.Name = value.GetValueString()
-	case "Groups":
-		layout.Groups = make([]*Group, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Groups {
-					if stage.Group_stagedOrder[__instance__] == uint(id) {
-						layout.Groups = append(layout.Groups, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsWithCustomGutterSize":
-		layout.IsWithCustomGutterSize = value.GetValueBool()
-	case "GutterSize":
-		layout.GutterSize = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (slider *Slider) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		slider.Name = value.GetValueString()
-	case "IsFloat64":
-		slider.IsFloat64 = value.GetValueBool()
-	case "IsInt":
-		slider.IsInt = value.GetValueBool()
-	case "MinInt":
-		slider.MinInt = int(value.GetValueInt())
-	case "MaxInt":
-		slider.MaxInt = int(value.GetValueInt())
-	case "StepInt":
-		slider.StepInt = int(value.GetValueInt())
-	case "ValueInt":
-		slider.ValueInt = int(value.GetValueInt())
-	case "MinFloat64":
-		slider.MinFloat64 = value.GetValueFloat()
-	case "MaxFloat64":
-		slider.MaxFloat64 = value.GetValueFloat()
-	case "StepFloat64":
-		slider.StepFloat64 = value.GetValueFloat()
-	case "ValueFloat64":
-		slider.ValueFloat64 = value.GetValueFloat()
-	case "IsDisabled":
-		slider.IsDisabled = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (checkbox *Checkbox) GongGetGongstructName() string {

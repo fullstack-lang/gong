@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	process_go "github.com/fullstack-lang/gong/dsm/process/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -556,9 +543,6 @@ type Stage struct {
 	OnAfterTaskShapeDeleteCallback OnAfterDeleteInterface[TaskShape]
 	OnAfterTaskShapeReadCallback   OnAfterReadInterface[TaskShape]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -587,8 +571,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1220,14 +1202,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1555,28 +1529,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/process/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return process_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return process_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1871,29 +1825,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "AllocatedProcessShape"},
-			{name: "AllocatedResourceShape"},
-			{name: "ControlFlow"},
-			{name: "ControlFlowShape"},
-			{name: "Data"},
-			{name: "DataFlow"},
-			{name: "DataFlowShape"},
-			{name: "DataShape"},
-			{name: "DiagramProcess"},
-			{name: "ExternalParticipantShape"},
-			{name: "Library"},
-			{name: "Note"},
-			{name: "NoteShape"},
-			{name: "NoteTaskShape"},
-			{name: "Participant"},
-			{name: "ParticipantShape"},
-			{name: "Process"},
-			{name: "ProcessShape"},
-			{name: "Resource"},
-			{name: "Task"},
-			{name: "TaskShape"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2187,9 +2118,6 @@ func (allocatedprocessshape *AllocatedProcessShape) Commit(stage *Stage) *Alloca
 	return allocatedprocessshape
 }
 
-func (allocatedprocessshape *AllocatedProcessShape) CommitVoid(stage *Stage) {
-	allocatedprocessshape.Commit(stage)
-}
 
 func (allocatedprocessshape *AllocatedProcessShape) StageVoid(stage *Stage) {
 	allocatedprocessshape.Stage(stage)
@@ -2275,9 +2203,6 @@ func (allocatedresourceshape *AllocatedResourceShape) Commit(stage *Stage) *Allo
 	return allocatedresourceshape
 }
 
-func (allocatedresourceshape *AllocatedResourceShape) CommitVoid(stage *Stage) {
-	allocatedresourceshape.Commit(stage)
-}
 
 func (allocatedresourceshape *AllocatedResourceShape) StageVoid(stage *Stage) {
 	allocatedresourceshape.Stage(stage)
@@ -2363,9 +2288,6 @@ func (controlflow *ControlFlow) Commit(stage *Stage) *ControlFlow {
 	return controlflow
 }
 
-func (controlflow *ControlFlow) CommitVoid(stage *Stage) {
-	controlflow.Commit(stage)
-}
 
 func (controlflow *ControlFlow) StageVoid(stage *Stage) {
 	controlflow.Stage(stage)
@@ -2451,9 +2373,6 @@ func (controlflowshape *ControlFlowShape) Commit(stage *Stage) *ControlFlowShape
 	return controlflowshape
 }
 
-func (controlflowshape *ControlFlowShape) CommitVoid(stage *Stage) {
-	controlflowshape.Commit(stage)
-}
 
 func (controlflowshape *ControlFlowShape) StageVoid(stage *Stage) {
 	controlflowshape.Stage(stage)
@@ -2539,9 +2458,6 @@ func (data *Data) Commit(stage *Stage) *Data {
 	return data
 }
 
-func (data *Data) CommitVoid(stage *Stage) {
-	data.Commit(stage)
-}
 
 func (data *Data) StageVoid(stage *Stage) {
 	data.Stage(stage)
@@ -2627,9 +2543,6 @@ func (dataflow *DataFlow) Commit(stage *Stage) *DataFlow {
 	return dataflow
 }
 
-func (dataflow *DataFlow) CommitVoid(stage *Stage) {
-	dataflow.Commit(stage)
-}
 
 func (dataflow *DataFlow) StageVoid(stage *Stage) {
 	dataflow.Stage(stage)
@@ -2715,9 +2628,6 @@ func (dataflowshape *DataFlowShape) Commit(stage *Stage) *DataFlowShape {
 	return dataflowshape
 }
 
-func (dataflowshape *DataFlowShape) CommitVoid(stage *Stage) {
-	dataflowshape.Commit(stage)
-}
 
 func (dataflowshape *DataFlowShape) StageVoid(stage *Stage) {
 	dataflowshape.Stage(stage)
@@ -2803,9 +2713,6 @@ func (datashape *DataShape) Commit(stage *Stage) *DataShape {
 	return datashape
 }
 
-func (datashape *DataShape) CommitVoid(stage *Stage) {
-	datashape.Commit(stage)
-}
 
 func (datashape *DataShape) StageVoid(stage *Stage) {
 	datashape.Stage(stage)
@@ -2891,9 +2798,6 @@ func (diagramprocess *DiagramProcess) Commit(stage *Stage) *DiagramProcess {
 	return diagramprocess
 }
 
-func (diagramprocess *DiagramProcess) CommitVoid(stage *Stage) {
-	diagramprocess.Commit(stage)
-}
 
 func (diagramprocess *DiagramProcess) StageVoid(stage *Stage) {
 	diagramprocess.Stage(stage)
@@ -2979,9 +2883,6 @@ func (externalparticipantshape *ExternalParticipantShape) Commit(stage *Stage) *
 	return externalparticipantshape
 }
 
-func (externalparticipantshape *ExternalParticipantShape) CommitVoid(stage *Stage) {
-	externalparticipantshape.Commit(stage)
-}
 
 func (externalparticipantshape *ExternalParticipantShape) StageVoid(stage *Stage) {
 	externalparticipantshape.Stage(stage)
@@ -3067,9 +2968,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -3155,9 +3053,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -3243,9 +3138,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *Stage) {
-	noteshape.Commit(stage)
-}
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -3331,9 +3223,6 @@ func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
 	return notetaskshape
 }
 
-func (notetaskshape *NoteTaskShape) CommitVoid(stage *Stage) {
-	notetaskshape.Commit(stage)
-}
 
 func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
 	notetaskshape.Stage(stage)
@@ -3419,9 +3308,6 @@ func (participant *Participant) Commit(stage *Stage) *Participant {
 	return participant
 }
 
-func (participant *Participant) CommitVoid(stage *Stage) {
-	participant.Commit(stage)
-}
 
 func (participant *Participant) StageVoid(stage *Stage) {
 	participant.Stage(stage)
@@ -3507,9 +3393,6 @@ func (participantshape *ParticipantShape) Commit(stage *Stage) *ParticipantShape
 	return participantshape
 }
 
-func (participantshape *ParticipantShape) CommitVoid(stage *Stage) {
-	participantshape.Commit(stage)
-}
 
 func (participantshape *ParticipantShape) StageVoid(stage *Stage) {
 	participantshape.Stage(stage)
@@ -3595,9 +3478,6 @@ func (process *Process) Commit(stage *Stage) *Process {
 	return process
 }
 
-func (process *Process) CommitVoid(stage *Stage) {
-	process.Commit(stage)
-}
 
 func (process *Process) StageVoid(stage *Stage) {
 	process.Stage(stage)
@@ -3683,9 +3563,6 @@ func (processshape *ProcessShape) Commit(stage *Stage) *ProcessShape {
 	return processshape
 }
 
-func (processshape *ProcessShape) CommitVoid(stage *Stage) {
-	processshape.Commit(stage)
-}
 
 func (processshape *ProcessShape) StageVoid(stage *Stage) {
 	processshape.Stage(stage)
@@ -3771,9 +3648,6 @@ func (resource *Resource) Commit(stage *Stage) *Resource {
 	return resource
 }
 
-func (resource *Resource) CommitVoid(stage *Stage) {
-	resource.Commit(stage)
-}
 
 func (resource *Resource) StageVoid(stage *Stage) {
 	resource.Stage(stage)
@@ -3859,9 +3733,6 @@ func (task *Task) Commit(stage *Stage) *Task {
 	return task
 }
 
-func (task *Task) CommitVoid(stage *Stage) {
-	task.Commit(stage)
-}
 
 func (task *Task) StageVoid(stage *Stage) {
 	task.Stage(stage)
@@ -3947,9 +3818,6 @@ func (taskshape *TaskShape) Commit(stage *Stage) *TaskShape {
 	return taskshape
 }
 
-func (taskshape *TaskShape) CommitVoid(stage *Stage) {
-	taskshape.Commit(stage)
-}
 
 func (taskshape *TaskShape) StageVoid(stage *Stage) {
 	taskshape.Stage(stage)
@@ -3973,55 +3841,6 @@ func (taskshape *TaskShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (taskshape *TaskShape) SetName(name string) {
 	taskshape.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAllocatedProcessShape(AllocatedProcessShape *AllocatedProcessShape)
-	CreateORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
-	CreateORMControlFlow(ControlFlow *ControlFlow)
-	CreateORMControlFlowShape(ControlFlowShape *ControlFlowShape)
-	CreateORMData(Data *Data)
-	CreateORMDataFlow(DataFlow *DataFlow)
-	CreateORMDataFlowShape(DataFlowShape *DataFlowShape)
-	CreateORMDataShape(DataShape *DataShape)
-	CreateORMDiagramProcess(DiagramProcess *DiagramProcess)
-	CreateORMExternalParticipantShape(ExternalParticipantShape *ExternalParticipantShape)
-	CreateORMLibrary(Library *Library)
-	CreateORMNote(Note *Note)
-	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	CreateORMParticipant(Participant *Participant)
-	CreateORMParticipantShape(ParticipantShape *ParticipantShape)
-	CreateORMProcess(Process *Process)
-	CreateORMProcessShape(ProcessShape *ProcessShape)
-	CreateORMResource(Resource *Resource)
-	CreateORMTask(Task *Task)
-	CreateORMTaskShape(TaskShape *TaskShape)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAllocatedProcessShape(AllocatedProcessShape *AllocatedProcessShape)
-	DeleteORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
-	DeleteORMControlFlow(ControlFlow *ControlFlow)
-	DeleteORMControlFlowShape(ControlFlowShape *ControlFlowShape)
-	DeleteORMData(Data *Data)
-	DeleteORMDataFlow(DataFlow *DataFlow)
-	DeleteORMDataFlowShape(DataFlowShape *DataFlowShape)
-	DeleteORMDataShape(DataShape *DataShape)
-	DeleteORMDiagramProcess(DiagramProcess *DiagramProcess)
-	DeleteORMExternalParticipantShape(ExternalParticipantShape *ExternalParticipantShape)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMNote(Note *Note)
-	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	DeleteORMParticipant(Participant *Participant)
-	DeleteORMParticipantShape(ParticipantShape *ParticipantShape)
-	DeleteORMProcess(Process *Process)
-	DeleteORMProcessShape(ProcessShape *ProcessShape)
-	DeleteORMResource(Resource *Resource)
-	DeleteORMTask(Task *Task)
-	DeleteORMTaskShape(TaskShape *TaskShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -4138,161 +3957,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.AllocatedProcessShapes = nil
-	stage.AllocatedProcessShapes_mapString = nil
-
-	stage.AllocatedResourceShapes = nil
-	stage.AllocatedResourceShapes_mapString = nil
-
-	stage.ControlFlows = nil
-	stage.ControlFlows_mapString = nil
-
-	stage.ControlFlowShapes = nil
-	stage.ControlFlowShapes_mapString = nil
-
-	stage.Datas = nil
-	stage.Datas_mapString = nil
-
-	stage.DataFlows = nil
-	stage.DataFlows_mapString = nil
-
-	stage.DataFlowShapes = nil
-	stage.DataFlowShapes_mapString = nil
-
-	stage.DataShapes = nil
-	stage.DataShapes_mapString = nil
-
-	stage.DiagramProcesss = nil
-	stage.DiagramProcesss_mapString = nil
-
-	stage.ExternalParticipantShapes = nil
-	stage.ExternalParticipantShapes_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.NoteShapes = nil
-	stage.NoteShapes_mapString = nil
-
-	stage.NoteTaskShapes = nil
-	stage.NoteTaskShapes_mapString = nil
-
-	stage.Participants = nil
-	stage.Participants_mapString = nil
-
-	stage.ParticipantShapes = nil
-	stage.ParticipantShapes_mapString = nil
-
-	stage.Processs = nil
-	stage.Processs_mapString = nil
-
-	stage.ProcessShapes = nil
-	stage.ProcessShapes_mapString = nil
-
-	stage.Resources = nil
-	stage.Resources_mapString = nil
-
-	stage.Tasks = nil
-	stage.Tasks_mapString = nil
-
-	stage.TaskShapes = nil
-	stage.TaskShapes_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for allocatedprocessshape := range stage.AllocatedProcessShapes {
-		allocatedprocessshape.Unstage(stage)
-	}
-
-	for allocatedresourceshape := range stage.AllocatedResourceShapes {
-		allocatedresourceshape.Unstage(stage)
-	}
-
-	for controlflow := range stage.ControlFlows {
-		controlflow.Unstage(stage)
-	}
-
-	for controlflowshape := range stage.ControlFlowShapes {
-		controlflowshape.Unstage(stage)
-	}
-
-	for data := range stage.Datas {
-		data.Unstage(stage)
-	}
-
-	for dataflow := range stage.DataFlows {
-		dataflow.Unstage(stage)
-	}
-
-	for dataflowshape := range stage.DataFlowShapes {
-		dataflowshape.Unstage(stage)
-	}
-
-	for datashape := range stage.DataShapes {
-		datashape.Unstage(stage)
-	}
-
-	for diagramprocess := range stage.DiagramProcesss {
-		diagramprocess.Unstage(stage)
-	}
-
-	for externalparticipantshape := range stage.ExternalParticipantShapes {
-		externalparticipantshape.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for noteshape := range stage.NoteShapes {
-		noteshape.Unstage(stage)
-	}
-
-	for notetaskshape := range stage.NoteTaskShapes {
-		notetaskshape.Unstage(stage)
-	}
-
-	for participant := range stage.Participants {
-		participant.Unstage(stage)
-	}
-
-	for participantshape := range stage.ParticipantShapes {
-		participantshape.Unstage(stage)
-	}
-
-	for process := range stage.Processs {
-		process.Unstage(stage)
-	}
-
-	for processshape := range stage.ProcessShapes {
-		processshape.Unstage(stage)
-	}
-
-	for resource := range stage.Resources {
-		resource.Unstage(stage)
-	}
-
-	for task := range stage.Tasks {
-		task.Unstage(stage)
-	}
-
-	for taskshape := range stage.TaskShapes {
-		taskshape.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -4310,13 +3974,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -8536,1497 +8198,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (allocatedprocessshape *AllocatedProcessShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		allocatedprocessshape.Name = value.GetValueString()
-	case "Participant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedprocessshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					allocatedprocessshape.Participant = __instance__
-					break
-				}
-			}
-		}
-	case "Process":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedprocessshape.Process = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					allocatedprocessshape.Process = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (allocatedresourceshape *AllocatedResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		allocatedresourceshape.Name = value.GetValueString()
-	case "Participant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedresourceshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					allocatedresourceshape.Participant = __instance__
-					break
-				}
-			}
-		}
-	case "Resource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedresourceshape.Resource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					allocatedresourceshape.Resource = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlflow.Name = value.GetValueString()
-	case "Description":
-		controlflow.Description = value.GetValueString()
-	case "ComputedPrefix":
-		controlflow.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		controlflow.IsExpanded = value.GetValueBool()
-	case "Start":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlflow.Start = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					controlflow.Start = __instance__
-					break
-				}
-			}
-		}
-	case "End":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlflow.End = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					controlflow.End = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlflowshape *ControlFlowShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlflowshape.Name = value.GetValueString()
-	case "ControlFlow":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlflowshape.ControlFlow = nil
-			for __instance__ := range stage.ControlFlows {
-				if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-					controlflowshape.ControlFlow = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		controlflowshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		controlflowshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		controlflowshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		controlflowshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		controlflowshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		controlflowshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		data.Name = value.GetValueString()
-	case "Acronym":
-		data.Acronym = value.GetValueString()
-	case "Description":
-		data.Description = value.GetValueString()
-	case "ComputedPrefix":
-		data.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		data.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		data.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		data.InverseAppliedScaling = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dataflow.Name = value.GetValueString()
-	case "Datas":
-		dataflow.Datas = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						dataflow.Datas = append(dataflow.Datas, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Description":
-		dataflow.Description = value.GetValueString()
-	case "ComputedPrefix":
-		dataflow.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		dataflow.IsExpanded = value.GetValueBool()
-	case "Type":
-		dataflow.Type.FromCodeString(value.GetValueString())
-	case "StartTask":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.StartTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					dataflow.StartTask = __instance__
-					break
-				}
-			}
-		}
-	case "EndTask":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.EndTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					dataflow.EndTask = __instance__
-					break
-				}
-			}
-		}
-	case "StartExternalParticipant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.StartExternalParticipant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					dataflow.StartExternalParticipant = __instance__
-					break
-				}
-			}
-		}
-	case "EndExternalParticipant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.EndExternalParticipant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					dataflow.EndExternalParticipant = __instance__
-					break
-				}
-			}
-		}
-	case "IsDatasNodeExpanded":
-		dataflow.IsDatasNodeExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dataflowshape *DataFlowShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dataflowshape.Name = value.GetValueString()
-	case "DataFlow":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflowshape.DataFlow = nil
-			for __instance__ := range stage.DataFlows {
-				if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-					dataflowshape.DataFlow = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		dataflowshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		dataflowshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		dataflowshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		dataflowshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		dataflowshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		dataflowshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datashape *DataShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datashape.Name = value.GetValueString()
-	case "Data":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datashape.Data = nil
-			for __instance__ := range stage.Datas {
-				if stage.Data_stagedOrder[__instance__] == uint(id) {
-					datashape.Data = __instance__
-					break
-				}
-			}
-		}
-	case "DataFlow":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datashape.DataFlow = nil
-			for __instance__ := range stage.DataFlows {
-				if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-					datashape.DataFlow = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagramprocess.Name = value.GetValueString()
-	case "Description":
-		diagramprocess.Description = value.GetValueString()
-	case "ComputedPrefix":
-		diagramprocess.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagramprocess.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagramprocess.IsChecked = value.GetValueBool()
-	case "IsEditable_":
-		diagramprocess.IsEditable_ = value.GetValueBool()
-	case "IsShowPrefix":
-		diagramprocess.IsShowPrefix = value.GetValueBool()
-	case "DefaultBoxWidth":
-		diagramprocess.DefaultBoxWidth = value.GetValueFloat()
-	case "DefaultBoxHeigth":
-		diagramprocess.DefaultBoxHeigth = value.GetValueFloat()
-	case "Width":
-		diagramprocess.Width = value.GetValueFloat()
-	case "Height":
-		diagramprocess.Height = value.GetValueFloat()
-	case "Process_Shapes":
-		diagramprocess.Process_Shapes = make([]*ProcessShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ProcessShapes {
-					if stage.ProcessShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Process_Shapes = append(diagramprocess.Process_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsProcesssNodeExpanded":
-		diagramprocess.IsProcesssNodeExpanded = value.GetValueBool()
-	case "ProcesssWhoseNodeIsExpanded":
-		diagramprocess.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ProcesssWhoseNodeIsExpanded = append(diagramprocess.ProcesssWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Participant_Shapes":
-		diagramprocess.Participant_Shapes = make([]*ParticipantShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParticipantShapes {
-					if stage.ParticipantShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Participant_Shapes = append(diagramprocess.Participant_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsParticipantsNodeExpanded":
-		diagramprocess.IsParticipantsNodeExpanded = value.GetValueBool()
-	case "ParticipantWhoseNodeIsExpanded":
-		diagramprocess.ParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ParticipantWhoseNodeIsExpanded = append(diagramprocess.ParticipantWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalParticipant_Shapes":
-		diagramprocess.ExternalParticipant_Shapes = make([]*ExternalParticipantShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ExternalParticipantShapes {
-					if stage.ExternalParticipantShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipant_Shapes = append(diagramprocess.ExternalParticipant_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsExternalParticipantsNodeExpanded":
-		diagramprocess.IsExternalParticipantsNodeExpanded = value.GetValueBool()
-	case "ExternalParticipantWhoseNodeIsExpanded":
-		diagramprocess.ExternalParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocess.ExternalParticipantWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-		diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-		diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TasksWhoseNodeIsExpanded":
-		diagramprocess.TasksWhoseNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.TasksWhoseNodeIsExpanded = append(diagramprocess.TasksWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Task_Shapes":
-		diagramprocess.Task_Shapes = make([]*TaskShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskShapes {
-					if stage.TaskShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Task_Shapes = append(diagramprocess.Task_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ControlFlowsWhoseNodeIsExpanded":
-		diagramprocess.ControlFlowsWhoseNodeIsExpanded = make([]*ControlFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlFlows {
-					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ControlFlowsWhoseNodeIsExpanded = append(diagramprocess.ControlFlowsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ControlFlow_Shapes":
-		diagramprocess.ControlFlow_Shapes = make([]*ControlFlowShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlFlowShapes {
-					if stage.ControlFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ControlFlow_Shapes = append(diagramprocess.ControlFlow_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlowsWhoseNodeIsExpanded":
-		diagramprocess.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlowsWhoseNodeIsExpanded = append(diagramprocess.DataFlowsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlow_Shapes":
-		diagramprocess.DataFlow_Shapes = make([]*DataFlowShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlowShapes {
-					if stage.DataFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlow_Shapes = append(diagramprocess.DataFlow_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DatasWhoseNodeIsExpanded":
-		diagramprocess.DatasWhoseNodeIsExpanded = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DatasWhoseNodeIsExpanded = append(diagramprocess.DatasWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Data_Shapes":
-		diagramprocess.Data_Shapes = make([]*DataShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataShapes {
-					if stage.DataShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Data_Shapes = append(diagramprocess.Data_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlowsWhoseDataNodeIsExpanded":
-		diagramprocess.DataFlowsWhoseDataNodeIsExpanded = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlowsWhoseDataNodeIsExpanded = append(diagramprocess.DataFlowsWhoseDataNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedResourcesWhoseNodeIsExpanded":
-		diagramprocess.AllocatedResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedResourcesWhoseNodeIsExpanded = append(diagramprocess.AllocatedResourcesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedResourceShapes":
-		diagramprocess.AllocatedResourceShapes = make([]*AllocatedResourceShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AllocatedResourceShapes {
-					if stage.AllocatedResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedResourceShapes = append(diagramprocess.AllocatedResourceShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedProcessesWhoseNodeIsExpanded":
-		diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = append(diagramprocess.AllocatedProcessesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedProcessShapes":
-		diagramprocess.AllocatedProcessShapes = make([]*AllocatedProcessShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AllocatedProcessShapes {
-					if stage.AllocatedProcessShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedProcessShapes = append(diagramprocess.AllocatedProcessShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Note_Shapes":
-		diagramprocess.Note_Shapes = make([]*NoteShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Note_Shapes = append(diagramprocess.Note_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NotesWhoseNodeIsExpanded":
-		diagramprocess.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.NotesWhoseNodeIsExpanded = append(diagramprocess.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		diagramprocess.IsNotesNodeExpanded = value.GetValueBool()
-	case "NoteTaskShapes":
-		diagramprocess.NoteTaskShapes = make([]*NoteTaskShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteTaskShapes {
-					if stage.NoteTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.NoteTaskShapes = append(diagramprocess.NoteTaskShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (externalparticipantshape *ExternalParticipantShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		externalparticipantshape.Name = value.GetValueString()
-	case "Participant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			externalparticipantshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					externalparticipantshape.Participant = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		externalparticipantshape.IsExpanded = value.GetValueBool()
-	case "X":
-		externalparticipantshape.X = value.GetValueFloat()
-	case "Y":
-		externalparticipantshape.Y = value.GetValueFloat()
-	case "Width":
-		externalparticipantshape.Width = value.GetValueFloat()
-	case "Height":
-		externalparticipantshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		externalparticipantshape.IsHidden = value.GetValueBool()
-	case "TailHeigth":
-		externalparticipantshape.TailHeigth = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "Description":
-		library.Description = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubLibrariesNodeExpanded":
-		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "RootProcesses":
-		library.RootProcesses = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						library.RootProcesses = append(library.RootProcesses, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsProcessesNodeExpanded":
-		library.IsProcessesNodeExpanded = value.GetValueBool()
-	case "ProcesssWhoseNodeIsExpanded":
-		library.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						library.ProcesssWhoseNodeIsExpanded = append(library.ProcesssWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootDataFlows":
-		library.RootDataFlows = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						library.RootDataFlows = append(library.RootDataFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		library.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "DataFlowsWhoseNodeIsExpanded":
-		library.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						library.DataFlowsWhoseNodeIsExpanded = append(library.DataFlowsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootDatas":
-		library.RootDatas = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						library.RootDatas = append(library.RootDatas, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDatasNodeExpanded":
-		library.IsDatasNodeExpanded = value.GetValueBool()
-	case "DatasWhoseNodeIsExpanded":
-		library.DatasWhoseNodeIsExpanded = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						library.DatasWhoseNodeIsExpanded = append(library.DatasWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootResources":
-		library.RootResources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						library.RootResources = append(library.RootResources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsResourcesNodeExpanded":
-		library.IsResourcesNodeExpanded = value.GetValueBool()
-	case "ResourcesWhoseNodeIsExpanded":
-		library.ResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						library.ResourcesWhoseNodeIsExpanded = append(library.ResourcesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ParticipantsWhoseNodeIsExpanded":
-		library.ParticipantsWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						library.ParticipantsWhoseNodeIsExpanded = append(library.ParticipantsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootNotes":
-		library.RootNotes = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.RootNotes = append(library.RootNotes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		library.IsNotesNodeExpanded = value.GetValueBool()
-	case "NotesWhoseNodeIsExpanded":
-		library.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.NotesWhoseNodeIsExpanded = append(library.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsExpandedTmp":
-		library.IsExpandedTmp = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "Description":
-		note.Description = value.GetValueString()
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "IsTasksNodeExpanded":
-		note.IsTasksNodeExpanded = value.GetValueBool()
-	case "Tasks":
-		note.Tasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						note.Tasks = append(note.Tasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		noteshape.X = value.GetValueFloat()
-	case "Y":
-		noteshape.Y = value.GetValueFloat()
-	case "Width":
-		noteshape.Width = value.GetValueFloat()
-	case "Height":
-		noteshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		noteshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notetaskshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notetaskshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notetaskshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notetaskshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notetaskshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notetaskshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notetaskshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (participant *Participant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		participant.Name = value.GetValueString()
-	case "IsProcessResource":
-		participant.IsProcessResource = value.GetValueBool()
-	case "Description":
-		participant.Description = value.GetValueString()
-	case "Resources":
-		participant.Resources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						participant.Resources = append(participant.Resources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsResourcesNodeExpanded":
-		participant.IsResourcesNodeExpanded = value.GetValueBool()
-	case "Processes":
-		participant.Processes = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						participant.Processes = append(participant.Processes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsProcessesNodeExpanded":
-		participant.IsProcessesNodeExpanded = value.GetValueBool()
-	case "ComputedPrefix":
-		participant.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		participant.IsExpanded = value.GetValueBool()
-	case "IsTasksNodeExpanded":
-		participant.IsTasksNodeExpanded = value.GetValueBool()
-	case "Tasks":
-		participant.Tasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.Tasks = append(participant.Tasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsControlFlowsNodeExpanded":
-		participant.IsControlFlowsNodeExpanded = value.GetValueBool()
-	case "ControlFlows":
-		participant.ControlFlows = make([]*ControlFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlFlows {
-					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-						participant.ControlFlows = append(participant.ControlFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskWhoseOutControlFlowsNodeIsExpanded":
-		participant.TaskWhoseOutControlFlowsNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseOutControlFlowsNodeIsExpanded = append(participant.TaskWhoseOutControlFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskWhoseInControlFlowsNodeIsExpanded":
-		participant.TaskWhoseInControlFlowsNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseInControlFlowsNodeIsExpanded = append(participant.TaskWhoseInControlFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		participant.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "TaskWhoseOutDataFlowsNodeIsExpanded":
-		participant.TaskWhoseOutDataFlowsNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseOutDataFlowsNodeIsExpanded = append(participant.TaskWhoseOutDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TaskWhoseInDataFlowsNodeIsExpanded":
-		participant.TaskWhoseInDataFlowsNodeIsExpanded = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseInDataFlowsNodeIsExpanded = append(participant.TaskWhoseInDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (participantshape *ParticipantShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		participantshape.Name = value.GetValueString()
-	case "Participant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			participantshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					participantshape.Participant = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		participantshape.IsExpanded = value.GetValueBool()
-	case "X":
-		participantshape.X = value.GetValueFloat()
-	case "Y":
-		participantshape.Y = value.GetValueFloat()
-	case "Width":
-		participantshape.Width = value.GetValueFloat()
-	case "Height":
-		participantshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		participantshape.IsHidden = value.GetValueBool()
-	case "WidthWeight":
-		participantshape.WidthWeight = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		process.Name = value.GetValueString()
-	case "Description":
-		process.Description = value.GetValueString()
-	case "ComputedPrefix":
-		process.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		process.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		process.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		process.InverseAppliedScaling = value.GetValueFloat()
-	case "DiagramProcesss":
-		process.DiagramProcesss = make([]*DiagramProcess, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramProcesss {
-					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
-						process.DiagramProcesss = append(process.DiagramProcesss, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DiagramProcessWhoseNodeIsExpanded":
-		process.DiagramProcessWhoseNodeIsExpanded = make([]*DiagramProcess, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramProcesss {
-					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
-						process.DiagramProcessWhoseNodeIsExpanded = append(process.DiagramProcessWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubProcessNodeExpanded":
-		process.IsSubProcessNodeExpanded = value.GetValueBool()
-	case "SubProcesses":
-		process.SubProcesses = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						process.SubProcesses = append(process.SubProcesses, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Participants":
-		process.Participants = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.Participants = append(process.Participants, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ParticipantWhoseNodeIsExpanded":
-		process.ParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.ParticipantWhoseNodeIsExpanded = append(process.ParticipantWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlows":
-		process.DataFlows = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						process.DataFlows = append(process.DataFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		process.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "ExternalParticipants":
-		process.ExternalParticipants = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.ExternalParticipants = append(process.ExternalParticipants, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalParticipantWhoseNodeIsExpanded":
-		process.ExternalParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.ExternalParticipantWhoseNodeIsExpanded = append(process.ExternalParticipantWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (processshape *ProcessShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		processshape.Name = value.GetValueString()
-	case "Process":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			processshape.Process = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					processshape.Process = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		processshape.IsExpanded = value.GetValueBool()
-	case "X":
-		processshape.X = value.GetValueFloat()
-	case "Y":
-		processshape.Y = value.GetValueFloat()
-	case "Width":
-		processshape.Width = value.GetValueFloat()
-	case "Height":
-		processshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		processshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		resource.Name = value.GetValueString()
-	case "Acronym":
-		resource.Acronym = value.GetValueString()
-	case "Description":
-		resource.Description = value.GetValueString()
-	case "ComputedPrefix":
-		resource.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		resource.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		resource.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		resource.InverseAppliedScaling = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		task.Name = value.GetValueString()
-	case "Description":
-		task.Description = value.GetValueString()
-	case "ComputedPrefix":
-		task.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		task.IsExpanded = value.GetValueBool()
-	case "IsStartTask":
-		task.IsStartTask = value.GetValueBool()
-	case "IsEndTask":
-		task.IsEndTask = value.GetValueBool()
-	case "Type":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			task.Type = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					task.Type = __instance__
-					break
-				}
-			}
-		}
-	case "IsTaskNameNotProcessName":
-		task.IsTaskNameNotProcessName = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		taskshape.Name = value.GetValueString()
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		taskshape.IsExpanded = value.GetValueBool()
-	case "X":
-		taskshape.X = value.GetValueFloat()
-	case "Y":
-		taskshape.Y = value.GetValueFloat()
-	case "Width":
-		taskshape.Width = value.GetValueFloat()
-	case "Height":
-		taskshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		taskshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (allocatedprocessshape *AllocatedProcessShape) GongGetGongstructName() string {

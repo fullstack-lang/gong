@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	barrgraph_go "github.com/fullstack-lang/gong/dsm/barrgraph/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -342,9 +329,6 @@ type Stage struct {
 	OnAfterPlaceDeleteCallback OnAfterDeleteInterface[Place]
 	OnAfterPlaceReadCallback   OnAfterReadInterface[Place]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -373,8 +357,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -862,14 +844,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1085,28 +1059,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/barrgraph/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return barrgraph_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return barrgraph_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1313,21 +1267,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "ArtefactType"},
-			{name: "ArtefactTypeShape"},
-			{name: "Artist"},
-			{name: "ArtistShape"},
-			{name: "ControlPointShape"},
-			{name: "Desk"},
-			{name: "Diagram"},
-			{name: "Influence"},
-			{name: "InfluenceShape"},
-			{name: "Library"},
-			{name: "Movement"},
-			{name: "MovementShape"},
-			{name: "Place"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1581,9 +1520,6 @@ func (artefacttype *ArtefactType) Commit(stage *Stage) *ArtefactType {
 	return artefacttype
 }
 
-func (artefacttype *ArtefactType) CommitVoid(stage *Stage) {
-	artefacttype.Commit(stage)
-}
 
 func (artefacttype *ArtefactType) StageVoid(stage *Stage) {
 	artefacttype.Stage(stage)
@@ -1669,9 +1605,6 @@ func (artefacttypeshape *ArtefactTypeShape) Commit(stage *Stage) *ArtefactTypeSh
 	return artefacttypeshape
 }
 
-func (artefacttypeshape *ArtefactTypeShape) CommitVoid(stage *Stage) {
-	artefacttypeshape.Commit(stage)
-}
 
 func (artefacttypeshape *ArtefactTypeShape) StageVoid(stage *Stage) {
 	artefacttypeshape.Stage(stage)
@@ -1757,9 +1690,6 @@ func (artist *Artist) Commit(stage *Stage) *Artist {
 	return artist
 }
 
-func (artist *Artist) CommitVoid(stage *Stage) {
-	artist.Commit(stage)
-}
 
 func (artist *Artist) StageVoid(stage *Stage) {
 	artist.Stage(stage)
@@ -1845,9 +1775,6 @@ func (artistshape *ArtistShape) Commit(stage *Stage) *ArtistShape {
 	return artistshape
 }
 
-func (artistshape *ArtistShape) CommitVoid(stage *Stage) {
-	artistshape.Commit(stage)
-}
 
 func (artistshape *ArtistShape) StageVoid(stage *Stage) {
 	artistshape.Stage(stage)
@@ -1933,9 +1860,6 @@ func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointSh
 	return controlpointshape
 }
 
-func (controlpointshape *ControlPointShape) CommitVoid(stage *Stage) {
-	controlpointshape.Commit(stage)
-}
 
 func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
 	controlpointshape.Stage(stage)
@@ -2021,9 +1945,6 @@ func (desk *Desk) Commit(stage *Stage) *Desk {
 	return desk
 }
 
-func (desk *Desk) CommitVoid(stage *Stage) {
-	desk.Commit(stage)
-}
 
 func (desk *Desk) StageVoid(stage *Stage) {
 	desk.Stage(stage)
@@ -2109,9 +2030,6 @@ func (diagram *Diagram) Commit(stage *Stage) *Diagram {
 	return diagram
 }
 
-func (diagram *Diagram) CommitVoid(stage *Stage) {
-	diagram.Commit(stage)
-}
 
 func (diagram *Diagram) StageVoid(stage *Stage) {
 	diagram.Stage(stage)
@@ -2197,9 +2115,6 @@ func (influence *Influence) Commit(stage *Stage) *Influence {
 	return influence
 }
 
-func (influence *Influence) CommitVoid(stage *Stage) {
-	influence.Commit(stage)
-}
 
 func (influence *Influence) StageVoid(stage *Stage) {
 	influence.Stage(stage)
@@ -2285,9 +2200,6 @@ func (influenceshape *InfluenceShape) Commit(stage *Stage) *InfluenceShape {
 	return influenceshape
 }
 
-func (influenceshape *InfluenceShape) CommitVoid(stage *Stage) {
-	influenceshape.Commit(stage)
-}
 
 func (influenceshape *InfluenceShape) StageVoid(stage *Stage) {
 	influenceshape.Stage(stage)
@@ -2373,9 +2285,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2461,9 +2370,6 @@ func (movement *Movement) Commit(stage *Stage) *Movement {
 	return movement
 }
 
-func (movement *Movement) CommitVoid(stage *Stage) {
-	movement.Commit(stage)
-}
 
 func (movement *Movement) StageVoid(stage *Stage) {
 	movement.Stage(stage)
@@ -2549,9 +2455,6 @@ func (movementshape *MovementShape) Commit(stage *Stage) *MovementShape {
 	return movementshape
 }
 
-func (movementshape *MovementShape) CommitVoid(stage *Stage) {
-	movementshape.Commit(stage)
-}
 
 func (movementshape *MovementShape) StageVoid(stage *Stage) {
 	movementshape.Stage(stage)
@@ -2637,9 +2540,6 @@ func (place *Place) Commit(stage *Stage) *Place {
 	return place
 }
 
-func (place *Place) CommitVoid(stage *Stage) {
-	place.Commit(stage)
-}
 
 func (place *Place) StageVoid(stage *Stage) {
 	place.Stage(stage)
@@ -2663,39 +2563,6 @@ func (place *Place) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (place *Place) SetName(name string) {
 	place.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMArtefactType(ArtefactType *ArtefactType)
-	CreateORMArtefactTypeShape(ArtefactTypeShape *ArtefactTypeShape)
-	CreateORMArtist(Artist *Artist)
-	CreateORMArtistShape(ArtistShape *ArtistShape)
-	CreateORMControlPointShape(ControlPointShape *ControlPointShape)
-	CreateORMDesk(Desk *Desk)
-	CreateORMDiagram(Diagram *Diagram)
-	CreateORMInfluence(Influence *Influence)
-	CreateORMInfluenceShape(InfluenceShape *InfluenceShape)
-	CreateORMLibrary(Library *Library)
-	CreateORMMovement(Movement *Movement)
-	CreateORMMovementShape(MovementShape *MovementShape)
-	CreateORMPlace(Place *Place)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMArtefactType(ArtefactType *ArtefactType)
-	DeleteORMArtefactTypeShape(ArtefactTypeShape *ArtefactTypeShape)
-	DeleteORMArtist(Artist *Artist)
-	DeleteORMArtistShape(ArtistShape *ArtistShape)
-	DeleteORMControlPointShape(ControlPointShape *ControlPointShape)
-	DeleteORMDesk(Desk *Desk)
-	DeleteORMDiagram(Diagram *Diagram)
-	DeleteORMInfluence(Influence *Influence)
-	DeleteORMInfluenceShape(InfluenceShape *InfluenceShape)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMMovement(Movement *Movement)
-	DeleteORMMovementShape(MovementShape *MovementShape)
-	DeleteORMPlace(Place *Place)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -2772,105 +2639,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.ArtefactTypes = nil
-	stage.ArtefactTypes_mapString = nil
-
-	stage.ArtefactTypeShapes = nil
-	stage.ArtefactTypeShapes_mapString = nil
-
-	stage.Artists = nil
-	stage.Artists_mapString = nil
-
-	stage.ArtistShapes = nil
-	stage.ArtistShapes_mapString = nil
-
-	stage.ControlPointShapes = nil
-	stage.ControlPointShapes_mapString = nil
-
-	stage.Desks = nil
-	stage.Desks_mapString = nil
-
-	stage.Diagrams = nil
-	stage.Diagrams_mapString = nil
-
-	stage.Influences = nil
-	stage.Influences_mapString = nil
-
-	stage.InfluenceShapes = nil
-	stage.InfluenceShapes_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Movements = nil
-	stage.Movements_mapString = nil
-
-	stage.MovementShapes = nil
-	stage.MovementShapes_mapString = nil
-
-	stage.Places = nil
-	stage.Places_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for artefacttype := range stage.ArtefactTypes {
-		artefacttype.Unstage(stage)
-	}
-
-	for artefacttypeshape := range stage.ArtefactTypeShapes {
-		artefacttypeshape.Unstage(stage)
-	}
-
-	for artist := range stage.Artists {
-		artist.Unstage(stage)
-	}
-
-	for artistshape := range stage.ArtistShapes {
-		artistshape.Unstage(stage)
-	}
-
-	for controlpointshape := range stage.ControlPointShapes {
-		controlpointshape.Unstage(stage)
-	}
-
-	for desk := range stage.Desks {
-		desk.Unstage(stage)
-	}
-
-	for diagram := range stage.Diagrams {
-		diagram.Unstage(stage)
-	}
-
-	for influence := range stage.Influences {
-		influence.Unstage(stage)
-	}
-
-	for influenceshape := range stage.InfluenceShapes {
-		influenceshape.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for movement := range stage.Movements {
-		movement.Unstage(stage)
-	}
-
-	for movementshape := range stage.MovementShapes {
-		movementshape.Unstage(stage)
-	}
-
-	for place := range stage.Places {
-		place.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -2888,13 +2656,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -5266,673 +5032,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (artefacttype *ArtefactType) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		artefacttype.Name = value.GetValueString()
-	case "ComputedPrefix":
-		artefacttype.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		artefacttype.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (artefacttypeshape *ArtefactTypeShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		artefacttypeshape.Name = value.GetValueString()
-	case "ArtefactType":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			artefacttypeshape.ArtefactType = nil
-			for __instance__ := range stage.ArtefactTypes {
-				if stage.ArtefactType_stagedOrder[__instance__] == uint(id) {
-					artefacttypeshape.ArtefactType = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		artefacttypeshape.X = value.GetValueFloat()
-	case "Y":
-		artefacttypeshape.Y = value.GetValueFloat()
-	case "Width":
-		artefacttypeshape.Width = value.GetValueFloat()
-	case "Height":
-		artefacttypeshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		artefacttypeshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (artist *Artist) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		artist.Name = value.GetValueString()
-	case "ComputedPrefix":
-		artist.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		artist.IsExpanded = value.GetValueBool()
-	case "IsDead":
-		artist.IsDead = value.GetValueBool()
-	case "Place":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			artist.Place = nil
-			for __instance__ := range stage.Places {
-				if stage.Place_stagedOrder[__instance__] == uint(id) {
-					artist.Place = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (artistshape *ArtistShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		artistshape.Name = value.GetValueString()
-	case "Artist":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			artistshape.Artist = nil
-			for __instance__ := range stage.Artists {
-				if stage.Artist_stagedOrder[__instance__] == uint(id) {
-					artistshape.Artist = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		artistshape.X = value.GetValueFloat()
-	case "Y":
-		artistshape.Y = value.GetValueFloat()
-	case "Width":
-		artistshape.Width = value.GetValueFloat()
-	case "Height":
-		artistshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		artistshape.IsHidden = value.GetValueBool()
-	case "ImagePng_X":
-		artistshape.ImagePng_X = value.GetValueFloat()
-	case "ImagePng_Y":
-		artistshape.ImagePng_Y = value.GetValueFloat()
-	case "ImagePng_Width":
-		artistshape.ImagePng_Width = value.GetValueFloat()
-	case "ImagePng_Height":
-		artistshape.ImagePng_Height = value.GetValueFloat()
-	case "ImagePng_X_Offset":
-		artistshape.ImagePng_X_Offset = value.GetValueFloat()
-	case "ImagePng_Y_Offset":
-		artistshape.ImagePng_Y_Offset = value.GetValueFloat()
-	case "ImagePng_RectAnchorType":
-		artistshape.ImagePng_RectAnchorType.FromCodeString(value.GetValueString())
-	case "ImagePngBase64Content":
-		artistshape.ImagePngBase64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlpointshape *ControlPointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlpointshape.Name = value.GetValueString()
-	case "X_Relative":
-		controlpointshape.X_Relative = value.GetValueFloat()
-	case "Y_Relative":
-		controlpointshape.Y_Relative = value.GetValueFloat()
-	case "IsStartShapeTheClosestShape":
-		controlpointshape.IsStartShapeTheClosestShape = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (desk *Desk) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		desk.Name = value.GetValueString()
-	case "SelectedDiagram":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			desk.SelectedDiagram = nil
-			for __instance__ := range stage.Diagrams {
-				if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-					desk.SelectedDiagram = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagram.Name = value.GetValueString()
-	case "ComputedPrefix":
-		diagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
-	case "MovementShapes":
-		diagram.MovementShapes = make([]*MovementShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.MovementShapes {
-					if stage.MovementShape_stagedOrder[__instance__] == uint(id) {
-						diagram.MovementShapes = append(diagram.MovementShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ArtefactTypeShapes":
-		diagram.ArtefactTypeShapes = make([]*ArtefactTypeShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ArtefactTypeShapes {
-					if stage.ArtefactTypeShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ArtistShapes":
-		diagram.ArtistShapes = make([]*ArtistShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ArtistShapes {
-					if stage.ArtistShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ArtistShapes = append(diagram.ArtistShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "InfluenceShapes":
-		diagram.InfluenceShapes = make([]*InfluenceShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.InfluenceShapes {
-					if stage.InfluenceShape_stagedOrder[__instance__] == uint(id) {
-						diagram.InfluenceShapes = append(diagram.InfluenceShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsEditable":
-		diagram.IsEditable = value.GetValueBool()
-	case "IsNodeExpanded":
-		diagram.IsNodeExpanded = value.GetValueBool()
-	case "IsMovementCategoryNodeExpanded":
-		diagram.IsMovementCategoryNodeExpanded = value.GetValueBool()
-	case "IsArtefactTypeCategoryNodeExpanded":
-		diagram.IsArtefactTypeCategoryNodeExpanded = value.GetValueBool()
-	case "IsArtistCategoryNodeExpanded":
-		diagram.IsArtistCategoryNodeExpanded = value.GetValueBool()
-	case "IsInfluenceCategoryNodeExpanded":
-		diagram.IsInfluenceCategoryNodeExpanded = value.GetValueBool()
-	case "IsMovementCategoryHidden":
-		diagram.IsMovementCategoryHidden = value.GetValueBool()
-	case "IsArtefactTypeCategoryHidden":
-		diagram.IsArtefactTypeCategoryHidden = value.GetValueBool()
-	case "IsArtistCategoryHidden":
-		diagram.IsArtistCategoryHidden = value.GetValueBool()
-	case "IsInfluenceCategoryHidden":
-		diagram.IsInfluenceCategoryHidden = value.GetValueBool()
-	case "NbYearsForIntervals":
-		diagram.NbYearsForIntervals = int(value.GetValueInt())
-	case "XMargin":
-		diagram.XMargin = value.GetValueFloat()
-	case "YMargin":
-		diagram.YMargin = value.GetValueFloat()
-	case "Height":
-		diagram.Height = value.GetValueFloat()
-	case "NextVerticalDateXMargin":
-		diagram.NextVerticalDateXMargin = value.GetValueFloat()
-	case "RedColorCode":
-		diagram.RedColorCode = value.GetValueString()
-	case "BackgroundGreyColorCode":
-		diagram.BackgroundGreyColorCode = value.GetValueString()
-	case "GrayColorCode":
-		diagram.GrayColorCode = value.GetValueString()
-	case "BottomBoxYOffset":
-		diagram.BottomBoxYOffset = value.GetValueFloat()
-	case "BottomBoxWidth":
-		diagram.BottomBoxWidth = value.GetValueFloat()
-	case "BottomBoxHeigth":
-		diagram.BottomBoxHeigth = value.GetValueFloat()
-	case "BottomBoxFontSize":
-		diagram.BottomBoxFontSize = value.GetValueString()
-	case "BottomBoxFontWeigth":
-		diagram.BottomBoxFontWeigth = value.GetValueString()
-	case "BottomBoxFontFamily":
-		diagram.BottomBoxFontFamily = value.GetValueString()
-	case "BottomBoxLetterSpacing":
-		diagram.BottomBoxLetterSpacing = value.GetValueString()
-	case "BottomBoxLetterColorCode":
-		diagram.BottomBoxLetterColorCode = value.GetValueString()
-	case "MovementRectAnchorType":
-		diagram.MovementRectAnchorType.FromCodeString(value.GetValueString())
-	case "MovementTextAnchorType":
-		diagram.MovementTextAnchorType.FromCodeString(value.GetValueString())
-	case "MovementDominantBaselineType":
-		diagram.MovementDominantBaselineType.FromCodeString(value.GetValueString())
-	case "MovementFontSize":
-		diagram.MovementFontSize = value.GetValueString()
-	case "MajorMovementFontSize":
-		diagram.MajorMovementFontSize = value.GetValueString()
-	case "MinorMovementFontSize":
-		diagram.MinorMovementFontSize = value.GetValueString()
-	case "MovementFontWeigth":
-		diagram.MovementFontWeigth = value.GetValueString()
-	case "MovementFontFamily":
-		diagram.MovementFontFamily = value.GetValueString()
-	case "MovementLetterSpacing":
-		diagram.MovementLetterSpacing = value.GetValueString()
-	case "AbstractMovementFontSize":
-		diagram.AbstractMovementFontSize = value.GetValueString()
-	case "AbstractMovementRectAnchorType":
-		diagram.AbstractMovementRectAnchorType.FromCodeString(value.GetValueString())
-	case "AbstractMovementTextAnchorType":
-		diagram.AbstractMovementTextAnchorType.FromCodeString(value.GetValueString())
-	case "AbstractDominantBaselineType":
-		diagram.AbstractDominantBaselineType.FromCodeString(value.GetValueString())
-	case "MovementDateRectAnchorType":
-		diagram.MovementDateRectAnchorType.FromCodeString(value.GetValueString())
-	case "MovementDateTextAnchorType":
-		diagram.MovementDateTextAnchorType.FromCodeString(value.GetValueString())
-	case "MovementDateTextDominantBaselineType":
-		diagram.MovementDateTextDominantBaselineType.FromCodeString(value.GetValueString())
-	case "MovementDateAndPlacesFontSize":
-		diagram.MovementDateAndPlacesFontSize = value.GetValueString()
-	case "MovementDateAndPlacesFontWeigth":
-		diagram.MovementDateAndPlacesFontWeigth = value.GetValueString()
-	case "MovementDateAndPlacesFontFamily":
-		diagram.MovementDateAndPlacesFontFamily = value.GetValueString()
-	case "MovementDateAndPlacesLetterSpacing":
-		diagram.MovementDateAndPlacesLetterSpacing = value.GetValueString()
-	case "MovementBelowArcY_Offset":
-		diagram.MovementBelowArcY_Offset = value.GetValueFloat()
-	case "MovementBelowArcY_OffsetPerPlace":
-		diagram.MovementBelowArcY_OffsetPerPlace = value.GetValueFloat()
-	case "MovementPlacesRectAnchorType":
-		diagram.MovementPlacesRectAnchorType.FromCodeString(value.GetValueString())
-	case "MovementPlacesTextAnchorType":
-		diagram.MovementPlacesTextAnchorType.FromCodeString(value.GetValueString())
-	case "MovementPlacesDominantBaselineType":
-		diagram.MovementPlacesDominantBaselineType.FromCodeString(value.GetValueString())
-	case "ArtefactTypeFontSize":
-		diagram.ArtefactTypeFontSize = value.GetValueString()
-	case "ArtefactTypeFontWeigth":
-		diagram.ArtefactTypeFontWeigth = value.GetValueString()
-	case "ArtefactTypeFontFamily":
-		diagram.ArtefactTypeFontFamily = value.GetValueString()
-	case "ArtefactTypeLetterSpacing":
-		diagram.ArtefactTypeLetterSpacing = value.GetValueString()
-	case "ArtefactTypeRectAnchorType":
-		diagram.ArtefactTypeRectAnchorType.FromCodeString(value.GetValueString())
-	case "ArtefactDominantBaselineType":
-		diagram.ArtefactDominantBaselineType.FromCodeString(value.GetValueString())
-	case "ArtefactTypeStrokeWidth":
-		diagram.ArtefactTypeStrokeWidth = value.GetValueFloat()
-	case "ArtistRectAnchorType":
-		diagram.ArtistRectAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistTextAnchorType":
-		diagram.ArtistTextAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistDominantBaselineType":
-		diagram.ArtistDominantBaselineType.FromCodeString(value.GetValueString())
-	case "ArtistFontSize":
-		diagram.ArtistFontSize = value.GetValueString()
-	case "MajorArtistFontSize":
-		diagram.MajorArtistFontSize = value.GetValueString()
-	case "MinorArtistFontSize":
-		diagram.MinorArtistFontSize = value.GetValueString()
-	case "ArtistFontWeigth":
-		diagram.ArtistFontWeigth = value.GetValueString()
-	case "ArtistFontFamily":
-		diagram.ArtistFontFamily = value.GetValueString()
-	case "ArtistLetterSpacing":
-		diagram.ArtistLetterSpacing = value.GetValueString()
-	case "ArtistDateRectAnchorType":
-		diagram.ArtistDateRectAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistDateTextAnchorType":
-		diagram.ArtistDateTextAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistDateDominantBaselineType":
-		diagram.ArtistDateDominantBaselineType.FromCodeString(value.GetValueString())
-	case "ArtistDateAndPlacesFontSize":
-		diagram.ArtistDateAndPlacesFontSize = value.GetValueString()
-	case "ArtistDateAndPlacesFontWeigth":
-		diagram.ArtistDateAndPlacesFontWeigth = value.GetValueString()
-	case "ArtistDateAndPlacesFontFamily":
-		diagram.ArtistDateAndPlacesFontFamily = value.GetValueString()
-	case "ArtistDateAndPlacesLetterSpacing":
-		diagram.ArtistDateAndPlacesLetterSpacing = value.GetValueString()
-	case "ArtistPlacesRectAnchorType":
-		diagram.ArtistPlacesRectAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistPlacesTextAnchorType":
-		diagram.ArtistPlacesTextAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistPlacesDominantBaselineType":
-		diagram.ArtistPlacesDominantBaselineType.FromCodeString(value.GetValueString())
-	case "InfluenceArrowSize":
-		diagram.InfluenceArrowSize = value.GetValueFloat()
-	case "InfluenceArrowStartOffset":
-		diagram.InfluenceArrowStartOffset = value.GetValueFloat()
-	case "InfluenceArrowEndOffset":
-		diagram.InfluenceArrowEndOffset = value.GetValueFloat()
-	case "InfluenceCornerRadius":
-		diagram.InfluenceCornerRadius = value.GetValueFloat()
-	case "InfluenceDashedLinePattern":
-		diagram.InfluenceDashedLinePattern = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		influence.Name = value.GetValueString()
-	case "ComputedPrefix":
-		influence.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		influence.IsExpanded = value.GetValueBool()
-	case "SourceMovement":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.SourceMovement = nil
-			for __instance__ := range stage.Movements {
-				if stage.Movement_stagedOrder[__instance__] == uint(id) {
-					influence.SourceMovement = __instance__
-					break
-				}
-			}
-		}
-	case "SourceArtefactType":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.SourceArtefactType = nil
-			for __instance__ := range stage.ArtefactTypes {
-				if stage.ArtefactType_stagedOrder[__instance__] == uint(id) {
-					influence.SourceArtefactType = __instance__
-					break
-				}
-			}
-		}
-	case "SourceArtist":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.SourceArtist = nil
-			for __instance__ := range stage.Artists {
-				if stage.Artist_stagedOrder[__instance__] == uint(id) {
-					influence.SourceArtist = __instance__
-					break
-				}
-			}
-		}
-	case "TargetMovement":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.TargetMovement = nil
-			for __instance__ := range stage.Movements {
-				if stage.Movement_stagedOrder[__instance__] == uint(id) {
-					influence.TargetMovement = __instance__
-					break
-				}
-			}
-		}
-	case "TargetArtefactType":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.TargetArtefactType = nil
-			for __instance__ := range stage.ArtefactTypes {
-				if stage.ArtefactType_stagedOrder[__instance__] == uint(id) {
-					influence.TargetArtefactType = __instance__
-					break
-				}
-			}
-		}
-	case "TargetArtist":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.TargetArtist = nil
-			for __instance__ := range stage.Artists {
-				if stage.Artist_stagedOrder[__instance__] == uint(id) {
-					influence.TargetArtist = __instance__
-					break
-				}
-			}
-		}
-	case "IsHypothtical":
-		influence.IsHypothtical = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (influenceshape *InfluenceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		influenceshape.Name = value.GetValueString()
-	case "Influence":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influenceshape.Influence = nil
-			for __instance__ := range stage.Influences {
-				if stage.Influence_stagedOrder[__instance__] == uint(id) {
-					influenceshape.Influence = __instance__
-					break
-				}
-			}
-		}
-	case "IsHidden":
-		influenceshape.IsHidden = value.GetValueBool()
-	case "ControlPointShapes":
-		influenceshape.ControlPointShapes = make([]*ControlPointShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
-						influenceshape.ControlPointShapes = append(influenceshape.ControlPointShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "Description":
-		library.Description = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubLibrariesNodeExpanded":
-		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "IsExpandedTmp":
-		library.IsExpandedTmp = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		movement.Name = value.GetValueString()
-	case "ComputedPrefix":
-		movement.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		movement.IsExpanded = value.GetValueBool()
-	case "HideDate":
-		movement.HideDate = value.GetValueBool()
-	case "Places":
-		movement.Places = make([]*Place, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Places {
-					if stage.Place_stagedOrder[__instance__] == uint(id) {
-						movement.Places = append(movement.Places, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "HasTaxonomicFilter":
-		movement.HasTaxonomicFilter = value.GetValueBool()
-	case "TaxonomicFilter":
-		movement.TaxonomicFilter = value.GetValueString()
-	case "IsFeatured":
-		movement.IsFeatured = value.GetValueBool()
-	case "FeaturePrefix":
-		movement.FeaturePrefix = value.GetValueString()
-	case "IsMajor":
-		movement.IsMajor = value.GetValueBool()
-	case "IsMinor":
-		movement.IsMinor = value.GetValueBool()
-	case "AdditionnalName":
-		movement.AdditionnalName = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (movementshape *MovementShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		movementshape.Name = value.GetValueString()
-	case "Movement":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			movementshape.Movement = nil
-			for __instance__ := range stage.Movements {
-				if stage.Movement_stagedOrder[__instance__] == uint(id) {
-					movementshape.Movement = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		movementshape.X = value.GetValueFloat()
-	case "Y":
-		movementshape.Y = value.GetValueFloat()
-	case "Width":
-		movementshape.Width = value.GetValueFloat()
-	case "Height":
-		movementshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		movementshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (place *Place) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		place.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (artefacttype *ArtefactType) GongGetGongstructName() string {

@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	test1_go "github.com/fullstack-lang/gong/test/test1/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -252,9 +239,6 @@ type Stage struct {
 	OnAfterGstructDeleteCallback OnAfterDeleteInterface[Gstruct]
 	OnAfterGstructReadCallback   OnAfterReadInterface[Gstruct]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -283,8 +267,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -664,14 +646,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -803,28 +777,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/test/test1/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return test1_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return test1_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -965,15 +919,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Astruct"},
-			{name: "AstructBstruct2Use"},
-			{name: "AstructBstructUse"},
-			{name: "Bstruct"},
-			{name: "Dstruct"},
-			{name: "F0123456789012345678901234567890"},
-			{name: "Gstruct"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1197,9 +1142,6 @@ func (astruct *Astruct) Commit(stage *Stage) *Astruct {
 	return astruct
 }
 
-func (astruct *Astruct) CommitVoid(stage *Stage) {
-	astruct.Commit(stage)
-}
 
 func (astruct *Astruct) StageVoid(stage *Stage) {
 	astruct.Stage(stage)
@@ -1285,9 +1227,6 @@ func (astructbstruct2use *AstructBstruct2Use) Commit(stage *Stage) *AstructBstru
 	return astructbstruct2use
 }
 
-func (astructbstruct2use *AstructBstruct2Use) CommitVoid(stage *Stage) {
-	astructbstruct2use.Commit(stage)
-}
 
 func (astructbstruct2use *AstructBstruct2Use) StageVoid(stage *Stage) {
 	astructbstruct2use.Stage(stage)
@@ -1373,9 +1312,6 @@ func (astructbstructuse *AstructBstructUse) Commit(stage *Stage) *AstructBstruct
 	return astructbstructuse
 }
 
-func (astructbstructuse *AstructBstructUse) CommitVoid(stage *Stage) {
-	astructbstructuse.Commit(stage)
-}
 
 func (astructbstructuse *AstructBstructUse) StageVoid(stage *Stage) {
 	astructbstructuse.Stage(stage)
@@ -1461,9 +1397,6 @@ func (bstruct *Bstruct) Commit(stage *Stage) *Bstruct {
 	return bstruct
 }
 
-func (bstruct *Bstruct) CommitVoid(stage *Stage) {
-	bstruct.Commit(stage)
-}
 
 func (bstruct *Bstruct) StageVoid(stage *Stage) {
 	bstruct.Stage(stage)
@@ -1549,9 +1482,6 @@ func (dstruct *Dstruct) Commit(stage *Stage) *Dstruct {
 	return dstruct
 }
 
-func (dstruct *Dstruct) CommitVoid(stage *Stage) {
-	dstruct.Commit(stage)
-}
 
 func (dstruct *Dstruct) StageVoid(stage *Stage) {
 	dstruct.Stage(stage)
@@ -1637,9 +1567,6 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Commit
 	return f0123456789012345678901234567890
 }
 
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) CommitVoid(stage *Stage) {
-	f0123456789012345678901234567890.Commit(stage)
-}
 
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageVoid(stage *Stage) {
 	f0123456789012345678901234567890.Stage(stage)
@@ -1725,9 +1652,6 @@ func (gstruct *Gstruct) Commit(stage *Stage) *Gstruct {
 	return gstruct
 }
 
-func (gstruct *Gstruct) CommitVoid(stage *Stage) {
-	gstruct.Commit(stage)
-}
 
 func (gstruct *Gstruct) StageVoid(stage *Stage) {
 	gstruct.Stage(stage)
@@ -1751,27 +1675,6 @@ func (gstruct *Gstruct) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (gstruct *Gstruct) SetName(name string) {
 	gstruct.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAstruct(Astruct *Astruct)
-	CreateORMAstructBstruct2Use(AstructBstruct2Use *AstructBstruct2Use)
-	CreateORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
-	CreateORMBstruct(Bstruct *Bstruct)
-	CreateORMDstruct(Dstruct *Dstruct)
-	CreateORMF0123456789012345678901234567890(F0123456789012345678901234567890 *F0123456789012345678901234567890)
-	CreateORMGstruct(Gstruct *Gstruct)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAstruct(Astruct *Astruct)
-	DeleteORMAstructBstruct2Use(AstructBstruct2Use *AstructBstruct2Use)
-	DeleteORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
-	DeleteORMBstruct(Bstruct *Bstruct)
-	DeleteORMDstruct(Dstruct *Dstruct)
-	DeleteORMF0123456789012345678901234567890(F0123456789012345678901234567890 *F0123456789012345678901234567890)
-	DeleteORMGstruct(Gstruct *Gstruct)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1818,63 +1721,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Astructs = nil
-	stage.Astructs_mapString = nil
-
-	stage.AstructBstruct2Uses = nil
-	stage.AstructBstruct2Uses_mapString = nil
-
-	stage.AstructBstructUses = nil
-	stage.AstructBstructUses_mapString = nil
-
-	stage.Bstructs = nil
-	stage.Bstructs_mapString = nil
-
-	stage.Dstructs = nil
-	stage.Dstructs_mapString = nil
-
-	stage.F0123456789012345678901234567890s = nil
-	stage.F0123456789012345678901234567890s_mapString = nil
-
-	stage.Gstructs = nil
-	stage.Gstructs_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for astruct := range stage.Astructs {
-		astruct.Unstage(stage)
-	}
-
-	for astructbstruct2use := range stage.AstructBstruct2Uses {
-		astructbstruct2use.Unstage(stage)
-	}
-
-	for astructbstructuse := range stage.AstructBstructUses {
-		astructbstructuse.Unstage(stage)
-	}
-
-	for bstruct := range stage.Bstructs {
-		bstruct.Unstage(stage)
-	}
-
-	for dstruct := range stage.Dstructs {
-		dstruct.Unstage(stage)
-	}
-
-	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
-		f0123456789012345678901234567890.Unstage(stage)
-	}
-
-	for gstruct := range stage.Gstructs {
-		gstruct.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1892,13 +1738,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -3181,367 +3025,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		astruct.Name = value.GetValueString()
-	case "Associationtob":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Associationtob = nil
-			for __instance__ := range stage.Bstructs {
-				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Associationtob = __instance__
-					break
-				}
-			}
-		}
-	case "Anarrayofb":
-		astruct.Anarrayofb = make([]*Bstruct, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bstructs {
-					if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-						astruct.Anarrayofb = append(astruct.Anarrayofb, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Anotherassociationtob_2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Anotherassociationtob_2 = nil
-			for __instance__ := range stage.Bstructs {
-				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Anotherassociationtob_2 = __instance__
-					break
-				}
-			}
-		}
-	case "Booleanfield":
-		astruct.Booleanfield = value.GetValueBool()
-	case "Aenum":
-		astruct.Aenum.FromCodeString(value.GetValueString())
-	case "Aenum_2":
-		astruct.Aenum_2.FromCodeString(value.GetValueString())
-	case "Benum":
-		astruct.Benum.FromCodeString(value.GetValueString())
-	case "CEnum":
-		astruct.CEnum.FromCodeString(value.GetValueString())
-	case "CName":
-		astruct.CName = value.GetValueString()
-	case "CFloatfield":
-		astruct.CFloatfield = value.GetValueFloat()
-	case "Bstruct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Bstruct = nil
-			for __instance__ := range stage.Bstructs {
-				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Bstruct = __instance__
-					break
-				}
-			}
-		}
-	case "Bstruct2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Bstruct2 = nil
-			for __instance__ := range stage.Bstructs {
-				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Bstruct2 = __instance__
-					break
-				}
-			}
-		}
-	case "Dstruct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Dstruct = nil
-			for __instance__ := range stage.Dstructs {
-				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Dstruct = __instance__
-					break
-				}
-			}
-		}
-	case "Dstruct2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Dstruct2 = nil
-			for __instance__ := range stage.Dstructs {
-				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Dstruct2 = __instance__
-					break
-				}
-			}
-		}
-	case "Dstruct3":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Dstruct3 = nil
-			for __instance__ := range stage.Dstructs {
-				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Dstruct3 = __instance__
-					break
-				}
-			}
-		}
-	case "Dstruct4":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.Dstruct4 = nil
-			for __instance__ := range stage.Dstructs {
-				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
-					astruct.Dstruct4 = __instance__
-					break
-				}
-			}
-		}
-	case "Dstruct4s":
-		astruct.Dstruct4s = make([]*Dstruct, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Dstructs {
-					if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
-						astruct.Dstruct4s = append(astruct.Dstruct4s, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Floatfield":
-		astruct.Floatfield = value.GetValueFloat()
-	case "Intfield":
-		astruct.Intfield = int(value.GetValueInt())
-	case "Anotherbooleanfield":
-		astruct.Anotherbooleanfield = value.GetValueBool()
-	case "Anarrayofa":
-		astruct.Anarrayofa = make([]*Astruct, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Astructs {
-					if stage.Astruct_stagedOrder[__instance__] == uint(id) {
-						astruct.Anarrayofa = append(astruct.Anarrayofa, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Anotherarrayofb":
-		astruct.Anotherarrayofb = make([]*Bstruct, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bstructs {
-					if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-						astruct.Anotherarrayofb = append(astruct.Anotherarrayofb, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AnarrayofbUse":
-		astruct.AnarrayofbUse = make([]*AstructBstructUse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AstructBstructUses {
-					if stage.AstructBstructUse_stagedOrder[__instance__] == uint(id) {
-						astruct.AnarrayofbUse = append(astruct.AnarrayofbUse, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Anarrayofb2Use":
-		astruct.Anarrayofb2Use = make([]*AstructBstruct2Use, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AstructBstruct2Uses {
-					if stage.AstructBstruct2Use_stagedOrder[__instance__] == uint(id) {
-						astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AnAstruct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astruct.AnAstruct = nil
-			for __instance__ := range stage.Astructs {
-				if stage.Astruct_stagedOrder[__instance__] == uint(id) {
-					astruct.AnAstruct = __instance__
-					break
-				}
-			}
-		}
-	case "TextFieldBespokeSize":
-		astruct.TextFieldBespokeSize = value.GetValueString()
-	case "TextArea":
-		astruct.TextArea = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (astructbstruct2use *AstructBstruct2Use) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		astructbstruct2use.Name = value.GetValueString()
-	case "Bstrcut2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astructbstruct2use.Bstrcut2 = nil
-			for __instance__ := range stage.Bstructs {
-				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-					astructbstruct2use.Bstrcut2 = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (astructbstructuse *AstructBstructUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		astructbstructuse.Name = value.GetValueString()
-	case "Bstruct2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			astructbstructuse.Bstruct2 = nil
-			for __instance__ := range stage.Bstructs {
-				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-					astructbstructuse.Bstruct2 = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bstruct *Bstruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bstruct.Name = value.GetValueString()
-	case "Floatfield":
-		bstruct.Floatfield = value.GetValueFloat()
-	case "Floatfield2":
-		bstruct.Floatfield2 = value.GetValueFloat()
-	case "Intfield":
-		bstruct.Intfield = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dstruct *Dstruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dstruct.Name = value.GetValueString()
-	case "Anarrayofb":
-		dstruct.Anarrayofb = make([]*Bstruct, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bstructs {
-					if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
-						dstruct.Anarrayofb = append(dstruct.Anarrayofb, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Gstruct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dstruct.Gstruct = nil
-			for __instance__ := range stage.Gstructs {
-				if stage.Gstruct_stagedOrder[__instance__] == uint(id) {
-					dstruct.Gstruct = __instance__
-					break
-				}
-			}
-		}
-	case "Gstructs":
-		dstruct.Gstructs = make([]*Gstruct, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Gstructs {
-					if stage.Gstruct_stagedOrder[__instance__] == uint(id) {
-						dstruct.Gstructs = append(dstruct.Gstructs, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		f0123456789012345678901234567890.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (gstruct *Gstruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		gstruct.Name = value.GetValueString()
-	case "Floatfield":
-		gstruct.Floatfield = value.GetValueFloat()
-	case "Floatfield2":
-		gstruct.Floatfield2 = value.GetValueFloat()
-	case "Intfield":
-		gstruct.Intfield = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (astruct *Astruct) GongGetGongstructName() string {

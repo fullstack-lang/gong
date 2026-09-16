@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	load_go "github.com/fullstack-lang/gong/lib/load/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -176,9 +163,6 @@ type Stage struct {
 	OnAfterMessageDeleteCallback OnAfterDeleteInterface[Message]
 	OnAfterMessageReadCallback   OnAfterReadInterface[Message]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -207,8 +191,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -516,14 +498,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -599,28 +573,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/load/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return load_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return load_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -717,11 +671,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "FileToDownload"},
-			{name: "FileToUpload"},
-			{name: "Message"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -925,9 +874,6 @@ func (filetodownload *FileToDownload) Commit(stage *Stage) *FileToDownload {
 	return filetodownload
 }
 
-func (filetodownload *FileToDownload) CommitVoid(stage *Stage) {
-	filetodownload.Commit(stage)
-}
 
 func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
 	filetodownload.Stage(stage)
@@ -1013,9 +959,6 @@ func (filetoupload *FileToUpload) Commit(stage *Stage) *FileToUpload {
 	return filetoupload
 }
 
-func (filetoupload *FileToUpload) CommitVoid(stage *Stage) {
-	filetoupload.Commit(stage)
-}
 
 func (filetoupload *FileToUpload) StageVoid(stage *Stage) {
 	filetoupload.Stage(stage)
@@ -1101,9 +1044,6 @@ func (message *Message) Commit(stage *Stage) *Message {
 	return message
 }
 
-func (message *Message) CommitVoid(stage *Stage) {
-	message.Commit(stage)
-}
 
 func (message *Message) StageVoid(stage *Stage) {
 	message.Stage(stage)
@@ -1127,19 +1067,6 @@ func (message *Message) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (message *Message) SetName(name string) {
 	message.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMFileToDownload(FileToDownload *FileToDownload)
-	CreateORMFileToUpload(FileToUpload *FileToUpload)
-	CreateORMMessage(Message *Message)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMFileToDownload(FileToDownload *FileToDownload)
-	DeleteORMFileToUpload(FileToUpload *FileToUpload)
-	DeleteORMMessage(Message *Message)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1166,35 +1093,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.FileToDownloads = nil
-	stage.FileToDownloads_mapString = nil
-
-	stage.FileToUploads = nil
-	stage.FileToUploads_mapString = nil
-
-	stage.Messages = nil
-	stage.Messages_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for filetodownload := range stage.FileToDownloads {
-		filetodownload.Unstage(stage)
-	}
-
-	for filetoupload := range stage.FileToUploads {
-		filetoupload.Unstage(stage)
-	}
-
-	for message := range stage.Messages {
-		message.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1212,13 +1110,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -1552,47 +1448,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (filetodownload *FileToDownload) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		filetodownload.Name = value.GetValueString()
-	case "Base64EncodedContent":
-		filetodownload.Base64EncodedContent = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (filetoupload *FileToUpload) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		filetoupload.Name = value.GetValueString()
-	case "Base64EncodedContent":
-		filetoupload.Base64EncodedContent = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		message.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (filetodownload *FileToDownload) GongGetGongstructName() string {

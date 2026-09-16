@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	markdown_go "github.com/fullstack-lang/gong/lib/markdown/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -191,9 +178,6 @@ type Stage struct {
 	OnAfterSvgImageDeleteCallback OnAfterDeleteInterface[SvgImage]
 	OnAfterSvgImageReadCallback   OnAfterReadInterface[SvgImage]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -222,8 +206,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -549,14 +531,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -646,28 +620,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/markdown/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return markdown_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return markdown_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -775,12 +729,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Content"},
-			{name: "JpgImage"},
-			{name: "PngImage"},
-			{name: "SvgImage"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -989,9 +937,6 @@ func (content *Content) Commit(stage *Stage) *Content {
 	return content
 }
 
-func (content *Content) CommitVoid(stage *Stage) {
-	content.Commit(stage)
-}
 
 func (content *Content) StageVoid(stage *Stage) {
 	content.Stage(stage)
@@ -1077,9 +1022,6 @@ func (jpgimage *JpgImage) Commit(stage *Stage) *JpgImage {
 	return jpgimage
 }
 
-func (jpgimage *JpgImage) CommitVoid(stage *Stage) {
-	jpgimage.Commit(stage)
-}
 
 func (jpgimage *JpgImage) StageVoid(stage *Stage) {
 	jpgimage.Stage(stage)
@@ -1165,9 +1107,6 @@ func (pngimage *PngImage) Commit(stage *Stage) *PngImage {
 	return pngimage
 }
 
-func (pngimage *PngImage) CommitVoid(stage *Stage) {
-	pngimage.Commit(stage)
-}
 
 func (pngimage *PngImage) StageVoid(stage *Stage) {
 	pngimage.Stage(stage)
@@ -1253,9 +1192,6 @@ func (svgimage *SvgImage) Commit(stage *Stage) *SvgImage {
 	return svgimage
 }
 
-func (svgimage *SvgImage) CommitVoid(stage *Stage) {
-	svgimage.Commit(stage)
-}
 
 func (svgimage *SvgImage) StageVoid(stage *Stage) {
 	svgimage.Stage(stage)
@@ -1279,21 +1215,6 @@ func (svgimage *SvgImage) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (svgimage *SvgImage) SetName(name string) {
 	svgimage.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMContent(Content *Content)
-	CreateORMJpgImage(JpgImage *JpgImage)
-	CreateORMPngImage(PngImage *PngImage)
-	CreateORMSvgImage(SvgImage *SvgImage)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMContent(Content *Content)
-	DeleteORMJpgImage(JpgImage *JpgImage)
-	DeleteORMPngImage(PngImage *PngImage)
-	DeleteORMSvgImage(SvgImage *SvgImage)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1325,42 +1246,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Contents = nil
-	stage.Contents_mapString = nil
-
-	stage.JpgImages = nil
-	stage.JpgImages_mapString = nil
-
-	stage.PngImages = nil
-	stage.PngImages_mapString = nil
-
-	stage.SvgImages = nil
-	stage.SvgImages_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for content := range stage.Contents {
-		content.Unstage(stage)
-	}
-
-	for jpgimage := range stage.JpgImages {
-		jpgimage.Unstage(stage)
-	}
-
-	for pngimage := range stage.PngImages {
-		pngimage.Unstage(stage)
-	}
-
-	for svgimage := range stage.SvgImages {
-		svgimage.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1378,13 +1263,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -1773,62 +1656,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		content.Name = value.GetValueString()
-	case "Content":
-		content.Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (jpgimage *JpgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		jpgimage.Name = value.GetValueString()
-	case "Base64Content":
-		jpgimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pngimage *PngImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pngimage.Name = value.GetValueString()
-	case "Base64Content":
-		pngimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (svgimage *SvgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		svgimage.Name = value.GetValueString()
-	case "Content":
-		svgimage.Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (content *Content) GongGetGongstructName() string {

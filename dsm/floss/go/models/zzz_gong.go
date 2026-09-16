@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	floss_go "github.com/fullstack-lang/gong/dsm/floss/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -383,9 +370,6 @@ type Stage struct {
 	OnAfterSystemDeleteCallback OnAfterDeleteInterface[System]
 	OnAfterSystemReadCallback   OnAfterReadInterface[System]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -414,8 +398,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -885,14 +867,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1094,28 +1068,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/floss/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return floss_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return floss_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1311,20 +1265,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "CompareAnalysis"},
-			{name: "Complexity"},
-			{name: "DiagramFlossEquation"},
-			{name: "Effort"},
-			{name: "Library"},
-			{name: "Note"},
-			{name: "NoteComplexityShape"},
-			{name: "NoteEffortShape"},
-			{name: "NotePerformanceShape"},
-			{name: "NoteShape"},
-			{name: "Performance"},
-			{name: "System"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1573,9 +1513,6 @@ func (compareanalysis *CompareAnalysis) Commit(stage *Stage) *CompareAnalysis {
 	return compareanalysis
 }
 
-func (compareanalysis *CompareAnalysis) CommitVoid(stage *Stage) {
-	compareanalysis.Commit(stage)
-}
 
 func (compareanalysis *CompareAnalysis) StageVoid(stage *Stage) {
 	compareanalysis.Stage(stage)
@@ -1661,9 +1598,6 @@ func (complexity *Complexity) Commit(stage *Stage) *Complexity {
 	return complexity
 }
 
-func (complexity *Complexity) CommitVoid(stage *Stage) {
-	complexity.Commit(stage)
-}
 
 func (complexity *Complexity) StageVoid(stage *Stage) {
 	complexity.Stage(stage)
@@ -1749,9 +1683,6 @@ func (diagramflossequation *DiagramFlossEquation) Commit(stage *Stage) *DiagramF
 	return diagramflossequation
 }
 
-func (diagramflossequation *DiagramFlossEquation) CommitVoid(stage *Stage) {
-	diagramflossequation.Commit(stage)
-}
 
 func (diagramflossequation *DiagramFlossEquation) StageVoid(stage *Stage) {
 	diagramflossequation.Stage(stage)
@@ -1837,9 +1768,6 @@ func (effort *Effort) Commit(stage *Stage) *Effort {
 	return effort
 }
 
-func (effort *Effort) CommitVoid(stage *Stage) {
-	effort.Commit(stage)
-}
 
 func (effort *Effort) StageVoid(stage *Stage) {
 	effort.Stage(stage)
@@ -1925,9 +1853,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -2013,9 +1938,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -2101,9 +2023,6 @@ func (notecomplexityshape *NoteComplexityShape) Commit(stage *Stage) *NoteComple
 	return notecomplexityshape
 }
 
-func (notecomplexityshape *NoteComplexityShape) CommitVoid(stage *Stage) {
-	notecomplexityshape.Commit(stage)
-}
 
 func (notecomplexityshape *NoteComplexityShape) StageVoid(stage *Stage) {
 	notecomplexityshape.Stage(stage)
@@ -2189,9 +2108,6 @@ func (noteeffortshape *NoteEffortShape) Commit(stage *Stage) *NoteEffortShape {
 	return noteeffortshape
 }
 
-func (noteeffortshape *NoteEffortShape) CommitVoid(stage *Stage) {
-	noteeffortshape.Commit(stage)
-}
 
 func (noteeffortshape *NoteEffortShape) StageVoid(stage *Stage) {
 	noteeffortshape.Stage(stage)
@@ -2277,9 +2193,6 @@ func (noteperformanceshape *NotePerformanceShape) Commit(stage *Stage) *NotePerf
 	return noteperformanceshape
 }
 
-func (noteperformanceshape *NotePerformanceShape) CommitVoid(stage *Stage) {
-	noteperformanceshape.Commit(stage)
-}
 
 func (noteperformanceshape *NotePerformanceShape) StageVoid(stage *Stage) {
 	noteperformanceshape.Stage(stage)
@@ -2365,9 +2278,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *Stage) {
-	noteshape.Commit(stage)
-}
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -2453,9 +2363,6 @@ func (performance *Performance) Commit(stage *Stage) *Performance {
 	return performance
 }
 
-func (performance *Performance) CommitVoid(stage *Stage) {
-	performance.Commit(stage)
-}
 
 func (performance *Performance) StageVoid(stage *Stage) {
 	performance.Stage(stage)
@@ -2541,9 +2448,6 @@ func (system *System) Commit(stage *Stage) *System {
 	return system
 }
 
-func (system *System) CommitVoid(stage *Stage) {
-	system.Commit(stage)
-}
 
 func (system *System) StageVoid(stage *Stage) {
 	system.Stage(stage)
@@ -2567,37 +2471,6 @@ func (system *System) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (system *System) SetName(name string) {
 	system.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMCompareAnalysis(CompareAnalysis *CompareAnalysis)
-	CreateORMComplexity(Complexity *Complexity)
-	CreateORMDiagramFlossEquation(DiagramFlossEquation *DiagramFlossEquation)
-	CreateORMEffort(Effort *Effort)
-	CreateORMLibrary(Library *Library)
-	CreateORMNote(Note *Note)
-	CreateORMNoteComplexityShape(NoteComplexityShape *NoteComplexityShape)
-	CreateORMNoteEffortShape(NoteEffortShape *NoteEffortShape)
-	CreateORMNotePerformanceShape(NotePerformanceShape *NotePerformanceShape)
-	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMPerformance(Performance *Performance)
-	CreateORMSystem(System *System)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMCompareAnalysis(CompareAnalysis *CompareAnalysis)
-	DeleteORMComplexity(Complexity *Complexity)
-	DeleteORMDiagramFlossEquation(DiagramFlossEquation *DiagramFlossEquation)
-	DeleteORMEffort(Effort *Effort)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMNote(Note *Note)
-	DeleteORMNoteComplexityShape(NoteComplexityShape *NoteComplexityShape)
-	DeleteORMNoteEffortShape(NoteEffortShape *NoteEffortShape)
-	DeleteORMNotePerformanceShape(NotePerformanceShape *NotePerformanceShape)
-	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMPerformance(Performance *Performance)
-	DeleteORMSystem(System *System)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -2669,98 +2542,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.CompareAnalysiss = nil
-	stage.CompareAnalysiss_mapString = nil
-
-	stage.Complexitys = nil
-	stage.Complexitys_mapString = nil
-
-	stage.DiagramFlossEquations = nil
-	stage.DiagramFlossEquations_mapString = nil
-
-	stage.Efforts = nil
-	stage.Efforts_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.NoteComplexityShapes = nil
-	stage.NoteComplexityShapes_mapString = nil
-
-	stage.NoteEffortShapes = nil
-	stage.NoteEffortShapes_mapString = nil
-
-	stage.NotePerformanceShapes = nil
-	stage.NotePerformanceShapes_mapString = nil
-
-	stage.NoteShapes = nil
-	stage.NoteShapes_mapString = nil
-
-	stage.Performances = nil
-	stage.Performances_mapString = nil
-
-	stage.Systems = nil
-	stage.Systems_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for compareanalysis := range stage.CompareAnalysiss {
-		compareanalysis.Unstage(stage)
-	}
-
-	for complexity := range stage.Complexitys {
-		complexity.Unstage(stage)
-	}
-
-	for diagramflossequation := range stage.DiagramFlossEquations {
-		diagramflossequation.Unstage(stage)
-	}
-
-	for effort := range stage.Efforts {
-		effort.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for notecomplexityshape := range stage.NoteComplexityShapes {
-		notecomplexityshape.Unstage(stage)
-	}
-
-	for noteeffortshape := range stage.NoteEffortShapes {
-		noteeffortshape.Unstage(stage)
-	}
-
-	for noteperformanceshape := range stage.NotePerformanceShapes {
-		noteperformanceshape.Unstage(stage)
-	}
-
-	for noteshape := range stage.NoteShapes {
-		noteshape.Unstage(stage)
-	}
-
-	for performance := range stage.Performances {
-		performance.Unstage(stage)
-	}
-
-	for system := range stage.Systems {
-		system.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -2778,13 +2559,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -5457,925 +5236,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (compareanalysis *CompareAnalysis) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		compareanalysis.Name = value.GetValueString()
-	case "FromSystem":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			compareanalysis.FromSystem = nil
-			for __instance__ := range stage.Systems {
-				if stage.System_stagedOrder[__instance__] == uint(id) {
-					compareanalysis.FromSystem = __instance__
-					break
-				}
-			}
-		}
-	case "ToSystem":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			compareanalysis.ToSystem = nil
-			for __instance__ := range stage.Systems {
-				if stage.System_stagedOrder[__instance__] == uint(id) {
-					compareanalysis.ToSystem = __instance__
-					break
-				}
-			}
-		}
-	case "Mu":
-		compareanalysis.Mu = value.GetValueFloat()
-	case "Epsilon":
-		compareanalysis.Epsilon = value.GetValueFloat()
-	case "DiagramFlossEquations":
-		compareanalysis.DiagramFlossEquations = make([]*DiagramFlossEquation, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramFlossEquations {
-					if stage.DiagramFlossEquation_stagedOrder[__instance__] == uint(id) {
-						compareanalysis.DiagramFlossEquations = append(compareanalysis.DiagramFlossEquations, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DiagramFlossEquationsWhoseNodeIsExpanded":
-		compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded = make([]*DiagramFlossEquation, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramFlossEquations {
-					if stage.DiagramFlossEquation_stagedOrder[__instance__] == uint(id) {
-						compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded = append(compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		compareanalysis.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		compareanalysis.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (complexity *Complexity) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		complexity.Name = value.GetValueString()
-	case "Strength":
-		complexity.Strength = value.GetValueFloat()
-	case "Description":
-		complexity.Description = value.GetValueString()
-	case "ComputedPrefix":
-		complexity.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		complexity.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagramflossequation.Name = value.GetValueString()
-	case "Description":
-		diagramflossequation.Description = value.GetValueString()
-	case "Scale":
-		diagramflossequation.Scale = value.GetValueFloat()
-	case "FontSize":
-		diagramflossequation.FontSize.FromCodeString(value.GetValueString())
-	case "ComputedPrefix":
-		diagramflossequation.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagramflossequation.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagramflossequation.IsChecked = value.GetValueBool()
-	case "IsEditable_":
-		diagramflossequation.IsEditable_ = value.GetValueBool()
-	case "IsInDelta3ColumnsMode":
-		diagramflossequation.IsInDelta3ColumnsMode = value.GetValueBool()
-	case "AreQuantitativeElementsVisible":
-		diagramflossequation.AreQuantitativeElementsVisible = value.GetValueBool()
-	case "AreSubsystemsVisible":
-		diagramflossequation.AreSubsystemsVisible = value.GetValueBool()
-	case "AreCommonElementsHidden":
-		diagramflossequation.AreCommonElementsHidden = value.GetValueBool()
-	case "AreCPEArrowsVisible":
-		diagramflossequation.AreCPEArrowsVisible = value.GetValueBool()
-	case "AreColumnTitlesVisible":
-		diagramflossequation.AreColumnTitlesVisible = value.GetValueBool()
-	case "Width":
-		diagramflossequation.Width = value.GetValueFloat()
-	case "Height":
-		diagramflossequation.Height = value.GetValueFloat()
-	case "DefaultBoxWidth":
-		diagramflossequation.DefaultBoxWidth = value.GetValueFloat()
-	case "DefaultBoxHeigth":
-		diagramflossequation.DefaultBoxHeigth = value.GetValueFloat()
-	case "Note_Shapes":
-		diagramflossequation.Note_Shapes = make([]*NoteShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.Note_Shapes = append(diagramflossequation.Note_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteComplexityShapes":
-		diagramflossequation.NoteComplexityShapes = make([]*NoteComplexityShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteComplexityShapes {
-					if stage.NoteComplexityShape_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.NoteComplexityShapes = append(diagramflossequation.NoteComplexityShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NotePerformanceShapes":
-		diagramflossequation.NotePerformanceShapes = make([]*NotePerformanceShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NotePerformanceShapes {
-					if stage.NotePerformanceShape_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.NotePerformanceShapes = append(diagramflossequation.NotePerformanceShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NoteEffortShapes":
-		diagramflossequation.NoteEffortShapes = make([]*NoteEffortShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteEffortShapes {
-					if stage.NoteEffortShape_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.NoteEffortShapes = append(diagramflossequation.NoteEffortShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		diagramflossequation.IsNotesNodeExpanded = value.GetValueBool()
-	case "NotesWhoseNodeIsExpanded":
-		diagramflossequation.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.NotesWhoseNodeIsExpanded = append(diagramflossequation.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsComplexitysNodeExpanded":
-		diagramflossequation.IsComplexitysNodeExpanded = value.GetValueBool()
-	case "ComplexitysWhoseNodeIsExpanded":
-		diagramflossequation.ComplexitysWhoseNodeIsExpanded = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.ComplexitysWhoseNodeIsExpanded = append(diagramflossequation.ComplexitysWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPerformancesNodeExpanded":
-		diagramflossequation.IsPerformancesNodeExpanded = value.GetValueBool()
-	case "PerformancesWhoseNodeIsExpanded":
-		diagramflossequation.PerformancesWhoseNodeIsExpanded = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.PerformancesWhoseNodeIsExpanded = append(diagramflossequation.PerformancesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsEffortsNodeExpanded":
-		diagramflossequation.IsEffortsNodeExpanded = value.GetValueBool()
-	case "EffortsWhoseNodeIsExpanded":
-		diagramflossequation.EffortsWhoseNodeIsExpanded = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						diagramflossequation.EffortsWhoseNodeIsExpanded = append(diagramflossequation.EffortsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (effort *Effort) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		effort.Name = value.GetValueString()
-	case "Strength":
-		effort.Strength = value.GetValueFloat()
-	case "Description":
-		effort.Description = value.GetValueString()
-	case "ComputedPrefix":
-		effort.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		effort.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "Description":
-		library.Description = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootSystems":
-		library.RootSystems = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						library.RootSystems = append(library.RootSystems, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootComplexitys":
-		library.RootComplexitys = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						library.RootComplexitys = append(library.RootComplexitys, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootPerformances":
-		library.RootPerformances = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						library.RootPerformances = append(library.RootPerformances, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootEfforts":
-		library.RootEfforts = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						library.RootEfforts = append(library.RootEfforts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootCompareAnalysis":
-		library.RootCompareAnalysis = make([]*CompareAnalysis, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.CompareAnalysiss {
-					if stage.CompareAnalysis_stagedOrder[__instance__] == uint(id) {
-						library.RootCompareAnalysis = append(library.RootCompareAnalysis, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootNotes":
-		library.RootNotes = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.RootNotes = append(library.RootNotes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "IsSubLibrariesNodeExpanded":
-		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "IsSystemsNodeExpanded":
-		library.IsSystemsNodeExpanded = value.GetValueBool()
-	case "SystemsWhoseNodeIsExpanded":
-		library.SystemsWhoseNodeIsExpanded = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						library.SystemsWhoseNodeIsExpanded = append(library.SystemsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsComplexitysNodeExpanded":
-		library.IsComplexitysNodeExpanded = value.GetValueBool()
-	case "ComplexitysWhoseNodeIsExpanded":
-		library.ComplexitysWhoseNodeIsExpanded = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						library.ComplexitysWhoseNodeIsExpanded = append(library.ComplexitysWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPerformancesNodeExpanded":
-		library.IsPerformancesNodeExpanded = value.GetValueBool()
-	case "PerformancesWhoseNodeIsExpanded":
-		library.PerformancesWhoseNodeIsExpanded = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						library.PerformancesWhoseNodeIsExpanded = append(library.PerformancesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsEffortsNodeExpanded":
-		library.IsEffortsNodeExpanded = value.GetValueBool()
-	case "EffortsWhoseNodeIsExpanded":
-		library.EffortsWhoseNodeIsExpanded = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						library.EffortsWhoseNodeIsExpanded = append(library.EffortsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsCompareAnalysisNodeExpanded":
-		library.IsCompareAnalysisNodeExpanded = value.GetValueBool()
-	case "CompareAnalysisWhoseNodeIsExpanded":
-		library.CompareAnalysisWhoseNodeIsExpanded = make([]*CompareAnalysis, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.CompareAnalysiss {
-					if stage.CompareAnalysis_stagedOrder[__instance__] == uint(id) {
-						library.CompareAnalysisWhoseNodeIsExpanded = append(library.CompareAnalysisWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		library.IsNotesNodeExpanded = value.GetValueBool()
-	case "NotesWhoseNodeIsExpanded":
-		library.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.NotesWhoseNodeIsExpanded = append(library.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsExpandedTmp":
-		library.IsExpandedTmp = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "Description":
-		note.Description = value.GetValueString()
-	case "Complexities":
-		note.Complexities = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						note.Complexities = append(note.Complexities, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Performances":
-		note.Performances = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						note.Performances = append(note.Performances, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Efforts":
-		note.Efforts = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						note.Efforts = append(note.Efforts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "IsComplexitysNodeExpanded":
-		note.IsComplexitysNodeExpanded = value.GetValueBool()
-	case "IsPerformancesNodeExpanded":
-		note.IsPerformancesNodeExpanded = value.GetValueBool()
-	case "IsEffortsNodeExpanded":
-		note.IsEffortsNodeExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notecomplexityshape *NoteComplexityShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notecomplexityshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notecomplexityshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notecomplexityshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Complexity":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notecomplexityshape.Complexity = nil
-			for __instance__ := range stage.Complexitys {
-				if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-					notecomplexityshape.Complexity = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notecomplexityshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notecomplexityshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notecomplexityshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notecomplexityshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notecomplexityshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notecomplexityshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteeffortshape *NoteEffortShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteeffortshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteeffortshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteeffortshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Effort":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteeffortshape.Effort = nil
-			for __instance__ := range stage.Efforts {
-				if stage.Effort_stagedOrder[__instance__] == uint(id) {
-					noteeffortshape.Effort = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		noteeffortshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		noteeffortshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		noteeffortshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		noteeffortshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		noteeffortshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		noteeffortshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteperformanceshape *NotePerformanceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteperformanceshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteperformanceshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteperformanceshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Performance":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteperformanceshape.Performance = nil
-			for __instance__ := range stage.Performances {
-				if stage.Performance_stagedOrder[__instance__] == uint(id) {
-					noteperformanceshape.Performance = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		noteperformanceshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		noteperformanceshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		noteperformanceshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		noteperformanceshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		noteperformanceshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		noteperformanceshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		noteshape.X = value.GetValueFloat()
-	case "Y":
-		noteshape.Y = value.GetValueFloat()
-	case "Width":
-		noteshape.Width = value.GetValueFloat()
-	case "Height":
-		noteshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		noteshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (performance *Performance) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		performance.Name = value.GetValueString()
-	case "Strength":
-		performance.Strength = value.GetValueFloat()
-	case "Description":
-		performance.Description = value.GetValueString()
-	case "ComputedPrefix":
-		performance.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		performance.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		system.Name = value.GetValueString()
-	case "Description":
-		system.Description = value.GetValueString()
-	case "Complexities":
-		system.Complexities = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						system.Complexities = append(system.Complexities, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Performances":
-		system.Performances = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						system.Performances = append(system.Performances, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Efforts":
-		system.Efforts = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						system.Efforts = append(system.Efforts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubSystems":
-		system.SubSystems = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						system.SubSystems = append(system.SubSystems, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AreCPEsCompoundedFromSubSystems":
-		system.AreCPEsCompoundedFromSubSystems = value.GetValueBool()
-	case "ComputedPrefix":
-		system.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		system.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		system.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		system.InverseAppliedScaling = value.GetValueFloat()
-	case "DiagramFlossEquations":
-		system.DiagramFlossEquations = make([]*DiagramFlossEquation, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramFlossEquations {
-					if stage.DiagramFlossEquation_stagedOrder[__instance__] == uint(id) {
-						system.DiagramFlossEquations = append(system.DiagramFlossEquations, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DiagramFlossEquationsWhoseNodeIsExpanded":
-		system.DiagramFlossEquationsWhoseNodeIsExpanded = make([]*DiagramFlossEquation, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramFlossEquations {
-					if stage.DiagramFlossEquation_stagedOrder[__instance__] == uint(id) {
-						system.DiagramFlossEquationsWhoseNodeIsExpanded = append(system.DiagramFlossEquationsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubSystemNodeExpanded":
-		system.IsSubSystemNodeExpanded = value.GetValueBool()
-	case "IsComplexitysNodeExpanded":
-		system.IsComplexitysNodeExpanded = value.GetValueBool()
-	case "ComplexitysWhoseNodeIsExpanded":
-		system.ComplexitysWhoseNodeIsExpanded = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						system.ComplexitysWhoseNodeIsExpanded = append(system.ComplexitysWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPerformancesNodeExpanded":
-		system.IsPerformancesNodeExpanded = value.GetValueBool()
-	case "PerformancesWhoseNodeIsExpanded":
-		system.PerformancesWhoseNodeIsExpanded = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						system.PerformancesWhoseNodeIsExpanded = append(system.PerformancesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsEffortsNodeExpanded":
-		system.IsEffortsNodeExpanded = value.GetValueBool()
-	case "EffortsWhoseNodeIsExpanded":
-		system.EffortsWhoseNodeIsExpanded = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						system.EffortsWhoseNodeIsExpanded = append(system.EffortsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (compareanalysis *CompareAnalysis) GongGetGongstructName() string {

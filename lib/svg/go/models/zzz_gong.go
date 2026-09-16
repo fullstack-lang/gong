@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	svg_go "github.com/fullstack-lang/gong/lib/svg/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -563,9 +550,6 @@ type Stage struct {
 	OnAfterTextDeleteCallback OnAfterDeleteInterface[Text]
 	OnAfterTextReadCallback   OnAfterReadInterface[Text]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -594,8 +578,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1281,14 +1263,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1658,28 +1632,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/svg/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return svg_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return svg_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -2007,32 +1961,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Animate"},
-			{name: "Circle"},
-			{name: "Condition"},
-			{name: "ControlPoint"},
-			{name: "Ellipse"},
-			{name: "FileToDownload"},
-			{name: "Layer"},
-			{name: "Line"},
-			{name: "Link"},
-			{name: "LinkAnchoredPath"},
-			{name: "LinkAnchoredText"},
-			{name: "Path"},
-			{name: "Point"},
-			{name: "Polygone"},
-			{name: "Polyline"},
-			{name: "Rect"},
-			{name: "RectAnchoredPath"},
-			{name: "RectAnchoredPngImage"},
-			{name: "RectAnchoredRect"},
-			{name: "RectAnchoredText"},
-			{name: "RectLinkLink"},
-			{name: "SVG"},
-			{name: "SvgText"},
-			{name: "Text"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2341,9 +2269,6 @@ func (animate *Animate) Commit(stage *Stage) *Animate {
 	return animate
 }
 
-func (animate *Animate) CommitVoid(stage *Stage) {
-	animate.Commit(stage)
-}
 
 func (animate *Animate) StageVoid(stage *Stage) {
 	animate.Stage(stage)
@@ -2429,9 +2354,6 @@ func (circle *Circle) Commit(stage *Stage) *Circle {
 	return circle
 }
 
-func (circle *Circle) CommitVoid(stage *Stage) {
-	circle.Commit(stage)
-}
 
 func (circle *Circle) StageVoid(stage *Stage) {
 	circle.Stage(stage)
@@ -2517,9 +2439,6 @@ func (condition *Condition) Commit(stage *Stage) *Condition {
 	return condition
 }
 
-func (condition *Condition) CommitVoid(stage *Stage) {
-	condition.Commit(stage)
-}
 
 func (condition *Condition) StageVoid(stage *Stage) {
 	condition.Stage(stage)
@@ -2605,9 +2524,6 @@ func (controlpoint *ControlPoint) Commit(stage *Stage) *ControlPoint {
 	return controlpoint
 }
 
-func (controlpoint *ControlPoint) CommitVoid(stage *Stage) {
-	controlpoint.Commit(stage)
-}
 
 func (controlpoint *ControlPoint) StageVoid(stage *Stage) {
 	controlpoint.Stage(stage)
@@ -2693,9 +2609,6 @@ func (ellipse *Ellipse) Commit(stage *Stage) *Ellipse {
 	return ellipse
 }
 
-func (ellipse *Ellipse) CommitVoid(stage *Stage) {
-	ellipse.Commit(stage)
-}
 
 func (ellipse *Ellipse) StageVoid(stage *Stage) {
 	ellipse.Stage(stage)
@@ -2781,9 +2694,6 @@ func (filetodownload *FileToDownload) Commit(stage *Stage) *FileToDownload {
 	return filetodownload
 }
 
-func (filetodownload *FileToDownload) CommitVoid(stage *Stage) {
-	filetodownload.Commit(stage)
-}
 
 func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
 	filetodownload.Stage(stage)
@@ -2869,9 +2779,6 @@ func (layer *Layer) Commit(stage *Stage) *Layer {
 	return layer
 }
 
-func (layer *Layer) CommitVoid(stage *Stage) {
-	layer.Commit(stage)
-}
 
 func (layer *Layer) StageVoid(stage *Stage) {
 	layer.Stage(stage)
@@ -2957,9 +2864,6 @@ func (line *Line) Commit(stage *Stage) *Line {
 	return line
 }
 
-func (line *Line) CommitVoid(stage *Stage) {
-	line.Commit(stage)
-}
 
 func (line *Line) StageVoid(stage *Stage) {
 	line.Stage(stage)
@@ -3045,9 +2949,6 @@ func (link *Link) Commit(stage *Stage) *Link {
 	return link
 }
 
-func (link *Link) CommitVoid(stage *Stage) {
-	link.Commit(stage)
-}
 
 func (link *Link) StageVoid(stage *Stage) {
 	link.Stage(stage)
@@ -3133,9 +3034,6 @@ func (linkanchoredpath *LinkAnchoredPath) Commit(stage *Stage) *LinkAnchoredPath
 	return linkanchoredpath
 }
 
-func (linkanchoredpath *LinkAnchoredPath) CommitVoid(stage *Stage) {
-	linkanchoredpath.Commit(stage)
-}
 
 func (linkanchoredpath *LinkAnchoredPath) StageVoid(stage *Stage) {
 	linkanchoredpath.Stage(stage)
@@ -3221,9 +3119,6 @@ func (linkanchoredtext *LinkAnchoredText) Commit(stage *Stage) *LinkAnchoredText
 	return linkanchoredtext
 }
 
-func (linkanchoredtext *LinkAnchoredText) CommitVoid(stage *Stage) {
-	linkanchoredtext.Commit(stage)
-}
 
 func (linkanchoredtext *LinkAnchoredText) StageVoid(stage *Stage) {
 	linkanchoredtext.Stage(stage)
@@ -3309,9 +3204,6 @@ func (path *Path) Commit(stage *Stage) *Path {
 	return path
 }
 
-func (path *Path) CommitVoid(stage *Stage) {
-	path.Commit(stage)
-}
 
 func (path *Path) StageVoid(stage *Stage) {
 	path.Stage(stage)
@@ -3397,9 +3289,6 @@ func (point *Point) Commit(stage *Stage) *Point {
 	return point
 }
 
-func (point *Point) CommitVoid(stage *Stage) {
-	point.Commit(stage)
-}
 
 func (point *Point) StageVoid(stage *Stage) {
 	point.Stage(stage)
@@ -3485,9 +3374,6 @@ func (polygone *Polygone) Commit(stage *Stage) *Polygone {
 	return polygone
 }
 
-func (polygone *Polygone) CommitVoid(stage *Stage) {
-	polygone.Commit(stage)
-}
 
 func (polygone *Polygone) StageVoid(stage *Stage) {
 	polygone.Stage(stage)
@@ -3573,9 +3459,6 @@ func (polyline *Polyline) Commit(stage *Stage) *Polyline {
 	return polyline
 }
 
-func (polyline *Polyline) CommitVoid(stage *Stage) {
-	polyline.Commit(stage)
-}
 
 func (polyline *Polyline) StageVoid(stage *Stage) {
 	polyline.Stage(stage)
@@ -3661,9 +3544,6 @@ func (rect *Rect) Commit(stage *Stage) *Rect {
 	return rect
 }
 
-func (rect *Rect) CommitVoid(stage *Stage) {
-	rect.Commit(stage)
-}
 
 func (rect *Rect) StageVoid(stage *Stage) {
 	rect.Stage(stage)
@@ -3749,9 +3629,6 @@ func (rectanchoredpath *RectAnchoredPath) Commit(stage *Stage) *RectAnchoredPath
 	return rectanchoredpath
 }
 
-func (rectanchoredpath *RectAnchoredPath) CommitVoid(stage *Stage) {
-	rectanchoredpath.Commit(stage)
-}
 
 func (rectanchoredpath *RectAnchoredPath) StageVoid(stage *Stage) {
 	rectanchoredpath.Stage(stage)
@@ -3837,9 +3714,6 @@ func (rectanchoredpngimage *RectAnchoredPngImage) Commit(stage *Stage) *RectAnch
 	return rectanchoredpngimage
 }
 
-func (rectanchoredpngimage *RectAnchoredPngImage) CommitVoid(stage *Stage) {
-	rectanchoredpngimage.Commit(stage)
-}
 
 func (rectanchoredpngimage *RectAnchoredPngImage) StageVoid(stage *Stage) {
 	rectanchoredpngimage.Stage(stage)
@@ -3925,9 +3799,6 @@ func (rectanchoredrect *RectAnchoredRect) Commit(stage *Stage) *RectAnchoredRect
 	return rectanchoredrect
 }
 
-func (rectanchoredrect *RectAnchoredRect) CommitVoid(stage *Stage) {
-	rectanchoredrect.Commit(stage)
-}
 
 func (rectanchoredrect *RectAnchoredRect) StageVoid(stage *Stage) {
 	rectanchoredrect.Stage(stage)
@@ -4013,9 +3884,6 @@ func (rectanchoredtext *RectAnchoredText) Commit(stage *Stage) *RectAnchoredText
 	return rectanchoredtext
 }
 
-func (rectanchoredtext *RectAnchoredText) CommitVoid(stage *Stage) {
-	rectanchoredtext.Commit(stage)
-}
 
 func (rectanchoredtext *RectAnchoredText) StageVoid(stage *Stage) {
 	rectanchoredtext.Stage(stage)
@@ -4101,9 +3969,6 @@ func (rectlinklink *RectLinkLink) Commit(stage *Stage) *RectLinkLink {
 	return rectlinklink
 }
 
-func (rectlinklink *RectLinkLink) CommitVoid(stage *Stage) {
-	rectlinklink.Commit(stage)
-}
 
 func (rectlinklink *RectLinkLink) StageVoid(stage *Stage) {
 	rectlinklink.Stage(stage)
@@ -4189,9 +4054,6 @@ func (svg *SVG) Commit(stage *Stage) *SVG {
 	return svg
 }
 
-func (svg *SVG) CommitVoid(stage *Stage) {
-	svg.Commit(stage)
-}
 
 func (svg *SVG) StageVoid(stage *Stage) {
 	svg.Stage(stage)
@@ -4277,9 +4139,6 @@ func (svgtext *SvgText) Commit(stage *Stage) *SvgText {
 	return svgtext
 }
 
-func (svgtext *SvgText) CommitVoid(stage *Stage) {
-	svgtext.Commit(stage)
-}
 
 func (svgtext *SvgText) StageVoid(stage *Stage) {
 	svgtext.Stage(stage)
@@ -4365,9 +4224,6 @@ func (text *Text) Commit(stage *Stage) *Text {
 	return text
 }
 
-func (text *Text) CommitVoid(stage *Stage) {
-	text.Commit(stage)
-}
 
 func (text *Text) StageVoid(stage *Stage) {
 	text.Stage(stage)
@@ -4391,61 +4247,6 @@ func (text *Text) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (text *Text) SetName(name string) {
 	text.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAnimate(Animate *Animate)
-	CreateORMCircle(Circle *Circle)
-	CreateORMCondition(Condition *Condition)
-	CreateORMControlPoint(ControlPoint *ControlPoint)
-	CreateORMEllipse(Ellipse *Ellipse)
-	CreateORMFileToDownload(FileToDownload *FileToDownload)
-	CreateORMLayer(Layer *Layer)
-	CreateORMLine(Line *Line)
-	CreateORMLink(Link *Link)
-	CreateORMLinkAnchoredPath(LinkAnchoredPath *LinkAnchoredPath)
-	CreateORMLinkAnchoredText(LinkAnchoredText *LinkAnchoredText)
-	CreateORMPath(Path *Path)
-	CreateORMPoint(Point *Point)
-	CreateORMPolygone(Polygone *Polygone)
-	CreateORMPolyline(Polyline *Polyline)
-	CreateORMRect(Rect *Rect)
-	CreateORMRectAnchoredPath(RectAnchoredPath *RectAnchoredPath)
-	CreateORMRectAnchoredPngImage(RectAnchoredPngImage *RectAnchoredPngImage)
-	CreateORMRectAnchoredRect(RectAnchoredRect *RectAnchoredRect)
-	CreateORMRectAnchoredText(RectAnchoredText *RectAnchoredText)
-	CreateORMRectLinkLink(RectLinkLink *RectLinkLink)
-	CreateORMSVG(SVG *SVG)
-	CreateORMSvgText(SvgText *SvgText)
-	CreateORMText(Text *Text)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAnimate(Animate *Animate)
-	DeleteORMCircle(Circle *Circle)
-	DeleteORMCondition(Condition *Condition)
-	DeleteORMControlPoint(ControlPoint *ControlPoint)
-	DeleteORMEllipse(Ellipse *Ellipse)
-	DeleteORMFileToDownload(FileToDownload *FileToDownload)
-	DeleteORMLayer(Layer *Layer)
-	DeleteORMLine(Line *Line)
-	DeleteORMLink(Link *Link)
-	DeleteORMLinkAnchoredPath(LinkAnchoredPath *LinkAnchoredPath)
-	DeleteORMLinkAnchoredText(LinkAnchoredText *LinkAnchoredText)
-	DeleteORMPath(Path *Path)
-	DeleteORMPoint(Point *Point)
-	DeleteORMPolygone(Polygone *Polygone)
-	DeleteORMPolyline(Polyline *Polyline)
-	DeleteORMRect(Rect *Rect)
-	DeleteORMRectAnchoredPath(RectAnchoredPath *RectAnchoredPath)
-	DeleteORMRectAnchoredPngImage(RectAnchoredPngImage *RectAnchoredPngImage)
-	DeleteORMRectAnchoredRect(RectAnchoredRect *RectAnchoredRect)
-	DeleteORMRectAnchoredText(RectAnchoredText *RectAnchoredText)
-	DeleteORMRectLinkLink(RectLinkLink *RectLinkLink)
-	DeleteORMSVG(SVG *SVG)
-	DeleteORMSvgText(SvgText *SvgText)
-	DeleteORMText(Text *Text)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -4577,182 +4378,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Animates = nil
-	stage.Animates_mapString = nil
-
-	stage.Circles = nil
-	stage.Circles_mapString = nil
-
-	stage.Conditions = nil
-	stage.Conditions_mapString = nil
-
-	stage.ControlPoints = nil
-	stage.ControlPoints_mapString = nil
-
-	stage.Ellipses = nil
-	stage.Ellipses_mapString = nil
-
-	stage.FileToDownloads = nil
-	stage.FileToDownloads_mapString = nil
-
-	stage.Layers = nil
-	stage.Layers_mapString = nil
-
-	stage.Lines = nil
-	stage.Lines_mapString = nil
-
-	stage.Links = nil
-	stage.Links_mapString = nil
-
-	stage.LinkAnchoredPaths = nil
-	stage.LinkAnchoredPaths_mapString = nil
-
-	stage.LinkAnchoredTexts = nil
-	stage.LinkAnchoredTexts_mapString = nil
-
-	stage.Paths = nil
-	stage.Paths_mapString = nil
-
-	stage.Points = nil
-	stage.Points_mapString = nil
-
-	stage.Polygones = nil
-	stage.Polygones_mapString = nil
-
-	stage.Polylines = nil
-	stage.Polylines_mapString = nil
-
-	stage.Rects = nil
-	stage.Rects_mapString = nil
-
-	stage.RectAnchoredPaths = nil
-	stage.RectAnchoredPaths_mapString = nil
-
-	stage.RectAnchoredPngImages = nil
-	stage.RectAnchoredPngImages_mapString = nil
-
-	stage.RectAnchoredRects = nil
-	stage.RectAnchoredRects_mapString = nil
-
-	stage.RectAnchoredTexts = nil
-	stage.RectAnchoredTexts_mapString = nil
-
-	stage.RectLinkLinks = nil
-	stage.RectLinkLinks_mapString = nil
-
-	stage.SVGs = nil
-	stage.SVGs_mapString = nil
-
-	stage.SvgTexts = nil
-	stage.SvgTexts_mapString = nil
-
-	stage.Texts = nil
-	stage.Texts_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for animate := range stage.Animates {
-		animate.Unstage(stage)
-	}
-
-	for circle := range stage.Circles {
-		circle.Unstage(stage)
-	}
-
-	for condition := range stage.Conditions {
-		condition.Unstage(stage)
-	}
-
-	for controlpoint := range stage.ControlPoints {
-		controlpoint.Unstage(stage)
-	}
-
-	for ellipse := range stage.Ellipses {
-		ellipse.Unstage(stage)
-	}
-
-	for filetodownload := range stage.FileToDownloads {
-		filetodownload.Unstage(stage)
-	}
-
-	for layer := range stage.Layers {
-		layer.Unstage(stage)
-	}
-
-	for line := range stage.Lines {
-		line.Unstage(stage)
-	}
-
-	for link := range stage.Links {
-		link.Unstage(stage)
-	}
-
-	for linkanchoredpath := range stage.LinkAnchoredPaths {
-		linkanchoredpath.Unstage(stage)
-	}
-
-	for linkanchoredtext := range stage.LinkAnchoredTexts {
-		linkanchoredtext.Unstage(stage)
-	}
-
-	for path := range stage.Paths {
-		path.Unstage(stage)
-	}
-
-	for point := range stage.Points {
-		point.Unstage(stage)
-	}
-
-	for polygone := range stage.Polygones {
-		polygone.Unstage(stage)
-	}
-
-	for polyline := range stage.Polylines {
-		polyline.Unstage(stage)
-	}
-
-	for rect := range stage.Rects {
-		rect.Unstage(stage)
-	}
-
-	for rectanchoredpath := range stage.RectAnchoredPaths {
-		rectanchoredpath.Unstage(stage)
-	}
-
-	for rectanchoredpngimage := range stage.RectAnchoredPngImages {
-		rectanchoredpngimage.Unstage(stage)
-	}
-
-	for rectanchoredrect := range stage.RectAnchoredRects {
-		rectanchoredrect.Unstage(stage)
-	}
-
-	for rectanchoredtext := range stage.RectAnchoredTexts {
-		rectanchoredtext.Unstage(stage)
-	}
-
-	for rectlinklink := range stage.RectLinkLinks {
-		rectlinklink.Unstage(stage)
-	}
-
-	for svg := range stage.SVGs {
-		svg.Unstage(stage)
-	}
-
-	for svgtext := range stage.SvgTexts {
-		svgtext.Unstage(stage)
-	}
-
-	for text := range stage.Texts {
-		text.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -4770,13 +4395,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -9283,1435 +8906,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (animate *Animate) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		animate.Name = value.GetValueString()
-	case "AttributeName":
-		animate.AttributeName = value.GetValueString()
-	case "Values":
-		animate.Values = value.GetValueString()
-	case "From":
-		animate.From = value.GetValueString()
-	case "To":
-		animate.To = value.GetValueString()
-	case "Dur":
-		animate.Dur = value.GetValueString()
-	case "RepeatCount":
-		animate.RepeatCount = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (circle *Circle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		circle.Name = value.GetValueString()
-	case "CX":
-		circle.CX = value.GetValueFloat()
-	case "CY":
-		circle.CY = value.GetValueFloat()
-	case "Radius":
-		circle.Radius = value.GetValueFloat()
-	case "Color":
-		circle.Color = value.GetValueString()
-	case "FillOpacity":
-		circle.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		circle.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		circle.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		circle.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		circle.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		circle.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		circle.Transform = value.GetValueString()
-	case "Animations":
-		circle.Animations = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						circle.Animations = append(circle.Animations, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (condition *Condition) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		condition.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlpoint *ControlPoint) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlpoint.Name = value.GetValueString()
-	case "X_Relative":
-		controlpoint.X_Relative = value.GetValueFloat()
-	case "Y_Relative":
-		controlpoint.Y_Relative = value.GetValueFloat()
-	case "ClosestRect":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlpoint.ClosestRect = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					controlpoint.ClosestRect = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (ellipse *Ellipse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		ellipse.Name = value.GetValueString()
-	case "CX":
-		ellipse.CX = value.GetValueFloat()
-	case "CY":
-		ellipse.CY = value.GetValueFloat()
-	case "RX":
-		ellipse.RX = value.GetValueFloat()
-	case "RY":
-		ellipse.RY = value.GetValueFloat()
-	case "Color":
-		ellipse.Color = value.GetValueString()
-	case "FillOpacity":
-		ellipse.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		ellipse.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		ellipse.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		ellipse.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		ellipse.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		ellipse.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		ellipse.Transform = value.GetValueString()
-	case "Animates":
-		ellipse.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						ellipse.Animates = append(ellipse.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (filetodownload *FileToDownload) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		filetodownload.Name = value.GetValueString()
-	case "Base64EncodedContent":
-		filetodownload.Base64EncodedContent = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		layer.Name = value.GetValueString()
-	case "Rects":
-		layer.Rects = make([]*Rect, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Rects {
-					if stage.Rect_stagedOrder[__instance__] == uint(id) {
-						layer.Rects = append(layer.Rects, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Texts":
-		layer.Texts = make([]*Text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Texts {
-					if stage.Text_stagedOrder[__instance__] == uint(id) {
-						layer.Texts = append(layer.Texts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Circles":
-		layer.Circles = make([]*Circle, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Circles {
-					if stage.Circle_stagedOrder[__instance__] == uint(id) {
-						layer.Circles = append(layer.Circles, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Lines":
-		layer.Lines = make([]*Line, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lines {
-					if stage.Line_stagedOrder[__instance__] == uint(id) {
-						layer.Lines = append(layer.Lines, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Ellipses":
-		layer.Ellipses = make([]*Ellipse, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ellipses {
-					if stage.Ellipse_stagedOrder[__instance__] == uint(id) {
-						layer.Ellipses = append(layer.Ellipses, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Polylines":
-		layer.Polylines = make([]*Polyline, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Polylines {
-					if stage.Polyline_stagedOrder[__instance__] == uint(id) {
-						layer.Polylines = append(layer.Polylines, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Polygones":
-		layer.Polygones = make([]*Polygone, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Polygones {
-					if stage.Polygone_stagedOrder[__instance__] == uint(id) {
-						layer.Polygones = append(layer.Polygones, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Paths":
-		layer.Paths = make([]*Path, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Paths {
-					if stage.Path_stagedOrder[__instance__] == uint(id) {
-						layer.Paths = append(layer.Paths, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Links":
-		layer.Links = make([]*Link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Links {
-					if stage.Link_stagedOrder[__instance__] == uint(id) {
-						layer.Links = append(layer.Links, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RectLinkLinks":
-		layer.RectLinkLinks = make([]*RectLinkLink, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RectLinkLinks {
-					if stage.RectLinkLink_stagedOrder[__instance__] == uint(id) {
-						layer.RectLinkLinks = append(layer.RectLinkLinks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (line *Line) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		line.Name = value.GetValueString()
-	case "X1":
-		line.X1 = value.GetValueFloat()
-	case "Y1":
-		line.Y1 = value.GetValueFloat()
-	case "X2":
-		line.X2 = value.GetValueFloat()
-	case "Y2":
-		line.Y2 = value.GetValueFloat()
-	case "Color":
-		line.Color = value.GetValueString()
-	case "FillOpacity":
-		line.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		line.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		line.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		line.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		line.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		line.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		line.Transform = value.GetValueString()
-	case "Animates":
-		line.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						line.Animates = append(line.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "MouseClickX":
-		line.MouseClickX = value.GetValueFloat()
-	case "MouseClickY":
-		line.MouseClickY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		link.Name = value.GetValueString()
-	case "Type":
-		link.Type.FromCodeString(value.GetValueString())
-	case "IsBezierCurve":
-		link.IsBezierCurve = value.GetValueBool()
-	case "Start":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			link.Start = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					link.Start = __instance__
-					break
-				}
-			}
-		}
-	case "StartAnchorType":
-		link.StartAnchorType.FromCodeString(value.GetValueString())
-	case "End":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			link.End = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					link.End = __instance__
-					break
-				}
-			}
-		}
-	case "EndAnchorType":
-		link.EndAnchorType.FromCodeString(value.GetValueString())
-	case "StartOrientation":
-		link.StartOrientation.FromCodeString(value.GetValueString())
-	case "StartRatio":
-		link.StartRatio = value.GetValueFloat()
-	case "EndOrientation":
-		link.EndOrientation.FromCodeString(value.GetValueString())
-	case "EndRatio":
-		link.EndRatio = value.GetValueFloat()
-	case "CornerOffsetRatio":
-		link.CornerOffsetRatio = value.GetValueFloat()
-	case "CornerRadius":
-		link.CornerRadius = value.GetValueFloat()
-	case "HasEndArrow":
-		link.HasEndArrow = value.GetValueBool()
-	case "EndArrowSize":
-		link.EndArrowSize = value.GetValueFloat()
-	case "EndArrowOffset":
-		link.EndArrowOffset = value.GetValueFloat()
-	case "HasStartArrow":
-		link.HasStartArrow = value.GetValueBool()
-	case "StartArrowSize":
-		link.StartArrowSize = value.GetValueFloat()
-	case "StartArrowOffset":
-		link.StartArrowOffset = value.GetValueFloat()
-	case "TextAtArrowStart":
-		link.TextAtArrowStart = make([]*LinkAnchoredText, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.LinkAnchoredTexts {
-					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
-						link.TextAtArrowStart = append(link.TextAtArrowStart, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TextAtArrowEnd":
-		link.TextAtArrowEnd = make([]*LinkAnchoredText, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.LinkAnchoredTexts {
-					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
-						link.TextAtArrowEnd = append(link.TextAtArrowEnd, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TextAtCorner":
-		link.TextAtCorner = make([]*LinkAnchoredText, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.LinkAnchoredTexts {
-					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
-						link.TextAtCorner = append(link.TextAtCorner, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PathAtArrowStart":
-		link.PathAtArrowStart = make([]*LinkAnchoredPath, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.LinkAnchoredPaths {
-					if stage.LinkAnchoredPath_stagedOrder[__instance__] == uint(id) {
-						link.PathAtArrowStart = append(link.PathAtArrowStart, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PathAtArrowEnd":
-		link.PathAtArrowEnd = make([]*LinkAnchoredPath, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.LinkAnchoredPaths {
-					if stage.LinkAnchoredPath_stagedOrder[__instance__] == uint(id) {
-						link.PathAtArrowEnd = append(link.PathAtArrowEnd, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PathAtCorner":
-		link.PathAtCorner = make([]*LinkAnchoredPath, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.LinkAnchoredPaths {
-					if stage.LinkAnchoredPath_stagedOrder[__instance__] == uint(id) {
-						link.PathAtCorner = append(link.PathAtCorner, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ControlPoints":
-		link.ControlPoints = make([]*ControlPoint, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlPoints {
-					if stage.ControlPoint_stagedOrder[__instance__] == uint(id) {
-						link.ControlPoints = append(link.ControlPoints, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Color":
-		link.Color = value.GetValueString()
-	case "FillOpacity":
-		link.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		link.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		link.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		link.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		link.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		link.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		link.Transform = value.GetValueString()
-	case "MouseX":
-		link.MouseX = value.GetValueFloat()
-	case "MouseY":
-		link.MouseY = value.GetValueFloat()
-	case "MouseEventKey":
-		link.MouseEventKey.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (linkanchoredpath *LinkAnchoredPath) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		linkanchoredpath.Name = value.GetValueString()
-	case "Definition":
-		linkanchoredpath.Definition = value.GetValueString()
-	case "X_Offset":
-		linkanchoredpath.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		linkanchoredpath.Y_Offset = value.GetValueFloat()
-	case "ScalePropotionnally":
-		linkanchoredpath.ScalePropotionnally = value.GetValueBool()
-	case "AppliedScaling":
-		linkanchoredpath.AppliedScaling = value.GetValueFloat()
-	case "Color":
-		linkanchoredpath.Color = value.GetValueString()
-	case "FillOpacity":
-		linkanchoredpath.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		linkanchoredpath.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		linkanchoredpath.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		linkanchoredpath.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		linkanchoredpath.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		linkanchoredpath.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		linkanchoredpath.Transform = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (linkanchoredtext *LinkAnchoredText) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		linkanchoredtext.Name = value.GetValueString()
-	case "Content":
-		linkanchoredtext.Content = value.GetValueString()
-	case "AutomaticLayout":
-		linkanchoredtext.AutomaticLayout = value.GetValueBool()
-	case "LinkAnchorType":
-		linkanchoredtext.LinkAnchorType.FromCodeString(value.GetValueString())
-	case "X_Offset":
-		linkanchoredtext.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		linkanchoredtext.Y_Offset = value.GetValueFloat()
-	case "FontWeight":
-		linkanchoredtext.FontWeight = value.GetValueString()
-	case "FontSize":
-		linkanchoredtext.FontSize = value.GetValueString()
-	case "FontStyle":
-		linkanchoredtext.FontStyle = value.GetValueString()
-	case "LetterSpacing":
-		linkanchoredtext.LetterSpacing = value.GetValueString()
-	case "FontFamily":
-		linkanchoredtext.FontFamily = value.GetValueString()
-	case "WhiteSpace":
-		linkanchoredtext.WhiteSpace.FromCodeString(value.GetValueString())
-	case "Color":
-		linkanchoredtext.Color = value.GetValueString()
-	case "FillOpacity":
-		linkanchoredtext.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		linkanchoredtext.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		linkanchoredtext.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		linkanchoredtext.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		linkanchoredtext.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		linkanchoredtext.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		linkanchoredtext.Transform = value.GetValueString()
-	case "Animates":
-		linkanchoredtext.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						linkanchoredtext.Animates = append(linkanchoredtext.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (path *Path) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		path.Name = value.GetValueString()
-	case "Definition":
-		path.Definition = value.GetValueString()
-	case "Color":
-		path.Color = value.GetValueString()
-	case "FillOpacity":
-		path.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		path.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		path.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		path.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		path.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		path.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		path.Transform = value.GetValueString()
-	case "Animates":
-		path.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						path.Animates = append(path.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (point *Point) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		point.Name = value.GetValueString()
-	case "X":
-		point.X = value.GetValueFloat()
-	case "Y":
-		point.Y = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (polygone *Polygone) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		polygone.Name = value.GetValueString()
-	case "Points":
-		polygone.Points = value.GetValueString()
-	case "Color":
-		polygone.Color = value.GetValueString()
-	case "FillOpacity":
-		polygone.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		polygone.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		polygone.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		polygone.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		polygone.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		polygone.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		polygone.Transform = value.GetValueString()
-	case "Animates":
-		polygone.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						polygone.Animates = append(polygone.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (polyline *Polyline) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		polyline.Name = value.GetValueString()
-	case "Points":
-		polyline.Points = value.GetValueString()
-	case "Color":
-		polyline.Color = value.GetValueString()
-	case "FillOpacity":
-		polyline.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		polyline.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		polyline.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		polyline.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		polyline.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		polyline.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		polyline.Transform = value.GetValueString()
-	case "Animates":
-		polyline.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						polyline.Animates = append(polyline.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rect.Name = value.GetValueString()
-	case "X":
-		rect.X = value.GetValueFloat()
-	case "Y":
-		rect.Y = value.GetValueFloat()
-	case "Width":
-		rect.Width = value.GetValueFloat()
-	case "Height":
-		rect.Height = value.GetValueFloat()
-	case "RX":
-		rect.RX = value.GetValueFloat()
-	case "Peers":
-		rect.Peers = make([]*Rect, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Rects {
-					if stage.Rect_stagedOrder[__instance__] == uint(id) {
-						rect.Peers = append(rect.Peers, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "EnclosingRect":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rect.EnclosingRect = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					rect.EnclosingRect = __instance__
-					break
-				}
-			}
-		}
-	case "Obstacles":
-		rect.Obstacles = make([]*Rect, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Rects {
-					if stage.Rect_stagedOrder[__instance__] == uint(id) {
-						rect.Obstacles = append(rect.Obstacles, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AnchoredTo":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rect.AnchoredTo = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					rect.AnchoredTo = __instance__
-					break
-				}
-			}
-		}
-	case "Color":
-		rect.Color = value.GetValueString()
-	case "FillOpacity":
-		rect.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		rect.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		rect.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		rect.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		rect.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		rect.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		rect.Transform = value.GetValueString()
-	case "HoveringTrigger":
-		rect.HoveringTrigger = make([]*Condition, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Conditions {
-					if stage.Condition_stagedOrder[__instance__] == uint(id) {
-						rect.HoveringTrigger = append(rect.HoveringTrigger, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DisplayConditions":
-		rect.DisplayConditions = make([]*Condition, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Conditions {
-					if stage.Condition_stagedOrder[__instance__] == uint(id) {
-						rect.DisplayConditions = append(rect.DisplayConditions, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Animations":
-		rect.Animations = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						rect.Animations = append(rect.Animations, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSelectable":
-		rect.IsSelectable = value.GetValueBool()
-	case "IsSelected":
-		rect.IsSelected = value.GetValueBool()
-	case "CanHaveLeftHandle":
-		rect.CanHaveLeftHandle = value.GetValueBool()
-	case "HasLeftHandle":
-		rect.HasLeftHandle = value.GetValueBool()
-	case "CanHaveRightHandle":
-		rect.CanHaveRightHandle = value.GetValueBool()
-	case "HasRightHandle":
-		rect.HasRightHandle = value.GetValueBool()
-	case "CanHaveTopHandle":
-		rect.CanHaveTopHandle = value.GetValueBool()
-	case "HasTopHandle":
-		rect.HasTopHandle = value.GetValueBool()
-	case "IsScalingProportionally":
-		rect.IsScalingProportionally = value.GetValueBool()
-	case "CanHaveBottomHandle":
-		rect.CanHaveBottomHandle = value.GetValueBool()
-	case "HasBottomHandle":
-		rect.HasBottomHandle = value.GetValueBool()
-	case "CanMoveHorizontaly":
-		rect.CanMoveHorizontaly = value.GetValueBool()
-	case "CanMoveVerticaly":
-		rect.CanMoveVerticaly = value.GetValueBool()
-	case "RectAnchoredTexts":
-		rect.RectAnchoredTexts = make([]*RectAnchoredText, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RectAnchoredTexts {
-					if stage.RectAnchoredText_stagedOrder[__instance__] == uint(id) {
-						rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RectAnchoredRects":
-		rect.RectAnchoredRects = make([]*RectAnchoredRect, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RectAnchoredRects {
-					if stage.RectAnchoredRect_stagedOrder[__instance__] == uint(id) {
-						rect.RectAnchoredRects = append(rect.RectAnchoredRects, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RectAnchoredPaths":
-		rect.RectAnchoredPaths = make([]*RectAnchoredPath, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RectAnchoredPaths {
-					if stage.RectAnchoredPath_stagedOrder[__instance__] == uint(id) {
-						rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RectAnchoredPngImages":
-		rect.RectAnchoredPngImages = make([]*RectAnchoredPngImage, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.RectAnchoredPngImages {
-					if stage.RectAnchoredPngImage_stagedOrder[__instance__] == uint(id) {
-						rect.RectAnchoredPngImages = append(rect.RectAnchoredPngImages, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ChangeColorWhenHovered":
-		rect.ChangeColorWhenHovered = value.GetValueBool()
-	case "ColorWhenHovered":
-		rect.ColorWhenHovered = value.GetValueString()
-	case "OriginalColor":
-		rect.OriginalColor = value.GetValueString()
-	case "FillOpacityWhenHovered":
-		rect.FillOpacityWhenHovered = value.GetValueFloat()
-	case "OriginalFillOpacity":
-		rect.OriginalFillOpacity = value.GetValueFloat()
-	case "HasToolTip":
-		rect.HasToolTip = value.GetValueBool()
-	case "ToolTipText":
-		rect.ToolTipText = value.GetValueString()
-	case "ToolTipPosition":
-		rect.ToolTipPosition.FromCodeString(value.GetValueString())
-	case "MouseX":
-		rect.MouseX = value.GetValueFloat()
-	case "MouseY":
-		rect.MouseY = value.GetValueFloat()
-	case "MouseEventKey":
-		rect.MouseEventKey.FromCodeString(value.GetValueString())
-	case "URLPath":
-		rect.URLPath = value.GetValueString()
-	case "URLTarget":
-		rect.URLTarget.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rectanchoredpath *RectAnchoredPath) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rectanchoredpath.Name = value.GetValueString()
-	case "Definition":
-		rectanchoredpath.Definition = value.GetValueString()
-	case "X_Offset":
-		rectanchoredpath.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		rectanchoredpath.Y_Offset = value.GetValueFloat()
-	case "RectAnchorType":
-		rectanchoredpath.RectAnchorType.FromCodeString(value.GetValueString())
-	case "ScalePropotionnally":
-		rectanchoredpath.ScalePropotionnally = value.GetValueBool()
-	case "AppliedScaling":
-		rectanchoredpath.AppliedScaling = value.GetValueFloat()
-	case "Color":
-		rectanchoredpath.Color = value.GetValueString()
-	case "FillOpacity":
-		rectanchoredpath.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		rectanchoredpath.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		rectanchoredpath.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		rectanchoredpath.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		rectanchoredpath.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		rectanchoredpath.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		rectanchoredpath.Transform = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rectanchoredpngimage *RectAnchoredPngImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rectanchoredpngimage.Name = value.GetValueString()
-	case "X":
-		rectanchoredpngimage.X = value.GetValueFloat()
-	case "Y":
-		rectanchoredpngimage.Y = value.GetValueFloat()
-	case "Width":
-		rectanchoredpngimage.Width = value.GetValueFloat()
-	case "Height":
-		rectanchoredpngimage.Height = value.GetValueFloat()
-	case "RX":
-		rectanchoredpngimage.RX = value.GetValueFloat()
-	case "X_Offset":
-		rectanchoredpngimage.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		rectanchoredpngimage.Y_Offset = value.GetValueFloat()
-	case "RectAnchorType":
-		rectanchoredpngimage.RectAnchorType.FromCodeString(value.GetValueString())
-	case "Base64Content":
-		rectanchoredpngimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rectanchoredrect *RectAnchoredRect) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rectanchoredrect.Name = value.GetValueString()
-	case "X":
-		rectanchoredrect.X = value.GetValueFloat()
-	case "Y":
-		rectanchoredrect.Y = value.GetValueFloat()
-	case "Width":
-		rectanchoredrect.Width = value.GetValueFloat()
-	case "Height":
-		rectanchoredrect.Height = value.GetValueFloat()
-	case "RX":
-		rectanchoredrect.RX = value.GetValueFloat()
-	case "X_Offset":
-		rectanchoredrect.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		rectanchoredrect.Y_Offset = value.GetValueFloat()
-	case "RectAnchorType":
-		rectanchoredrect.RectAnchorType.FromCodeString(value.GetValueString())
-	case "WidthFollowRect":
-		rectanchoredrect.WidthFollowRect = value.GetValueBool()
-	case "HeightFollowRect":
-		rectanchoredrect.HeightFollowRect = value.GetValueBool()
-	case "HasToolTip":
-		rectanchoredrect.HasToolTip = value.GetValueBool()
-	case "ToolTipText":
-		rectanchoredrect.ToolTipText = value.GetValueString()
-	case "Color":
-		rectanchoredrect.Color = value.GetValueString()
-	case "FillOpacity":
-		rectanchoredrect.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		rectanchoredrect.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		rectanchoredrect.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		rectanchoredrect.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		rectanchoredrect.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		rectanchoredrect.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		rectanchoredrect.Transform = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rectanchoredtext *RectAnchoredText) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rectanchoredtext.Name = value.GetValueString()
-	case "Content":
-		rectanchoredtext.Content = value.GetValueString()
-	case "FontWeight":
-		rectanchoredtext.FontWeight = value.GetValueString()
-	case "FontSize":
-		rectanchoredtext.FontSize = value.GetValueString()
-	case "FontStyle":
-		rectanchoredtext.FontStyle = value.GetValueString()
-	case "LetterSpacing":
-		rectanchoredtext.LetterSpacing = value.GetValueString()
-	case "FontFamily":
-		rectanchoredtext.FontFamily = value.GetValueString()
-	case "WhiteSpace":
-		rectanchoredtext.WhiteSpace.FromCodeString(value.GetValueString())
-	case "X_Offset":
-		rectanchoredtext.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		rectanchoredtext.Y_Offset = value.GetValueFloat()
-	case "RectAnchorType":
-		rectanchoredtext.RectAnchorType.FromCodeString(value.GetValueString())
-	case "TextAnchorType":
-		rectanchoredtext.TextAnchorType.FromCodeString(value.GetValueString())
-	case "DominantBaseline":
-		rectanchoredtext.DominantBaseline.FromCodeString(value.GetValueString())
-	case "WritingMode":
-		rectanchoredtext.WritingMode.FromCodeString(value.GetValueString())
-	case "Color":
-		rectanchoredtext.Color = value.GetValueString()
-	case "FillOpacity":
-		rectanchoredtext.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		rectanchoredtext.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		rectanchoredtext.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		rectanchoredtext.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		rectanchoredtext.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		rectanchoredtext.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		rectanchoredtext.Transform = value.GetValueString()
-	case "Animates":
-		rectanchoredtext.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						rectanchoredtext.Animates = append(rectanchoredtext.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "URLPath":
-		rectanchoredtext.URLPath = value.GetValueString()
-	case "URLTarget":
-		rectanchoredtext.URLTarget.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rectlinklink *RectLinkLink) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rectlinklink.Name = value.GetValueString()
-	case "Start":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rectlinklink.Start = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					rectlinklink.Start = __instance__
-					break
-				}
-			}
-		}
-	case "End":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rectlinklink.End = nil
-			for __instance__ := range stage.Links {
-				if stage.Link_stagedOrder[__instance__] == uint(id) {
-					rectlinklink.End = __instance__
-					break
-				}
-			}
-		}
-	case "TargetAnchorPosition":
-		rectlinklink.TargetAnchorPosition = value.GetValueFloat()
-	case "Color":
-		rectlinklink.Color = value.GetValueString()
-	case "FillOpacity":
-		rectlinklink.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		rectlinklink.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		rectlinklink.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		rectlinklink.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		rectlinklink.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		rectlinklink.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		rectlinklink.Transform = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (svg *SVG) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		svg.Name = value.GetValueString()
-	case "Layers":
-		svg.Layers = make([]*Layer, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Layers {
-					if stage.Layer_stagedOrder[__instance__] == uint(id) {
-						svg.Layers = append(svg.Layers, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DrawingState":
-		svg.DrawingState.FromCodeString(value.GetValueString())
-	case "StartRect":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			svg.StartRect = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					svg.StartRect = __instance__
-					break
-				}
-			}
-		}
-	case "EndRect":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			svg.EndRect = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					svg.EndRect = __instance__
-					break
-				}
-			}
-		}
-	case "IsEditable":
-		svg.IsEditable = value.GetValueBool()
-	case "IsSVGFrontEndFileGenerated":
-		svg.IsSVGFrontEndFileGenerated = value.GetValueBool()
-	case "IsSVGBackEndFileGenerated":
-		svg.IsSVGBackEndFileGenerated = value.GetValueBool()
-	case "DefaultDirectoryForGeneratedImages":
-		svg.DefaultDirectoryForGeneratedImages = value.GetValueString()
-	case "IsControlBannerHidden":
-		svg.IsControlBannerHidden = value.GetValueBool()
-	case "PanX":
-		svg.PanX = value.GetValueFloat()
-	case "PanY":
-		svg.PanY = value.GetValueFloat()
-	case "Zoom":
-		svg.Zoom = value.GetValueFloat()
-	case "OverrideWidth":
-		svg.OverrideWidth = value.GetValueBool()
-	case "OverriddenWidth":
-		svg.OverriddenWidth = value.GetValueFloat()
-	case "OverrideHeight":
-		svg.OverrideHeight = value.GetValueBool()
-	case "OverriddenHeight":
-		svg.OverriddenHeight = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (svgtext *SvgText) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		svgtext.Name = value.GetValueString()
-	case "Text":
-		svgtext.Text = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (text *Text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		text.Name = value.GetValueString()
-	case "X":
-		text.X = value.GetValueFloat()
-	case "Y":
-		text.Y = value.GetValueFloat()
-	case "Content":
-		text.Content = value.GetValueString()
-	case "Color":
-		text.Color = value.GetValueString()
-	case "FillOpacity":
-		text.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		text.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		text.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		text.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		text.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		text.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		text.Transform = value.GetValueString()
-	case "FontWeight":
-		text.FontWeight = value.GetValueString()
-	case "FontSize":
-		text.FontSize = value.GetValueString()
-	case "FontStyle":
-		text.FontStyle = value.GetValueString()
-	case "LetterSpacing":
-		text.LetterSpacing = value.GetValueString()
-	case "FontFamily":
-		text.FontFamily = value.GetValueString()
-	case "WhiteSpace":
-		text.WhiteSpace.FromCodeString(value.GetValueString())
-	case "Animates":
-		text.Animates = make([]*Animate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Animates {
-					if stage.Animate_stagedOrder[__instance__] == uint(id) {
-						text.Animates = append(text.Animates, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (animate *Animate) GongGetGongstructName() string {

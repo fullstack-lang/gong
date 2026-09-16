@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	structure_go "github.com/fullstack-lang/gong/dsm/structure/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -637,9 +624,6 @@ type Stage struct {
 	OnAfterSystemShapeDeleteCallback OnAfterDeleteInterface[SystemShape]
 	OnAfterSystemShapeReadCallback   OnAfterReadInterface[SystemShape]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -668,8 +652,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -1391,14 +1373,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -1796,28 +1770,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/dsm/structure/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return structure_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return structure_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -2167,34 +2121,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "AllocatedResourceShape"},
-			{name: "AllocatedSystemShape"},
-			{name: "ControlFlow"},
-			{name: "ControlFlowShape"},
-			{name: "Data"},
-			{name: "DataFlow"},
-			{name: "DataFlowShape"},
-			{name: "DataShape"},
-			{name: "DiagramLayerState"},
-			{name: "DiagramStructure"},
-			{name: "ExternalPartShape"},
-			{name: "LayerDefinition"},
-			{name: "Library"},
-			{name: "Note"},
-			{name: "NotePartShape"},
-			{name: "NotePortShape"},
-			{name: "NoteShape"},
-			{name: "Part"},
-			{name: "PartAnchoredPath"},
-			{name: "PartShape"},
-			{name: "Port"},
-			{name: "PortShape"},
-			{name: "Resource"},
-			{name: "SemanticTag"},
-			{name: "System"},
-			{name: "SystemShape"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -2513,9 +2439,6 @@ func (allocatedresourceshape *AllocatedResourceShape) Commit(stage *Stage) *Allo
 	return allocatedresourceshape
 }
 
-func (allocatedresourceshape *AllocatedResourceShape) CommitVoid(stage *Stage) {
-	allocatedresourceshape.Commit(stage)
-}
 
 func (allocatedresourceshape *AllocatedResourceShape) StageVoid(stage *Stage) {
 	allocatedresourceshape.Stage(stage)
@@ -2601,9 +2524,6 @@ func (allocatedsystemshape *AllocatedSystemShape) Commit(stage *Stage) *Allocate
 	return allocatedsystemshape
 }
 
-func (allocatedsystemshape *AllocatedSystemShape) CommitVoid(stage *Stage) {
-	allocatedsystemshape.Commit(stage)
-}
 
 func (allocatedsystemshape *AllocatedSystemShape) StageVoid(stage *Stage) {
 	allocatedsystemshape.Stage(stage)
@@ -2689,9 +2609,6 @@ func (controlflow *ControlFlow) Commit(stage *Stage) *ControlFlow {
 	return controlflow
 }
 
-func (controlflow *ControlFlow) CommitVoid(stage *Stage) {
-	controlflow.Commit(stage)
-}
 
 func (controlflow *ControlFlow) StageVoid(stage *Stage) {
 	controlflow.Stage(stage)
@@ -2777,9 +2694,6 @@ func (controlflowshape *ControlFlowShape) Commit(stage *Stage) *ControlFlowShape
 	return controlflowshape
 }
 
-func (controlflowshape *ControlFlowShape) CommitVoid(stage *Stage) {
-	controlflowshape.Commit(stage)
-}
 
 func (controlflowshape *ControlFlowShape) StageVoid(stage *Stage) {
 	controlflowshape.Stage(stage)
@@ -2865,9 +2779,6 @@ func (data *Data) Commit(stage *Stage) *Data {
 	return data
 }
 
-func (data *Data) CommitVoid(stage *Stage) {
-	data.Commit(stage)
-}
 
 func (data *Data) StageVoid(stage *Stage) {
 	data.Stage(stage)
@@ -2953,9 +2864,6 @@ func (dataflow *DataFlow) Commit(stage *Stage) *DataFlow {
 	return dataflow
 }
 
-func (dataflow *DataFlow) CommitVoid(stage *Stage) {
-	dataflow.Commit(stage)
-}
 
 func (dataflow *DataFlow) StageVoid(stage *Stage) {
 	dataflow.Stage(stage)
@@ -3041,9 +2949,6 @@ func (dataflowshape *DataFlowShape) Commit(stage *Stage) *DataFlowShape {
 	return dataflowshape
 }
 
-func (dataflowshape *DataFlowShape) CommitVoid(stage *Stage) {
-	dataflowshape.Commit(stage)
-}
 
 func (dataflowshape *DataFlowShape) StageVoid(stage *Stage) {
 	dataflowshape.Stage(stage)
@@ -3129,9 +3034,6 @@ func (datashape *DataShape) Commit(stage *Stage) *DataShape {
 	return datashape
 }
 
-func (datashape *DataShape) CommitVoid(stage *Stage) {
-	datashape.Commit(stage)
-}
 
 func (datashape *DataShape) StageVoid(stage *Stage) {
 	datashape.Stage(stage)
@@ -3217,9 +3119,6 @@ func (diagramlayerstate *DiagramLayerState) Commit(stage *Stage) *DiagramLayerSt
 	return diagramlayerstate
 }
 
-func (diagramlayerstate *DiagramLayerState) CommitVoid(stage *Stage) {
-	diagramlayerstate.Commit(stage)
-}
 
 func (diagramlayerstate *DiagramLayerState) StageVoid(stage *Stage) {
 	diagramlayerstate.Stage(stage)
@@ -3305,9 +3204,6 @@ func (diagramstructure *DiagramStructure) Commit(stage *Stage) *DiagramStructure
 	return diagramstructure
 }
 
-func (diagramstructure *DiagramStructure) CommitVoid(stage *Stage) {
-	diagramstructure.Commit(stage)
-}
 
 func (diagramstructure *DiagramStructure) StageVoid(stage *Stage) {
 	diagramstructure.Stage(stage)
@@ -3393,9 +3289,6 @@ func (externalpartshape *ExternalPartShape) Commit(stage *Stage) *ExternalPartSh
 	return externalpartshape
 }
 
-func (externalpartshape *ExternalPartShape) CommitVoid(stage *Stage) {
-	externalpartshape.Commit(stage)
-}
 
 func (externalpartshape *ExternalPartShape) StageVoid(stage *Stage) {
 	externalpartshape.Stage(stage)
@@ -3481,9 +3374,6 @@ func (layerdefinition *LayerDefinition) Commit(stage *Stage) *LayerDefinition {
 	return layerdefinition
 }
 
-func (layerdefinition *LayerDefinition) CommitVoid(stage *Stage) {
-	layerdefinition.Commit(stage)
-}
 
 func (layerdefinition *LayerDefinition) StageVoid(stage *Stage) {
 	layerdefinition.Stage(stage)
@@ -3569,9 +3459,6 @@ func (library *Library) Commit(stage *Stage) *Library {
 	return library
 }
 
-func (library *Library) CommitVoid(stage *Stage) {
-	library.Commit(stage)
-}
 
 func (library *Library) StageVoid(stage *Stage) {
 	library.Stage(stage)
@@ -3657,9 +3544,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -3745,9 +3629,6 @@ func (notepartshape *NotePartShape) Commit(stage *Stage) *NotePartShape {
 	return notepartshape
 }
 
-func (notepartshape *NotePartShape) CommitVoid(stage *Stage) {
-	notepartshape.Commit(stage)
-}
 
 func (notepartshape *NotePartShape) StageVoid(stage *Stage) {
 	notepartshape.Stage(stage)
@@ -3833,9 +3714,6 @@ func (noteportshape *NotePortShape) Commit(stage *Stage) *NotePortShape {
 	return noteportshape
 }
 
-func (noteportshape *NotePortShape) CommitVoid(stage *Stage) {
-	noteportshape.Commit(stage)
-}
 
 func (noteportshape *NotePortShape) StageVoid(stage *Stage) {
 	noteportshape.Stage(stage)
@@ -3921,9 +3799,6 @@ func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *Stage) {
-	noteshape.Commit(stage)
-}
 
 func (noteshape *NoteShape) StageVoid(stage *Stage) {
 	noteshape.Stage(stage)
@@ -4009,9 +3884,6 @@ func (part *Part) Commit(stage *Stage) *Part {
 	return part
 }
 
-func (part *Part) CommitVoid(stage *Stage) {
-	part.Commit(stage)
-}
 
 func (part *Part) StageVoid(stage *Stage) {
 	part.Stage(stage)
@@ -4097,9 +3969,6 @@ func (partanchoredpath *PartAnchoredPath) Commit(stage *Stage) *PartAnchoredPath
 	return partanchoredpath
 }
 
-func (partanchoredpath *PartAnchoredPath) CommitVoid(stage *Stage) {
-	partanchoredpath.Commit(stage)
-}
 
 func (partanchoredpath *PartAnchoredPath) StageVoid(stage *Stage) {
 	partanchoredpath.Stage(stage)
@@ -4185,9 +4054,6 @@ func (partshape *PartShape) Commit(stage *Stage) *PartShape {
 	return partshape
 }
 
-func (partshape *PartShape) CommitVoid(stage *Stage) {
-	partshape.Commit(stage)
-}
 
 func (partshape *PartShape) StageVoid(stage *Stage) {
 	partshape.Stage(stage)
@@ -4273,9 +4139,6 @@ func (port *Port) Commit(stage *Stage) *Port {
 	return port
 }
 
-func (port *Port) CommitVoid(stage *Stage) {
-	port.Commit(stage)
-}
 
 func (port *Port) StageVoid(stage *Stage) {
 	port.Stage(stage)
@@ -4361,9 +4224,6 @@ func (portshape *PortShape) Commit(stage *Stage) *PortShape {
 	return portshape
 }
 
-func (portshape *PortShape) CommitVoid(stage *Stage) {
-	portshape.Commit(stage)
-}
 
 func (portshape *PortShape) StageVoid(stage *Stage) {
 	portshape.Stage(stage)
@@ -4449,9 +4309,6 @@ func (resource *Resource) Commit(stage *Stage) *Resource {
 	return resource
 }
 
-func (resource *Resource) CommitVoid(stage *Stage) {
-	resource.Commit(stage)
-}
 
 func (resource *Resource) StageVoid(stage *Stage) {
 	resource.Stage(stage)
@@ -4537,9 +4394,6 @@ func (semantictag *SemanticTag) Commit(stage *Stage) *SemanticTag {
 	return semantictag
 }
 
-func (semantictag *SemanticTag) CommitVoid(stage *Stage) {
-	semantictag.Commit(stage)
-}
 
 func (semantictag *SemanticTag) StageVoid(stage *Stage) {
 	semantictag.Stage(stage)
@@ -4625,9 +4479,6 @@ func (system *System) Commit(stage *Stage) *System {
 	return system
 }
 
-func (system *System) CommitVoid(stage *Stage) {
-	system.Commit(stage)
-}
 
 func (system *System) StageVoid(stage *Stage) {
 	system.Stage(stage)
@@ -4713,9 +4564,6 @@ func (systemshape *SystemShape) Commit(stage *Stage) *SystemShape {
 	return systemshape
 }
 
-func (systemshape *SystemShape) CommitVoid(stage *Stage) {
-	systemshape.Commit(stage)
-}
 
 func (systemshape *SystemShape) StageVoid(stage *Stage) {
 	systemshape.Stage(stage)
@@ -4739,65 +4587,6 @@ func (systemshape *SystemShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (systemshape *SystemShape) SetName(name string) {
 	systemshape.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
-	CreateORMAllocatedSystemShape(AllocatedSystemShape *AllocatedSystemShape)
-	CreateORMControlFlow(ControlFlow *ControlFlow)
-	CreateORMControlFlowShape(ControlFlowShape *ControlFlowShape)
-	CreateORMData(Data *Data)
-	CreateORMDataFlow(DataFlow *DataFlow)
-	CreateORMDataFlowShape(DataFlowShape *DataFlowShape)
-	CreateORMDataShape(DataShape *DataShape)
-	CreateORMDiagramLayerState(DiagramLayerState *DiagramLayerState)
-	CreateORMDiagramStructure(DiagramStructure *DiagramStructure)
-	CreateORMExternalPartShape(ExternalPartShape *ExternalPartShape)
-	CreateORMLayerDefinition(LayerDefinition *LayerDefinition)
-	CreateORMLibrary(Library *Library)
-	CreateORMNote(Note *Note)
-	CreateORMNotePartShape(NotePartShape *NotePartShape)
-	CreateORMNotePortShape(NotePortShape *NotePortShape)
-	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMPart(Part *Part)
-	CreateORMPartAnchoredPath(PartAnchoredPath *PartAnchoredPath)
-	CreateORMPartShape(PartShape *PartShape)
-	CreateORMPort(Port *Port)
-	CreateORMPortShape(PortShape *PortShape)
-	CreateORMResource(Resource *Resource)
-	CreateORMSemanticTag(SemanticTag *SemanticTag)
-	CreateORMSystem(System *System)
-	CreateORMSystemShape(SystemShape *SystemShape)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
-	DeleteORMAllocatedSystemShape(AllocatedSystemShape *AllocatedSystemShape)
-	DeleteORMControlFlow(ControlFlow *ControlFlow)
-	DeleteORMControlFlowShape(ControlFlowShape *ControlFlowShape)
-	DeleteORMData(Data *Data)
-	DeleteORMDataFlow(DataFlow *DataFlow)
-	DeleteORMDataFlowShape(DataFlowShape *DataFlowShape)
-	DeleteORMDataShape(DataShape *DataShape)
-	DeleteORMDiagramLayerState(DiagramLayerState *DiagramLayerState)
-	DeleteORMDiagramStructure(DiagramStructure *DiagramStructure)
-	DeleteORMExternalPartShape(ExternalPartShape *ExternalPartShape)
-	DeleteORMLayerDefinition(LayerDefinition *LayerDefinition)
-	DeleteORMLibrary(Library *Library)
-	DeleteORMNote(Note *Note)
-	DeleteORMNotePartShape(NotePartShape *NotePartShape)
-	DeleteORMNotePortShape(NotePortShape *NotePortShape)
-	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMPart(Part *Part)
-	DeleteORMPartAnchoredPath(PartAnchoredPath *PartAnchoredPath)
-	DeleteORMPartShape(PartShape *PartShape)
-	DeleteORMPort(Port *Port)
-	DeleteORMPortShape(PortShape *PortShape)
-	DeleteORMResource(Resource *Resource)
-	DeleteORMSemanticTag(SemanticTag *SemanticTag)
-	DeleteORMSystem(System *System)
-	DeleteORMSystemShape(SystemShape *SystemShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -4939,196 +4728,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.AllocatedResourceShapes = nil
-	stage.AllocatedResourceShapes_mapString = nil
-
-	stage.AllocatedSystemShapes = nil
-	stage.AllocatedSystemShapes_mapString = nil
-
-	stage.ControlFlows = nil
-	stage.ControlFlows_mapString = nil
-
-	stage.ControlFlowShapes = nil
-	stage.ControlFlowShapes_mapString = nil
-
-	stage.Datas = nil
-	stage.Datas_mapString = nil
-
-	stage.DataFlows = nil
-	stage.DataFlows_mapString = nil
-
-	stage.DataFlowShapes = nil
-	stage.DataFlowShapes_mapString = nil
-
-	stage.DataShapes = nil
-	stage.DataShapes_mapString = nil
-
-	stage.DiagramLayerStates = nil
-	stage.DiagramLayerStates_mapString = nil
-
-	stage.DiagramStructures = nil
-	stage.DiagramStructures_mapString = nil
-
-	stage.ExternalPartShapes = nil
-	stage.ExternalPartShapes_mapString = nil
-
-	stage.LayerDefinitions = nil
-	stage.LayerDefinitions_mapString = nil
-
-	stage.Librarys = nil
-	stage.Librarys_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.NotePartShapes = nil
-	stage.NotePartShapes_mapString = nil
-
-	stage.NotePortShapes = nil
-	stage.NotePortShapes_mapString = nil
-
-	stage.NoteShapes = nil
-	stage.NoteShapes_mapString = nil
-
-	stage.Parts = nil
-	stage.Parts_mapString = nil
-
-	stage.PartAnchoredPaths = nil
-	stage.PartAnchoredPaths_mapString = nil
-
-	stage.PartShapes = nil
-	stage.PartShapes_mapString = nil
-
-	stage.Ports = nil
-	stage.Ports_mapString = nil
-
-	stage.PortShapes = nil
-	stage.PortShapes_mapString = nil
-
-	stage.Resources = nil
-	stage.Resources_mapString = nil
-
-	stage.SemanticTags = nil
-	stage.SemanticTags_mapString = nil
-
-	stage.Systems = nil
-	stage.Systems_mapString = nil
-
-	stage.SystemShapes = nil
-	stage.SystemShapes_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for allocatedresourceshape := range stage.AllocatedResourceShapes {
-		allocatedresourceshape.Unstage(stage)
-	}
-
-	for allocatedsystemshape := range stage.AllocatedSystemShapes {
-		allocatedsystemshape.Unstage(stage)
-	}
-
-	for controlflow := range stage.ControlFlows {
-		controlflow.Unstage(stage)
-	}
-
-	for controlflowshape := range stage.ControlFlowShapes {
-		controlflowshape.Unstage(stage)
-	}
-
-	for data := range stage.Datas {
-		data.Unstage(stage)
-	}
-
-	for dataflow := range stage.DataFlows {
-		dataflow.Unstage(stage)
-	}
-
-	for dataflowshape := range stage.DataFlowShapes {
-		dataflowshape.Unstage(stage)
-	}
-
-	for datashape := range stage.DataShapes {
-		datashape.Unstage(stage)
-	}
-
-	for diagramlayerstate := range stage.DiagramLayerStates {
-		diagramlayerstate.Unstage(stage)
-	}
-
-	for diagramstructure := range stage.DiagramStructures {
-		diagramstructure.Unstage(stage)
-	}
-
-	for externalpartshape := range stage.ExternalPartShapes {
-		externalpartshape.Unstage(stage)
-	}
-
-	for layerdefinition := range stage.LayerDefinitions {
-		layerdefinition.Unstage(stage)
-	}
-
-	for library := range stage.Librarys {
-		library.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for notepartshape := range stage.NotePartShapes {
-		notepartshape.Unstage(stage)
-	}
-
-	for noteportshape := range stage.NotePortShapes {
-		noteportshape.Unstage(stage)
-	}
-
-	for noteshape := range stage.NoteShapes {
-		noteshape.Unstage(stage)
-	}
-
-	for part := range stage.Parts {
-		part.Unstage(stage)
-	}
-
-	for partanchoredpath := range stage.PartAnchoredPaths {
-		partanchoredpath.Unstage(stage)
-	}
-
-	for partshape := range stage.PartShapes {
-		partshape.Unstage(stage)
-	}
-
-	for port := range stage.Ports {
-		port.Unstage(stage)
-	}
-
-	for portshape := range stage.PortShapes {
-		portshape.Unstage(stage)
-	}
-
-	for resource := range stage.Resources {
-		resource.Unstage(stage)
-	}
-
-	for semantictag := range stage.SemanticTags {
-		semantictag.Unstage(stage)
-	}
-
-	for system := range stage.Systems {
-		system.Unstage(stage)
-	}
-
-	for systemshape := range stage.SystemShapes {
-		systemshape.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -5146,13 +4745,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -9915,1672 +9512,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (allocatedresourceshape *AllocatedResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		allocatedresourceshape.Name = value.GetValueString()
-	case "Part":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedresourceshape.Part = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					allocatedresourceshape.Part = __instance__
-					break
-				}
-			}
-		}
-	case "Resource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedresourceshape.Resource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					allocatedresourceshape.Resource = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (allocatedsystemshape *AllocatedSystemShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		allocatedsystemshape.Name = value.GetValueString()
-	case "Part":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedsystemshape.Part = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					allocatedsystemshape.Part = __instance__
-					break
-				}
-			}
-		}
-	case "System":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedsystemshape.System = nil
-			for __instance__ := range stage.Systems {
-				if stage.System_stagedOrder[__instance__] == uint(id) {
-					allocatedsystemshape.System = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlflow.Name = value.GetValueString()
-	case "Description":
-		controlflow.Description = value.GetValueString()
-	case "ComputedPrefix":
-		controlflow.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		controlflow.IsExpanded = value.GetValueBool()
-	case "Start":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlflow.Start = nil
-			for __instance__ := range stage.Ports {
-				if stage.Port_stagedOrder[__instance__] == uint(id) {
-					controlflow.Start = __instance__
-					break
-				}
-			}
-		}
-	case "End":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlflow.End = nil
-			for __instance__ := range stage.Ports {
-				if stage.Port_stagedOrder[__instance__] == uint(id) {
-					controlflow.End = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (controlflowshape *ControlFlowShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		controlflowshape.Name = value.GetValueString()
-	case "ControlFlow":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			controlflowshape.ControlFlow = nil
-			for __instance__ := range stage.ControlFlows {
-				if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-					controlflowshape.ControlFlow = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		controlflowshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		controlflowshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		controlflowshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		controlflowshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		controlflowshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		controlflowshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		data.Name = value.GetValueString()
-	case "Acronym":
-		data.Acronym = value.GetValueString()
-	case "Description":
-		data.Description = value.GetValueString()
-	case "ComputedPrefix":
-		data.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		data.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		data.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		data.InverseAppliedScaling = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dataflow.Name = value.GetValueString()
-	case "StartPort":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.StartPort = nil
-			for __instance__ := range stage.Ports {
-				if stage.Port_stagedOrder[__instance__] == uint(id) {
-					dataflow.StartPort = __instance__
-					break
-				}
-			}
-		}
-	case "EndPort":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.EndPort = nil
-			for __instance__ := range stage.Ports {
-				if stage.Port_stagedOrder[__instance__] == uint(id) {
-					dataflow.EndPort = __instance__
-					break
-				}
-			}
-		}
-	case "StartExternalPart":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.StartExternalPart = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					dataflow.StartExternalPart = __instance__
-					break
-				}
-			}
-		}
-	case "EndExternalPart":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.EndExternalPart = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					dataflow.EndExternalPart = __instance__
-					break
-				}
-			}
-		}
-	case "Datas":
-		dataflow.Datas = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						dataflow.Datas = append(dataflow.Datas, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Description":
-		dataflow.Description = value.GetValueString()
-	case "Direction":
-		dataflow.Direction.FromCodeString(value.GetValueString())
-	case "IsDatasNodeExpanded":
-		dataflow.IsDatasNodeExpanded = value.GetValueBool()
-	case "ComputedPrefix":
-		dataflow.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		dataflow.IsExpanded = value.GetValueBool()
-	case "Type":
-		dataflow.Type.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dataflowshape *DataFlowShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dataflowshape.Name = value.GetValueString()
-	case "DataFlow":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflowshape.DataFlow = nil
-			for __instance__ := range stage.DataFlows {
-				if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-					dataflowshape.DataFlow = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		dataflowshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		dataflowshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		dataflowshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		dataflowshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		dataflowshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		dataflowshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (datashape *DataShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		datashape.Name = value.GetValueString()
-	case "Data":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datashape.Data = nil
-			for __instance__ := range stage.Datas {
-				if stage.Data_stagedOrder[__instance__] == uint(id) {
-					datashape.Data = __instance__
-					break
-				}
-			}
-		}
-	case "DataFlow":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			datashape.DataFlow = nil
-			for __instance__ := range stage.DataFlows {
-				if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-					datashape.DataFlow = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagramlayerstate *DiagramLayerState) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagramlayerstate.Name = value.GetValueString()
-	case "DiagramStructure":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			diagramlayerstate.DiagramStructure = nil
-			for __instance__ := range stage.DiagramStructures {
-				if stage.DiagramStructure_stagedOrder[__instance__] == uint(id) {
-					diagramlayerstate.DiagramStructure = __instance__
-					break
-				}
-			}
-		}
-	case "LayerDefinition":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			diagramlayerstate.LayerDefinition = nil
-			for __instance__ := range stage.LayerDefinitions {
-				if stage.LayerDefinition_stagedOrder[__instance__] == uint(id) {
-					diagramlayerstate.LayerDefinition = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (diagramstructure *DiagramStructure) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		diagramstructure.Name = value.GetValueString()
-	case "Description":
-		diagramstructure.Description = value.GetValueString()
-	case "ComputedPrefix":
-		diagramstructure.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		diagramstructure.IsExpanded = value.GetValueBool()
-	case "IsChecked":
-		diagramstructure.IsChecked = value.GetValueBool()
-	case "IsEditable_":
-		diagramstructure.IsEditable_ = value.GetValueBool()
-	case "IsShowPrefix":
-		diagramstructure.IsShowPrefix = value.GetValueBool()
-	case "DefaultBoxWidth":
-		diagramstructure.DefaultBoxWidth = value.GetValueFloat()
-	case "DefaultBoxHeigth":
-		diagramstructure.DefaultBoxHeigth = value.GetValueFloat()
-	case "IsWithDiscretePorts":
-		diagramstructure.IsWithDiscretePorts = value.GetValueBool()
-	case "Width":
-		diagramstructure.Width = value.GetValueFloat()
-	case "Height":
-		diagramstructure.Height = value.GetValueFloat()
-	case "System_Shapes":
-		diagramstructure.System_Shapes = make([]*SystemShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SystemShapes {
-					if stage.SystemShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.System_Shapes = append(diagramstructure.System_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSystemsNodeExpanded":
-		diagramstructure.IsSystemsNodeExpanded = value.GetValueBool()
-	case "SystemsWhoseNodeIsExpanded":
-		diagramstructure.SystemsWhoseNodeIsExpanded = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.SystemsWhoseNodeIsExpanded = append(diagramstructure.SystemsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Part_Shapes":
-		diagramstructure.Part_Shapes = make([]*PartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartShapes {
-					if stage.PartShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.Part_Shapes = append(diagramstructure.Part_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPartsNodeExpanded":
-		diagramstructure.IsPartsNodeExpanded = value.GetValueBool()
-	case "PartWhoseNodeIsExpanded":
-		diagramstructure.PartWhoseNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.PartWhoseNodeIsExpanded = append(diagramstructure.PartWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalPart_Shapes":
-		diagramstructure.ExternalPart_Shapes = make([]*ExternalPartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ExternalPartShapes {
-					if stage.ExternalPartShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.ExternalPart_Shapes = append(diagramstructure.ExternalPart_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsExternalPartsNodeExpanded":
-		diagramstructure.IsExternalPartsNodeExpanded = value.GetValueBool()
-	case "ExternalPartWhoseNodeIsExpanded":
-		diagramstructure.ExternalPartWhoseNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.ExternalPartWhoseNodeIsExpanded = append(diagramstructure.ExternalPartWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalPartsWhoseOutDataFlowsNodeIsExpanded":
-		diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = append(diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalPartsWhoseInDataFlowsNodeIsExpanded":
-		diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded = append(diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PortsWhoseNodeIsExpanded":
-		diagramstructure.PortsWhoseNodeIsExpanded = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.PortsWhoseNodeIsExpanded = append(diagramstructure.PortsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Port_Shapes":
-		diagramstructure.Port_Shapes = make([]*PortShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PortShapes {
-					if stage.PortShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.Port_Shapes = append(diagramstructure.Port_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ControlFlowsWhoseNodeIsExpanded":
-		diagramstructure.ControlFlowsWhoseNodeIsExpanded = make([]*ControlFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlFlows {
-					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.ControlFlowsWhoseNodeIsExpanded = append(diagramstructure.ControlFlowsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ControlFlow_Shapes":
-		diagramstructure.ControlFlow_Shapes = make([]*ControlFlowShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlFlowShapes {
-					if stage.ControlFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.ControlFlow_Shapes = append(diagramstructure.ControlFlow_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlowsWhoseNodeIsExpanded":
-		diagramstructure.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.DataFlowsWhoseNodeIsExpanded = append(diagramstructure.DataFlowsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlow_Shapes":
-		diagramstructure.DataFlow_Shapes = make([]*DataFlowShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlowShapes {
-					if stage.DataFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.DataFlow_Shapes = append(diagramstructure.DataFlow_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DatasWhoseNodeIsExpanded":
-		diagramstructure.DatasWhoseNodeIsExpanded = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.DatasWhoseNodeIsExpanded = append(diagramstructure.DatasWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Data_Shapes":
-		diagramstructure.Data_Shapes = make([]*DataShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataShapes {
-					if stage.DataShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.Data_Shapes = append(diagramstructure.Data_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlowsWhoseDataNodeIsExpanded":
-		diagramstructure.DataFlowsWhoseDataNodeIsExpanded = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.DataFlowsWhoseDataNodeIsExpanded = append(diagramstructure.DataFlowsWhoseDataNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedResourcesWhoseNodeIsExpanded":
-		diagramstructure.AllocatedResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.AllocatedResourcesWhoseNodeIsExpanded = append(diagramstructure.AllocatedResourcesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedResourceShapes":
-		diagramstructure.AllocatedResourceShapes = make([]*AllocatedResourceShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AllocatedResourceShapes {
-					if stage.AllocatedResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.AllocatedResourceShapes = append(diagramstructure.AllocatedResourceShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedSystemesWhoseNodeIsExpanded":
-		diagramstructure.AllocatedSystemesWhoseNodeIsExpanded = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.AllocatedSystemesWhoseNodeIsExpanded = append(diagramstructure.AllocatedSystemesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "AllocatedSystemShapes":
-		diagramstructure.AllocatedSystemShapes = make([]*AllocatedSystemShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AllocatedSystemShapes {
-					if stage.AllocatedSystemShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.AllocatedSystemShapes = append(diagramstructure.AllocatedSystemShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Note_Shapes":
-		diagramstructure.Note_Shapes = make([]*NoteShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.Note_Shapes = append(diagramstructure.Note_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NotesWhoseNodeIsExpanded":
-		diagramstructure.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.NotesWhoseNodeIsExpanded = append(diagramstructure.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		diagramstructure.IsNotesNodeExpanded = value.GetValueBool()
-	case "NotePortShapes":
-		diagramstructure.NotePortShapes = make([]*NotePortShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NotePortShapes {
-					if stage.NotePortShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.NotePortShapes = append(diagramstructure.NotePortShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NotePartShapes":
-		diagramstructure.NotePartShapes = make([]*NotePartShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NotePartShapes {
-					if stage.NotePartShape_stagedOrder[__instance__] == uint(id) {
-						diagramstructure.NotePartShapes = append(diagramstructure.NotePartShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (externalpartshape *ExternalPartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		externalpartshape.Name = value.GetValueString()
-	case "Part":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			externalpartshape.Part = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					externalpartshape.Part = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		externalpartshape.IsExpanded = value.GetValueBool()
-	case "X":
-		externalpartshape.X = value.GetValueFloat()
-	case "Y":
-		externalpartshape.Y = value.GetValueFloat()
-	case "Width":
-		externalpartshape.Width = value.GetValueFloat()
-	case "Height":
-		externalpartshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		externalpartshape.IsHidden = value.GetValueBool()
-	case "TailHeigth":
-		externalpartshape.TailHeigth = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (layerdefinition *LayerDefinition) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		layerdefinition.Name = value.GetValueString()
-	case "Query":
-		layerdefinition.Query = make([]*SemanticTag, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.SemanticTags {
-					if stage.SemanticTag_stagedOrder[__instance__] == uint(id) {
-						layerdefinition.Query = append(layerdefinition.Query, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		library.Name = value.GetValueString()
-	case "Description":
-		library.Description = value.GetValueString()
-	case "ComputedPrefix":
-		library.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubLibrariesNodeExpanded":
-		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
-	case "RootSystemes":
-		library.RootSystemes = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						library.RootSystemes = append(library.RootSystemes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSystemesNodeExpanded":
-		library.IsSystemesNodeExpanded = value.GetValueBool()
-	case "SystemsWhoseNodeIsExpanded":
-		library.SystemsWhoseNodeIsExpanded = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						library.SystemsWhoseNodeIsExpanded = append(library.SystemsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootDataFlows":
-		library.RootDataFlows = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						library.RootDataFlows = append(library.RootDataFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		library.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "DataFlowsWhoseNodeIsExpanded":
-		library.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						library.DataFlowsWhoseNodeIsExpanded = append(library.DataFlowsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootDatas":
-		library.RootDatas = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						library.RootDatas = append(library.RootDatas, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDatasNodeExpanded":
-		library.IsDatasNodeExpanded = value.GetValueBool()
-	case "DatasWhoseNodeIsExpanded":
-		library.DatasWhoseNodeIsExpanded = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						library.DatasWhoseNodeIsExpanded = append(library.DatasWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootResources":
-		library.RootResources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						library.RootResources = append(library.RootResources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsResourcesNodeExpanded":
-		library.IsResourcesNodeExpanded = value.GetValueBool()
-	case "ResourcesWhoseNodeIsExpanded":
-		library.ResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						library.ResourcesWhoseNodeIsExpanded = append(library.ResourcesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PartsWhoseNodeIsExpanded":
-		library.PartsWhoseNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						library.PartsWhoseNodeIsExpanded = append(library.PartsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootNotes":
-		library.RootNotes = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.RootNotes = append(library.RootNotes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsNotesNodeExpanded":
-		library.IsNotesNodeExpanded = value.GetValueBool()
-	case "NotesWhoseNodeIsExpanded":
-		library.NotesWhoseNodeIsExpanded = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						library.NotesWhoseNodeIsExpanded = append(library.NotesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsExpandedTmp":
-		library.IsExpandedTmp = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "Description":
-		note.Description = value.GetValueString()
-	case "ComputedPrefix":
-		note.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
-	case "IsPartsNodeExpanded":
-		note.IsPartsNodeExpanded = value.GetValueBool()
-	case "Parts":
-		note.Parts = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						note.Parts = append(note.Parts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsPortsNodeExpanded":
-		note.IsPortsNodeExpanded = value.GetValueBool()
-	case "Ports":
-		note.Ports = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						note.Ports = append(note.Ports, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notepartshape *NotePartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notepartshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notepartshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notepartshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Part":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notepartshape.Part = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					notepartshape.Part = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notepartshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notepartshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notepartshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notepartshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notepartshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notepartshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteportshape *NotePortShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteportshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteportshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteportshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Port":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteportshape.Port = nil
-			for __instance__ := range stage.Ports {
-				if stage.Port_stagedOrder[__instance__] == uint(id) {
-					noteportshape.Port = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		noteportshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		noteportshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		noteportshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		noteportshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		noteportshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		noteportshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		noteshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			noteshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					noteshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		noteshape.X = value.GetValueFloat()
-	case "Y":
-		noteshape.Y = value.GetValueFloat()
-	case "Width":
-		noteshape.Width = value.GetValueFloat()
-	case "Height":
-		noteshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		noteshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part.Name = value.GetValueString()
-	case "Description":
-		part.Description = value.GetValueString()
-	case "Ports":
-		part.Ports = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						part.Ports = append(part.Ports, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "TypeOfPart":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part.TypeOfPart = nil
-			for __instance__ := range stage.Systems {
-				if stage.System_stagedOrder[__instance__] == uint(id) {
-					part.TypeOfPart = __instance__
-					break
-				}
-			}
-		}
-	case "IsPartNameNotSystemName":
-		part.IsPartNameNotSystemName = value.GetValueBool()
-	case "IsControlFlowsNodeExpanded":
-		part.IsControlFlowsNodeExpanded = value.GetValueBool()
-	case "ControlFlows":
-		part.ControlFlows = make([]*ControlFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ControlFlows {
-					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-						part.ControlFlows = append(part.ControlFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PortWhoseOutControlFlowsNodeIsExpanded":
-		part.PortWhoseOutControlFlowsNodeIsExpanded = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						part.PortWhoseOutControlFlowsNodeIsExpanded = append(part.PortWhoseOutControlFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PortWhoseInControlFlowsNodeIsExpanded":
-		part.PortWhoseInControlFlowsNodeIsExpanded = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						part.PortWhoseInControlFlowsNodeIsExpanded = append(part.PortWhoseInControlFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		part.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "PortWhoseOutDataFlowsNodeIsExpanded":
-		part.PortWhoseOutDataFlowsNodeIsExpanded = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						part.PortWhoseOutDataFlowsNodeIsExpanded = append(part.PortWhoseOutDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PortWhoseInDataFlowsNodeIsExpanded":
-		part.PortWhoseInDataFlowsNodeIsExpanded = make([]*Port, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ports {
-					if stage.Port_stagedOrder[__instance__] == uint(id) {
-						part.PortWhoseInDataFlowsNodeIsExpanded = append(part.PortWhoseInDataFlowsNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PartAnchoredPath":
-		part.PartAnchoredPath = make([]*PartAnchoredPath, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PartAnchoredPaths {
-					if stage.PartAnchoredPath_stagedOrder[__instance__] == uint(id) {
-						part.PartAnchoredPath = append(part.PartAnchoredPath, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		part.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		part.IsExpanded = value.GetValueBool()
-	case "IsPortsNodeExpanded":
-		part.IsPortsNodeExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partanchoredpath *PartAnchoredPath) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partanchoredpath.Name = value.GetValueString()
-	case "Definition":
-		partanchoredpath.Definition = value.GetValueString()
-	case "X_Offset":
-		partanchoredpath.X_Offset = value.GetValueFloat()
-	case "Y_Offset":
-		partanchoredpath.Y_Offset = value.GetValueFloat()
-	case "RectAnchorType":
-		partanchoredpath.RectAnchorType.FromCodeString(value.GetValueString())
-	case "ScalePropotionnally":
-		partanchoredpath.ScalePropotionnally = value.GetValueBool()
-	case "AppliedScaling":
-		partanchoredpath.AppliedScaling = value.GetValueFloat()
-	case "Color":
-		partanchoredpath.Color = value.GetValueString()
-	case "FillOpacity":
-		partanchoredpath.FillOpacity = value.GetValueFloat()
-	case "Stroke":
-		partanchoredpath.Stroke = value.GetValueString()
-	case "StrokeOpacity":
-		partanchoredpath.StrokeOpacity = value.GetValueFloat()
-	case "StrokeWidth":
-		partanchoredpath.StrokeWidth = value.GetValueFloat()
-	case "StrokeDashArray":
-		partanchoredpath.StrokeDashArray = value.GetValueString()
-	case "StrokeDashArrayWhenSelected":
-		partanchoredpath.StrokeDashArrayWhenSelected = value.GetValueString()
-	case "Transform":
-		partanchoredpath.Transform = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (partshape *PartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		partshape.Name = value.GetValueString()
-	case "Part":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			partshape.Part = nil
-			for __instance__ := range stage.Parts {
-				if stage.Part_stagedOrder[__instance__] == uint(id) {
-					partshape.Part = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		partshape.IsExpanded = value.GetValueBool()
-	case "X":
-		partshape.X = value.GetValueFloat()
-	case "Y":
-		partshape.Y = value.GetValueFloat()
-	case "Width":
-		partshape.Width = value.GetValueFloat()
-	case "Height":
-		partshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		partshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (port *Port) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		port.Name = value.GetValueString()
-	case "Description":
-		port.Description = value.GetValueString()
-	case "ComputedPrefix":
-		port.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		port.IsExpanded = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (portshape *PortShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		portshape.Name = value.GetValueString()
-	case "Port":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			portshape.Port = nil
-			for __instance__ := range stage.Ports {
-				if stage.Port_stagedOrder[__instance__] == uint(id) {
-					portshape.Port = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		portshape.IsExpanded = value.GetValueBool()
-	case "X":
-		portshape.X = value.GetValueFloat()
-	case "Y":
-		portshape.Y = value.GetValueFloat()
-	case "Width":
-		portshape.Width = value.GetValueFloat()
-	case "Height":
-		portshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		portshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		resource.Name = value.GetValueString()
-	case "Acronym":
-		resource.Acronym = value.GetValueString()
-	case "Description":
-		resource.Description = value.GetValueString()
-	case "ComputedPrefix":
-		resource.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		resource.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		resource.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		resource.InverseAppliedScaling = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (semantictag *SemanticTag) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		semantictag.Name = value.GetValueString()
-	case "Parts":
-		semantictag.Parts = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						semantictag.Parts = append(semantictag.Parts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		system.Name = value.GetValueString()
-	case "Description":
-		system.Description = value.GetValueString()
-	case "ComputedPrefix":
-		system.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		system.IsExpanded = value.GetValueBool()
-	case "SVG_Path":
-		system.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		system.InverseAppliedScaling = value.GetValueFloat()
-	case "DiagramStructures":
-		system.DiagramStructures = make([]*DiagramStructure, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramStructures {
-					if stage.DiagramStructure_stagedOrder[__instance__] == uint(id) {
-						system.DiagramStructures = append(system.DiagramStructures, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DiagramStructureWhoseNodeIsExpanded":
-		system.DiagramStructureWhoseNodeIsExpanded = make([]*DiagramStructure, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramStructures {
-					if stage.DiagramStructure_stagedOrder[__instance__] == uint(id) {
-						system.DiagramStructureWhoseNodeIsExpanded = append(system.DiagramStructureWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubSystemNodeExpanded":
-		system.IsSubSystemNodeExpanded = value.GetValueBool()
-	case "SubSystemes":
-		system.SubSystemes = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						system.SubSystemes = append(system.SubSystemes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Parts":
-		system.Parts = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						system.Parts = append(system.Parts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "PartWhoseNodeIsExpanded":
-		system.PartWhoseNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						system.PartWhoseNodeIsExpanded = append(system.PartWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlows":
-		system.DataFlows = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						system.DataFlows = append(system.DataFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		system.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "ExternalParts":
-		system.ExternalParts = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						system.ExternalParts = append(system.ExternalParts, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalPartWhoseNodeIsExpanded":
-		system.ExternalPartWhoseNodeIsExpanded = make([]*Part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Parts {
-					if stage.Part_stagedOrder[__instance__] == uint(id) {
-						system.ExternalPartWhoseNodeIsExpanded = append(system.ExternalPartWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (systemshape *SystemShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		systemshape.Name = value.GetValueString()
-	case "System":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			systemshape.System = nil
-			for __instance__ := range stage.Systems {
-				if stage.System_stagedOrder[__instance__] == uint(id) {
-					systemshape.System = __instance__
-					break
-				}
-			}
-		}
-	case "IsExpanded":
-		systemshape.IsExpanded = value.GetValueBool()
-	case "X":
-		systemshape.X = value.GetValueFloat()
-	case "Y":
-		systemshape.Y = value.GetValueFloat()
-	case "Width":
-		systemshape.Width = value.GetValueFloat()
-	case "Height":
-		systemshape.Height = value.GetValueFloat()
-	case "IsHidden":
-		systemshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (allocatedresourceshape *AllocatedResourceShape) GongGetGongstructName() string {

@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	musicxml_go "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -3970,9 +3957,6 @@ type Stage struct {
 	OnAfterWorkDeleteCallback OnAfterDeleteInterface[Work]
 	OnAfterWorkReadCallback   OnAfterReadInterface[Work]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -4001,8 +3985,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -8414,14 +8396,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -11689,28 +11663,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return musicxml_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return musicxml_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -14315,239 +14269,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "A_directive"},
-			{name: "A_measure"},
-			{name: "A_measure_1"},
-			{name: "A_part"},
-			{name: "A_part_1"},
-			{name: "Accidental"},
-			{name: "Accidental_mark"},
-			{name: "Accidental_text"},
-			{name: "Accord"},
-			{name: "Accordion_registration"},
-			{name: "Appearance"},
-			{name: "Arpeggiate"},
-			{name: "Arrow"},
-			{name: "Articulations"},
-			{name: "Assess"},
-			{name: "Attributes"},
-			{name: "Backup"},
-			{name: "Bar_style_color"},
-			{name: "Barline"},
-			{name: "Barre"},
-			{name: "Bass"},
-			{name: "Bass_step"},
-			{name: "Beam"},
-			{name: "Beat_repeat"},
-			{name: "Beat_unit_tied"},
-			{name: "Beater"},
-			{name: "Bend"},
-			{name: "Bookmark"},
-			{name: "Bracket"},
-			{name: "Breath_mark"},
-			{name: "Caesura"},
-			{name: "Cancel"},
-			{name: "Clef"},
-			{name: "Coda"},
-			{name: "Credit"},
-			{name: "Dashes"},
-			{name: "Defaults"},
-			{name: "Degree"},
-			{name: "Degree_alter"},
-			{name: "Degree_type"},
-			{name: "Degree_value"},
-			{name: "Direction"},
-			{name: "Direction_type"},
-			{name: "Distance"},
-			{name: "Double"},
-			{name: "Dynamics"},
-			{name: "Effect"},
-			{name: "Elision"},
-			{name: "Empty"},
-			{name: "Empty_font"},
-			{name: "Empty_line"},
-			{name: "Empty_placement"},
-			{name: "Empty_placement_smufl"},
-			{name: "Empty_print_object_style_align"},
-			{name: "Empty_print_style"},
-			{name: "Empty_print_style_align"},
-			{name: "Empty_print_style_align_id"},
-			{name: "Empty_trill_sound"},
-			{name: "Encoding"},
-			{name: "Ending"},
-			{name: "Extend"},
-			{name: "Feature"},
-			{name: "Fermata"},
-			{name: "Figure"},
-			{name: "Figured_bass"},
-			{name: "Fingering"},
-			{name: "First_fret"},
-			{name: "For_part"},
-			{name: "Formatted_symbol"},
-			{name: "Formatted_symbol_id"},
-			{name: "Formatted_text"},
-			{name: "Formatted_text_id"},
-			{name: "Forward"},
-			{name: "Frame"},
-			{name: "Frame_note"},
-			{name: "Fret"},
-			{name: "Glass"},
-			{name: "Glissando"},
-			{name: "Glyph"},
-			{name: "Grace"},
-			{name: "Group_barline"},
-			{name: "Group_name"},
-			{name: "Group_symbol"},
-			{name: "Grouping"},
-			{name: "Hammer_on_pull_off"},
-			{name: "Handbell"},
-			{name: "Harmon_closed"},
-			{name: "Harmon_mute"},
-			{name: "Harmonic"},
-			{name: "Harmony"},
-			{name: "Harmony_alter"},
-			{name: "Harp_pedals"},
-			{name: "Heel_toe"},
-			{name: "Hole"},
-			{name: "Hole_closed"},
-			{name: "Horizontal_turn"},
-			{name: "Identification"},
-			{name: "Image"},
-			{name: "Instrument"},
-			{name: "Instrument_change"},
-			{name: "Instrument_link"},
-			{name: "Interchangeable"},
-			{name: "Inversion"},
-			{name: "Key"},
-			{name: "Key_accidental"},
-			{name: "Key_octave"},
-			{name: "Kind"},
-			{name: "Level"},
-			{name: "Line_detail"},
-			{name: "Line_width"},
-			{name: "Link"},
-			{name: "Listen"},
-			{name: "Listening"},
-			{name: "Lyric"},
-			{name: "Lyric_font"},
-			{name: "Lyric_language"},
-			{name: "Measure_layout"},
-			{name: "Measure_numbering"},
-			{name: "Measure_repeat"},
-			{name: "Measure_style"},
-			{name: "Membrane"},
-			{name: "Metal"},
-			{name: "Metronome"},
-			{name: "Metronome_beam"},
-			{name: "Metronome_note"},
-			{name: "Metronome_tied"},
-			{name: "Metronome_tuplet"},
-			{name: "Midi_device"},
-			{name: "Midi_instrument"},
-			{name: "Miscellaneous"},
-			{name: "Miscellaneous_field"},
-			{name: "Mordent"},
-			{name: "Multiple_rest"},
-			{name: "Name_display"},
-			{name: "Non_arpeggiate"},
-			{name: "Notations"},
-			{name: "Note"},
-			{name: "Note_size"},
-			{name: "Note_type"},
-			{name: "Notehead"},
-			{name: "Notehead_text"},
-			{name: "Numeral"},
-			{name: "Numeral_key"},
-			{name: "Numeral_root"},
-			{name: "Octave_shift"},
-			{name: "Offset"},
-			{name: "Opus"},
-			{name: "Ornaments"},
-			{name: "Other_appearance"},
-			{name: "Other_direction"},
-			{name: "Other_listening"},
-			{name: "Other_notation"},
-			{name: "Other_placement_text"},
-			{name: "Other_play"},
-			{name: "Other_text"},
-			{name: "Page_layout"},
-			{name: "Page_margins"},
-			{name: "Part_clef"},
-			{name: "Part_group"},
-			{name: "Part_link"},
-			{name: "Part_list"},
-			{name: "Part_name"},
-			{name: "Part_symbol"},
-			{name: "Part_transpose"},
-			{name: "Pedal"},
-			{name: "Pedal_tuning"},
-			{name: "Per_minute"},
-			{name: "Percussion"},
-			{name: "Pitch"},
-			{name: "Pitched"},
-			{name: "Placement_text"},
-			{name: "Play"},
-			{name: "Player"},
-			{name: "Principal_voice"},
-			{name: "Print"},
-			{name: "Release"},
-			{name: "Repeat"},
-			{name: "Rest"},
-			{name: "Root"},
-			{name: "Root_step"},
-			{name: "Scaling"},
-			{name: "Scordatura"},
-			{name: "Score_instrument"},
-			{name: "Score_part"},
-			{name: "Score_partwise"},
-			{name: "Score_timewise"},
-			{name: "Segno"},
-			{name: "Slash"},
-			{name: "Slide"},
-			{name: "Slur"},
-			{name: "Sound"},
-			{name: "Staff_details"},
-			{name: "Staff_divide"},
-			{name: "Staff_layout"},
-			{name: "Staff_size"},
-			{name: "Staff_tuning"},
-			{name: "Stem"},
-			{name: "Stick"},
-			{name: "String_mute"},
-			{name: "String_type"},
-			{name: "Strong_accent"},
-			{name: "Style_text"},
-			{name: "Supports"},
-			{name: "Swing"},
-			{name: "Sync"},
-			{name: "System_dividers"},
-			{name: "System_layout"},
-			{name: "System_margins"},
-			{name: "Tap"},
-			{name: "Technical"},
-			{name: "Text_element_data"},
-			{name: "Tie"},
-			{name: "Tied"},
-			{name: "Time"},
-			{name: "Time_modification"},
-			{name: "Timpani"},
-			{name: "Transpose"},
-			{name: "Tremolo"},
-			{name: "Tuplet"},
-			{name: "Tuplet_dot"},
-			{name: "Tuplet_number"},
-			{name: "Tuplet_portion"},
-			{name: "Tuplet_type"},
-			{name: "Typed_text"},
-			{name: "Unpitched"},
-			{name: "Virtual_instrument"},
-			{name: "Wait"},
-			{name: "Wavy_line"},
-			{name: "Wedge"},
-			{name: "Wood"},
-			{name: "Work"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -15891,9 +15612,6 @@ func (a_directive *A_directive) Commit(stage *Stage) *A_directive {
 	return a_directive
 }
 
-func (a_directive *A_directive) CommitVoid(stage *Stage) {
-	a_directive.Commit(stage)
-}
 
 func (a_directive *A_directive) StageVoid(stage *Stage) {
 	a_directive.Stage(stage)
@@ -15979,9 +15697,6 @@ func (a_measure *A_measure) Commit(stage *Stage) *A_measure {
 	return a_measure
 }
 
-func (a_measure *A_measure) CommitVoid(stage *Stage) {
-	a_measure.Commit(stage)
-}
 
 func (a_measure *A_measure) StageVoid(stage *Stage) {
 	a_measure.Stage(stage)
@@ -16067,9 +15782,6 @@ func (a_measure_1 *A_measure_1) Commit(stage *Stage) *A_measure_1 {
 	return a_measure_1
 }
 
-func (a_measure_1 *A_measure_1) CommitVoid(stage *Stage) {
-	a_measure_1.Commit(stage)
-}
 
 func (a_measure_1 *A_measure_1) StageVoid(stage *Stage) {
 	a_measure_1.Stage(stage)
@@ -16155,9 +15867,6 @@ func (a_part *A_part) Commit(stage *Stage) *A_part {
 	return a_part
 }
 
-func (a_part *A_part) CommitVoid(stage *Stage) {
-	a_part.Commit(stage)
-}
 
 func (a_part *A_part) StageVoid(stage *Stage) {
 	a_part.Stage(stage)
@@ -16243,9 +15952,6 @@ func (a_part_1 *A_part_1) Commit(stage *Stage) *A_part_1 {
 	return a_part_1
 }
 
-func (a_part_1 *A_part_1) CommitVoid(stage *Stage) {
-	a_part_1.Commit(stage)
-}
 
 func (a_part_1 *A_part_1) StageVoid(stage *Stage) {
 	a_part_1.Stage(stage)
@@ -16331,9 +16037,6 @@ func (accidental *Accidental) Commit(stage *Stage) *Accidental {
 	return accidental
 }
 
-func (accidental *Accidental) CommitVoid(stage *Stage) {
-	accidental.Commit(stage)
-}
 
 func (accidental *Accidental) StageVoid(stage *Stage) {
 	accidental.Stage(stage)
@@ -16419,9 +16122,6 @@ func (accidental_mark *Accidental_mark) Commit(stage *Stage) *Accidental_mark {
 	return accidental_mark
 }
 
-func (accidental_mark *Accidental_mark) CommitVoid(stage *Stage) {
-	accidental_mark.Commit(stage)
-}
 
 func (accidental_mark *Accidental_mark) StageVoid(stage *Stage) {
 	accidental_mark.Stage(stage)
@@ -16507,9 +16207,6 @@ func (accidental_text *Accidental_text) Commit(stage *Stage) *Accidental_text {
 	return accidental_text
 }
 
-func (accidental_text *Accidental_text) CommitVoid(stage *Stage) {
-	accidental_text.Commit(stage)
-}
 
 func (accidental_text *Accidental_text) StageVoid(stage *Stage) {
 	accidental_text.Stage(stage)
@@ -16595,9 +16292,6 @@ func (accord *Accord) Commit(stage *Stage) *Accord {
 	return accord
 }
 
-func (accord *Accord) CommitVoid(stage *Stage) {
-	accord.Commit(stage)
-}
 
 func (accord *Accord) StageVoid(stage *Stage) {
 	accord.Stage(stage)
@@ -16683,9 +16377,6 @@ func (accordion_registration *Accordion_registration) Commit(stage *Stage) *Acco
 	return accordion_registration
 }
 
-func (accordion_registration *Accordion_registration) CommitVoid(stage *Stage) {
-	accordion_registration.Commit(stage)
-}
 
 func (accordion_registration *Accordion_registration) StageVoid(stage *Stage) {
 	accordion_registration.Stage(stage)
@@ -16771,9 +16462,6 @@ func (appearance *Appearance) Commit(stage *Stage) *Appearance {
 	return appearance
 }
 
-func (appearance *Appearance) CommitVoid(stage *Stage) {
-	appearance.Commit(stage)
-}
 
 func (appearance *Appearance) StageVoid(stage *Stage) {
 	appearance.Stage(stage)
@@ -16859,9 +16547,6 @@ func (arpeggiate *Arpeggiate) Commit(stage *Stage) *Arpeggiate {
 	return arpeggiate
 }
 
-func (arpeggiate *Arpeggiate) CommitVoid(stage *Stage) {
-	arpeggiate.Commit(stage)
-}
 
 func (arpeggiate *Arpeggiate) StageVoid(stage *Stage) {
 	arpeggiate.Stage(stage)
@@ -16947,9 +16632,6 @@ func (arrow *Arrow) Commit(stage *Stage) *Arrow {
 	return arrow
 }
 
-func (arrow *Arrow) CommitVoid(stage *Stage) {
-	arrow.Commit(stage)
-}
 
 func (arrow *Arrow) StageVoid(stage *Stage) {
 	arrow.Stage(stage)
@@ -17035,9 +16717,6 @@ func (articulations *Articulations) Commit(stage *Stage) *Articulations {
 	return articulations
 }
 
-func (articulations *Articulations) CommitVoid(stage *Stage) {
-	articulations.Commit(stage)
-}
 
 func (articulations *Articulations) StageVoid(stage *Stage) {
 	articulations.Stage(stage)
@@ -17123,9 +16802,6 @@ func (assess *Assess) Commit(stage *Stage) *Assess {
 	return assess
 }
 
-func (assess *Assess) CommitVoid(stage *Stage) {
-	assess.Commit(stage)
-}
 
 func (assess *Assess) StageVoid(stage *Stage) {
 	assess.Stage(stage)
@@ -17211,9 +16887,6 @@ func (attributes *Attributes) Commit(stage *Stage) *Attributes {
 	return attributes
 }
 
-func (attributes *Attributes) CommitVoid(stage *Stage) {
-	attributes.Commit(stage)
-}
 
 func (attributes *Attributes) StageVoid(stage *Stage) {
 	attributes.Stage(stage)
@@ -17299,9 +16972,6 @@ func (backup *Backup) Commit(stage *Stage) *Backup {
 	return backup
 }
 
-func (backup *Backup) CommitVoid(stage *Stage) {
-	backup.Commit(stage)
-}
 
 func (backup *Backup) StageVoid(stage *Stage) {
 	backup.Stage(stage)
@@ -17387,9 +17057,6 @@ func (bar_style_color *Bar_style_color) Commit(stage *Stage) *Bar_style_color {
 	return bar_style_color
 }
 
-func (bar_style_color *Bar_style_color) CommitVoid(stage *Stage) {
-	bar_style_color.Commit(stage)
-}
 
 func (bar_style_color *Bar_style_color) StageVoid(stage *Stage) {
 	bar_style_color.Stage(stage)
@@ -17475,9 +17142,6 @@ func (barline *Barline) Commit(stage *Stage) *Barline {
 	return barline
 }
 
-func (barline *Barline) CommitVoid(stage *Stage) {
-	barline.Commit(stage)
-}
 
 func (barline *Barline) StageVoid(stage *Stage) {
 	barline.Stage(stage)
@@ -17563,9 +17227,6 @@ func (barre *Barre) Commit(stage *Stage) *Barre {
 	return barre
 }
 
-func (barre *Barre) CommitVoid(stage *Stage) {
-	barre.Commit(stage)
-}
 
 func (barre *Barre) StageVoid(stage *Stage) {
 	barre.Stage(stage)
@@ -17651,9 +17312,6 @@ func (bass *Bass) Commit(stage *Stage) *Bass {
 	return bass
 }
 
-func (bass *Bass) CommitVoid(stage *Stage) {
-	bass.Commit(stage)
-}
 
 func (bass *Bass) StageVoid(stage *Stage) {
 	bass.Stage(stage)
@@ -17739,9 +17397,6 @@ func (bass_step *Bass_step) Commit(stage *Stage) *Bass_step {
 	return bass_step
 }
 
-func (bass_step *Bass_step) CommitVoid(stage *Stage) {
-	bass_step.Commit(stage)
-}
 
 func (bass_step *Bass_step) StageVoid(stage *Stage) {
 	bass_step.Stage(stage)
@@ -17827,9 +17482,6 @@ func (beam *Beam) Commit(stage *Stage) *Beam {
 	return beam
 }
 
-func (beam *Beam) CommitVoid(stage *Stage) {
-	beam.Commit(stage)
-}
 
 func (beam *Beam) StageVoid(stage *Stage) {
 	beam.Stage(stage)
@@ -17915,9 +17567,6 @@ func (beat_repeat *Beat_repeat) Commit(stage *Stage) *Beat_repeat {
 	return beat_repeat
 }
 
-func (beat_repeat *Beat_repeat) CommitVoid(stage *Stage) {
-	beat_repeat.Commit(stage)
-}
 
 func (beat_repeat *Beat_repeat) StageVoid(stage *Stage) {
 	beat_repeat.Stage(stage)
@@ -18003,9 +17652,6 @@ func (beat_unit_tied *Beat_unit_tied) Commit(stage *Stage) *Beat_unit_tied {
 	return beat_unit_tied
 }
 
-func (beat_unit_tied *Beat_unit_tied) CommitVoid(stage *Stage) {
-	beat_unit_tied.Commit(stage)
-}
 
 func (beat_unit_tied *Beat_unit_tied) StageVoid(stage *Stage) {
 	beat_unit_tied.Stage(stage)
@@ -18091,9 +17737,6 @@ func (beater *Beater) Commit(stage *Stage) *Beater {
 	return beater
 }
 
-func (beater *Beater) CommitVoid(stage *Stage) {
-	beater.Commit(stage)
-}
 
 func (beater *Beater) StageVoid(stage *Stage) {
 	beater.Stage(stage)
@@ -18179,9 +17822,6 @@ func (bend *Bend) Commit(stage *Stage) *Bend {
 	return bend
 }
 
-func (bend *Bend) CommitVoid(stage *Stage) {
-	bend.Commit(stage)
-}
 
 func (bend *Bend) StageVoid(stage *Stage) {
 	bend.Stage(stage)
@@ -18267,9 +17907,6 @@ func (bookmark *Bookmark) Commit(stage *Stage) *Bookmark {
 	return bookmark
 }
 
-func (bookmark *Bookmark) CommitVoid(stage *Stage) {
-	bookmark.Commit(stage)
-}
 
 func (bookmark *Bookmark) StageVoid(stage *Stage) {
 	bookmark.Stage(stage)
@@ -18355,9 +17992,6 @@ func (bracket *Bracket) Commit(stage *Stage) *Bracket {
 	return bracket
 }
 
-func (bracket *Bracket) CommitVoid(stage *Stage) {
-	bracket.Commit(stage)
-}
 
 func (bracket *Bracket) StageVoid(stage *Stage) {
 	bracket.Stage(stage)
@@ -18443,9 +18077,6 @@ func (breath_mark *Breath_mark) Commit(stage *Stage) *Breath_mark {
 	return breath_mark
 }
 
-func (breath_mark *Breath_mark) CommitVoid(stage *Stage) {
-	breath_mark.Commit(stage)
-}
 
 func (breath_mark *Breath_mark) StageVoid(stage *Stage) {
 	breath_mark.Stage(stage)
@@ -18531,9 +18162,6 @@ func (caesura *Caesura) Commit(stage *Stage) *Caesura {
 	return caesura
 }
 
-func (caesura *Caesura) CommitVoid(stage *Stage) {
-	caesura.Commit(stage)
-}
 
 func (caesura *Caesura) StageVoid(stage *Stage) {
 	caesura.Stage(stage)
@@ -18619,9 +18247,6 @@ func (cancel *Cancel) Commit(stage *Stage) *Cancel {
 	return cancel
 }
 
-func (cancel *Cancel) CommitVoid(stage *Stage) {
-	cancel.Commit(stage)
-}
 
 func (cancel *Cancel) StageVoid(stage *Stage) {
 	cancel.Stage(stage)
@@ -18707,9 +18332,6 @@ func (clef *Clef) Commit(stage *Stage) *Clef {
 	return clef
 }
 
-func (clef *Clef) CommitVoid(stage *Stage) {
-	clef.Commit(stage)
-}
 
 func (clef *Clef) StageVoid(stage *Stage) {
 	clef.Stage(stage)
@@ -18795,9 +18417,6 @@ func (coda *Coda) Commit(stage *Stage) *Coda {
 	return coda
 }
 
-func (coda *Coda) CommitVoid(stage *Stage) {
-	coda.Commit(stage)
-}
 
 func (coda *Coda) StageVoid(stage *Stage) {
 	coda.Stage(stage)
@@ -18883,9 +18502,6 @@ func (credit *Credit) Commit(stage *Stage) *Credit {
 	return credit
 }
 
-func (credit *Credit) CommitVoid(stage *Stage) {
-	credit.Commit(stage)
-}
 
 func (credit *Credit) StageVoid(stage *Stage) {
 	credit.Stage(stage)
@@ -18971,9 +18587,6 @@ func (dashes *Dashes) Commit(stage *Stage) *Dashes {
 	return dashes
 }
 
-func (dashes *Dashes) CommitVoid(stage *Stage) {
-	dashes.Commit(stage)
-}
 
 func (dashes *Dashes) StageVoid(stage *Stage) {
 	dashes.Stage(stage)
@@ -19059,9 +18672,6 @@ func (defaults *Defaults) Commit(stage *Stage) *Defaults {
 	return defaults
 }
 
-func (defaults *Defaults) CommitVoid(stage *Stage) {
-	defaults.Commit(stage)
-}
 
 func (defaults *Defaults) StageVoid(stage *Stage) {
 	defaults.Stage(stage)
@@ -19147,9 +18757,6 @@ func (degree *Degree) Commit(stage *Stage) *Degree {
 	return degree
 }
 
-func (degree *Degree) CommitVoid(stage *Stage) {
-	degree.Commit(stage)
-}
 
 func (degree *Degree) StageVoid(stage *Stage) {
 	degree.Stage(stage)
@@ -19235,9 +18842,6 @@ func (degree_alter *Degree_alter) Commit(stage *Stage) *Degree_alter {
 	return degree_alter
 }
 
-func (degree_alter *Degree_alter) CommitVoid(stage *Stage) {
-	degree_alter.Commit(stage)
-}
 
 func (degree_alter *Degree_alter) StageVoid(stage *Stage) {
 	degree_alter.Stage(stage)
@@ -19323,9 +18927,6 @@ func (degree_type *Degree_type) Commit(stage *Stage) *Degree_type {
 	return degree_type
 }
 
-func (degree_type *Degree_type) CommitVoid(stage *Stage) {
-	degree_type.Commit(stage)
-}
 
 func (degree_type *Degree_type) StageVoid(stage *Stage) {
 	degree_type.Stage(stage)
@@ -19411,9 +19012,6 @@ func (degree_value *Degree_value) Commit(stage *Stage) *Degree_value {
 	return degree_value
 }
 
-func (degree_value *Degree_value) CommitVoid(stage *Stage) {
-	degree_value.Commit(stage)
-}
 
 func (degree_value *Degree_value) StageVoid(stage *Stage) {
 	degree_value.Stage(stage)
@@ -19499,9 +19097,6 @@ func (direction *Direction) Commit(stage *Stage) *Direction {
 	return direction
 }
 
-func (direction *Direction) CommitVoid(stage *Stage) {
-	direction.Commit(stage)
-}
 
 func (direction *Direction) StageVoid(stage *Stage) {
 	direction.Stage(stage)
@@ -19587,9 +19182,6 @@ func (direction_type *Direction_type) Commit(stage *Stage) *Direction_type {
 	return direction_type
 }
 
-func (direction_type *Direction_type) CommitVoid(stage *Stage) {
-	direction_type.Commit(stage)
-}
 
 func (direction_type *Direction_type) StageVoid(stage *Stage) {
 	direction_type.Stage(stage)
@@ -19675,9 +19267,6 @@ func (distance *Distance) Commit(stage *Stage) *Distance {
 	return distance
 }
 
-func (distance *Distance) CommitVoid(stage *Stage) {
-	distance.Commit(stage)
-}
 
 func (distance *Distance) StageVoid(stage *Stage) {
 	distance.Stage(stage)
@@ -19763,9 +19352,6 @@ func (double *Double) Commit(stage *Stage) *Double {
 	return double
 }
 
-func (double *Double) CommitVoid(stage *Stage) {
-	double.Commit(stage)
-}
 
 func (double *Double) StageVoid(stage *Stage) {
 	double.Stage(stage)
@@ -19851,9 +19437,6 @@ func (dynamics *Dynamics) Commit(stage *Stage) *Dynamics {
 	return dynamics
 }
 
-func (dynamics *Dynamics) CommitVoid(stage *Stage) {
-	dynamics.Commit(stage)
-}
 
 func (dynamics *Dynamics) StageVoid(stage *Stage) {
 	dynamics.Stage(stage)
@@ -19939,9 +19522,6 @@ func (effect *Effect) Commit(stage *Stage) *Effect {
 	return effect
 }
 
-func (effect *Effect) CommitVoid(stage *Stage) {
-	effect.Commit(stage)
-}
 
 func (effect *Effect) StageVoid(stage *Stage) {
 	effect.Stage(stage)
@@ -20027,9 +19607,6 @@ func (elision *Elision) Commit(stage *Stage) *Elision {
 	return elision
 }
 
-func (elision *Elision) CommitVoid(stage *Stage) {
-	elision.Commit(stage)
-}
 
 func (elision *Elision) StageVoid(stage *Stage) {
 	elision.Stage(stage)
@@ -20115,9 +19692,6 @@ func (empty *Empty) Commit(stage *Stage) *Empty {
 	return empty
 }
 
-func (empty *Empty) CommitVoid(stage *Stage) {
-	empty.Commit(stage)
-}
 
 func (empty *Empty) StageVoid(stage *Stage) {
 	empty.Stage(stage)
@@ -20203,9 +19777,6 @@ func (empty_font *Empty_font) Commit(stage *Stage) *Empty_font {
 	return empty_font
 }
 
-func (empty_font *Empty_font) CommitVoid(stage *Stage) {
-	empty_font.Commit(stage)
-}
 
 func (empty_font *Empty_font) StageVoid(stage *Stage) {
 	empty_font.Stage(stage)
@@ -20291,9 +19862,6 @@ func (empty_line *Empty_line) Commit(stage *Stage) *Empty_line {
 	return empty_line
 }
 
-func (empty_line *Empty_line) CommitVoid(stage *Stage) {
-	empty_line.Commit(stage)
-}
 
 func (empty_line *Empty_line) StageVoid(stage *Stage) {
 	empty_line.Stage(stage)
@@ -20379,9 +19947,6 @@ func (empty_placement *Empty_placement) Commit(stage *Stage) *Empty_placement {
 	return empty_placement
 }
 
-func (empty_placement *Empty_placement) CommitVoid(stage *Stage) {
-	empty_placement.Commit(stage)
-}
 
 func (empty_placement *Empty_placement) StageVoid(stage *Stage) {
 	empty_placement.Stage(stage)
@@ -20467,9 +20032,6 @@ func (empty_placement_smufl *Empty_placement_smufl) Commit(stage *Stage) *Empty_
 	return empty_placement_smufl
 }
 
-func (empty_placement_smufl *Empty_placement_smufl) CommitVoid(stage *Stage) {
-	empty_placement_smufl.Commit(stage)
-}
 
 func (empty_placement_smufl *Empty_placement_smufl) StageVoid(stage *Stage) {
 	empty_placement_smufl.Stage(stage)
@@ -20555,9 +20117,6 @@ func (empty_print_object_style_align *Empty_print_object_style_align) Commit(sta
 	return empty_print_object_style_align
 }
 
-func (empty_print_object_style_align *Empty_print_object_style_align) CommitVoid(stage *Stage) {
-	empty_print_object_style_align.Commit(stage)
-}
 
 func (empty_print_object_style_align *Empty_print_object_style_align) StageVoid(stage *Stage) {
 	empty_print_object_style_align.Stage(stage)
@@ -20643,9 +20202,6 @@ func (empty_print_style *Empty_print_style) Commit(stage *Stage) *Empty_print_st
 	return empty_print_style
 }
 
-func (empty_print_style *Empty_print_style) CommitVoid(stage *Stage) {
-	empty_print_style.Commit(stage)
-}
 
 func (empty_print_style *Empty_print_style) StageVoid(stage *Stage) {
 	empty_print_style.Stage(stage)
@@ -20731,9 +20287,6 @@ func (empty_print_style_align *Empty_print_style_align) Commit(stage *Stage) *Em
 	return empty_print_style_align
 }
 
-func (empty_print_style_align *Empty_print_style_align) CommitVoid(stage *Stage) {
-	empty_print_style_align.Commit(stage)
-}
 
 func (empty_print_style_align *Empty_print_style_align) StageVoid(stage *Stage) {
 	empty_print_style_align.Stage(stage)
@@ -20819,9 +20372,6 @@ func (empty_print_style_align_id *Empty_print_style_align_id) Commit(stage *Stag
 	return empty_print_style_align_id
 }
 
-func (empty_print_style_align_id *Empty_print_style_align_id) CommitVoid(stage *Stage) {
-	empty_print_style_align_id.Commit(stage)
-}
 
 func (empty_print_style_align_id *Empty_print_style_align_id) StageVoid(stage *Stage) {
 	empty_print_style_align_id.Stage(stage)
@@ -20907,9 +20457,6 @@ func (empty_trill_sound *Empty_trill_sound) Commit(stage *Stage) *Empty_trill_so
 	return empty_trill_sound
 }
 
-func (empty_trill_sound *Empty_trill_sound) CommitVoid(stage *Stage) {
-	empty_trill_sound.Commit(stage)
-}
 
 func (empty_trill_sound *Empty_trill_sound) StageVoid(stage *Stage) {
 	empty_trill_sound.Stage(stage)
@@ -20995,9 +20542,6 @@ func (encoding *Encoding) Commit(stage *Stage) *Encoding {
 	return encoding
 }
 
-func (encoding *Encoding) CommitVoid(stage *Stage) {
-	encoding.Commit(stage)
-}
 
 func (encoding *Encoding) StageVoid(stage *Stage) {
 	encoding.Stage(stage)
@@ -21083,9 +20627,6 @@ func (ending *Ending) Commit(stage *Stage) *Ending {
 	return ending
 }
 
-func (ending *Ending) CommitVoid(stage *Stage) {
-	ending.Commit(stage)
-}
 
 func (ending *Ending) StageVoid(stage *Stage) {
 	ending.Stage(stage)
@@ -21171,9 +20712,6 @@ func (extend *Extend) Commit(stage *Stage) *Extend {
 	return extend
 }
 
-func (extend *Extend) CommitVoid(stage *Stage) {
-	extend.Commit(stage)
-}
 
 func (extend *Extend) StageVoid(stage *Stage) {
 	extend.Stage(stage)
@@ -21259,9 +20797,6 @@ func (feature *Feature) Commit(stage *Stage) *Feature {
 	return feature
 }
 
-func (feature *Feature) CommitVoid(stage *Stage) {
-	feature.Commit(stage)
-}
 
 func (feature *Feature) StageVoid(stage *Stage) {
 	feature.Stage(stage)
@@ -21347,9 +20882,6 @@ func (fermata *Fermata) Commit(stage *Stage) *Fermata {
 	return fermata
 }
 
-func (fermata *Fermata) CommitVoid(stage *Stage) {
-	fermata.Commit(stage)
-}
 
 func (fermata *Fermata) StageVoid(stage *Stage) {
 	fermata.Stage(stage)
@@ -21435,9 +20967,6 @@ func (figure *Figure) Commit(stage *Stage) *Figure {
 	return figure
 }
 
-func (figure *Figure) CommitVoid(stage *Stage) {
-	figure.Commit(stage)
-}
 
 func (figure *Figure) StageVoid(stage *Stage) {
 	figure.Stage(stage)
@@ -21523,9 +21052,6 @@ func (figured_bass *Figured_bass) Commit(stage *Stage) *Figured_bass {
 	return figured_bass
 }
 
-func (figured_bass *Figured_bass) CommitVoid(stage *Stage) {
-	figured_bass.Commit(stage)
-}
 
 func (figured_bass *Figured_bass) StageVoid(stage *Stage) {
 	figured_bass.Stage(stage)
@@ -21611,9 +21137,6 @@ func (fingering *Fingering) Commit(stage *Stage) *Fingering {
 	return fingering
 }
 
-func (fingering *Fingering) CommitVoid(stage *Stage) {
-	fingering.Commit(stage)
-}
 
 func (fingering *Fingering) StageVoid(stage *Stage) {
 	fingering.Stage(stage)
@@ -21699,9 +21222,6 @@ func (first_fret *First_fret) Commit(stage *Stage) *First_fret {
 	return first_fret
 }
 
-func (first_fret *First_fret) CommitVoid(stage *Stage) {
-	first_fret.Commit(stage)
-}
 
 func (first_fret *First_fret) StageVoid(stage *Stage) {
 	first_fret.Stage(stage)
@@ -21787,9 +21307,6 @@ func (for_part *For_part) Commit(stage *Stage) *For_part {
 	return for_part
 }
 
-func (for_part *For_part) CommitVoid(stage *Stage) {
-	for_part.Commit(stage)
-}
 
 func (for_part *For_part) StageVoid(stage *Stage) {
 	for_part.Stage(stage)
@@ -21875,9 +21392,6 @@ func (formatted_symbol *Formatted_symbol) Commit(stage *Stage) *Formatted_symbol
 	return formatted_symbol
 }
 
-func (formatted_symbol *Formatted_symbol) CommitVoid(stage *Stage) {
-	formatted_symbol.Commit(stage)
-}
 
 func (formatted_symbol *Formatted_symbol) StageVoid(stage *Stage) {
 	formatted_symbol.Stage(stage)
@@ -21963,9 +21477,6 @@ func (formatted_symbol_id *Formatted_symbol_id) Commit(stage *Stage) *Formatted_
 	return formatted_symbol_id
 }
 
-func (formatted_symbol_id *Formatted_symbol_id) CommitVoid(stage *Stage) {
-	formatted_symbol_id.Commit(stage)
-}
 
 func (formatted_symbol_id *Formatted_symbol_id) StageVoid(stage *Stage) {
 	formatted_symbol_id.Stage(stage)
@@ -22051,9 +21562,6 @@ func (formatted_text *Formatted_text) Commit(stage *Stage) *Formatted_text {
 	return formatted_text
 }
 
-func (formatted_text *Formatted_text) CommitVoid(stage *Stage) {
-	formatted_text.Commit(stage)
-}
 
 func (formatted_text *Formatted_text) StageVoid(stage *Stage) {
 	formatted_text.Stage(stage)
@@ -22139,9 +21647,6 @@ func (formatted_text_id *Formatted_text_id) Commit(stage *Stage) *Formatted_text
 	return formatted_text_id
 }
 
-func (formatted_text_id *Formatted_text_id) CommitVoid(stage *Stage) {
-	formatted_text_id.Commit(stage)
-}
 
 func (formatted_text_id *Formatted_text_id) StageVoid(stage *Stage) {
 	formatted_text_id.Stage(stage)
@@ -22227,9 +21732,6 @@ func (forward *Forward) Commit(stage *Stage) *Forward {
 	return forward
 }
 
-func (forward *Forward) CommitVoid(stage *Stage) {
-	forward.Commit(stage)
-}
 
 func (forward *Forward) StageVoid(stage *Stage) {
 	forward.Stage(stage)
@@ -22315,9 +21817,6 @@ func (frame *Frame) Commit(stage *Stage) *Frame {
 	return frame
 }
 
-func (frame *Frame) CommitVoid(stage *Stage) {
-	frame.Commit(stage)
-}
 
 func (frame *Frame) StageVoid(stage *Stage) {
 	frame.Stage(stage)
@@ -22403,9 +21902,6 @@ func (frame_note *Frame_note) Commit(stage *Stage) *Frame_note {
 	return frame_note
 }
 
-func (frame_note *Frame_note) CommitVoid(stage *Stage) {
-	frame_note.Commit(stage)
-}
 
 func (frame_note *Frame_note) StageVoid(stage *Stage) {
 	frame_note.Stage(stage)
@@ -22491,9 +21987,6 @@ func (fret *Fret) Commit(stage *Stage) *Fret {
 	return fret
 }
 
-func (fret *Fret) CommitVoid(stage *Stage) {
-	fret.Commit(stage)
-}
 
 func (fret *Fret) StageVoid(stage *Stage) {
 	fret.Stage(stage)
@@ -22579,9 +22072,6 @@ func (glass *Glass) Commit(stage *Stage) *Glass {
 	return glass
 }
 
-func (glass *Glass) CommitVoid(stage *Stage) {
-	glass.Commit(stage)
-}
 
 func (glass *Glass) StageVoid(stage *Stage) {
 	glass.Stage(stage)
@@ -22667,9 +22157,6 @@ func (glissando *Glissando) Commit(stage *Stage) *Glissando {
 	return glissando
 }
 
-func (glissando *Glissando) CommitVoid(stage *Stage) {
-	glissando.Commit(stage)
-}
 
 func (glissando *Glissando) StageVoid(stage *Stage) {
 	glissando.Stage(stage)
@@ -22755,9 +22242,6 @@ func (glyph *Glyph) Commit(stage *Stage) *Glyph {
 	return glyph
 }
 
-func (glyph *Glyph) CommitVoid(stage *Stage) {
-	glyph.Commit(stage)
-}
 
 func (glyph *Glyph) StageVoid(stage *Stage) {
 	glyph.Stage(stage)
@@ -22843,9 +22327,6 @@ func (grace *Grace) Commit(stage *Stage) *Grace {
 	return grace
 }
 
-func (grace *Grace) CommitVoid(stage *Stage) {
-	grace.Commit(stage)
-}
 
 func (grace *Grace) StageVoid(stage *Stage) {
 	grace.Stage(stage)
@@ -22931,9 +22412,6 @@ func (group_barline *Group_barline) Commit(stage *Stage) *Group_barline {
 	return group_barline
 }
 
-func (group_barline *Group_barline) CommitVoid(stage *Stage) {
-	group_barline.Commit(stage)
-}
 
 func (group_barline *Group_barline) StageVoid(stage *Stage) {
 	group_barline.Stage(stage)
@@ -23019,9 +22497,6 @@ func (group_name *Group_name) Commit(stage *Stage) *Group_name {
 	return group_name
 }
 
-func (group_name *Group_name) CommitVoid(stage *Stage) {
-	group_name.Commit(stage)
-}
 
 func (group_name *Group_name) StageVoid(stage *Stage) {
 	group_name.Stage(stage)
@@ -23107,9 +22582,6 @@ func (group_symbol *Group_symbol) Commit(stage *Stage) *Group_symbol {
 	return group_symbol
 }
 
-func (group_symbol *Group_symbol) CommitVoid(stage *Stage) {
-	group_symbol.Commit(stage)
-}
 
 func (group_symbol *Group_symbol) StageVoid(stage *Stage) {
 	group_symbol.Stage(stage)
@@ -23195,9 +22667,6 @@ func (grouping *Grouping) Commit(stage *Stage) *Grouping {
 	return grouping
 }
 
-func (grouping *Grouping) CommitVoid(stage *Stage) {
-	grouping.Commit(stage)
-}
 
 func (grouping *Grouping) StageVoid(stage *Stage) {
 	grouping.Stage(stage)
@@ -23283,9 +22752,6 @@ func (hammer_on_pull_off *Hammer_on_pull_off) Commit(stage *Stage) *Hammer_on_pu
 	return hammer_on_pull_off
 }
 
-func (hammer_on_pull_off *Hammer_on_pull_off) CommitVoid(stage *Stage) {
-	hammer_on_pull_off.Commit(stage)
-}
 
 func (hammer_on_pull_off *Hammer_on_pull_off) StageVoid(stage *Stage) {
 	hammer_on_pull_off.Stage(stage)
@@ -23371,9 +22837,6 @@ func (handbell *Handbell) Commit(stage *Stage) *Handbell {
 	return handbell
 }
 
-func (handbell *Handbell) CommitVoid(stage *Stage) {
-	handbell.Commit(stage)
-}
 
 func (handbell *Handbell) StageVoid(stage *Stage) {
 	handbell.Stage(stage)
@@ -23459,9 +22922,6 @@ func (harmon_closed *Harmon_closed) Commit(stage *Stage) *Harmon_closed {
 	return harmon_closed
 }
 
-func (harmon_closed *Harmon_closed) CommitVoid(stage *Stage) {
-	harmon_closed.Commit(stage)
-}
 
 func (harmon_closed *Harmon_closed) StageVoid(stage *Stage) {
 	harmon_closed.Stage(stage)
@@ -23547,9 +23007,6 @@ func (harmon_mute *Harmon_mute) Commit(stage *Stage) *Harmon_mute {
 	return harmon_mute
 }
 
-func (harmon_mute *Harmon_mute) CommitVoid(stage *Stage) {
-	harmon_mute.Commit(stage)
-}
 
 func (harmon_mute *Harmon_mute) StageVoid(stage *Stage) {
 	harmon_mute.Stage(stage)
@@ -23635,9 +23092,6 @@ func (harmonic *Harmonic) Commit(stage *Stage) *Harmonic {
 	return harmonic
 }
 
-func (harmonic *Harmonic) CommitVoid(stage *Stage) {
-	harmonic.Commit(stage)
-}
 
 func (harmonic *Harmonic) StageVoid(stage *Stage) {
 	harmonic.Stage(stage)
@@ -23723,9 +23177,6 @@ func (harmony *Harmony) Commit(stage *Stage) *Harmony {
 	return harmony
 }
 
-func (harmony *Harmony) CommitVoid(stage *Stage) {
-	harmony.Commit(stage)
-}
 
 func (harmony *Harmony) StageVoid(stage *Stage) {
 	harmony.Stage(stage)
@@ -23811,9 +23262,6 @@ func (harmony_alter *Harmony_alter) Commit(stage *Stage) *Harmony_alter {
 	return harmony_alter
 }
 
-func (harmony_alter *Harmony_alter) CommitVoid(stage *Stage) {
-	harmony_alter.Commit(stage)
-}
 
 func (harmony_alter *Harmony_alter) StageVoid(stage *Stage) {
 	harmony_alter.Stage(stage)
@@ -23899,9 +23347,6 @@ func (harp_pedals *Harp_pedals) Commit(stage *Stage) *Harp_pedals {
 	return harp_pedals
 }
 
-func (harp_pedals *Harp_pedals) CommitVoid(stage *Stage) {
-	harp_pedals.Commit(stage)
-}
 
 func (harp_pedals *Harp_pedals) StageVoid(stage *Stage) {
 	harp_pedals.Stage(stage)
@@ -23987,9 +23432,6 @@ func (heel_toe *Heel_toe) Commit(stage *Stage) *Heel_toe {
 	return heel_toe
 }
 
-func (heel_toe *Heel_toe) CommitVoid(stage *Stage) {
-	heel_toe.Commit(stage)
-}
 
 func (heel_toe *Heel_toe) StageVoid(stage *Stage) {
 	heel_toe.Stage(stage)
@@ -24075,9 +23517,6 @@ func (hole *Hole) Commit(stage *Stage) *Hole {
 	return hole
 }
 
-func (hole *Hole) CommitVoid(stage *Stage) {
-	hole.Commit(stage)
-}
 
 func (hole *Hole) StageVoid(stage *Stage) {
 	hole.Stage(stage)
@@ -24163,9 +23602,6 @@ func (hole_closed *Hole_closed) Commit(stage *Stage) *Hole_closed {
 	return hole_closed
 }
 
-func (hole_closed *Hole_closed) CommitVoid(stage *Stage) {
-	hole_closed.Commit(stage)
-}
 
 func (hole_closed *Hole_closed) StageVoid(stage *Stage) {
 	hole_closed.Stage(stage)
@@ -24251,9 +23687,6 @@ func (horizontal_turn *Horizontal_turn) Commit(stage *Stage) *Horizontal_turn {
 	return horizontal_turn
 }
 
-func (horizontal_turn *Horizontal_turn) CommitVoid(stage *Stage) {
-	horizontal_turn.Commit(stage)
-}
 
 func (horizontal_turn *Horizontal_turn) StageVoid(stage *Stage) {
 	horizontal_turn.Stage(stage)
@@ -24339,9 +23772,6 @@ func (identification *Identification) Commit(stage *Stage) *Identification {
 	return identification
 }
 
-func (identification *Identification) CommitVoid(stage *Stage) {
-	identification.Commit(stage)
-}
 
 func (identification *Identification) StageVoid(stage *Stage) {
 	identification.Stage(stage)
@@ -24427,9 +23857,6 @@ func (image *Image) Commit(stage *Stage) *Image {
 	return image
 }
 
-func (image *Image) CommitVoid(stage *Stage) {
-	image.Commit(stage)
-}
 
 func (image *Image) StageVoid(stage *Stage) {
 	image.Stage(stage)
@@ -24515,9 +23942,6 @@ func (instrument *Instrument) Commit(stage *Stage) *Instrument {
 	return instrument
 }
 
-func (instrument *Instrument) CommitVoid(stage *Stage) {
-	instrument.Commit(stage)
-}
 
 func (instrument *Instrument) StageVoid(stage *Stage) {
 	instrument.Stage(stage)
@@ -24603,9 +24027,6 @@ func (instrument_change *Instrument_change) Commit(stage *Stage) *Instrument_cha
 	return instrument_change
 }
 
-func (instrument_change *Instrument_change) CommitVoid(stage *Stage) {
-	instrument_change.Commit(stage)
-}
 
 func (instrument_change *Instrument_change) StageVoid(stage *Stage) {
 	instrument_change.Stage(stage)
@@ -24691,9 +24112,6 @@ func (instrument_link *Instrument_link) Commit(stage *Stage) *Instrument_link {
 	return instrument_link
 }
 
-func (instrument_link *Instrument_link) CommitVoid(stage *Stage) {
-	instrument_link.Commit(stage)
-}
 
 func (instrument_link *Instrument_link) StageVoid(stage *Stage) {
 	instrument_link.Stage(stage)
@@ -24779,9 +24197,6 @@ func (interchangeable *Interchangeable) Commit(stage *Stage) *Interchangeable {
 	return interchangeable
 }
 
-func (interchangeable *Interchangeable) CommitVoid(stage *Stage) {
-	interchangeable.Commit(stage)
-}
 
 func (interchangeable *Interchangeable) StageVoid(stage *Stage) {
 	interchangeable.Stage(stage)
@@ -24867,9 +24282,6 @@ func (inversion *Inversion) Commit(stage *Stage) *Inversion {
 	return inversion
 }
 
-func (inversion *Inversion) CommitVoid(stage *Stage) {
-	inversion.Commit(stage)
-}
 
 func (inversion *Inversion) StageVoid(stage *Stage) {
 	inversion.Stage(stage)
@@ -24955,9 +24367,6 @@ func (key *Key) Commit(stage *Stage) *Key {
 	return key
 }
 
-func (key *Key) CommitVoid(stage *Stage) {
-	key.Commit(stage)
-}
 
 func (key *Key) StageVoid(stage *Stage) {
 	key.Stage(stage)
@@ -25043,9 +24452,6 @@ func (key_accidental *Key_accidental) Commit(stage *Stage) *Key_accidental {
 	return key_accidental
 }
 
-func (key_accidental *Key_accidental) CommitVoid(stage *Stage) {
-	key_accidental.Commit(stage)
-}
 
 func (key_accidental *Key_accidental) StageVoid(stage *Stage) {
 	key_accidental.Stage(stage)
@@ -25131,9 +24537,6 @@ func (key_octave *Key_octave) Commit(stage *Stage) *Key_octave {
 	return key_octave
 }
 
-func (key_octave *Key_octave) CommitVoid(stage *Stage) {
-	key_octave.Commit(stage)
-}
 
 func (key_octave *Key_octave) StageVoid(stage *Stage) {
 	key_octave.Stage(stage)
@@ -25219,9 +24622,6 @@ func (kind *Kind) Commit(stage *Stage) *Kind {
 	return kind
 }
 
-func (kind *Kind) CommitVoid(stage *Stage) {
-	kind.Commit(stage)
-}
 
 func (kind *Kind) StageVoid(stage *Stage) {
 	kind.Stage(stage)
@@ -25307,9 +24707,6 @@ func (level *Level) Commit(stage *Stage) *Level {
 	return level
 }
 
-func (level *Level) CommitVoid(stage *Stage) {
-	level.Commit(stage)
-}
 
 func (level *Level) StageVoid(stage *Stage) {
 	level.Stage(stage)
@@ -25395,9 +24792,6 @@ func (line_detail *Line_detail) Commit(stage *Stage) *Line_detail {
 	return line_detail
 }
 
-func (line_detail *Line_detail) CommitVoid(stage *Stage) {
-	line_detail.Commit(stage)
-}
 
 func (line_detail *Line_detail) StageVoid(stage *Stage) {
 	line_detail.Stage(stage)
@@ -25483,9 +24877,6 @@ func (line_width *Line_width) Commit(stage *Stage) *Line_width {
 	return line_width
 }
 
-func (line_width *Line_width) CommitVoid(stage *Stage) {
-	line_width.Commit(stage)
-}
 
 func (line_width *Line_width) StageVoid(stage *Stage) {
 	line_width.Stage(stage)
@@ -25571,9 +24962,6 @@ func (link *Link) Commit(stage *Stage) *Link {
 	return link
 }
 
-func (link *Link) CommitVoid(stage *Stage) {
-	link.Commit(stage)
-}
 
 func (link *Link) StageVoid(stage *Stage) {
 	link.Stage(stage)
@@ -25659,9 +25047,6 @@ func (listen *Listen) Commit(stage *Stage) *Listen {
 	return listen
 }
 
-func (listen *Listen) CommitVoid(stage *Stage) {
-	listen.Commit(stage)
-}
 
 func (listen *Listen) StageVoid(stage *Stage) {
 	listen.Stage(stage)
@@ -25747,9 +25132,6 @@ func (listening *Listening) Commit(stage *Stage) *Listening {
 	return listening
 }
 
-func (listening *Listening) CommitVoid(stage *Stage) {
-	listening.Commit(stage)
-}
 
 func (listening *Listening) StageVoid(stage *Stage) {
 	listening.Stage(stage)
@@ -25835,9 +25217,6 @@ func (lyric *Lyric) Commit(stage *Stage) *Lyric {
 	return lyric
 }
 
-func (lyric *Lyric) CommitVoid(stage *Stage) {
-	lyric.Commit(stage)
-}
 
 func (lyric *Lyric) StageVoid(stage *Stage) {
 	lyric.Stage(stage)
@@ -25923,9 +25302,6 @@ func (lyric_font *Lyric_font) Commit(stage *Stage) *Lyric_font {
 	return lyric_font
 }
 
-func (lyric_font *Lyric_font) CommitVoid(stage *Stage) {
-	lyric_font.Commit(stage)
-}
 
 func (lyric_font *Lyric_font) StageVoid(stage *Stage) {
 	lyric_font.Stage(stage)
@@ -26011,9 +25387,6 @@ func (lyric_language *Lyric_language) Commit(stage *Stage) *Lyric_language {
 	return lyric_language
 }
 
-func (lyric_language *Lyric_language) CommitVoid(stage *Stage) {
-	lyric_language.Commit(stage)
-}
 
 func (lyric_language *Lyric_language) StageVoid(stage *Stage) {
 	lyric_language.Stage(stage)
@@ -26099,9 +25472,6 @@ func (measure_layout *Measure_layout) Commit(stage *Stage) *Measure_layout {
 	return measure_layout
 }
 
-func (measure_layout *Measure_layout) CommitVoid(stage *Stage) {
-	measure_layout.Commit(stage)
-}
 
 func (measure_layout *Measure_layout) StageVoid(stage *Stage) {
 	measure_layout.Stage(stage)
@@ -26187,9 +25557,6 @@ func (measure_numbering *Measure_numbering) Commit(stage *Stage) *Measure_number
 	return measure_numbering
 }
 
-func (measure_numbering *Measure_numbering) CommitVoid(stage *Stage) {
-	measure_numbering.Commit(stage)
-}
 
 func (measure_numbering *Measure_numbering) StageVoid(stage *Stage) {
 	measure_numbering.Stage(stage)
@@ -26275,9 +25642,6 @@ func (measure_repeat *Measure_repeat) Commit(stage *Stage) *Measure_repeat {
 	return measure_repeat
 }
 
-func (measure_repeat *Measure_repeat) CommitVoid(stage *Stage) {
-	measure_repeat.Commit(stage)
-}
 
 func (measure_repeat *Measure_repeat) StageVoid(stage *Stage) {
 	measure_repeat.Stage(stage)
@@ -26363,9 +25727,6 @@ func (measure_style *Measure_style) Commit(stage *Stage) *Measure_style {
 	return measure_style
 }
 
-func (measure_style *Measure_style) CommitVoid(stage *Stage) {
-	measure_style.Commit(stage)
-}
 
 func (measure_style *Measure_style) StageVoid(stage *Stage) {
 	measure_style.Stage(stage)
@@ -26451,9 +25812,6 @@ func (membrane *Membrane) Commit(stage *Stage) *Membrane {
 	return membrane
 }
 
-func (membrane *Membrane) CommitVoid(stage *Stage) {
-	membrane.Commit(stage)
-}
 
 func (membrane *Membrane) StageVoid(stage *Stage) {
 	membrane.Stage(stage)
@@ -26539,9 +25897,6 @@ func (metal *Metal) Commit(stage *Stage) *Metal {
 	return metal
 }
 
-func (metal *Metal) CommitVoid(stage *Stage) {
-	metal.Commit(stage)
-}
 
 func (metal *Metal) StageVoid(stage *Stage) {
 	metal.Stage(stage)
@@ -26627,9 +25982,6 @@ func (metronome *Metronome) Commit(stage *Stage) *Metronome {
 	return metronome
 }
 
-func (metronome *Metronome) CommitVoid(stage *Stage) {
-	metronome.Commit(stage)
-}
 
 func (metronome *Metronome) StageVoid(stage *Stage) {
 	metronome.Stage(stage)
@@ -26715,9 +26067,6 @@ func (metronome_beam *Metronome_beam) Commit(stage *Stage) *Metronome_beam {
 	return metronome_beam
 }
 
-func (metronome_beam *Metronome_beam) CommitVoid(stage *Stage) {
-	metronome_beam.Commit(stage)
-}
 
 func (metronome_beam *Metronome_beam) StageVoid(stage *Stage) {
 	metronome_beam.Stage(stage)
@@ -26803,9 +26152,6 @@ func (metronome_note *Metronome_note) Commit(stage *Stage) *Metronome_note {
 	return metronome_note
 }
 
-func (metronome_note *Metronome_note) CommitVoid(stage *Stage) {
-	metronome_note.Commit(stage)
-}
 
 func (metronome_note *Metronome_note) StageVoid(stage *Stage) {
 	metronome_note.Stage(stage)
@@ -26891,9 +26237,6 @@ func (metronome_tied *Metronome_tied) Commit(stage *Stage) *Metronome_tied {
 	return metronome_tied
 }
 
-func (metronome_tied *Metronome_tied) CommitVoid(stage *Stage) {
-	metronome_tied.Commit(stage)
-}
 
 func (metronome_tied *Metronome_tied) StageVoid(stage *Stage) {
 	metronome_tied.Stage(stage)
@@ -26979,9 +26322,6 @@ func (metronome_tuplet *Metronome_tuplet) Commit(stage *Stage) *Metronome_tuplet
 	return metronome_tuplet
 }
 
-func (metronome_tuplet *Metronome_tuplet) CommitVoid(stage *Stage) {
-	metronome_tuplet.Commit(stage)
-}
 
 func (metronome_tuplet *Metronome_tuplet) StageVoid(stage *Stage) {
 	metronome_tuplet.Stage(stage)
@@ -27067,9 +26407,6 @@ func (midi_device *Midi_device) Commit(stage *Stage) *Midi_device {
 	return midi_device
 }
 
-func (midi_device *Midi_device) CommitVoid(stage *Stage) {
-	midi_device.Commit(stage)
-}
 
 func (midi_device *Midi_device) StageVoid(stage *Stage) {
 	midi_device.Stage(stage)
@@ -27155,9 +26492,6 @@ func (midi_instrument *Midi_instrument) Commit(stage *Stage) *Midi_instrument {
 	return midi_instrument
 }
 
-func (midi_instrument *Midi_instrument) CommitVoid(stage *Stage) {
-	midi_instrument.Commit(stage)
-}
 
 func (midi_instrument *Midi_instrument) StageVoid(stage *Stage) {
 	midi_instrument.Stage(stage)
@@ -27243,9 +26577,6 @@ func (miscellaneous *Miscellaneous) Commit(stage *Stage) *Miscellaneous {
 	return miscellaneous
 }
 
-func (miscellaneous *Miscellaneous) CommitVoid(stage *Stage) {
-	miscellaneous.Commit(stage)
-}
 
 func (miscellaneous *Miscellaneous) StageVoid(stage *Stage) {
 	miscellaneous.Stage(stage)
@@ -27331,9 +26662,6 @@ func (miscellaneous_field *Miscellaneous_field) Commit(stage *Stage) *Miscellane
 	return miscellaneous_field
 }
 
-func (miscellaneous_field *Miscellaneous_field) CommitVoid(stage *Stage) {
-	miscellaneous_field.Commit(stage)
-}
 
 func (miscellaneous_field *Miscellaneous_field) StageVoid(stage *Stage) {
 	miscellaneous_field.Stage(stage)
@@ -27419,9 +26747,6 @@ func (mordent *Mordent) Commit(stage *Stage) *Mordent {
 	return mordent
 }
 
-func (mordent *Mordent) CommitVoid(stage *Stage) {
-	mordent.Commit(stage)
-}
 
 func (mordent *Mordent) StageVoid(stage *Stage) {
 	mordent.Stage(stage)
@@ -27507,9 +26832,6 @@ func (multiple_rest *Multiple_rest) Commit(stage *Stage) *Multiple_rest {
 	return multiple_rest
 }
 
-func (multiple_rest *Multiple_rest) CommitVoid(stage *Stage) {
-	multiple_rest.Commit(stage)
-}
 
 func (multiple_rest *Multiple_rest) StageVoid(stage *Stage) {
 	multiple_rest.Stage(stage)
@@ -27595,9 +26917,6 @@ func (name_display *Name_display) Commit(stage *Stage) *Name_display {
 	return name_display
 }
 
-func (name_display *Name_display) CommitVoid(stage *Stage) {
-	name_display.Commit(stage)
-}
 
 func (name_display *Name_display) StageVoid(stage *Stage) {
 	name_display.Stage(stage)
@@ -27683,9 +27002,6 @@ func (non_arpeggiate *Non_arpeggiate) Commit(stage *Stage) *Non_arpeggiate {
 	return non_arpeggiate
 }
 
-func (non_arpeggiate *Non_arpeggiate) CommitVoid(stage *Stage) {
-	non_arpeggiate.Commit(stage)
-}
 
 func (non_arpeggiate *Non_arpeggiate) StageVoid(stage *Stage) {
 	non_arpeggiate.Stage(stage)
@@ -27771,9 +27087,6 @@ func (notations *Notations) Commit(stage *Stage) *Notations {
 	return notations
 }
 
-func (notations *Notations) CommitVoid(stage *Stage) {
-	notations.Commit(stage)
-}
 
 func (notations *Notations) StageVoid(stage *Stage) {
 	notations.Stage(stage)
@@ -27859,9 +27172,6 @@ func (note *Note) Commit(stage *Stage) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *Stage) {
-	note.Commit(stage)
-}
 
 func (note *Note) StageVoid(stage *Stage) {
 	note.Stage(stage)
@@ -27947,9 +27257,6 @@ func (note_size *Note_size) Commit(stage *Stage) *Note_size {
 	return note_size
 }
 
-func (note_size *Note_size) CommitVoid(stage *Stage) {
-	note_size.Commit(stage)
-}
 
 func (note_size *Note_size) StageVoid(stage *Stage) {
 	note_size.Stage(stage)
@@ -28035,9 +27342,6 @@ func (note_type *Note_type) Commit(stage *Stage) *Note_type {
 	return note_type
 }
 
-func (note_type *Note_type) CommitVoid(stage *Stage) {
-	note_type.Commit(stage)
-}
 
 func (note_type *Note_type) StageVoid(stage *Stage) {
 	note_type.Stage(stage)
@@ -28123,9 +27427,6 @@ func (notehead *Notehead) Commit(stage *Stage) *Notehead {
 	return notehead
 }
 
-func (notehead *Notehead) CommitVoid(stage *Stage) {
-	notehead.Commit(stage)
-}
 
 func (notehead *Notehead) StageVoid(stage *Stage) {
 	notehead.Stage(stage)
@@ -28211,9 +27512,6 @@ func (notehead_text *Notehead_text) Commit(stage *Stage) *Notehead_text {
 	return notehead_text
 }
 
-func (notehead_text *Notehead_text) CommitVoid(stage *Stage) {
-	notehead_text.Commit(stage)
-}
 
 func (notehead_text *Notehead_text) StageVoid(stage *Stage) {
 	notehead_text.Stage(stage)
@@ -28299,9 +27597,6 @@ func (numeral *Numeral) Commit(stage *Stage) *Numeral {
 	return numeral
 }
 
-func (numeral *Numeral) CommitVoid(stage *Stage) {
-	numeral.Commit(stage)
-}
 
 func (numeral *Numeral) StageVoid(stage *Stage) {
 	numeral.Stage(stage)
@@ -28387,9 +27682,6 @@ func (numeral_key *Numeral_key) Commit(stage *Stage) *Numeral_key {
 	return numeral_key
 }
 
-func (numeral_key *Numeral_key) CommitVoid(stage *Stage) {
-	numeral_key.Commit(stage)
-}
 
 func (numeral_key *Numeral_key) StageVoid(stage *Stage) {
 	numeral_key.Stage(stage)
@@ -28475,9 +27767,6 @@ func (numeral_root *Numeral_root) Commit(stage *Stage) *Numeral_root {
 	return numeral_root
 }
 
-func (numeral_root *Numeral_root) CommitVoid(stage *Stage) {
-	numeral_root.Commit(stage)
-}
 
 func (numeral_root *Numeral_root) StageVoid(stage *Stage) {
 	numeral_root.Stage(stage)
@@ -28563,9 +27852,6 @@ func (octave_shift *Octave_shift) Commit(stage *Stage) *Octave_shift {
 	return octave_shift
 }
 
-func (octave_shift *Octave_shift) CommitVoid(stage *Stage) {
-	octave_shift.Commit(stage)
-}
 
 func (octave_shift *Octave_shift) StageVoid(stage *Stage) {
 	octave_shift.Stage(stage)
@@ -28651,9 +27937,6 @@ func (offset *Offset) Commit(stage *Stage) *Offset {
 	return offset
 }
 
-func (offset *Offset) CommitVoid(stage *Stage) {
-	offset.Commit(stage)
-}
 
 func (offset *Offset) StageVoid(stage *Stage) {
 	offset.Stage(stage)
@@ -28739,9 +28022,6 @@ func (opus *Opus) Commit(stage *Stage) *Opus {
 	return opus
 }
 
-func (opus *Opus) CommitVoid(stage *Stage) {
-	opus.Commit(stage)
-}
 
 func (opus *Opus) StageVoid(stage *Stage) {
 	opus.Stage(stage)
@@ -28827,9 +28107,6 @@ func (ornaments *Ornaments) Commit(stage *Stage) *Ornaments {
 	return ornaments
 }
 
-func (ornaments *Ornaments) CommitVoid(stage *Stage) {
-	ornaments.Commit(stage)
-}
 
 func (ornaments *Ornaments) StageVoid(stage *Stage) {
 	ornaments.Stage(stage)
@@ -28915,9 +28192,6 @@ func (other_appearance *Other_appearance) Commit(stage *Stage) *Other_appearance
 	return other_appearance
 }
 
-func (other_appearance *Other_appearance) CommitVoid(stage *Stage) {
-	other_appearance.Commit(stage)
-}
 
 func (other_appearance *Other_appearance) StageVoid(stage *Stage) {
 	other_appearance.Stage(stage)
@@ -29003,9 +28277,6 @@ func (other_direction *Other_direction) Commit(stage *Stage) *Other_direction {
 	return other_direction
 }
 
-func (other_direction *Other_direction) CommitVoid(stage *Stage) {
-	other_direction.Commit(stage)
-}
 
 func (other_direction *Other_direction) StageVoid(stage *Stage) {
 	other_direction.Stage(stage)
@@ -29091,9 +28362,6 @@ func (other_listening *Other_listening) Commit(stage *Stage) *Other_listening {
 	return other_listening
 }
 
-func (other_listening *Other_listening) CommitVoid(stage *Stage) {
-	other_listening.Commit(stage)
-}
 
 func (other_listening *Other_listening) StageVoid(stage *Stage) {
 	other_listening.Stage(stage)
@@ -29179,9 +28447,6 @@ func (other_notation *Other_notation) Commit(stage *Stage) *Other_notation {
 	return other_notation
 }
 
-func (other_notation *Other_notation) CommitVoid(stage *Stage) {
-	other_notation.Commit(stage)
-}
 
 func (other_notation *Other_notation) StageVoid(stage *Stage) {
 	other_notation.Stage(stage)
@@ -29267,9 +28532,6 @@ func (other_placement_text *Other_placement_text) Commit(stage *Stage) *Other_pl
 	return other_placement_text
 }
 
-func (other_placement_text *Other_placement_text) CommitVoid(stage *Stage) {
-	other_placement_text.Commit(stage)
-}
 
 func (other_placement_text *Other_placement_text) StageVoid(stage *Stage) {
 	other_placement_text.Stage(stage)
@@ -29355,9 +28617,6 @@ func (other_play *Other_play) Commit(stage *Stage) *Other_play {
 	return other_play
 }
 
-func (other_play *Other_play) CommitVoid(stage *Stage) {
-	other_play.Commit(stage)
-}
 
 func (other_play *Other_play) StageVoid(stage *Stage) {
 	other_play.Stage(stage)
@@ -29443,9 +28702,6 @@ func (other_text *Other_text) Commit(stage *Stage) *Other_text {
 	return other_text
 }
 
-func (other_text *Other_text) CommitVoid(stage *Stage) {
-	other_text.Commit(stage)
-}
 
 func (other_text *Other_text) StageVoid(stage *Stage) {
 	other_text.Stage(stage)
@@ -29531,9 +28787,6 @@ func (page_layout *Page_layout) Commit(stage *Stage) *Page_layout {
 	return page_layout
 }
 
-func (page_layout *Page_layout) CommitVoid(stage *Stage) {
-	page_layout.Commit(stage)
-}
 
 func (page_layout *Page_layout) StageVoid(stage *Stage) {
 	page_layout.Stage(stage)
@@ -29619,9 +28872,6 @@ func (page_margins *Page_margins) Commit(stage *Stage) *Page_margins {
 	return page_margins
 }
 
-func (page_margins *Page_margins) CommitVoid(stage *Stage) {
-	page_margins.Commit(stage)
-}
 
 func (page_margins *Page_margins) StageVoid(stage *Stage) {
 	page_margins.Stage(stage)
@@ -29707,9 +28957,6 @@ func (part_clef *Part_clef) Commit(stage *Stage) *Part_clef {
 	return part_clef
 }
 
-func (part_clef *Part_clef) CommitVoid(stage *Stage) {
-	part_clef.Commit(stage)
-}
 
 func (part_clef *Part_clef) StageVoid(stage *Stage) {
 	part_clef.Stage(stage)
@@ -29795,9 +29042,6 @@ func (part_group *Part_group) Commit(stage *Stage) *Part_group {
 	return part_group
 }
 
-func (part_group *Part_group) CommitVoid(stage *Stage) {
-	part_group.Commit(stage)
-}
 
 func (part_group *Part_group) StageVoid(stage *Stage) {
 	part_group.Stage(stage)
@@ -29883,9 +29127,6 @@ func (part_link *Part_link) Commit(stage *Stage) *Part_link {
 	return part_link
 }
 
-func (part_link *Part_link) CommitVoid(stage *Stage) {
-	part_link.Commit(stage)
-}
 
 func (part_link *Part_link) StageVoid(stage *Stage) {
 	part_link.Stage(stage)
@@ -29971,9 +29212,6 @@ func (part_list *Part_list) Commit(stage *Stage) *Part_list {
 	return part_list
 }
 
-func (part_list *Part_list) CommitVoid(stage *Stage) {
-	part_list.Commit(stage)
-}
 
 func (part_list *Part_list) StageVoid(stage *Stage) {
 	part_list.Stage(stage)
@@ -30059,9 +29297,6 @@ func (part_name *Part_name) Commit(stage *Stage) *Part_name {
 	return part_name
 }
 
-func (part_name *Part_name) CommitVoid(stage *Stage) {
-	part_name.Commit(stage)
-}
 
 func (part_name *Part_name) StageVoid(stage *Stage) {
 	part_name.Stage(stage)
@@ -30147,9 +29382,6 @@ func (part_symbol *Part_symbol) Commit(stage *Stage) *Part_symbol {
 	return part_symbol
 }
 
-func (part_symbol *Part_symbol) CommitVoid(stage *Stage) {
-	part_symbol.Commit(stage)
-}
 
 func (part_symbol *Part_symbol) StageVoid(stage *Stage) {
 	part_symbol.Stage(stage)
@@ -30235,9 +29467,6 @@ func (part_transpose *Part_transpose) Commit(stage *Stage) *Part_transpose {
 	return part_transpose
 }
 
-func (part_transpose *Part_transpose) CommitVoid(stage *Stage) {
-	part_transpose.Commit(stage)
-}
 
 func (part_transpose *Part_transpose) StageVoid(stage *Stage) {
 	part_transpose.Stage(stage)
@@ -30323,9 +29552,6 @@ func (pedal *Pedal) Commit(stage *Stage) *Pedal {
 	return pedal
 }
 
-func (pedal *Pedal) CommitVoid(stage *Stage) {
-	pedal.Commit(stage)
-}
 
 func (pedal *Pedal) StageVoid(stage *Stage) {
 	pedal.Stage(stage)
@@ -30411,9 +29637,6 @@ func (pedal_tuning *Pedal_tuning) Commit(stage *Stage) *Pedal_tuning {
 	return pedal_tuning
 }
 
-func (pedal_tuning *Pedal_tuning) CommitVoid(stage *Stage) {
-	pedal_tuning.Commit(stage)
-}
 
 func (pedal_tuning *Pedal_tuning) StageVoid(stage *Stage) {
 	pedal_tuning.Stage(stage)
@@ -30499,9 +29722,6 @@ func (per_minute *Per_minute) Commit(stage *Stage) *Per_minute {
 	return per_minute
 }
 
-func (per_minute *Per_minute) CommitVoid(stage *Stage) {
-	per_minute.Commit(stage)
-}
 
 func (per_minute *Per_minute) StageVoid(stage *Stage) {
 	per_minute.Stage(stage)
@@ -30587,9 +29807,6 @@ func (percussion *Percussion) Commit(stage *Stage) *Percussion {
 	return percussion
 }
 
-func (percussion *Percussion) CommitVoid(stage *Stage) {
-	percussion.Commit(stage)
-}
 
 func (percussion *Percussion) StageVoid(stage *Stage) {
 	percussion.Stage(stage)
@@ -30675,9 +29892,6 @@ func (pitch *Pitch) Commit(stage *Stage) *Pitch {
 	return pitch
 }
 
-func (pitch *Pitch) CommitVoid(stage *Stage) {
-	pitch.Commit(stage)
-}
 
 func (pitch *Pitch) StageVoid(stage *Stage) {
 	pitch.Stage(stage)
@@ -30763,9 +29977,6 @@ func (pitched *Pitched) Commit(stage *Stage) *Pitched {
 	return pitched
 }
 
-func (pitched *Pitched) CommitVoid(stage *Stage) {
-	pitched.Commit(stage)
-}
 
 func (pitched *Pitched) StageVoid(stage *Stage) {
 	pitched.Stage(stage)
@@ -30851,9 +30062,6 @@ func (placement_text *Placement_text) Commit(stage *Stage) *Placement_text {
 	return placement_text
 }
 
-func (placement_text *Placement_text) CommitVoid(stage *Stage) {
-	placement_text.Commit(stage)
-}
 
 func (placement_text *Placement_text) StageVoid(stage *Stage) {
 	placement_text.Stage(stage)
@@ -30939,9 +30147,6 @@ func (play *Play) Commit(stage *Stage) *Play {
 	return play
 }
 
-func (play *Play) CommitVoid(stage *Stage) {
-	play.Commit(stage)
-}
 
 func (play *Play) StageVoid(stage *Stage) {
 	play.Stage(stage)
@@ -31027,9 +30232,6 @@ func (player *Player) Commit(stage *Stage) *Player {
 	return player
 }
 
-func (player *Player) CommitVoid(stage *Stage) {
-	player.Commit(stage)
-}
 
 func (player *Player) StageVoid(stage *Stage) {
 	player.Stage(stage)
@@ -31115,9 +30317,6 @@ func (principal_voice *Principal_voice) Commit(stage *Stage) *Principal_voice {
 	return principal_voice
 }
 
-func (principal_voice *Principal_voice) CommitVoid(stage *Stage) {
-	principal_voice.Commit(stage)
-}
 
 func (principal_voice *Principal_voice) StageVoid(stage *Stage) {
 	principal_voice.Stage(stage)
@@ -31203,9 +30402,6 @@ func (print *Print) Commit(stage *Stage) *Print {
 	return print
 }
 
-func (print *Print) CommitVoid(stage *Stage) {
-	print.Commit(stage)
-}
 
 func (print *Print) StageVoid(stage *Stage) {
 	print.Stage(stage)
@@ -31291,9 +30487,6 @@ func (release *Release) Commit(stage *Stage) *Release {
 	return release
 }
 
-func (release *Release) CommitVoid(stage *Stage) {
-	release.Commit(stage)
-}
 
 func (release *Release) StageVoid(stage *Stage) {
 	release.Stage(stage)
@@ -31379,9 +30572,6 @@ func (repeat *Repeat) Commit(stage *Stage) *Repeat {
 	return repeat
 }
 
-func (repeat *Repeat) CommitVoid(stage *Stage) {
-	repeat.Commit(stage)
-}
 
 func (repeat *Repeat) StageVoid(stage *Stage) {
 	repeat.Stage(stage)
@@ -31467,9 +30657,6 @@ func (rest *Rest) Commit(stage *Stage) *Rest {
 	return rest
 }
 
-func (rest *Rest) CommitVoid(stage *Stage) {
-	rest.Commit(stage)
-}
 
 func (rest *Rest) StageVoid(stage *Stage) {
 	rest.Stage(stage)
@@ -31555,9 +30742,6 @@ func (root *Root) Commit(stage *Stage) *Root {
 	return root
 }
 
-func (root *Root) CommitVoid(stage *Stage) {
-	root.Commit(stage)
-}
 
 func (root *Root) StageVoid(stage *Stage) {
 	root.Stage(stage)
@@ -31643,9 +30827,6 @@ func (root_step *Root_step) Commit(stage *Stage) *Root_step {
 	return root_step
 }
 
-func (root_step *Root_step) CommitVoid(stage *Stage) {
-	root_step.Commit(stage)
-}
 
 func (root_step *Root_step) StageVoid(stage *Stage) {
 	root_step.Stage(stage)
@@ -31731,9 +30912,6 @@ func (scaling *Scaling) Commit(stage *Stage) *Scaling {
 	return scaling
 }
 
-func (scaling *Scaling) CommitVoid(stage *Stage) {
-	scaling.Commit(stage)
-}
 
 func (scaling *Scaling) StageVoid(stage *Stage) {
 	scaling.Stage(stage)
@@ -31819,9 +30997,6 @@ func (scordatura *Scordatura) Commit(stage *Stage) *Scordatura {
 	return scordatura
 }
 
-func (scordatura *Scordatura) CommitVoid(stage *Stage) {
-	scordatura.Commit(stage)
-}
 
 func (scordatura *Scordatura) StageVoid(stage *Stage) {
 	scordatura.Stage(stage)
@@ -31907,9 +31082,6 @@ func (score_instrument *Score_instrument) Commit(stage *Stage) *Score_instrument
 	return score_instrument
 }
 
-func (score_instrument *Score_instrument) CommitVoid(stage *Stage) {
-	score_instrument.Commit(stage)
-}
 
 func (score_instrument *Score_instrument) StageVoid(stage *Stage) {
 	score_instrument.Stage(stage)
@@ -31995,9 +31167,6 @@ func (score_part *Score_part) Commit(stage *Stage) *Score_part {
 	return score_part
 }
 
-func (score_part *Score_part) CommitVoid(stage *Stage) {
-	score_part.Commit(stage)
-}
 
 func (score_part *Score_part) StageVoid(stage *Stage) {
 	score_part.Stage(stage)
@@ -32083,9 +31252,6 @@ func (score_partwise *Score_partwise) Commit(stage *Stage) *Score_partwise {
 	return score_partwise
 }
 
-func (score_partwise *Score_partwise) CommitVoid(stage *Stage) {
-	score_partwise.Commit(stage)
-}
 
 func (score_partwise *Score_partwise) StageVoid(stage *Stage) {
 	score_partwise.Stage(stage)
@@ -32171,9 +31337,6 @@ func (score_timewise *Score_timewise) Commit(stage *Stage) *Score_timewise {
 	return score_timewise
 }
 
-func (score_timewise *Score_timewise) CommitVoid(stage *Stage) {
-	score_timewise.Commit(stage)
-}
 
 func (score_timewise *Score_timewise) StageVoid(stage *Stage) {
 	score_timewise.Stage(stage)
@@ -32259,9 +31422,6 @@ func (segno *Segno) Commit(stage *Stage) *Segno {
 	return segno
 }
 
-func (segno *Segno) CommitVoid(stage *Stage) {
-	segno.Commit(stage)
-}
 
 func (segno *Segno) StageVoid(stage *Stage) {
 	segno.Stage(stage)
@@ -32347,9 +31507,6 @@ func (slash *Slash) Commit(stage *Stage) *Slash {
 	return slash
 }
 
-func (slash *Slash) CommitVoid(stage *Stage) {
-	slash.Commit(stage)
-}
 
 func (slash *Slash) StageVoid(stage *Stage) {
 	slash.Stage(stage)
@@ -32435,9 +31592,6 @@ func (slide *Slide) Commit(stage *Stage) *Slide {
 	return slide
 }
 
-func (slide *Slide) CommitVoid(stage *Stage) {
-	slide.Commit(stage)
-}
 
 func (slide *Slide) StageVoid(stage *Stage) {
 	slide.Stage(stage)
@@ -32523,9 +31677,6 @@ func (slur *Slur) Commit(stage *Stage) *Slur {
 	return slur
 }
 
-func (slur *Slur) CommitVoid(stage *Stage) {
-	slur.Commit(stage)
-}
 
 func (slur *Slur) StageVoid(stage *Stage) {
 	slur.Stage(stage)
@@ -32611,9 +31762,6 @@ func (sound *Sound) Commit(stage *Stage) *Sound {
 	return sound
 }
 
-func (sound *Sound) CommitVoid(stage *Stage) {
-	sound.Commit(stage)
-}
 
 func (sound *Sound) StageVoid(stage *Stage) {
 	sound.Stage(stage)
@@ -32699,9 +31847,6 @@ func (staff_details *Staff_details) Commit(stage *Stage) *Staff_details {
 	return staff_details
 }
 
-func (staff_details *Staff_details) CommitVoid(stage *Stage) {
-	staff_details.Commit(stage)
-}
 
 func (staff_details *Staff_details) StageVoid(stage *Stage) {
 	staff_details.Stage(stage)
@@ -32787,9 +31932,6 @@ func (staff_divide *Staff_divide) Commit(stage *Stage) *Staff_divide {
 	return staff_divide
 }
 
-func (staff_divide *Staff_divide) CommitVoid(stage *Stage) {
-	staff_divide.Commit(stage)
-}
 
 func (staff_divide *Staff_divide) StageVoid(stage *Stage) {
 	staff_divide.Stage(stage)
@@ -32875,9 +32017,6 @@ func (staff_layout *Staff_layout) Commit(stage *Stage) *Staff_layout {
 	return staff_layout
 }
 
-func (staff_layout *Staff_layout) CommitVoid(stage *Stage) {
-	staff_layout.Commit(stage)
-}
 
 func (staff_layout *Staff_layout) StageVoid(stage *Stage) {
 	staff_layout.Stage(stage)
@@ -32963,9 +32102,6 @@ func (staff_size *Staff_size) Commit(stage *Stage) *Staff_size {
 	return staff_size
 }
 
-func (staff_size *Staff_size) CommitVoid(stage *Stage) {
-	staff_size.Commit(stage)
-}
 
 func (staff_size *Staff_size) StageVoid(stage *Stage) {
 	staff_size.Stage(stage)
@@ -33051,9 +32187,6 @@ func (staff_tuning *Staff_tuning) Commit(stage *Stage) *Staff_tuning {
 	return staff_tuning
 }
 
-func (staff_tuning *Staff_tuning) CommitVoid(stage *Stage) {
-	staff_tuning.Commit(stage)
-}
 
 func (staff_tuning *Staff_tuning) StageVoid(stage *Stage) {
 	staff_tuning.Stage(stage)
@@ -33139,9 +32272,6 @@ func (stem *Stem) Commit(stage *Stage) *Stem {
 	return stem
 }
 
-func (stem *Stem) CommitVoid(stage *Stage) {
-	stem.Commit(stage)
-}
 
 func (stem *Stem) StageVoid(stage *Stage) {
 	stem.Stage(stage)
@@ -33227,9 +32357,6 @@ func (stick *Stick) Commit(stage *Stage) *Stick {
 	return stick
 }
 
-func (stick *Stick) CommitVoid(stage *Stage) {
-	stick.Commit(stage)
-}
 
 func (stick *Stick) StageVoid(stage *Stage) {
 	stick.Stage(stage)
@@ -33315,9 +32442,6 @@ func (string_mute *String_mute) Commit(stage *Stage) *String_mute {
 	return string_mute
 }
 
-func (string_mute *String_mute) CommitVoid(stage *Stage) {
-	string_mute.Commit(stage)
-}
 
 func (string_mute *String_mute) StageVoid(stage *Stage) {
 	string_mute.Stage(stage)
@@ -33403,9 +32527,6 @@ func (string_type *String_type) Commit(stage *Stage) *String_type {
 	return string_type
 }
 
-func (string_type *String_type) CommitVoid(stage *Stage) {
-	string_type.Commit(stage)
-}
 
 func (string_type *String_type) StageVoid(stage *Stage) {
 	string_type.Stage(stage)
@@ -33491,9 +32612,6 @@ func (strong_accent *Strong_accent) Commit(stage *Stage) *Strong_accent {
 	return strong_accent
 }
 
-func (strong_accent *Strong_accent) CommitVoid(stage *Stage) {
-	strong_accent.Commit(stage)
-}
 
 func (strong_accent *Strong_accent) StageVoid(stage *Stage) {
 	strong_accent.Stage(stage)
@@ -33579,9 +32697,6 @@ func (style_text *Style_text) Commit(stage *Stage) *Style_text {
 	return style_text
 }
 
-func (style_text *Style_text) CommitVoid(stage *Stage) {
-	style_text.Commit(stage)
-}
 
 func (style_text *Style_text) StageVoid(stage *Stage) {
 	style_text.Stage(stage)
@@ -33667,9 +32782,6 @@ func (supports *Supports) Commit(stage *Stage) *Supports {
 	return supports
 }
 
-func (supports *Supports) CommitVoid(stage *Stage) {
-	supports.Commit(stage)
-}
 
 func (supports *Supports) StageVoid(stage *Stage) {
 	supports.Stage(stage)
@@ -33755,9 +32867,6 @@ func (swing *Swing) Commit(stage *Stage) *Swing {
 	return swing
 }
 
-func (swing *Swing) CommitVoid(stage *Stage) {
-	swing.Commit(stage)
-}
 
 func (swing *Swing) StageVoid(stage *Stage) {
 	swing.Stage(stage)
@@ -33843,9 +32952,6 @@ func (sync *Sync) Commit(stage *Stage) *Sync {
 	return sync
 }
 
-func (sync *Sync) CommitVoid(stage *Stage) {
-	sync.Commit(stage)
-}
 
 func (sync *Sync) StageVoid(stage *Stage) {
 	sync.Stage(stage)
@@ -33931,9 +33037,6 @@ func (system_dividers *System_dividers) Commit(stage *Stage) *System_dividers {
 	return system_dividers
 }
 
-func (system_dividers *System_dividers) CommitVoid(stage *Stage) {
-	system_dividers.Commit(stage)
-}
 
 func (system_dividers *System_dividers) StageVoid(stage *Stage) {
 	system_dividers.Stage(stage)
@@ -34019,9 +33122,6 @@ func (system_layout *System_layout) Commit(stage *Stage) *System_layout {
 	return system_layout
 }
 
-func (system_layout *System_layout) CommitVoid(stage *Stage) {
-	system_layout.Commit(stage)
-}
 
 func (system_layout *System_layout) StageVoid(stage *Stage) {
 	system_layout.Stage(stage)
@@ -34107,9 +33207,6 @@ func (system_margins *System_margins) Commit(stage *Stage) *System_margins {
 	return system_margins
 }
 
-func (system_margins *System_margins) CommitVoid(stage *Stage) {
-	system_margins.Commit(stage)
-}
 
 func (system_margins *System_margins) StageVoid(stage *Stage) {
 	system_margins.Stage(stage)
@@ -34195,9 +33292,6 @@ func (tap *Tap) Commit(stage *Stage) *Tap {
 	return tap
 }
 
-func (tap *Tap) CommitVoid(stage *Stage) {
-	tap.Commit(stage)
-}
 
 func (tap *Tap) StageVoid(stage *Stage) {
 	tap.Stage(stage)
@@ -34283,9 +33377,6 @@ func (technical *Technical) Commit(stage *Stage) *Technical {
 	return technical
 }
 
-func (technical *Technical) CommitVoid(stage *Stage) {
-	technical.Commit(stage)
-}
 
 func (technical *Technical) StageVoid(stage *Stage) {
 	technical.Stage(stage)
@@ -34371,9 +33462,6 @@ func (text_element_data *Text_element_data) Commit(stage *Stage) *Text_element_d
 	return text_element_data
 }
 
-func (text_element_data *Text_element_data) CommitVoid(stage *Stage) {
-	text_element_data.Commit(stage)
-}
 
 func (text_element_data *Text_element_data) StageVoid(stage *Stage) {
 	text_element_data.Stage(stage)
@@ -34459,9 +33547,6 @@ func (tie *Tie) Commit(stage *Stage) *Tie {
 	return tie
 }
 
-func (tie *Tie) CommitVoid(stage *Stage) {
-	tie.Commit(stage)
-}
 
 func (tie *Tie) StageVoid(stage *Stage) {
 	tie.Stage(stage)
@@ -34547,9 +33632,6 @@ func (tied *Tied) Commit(stage *Stage) *Tied {
 	return tied
 }
 
-func (tied *Tied) CommitVoid(stage *Stage) {
-	tied.Commit(stage)
-}
 
 func (tied *Tied) StageVoid(stage *Stage) {
 	tied.Stage(stage)
@@ -34635,9 +33717,6 @@ func (time *Time) Commit(stage *Stage) *Time {
 	return time
 }
 
-func (time *Time) CommitVoid(stage *Stage) {
-	time.Commit(stage)
-}
 
 func (time *Time) StageVoid(stage *Stage) {
 	time.Stage(stage)
@@ -34723,9 +33802,6 @@ func (time_modification *Time_modification) Commit(stage *Stage) *Time_modificat
 	return time_modification
 }
 
-func (time_modification *Time_modification) CommitVoid(stage *Stage) {
-	time_modification.Commit(stage)
-}
 
 func (time_modification *Time_modification) StageVoid(stage *Stage) {
 	time_modification.Stage(stage)
@@ -34811,9 +33887,6 @@ func (timpani *Timpani) Commit(stage *Stage) *Timpani {
 	return timpani
 }
 
-func (timpani *Timpani) CommitVoid(stage *Stage) {
-	timpani.Commit(stage)
-}
 
 func (timpani *Timpani) StageVoid(stage *Stage) {
 	timpani.Stage(stage)
@@ -34899,9 +33972,6 @@ func (transpose *Transpose) Commit(stage *Stage) *Transpose {
 	return transpose
 }
 
-func (transpose *Transpose) CommitVoid(stage *Stage) {
-	transpose.Commit(stage)
-}
 
 func (transpose *Transpose) StageVoid(stage *Stage) {
 	transpose.Stage(stage)
@@ -34987,9 +34057,6 @@ func (tremolo *Tremolo) Commit(stage *Stage) *Tremolo {
 	return tremolo
 }
 
-func (tremolo *Tremolo) CommitVoid(stage *Stage) {
-	tremolo.Commit(stage)
-}
 
 func (tremolo *Tremolo) StageVoid(stage *Stage) {
 	tremolo.Stage(stage)
@@ -35075,9 +34142,6 @@ func (tuplet *Tuplet) Commit(stage *Stage) *Tuplet {
 	return tuplet
 }
 
-func (tuplet *Tuplet) CommitVoid(stage *Stage) {
-	tuplet.Commit(stage)
-}
 
 func (tuplet *Tuplet) StageVoid(stage *Stage) {
 	tuplet.Stage(stage)
@@ -35163,9 +34227,6 @@ func (tuplet_dot *Tuplet_dot) Commit(stage *Stage) *Tuplet_dot {
 	return tuplet_dot
 }
 
-func (tuplet_dot *Tuplet_dot) CommitVoid(stage *Stage) {
-	tuplet_dot.Commit(stage)
-}
 
 func (tuplet_dot *Tuplet_dot) StageVoid(stage *Stage) {
 	tuplet_dot.Stage(stage)
@@ -35251,9 +34312,6 @@ func (tuplet_number *Tuplet_number) Commit(stage *Stage) *Tuplet_number {
 	return tuplet_number
 }
 
-func (tuplet_number *Tuplet_number) CommitVoid(stage *Stage) {
-	tuplet_number.Commit(stage)
-}
 
 func (tuplet_number *Tuplet_number) StageVoid(stage *Stage) {
 	tuplet_number.Stage(stage)
@@ -35339,9 +34397,6 @@ func (tuplet_portion *Tuplet_portion) Commit(stage *Stage) *Tuplet_portion {
 	return tuplet_portion
 }
 
-func (tuplet_portion *Tuplet_portion) CommitVoid(stage *Stage) {
-	tuplet_portion.Commit(stage)
-}
 
 func (tuplet_portion *Tuplet_portion) StageVoid(stage *Stage) {
 	tuplet_portion.Stage(stage)
@@ -35427,9 +34482,6 @@ func (tuplet_type *Tuplet_type) Commit(stage *Stage) *Tuplet_type {
 	return tuplet_type
 }
 
-func (tuplet_type *Tuplet_type) CommitVoid(stage *Stage) {
-	tuplet_type.Commit(stage)
-}
 
 func (tuplet_type *Tuplet_type) StageVoid(stage *Stage) {
 	tuplet_type.Stage(stage)
@@ -35515,9 +34567,6 @@ func (typed_text *Typed_text) Commit(stage *Stage) *Typed_text {
 	return typed_text
 }
 
-func (typed_text *Typed_text) CommitVoid(stage *Stage) {
-	typed_text.Commit(stage)
-}
 
 func (typed_text *Typed_text) StageVoid(stage *Stage) {
 	typed_text.Stage(stage)
@@ -35603,9 +34652,6 @@ func (unpitched *Unpitched) Commit(stage *Stage) *Unpitched {
 	return unpitched
 }
 
-func (unpitched *Unpitched) CommitVoid(stage *Stage) {
-	unpitched.Commit(stage)
-}
 
 func (unpitched *Unpitched) StageVoid(stage *Stage) {
 	unpitched.Stage(stage)
@@ -35691,9 +34737,6 @@ func (virtual_instrument *Virtual_instrument) Commit(stage *Stage) *Virtual_inst
 	return virtual_instrument
 }
 
-func (virtual_instrument *Virtual_instrument) CommitVoid(stage *Stage) {
-	virtual_instrument.Commit(stage)
-}
 
 func (virtual_instrument *Virtual_instrument) StageVoid(stage *Stage) {
 	virtual_instrument.Stage(stage)
@@ -35779,9 +34822,6 @@ func (wait *Wait) Commit(stage *Stage) *Wait {
 	return wait
 }
 
-func (wait *Wait) CommitVoid(stage *Stage) {
-	wait.Commit(stage)
-}
 
 func (wait *Wait) StageVoid(stage *Stage) {
 	wait.Stage(stage)
@@ -35867,9 +34907,6 @@ func (wavy_line *Wavy_line) Commit(stage *Stage) *Wavy_line {
 	return wavy_line
 }
 
-func (wavy_line *Wavy_line) CommitVoid(stage *Stage) {
-	wavy_line.Commit(stage)
-}
 
 func (wavy_line *Wavy_line) StageVoid(stage *Stage) {
 	wavy_line.Stage(stage)
@@ -35955,9 +34992,6 @@ func (wedge *Wedge) Commit(stage *Stage) *Wedge {
 	return wedge
 }
 
-func (wedge *Wedge) CommitVoid(stage *Stage) {
-	wedge.Commit(stage)
-}
 
 func (wedge *Wedge) StageVoid(stage *Stage) {
 	wedge.Stage(stage)
@@ -36043,9 +35077,6 @@ func (wood *Wood) Commit(stage *Stage) *Wood {
 	return wood
 }
 
-func (wood *Wood) CommitVoid(stage *Stage) {
-	wood.Commit(stage)
-}
 
 func (wood *Wood) StageVoid(stage *Stage) {
 	wood.Stage(stage)
@@ -36131,9 +35162,6 @@ func (work *Work) Commit(stage *Stage) *Work {
 	return work
 }
 
-func (work *Work) CommitVoid(stage *Stage) {
-	work.Commit(stage)
-}
 
 func (work *Work) StageVoid(stage *Stage) {
 	work.Stage(stage)
@@ -36157,475 +35185,6 @@ func (work *Work) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (work *Work) SetName(name string) {
 	work.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMA_directive(A_directive *A_directive)
-	CreateORMA_measure(A_measure *A_measure)
-	CreateORMA_measure_1(A_measure_1 *A_measure_1)
-	CreateORMA_part(A_part *A_part)
-	CreateORMA_part_1(A_part_1 *A_part_1)
-	CreateORMAccidental(Accidental *Accidental)
-	CreateORMAccidental_mark(Accidental_mark *Accidental_mark)
-	CreateORMAccidental_text(Accidental_text *Accidental_text)
-	CreateORMAccord(Accord *Accord)
-	CreateORMAccordion_registration(Accordion_registration *Accordion_registration)
-	CreateORMAppearance(Appearance *Appearance)
-	CreateORMArpeggiate(Arpeggiate *Arpeggiate)
-	CreateORMArrow(Arrow *Arrow)
-	CreateORMArticulations(Articulations *Articulations)
-	CreateORMAssess(Assess *Assess)
-	CreateORMAttributes(Attributes *Attributes)
-	CreateORMBackup(Backup *Backup)
-	CreateORMBar_style_color(Bar_style_color *Bar_style_color)
-	CreateORMBarline(Barline *Barline)
-	CreateORMBarre(Barre *Barre)
-	CreateORMBass(Bass *Bass)
-	CreateORMBass_step(Bass_step *Bass_step)
-	CreateORMBeam(Beam *Beam)
-	CreateORMBeat_repeat(Beat_repeat *Beat_repeat)
-	CreateORMBeat_unit_tied(Beat_unit_tied *Beat_unit_tied)
-	CreateORMBeater(Beater *Beater)
-	CreateORMBend(Bend *Bend)
-	CreateORMBookmark(Bookmark *Bookmark)
-	CreateORMBracket(Bracket *Bracket)
-	CreateORMBreath_mark(Breath_mark *Breath_mark)
-	CreateORMCaesura(Caesura *Caesura)
-	CreateORMCancel(Cancel *Cancel)
-	CreateORMClef(Clef *Clef)
-	CreateORMCoda(Coda *Coda)
-	CreateORMCredit(Credit *Credit)
-	CreateORMDashes(Dashes *Dashes)
-	CreateORMDefaults(Defaults *Defaults)
-	CreateORMDegree(Degree *Degree)
-	CreateORMDegree_alter(Degree_alter *Degree_alter)
-	CreateORMDegree_type(Degree_type *Degree_type)
-	CreateORMDegree_value(Degree_value *Degree_value)
-	CreateORMDirection(Direction *Direction)
-	CreateORMDirection_type(Direction_type *Direction_type)
-	CreateORMDistance(Distance *Distance)
-	CreateORMDouble(Double *Double)
-	CreateORMDynamics(Dynamics *Dynamics)
-	CreateORMEffect(Effect *Effect)
-	CreateORMElision(Elision *Elision)
-	CreateORMEmpty(Empty *Empty)
-	CreateORMEmpty_font(Empty_font *Empty_font)
-	CreateORMEmpty_line(Empty_line *Empty_line)
-	CreateORMEmpty_placement(Empty_placement *Empty_placement)
-	CreateORMEmpty_placement_smufl(Empty_placement_smufl *Empty_placement_smufl)
-	CreateORMEmpty_print_object_style_align(Empty_print_object_style_align *Empty_print_object_style_align)
-	CreateORMEmpty_print_style(Empty_print_style *Empty_print_style)
-	CreateORMEmpty_print_style_align(Empty_print_style_align *Empty_print_style_align)
-	CreateORMEmpty_print_style_align_id(Empty_print_style_align_id *Empty_print_style_align_id)
-	CreateORMEmpty_trill_sound(Empty_trill_sound *Empty_trill_sound)
-	CreateORMEncoding(Encoding *Encoding)
-	CreateORMEnding(Ending *Ending)
-	CreateORMExtend(Extend *Extend)
-	CreateORMFeature(Feature *Feature)
-	CreateORMFermata(Fermata *Fermata)
-	CreateORMFigure(Figure *Figure)
-	CreateORMFigured_bass(Figured_bass *Figured_bass)
-	CreateORMFingering(Fingering *Fingering)
-	CreateORMFirst_fret(First_fret *First_fret)
-	CreateORMFor_part(For_part *For_part)
-	CreateORMFormatted_symbol(Formatted_symbol *Formatted_symbol)
-	CreateORMFormatted_symbol_id(Formatted_symbol_id *Formatted_symbol_id)
-	CreateORMFormatted_text(Formatted_text *Formatted_text)
-	CreateORMFormatted_text_id(Formatted_text_id *Formatted_text_id)
-	CreateORMForward(Forward *Forward)
-	CreateORMFrame(Frame *Frame)
-	CreateORMFrame_note(Frame_note *Frame_note)
-	CreateORMFret(Fret *Fret)
-	CreateORMGlass(Glass *Glass)
-	CreateORMGlissando(Glissando *Glissando)
-	CreateORMGlyph(Glyph *Glyph)
-	CreateORMGrace(Grace *Grace)
-	CreateORMGroup_barline(Group_barline *Group_barline)
-	CreateORMGroup_name(Group_name *Group_name)
-	CreateORMGroup_symbol(Group_symbol *Group_symbol)
-	CreateORMGrouping(Grouping *Grouping)
-	CreateORMHammer_on_pull_off(Hammer_on_pull_off *Hammer_on_pull_off)
-	CreateORMHandbell(Handbell *Handbell)
-	CreateORMHarmon_closed(Harmon_closed *Harmon_closed)
-	CreateORMHarmon_mute(Harmon_mute *Harmon_mute)
-	CreateORMHarmonic(Harmonic *Harmonic)
-	CreateORMHarmony(Harmony *Harmony)
-	CreateORMHarmony_alter(Harmony_alter *Harmony_alter)
-	CreateORMHarp_pedals(Harp_pedals *Harp_pedals)
-	CreateORMHeel_toe(Heel_toe *Heel_toe)
-	CreateORMHole(Hole *Hole)
-	CreateORMHole_closed(Hole_closed *Hole_closed)
-	CreateORMHorizontal_turn(Horizontal_turn *Horizontal_turn)
-	CreateORMIdentification(Identification *Identification)
-	CreateORMImage(Image *Image)
-	CreateORMInstrument(Instrument *Instrument)
-	CreateORMInstrument_change(Instrument_change *Instrument_change)
-	CreateORMInstrument_link(Instrument_link *Instrument_link)
-	CreateORMInterchangeable(Interchangeable *Interchangeable)
-	CreateORMInversion(Inversion *Inversion)
-	CreateORMKey(Key *Key)
-	CreateORMKey_accidental(Key_accidental *Key_accidental)
-	CreateORMKey_octave(Key_octave *Key_octave)
-	CreateORMKind(Kind *Kind)
-	CreateORMLevel(Level *Level)
-	CreateORMLine_detail(Line_detail *Line_detail)
-	CreateORMLine_width(Line_width *Line_width)
-	CreateORMLink(Link *Link)
-	CreateORMListen(Listen *Listen)
-	CreateORMListening(Listening *Listening)
-	CreateORMLyric(Lyric *Lyric)
-	CreateORMLyric_font(Lyric_font *Lyric_font)
-	CreateORMLyric_language(Lyric_language *Lyric_language)
-	CreateORMMeasure_layout(Measure_layout *Measure_layout)
-	CreateORMMeasure_numbering(Measure_numbering *Measure_numbering)
-	CreateORMMeasure_repeat(Measure_repeat *Measure_repeat)
-	CreateORMMeasure_style(Measure_style *Measure_style)
-	CreateORMMembrane(Membrane *Membrane)
-	CreateORMMetal(Metal *Metal)
-	CreateORMMetronome(Metronome *Metronome)
-	CreateORMMetronome_beam(Metronome_beam *Metronome_beam)
-	CreateORMMetronome_note(Metronome_note *Metronome_note)
-	CreateORMMetronome_tied(Metronome_tied *Metronome_tied)
-	CreateORMMetronome_tuplet(Metronome_tuplet *Metronome_tuplet)
-	CreateORMMidi_device(Midi_device *Midi_device)
-	CreateORMMidi_instrument(Midi_instrument *Midi_instrument)
-	CreateORMMiscellaneous(Miscellaneous *Miscellaneous)
-	CreateORMMiscellaneous_field(Miscellaneous_field *Miscellaneous_field)
-	CreateORMMordent(Mordent *Mordent)
-	CreateORMMultiple_rest(Multiple_rest *Multiple_rest)
-	CreateORMName_display(Name_display *Name_display)
-	CreateORMNon_arpeggiate(Non_arpeggiate *Non_arpeggiate)
-	CreateORMNotations(Notations *Notations)
-	CreateORMNote(Note *Note)
-	CreateORMNote_size(Note_size *Note_size)
-	CreateORMNote_type(Note_type *Note_type)
-	CreateORMNotehead(Notehead *Notehead)
-	CreateORMNotehead_text(Notehead_text *Notehead_text)
-	CreateORMNumeral(Numeral *Numeral)
-	CreateORMNumeral_key(Numeral_key *Numeral_key)
-	CreateORMNumeral_root(Numeral_root *Numeral_root)
-	CreateORMOctave_shift(Octave_shift *Octave_shift)
-	CreateORMOffset(Offset *Offset)
-	CreateORMOpus(Opus *Opus)
-	CreateORMOrnaments(Ornaments *Ornaments)
-	CreateORMOther_appearance(Other_appearance *Other_appearance)
-	CreateORMOther_direction(Other_direction *Other_direction)
-	CreateORMOther_listening(Other_listening *Other_listening)
-	CreateORMOther_notation(Other_notation *Other_notation)
-	CreateORMOther_placement_text(Other_placement_text *Other_placement_text)
-	CreateORMOther_play(Other_play *Other_play)
-	CreateORMOther_text(Other_text *Other_text)
-	CreateORMPage_layout(Page_layout *Page_layout)
-	CreateORMPage_margins(Page_margins *Page_margins)
-	CreateORMPart_clef(Part_clef *Part_clef)
-	CreateORMPart_group(Part_group *Part_group)
-	CreateORMPart_link(Part_link *Part_link)
-	CreateORMPart_list(Part_list *Part_list)
-	CreateORMPart_name(Part_name *Part_name)
-	CreateORMPart_symbol(Part_symbol *Part_symbol)
-	CreateORMPart_transpose(Part_transpose *Part_transpose)
-	CreateORMPedal(Pedal *Pedal)
-	CreateORMPedal_tuning(Pedal_tuning *Pedal_tuning)
-	CreateORMPer_minute(Per_minute *Per_minute)
-	CreateORMPercussion(Percussion *Percussion)
-	CreateORMPitch(Pitch *Pitch)
-	CreateORMPitched(Pitched *Pitched)
-	CreateORMPlacement_text(Placement_text *Placement_text)
-	CreateORMPlay(Play *Play)
-	CreateORMPlayer(Player *Player)
-	CreateORMPrincipal_voice(Principal_voice *Principal_voice)
-	CreateORMPrint(Print *Print)
-	CreateORMRelease(Release *Release)
-	CreateORMRepeat(Repeat *Repeat)
-	CreateORMRest(Rest *Rest)
-	CreateORMRoot(Root *Root)
-	CreateORMRoot_step(Root_step *Root_step)
-	CreateORMScaling(Scaling *Scaling)
-	CreateORMScordatura(Scordatura *Scordatura)
-	CreateORMScore_instrument(Score_instrument *Score_instrument)
-	CreateORMScore_part(Score_part *Score_part)
-	CreateORMScore_partwise(Score_partwise *Score_partwise)
-	CreateORMScore_timewise(Score_timewise *Score_timewise)
-	CreateORMSegno(Segno *Segno)
-	CreateORMSlash(Slash *Slash)
-	CreateORMSlide(Slide *Slide)
-	CreateORMSlur(Slur *Slur)
-	CreateORMSound(Sound *Sound)
-	CreateORMStaff_details(Staff_details *Staff_details)
-	CreateORMStaff_divide(Staff_divide *Staff_divide)
-	CreateORMStaff_layout(Staff_layout *Staff_layout)
-	CreateORMStaff_size(Staff_size *Staff_size)
-	CreateORMStaff_tuning(Staff_tuning *Staff_tuning)
-	CreateORMStem(Stem *Stem)
-	CreateORMStick(Stick *Stick)
-	CreateORMString_mute(String_mute *String_mute)
-	CreateORMString_type(String_type *String_type)
-	CreateORMStrong_accent(Strong_accent *Strong_accent)
-	CreateORMStyle_text(Style_text *Style_text)
-	CreateORMSupports(Supports *Supports)
-	CreateORMSwing(Swing *Swing)
-	CreateORMSync(Sync *Sync)
-	CreateORMSystem_dividers(System_dividers *System_dividers)
-	CreateORMSystem_layout(System_layout *System_layout)
-	CreateORMSystem_margins(System_margins *System_margins)
-	CreateORMTap(Tap *Tap)
-	CreateORMTechnical(Technical *Technical)
-	CreateORMText_element_data(Text_element_data *Text_element_data)
-	CreateORMTie(Tie *Tie)
-	CreateORMTied(Tied *Tied)
-	CreateORMTime(Time *Time)
-	CreateORMTime_modification(Time_modification *Time_modification)
-	CreateORMTimpani(Timpani *Timpani)
-	CreateORMTranspose(Transpose *Transpose)
-	CreateORMTremolo(Tremolo *Tremolo)
-	CreateORMTuplet(Tuplet *Tuplet)
-	CreateORMTuplet_dot(Tuplet_dot *Tuplet_dot)
-	CreateORMTuplet_number(Tuplet_number *Tuplet_number)
-	CreateORMTuplet_portion(Tuplet_portion *Tuplet_portion)
-	CreateORMTuplet_type(Tuplet_type *Tuplet_type)
-	CreateORMTyped_text(Typed_text *Typed_text)
-	CreateORMUnpitched(Unpitched *Unpitched)
-	CreateORMVirtual_instrument(Virtual_instrument *Virtual_instrument)
-	CreateORMWait(Wait *Wait)
-	CreateORMWavy_line(Wavy_line *Wavy_line)
-	CreateORMWedge(Wedge *Wedge)
-	CreateORMWood(Wood *Wood)
-	CreateORMWork(Work *Work)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMA_directive(A_directive *A_directive)
-	DeleteORMA_measure(A_measure *A_measure)
-	DeleteORMA_measure_1(A_measure_1 *A_measure_1)
-	DeleteORMA_part(A_part *A_part)
-	DeleteORMA_part_1(A_part_1 *A_part_1)
-	DeleteORMAccidental(Accidental *Accidental)
-	DeleteORMAccidental_mark(Accidental_mark *Accidental_mark)
-	DeleteORMAccidental_text(Accidental_text *Accidental_text)
-	DeleteORMAccord(Accord *Accord)
-	DeleteORMAccordion_registration(Accordion_registration *Accordion_registration)
-	DeleteORMAppearance(Appearance *Appearance)
-	DeleteORMArpeggiate(Arpeggiate *Arpeggiate)
-	DeleteORMArrow(Arrow *Arrow)
-	DeleteORMArticulations(Articulations *Articulations)
-	DeleteORMAssess(Assess *Assess)
-	DeleteORMAttributes(Attributes *Attributes)
-	DeleteORMBackup(Backup *Backup)
-	DeleteORMBar_style_color(Bar_style_color *Bar_style_color)
-	DeleteORMBarline(Barline *Barline)
-	DeleteORMBarre(Barre *Barre)
-	DeleteORMBass(Bass *Bass)
-	DeleteORMBass_step(Bass_step *Bass_step)
-	DeleteORMBeam(Beam *Beam)
-	DeleteORMBeat_repeat(Beat_repeat *Beat_repeat)
-	DeleteORMBeat_unit_tied(Beat_unit_tied *Beat_unit_tied)
-	DeleteORMBeater(Beater *Beater)
-	DeleteORMBend(Bend *Bend)
-	DeleteORMBookmark(Bookmark *Bookmark)
-	DeleteORMBracket(Bracket *Bracket)
-	DeleteORMBreath_mark(Breath_mark *Breath_mark)
-	DeleteORMCaesura(Caesura *Caesura)
-	DeleteORMCancel(Cancel *Cancel)
-	DeleteORMClef(Clef *Clef)
-	DeleteORMCoda(Coda *Coda)
-	DeleteORMCredit(Credit *Credit)
-	DeleteORMDashes(Dashes *Dashes)
-	DeleteORMDefaults(Defaults *Defaults)
-	DeleteORMDegree(Degree *Degree)
-	DeleteORMDegree_alter(Degree_alter *Degree_alter)
-	DeleteORMDegree_type(Degree_type *Degree_type)
-	DeleteORMDegree_value(Degree_value *Degree_value)
-	DeleteORMDirection(Direction *Direction)
-	DeleteORMDirection_type(Direction_type *Direction_type)
-	DeleteORMDistance(Distance *Distance)
-	DeleteORMDouble(Double *Double)
-	DeleteORMDynamics(Dynamics *Dynamics)
-	DeleteORMEffect(Effect *Effect)
-	DeleteORMElision(Elision *Elision)
-	DeleteORMEmpty(Empty *Empty)
-	DeleteORMEmpty_font(Empty_font *Empty_font)
-	DeleteORMEmpty_line(Empty_line *Empty_line)
-	DeleteORMEmpty_placement(Empty_placement *Empty_placement)
-	DeleteORMEmpty_placement_smufl(Empty_placement_smufl *Empty_placement_smufl)
-	DeleteORMEmpty_print_object_style_align(Empty_print_object_style_align *Empty_print_object_style_align)
-	DeleteORMEmpty_print_style(Empty_print_style *Empty_print_style)
-	DeleteORMEmpty_print_style_align(Empty_print_style_align *Empty_print_style_align)
-	DeleteORMEmpty_print_style_align_id(Empty_print_style_align_id *Empty_print_style_align_id)
-	DeleteORMEmpty_trill_sound(Empty_trill_sound *Empty_trill_sound)
-	DeleteORMEncoding(Encoding *Encoding)
-	DeleteORMEnding(Ending *Ending)
-	DeleteORMExtend(Extend *Extend)
-	DeleteORMFeature(Feature *Feature)
-	DeleteORMFermata(Fermata *Fermata)
-	DeleteORMFigure(Figure *Figure)
-	DeleteORMFigured_bass(Figured_bass *Figured_bass)
-	DeleteORMFingering(Fingering *Fingering)
-	DeleteORMFirst_fret(First_fret *First_fret)
-	DeleteORMFor_part(For_part *For_part)
-	DeleteORMFormatted_symbol(Formatted_symbol *Formatted_symbol)
-	DeleteORMFormatted_symbol_id(Formatted_symbol_id *Formatted_symbol_id)
-	DeleteORMFormatted_text(Formatted_text *Formatted_text)
-	DeleteORMFormatted_text_id(Formatted_text_id *Formatted_text_id)
-	DeleteORMForward(Forward *Forward)
-	DeleteORMFrame(Frame *Frame)
-	DeleteORMFrame_note(Frame_note *Frame_note)
-	DeleteORMFret(Fret *Fret)
-	DeleteORMGlass(Glass *Glass)
-	DeleteORMGlissando(Glissando *Glissando)
-	DeleteORMGlyph(Glyph *Glyph)
-	DeleteORMGrace(Grace *Grace)
-	DeleteORMGroup_barline(Group_barline *Group_barline)
-	DeleteORMGroup_name(Group_name *Group_name)
-	DeleteORMGroup_symbol(Group_symbol *Group_symbol)
-	DeleteORMGrouping(Grouping *Grouping)
-	DeleteORMHammer_on_pull_off(Hammer_on_pull_off *Hammer_on_pull_off)
-	DeleteORMHandbell(Handbell *Handbell)
-	DeleteORMHarmon_closed(Harmon_closed *Harmon_closed)
-	DeleteORMHarmon_mute(Harmon_mute *Harmon_mute)
-	DeleteORMHarmonic(Harmonic *Harmonic)
-	DeleteORMHarmony(Harmony *Harmony)
-	DeleteORMHarmony_alter(Harmony_alter *Harmony_alter)
-	DeleteORMHarp_pedals(Harp_pedals *Harp_pedals)
-	DeleteORMHeel_toe(Heel_toe *Heel_toe)
-	DeleteORMHole(Hole *Hole)
-	DeleteORMHole_closed(Hole_closed *Hole_closed)
-	DeleteORMHorizontal_turn(Horizontal_turn *Horizontal_turn)
-	DeleteORMIdentification(Identification *Identification)
-	DeleteORMImage(Image *Image)
-	DeleteORMInstrument(Instrument *Instrument)
-	DeleteORMInstrument_change(Instrument_change *Instrument_change)
-	DeleteORMInstrument_link(Instrument_link *Instrument_link)
-	DeleteORMInterchangeable(Interchangeable *Interchangeable)
-	DeleteORMInversion(Inversion *Inversion)
-	DeleteORMKey(Key *Key)
-	DeleteORMKey_accidental(Key_accidental *Key_accidental)
-	DeleteORMKey_octave(Key_octave *Key_octave)
-	DeleteORMKind(Kind *Kind)
-	DeleteORMLevel(Level *Level)
-	DeleteORMLine_detail(Line_detail *Line_detail)
-	DeleteORMLine_width(Line_width *Line_width)
-	DeleteORMLink(Link *Link)
-	DeleteORMListen(Listen *Listen)
-	DeleteORMListening(Listening *Listening)
-	DeleteORMLyric(Lyric *Lyric)
-	DeleteORMLyric_font(Lyric_font *Lyric_font)
-	DeleteORMLyric_language(Lyric_language *Lyric_language)
-	DeleteORMMeasure_layout(Measure_layout *Measure_layout)
-	DeleteORMMeasure_numbering(Measure_numbering *Measure_numbering)
-	DeleteORMMeasure_repeat(Measure_repeat *Measure_repeat)
-	DeleteORMMeasure_style(Measure_style *Measure_style)
-	DeleteORMMembrane(Membrane *Membrane)
-	DeleteORMMetal(Metal *Metal)
-	DeleteORMMetronome(Metronome *Metronome)
-	DeleteORMMetronome_beam(Metronome_beam *Metronome_beam)
-	DeleteORMMetronome_note(Metronome_note *Metronome_note)
-	DeleteORMMetronome_tied(Metronome_tied *Metronome_tied)
-	DeleteORMMetronome_tuplet(Metronome_tuplet *Metronome_tuplet)
-	DeleteORMMidi_device(Midi_device *Midi_device)
-	DeleteORMMidi_instrument(Midi_instrument *Midi_instrument)
-	DeleteORMMiscellaneous(Miscellaneous *Miscellaneous)
-	DeleteORMMiscellaneous_field(Miscellaneous_field *Miscellaneous_field)
-	DeleteORMMordent(Mordent *Mordent)
-	DeleteORMMultiple_rest(Multiple_rest *Multiple_rest)
-	DeleteORMName_display(Name_display *Name_display)
-	DeleteORMNon_arpeggiate(Non_arpeggiate *Non_arpeggiate)
-	DeleteORMNotations(Notations *Notations)
-	DeleteORMNote(Note *Note)
-	DeleteORMNote_size(Note_size *Note_size)
-	DeleteORMNote_type(Note_type *Note_type)
-	DeleteORMNotehead(Notehead *Notehead)
-	DeleteORMNotehead_text(Notehead_text *Notehead_text)
-	DeleteORMNumeral(Numeral *Numeral)
-	DeleteORMNumeral_key(Numeral_key *Numeral_key)
-	DeleteORMNumeral_root(Numeral_root *Numeral_root)
-	DeleteORMOctave_shift(Octave_shift *Octave_shift)
-	DeleteORMOffset(Offset *Offset)
-	DeleteORMOpus(Opus *Opus)
-	DeleteORMOrnaments(Ornaments *Ornaments)
-	DeleteORMOther_appearance(Other_appearance *Other_appearance)
-	DeleteORMOther_direction(Other_direction *Other_direction)
-	DeleteORMOther_listening(Other_listening *Other_listening)
-	DeleteORMOther_notation(Other_notation *Other_notation)
-	DeleteORMOther_placement_text(Other_placement_text *Other_placement_text)
-	DeleteORMOther_play(Other_play *Other_play)
-	DeleteORMOther_text(Other_text *Other_text)
-	DeleteORMPage_layout(Page_layout *Page_layout)
-	DeleteORMPage_margins(Page_margins *Page_margins)
-	DeleteORMPart_clef(Part_clef *Part_clef)
-	DeleteORMPart_group(Part_group *Part_group)
-	DeleteORMPart_link(Part_link *Part_link)
-	DeleteORMPart_list(Part_list *Part_list)
-	DeleteORMPart_name(Part_name *Part_name)
-	DeleteORMPart_symbol(Part_symbol *Part_symbol)
-	DeleteORMPart_transpose(Part_transpose *Part_transpose)
-	DeleteORMPedal(Pedal *Pedal)
-	DeleteORMPedal_tuning(Pedal_tuning *Pedal_tuning)
-	DeleteORMPer_minute(Per_minute *Per_minute)
-	DeleteORMPercussion(Percussion *Percussion)
-	DeleteORMPitch(Pitch *Pitch)
-	DeleteORMPitched(Pitched *Pitched)
-	DeleteORMPlacement_text(Placement_text *Placement_text)
-	DeleteORMPlay(Play *Play)
-	DeleteORMPlayer(Player *Player)
-	DeleteORMPrincipal_voice(Principal_voice *Principal_voice)
-	DeleteORMPrint(Print *Print)
-	DeleteORMRelease(Release *Release)
-	DeleteORMRepeat(Repeat *Repeat)
-	DeleteORMRest(Rest *Rest)
-	DeleteORMRoot(Root *Root)
-	DeleteORMRoot_step(Root_step *Root_step)
-	DeleteORMScaling(Scaling *Scaling)
-	DeleteORMScordatura(Scordatura *Scordatura)
-	DeleteORMScore_instrument(Score_instrument *Score_instrument)
-	DeleteORMScore_part(Score_part *Score_part)
-	DeleteORMScore_partwise(Score_partwise *Score_partwise)
-	DeleteORMScore_timewise(Score_timewise *Score_timewise)
-	DeleteORMSegno(Segno *Segno)
-	DeleteORMSlash(Slash *Slash)
-	DeleteORMSlide(Slide *Slide)
-	DeleteORMSlur(Slur *Slur)
-	DeleteORMSound(Sound *Sound)
-	DeleteORMStaff_details(Staff_details *Staff_details)
-	DeleteORMStaff_divide(Staff_divide *Staff_divide)
-	DeleteORMStaff_layout(Staff_layout *Staff_layout)
-	DeleteORMStaff_size(Staff_size *Staff_size)
-	DeleteORMStaff_tuning(Staff_tuning *Staff_tuning)
-	DeleteORMStem(Stem *Stem)
-	DeleteORMStick(Stick *Stick)
-	DeleteORMString_mute(String_mute *String_mute)
-	DeleteORMString_type(String_type *String_type)
-	DeleteORMStrong_accent(Strong_accent *Strong_accent)
-	DeleteORMStyle_text(Style_text *Style_text)
-	DeleteORMSupports(Supports *Supports)
-	DeleteORMSwing(Swing *Swing)
-	DeleteORMSync(Sync *Sync)
-	DeleteORMSystem_dividers(System_dividers *System_dividers)
-	DeleteORMSystem_layout(System_layout *System_layout)
-	DeleteORMSystem_margins(System_margins *System_margins)
-	DeleteORMTap(Tap *Tap)
-	DeleteORMTechnical(Technical *Technical)
-	DeleteORMText_element_data(Text_element_data *Text_element_data)
-	DeleteORMTie(Tie *Tie)
-	DeleteORMTied(Tied *Tied)
-	DeleteORMTime(Time *Time)
-	DeleteORMTime_modification(Time_modification *Time_modification)
-	DeleteORMTimpani(Timpani *Timpani)
-	DeleteORMTranspose(Transpose *Transpose)
-	DeleteORMTremolo(Tremolo *Tremolo)
-	DeleteORMTuplet(Tuplet *Tuplet)
-	DeleteORMTuplet_dot(Tuplet_dot *Tuplet_dot)
-	DeleteORMTuplet_number(Tuplet_number *Tuplet_number)
-	DeleteORMTuplet_portion(Tuplet_portion *Tuplet_portion)
-	DeleteORMTuplet_type(Tuplet_type *Tuplet_type)
-	DeleteORMTyped_text(Typed_text *Typed_text)
-	DeleteORMUnpitched(Unpitched *Unpitched)
-	DeleteORMVirtual_instrument(Virtual_instrument *Virtual_instrument)
-	DeleteORMWait(Wait *Wait)
-	DeleteORMWavy_line(Wavy_line *Wavy_line)
-	DeleteORMWedge(Wedge *Wedge)
-	DeleteORMWood(Wood *Wood)
-	DeleteORMWork(Work *Work)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -37792,1631 +36351,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.A_directives = nil
-	stage.A_directives_mapString = nil
-
-	stage.A_measures = nil
-	stage.A_measures_mapString = nil
-
-	stage.A_measure_1s = nil
-	stage.A_measure_1s_mapString = nil
-
-	stage.A_parts = nil
-	stage.A_parts_mapString = nil
-
-	stage.A_part_1s = nil
-	stage.A_part_1s_mapString = nil
-
-	stage.Accidentals = nil
-	stage.Accidentals_mapString = nil
-
-	stage.Accidental_marks = nil
-	stage.Accidental_marks_mapString = nil
-
-	stage.Accidental_texts = nil
-	stage.Accidental_texts_mapString = nil
-
-	stage.Accords = nil
-	stage.Accords_mapString = nil
-
-	stage.Accordion_registrations = nil
-	stage.Accordion_registrations_mapString = nil
-
-	stage.Appearances = nil
-	stage.Appearances_mapString = nil
-
-	stage.Arpeggiates = nil
-	stage.Arpeggiates_mapString = nil
-
-	stage.Arrows = nil
-	stage.Arrows_mapString = nil
-
-	stage.Articulationss = nil
-	stage.Articulationss_mapString = nil
-
-	stage.Assesss = nil
-	stage.Assesss_mapString = nil
-
-	stage.Attributess = nil
-	stage.Attributess_mapString = nil
-
-	stage.Backups = nil
-	stage.Backups_mapString = nil
-
-	stage.Bar_style_colors = nil
-	stage.Bar_style_colors_mapString = nil
-
-	stage.Barlines = nil
-	stage.Barlines_mapString = nil
-
-	stage.Barres = nil
-	stage.Barres_mapString = nil
-
-	stage.Basss = nil
-	stage.Basss_mapString = nil
-
-	stage.Bass_steps = nil
-	stage.Bass_steps_mapString = nil
-
-	stage.Beams = nil
-	stage.Beams_mapString = nil
-
-	stage.Beat_repeats = nil
-	stage.Beat_repeats_mapString = nil
-
-	stage.Beat_unit_tieds = nil
-	stage.Beat_unit_tieds_mapString = nil
-
-	stage.Beaters = nil
-	stage.Beaters_mapString = nil
-
-	stage.Bends = nil
-	stage.Bends_mapString = nil
-
-	stage.Bookmarks = nil
-	stage.Bookmarks_mapString = nil
-
-	stage.Brackets = nil
-	stage.Brackets_mapString = nil
-
-	stage.Breath_marks = nil
-	stage.Breath_marks_mapString = nil
-
-	stage.Caesuras = nil
-	stage.Caesuras_mapString = nil
-
-	stage.Cancels = nil
-	stage.Cancels_mapString = nil
-
-	stage.Clefs = nil
-	stage.Clefs_mapString = nil
-
-	stage.Codas = nil
-	stage.Codas_mapString = nil
-
-	stage.Credits = nil
-	stage.Credits_mapString = nil
-
-	stage.Dashess = nil
-	stage.Dashess_mapString = nil
-
-	stage.Defaultss = nil
-	stage.Defaultss_mapString = nil
-
-	stage.Degrees = nil
-	stage.Degrees_mapString = nil
-
-	stage.Degree_alters = nil
-	stage.Degree_alters_mapString = nil
-
-	stage.Degree_types = nil
-	stage.Degree_types_mapString = nil
-
-	stage.Degree_values = nil
-	stage.Degree_values_mapString = nil
-
-	stage.Directions = nil
-	stage.Directions_mapString = nil
-
-	stage.Direction_types = nil
-	stage.Direction_types_mapString = nil
-
-	stage.Distances = nil
-	stage.Distances_mapString = nil
-
-	stage.Doubles = nil
-	stage.Doubles_mapString = nil
-
-	stage.Dynamicss = nil
-	stage.Dynamicss_mapString = nil
-
-	stage.Effects = nil
-	stage.Effects_mapString = nil
-
-	stage.Elisions = nil
-	stage.Elisions_mapString = nil
-
-	stage.Emptys = nil
-	stage.Emptys_mapString = nil
-
-	stage.Empty_fonts = nil
-	stage.Empty_fonts_mapString = nil
-
-	stage.Empty_lines = nil
-	stage.Empty_lines_mapString = nil
-
-	stage.Empty_placements = nil
-	stage.Empty_placements_mapString = nil
-
-	stage.Empty_placement_smufls = nil
-	stage.Empty_placement_smufls_mapString = nil
-
-	stage.Empty_print_object_style_aligns = nil
-	stage.Empty_print_object_style_aligns_mapString = nil
-
-	stage.Empty_print_styles = nil
-	stage.Empty_print_styles_mapString = nil
-
-	stage.Empty_print_style_aligns = nil
-	stage.Empty_print_style_aligns_mapString = nil
-
-	stage.Empty_print_style_align_ids = nil
-	stage.Empty_print_style_align_ids_mapString = nil
-
-	stage.Empty_trill_sounds = nil
-	stage.Empty_trill_sounds_mapString = nil
-
-	stage.Encodings = nil
-	stage.Encodings_mapString = nil
-
-	stage.Endings = nil
-	stage.Endings_mapString = nil
-
-	stage.Extends = nil
-	stage.Extends_mapString = nil
-
-	stage.Features = nil
-	stage.Features_mapString = nil
-
-	stage.Fermatas = nil
-	stage.Fermatas_mapString = nil
-
-	stage.Figures = nil
-	stage.Figures_mapString = nil
-
-	stage.Figured_basss = nil
-	stage.Figured_basss_mapString = nil
-
-	stage.Fingerings = nil
-	stage.Fingerings_mapString = nil
-
-	stage.First_frets = nil
-	stage.First_frets_mapString = nil
-
-	stage.For_parts = nil
-	stage.For_parts_mapString = nil
-
-	stage.Formatted_symbols = nil
-	stage.Formatted_symbols_mapString = nil
-
-	stage.Formatted_symbol_ids = nil
-	stage.Formatted_symbol_ids_mapString = nil
-
-	stage.Formatted_texts = nil
-	stage.Formatted_texts_mapString = nil
-
-	stage.Formatted_text_ids = nil
-	stage.Formatted_text_ids_mapString = nil
-
-	stage.Forwards = nil
-	stage.Forwards_mapString = nil
-
-	stage.Frames = nil
-	stage.Frames_mapString = nil
-
-	stage.Frame_notes = nil
-	stage.Frame_notes_mapString = nil
-
-	stage.Frets = nil
-	stage.Frets_mapString = nil
-
-	stage.Glasss = nil
-	stage.Glasss_mapString = nil
-
-	stage.Glissandos = nil
-	stage.Glissandos_mapString = nil
-
-	stage.Glyphs = nil
-	stage.Glyphs_mapString = nil
-
-	stage.Graces = nil
-	stage.Graces_mapString = nil
-
-	stage.Group_barlines = nil
-	stage.Group_barlines_mapString = nil
-
-	stage.Group_names = nil
-	stage.Group_names_mapString = nil
-
-	stage.Group_symbols = nil
-	stage.Group_symbols_mapString = nil
-
-	stage.Groupings = nil
-	stage.Groupings_mapString = nil
-
-	stage.Hammer_on_pull_offs = nil
-	stage.Hammer_on_pull_offs_mapString = nil
-
-	stage.Handbells = nil
-	stage.Handbells_mapString = nil
-
-	stage.Harmon_closeds = nil
-	stage.Harmon_closeds_mapString = nil
-
-	stage.Harmon_mutes = nil
-	stage.Harmon_mutes_mapString = nil
-
-	stage.Harmonics = nil
-	stage.Harmonics_mapString = nil
-
-	stage.Harmonys = nil
-	stage.Harmonys_mapString = nil
-
-	stage.Harmony_alters = nil
-	stage.Harmony_alters_mapString = nil
-
-	stage.Harp_pedalss = nil
-	stage.Harp_pedalss_mapString = nil
-
-	stage.Heel_toes = nil
-	stage.Heel_toes_mapString = nil
-
-	stage.Holes = nil
-	stage.Holes_mapString = nil
-
-	stage.Hole_closeds = nil
-	stage.Hole_closeds_mapString = nil
-
-	stage.Horizontal_turns = nil
-	stage.Horizontal_turns_mapString = nil
-
-	stage.Identifications = nil
-	stage.Identifications_mapString = nil
-
-	stage.Images = nil
-	stage.Images_mapString = nil
-
-	stage.Instruments = nil
-	stage.Instruments_mapString = nil
-
-	stage.Instrument_changes = nil
-	stage.Instrument_changes_mapString = nil
-
-	stage.Instrument_links = nil
-	stage.Instrument_links_mapString = nil
-
-	stage.Interchangeables = nil
-	stage.Interchangeables_mapString = nil
-
-	stage.Inversions = nil
-	stage.Inversions_mapString = nil
-
-	stage.Keys = nil
-	stage.Keys_mapString = nil
-
-	stage.Key_accidentals = nil
-	stage.Key_accidentals_mapString = nil
-
-	stage.Key_octaves = nil
-	stage.Key_octaves_mapString = nil
-
-	stage.Kinds = nil
-	stage.Kinds_mapString = nil
-
-	stage.Levels = nil
-	stage.Levels_mapString = nil
-
-	stage.Line_details = nil
-	stage.Line_details_mapString = nil
-
-	stage.Line_widths = nil
-	stage.Line_widths_mapString = nil
-
-	stage.Links = nil
-	stage.Links_mapString = nil
-
-	stage.Listens = nil
-	stage.Listens_mapString = nil
-
-	stage.Listenings = nil
-	stage.Listenings_mapString = nil
-
-	stage.Lyrics = nil
-	stage.Lyrics_mapString = nil
-
-	stage.Lyric_fonts = nil
-	stage.Lyric_fonts_mapString = nil
-
-	stage.Lyric_languages = nil
-	stage.Lyric_languages_mapString = nil
-
-	stage.Measure_layouts = nil
-	stage.Measure_layouts_mapString = nil
-
-	stage.Measure_numberings = nil
-	stage.Measure_numberings_mapString = nil
-
-	stage.Measure_repeats = nil
-	stage.Measure_repeats_mapString = nil
-
-	stage.Measure_styles = nil
-	stage.Measure_styles_mapString = nil
-
-	stage.Membranes = nil
-	stage.Membranes_mapString = nil
-
-	stage.Metals = nil
-	stage.Metals_mapString = nil
-
-	stage.Metronomes = nil
-	stage.Metronomes_mapString = nil
-
-	stage.Metronome_beams = nil
-	stage.Metronome_beams_mapString = nil
-
-	stage.Metronome_notes = nil
-	stage.Metronome_notes_mapString = nil
-
-	stage.Metronome_tieds = nil
-	stage.Metronome_tieds_mapString = nil
-
-	stage.Metronome_tuplets = nil
-	stage.Metronome_tuplets_mapString = nil
-
-	stage.Midi_devices = nil
-	stage.Midi_devices_mapString = nil
-
-	stage.Midi_instruments = nil
-	stage.Midi_instruments_mapString = nil
-
-	stage.Miscellaneouss = nil
-	stage.Miscellaneouss_mapString = nil
-
-	stage.Miscellaneous_fields = nil
-	stage.Miscellaneous_fields_mapString = nil
-
-	stage.Mordents = nil
-	stage.Mordents_mapString = nil
-
-	stage.Multiple_rests = nil
-	stage.Multiple_rests_mapString = nil
-
-	stage.Name_displays = nil
-	stage.Name_displays_mapString = nil
-
-	stage.Non_arpeggiates = nil
-	stage.Non_arpeggiates_mapString = nil
-
-	stage.Notationss = nil
-	stage.Notationss_mapString = nil
-
-	stage.Notes = nil
-	stage.Notes_mapString = nil
-
-	stage.Note_sizes = nil
-	stage.Note_sizes_mapString = nil
-
-	stage.Note_types = nil
-	stage.Note_types_mapString = nil
-
-	stage.Noteheads = nil
-	stage.Noteheads_mapString = nil
-
-	stage.Notehead_texts = nil
-	stage.Notehead_texts_mapString = nil
-
-	stage.Numerals = nil
-	stage.Numerals_mapString = nil
-
-	stage.Numeral_keys = nil
-	stage.Numeral_keys_mapString = nil
-
-	stage.Numeral_roots = nil
-	stage.Numeral_roots_mapString = nil
-
-	stage.Octave_shifts = nil
-	stage.Octave_shifts_mapString = nil
-
-	stage.Offsets = nil
-	stage.Offsets_mapString = nil
-
-	stage.Opuss = nil
-	stage.Opuss_mapString = nil
-
-	stage.Ornamentss = nil
-	stage.Ornamentss_mapString = nil
-
-	stage.Other_appearances = nil
-	stage.Other_appearances_mapString = nil
-
-	stage.Other_directions = nil
-	stage.Other_directions_mapString = nil
-
-	stage.Other_listenings = nil
-	stage.Other_listenings_mapString = nil
-
-	stage.Other_notations = nil
-	stage.Other_notations_mapString = nil
-
-	stage.Other_placement_texts = nil
-	stage.Other_placement_texts_mapString = nil
-
-	stage.Other_plays = nil
-	stage.Other_plays_mapString = nil
-
-	stage.Other_texts = nil
-	stage.Other_texts_mapString = nil
-
-	stage.Page_layouts = nil
-	stage.Page_layouts_mapString = nil
-
-	stage.Page_marginss = nil
-	stage.Page_marginss_mapString = nil
-
-	stage.Part_clefs = nil
-	stage.Part_clefs_mapString = nil
-
-	stage.Part_groups = nil
-	stage.Part_groups_mapString = nil
-
-	stage.Part_links = nil
-	stage.Part_links_mapString = nil
-
-	stage.Part_lists = nil
-	stage.Part_lists_mapString = nil
-
-	stage.Part_names = nil
-	stage.Part_names_mapString = nil
-
-	stage.Part_symbols = nil
-	stage.Part_symbols_mapString = nil
-
-	stage.Part_transposes = nil
-	stage.Part_transposes_mapString = nil
-
-	stage.Pedals = nil
-	stage.Pedals_mapString = nil
-
-	stage.Pedal_tunings = nil
-	stage.Pedal_tunings_mapString = nil
-
-	stage.Per_minutes = nil
-	stage.Per_minutes_mapString = nil
-
-	stage.Percussions = nil
-	stage.Percussions_mapString = nil
-
-	stage.Pitchs = nil
-	stage.Pitchs_mapString = nil
-
-	stage.Pitcheds = nil
-	stage.Pitcheds_mapString = nil
-
-	stage.Placement_texts = nil
-	stage.Placement_texts_mapString = nil
-
-	stage.Plays = nil
-	stage.Plays_mapString = nil
-
-	stage.Players = nil
-	stage.Players_mapString = nil
-
-	stage.Principal_voices = nil
-	stage.Principal_voices_mapString = nil
-
-	stage.Prints = nil
-	stage.Prints_mapString = nil
-
-	stage.Releases = nil
-	stage.Releases_mapString = nil
-
-	stage.Repeats = nil
-	stage.Repeats_mapString = nil
-
-	stage.Rests = nil
-	stage.Rests_mapString = nil
-
-	stage.Roots = nil
-	stage.Roots_mapString = nil
-
-	stage.Root_steps = nil
-	stage.Root_steps_mapString = nil
-
-	stage.Scalings = nil
-	stage.Scalings_mapString = nil
-
-	stage.Scordaturas = nil
-	stage.Scordaturas_mapString = nil
-
-	stage.Score_instruments = nil
-	stage.Score_instruments_mapString = nil
-
-	stage.Score_parts = nil
-	stage.Score_parts_mapString = nil
-
-	stage.Score_partwises = nil
-	stage.Score_partwises_mapString = nil
-
-	stage.Score_timewises = nil
-	stage.Score_timewises_mapString = nil
-
-	stage.Segnos = nil
-	stage.Segnos_mapString = nil
-
-	stage.Slashs = nil
-	stage.Slashs_mapString = nil
-
-	stage.Slides = nil
-	stage.Slides_mapString = nil
-
-	stage.Slurs = nil
-	stage.Slurs_mapString = nil
-
-	stage.Sounds = nil
-	stage.Sounds_mapString = nil
-
-	stage.Staff_detailss = nil
-	stage.Staff_detailss_mapString = nil
-
-	stage.Staff_divides = nil
-	stage.Staff_divides_mapString = nil
-
-	stage.Staff_layouts = nil
-	stage.Staff_layouts_mapString = nil
-
-	stage.Staff_sizes = nil
-	stage.Staff_sizes_mapString = nil
-
-	stage.Staff_tunings = nil
-	stage.Staff_tunings_mapString = nil
-
-	stage.Stems = nil
-	stage.Stems_mapString = nil
-
-	stage.Sticks = nil
-	stage.Sticks_mapString = nil
-
-	stage.String_mutes = nil
-	stage.String_mutes_mapString = nil
-
-	stage.String_types = nil
-	stage.String_types_mapString = nil
-
-	stage.Strong_accents = nil
-	stage.Strong_accents_mapString = nil
-
-	stage.Style_texts = nil
-	stage.Style_texts_mapString = nil
-
-	stage.Supportss = nil
-	stage.Supportss_mapString = nil
-
-	stage.Swings = nil
-	stage.Swings_mapString = nil
-
-	stage.Syncs = nil
-	stage.Syncs_mapString = nil
-
-	stage.System_dividerss = nil
-	stage.System_dividerss_mapString = nil
-
-	stage.System_layouts = nil
-	stage.System_layouts_mapString = nil
-
-	stage.System_marginss = nil
-	stage.System_marginss_mapString = nil
-
-	stage.Taps = nil
-	stage.Taps_mapString = nil
-
-	stage.Technicals = nil
-	stage.Technicals_mapString = nil
-
-	stage.Text_element_datas = nil
-	stage.Text_element_datas_mapString = nil
-
-	stage.Ties = nil
-	stage.Ties_mapString = nil
-
-	stage.Tieds = nil
-	stage.Tieds_mapString = nil
-
-	stage.Times = nil
-	stage.Times_mapString = nil
-
-	stage.Time_modifications = nil
-	stage.Time_modifications_mapString = nil
-
-	stage.Timpanis = nil
-	stage.Timpanis_mapString = nil
-
-	stage.Transposes = nil
-	stage.Transposes_mapString = nil
-
-	stage.Tremolos = nil
-	stage.Tremolos_mapString = nil
-
-	stage.Tuplets = nil
-	stage.Tuplets_mapString = nil
-
-	stage.Tuplet_dots = nil
-	stage.Tuplet_dots_mapString = nil
-
-	stage.Tuplet_numbers = nil
-	stage.Tuplet_numbers_mapString = nil
-
-	stage.Tuplet_portions = nil
-	stage.Tuplet_portions_mapString = nil
-
-	stage.Tuplet_types = nil
-	stage.Tuplet_types_mapString = nil
-
-	stage.Typed_texts = nil
-	stage.Typed_texts_mapString = nil
-
-	stage.Unpitcheds = nil
-	stage.Unpitcheds_mapString = nil
-
-	stage.Virtual_instruments = nil
-	stage.Virtual_instruments_mapString = nil
-
-	stage.Waits = nil
-	stage.Waits_mapString = nil
-
-	stage.Wavy_lines = nil
-	stage.Wavy_lines_mapString = nil
-
-	stage.Wedges = nil
-	stage.Wedges_mapString = nil
-
-	stage.Woods = nil
-	stage.Woods_mapString = nil
-
-	stage.Works = nil
-	stage.Works_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for a_directive := range stage.A_directives {
-		a_directive.Unstage(stage)
-	}
-
-	for a_measure := range stage.A_measures {
-		a_measure.Unstage(stage)
-	}
-
-	for a_measure_1 := range stage.A_measure_1s {
-		a_measure_1.Unstage(stage)
-	}
-
-	for a_part := range stage.A_parts {
-		a_part.Unstage(stage)
-	}
-
-	for a_part_1 := range stage.A_part_1s {
-		a_part_1.Unstage(stage)
-	}
-
-	for accidental := range stage.Accidentals {
-		accidental.Unstage(stage)
-	}
-
-	for accidental_mark := range stage.Accidental_marks {
-		accidental_mark.Unstage(stage)
-	}
-
-	for accidental_text := range stage.Accidental_texts {
-		accidental_text.Unstage(stage)
-	}
-
-	for accord := range stage.Accords {
-		accord.Unstage(stage)
-	}
-
-	for accordion_registration := range stage.Accordion_registrations {
-		accordion_registration.Unstage(stage)
-	}
-
-	for appearance := range stage.Appearances {
-		appearance.Unstage(stage)
-	}
-
-	for arpeggiate := range stage.Arpeggiates {
-		arpeggiate.Unstage(stage)
-	}
-
-	for arrow := range stage.Arrows {
-		arrow.Unstage(stage)
-	}
-
-	for articulations := range stage.Articulationss {
-		articulations.Unstage(stage)
-	}
-
-	for assess := range stage.Assesss {
-		assess.Unstage(stage)
-	}
-
-	for attributes := range stage.Attributess {
-		attributes.Unstage(stage)
-	}
-
-	for backup := range stage.Backups {
-		backup.Unstage(stage)
-	}
-
-	for bar_style_color := range stage.Bar_style_colors {
-		bar_style_color.Unstage(stage)
-	}
-
-	for barline := range stage.Barlines {
-		barline.Unstage(stage)
-	}
-
-	for barre := range stage.Barres {
-		barre.Unstage(stage)
-	}
-
-	for bass := range stage.Basss {
-		bass.Unstage(stage)
-	}
-
-	for bass_step := range stage.Bass_steps {
-		bass_step.Unstage(stage)
-	}
-
-	for beam := range stage.Beams {
-		beam.Unstage(stage)
-	}
-
-	for beat_repeat := range stage.Beat_repeats {
-		beat_repeat.Unstage(stage)
-	}
-
-	for beat_unit_tied := range stage.Beat_unit_tieds {
-		beat_unit_tied.Unstage(stage)
-	}
-
-	for beater := range stage.Beaters {
-		beater.Unstage(stage)
-	}
-
-	for bend := range stage.Bends {
-		bend.Unstage(stage)
-	}
-
-	for bookmark := range stage.Bookmarks {
-		bookmark.Unstage(stage)
-	}
-
-	for bracket := range stage.Brackets {
-		bracket.Unstage(stage)
-	}
-
-	for breath_mark := range stage.Breath_marks {
-		breath_mark.Unstage(stage)
-	}
-
-	for caesura := range stage.Caesuras {
-		caesura.Unstage(stage)
-	}
-
-	for cancel := range stage.Cancels {
-		cancel.Unstage(stage)
-	}
-
-	for clef := range stage.Clefs {
-		clef.Unstage(stage)
-	}
-
-	for coda := range stage.Codas {
-		coda.Unstage(stage)
-	}
-
-	for credit := range stage.Credits {
-		credit.Unstage(stage)
-	}
-
-	for dashes := range stage.Dashess {
-		dashes.Unstage(stage)
-	}
-
-	for defaults := range stage.Defaultss {
-		defaults.Unstage(stage)
-	}
-
-	for degree := range stage.Degrees {
-		degree.Unstage(stage)
-	}
-
-	for degree_alter := range stage.Degree_alters {
-		degree_alter.Unstage(stage)
-	}
-
-	for degree_type := range stage.Degree_types {
-		degree_type.Unstage(stage)
-	}
-
-	for degree_value := range stage.Degree_values {
-		degree_value.Unstage(stage)
-	}
-
-	for direction := range stage.Directions {
-		direction.Unstage(stage)
-	}
-
-	for direction_type := range stage.Direction_types {
-		direction_type.Unstage(stage)
-	}
-
-	for distance := range stage.Distances {
-		distance.Unstage(stage)
-	}
-
-	for double := range stage.Doubles {
-		double.Unstage(stage)
-	}
-
-	for dynamics := range stage.Dynamicss {
-		dynamics.Unstage(stage)
-	}
-
-	for effect := range stage.Effects {
-		effect.Unstage(stage)
-	}
-
-	for elision := range stage.Elisions {
-		elision.Unstage(stage)
-	}
-
-	for empty := range stage.Emptys {
-		empty.Unstage(stage)
-	}
-
-	for empty_font := range stage.Empty_fonts {
-		empty_font.Unstage(stage)
-	}
-
-	for empty_line := range stage.Empty_lines {
-		empty_line.Unstage(stage)
-	}
-
-	for empty_placement := range stage.Empty_placements {
-		empty_placement.Unstage(stage)
-	}
-
-	for empty_placement_smufl := range stage.Empty_placement_smufls {
-		empty_placement_smufl.Unstage(stage)
-	}
-
-	for empty_print_object_style_align := range stage.Empty_print_object_style_aligns {
-		empty_print_object_style_align.Unstage(stage)
-	}
-
-	for empty_print_style := range stage.Empty_print_styles {
-		empty_print_style.Unstage(stage)
-	}
-
-	for empty_print_style_align := range stage.Empty_print_style_aligns {
-		empty_print_style_align.Unstage(stage)
-	}
-
-	for empty_print_style_align_id := range stage.Empty_print_style_align_ids {
-		empty_print_style_align_id.Unstage(stage)
-	}
-
-	for empty_trill_sound := range stage.Empty_trill_sounds {
-		empty_trill_sound.Unstage(stage)
-	}
-
-	for encoding := range stage.Encodings {
-		encoding.Unstage(stage)
-	}
-
-	for ending := range stage.Endings {
-		ending.Unstage(stage)
-	}
-
-	for extend := range stage.Extends {
-		extend.Unstage(stage)
-	}
-
-	for feature := range stage.Features {
-		feature.Unstage(stage)
-	}
-
-	for fermata := range stage.Fermatas {
-		fermata.Unstage(stage)
-	}
-
-	for figure := range stage.Figures {
-		figure.Unstage(stage)
-	}
-
-	for figured_bass := range stage.Figured_basss {
-		figured_bass.Unstage(stage)
-	}
-
-	for fingering := range stage.Fingerings {
-		fingering.Unstage(stage)
-	}
-
-	for first_fret := range stage.First_frets {
-		first_fret.Unstage(stage)
-	}
-
-	for for_part := range stage.For_parts {
-		for_part.Unstage(stage)
-	}
-
-	for formatted_symbol := range stage.Formatted_symbols {
-		formatted_symbol.Unstage(stage)
-	}
-
-	for formatted_symbol_id := range stage.Formatted_symbol_ids {
-		formatted_symbol_id.Unstage(stage)
-	}
-
-	for formatted_text := range stage.Formatted_texts {
-		formatted_text.Unstage(stage)
-	}
-
-	for formatted_text_id := range stage.Formatted_text_ids {
-		formatted_text_id.Unstage(stage)
-	}
-
-	for forward := range stage.Forwards {
-		forward.Unstage(stage)
-	}
-
-	for frame := range stage.Frames {
-		frame.Unstage(stage)
-	}
-
-	for frame_note := range stage.Frame_notes {
-		frame_note.Unstage(stage)
-	}
-
-	for fret := range stage.Frets {
-		fret.Unstage(stage)
-	}
-
-	for glass := range stage.Glasss {
-		glass.Unstage(stage)
-	}
-
-	for glissando := range stage.Glissandos {
-		glissando.Unstage(stage)
-	}
-
-	for glyph := range stage.Glyphs {
-		glyph.Unstage(stage)
-	}
-
-	for grace := range stage.Graces {
-		grace.Unstage(stage)
-	}
-
-	for group_barline := range stage.Group_barlines {
-		group_barline.Unstage(stage)
-	}
-
-	for group_name := range stage.Group_names {
-		group_name.Unstage(stage)
-	}
-
-	for group_symbol := range stage.Group_symbols {
-		group_symbol.Unstage(stage)
-	}
-
-	for grouping := range stage.Groupings {
-		grouping.Unstage(stage)
-	}
-
-	for hammer_on_pull_off := range stage.Hammer_on_pull_offs {
-		hammer_on_pull_off.Unstage(stage)
-	}
-
-	for handbell := range stage.Handbells {
-		handbell.Unstage(stage)
-	}
-
-	for harmon_closed := range stage.Harmon_closeds {
-		harmon_closed.Unstage(stage)
-	}
-
-	for harmon_mute := range stage.Harmon_mutes {
-		harmon_mute.Unstage(stage)
-	}
-
-	for harmonic := range stage.Harmonics {
-		harmonic.Unstage(stage)
-	}
-
-	for harmony := range stage.Harmonys {
-		harmony.Unstage(stage)
-	}
-
-	for harmony_alter := range stage.Harmony_alters {
-		harmony_alter.Unstage(stage)
-	}
-
-	for harp_pedals := range stage.Harp_pedalss {
-		harp_pedals.Unstage(stage)
-	}
-
-	for heel_toe := range stage.Heel_toes {
-		heel_toe.Unstage(stage)
-	}
-
-	for hole := range stage.Holes {
-		hole.Unstage(stage)
-	}
-
-	for hole_closed := range stage.Hole_closeds {
-		hole_closed.Unstage(stage)
-	}
-
-	for horizontal_turn := range stage.Horizontal_turns {
-		horizontal_turn.Unstage(stage)
-	}
-
-	for identification := range stage.Identifications {
-		identification.Unstage(stage)
-	}
-
-	for image := range stage.Images {
-		image.Unstage(stage)
-	}
-
-	for instrument := range stage.Instruments {
-		instrument.Unstage(stage)
-	}
-
-	for instrument_change := range stage.Instrument_changes {
-		instrument_change.Unstage(stage)
-	}
-
-	for instrument_link := range stage.Instrument_links {
-		instrument_link.Unstage(stage)
-	}
-
-	for interchangeable := range stage.Interchangeables {
-		interchangeable.Unstage(stage)
-	}
-
-	for inversion := range stage.Inversions {
-		inversion.Unstage(stage)
-	}
-
-	for key := range stage.Keys {
-		key.Unstage(stage)
-	}
-
-	for key_accidental := range stage.Key_accidentals {
-		key_accidental.Unstage(stage)
-	}
-
-	for key_octave := range stage.Key_octaves {
-		key_octave.Unstage(stage)
-	}
-
-	for kind := range stage.Kinds {
-		kind.Unstage(stage)
-	}
-
-	for level := range stage.Levels {
-		level.Unstage(stage)
-	}
-
-	for line_detail := range stage.Line_details {
-		line_detail.Unstage(stage)
-	}
-
-	for line_width := range stage.Line_widths {
-		line_width.Unstage(stage)
-	}
-
-	for link := range stage.Links {
-		link.Unstage(stage)
-	}
-
-	for listen := range stage.Listens {
-		listen.Unstage(stage)
-	}
-
-	for listening := range stage.Listenings {
-		listening.Unstage(stage)
-	}
-
-	for lyric := range stage.Lyrics {
-		lyric.Unstage(stage)
-	}
-
-	for lyric_font := range stage.Lyric_fonts {
-		lyric_font.Unstage(stage)
-	}
-
-	for lyric_language := range stage.Lyric_languages {
-		lyric_language.Unstage(stage)
-	}
-
-	for measure_layout := range stage.Measure_layouts {
-		measure_layout.Unstage(stage)
-	}
-
-	for measure_numbering := range stage.Measure_numberings {
-		measure_numbering.Unstage(stage)
-	}
-
-	for measure_repeat := range stage.Measure_repeats {
-		measure_repeat.Unstage(stage)
-	}
-
-	for measure_style := range stage.Measure_styles {
-		measure_style.Unstage(stage)
-	}
-
-	for membrane := range stage.Membranes {
-		membrane.Unstage(stage)
-	}
-
-	for metal := range stage.Metals {
-		metal.Unstage(stage)
-	}
-
-	for metronome := range stage.Metronomes {
-		metronome.Unstage(stage)
-	}
-
-	for metronome_beam := range stage.Metronome_beams {
-		metronome_beam.Unstage(stage)
-	}
-
-	for metronome_note := range stage.Metronome_notes {
-		metronome_note.Unstage(stage)
-	}
-
-	for metronome_tied := range stage.Metronome_tieds {
-		metronome_tied.Unstage(stage)
-	}
-
-	for metronome_tuplet := range stage.Metronome_tuplets {
-		metronome_tuplet.Unstage(stage)
-	}
-
-	for midi_device := range stage.Midi_devices {
-		midi_device.Unstage(stage)
-	}
-
-	for midi_instrument := range stage.Midi_instruments {
-		midi_instrument.Unstage(stage)
-	}
-
-	for miscellaneous := range stage.Miscellaneouss {
-		miscellaneous.Unstage(stage)
-	}
-
-	for miscellaneous_field := range stage.Miscellaneous_fields {
-		miscellaneous_field.Unstage(stage)
-	}
-
-	for mordent := range stage.Mordents {
-		mordent.Unstage(stage)
-	}
-
-	for multiple_rest := range stage.Multiple_rests {
-		multiple_rest.Unstage(stage)
-	}
-
-	for name_display := range stage.Name_displays {
-		name_display.Unstage(stage)
-	}
-
-	for non_arpeggiate := range stage.Non_arpeggiates {
-		non_arpeggiate.Unstage(stage)
-	}
-
-	for notations := range stage.Notationss {
-		notations.Unstage(stage)
-	}
-
-	for note := range stage.Notes {
-		note.Unstage(stage)
-	}
-
-	for note_size := range stage.Note_sizes {
-		note_size.Unstage(stage)
-	}
-
-	for note_type := range stage.Note_types {
-		note_type.Unstage(stage)
-	}
-
-	for notehead := range stage.Noteheads {
-		notehead.Unstage(stage)
-	}
-
-	for notehead_text := range stage.Notehead_texts {
-		notehead_text.Unstage(stage)
-	}
-
-	for numeral := range stage.Numerals {
-		numeral.Unstage(stage)
-	}
-
-	for numeral_key := range stage.Numeral_keys {
-		numeral_key.Unstage(stage)
-	}
-
-	for numeral_root := range stage.Numeral_roots {
-		numeral_root.Unstage(stage)
-	}
-
-	for octave_shift := range stage.Octave_shifts {
-		octave_shift.Unstage(stage)
-	}
-
-	for offset := range stage.Offsets {
-		offset.Unstage(stage)
-	}
-
-	for opus := range stage.Opuss {
-		opus.Unstage(stage)
-	}
-
-	for ornaments := range stage.Ornamentss {
-		ornaments.Unstage(stage)
-	}
-
-	for other_appearance := range stage.Other_appearances {
-		other_appearance.Unstage(stage)
-	}
-
-	for other_direction := range stage.Other_directions {
-		other_direction.Unstage(stage)
-	}
-
-	for other_listening := range stage.Other_listenings {
-		other_listening.Unstage(stage)
-	}
-
-	for other_notation := range stage.Other_notations {
-		other_notation.Unstage(stage)
-	}
-
-	for other_placement_text := range stage.Other_placement_texts {
-		other_placement_text.Unstage(stage)
-	}
-
-	for other_play := range stage.Other_plays {
-		other_play.Unstage(stage)
-	}
-
-	for other_text := range stage.Other_texts {
-		other_text.Unstage(stage)
-	}
-
-	for page_layout := range stage.Page_layouts {
-		page_layout.Unstage(stage)
-	}
-
-	for page_margins := range stage.Page_marginss {
-		page_margins.Unstage(stage)
-	}
-
-	for part_clef := range stage.Part_clefs {
-		part_clef.Unstage(stage)
-	}
-
-	for part_group := range stage.Part_groups {
-		part_group.Unstage(stage)
-	}
-
-	for part_link := range stage.Part_links {
-		part_link.Unstage(stage)
-	}
-
-	for part_list := range stage.Part_lists {
-		part_list.Unstage(stage)
-	}
-
-	for part_name := range stage.Part_names {
-		part_name.Unstage(stage)
-	}
-
-	for part_symbol := range stage.Part_symbols {
-		part_symbol.Unstage(stage)
-	}
-
-	for part_transpose := range stage.Part_transposes {
-		part_transpose.Unstage(stage)
-	}
-
-	for pedal := range stage.Pedals {
-		pedal.Unstage(stage)
-	}
-
-	for pedal_tuning := range stage.Pedal_tunings {
-		pedal_tuning.Unstage(stage)
-	}
-
-	for per_minute := range stage.Per_minutes {
-		per_minute.Unstage(stage)
-	}
-
-	for percussion := range stage.Percussions {
-		percussion.Unstage(stage)
-	}
-
-	for pitch := range stage.Pitchs {
-		pitch.Unstage(stage)
-	}
-
-	for pitched := range stage.Pitcheds {
-		pitched.Unstage(stage)
-	}
-
-	for placement_text := range stage.Placement_texts {
-		placement_text.Unstage(stage)
-	}
-
-	for play := range stage.Plays {
-		play.Unstage(stage)
-	}
-
-	for player := range stage.Players {
-		player.Unstage(stage)
-	}
-
-	for principal_voice := range stage.Principal_voices {
-		principal_voice.Unstage(stage)
-	}
-
-	for print := range stage.Prints {
-		print.Unstage(stage)
-	}
-
-	for release := range stage.Releases {
-		release.Unstage(stage)
-	}
-
-	for repeat := range stage.Repeats {
-		repeat.Unstage(stage)
-	}
-
-	for rest := range stage.Rests {
-		rest.Unstage(stage)
-	}
-
-	for root := range stage.Roots {
-		root.Unstage(stage)
-	}
-
-	for root_step := range stage.Root_steps {
-		root_step.Unstage(stage)
-	}
-
-	for scaling := range stage.Scalings {
-		scaling.Unstage(stage)
-	}
-
-	for scordatura := range stage.Scordaturas {
-		scordatura.Unstage(stage)
-	}
-
-	for score_instrument := range stage.Score_instruments {
-		score_instrument.Unstage(stage)
-	}
-
-	for score_part := range stage.Score_parts {
-		score_part.Unstage(stage)
-	}
-
-	for score_partwise := range stage.Score_partwises {
-		score_partwise.Unstage(stage)
-	}
-
-	for score_timewise := range stage.Score_timewises {
-		score_timewise.Unstage(stage)
-	}
-
-	for segno := range stage.Segnos {
-		segno.Unstage(stage)
-	}
-
-	for slash := range stage.Slashs {
-		slash.Unstage(stage)
-	}
-
-	for slide := range stage.Slides {
-		slide.Unstage(stage)
-	}
-
-	for slur := range stage.Slurs {
-		slur.Unstage(stage)
-	}
-
-	for sound := range stage.Sounds {
-		sound.Unstage(stage)
-	}
-
-	for staff_details := range stage.Staff_detailss {
-		staff_details.Unstage(stage)
-	}
-
-	for staff_divide := range stage.Staff_divides {
-		staff_divide.Unstage(stage)
-	}
-
-	for staff_layout := range stage.Staff_layouts {
-		staff_layout.Unstage(stage)
-	}
-
-	for staff_size := range stage.Staff_sizes {
-		staff_size.Unstage(stage)
-	}
-
-	for staff_tuning := range stage.Staff_tunings {
-		staff_tuning.Unstage(stage)
-	}
-
-	for stem := range stage.Stems {
-		stem.Unstage(stage)
-	}
-
-	for stick := range stage.Sticks {
-		stick.Unstage(stage)
-	}
-
-	for string_mute := range stage.String_mutes {
-		string_mute.Unstage(stage)
-	}
-
-	for string_type := range stage.String_types {
-		string_type.Unstage(stage)
-	}
-
-	for strong_accent := range stage.Strong_accents {
-		strong_accent.Unstage(stage)
-	}
-
-	for style_text := range stage.Style_texts {
-		style_text.Unstage(stage)
-	}
-
-	for supports := range stage.Supportss {
-		supports.Unstage(stage)
-	}
-
-	for swing := range stage.Swings {
-		swing.Unstage(stage)
-	}
-
-	for sync := range stage.Syncs {
-		sync.Unstage(stage)
-	}
-
-	for system_dividers := range stage.System_dividerss {
-		system_dividers.Unstage(stage)
-	}
-
-	for system_layout := range stage.System_layouts {
-		system_layout.Unstage(stage)
-	}
-
-	for system_margins := range stage.System_marginss {
-		system_margins.Unstage(stage)
-	}
-
-	for tap := range stage.Taps {
-		tap.Unstage(stage)
-	}
-
-	for technical := range stage.Technicals {
-		technical.Unstage(stage)
-	}
-
-	for text_element_data := range stage.Text_element_datas {
-		text_element_data.Unstage(stage)
-	}
-
-	for tie := range stage.Ties {
-		tie.Unstage(stage)
-	}
-
-	for tied := range stage.Tieds {
-		tied.Unstage(stage)
-	}
-
-	for time := range stage.Times {
-		time.Unstage(stage)
-	}
-
-	for time_modification := range stage.Time_modifications {
-		time_modification.Unstage(stage)
-	}
-
-	for timpani := range stage.Timpanis {
-		timpani.Unstage(stage)
-	}
-
-	for transpose := range stage.Transposes {
-		transpose.Unstage(stage)
-	}
-
-	for tremolo := range stage.Tremolos {
-		tremolo.Unstage(stage)
-	}
-
-	for tuplet := range stage.Tuplets {
-		tuplet.Unstage(stage)
-	}
-
-	for tuplet_dot := range stage.Tuplet_dots {
-		tuplet_dot.Unstage(stage)
-	}
-
-	for tuplet_number := range stage.Tuplet_numbers {
-		tuplet_number.Unstage(stage)
-	}
-
-	for tuplet_portion := range stage.Tuplet_portions {
-		tuplet_portion.Unstage(stage)
-	}
-
-	for tuplet_type := range stage.Tuplet_types {
-		tuplet_type.Unstage(stage)
-	}
-
-	for typed_text := range stage.Typed_texts {
-		typed_text.Unstage(stage)
-	}
-
-	for unpitched := range stage.Unpitcheds {
-		unpitched.Unstage(stage)
-	}
-
-	for virtual_instrument := range stage.Virtual_instruments {
-		virtual_instrument.Unstage(stage)
-	}
-
-	for wait := range stage.Waits {
-		wait.Unstage(stage)
-	}
-
-	for wavy_line := range stage.Wavy_lines {
-		wavy_line.Unstage(stage)
-	}
-
-	for wedge := range stage.Wedges {
-		wedge.Unstage(stage)
-	}
-
-	for wood := range stage.Woods {
-		wood.Unstage(stage)
-	}
-
-	for work := range stage.Works {
-		work.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -39434,13 +36368,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -70446,10378 +67378,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (a_directive *A_directive) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_directive.Name = value.GetValueString()
-	case "Lang":
-		a_directive.Lang = value.GetValueString()
-	case "Default_x":
-		a_directive.Default_x = value.GetValueString()
-	case "Default_y":
-		a_directive.Default_y = value.GetValueString()
-	case "Relative_x":
-		a_directive.Relative_x = value.GetValueString()
-	case "Relative_y":
-		a_directive.Relative_y = value.GetValueString()
-	case "Font_family":
-		a_directive.Font_family = value.GetValueString()
-	case "Font_style":
-		a_directive.Font_style = value.GetValueString()
-	case "Font_size":
-		a_directive.Font_size = value.GetValueString()
-	case "Font_weight":
-		a_directive.Font_weight = value.GetValueString()
-	case "Color":
-		a_directive.Color = value.GetValueString()
-	case "EnclosedText":
-		a_directive.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_measure *A_measure) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_measure.Name = value.GetValueString()
-	case "Number":
-		a_measure.Number = value.GetValueString()
-	case "Text":
-		a_measure.Text = value.GetValueString()
-	case "Implicit":
-		a_measure.Implicit.FromCodeString(value.GetValueString())
-	case "Non_controlling":
-		a_measure.Non_controlling.FromCodeString(value.GetValueString())
-	case "Width":
-		a_measure.Width = value.GetValueString()
-	case "Id":
-		a_measure.Id = value.GetValueString()
-	case "Note":
-		a_measure.Note = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						a_measure.Note = append(a_measure.Note, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Backup":
-		a_measure.Backup = make([]*Backup, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Backups {
-					if stage.Backup_stagedOrder[__instance__] == uint(id) {
-						a_measure.Backup = append(a_measure.Backup, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Forward":
-		a_measure.Forward = make([]*Forward, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Forwards {
-					if stage.Forward_stagedOrder[__instance__] == uint(id) {
-						a_measure.Forward = append(a_measure.Forward, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Direction":
-		a_measure.Direction = make([]*Direction, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Directions {
-					if stage.Direction_stagedOrder[__instance__] == uint(id) {
-						a_measure.Direction = append(a_measure.Direction, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Attributes":
-		a_measure.Attributes = make([]*Attributes, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Attributess {
-					if stage.Attributes_stagedOrder[__instance__] == uint(id) {
-						a_measure.Attributes = append(a_measure.Attributes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Harmony":
-		a_measure.Harmony = make([]*Harmony, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Harmonys {
-					if stage.Harmony_stagedOrder[__instance__] == uint(id) {
-						a_measure.Harmony = append(a_measure.Harmony, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Figured_bass":
-		a_measure.Figured_bass = make([]*Figured_bass, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Figured_basss {
-					if stage.Figured_bass_stagedOrder[__instance__] == uint(id) {
-						a_measure.Figured_bass = append(a_measure.Figured_bass, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Print":
-		a_measure.Print = make([]*Print, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Prints {
-					if stage.Print_stagedOrder[__instance__] == uint(id) {
-						a_measure.Print = append(a_measure.Print, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Sound":
-		a_measure.Sound = make([]*Sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Sounds {
-					if stage.Sound_stagedOrder[__instance__] == uint(id) {
-						a_measure.Sound = append(a_measure.Sound, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Listening":
-		a_measure.Listening = make([]*Listening, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Listenings {
-					if stage.Listening_stagedOrder[__instance__] == uint(id) {
-						a_measure.Listening = append(a_measure.Listening, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Barline":
-		a_measure.Barline = make([]*Barline, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Barlines {
-					if stage.Barline_stagedOrder[__instance__] == uint(id) {
-						a_measure.Barline = append(a_measure.Barline, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Grouping":
-		a_measure.Grouping = make([]*Grouping, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Groupings {
-					if stage.Grouping_stagedOrder[__instance__] == uint(id) {
-						a_measure.Grouping = append(a_measure.Grouping, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Link":
-		a_measure.Link = make([]*Link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Links {
-					if stage.Link_stagedOrder[__instance__] == uint(id) {
-						a_measure.Link = append(a_measure.Link, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Bookmark":
-		a_measure.Bookmark = make([]*Bookmark, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bookmarks {
-					if stage.Bookmark_stagedOrder[__instance__] == uint(id) {
-						a_measure.Bookmark = append(a_measure.Bookmark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_measure_1 *A_measure_1) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_measure_1.Name = value.GetValueString()
-	case "Number":
-		a_measure_1.Number = value.GetValueString()
-	case "Text":
-		a_measure_1.Text = value.GetValueString()
-	case "Implicit":
-		a_measure_1.Implicit.FromCodeString(value.GetValueString())
-	case "Non_controlling":
-		a_measure_1.Non_controlling.FromCodeString(value.GetValueString())
-	case "Width":
-		a_measure_1.Width = value.GetValueString()
-	case "Id":
-		a_measure_1.Id = value.GetValueString()
-	case "Part":
-		a_measure_1.Part = make([]*A_part_1, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.A_part_1s {
-					if stage.A_part_1_stagedOrder[__instance__] == uint(id) {
-						a_measure_1.Part = append(a_measure_1.Part, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_part *A_part) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_part.Name = value.GetValueString()
-	case "Id":
-		a_part.Id = value.GetValueString()
-	case "Measure":
-		a_part.Measure = make([]*A_measure, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.A_measures {
-					if stage.A_measure_stagedOrder[__instance__] == uint(id) {
-						a_part.Measure = append(a_part.Measure, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (a_part_1 *A_part_1) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		a_part_1.Name = value.GetValueString()
-	case "Id":
-		a_part_1.Id = value.GetValueString()
-	case "Note":
-		a_part_1.Note = make([]*Note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notes {
-					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Note = append(a_part_1.Note, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Backup":
-		a_part_1.Backup = make([]*Backup, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Backups {
-					if stage.Backup_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Backup = append(a_part_1.Backup, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Forward":
-		a_part_1.Forward = make([]*Forward, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Forwards {
-					if stage.Forward_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Forward = append(a_part_1.Forward, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Direction":
-		a_part_1.Direction = make([]*Direction, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Directions {
-					if stage.Direction_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Direction = append(a_part_1.Direction, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Attributes":
-		a_part_1.Attributes = make([]*Attributes, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Attributess {
-					if stage.Attributes_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Attributes = append(a_part_1.Attributes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Harmony":
-		a_part_1.Harmony = make([]*Harmony, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Harmonys {
-					if stage.Harmony_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Harmony = append(a_part_1.Harmony, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Figured_bass":
-		a_part_1.Figured_bass = make([]*Figured_bass, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Figured_basss {
-					if stage.Figured_bass_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Figured_bass = append(a_part_1.Figured_bass, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Print":
-		a_part_1.Print = make([]*Print, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Prints {
-					if stage.Print_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Print = append(a_part_1.Print, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Sound":
-		a_part_1.Sound = make([]*Sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Sounds {
-					if stage.Sound_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Sound = append(a_part_1.Sound, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Listening":
-		a_part_1.Listening = make([]*Listening, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Listenings {
-					if stage.Listening_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Listening = append(a_part_1.Listening, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Barline":
-		a_part_1.Barline = make([]*Barline, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Barlines {
-					if stage.Barline_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Barline = append(a_part_1.Barline, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Grouping":
-		a_part_1.Grouping = make([]*Grouping, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Groupings {
-					if stage.Grouping_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Grouping = append(a_part_1.Grouping, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Link":
-		a_part_1.Link = make([]*Link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Links {
-					if stage.Link_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Link = append(a_part_1.Link, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Bookmark":
-		a_part_1.Bookmark = make([]*Bookmark, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bookmarks {
-					if stage.Bookmark_stagedOrder[__instance__] == uint(id) {
-						a_part_1.Bookmark = append(a_part_1.Bookmark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (accidental *Accidental) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		accidental.Name = value.GetValueString()
-	case "Cautionary":
-		accidental.Cautionary = value.GetValueString()
-	case "Editorial":
-		accidental.Editorial.FromCodeString(value.GetValueString())
-	case "Smufl":
-		accidental.Smufl = value.GetValueString()
-	case "Parentheses":
-		accidental.Parentheses.FromCodeString(value.GetValueString())
-	case "Bracket":
-		accidental.Bracket.FromCodeString(value.GetValueString())
-	case "Size":
-		accidental.Size.FromCodeString(value.GetValueString())
-	case "Default_x":
-		accidental.Default_x = value.GetValueString()
-	case "Default_y":
-		accidental.Default_y = value.GetValueString()
-	case "Relative_x":
-		accidental.Relative_x = value.GetValueString()
-	case "Relative_y":
-		accidental.Relative_y = value.GetValueString()
-	case "Font_family":
-		accidental.Font_family = value.GetValueString()
-	case "Font_style":
-		accidental.Font_style = value.GetValueString()
-	case "Font_size":
-		accidental.Font_size = value.GetValueString()
-	case "Font_weight":
-		accidental.Font_weight = value.GetValueString()
-	case "Color":
-		accidental.Color = value.GetValueString()
-	case "EnclosedText":
-		accidental.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (accidental_mark *Accidental_mark) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		accidental_mark.Name = value.GetValueString()
-	case "Smufl":
-		accidental_mark.Smufl = value.GetValueString()
-	case "Parentheses":
-		accidental_mark.Parentheses.FromCodeString(value.GetValueString())
-	case "Bracket":
-		accidental_mark.Bracket.FromCodeString(value.GetValueString())
-	case "Size":
-		accidental_mark.Size.FromCodeString(value.GetValueString())
-	case "Default_x":
-		accidental_mark.Default_x = value.GetValueString()
-	case "Default_y":
-		accidental_mark.Default_y = value.GetValueString()
-	case "Relative_x":
-		accidental_mark.Relative_x = value.GetValueString()
-	case "Relative_y":
-		accidental_mark.Relative_y = value.GetValueString()
-	case "Font_family":
-		accidental_mark.Font_family = value.GetValueString()
-	case "Font_style":
-		accidental_mark.Font_style = value.GetValueString()
-	case "Font_size":
-		accidental_mark.Font_size = value.GetValueString()
-	case "Font_weight":
-		accidental_mark.Font_weight = value.GetValueString()
-	case "Color":
-		accidental_mark.Color = value.GetValueString()
-	case "Placement":
-		accidental_mark.Placement = value.GetValueString()
-	case "Id":
-		accidental_mark.Id = value.GetValueString()
-	case "EnclosedText":
-		accidental_mark.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (accidental_text *Accidental_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		accidental_text.Name = value.GetValueString()
-	case "Smufl":
-		accidental_text.Smufl = value.GetValueString()
-	case "Lang":
-		accidental_text.Lang = value.GetValueString()
-	case "Space":
-		accidental_text.Space = value.GetValueString()
-	case "Justify":
-		accidental_text.Justify.FromCodeString(value.GetValueString())
-	case "Default_x":
-		accidental_text.Default_x = value.GetValueString()
-	case "Default_y":
-		accidental_text.Default_y = value.GetValueString()
-	case "Relative_x":
-		accidental_text.Relative_x = value.GetValueString()
-	case "Relative_y":
-		accidental_text.Relative_y = value.GetValueString()
-	case "Font_family":
-		accidental_text.Font_family = value.GetValueString()
-	case "Font_style":
-		accidental_text.Font_style = value.GetValueString()
-	case "Font_size":
-		accidental_text.Font_size = value.GetValueString()
-	case "Font_weight":
-		accidental_text.Font_weight = value.GetValueString()
-	case "Color":
-		accidental_text.Color = value.GetValueString()
-	case "Halign":
-		accidental_text.Halign = value.GetValueString()
-	case "Valign":
-		accidental_text.Valign = value.GetValueString()
-	case "Underline":
-		accidental_text.Underline = int(value.GetValueInt())
-	case "Overline":
-		accidental_text.Overline = int(value.GetValueInt())
-	case "Line_through":
-		accidental_text.Line_through = int(value.GetValueInt())
-	case "Rotation":
-		accidental_text.Rotation = value.GetValueString()
-	case "Letter_spacing":
-		accidental_text.Letter_spacing = value.GetValueString()
-	case "Line_height":
-		accidental_text.Line_height = value.GetValueString()
-	case "Dir":
-		accidental_text.Dir = value.GetValueString()
-	case "Enclosure":
-		accidental_text.Enclosure = value.GetValueString()
-	case "EnclosedText":
-		accidental_text.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (accord *Accord) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		accord.Name = value.GetValueString()
-	case "String":
-		accord.String = int(value.GetValueInt())
-	case "Tuning_step":
-		accord.Tuning_step.FromCodeString(value.GetValueString())
-	case "Tuning_alter":
-		accord.Tuning_alter = value.GetValueString()
-	case "Tuning_octave":
-		accord.Tuning_octave = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (accordion_registration *Accordion_registration) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		accordion_registration.Name = value.GetValueString()
-	case "Default_x":
-		accordion_registration.Default_x = value.GetValueString()
-	case "Default_y":
-		accordion_registration.Default_y = value.GetValueString()
-	case "Relative_x":
-		accordion_registration.Relative_x = value.GetValueString()
-	case "Relative_y":
-		accordion_registration.Relative_y = value.GetValueString()
-	case "Font_family":
-		accordion_registration.Font_family = value.GetValueString()
-	case "Font_style":
-		accordion_registration.Font_style = value.GetValueString()
-	case "Font_size":
-		accordion_registration.Font_size = value.GetValueString()
-	case "Font_weight":
-		accordion_registration.Font_weight = value.GetValueString()
-	case "Color":
-		accordion_registration.Color = value.GetValueString()
-	case "Halign":
-		accordion_registration.Halign = value.GetValueString()
-	case "Valign":
-		accordion_registration.Valign = value.GetValueString()
-	case "Id":
-		accordion_registration.Id = value.GetValueString()
-	case "Accordion_high":
-		accordion_registration.Accordion_high = value.GetValueString()
-	case "Accordion_middle":
-		accordion_registration.Accordion_middle = int(value.GetValueInt())
-	case "Accordion_low":
-		accordion_registration.Accordion_low = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (appearance *Appearance) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		appearance.Name = value.GetValueString()
-	case "Line_width":
-		appearance.Line_width = make([]*Line_width, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Line_widths {
-					if stage.Line_width_stagedOrder[__instance__] == uint(id) {
-						appearance.Line_width = append(appearance.Line_width, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Note_size":
-		appearance.Note_size = make([]*Note_size, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Note_sizes {
-					if stage.Note_size_stagedOrder[__instance__] == uint(id) {
-						appearance.Note_size = append(appearance.Note_size, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Distance":
-		appearance.Distance = make([]*Distance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Distances {
-					if stage.Distance_stagedOrder[__instance__] == uint(id) {
-						appearance.Distance = append(appearance.Distance, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Glyph":
-		appearance.Glyph = make([]*Glyph, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Glyphs {
-					if stage.Glyph_stagedOrder[__instance__] == uint(id) {
-						appearance.Glyph = append(appearance.Glyph, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_appearance":
-		appearance.Other_appearance = make([]*Other_appearance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_appearances {
-					if stage.Other_appearance_stagedOrder[__instance__] == uint(id) {
-						appearance.Other_appearance = append(appearance.Other_appearance, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (arpeggiate *Arpeggiate) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		arpeggiate.Name = value.GetValueString()
-	case "Number":
-		arpeggiate.Number = int(value.GetValueInt())
-	case "Direction":
-		arpeggiate.Direction = value.GetValueString()
-	case "Unbroken":
-		arpeggiate.Unbroken.FromCodeString(value.GetValueString())
-	case "Default_x":
-		arpeggiate.Default_x = value.GetValueString()
-	case "Default_y":
-		arpeggiate.Default_y = value.GetValueString()
-	case "Relative_x":
-		arpeggiate.Relative_x = value.GetValueString()
-	case "Relative_y":
-		arpeggiate.Relative_y = value.GetValueString()
-	case "Placement":
-		arpeggiate.Placement = value.GetValueString()
-	case "Color":
-		arpeggiate.Color = value.GetValueString()
-	case "Id":
-		arpeggiate.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (arrow *Arrow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		arrow.Name = value.GetValueString()
-	case "Default_x":
-		arrow.Default_x = value.GetValueString()
-	case "Default_y":
-		arrow.Default_y = value.GetValueString()
-	case "Relative_x":
-		arrow.Relative_x = value.GetValueString()
-	case "Relative_y":
-		arrow.Relative_y = value.GetValueString()
-	case "Font_family":
-		arrow.Font_family = value.GetValueString()
-	case "Font_style":
-		arrow.Font_style = value.GetValueString()
-	case "Font_size":
-		arrow.Font_size = value.GetValueString()
-	case "Font_weight":
-		arrow.Font_weight = value.GetValueString()
-	case "Color":
-		arrow.Color = value.GetValueString()
-	case "Placement":
-		arrow.Placement = value.GetValueString()
-	case "Smufl":
-		arrow.Smufl = value.GetValueString()
-	case "Arrow_direction":
-		arrow.Arrow_direction = value.GetValueString()
-	case "Arrow_style":
-		arrow.Arrow_style = value.GetValueString()
-	case "Arrowhead":
-		arrow.Arrowhead = value.GetValueString()
-	case "Circular_arrow":
-		arrow.Circular_arrow = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (articulations *Articulations) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		articulations.Name = value.GetValueString()
-	case "Id":
-		articulations.Id = value.GetValueString()
-	case "Accent":
-		articulations.Accent = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Accent = append(articulations.Accent, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Strong_accent":
-		articulations.Strong_accent = make([]*Strong_accent, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Strong_accents {
-					if stage.Strong_accent_stagedOrder[__instance__] == uint(id) {
-						articulations.Strong_accent = append(articulations.Strong_accent, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Staccato":
-		articulations.Staccato = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Staccato = append(articulations.Staccato, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tenuto":
-		articulations.Tenuto = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Tenuto = append(articulations.Tenuto, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Detached_legato":
-		articulations.Detached_legato = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Detached_legato = append(articulations.Detached_legato, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Staccatissimo":
-		articulations.Staccatissimo = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Staccatissimo = append(articulations.Staccatissimo, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Spiccato":
-		articulations.Spiccato = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Spiccato = append(articulations.Spiccato, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Scoop":
-		articulations.Scoop = make([]*Empty_line, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_lines {
-					if stage.Empty_line_stagedOrder[__instance__] == uint(id) {
-						articulations.Scoop = append(articulations.Scoop, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Plop":
-		articulations.Plop = make([]*Empty_line, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_lines {
-					if stage.Empty_line_stagedOrder[__instance__] == uint(id) {
-						articulations.Plop = append(articulations.Plop, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Doit":
-		articulations.Doit = make([]*Empty_line, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_lines {
-					if stage.Empty_line_stagedOrder[__instance__] == uint(id) {
-						articulations.Doit = append(articulations.Doit, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Falloff":
-		articulations.Falloff = make([]*Empty_line, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_lines {
-					if stage.Empty_line_stagedOrder[__instance__] == uint(id) {
-						articulations.Falloff = append(articulations.Falloff, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Breath_mark":
-		articulations.Breath_mark = make([]*Breath_mark, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Breath_marks {
-					if stage.Breath_mark_stagedOrder[__instance__] == uint(id) {
-						articulations.Breath_mark = append(articulations.Breath_mark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Caesura":
-		articulations.Caesura = make([]*Caesura, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Caesuras {
-					if stage.Caesura_stagedOrder[__instance__] == uint(id) {
-						articulations.Caesura = append(articulations.Caesura, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Stress":
-		articulations.Stress = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Stress = append(articulations.Stress, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Unstress":
-		articulations.Unstress = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Unstress = append(articulations.Unstress, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Soft_accent":
-		articulations.Soft_accent = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						articulations.Soft_accent = append(articulations.Soft_accent, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_articulation":
-		articulations.Other_articulation = make([]*Other_placement_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_placement_texts {
-					if stage.Other_placement_text_stagedOrder[__instance__] == uint(id) {
-						articulations.Other_articulation = append(articulations.Other_articulation, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (assess *Assess) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		assess.Name = value.GetValueString()
-	case "Type":
-		assess.Type.FromCodeString(value.GetValueString())
-	case "Player":
-		assess.Player = value.GetValueString()
-	case "Time_only":
-		assess.Time_only = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (attributes *Attributes) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		attributes.Name = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attributes.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					attributes.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attributes.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					attributes.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Divisions":
-		attributes.Divisions = value.GetValueString()
-	case "Key":
-		attributes.Key = make([]*Key, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Keys {
-					if stage.Key_stagedOrder[__instance__] == uint(id) {
-						attributes.Key = append(attributes.Key, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Time":
-		attributes.Time = make([]*Time, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Times {
-					if stage.Time_stagedOrder[__instance__] == uint(id) {
-						attributes.Time = append(attributes.Time, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Staves":
-		attributes.Staves = int(value.GetValueInt())
-	case "Part_symbol":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			attributes.Part_symbol = nil
-			for __instance__ := range stage.Part_symbols {
-				if stage.Part_symbol_stagedOrder[__instance__] == uint(id) {
-					attributes.Part_symbol = __instance__
-					break
-				}
-			}
-		}
-	case "Instruments":
-		attributes.Instruments = int(value.GetValueInt())
-	case "Clef":
-		attributes.Clef = make([]*Clef, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Clefs {
-					if stage.Clef_stagedOrder[__instance__] == uint(id) {
-						attributes.Clef = append(attributes.Clef, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Staff_details":
-		attributes.Staff_details = make([]*Staff_details, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Staff_detailss {
-					if stage.Staff_details_stagedOrder[__instance__] == uint(id) {
-						attributes.Staff_details = append(attributes.Staff_details, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Transpose":
-		attributes.Transpose = make([]*Transpose, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Transposes {
-					if stage.Transpose_stagedOrder[__instance__] == uint(id) {
-						attributes.Transpose = append(attributes.Transpose, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "For_part":
-		attributes.For_part = make([]*For_part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.For_parts {
-					if stage.For_part_stagedOrder[__instance__] == uint(id) {
-						attributes.For_part = append(attributes.For_part, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Directive":
-		attributes.Directive = make([]*A_directive, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.A_directives {
-					if stage.A_directive_stagedOrder[__instance__] == uint(id) {
-						attributes.Directive = append(attributes.Directive, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Measure_style":
-		attributes.Measure_style = make([]*Measure_style, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Measure_styles {
-					if stage.Measure_style_stagedOrder[__instance__] == uint(id) {
-						attributes.Measure_style = append(attributes.Measure_style, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (backup *Backup) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		backup.Name = value.GetValueString()
-	case "Duration":
-		backup.Duration = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			backup.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					backup.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			backup.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					backup.Level = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bar_style_color *Bar_style_color) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bar_style_color.Name = value.GetValueString()
-	case "Color":
-		bar_style_color.Color = value.GetValueString()
-	case "EnclosedText":
-		bar_style_color.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (barline *Barline) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		barline.Name = value.GetValueString()
-	case "Location":
-		barline.Location = value.GetValueString()
-	case "Segno":
-		barline.Segno = value.GetValueString()
-	case "Coda":
-		barline.Coda = value.GetValueString()
-	case "Divisions":
-		barline.Divisions = value.GetValueString()
-	case "Id":
-		barline.Id = value.GetValueString()
-	case "Bar_style":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Bar_style = nil
-			for __instance__ := range stage.Bar_style_colors {
-				if stage.Bar_style_color_stagedOrder[__instance__] == uint(id) {
-					barline.Bar_style = __instance__
-					break
-				}
-			}
-		}
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					barline.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					barline.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Wavy_line":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Wavy_line = nil
-			for __instance__ := range stage.Wavy_lines {
-				if stage.Wavy_line_stagedOrder[__instance__] == uint(id) {
-					barline.Wavy_line = __instance__
-					break
-				}
-			}
-		}
-	case "Segno_1":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Segno_1 = nil
-			for __instance__ := range stage.Segnos {
-				if stage.Segno_stagedOrder[__instance__] == uint(id) {
-					barline.Segno_1 = __instance__
-					break
-				}
-			}
-		}
-	case "Coda_1":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Coda_1 = nil
-			for __instance__ := range stage.Codas {
-				if stage.Coda_stagedOrder[__instance__] == uint(id) {
-					barline.Coda_1 = __instance__
-					break
-				}
-			}
-		}
-	case "Fermata":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Fermata = nil
-			for __instance__ := range stage.Fermatas {
-				if stage.Fermata_stagedOrder[__instance__] == uint(id) {
-					barline.Fermata = __instance__
-					break
-				}
-			}
-		}
-	case "Ending":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Ending = nil
-			for __instance__ := range stage.Endings {
-				if stage.Ending_stagedOrder[__instance__] == uint(id) {
-					barline.Ending = __instance__
-					break
-				}
-			}
-		}
-	case "Repeat":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			barline.Repeat = nil
-			for __instance__ := range stage.Repeats {
-				if stage.Repeat_stagedOrder[__instance__] == uint(id) {
-					barline.Repeat = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (barre *Barre) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		barre.Name = value.GetValueString()
-	case "Type":
-		barre.Type = value.GetValueString()
-	case "Color":
-		barre.Color = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bass *Bass) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bass.Name = value.GetValueString()
-	case "Arrangement":
-		bass.Arrangement = value.GetValueString()
-	case "Bass_separator":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			bass.Bass_separator = nil
-			for __instance__ := range stage.Style_texts {
-				if stage.Style_text_stagedOrder[__instance__] == uint(id) {
-					bass.Bass_separator = __instance__
-					break
-				}
-			}
-		}
-	case "Bass_step":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			bass.Bass_step = nil
-			for __instance__ := range stage.Bass_steps {
-				if stage.Bass_step_stagedOrder[__instance__] == uint(id) {
-					bass.Bass_step = __instance__
-					break
-				}
-			}
-		}
-	case "Bass_alter":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			bass.Bass_alter = nil
-			for __instance__ := range stage.Harmony_alters {
-				if stage.Harmony_alter_stagedOrder[__instance__] == uint(id) {
-					bass.Bass_alter = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bass_step *Bass_step) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bass_step.Name = value.GetValueString()
-	case "Text":
-		bass_step.Text = value.GetValueString()
-	case "Default_x":
-		bass_step.Default_x = value.GetValueString()
-	case "Default_y":
-		bass_step.Default_y = value.GetValueString()
-	case "Relative_x":
-		bass_step.Relative_x = value.GetValueString()
-	case "Relative_y":
-		bass_step.Relative_y = value.GetValueString()
-	case "Font_family":
-		bass_step.Font_family = value.GetValueString()
-	case "Font_style":
-		bass_step.Font_style = value.GetValueString()
-	case "Font_size":
-		bass_step.Font_size = value.GetValueString()
-	case "Font_weight":
-		bass_step.Font_weight = value.GetValueString()
-	case "Color":
-		bass_step.Color = value.GetValueString()
-	case "EnclosedText":
-		bass_step.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (beam *Beam) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		beam.Name = value.GetValueString()
-	case "Number":
-		beam.Number = int(value.GetValueInt())
-	case "Repeater":
-		beam.Repeater.FromCodeString(value.GetValueString())
-	case "Fan":
-		beam.Fan = value.GetValueString()
-	case "Color":
-		beam.Color = value.GetValueString()
-	case "Id":
-		beam.Id = value.GetValueString()
-	case "EnclosedText":
-		beam.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (beat_repeat *Beat_repeat) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		beat_repeat.Name = value.GetValueString()
-	case "Type":
-		beat_repeat.Type.FromCodeString(value.GetValueString())
-	case "Slashes":
-		beat_repeat.Slashes = int(value.GetValueInt())
-	case "Use_dots":
-		beat_repeat.Use_dots.FromCodeString(value.GetValueString())
-	case "Slash_type":
-		beat_repeat.Slash_type.FromCodeString(value.GetValueString())
-	case "Slash_dot":
-		beat_repeat.Slash_dot = value.GetValueString()
-	case "Except_voice":
-		beat_repeat.Except_voice = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (beat_unit_tied *Beat_unit_tied) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		beat_unit_tied.Name = value.GetValueString()
-	case "Beat_unit":
-		beat_unit_tied.Beat_unit.FromCodeString(value.GetValueString())
-	case "Beat_unit_dot":
-		beat_unit_tied.Beat_unit_dot = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (beater *Beater) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		beater.Name = value.GetValueString()
-	case "Tip":
-		beater.Tip = value.GetValueString()
-	case "EnclosedText":
-		beater.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bend *Bend) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bend.Name = value.GetValueString()
-	case "Shape":
-		bend.Shape = value.GetValueString()
-	case "Default_x":
-		bend.Default_x = value.GetValueString()
-	case "Default_y":
-		bend.Default_y = value.GetValueString()
-	case "Relative_x":
-		bend.Relative_x = value.GetValueString()
-	case "Relative_y":
-		bend.Relative_y = value.GetValueString()
-	case "Font_family":
-		bend.Font_family = value.GetValueString()
-	case "Font_style":
-		bend.Font_style = value.GetValueString()
-	case "Font_size":
-		bend.Font_size = value.GetValueString()
-	case "Font_weight":
-		bend.Font_weight = value.GetValueString()
-	case "Color":
-		bend.Color = value.GetValueString()
-	case "Accelerate":
-		bend.Accelerate.FromCodeString(value.GetValueString())
-	case "Beats":
-		bend.Beats = value.GetValueString()
-	case "First_beat":
-		bend.First_beat = value.GetValueString()
-	case "Last_beat":
-		bend.Last_beat = value.GetValueString()
-	case "Bend_alter":
-		bend.Bend_alter = value.GetValueString()
-	case "Pre_bend":
-		bend.Pre_bend = value.GetValueString()
-	case "Release":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			bend.Release = nil
-			for __instance__ := range stage.Releases {
-				if stage.Release_stagedOrder[__instance__] == uint(id) {
-					bend.Release = __instance__
-					break
-				}
-			}
-		}
-	case "With_bar":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			bend.With_bar = nil
-			for __instance__ := range stage.Placement_texts {
-				if stage.Placement_text_stagedOrder[__instance__] == uint(id) {
-					bend.With_bar = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bookmark *Bookmark) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bookmark.Name = value.GetValueString()
-	case "Id":
-		bookmark.Id = value.GetValueString()
-	case "NameXSD":
-		bookmark.NameXSD = value.GetValueString()
-	case "Element":
-		bookmark.Element = value.GetValueString()
-	case "Position":
-		bookmark.Position = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bracket *Bracket) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bracket.Name = value.GetValueString()
-	case "Type":
-		bracket.Type = value.GetValueString()
-	case "Number":
-		bracket.Number = int(value.GetValueInt())
-	case "Line_end":
-		bracket.Line_end = value.GetValueString()
-	case "End_length":
-		bracket.End_length = value.GetValueString()
-	case "Line_type":
-		bracket.Line_type = value.GetValueString()
-	case "Dash_length":
-		bracket.Dash_length = value.GetValueString()
-	case "Space_length":
-		bracket.Space_length = value.GetValueString()
-	case "Default_x":
-		bracket.Default_x = value.GetValueString()
-	case "Default_y":
-		bracket.Default_y = value.GetValueString()
-	case "Relative_x":
-		bracket.Relative_x = value.GetValueString()
-	case "Relative_y":
-		bracket.Relative_y = value.GetValueString()
-	case "Color":
-		bracket.Color = value.GetValueString()
-	case "Id":
-		bracket.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (breath_mark *Breath_mark) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		breath_mark.Name = value.GetValueString()
-	case "Default_x":
-		breath_mark.Default_x = value.GetValueString()
-	case "Default_y":
-		breath_mark.Default_y = value.GetValueString()
-	case "Relative_x":
-		breath_mark.Relative_x = value.GetValueString()
-	case "Relative_y":
-		breath_mark.Relative_y = value.GetValueString()
-	case "Font_family":
-		breath_mark.Font_family = value.GetValueString()
-	case "Font_style":
-		breath_mark.Font_style = value.GetValueString()
-	case "Font_size":
-		breath_mark.Font_size = value.GetValueString()
-	case "Font_weight":
-		breath_mark.Font_weight = value.GetValueString()
-	case "Color":
-		breath_mark.Color = value.GetValueString()
-	case "Placement":
-		breath_mark.Placement = value.GetValueString()
-	case "EnclosedText":
-		breath_mark.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (caesura *Caesura) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		caesura.Name = value.GetValueString()
-	case "Default_x":
-		caesura.Default_x = value.GetValueString()
-	case "Default_y":
-		caesura.Default_y = value.GetValueString()
-	case "Relative_x":
-		caesura.Relative_x = value.GetValueString()
-	case "Relative_y":
-		caesura.Relative_y = value.GetValueString()
-	case "Font_family":
-		caesura.Font_family = value.GetValueString()
-	case "Font_style":
-		caesura.Font_style = value.GetValueString()
-	case "Font_size":
-		caesura.Font_size = value.GetValueString()
-	case "Font_weight":
-		caesura.Font_weight = value.GetValueString()
-	case "Color":
-		caesura.Color = value.GetValueString()
-	case "Placement":
-		caesura.Placement = value.GetValueString()
-	case "EnclosedText":
-		caesura.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (cancel *Cancel) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		cancel.Name = value.GetValueString()
-	case "Location":
-		cancel.Location = value.GetValueString()
-	case "EnclosedText":
-		cancel.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (clef *Clef) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		clef.Name = value.GetValueString()
-	case "Number":
-		clef.Number = int(value.GetValueInt())
-	case "Additional":
-		clef.Additional.FromCodeString(value.GetValueString())
-	case "Size":
-		clef.Size = value.GetValueString()
-	case "After_barline":
-		clef.After_barline.FromCodeString(value.GetValueString())
-	case "Default_x":
-		clef.Default_x = value.GetValueString()
-	case "Default_y":
-		clef.Default_y = value.GetValueString()
-	case "Relative_x":
-		clef.Relative_x = value.GetValueString()
-	case "Relative_y":
-		clef.Relative_y = value.GetValueString()
-	case "Font_family":
-		clef.Font_family = value.GetValueString()
-	case "Font_style":
-		clef.Font_style = value.GetValueString()
-	case "Font_size":
-		clef.Font_size = value.GetValueString()
-	case "Font_weight":
-		clef.Font_weight = value.GetValueString()
-	case "Color":
-		clef.Color = value.GetValueString()
-	case "Print_object":
-		clef.Print_object.FromCodeString(value.GetValueString())
-	case "Id":
-		clef.Id = value.GetValueString()
-	case "Sign":
-		clef.Sign = value.GetValueString()
-	case "Line":
-		clef.Line = int(value.GetValueInt())
-	case "Clef_octave_change":
-		clef.Clef_octave_change = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (coda *Coda) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		coda.Name = value.GetValueString()
-	case "Smufl":
-		coda.Smufl = value.GetValueString()
-	case "Default_x":
-		coda.Default_x = value.GetValueString()
-	case "Default_y":
-		coda.Default_y = value.GetValueString()
-	case "Relative_x":
-		coda.Relative_x = value.GetValueString()
-	case "Relative_y":
-		coda.Relative_y = value.GetValueString()
-	case "Font_family":
-		coda.Font_family = value.GetValueString()
-	case "Font_style":
-		coda.Font_style = value.GetValueString()
-	case "Font_size":
-		coda.Font_size = value.GetValueString()
-	case "Font_weight":
-		coda.Font_weight = value.GetValueString()
-	case "Color":
-		coda.Color = value.GetValueString()
-	case "Halign":
-		coda.Halign = value.GetValueString()
-	case "Valign":
-		coda.Valign = value.GetValueString()
-	case "Id":
-		coda.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (credit *Credit) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		credit.Name = value.GetValueString()
-	case "Page":
-		credit.Page = int(value.GetValueInt())
-	case "Id":
-		credit.Id = value.GetValueString()
-	case "Credit_type":
-		credit.Credit_type = value.GetValueString()
-	case "Credit_image":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			credit.Credit_image = nil
-			for __instance__ := range stage.Images {
-				if stage.Image_stagedOrder[__instance__] == uint(id) {
-					credit.Credit_image = __instance__
-					break
-				}
-			}
-		}
-	case "Link":
-		credit.Link = make([]*Link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Links {
-					if stage.Link_stagedOrder[__instance__] == uint(id) {
-						credit.Link = append(credit.Link, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Bookmark":
-		credit.Bookmark = make([]*Bookmark, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bookmarks {
-					if stage.Bookmark_stagedOrder[__instance__] == uint(id) {
-						credit.Bookmark = append(credit.Bookmark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Credit_words":
-		credit.Credit_words = make([]*Formatted_text_id, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_text_ids {
-					if stage.Formatted_text_id_stagedOrder[__instance__] == uint(id) {
-						credit.Credit_words = append(credit.Credit_words, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Credit_symbol":
-		credit.Credit_symbol = make([]*Formatted_symbol_id, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_symbol_ids {
-					if stage.Formatted_symbol_id_stagedOrder[__instance__] == uint(id) {
-						credit.Credit_symbol = append(credit.Credit_symbol, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dashes *Dashes) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dashes.Name = value.GetValueString()
-	case "Type":
-		dashes.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		dashes.Number = int(value.GetValueInt())
-	case "Dash_length":
-		dashes.Dash_length = value.GetValueString()
-	case "Space_length":
-		dashes.Space_length = value.GetValueString()
-	case "Default_x":
-		dashes.Default_x = value.GetValueString()
-	case "Default_y":
-		dashes.Default_y = value.GetValueString()
-	case "Relative_x":
-		dashes.Relative_x = value.GetValueString()
-	case "Relative_y":
-		dashes.Relative_y = value.GetValueString()
-	case "Color":
-		dashes.Color = value.GetValueString()
-	case "Id":
-		dashes.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (defaults *Defaults) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		defaults.Name = value.GetValueString()
-	case "Scaling":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			defaults.Scaling = nil
-			for __instance__ := range stage.Scalings {
-				if stage.Scaling_stagedOrder[__instance__] == uint(id) {
-					defaults.Scaling = __instance__
-					break
-				}
-			}
-		}
-	case "Concert_score":
-		defaults.Concert_score = value.GetValueString()
-	case "Page_layout":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			defaults.Page_layout = nil
-			for __instance__ := range stage.Page_layouts {
-				if stage.Page_layout_stagedOrder[__instance__] == uint(id) {
-					defaults.Page_layout = __instance__
-					break
-				}
-			}
-		}
-	case "System_layout":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			defaults.System_layout = nil
-			for __instance__ := range stage.System_layouts {
-				if stage.System_layout_stagedOrder[__instance__] == uint(id) {
-					defaults.System_layout = __instance__
-					break
-				}
-			}
-		}
-	case "Staff_layout":
-		defaults.Staff_layout = make([]*Staff_layout, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Staff_layouts {
-					if stage.Staff_layout_stagedOrder[__instance__] == uint(id) {
-						defaults.Staff_layout = append(defaults.Staff_layout, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Appearance":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			defaults.Appearance = nil
-			for __instance__ := range stage.Appearances {
-				if stage.Appearance_stagedOrder[__instance__] == uint(id) {
-					defaults.Appearance = __instance__
-					break
-				}
-			}
-		}
-	case "Music_font":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			defaults.Music_font = nil
-			for __instance__ := range stage.Empty_fonts {
-				if stage.Empty_font_stagedOrder[__instance__] == uint(id) {
-					defaults.Music_font = __instance__
-					break
-				}
-			}
-		}
-	case "Word_font":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			defaults.Word_font = nil
-			for __instance__ := range stage.Empty_fonts {
-				if stage.Empty_font_stagedOrder[__instance__] == uint(id) {
-					defaults.Word_font = __instance__
-					break
-				}
-			}
-		}
-	case "Lyric_font":
-		defaults.Lyric_font = make([]*Lyric_font, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lyric_fonts {
-					if stage.Lyric_font_stagedOrder[__instance__] == uint(id) {
-						defaults.Lyric_font = append(defaults.Lyric_font, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Lyric_language":
-		defaults.Lyric_language = make([]*Lyric_language, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lyric_languages {
-					if stage.Lyric_language_stagedOrder[__instance__] == uint(id) {
-						defaults.Lyric_language = append(defaults.Lyric_language, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (degree *Degree) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		degree.Name = value.GetValueString()
-	case "Print_object":
-		degree.Print_object.FromCodeString(value.GetValueString())
-	case "Degree_value":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			degree.Degree_value = nil
-			for __instance__ := range stage.Degree_values {
-				if stage.Degree_value_stagedOrder[__instance__] == uint(id) {
-					degree.Degree_value = __instance__
-					break
-				}
-			}
-		}
-	case "Degree_alter":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			degree.Degree_alter = nil
-			for __instance__ := range stage.Degree_alters {
-				if stage.Degree_alter_stagedOrder[__instance__] == uint(id) {
-					degree.Degree_alter = __instance__
-					break
-				}
-			}
-		}
-	case "Degree_type":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			degree.Degree_type = nil
-			for __instance__ := range stage.Degree_types {
-				if stage.Degree_type_stagedOrder[__instance__] == uint(id) {
-					degree.Degree_type = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (degree_alter *Degree_alter) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		degree_alter.Name = value.GetValueString()
-	case "Plus_minus":
-		degree_alter.Plus_minus.FromCodeString(value.GetValueString())
-	case "Default_x":
-		degree_alter.Default_x = value.GetValueString()
-	case "Default_y":
-		degree_alter.Default_y = value.GetValueString()
-	case "Relative_x":
-		degree_alter.Relative_x = value.GetValueString()
-	case "Relative_y":
-		degree_alter.Relative_y = value.GetValueString()
-	case "Font_family":
-		degree_alter.Font_family = value.GetValueString()
-	case "Font_style":
-		degree_alter.Font_style = value.GetValueString()
-	case "Font_size":
-		degree_alter.Font_size = value.GetValueString()
-	case "Font_weight":
-		degree_alter.Font_weight = value.GetValueString()
-	case "Color":
-		degree_alter.Color = value.GetValueString()
-	case "EnclosedText":
-		degree_alter.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (degree_type *Degree_type) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		degree_type.Name = value.GetValueString()
-	case "Text":
-		degree_type.Text = value.GetValueString()
-	case "Default_x":
-		degree_type.Default_x = value.GetValueString()
-	case "Default_y":
-		degree_type.Default_y = value.GetValueString()
-	case "Relative_x":
-		degree_type.Relative_x = value.GetValueString()
-	case "Relative_y":
-		degree_type.Relative_y = value.GetValueString()
-	case "Font_family":
-		degree_type.Font_family = value.GetValueString()
-	case "Font_style":
-		degree_type.Font_style = value.GetValueString()
-	case "Font_size":
-		degree_type.Font_size = value.GetValueString()
-	case "Font_weight":
-		degree_type.Font_weight = value.GetValueString()
-	case "Color":
-		degree_type.Color = value.GetValueString()
-	case "EnclosedText":
-		degree_type.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (degree_value *Degree_value) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		degree_value.Name = value.GetValueString()
-	case "Symbol":
-		degree_value.Symbol = value.GetValueString()
-	case "Text":
-		degree_value.Text = value.GetValueString()
-	case "Default_x":
-		degree_value.Default_x = value.GetValueString()
-	case "Default_y":
-		degree_value.Default_y = value.GetValueString()
-	case "Relative_x":
-		degree_value.Relative_x = value.GetValueString()
-	case "Relative_y":
-		degree_value.Relative_y = value.GetValueString()
-	case "Font_family":
-		degree_value.Font_family = value.GetValueString()
-	case "Font_style":
-		degree_value.Font_style = value.GetValueString()
-	case "Font_size":
-		degree_value.Font_size = value.GetValueString()
-	case "Font_weight":
-		degree_value.Font_weight = value.GetValueString()
-	case "Color":
-		degree_value.Color = value.GetValueString()
-	case "EnclosedText":
-		degree_value.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (direction *Direction) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		direction.Name = value.GetValueString()
-	case "Placement":
-		direction.Placement = value.GetValueString()
-	case "Directive":
-		direction.Directive.FromCodeString(value.GetValueString())
-	case "System":
-		direction.System.FromCodeString(value.GetValueString())
-	case "Id":
-		direction.Id = value.GetValueString()
-	case "Direction_type":
-		direction.Direction_type = make([]*Direction_type, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Direction_types {
-					if stage.Direction_type_stagedOrder[__instance__] == uint(id) {
-						direction.Direction_type = append(direction.Direction_type, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Offset":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction.Offset = nil
-			for __instance__ := range stage.Offsets {
-				if stage.Offset_stagedOrder[__instance__] == uint(id) {
-					direction.Offset = __instance__
-					break
-				}
-			}
-		}
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					direction.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					direction.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Voice":
-		direction.Voice = value.GetValueString()
-	case "Staff":
-		direction.Staff = int(value.GetValueInt())
-	case "Sound":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction.Sound = nil
-			for __instance__ := range stage.Sounds {
-				if stage.Sound_stagedOrder[__instance__] == uint(id) {
-					direction.Sound = __instance__
-					break
-				}
-			}
-		}
-	case "Listening":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction.Listening = nil
-			for __instance__ := range stage.Listenings {
-				if stage.Listening_stagedOrder[__instance__] == uint(id) {
-					direction.Listening = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (direction_type *Direction_type) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		direction_type.Name = value.GetValueString()
-	case "Id":
-		direction_type.Id = value.GetValueString()
-	case "Rehearsal":
-		direction_type.Rehearsal = make([]*Formatted_text_id, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_text_ids {
-					if stage.Formatted_text_id_stagedOrder[__instance__] == uint(id) {
-						direction_type.Rehearsal = append(direction_type.Rehearsal, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Segno":
-		direction_type.Segno = make([]*Segno, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Segnos {
-					if stage.Segno_stagedOrder[__instance__] == uint(id) {
-						direction_type.Segno = append(direction_type.Segno, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Coda":
-		direction_type.Coda = make([]*Coda, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Codas {
-					if stage.Coda_stagedOrder[__instance__] == uint(id) {
-						direction_type.Coda = append(direction_type.Coda, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Words":
-		direction_type.Words = make([]*Formatted_text_id, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_text_ids {
-					if stage.Formatted_text_id_stagedOrder[__instance__] == uint(id) {
-						direction_type.Words = append(direction_type.Words, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Symbol":
-		direction_type.Symbol = make([]*Formatted_symbol_id, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_symbol_ids {
-					if stage.Formatted_symbol_id_stagedOrder[__instance__] == uint(id) {
-						direction_type.Symbol = append(direction_type.Symbol, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Wedge":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Wedge = nil
-			for __instance__ := range stage.Wedges {
-				if stage.Wedge_stagedOrder[__instance__] == uint(id) {
-					direction_type.Wedge = __instance__
-					break
-				}
-			}
-		}
-	case "Dynamics":
-		direction_type.Dynamics = make([]*Dynamics, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Dynamicss {
-					if stage.Dynamics_stagedOrder[__instance__] == uint(id) {
-						direction_type.Dynamics = append(direction_type.Dynamics, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Dashes":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Dashes = nil
-			for __instance__ := range stage.Dashess {
-				if stage.Dashes_stagedOrder[__instance__] == uint(id) {
-					direction_type.Dashes = __instance__
-					break
-				}
-			}
-		}
-	case "Bracket":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Bracket = nil
-			for __instance__ := range stage.Brackets {
-				if stage.Bracket_stagedOrder[__instance__] == uint(id) {
-					direction_type.Bracket = __instance__
-					break
-				}
-			}
-		}
-	case "Pedal":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Pedal = nil
-			for __instance__ := range stage.Pedals {
-				if stage.Pedal_stagedOrder[__instance__] == uint(id) {
-					direction_type.Pedal = __instance__
-					break
-				}
-			}
-		}
-	case "Metronome":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Metronome = nil
-			for __instance__ := range stage.Metronomes {
-				if stage.Metronome_stagedOrder[__instance__] == uint(id) {
-					direction_type.Metronome = __instance__
-					break
-				}
-			}
-		}
-	case "Octave_shift":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Octave_shift = nil
-			for __instance__ := range stage.Octave_shifts {
-				if stage.Octave_shift_stagedOrder[__instance__] == uint(id) {
-					direction_type.Octave_shift = __instance__
-					break
-				}
-			}
-		}
-	case "Harp_pedals":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Harp_pedals = nil
-			for __instance__ := range stage.Harp_pedalss {
-				if stage.Harp_pedals_stagedOrder[__instance__] == uint(id) {
-					direction_type.Harp_pedals = __instance__
-					break
-				}
-			}
-		}
-	case "Damp":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Damp = nil
-			for __instance__ := range stage.Empty_print_style_align_ids {
-				if stage.Empty_print_style_align_id_stagedOrder[__instance__] == uint(id) {
-					direction_type.Damp = __instance__
-					break
-				}
-			}
-		}
-	case "Damp_all":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Damp_all = nil
-			for __instance__ := range stage.Empty_print_style_align_ids {
-				if stage.Empty_print_style_align_id_stagedOrder[__instance__] == uint(id) {
-					direction_type.Damp_all = __instance__
-					break
-				}
-			}
-		}
-	case "Eyeglasses":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Eyeglasses = nil
-			for __instance__ := range stage.Empty_print_style_align_ids {
-				if stage.Empty_print_style_align_id_stagedOrder[__instance__] == uint(id) {
-					direction_type.Eyeglasses = __instance__
-					break
-				}
-			}
-		}
-	case "String_mute":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.String_mute = nil
-			for __instance__ := range stage.String_mutes {
-				if stage.String_mute_stagedOrder[__instance__] == uint(id) {
-					direction_type.String_mute = __instance__
-					break
-				}
-			}
-		}
-	case "Scordatura":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Scordatura = nil
-			for __instance__ := range stage.Scordaturas {
-				if stage.Scordatura_stagedOrder[__instance__] == uint(id) {
-					direction_type.Scordatura = __instance__
-					break
-				}
-			}
-		}
-	case "Image":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Image = nil
-			for __instance__ := range stage.Images {
-				if stage.Image_stagedOrder[__instance__] == uint(id) {
-					direction_type.Image = __instance__
-					break
-				}
-			}
-		}
-	case "Principal_voice":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Principal_voice = nil
-			for __instance__ := range stage.Principal_voices {
-				if stage.Principal_voice_stagedOrder[__instance__] == uint(id) {
-					direction_type.Principal_voice = __instance__
-					break
-				}
-			}
-		}
-	case "Percussion":
-		direction_type.Percussion = make([]*Percussion, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Percussions {
-					if stage.Percussion_stagedOrder[__instance__] == uint(id) {
-						direction_type.Percussion = append(direction_type.Percussion, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Accordion_registration":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Accordion_registration = nil
-			for __instance__ := range stage.Accordion_registrations {
-				if stage.Accordion_registration_stagedOrder[__instance__] == uint(id) {
-					direction_type.Accordion_registration = __instance__
-					break
-				}
-			}
-		}
-	case "Staff_divide":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Staff_divide = nil
-			for __instance__ := range stage.Staff_divides {
-				if stage.Staff_divide_stagedOrder[__instance__] == uint(id) {
-					direction_type.Staff_divide = __instance__
-					break
-				}
-			}
-		}
-	case "Other_direction":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			direction_type.Other_direction = nil
-			for __instance__ := range stage.Other_directions {
-				if stage.Other_direction_stagedOrder[__instance__] == uint(id) {
-					direction_type.Other_direction = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (distance *Distance) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		distance.Name = value.GetValueString()
-	case "Type":
-		distance.Type = value.GetValueString()
-	case "EnclosedText":
-		distance.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (double *Double) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		double.Name = value.GetValueString()
-	case "Above":
-		double.Above.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (dynamics *Dynamics) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		dynamics.Name = value.GetValueString()
-	case "Default_x":
-		dynamics.Default_x = value.GetValueString()
-	case "Default_y":
-		dynamics.Default_y = value.GetValueString()
-	case "Relative_x":
-		dynamics.Relative_x = value.GetValueString()
-	case "Relative_y":
-		dynamics.Relative_y = value.GetValueString()
-	case "Font_family":
-		dynamics.Font_family = value.GetValueString()
-	case "Font_style":
-		dynamics.Font_style = value.GetValueString()
-	case "Font_size":
-		dynamics.Font_size = value.GetValueString()
-	case "Font_weight":
-		dynamics.Font_weight = value.GetValueString()
-	case "Color":
-		dynamics.Color = value.GetValueString()
-	case "Halign":
-		dynamics.Halign = value.GetValueString()
-	case "Valign":
-		dynamics.Valign = value.GetValueString()
-	case "Placement":
-		dynamics.Placement = value.GetValueString()
-	case "Underline":
-		dynamics.Underline = int(value.GetValueInt())
-	case "Overline":
-		dynamics.Overline = int(value.GetValueInt())
-	case "Line_through":
-		dynamics.Line_through = int(value.GetValueInt())
-	case "Enclosure":
-		dynamics.Enclosure = value.GetValueString()
-	case "Id":
-		dynamics.Id = value.GetValueString()
-	case "P":
-		dynamics.P = value.GetValueString()
-	case "Pp":
-		dynamics.Pp = value.GetValueString()
-	case "Ppp":
-		dynamics.Ppp = value.GetValueString()
-	case "Pppp":
-		dynamics.Pppp = value.GetValueString()
-	case "Ppppp":
-		dynamics.Ppppp = value.GetValueString()
-	case "Pppppp":
-		dynamics.Pppppp = value.GetValueString()
-	case "F":
-		dynamics.F = value.GetValueString()
-	case "Ff":
-		dynamics.Ff = value.GetValueString()
-	case "Fff":
-		dynamics.Fff = value.GetValueString()
-	case "Ffff":
-		dynamics.Ffff = value.GetValueString()
-	case "Fffff":
-		dynamics.Fffff = value.GetValueString()
-	case "Ffffff":
-		dynamics.Ffffff = value.GetValueString()
-	case "Mp":
-		dynamics.Mp = value.GetValueString()
-	case "Mf":
-		dynamics.Mf = value.GetValueString()
-	case "Sf":
-		dynamics.Sf = value.GetValueString()
-	case "Sfp":
-		dynamics.Sfp = value.GetValueString()
-	case "Sfpp":
-		dynamics.Sfpp = value.GetValueString()
-	case "Fp":
-		dynamics.Fp = value.GetValueString()
-	case "Rf":
-		dynamics.Rf = value.GetValueString()
-	case "Rfz":
-		dynamics.Rfz = value.GetValueString()
-	case "Sfz":
-		dynamics.Sfz = value.GetValueString()
-	case "Sffz":
-		dynamics.Sffz = value.GetValueString()
-	case "Fz":
-		dynamics.Fz = value.GetValueString()
-	case "N":
-		dynamics.N = value.GetValueString()
-	case "Pf":
-		dynamics.Pf = value.GetValueString()
-	case "Sfzp":
-		dynamics.Sfzp = value.GetValueString()
-	case "Other_dynamics":
-		dynamics.Other_dynamics = make([]*Other_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_texts {
-					if stage.Other_text_stagedOrder[__instance__] == uint(id) {
-						dynamics.Other_dynamics = append(dynamics.Other_dynamics, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (effect *Effect) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		effect.Name = value.GetValueString()
-	case "Smufl":
-		effect.Smufl = value.GetValueString()
-	case "EnclosedText":
-		effect.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (elision *Elision) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		elision.Name = value.GetValueString()
-	case "Smufl":
-		elision.Smufl = value.GetValueString()
-	case "Font_family":
-		elision.Font_family = value.GetValueString()
-	case "Font_style":
-		elision.Font_style = value.GetValueString()
-	case "Font_size":
-		elision.Font_size = value.GetValueString()
-	case "Font_weight":
-		elision.Font_weight = value.GetValueString()
-	case "Color":
-		elision.Color = value.GetValueString()
-	case "EnclosedText":
-		elision.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty *Empty) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_font *Empty_font) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_font.Name = value.GetValueString()
-	case "Font_family":
-		empty_font.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_font.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_font.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_font.Font_weight = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_line *Empty_line) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_line.Name = value.GetValueString()
-	case "Line_shape":
-		empty_line.Line_shape = value.GetValueString()
-	case "Line_type":
-		empty_line.Line_type = value.GetValueString()
-	case "Line_length":
-		empty_line.Line_length = value.GetValueString()
-	case "Dash_length":
-		empty_line.Dash_length = value.GetValueString()
-	case "Space_length":
-		empty_line.Space_length = value.GetValueString()
-	case "Default_x":
-		empty_line.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_line.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_line.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_line.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_line.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_line.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_line.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_line.Font_weight = value.GetValueString()
-	case "Color":
-		empty_line.Color = value.GetValueString()
-	case "Placement":
-		empty_line.Placement = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_placement *Empty_placement) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_placement.Name = value.GetValueString()
-	case "Default_x":
-		empty_placement.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_placement.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_placement.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_placement.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_placement.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_placement.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_placement.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_placement.Font_weight = value.GetValueString()
-	case "Color":
-		empty_placement.Color = value.GetValueString()
-	case "Placement":
-		empty_placement.Placement = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_placement_smufl *Empty_placement_smufl) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_placement_smufl.Name = value.GetValueString()
-	case "Default_x":
-		empty_placement_smufl.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_placement_smufl.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_placement_smufl.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_placement_smufl.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_placement_smufl.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_placement_smufl.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_placement_smufl.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_placement_smufl.Font_weight = value.GetValueString()
-	case "Color":
-		empty_placement_smufl.Color = value.GetValueString()
-	case "Placement":
-		empty_placement_smufl.Placement = value.GetValueString()
-	case "Smufl":
-		empty_placement_smufl.Smufl = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_print_object_style_align *Empty_print_object_style_align) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_print_object_style_align.Name = value.GetValueString()
-	case "Print_object":
-		empty_print_object_style_align.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		empty_print_object_style_align.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_print_object_style_align.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_print_object_style_align.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_print_object_style_align.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_print_object_style_align.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_print_object_style_align.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_print_object_style_align.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_print_object_style_align.Font_weight = value.GetValueString()
-	case "Color":
-		empty_print_object_style_align.Color = value.GetValueString()
-	case "Halign":
-		empty_print_object_style_align.Halign = value.GetValueString()
-	case "Valign":
-		empty_print_object_style_align.Valign = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_print_style *Empty_print_style) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_print_style.Name = value.GetValueString()
-	case "Default_x":
-		empty_print_style.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_print_style.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_print_style.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_print_style.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_print_style.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_print_style.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_print_style.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_print_style.Font_weight = value.GetValueString()
-	case "Color":
-		empty_print_style.Color = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_print_style_align *Empty_print_style_align) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_print_style_align.Name = value.GetValueString()
-	case "Default_x":
-		empty_print_style_align.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_print_style_align.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_print_style_align.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_print_style_align.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_print_style_align.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_print_style_align.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_print_style_align.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_print_style_align.Font_weight = value.GetValueString()
-	case "Color":
-		empty_print_style_align.Color = value.GetValueString()
-	case "Halign":
-		empty_print_style_align.Halign = value.GetValueString()
-	case "Valign":
-		empty_print_style_align.Valign = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_print_style_align_id *Empty_print_style_align_id) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_print_style_align_id.Name = value.GetValueString()
-	case "Default_x":
-		empty_print_style_align_id.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_print_style_align_id.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_print_style_align_id.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_print_style_align_id.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_print_style_align_id.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_print_style_align_id.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_print_style_align_id.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_print_style_align_id.Font_weight = value.GetValueString()
-	case "Color":
-		empty_print_style_align_id.Color = value.GetValueString()
-	case "Halign":
-		empty_print_style_align_id.Halign = value.GetValueString()
-	case "Valign":
-		empty_print_style_align_id.Valign = value.GetValueString()
-	case "Id":
-		empty_print_style_align_id.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (empty_trill_sound *Empty_trill_sound) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		empty_trill_sound.Name = value.GetValueString()
-	case "Default_x":
-		empty_trill_sound.Default_x = value.GetValueString()
-	case "Default_y":
-		empty_trill_sound.Default_y = value.GetValueString()
-	case "Relative_x":
-		empty_trill_sound.Relative_x = value.GetValueString()
-	case "Relative_y":
-		empty_trill_sound.Relative_y = value.GetValueString()
-	case "Font_family":
-		empty_trill_sound.Font_family = value.GetValueString()
-	case "Font_style":
-		empty_trill_sound.Font_style = value.GetValueString()
-	case "Font_size":
-		empty_trill_sound.Font_size = value.GetValueString()
-	case "Font_weight":
-		empty_trill_sound.Font_weight = value.GetValueString()
-	case "Color":
-		empty_trill_sound.Color = value.GetValueString()
-	case "Placement":
-		empty_trill_sound.Placement = value.GetValueString()
-	case "Start_note":
-		empty_trill_sound.Start_note = value.GetValueString()
-	case "Trill_step":
-		empty_trill_sound.Trill_step = value.GetValueString()
-	case "Two_note_turn":
-		empty_trill_sound.Two_note_turn = value.GetValueString()
-	case "Accelerate":
-		empty_trill_sound.Accelerate.FromCodeString(value.GetValueString())
-	case "Beats":
-		empty_trill_sound.Beats = value.GetValueString()
-	case "Second_beat":
-		empty_trill_sound.Second_beat = value.GetValueString()
-	case "Last_beat":
-		empty_trill_sound.Last_beat = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (encoding *Encoding) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		encoding.Name = value.GetValueString()
-	case "Encoder":
-		encoding.Encoder = make([]*Typed_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Typed_texts {
-					if stage.Typed_text_stagedOrder[__instance__] == uint(id) {
-						encoding.Encoder = append(encoding.Encoder, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Software":
-		encoding.Software = value.GetValueString()
-	case "Encoding_description":
-		encoding.Encoding_description = value.GetValueString()
-	case "Supports":
-		encoding.Supports = make([]*Supports, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Supportss {
-					if stage.Supports_stagedOrder[__instance__] == uint(id) {
-						encoding.Supports = append(encoding.Supports, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (ending *Ending) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		ending.Name = value.GetValueString()
-	case "Number":
-		ending.Number = value.GetValueString()
-	case "Type":
-		ending.Type = value.GetValueString()
-	case "End_length":
-		ending.End_length = value.GetValueString()
-	case "Text_x":
-		ending.Text_x = value.GetValueString()
-	case "Text_y":
-		ending.Text_y = value.GetValueString()
-	case "Print_object":
-		ending.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		ending.Default_x = value.GetValueString()
-	case "Default_y":
-		ending.Default_y = value.GetValueString()
-	case "Relative_x":
-		ending.Relative_x = value.GetValueString()
-	case "Relative_y":
-		ending.Relative_y = value.GetValueString()
-	case "Font_family":
-		ending.Font_family = value.GetValueString()
-	case "Font_style":
-		ending.Font_style = value.GetValueString()
-	case "Font_size":
-		ending.Font_size = value.GetValueString()
-	case "Font_weight":
-		ending.Font_weight = value.GetValueString()
-	case "Color":
-		ending.Color = value.GetValueString()
-	case "System":
-		ending.System.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		ending.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (extend *Extend) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		extend.Name = value.GetValueString()
-	case "Type":
-		extend.Type.FromCodeString(value.GetValueString())
-	case "Default_x":
-		extend.Default_x = value.GetValueString()
-	case "Default_y":
-		extend.Default_y = value.GetValueString()
-	case "Relative_x":
-		extend.Relative_x = value.GetValueString()
-	case "Relative_y":
-		extend.Relative_y = value.GetValueString()
-	case "Color":
-		extend.Color = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (feature *Feature) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		feature.Name = value.GetValueString()
-	case "Type":
-		feature.Type = value.GetValueString()
-	case "EnclosedText":
-		feature.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (fermata *Fermata) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		fermata.Name = value.GetValueString()
-	case "Type":
-		fermata.Type = value.GetValueString()
-	case "Default_x":
-		fermata.Default_x = value.GetValueString()
-	case "Default_y":
-		fermata.Default_y = value.GetValueString()
-	case "Relative_x":
-		fermata.Relative_x = value.GetValueString()
-	case "Relative_y":
-		fermata.Relative_y = value.GetValueString()
-	case "Font_family":
-		fermata.Font_family = value.GetValueString()
-	case "Font_style":
-		fermata.Font_style = value.GetValueString()
-	case "Font_size":
-		fermata.Font_size = value.GetValueString()
-	case "Font_weight":
-		fermata.Font_weight = value.GetValueString()
-	case "Color":
-		fermata.Color = value.GetValueString()
-	case "Id":
-		fermata.Id = value.GetValueString()
-	case "EnclosedText":
-		fermata.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (figure *Figure) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		figure.Name = value.GetValueString()
-	case "Prefix":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figure.Prefix = nil
-			for __instance__ := range stage.Style_texts {
-				if stage.Style_text_stagedOrder[__instance__] == uint(id) {
-					figure.Prefix = __instance__
-					break
-				}
-			}
-		}
-	case "Figure_number":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figure.Figure_number = nil
-			for __instance__ := range stage.Style_texts {
-				if stage.Style_text_stagedOrder[__instance__] == uint(id) {
-					figure.Figure_number = __instance__
-					break
-				}
-			}
-		}
-	case "Suffix":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figure.Suffix = nil
-			for __instance__ := range stage.Style_texts {
-				if stage.Style_text_stagedOrder[__instance__] == uint(id) {
-					figure.Suffix = __instance__
-					break
-				}
-			}
-		}
-	case "Extend":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figure.Extend = nil
-			for __instance__ := range stage.Extends {
-				if stage.Extend_stagedOrder[__instance__] == uint(id) {
-					figure.Extend = __instance__
-					break
-				}
-			}
-		}
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figure.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					figure.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figure.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					figure.Level = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (figured_bass *Figured_bass) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		figured_bass.Name = value.GetValueString()
-	case "Parentheses":
-		figured_bass.Parentheses.FromCodeString(value.GetValueString())
-	case "Default_x":
-		figured_bass.Default_x = value.GetValueString()
-	case "Default_y":
-		figured_bass.Default_y = value.GetValueString()
-	case "Relative_x":
-		figured_bass.Relative_x = value.GetValueString()
-	case "Relative_y":
-		figured_bass.Relative_y = value.GetValueString()
-	case "Font_family":
-		figured_bass.Font_family = value.GetValueString()
-	case "Font_style":
-		figured_bass.Font_style = value.GetValueString()
-	case "Font_size":
-		figured_bass.Font_size = value.GetValueString()
-	case "Font_weight":
-		figured_bass.Font_weight = value.GetValueString()
-	case "Color":
-		figured_bass.Color = value.GetValueString()
-	case "Halign":
-		figured_bass.Halign = value.GetValueString()
-	case "Valign":
-		figured_bass.Valign = value.GetValueString()
-	case "Placement":
-		figured_bass.Placement = value.GetValueString()
-	case "Print_dot":
-		figured_bass.Print_dot.FromCodeString(value.GetValueString())
-	case "Print_lyric":
-		figured_bass.Print_lyric.FromCodeString(value.GetValueString())
-	case "Print_object":
-		figured_bass.Print_object.FromCodeString(value.GetValueString())
-	case "Print_spacing":
-		figured_bass.Print_spacing.FromCodeString(value.GetValueString())
-	case "Id":
-		figured_bass.Id = value.GetValueString()
-	case "Figure":
-		figured_bass.Figure = make([]*Figure, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Figures {
-					if stage.Figure_stagedOrder[__instance__] == uint(id) {
-						figured_bass.Figure = append(figured_bass.Figure, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Duration":
-		figured_bass.Duration = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figured_bass.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					figured_bass.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			figured_bass.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					figured_bass.Level = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (fingering *Fingering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		fingering.Name = value.GetValueString()
-	case "Substitution":
-		fingering.Substitution.FromCodeString(value.GetValueString())
-	case "Alternate":
-		fingering.Alternate.FromCodeString(value.GetValueString())
-	case "Default_x":
-		fingering.Default_x = value.GetValueString()
-	case "Default_y":
-		fingering.Default_y = value.GetValueString()
-	case "Relative_x":
-		fingering.Relative_x = value.GetValueString()
-	case "Relative_y":
-		fingering.Relative_y = value.GetValueString()
-	case "Font_family":
-		fingering.Font_family = value.GetValueString()
-	case "Font_style":
-		fingering.Font_style = value.GetValueString()
-	case "Font_size":
-		fingering.Font_size = value.GetValueString()
-	case "Font_weight":
-		fingering.Font_weight = value.GetValueString()
-	case "Color":
-		fingering.Color = value.GetValueString()
-	case "Placement":
-		fingering.Placement = value.GetValueString()
-	case "EnclosedText":
-		fingering.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (first_fret *First_fret) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		first_fret.Name = value.GetValueString()
-	case "Text":
-		first_fret.Text = value.GetValueString()
-	case "Location":
-		first_fret.Location = value.GetValueString()
-	case "EnclosedText":
-		first_fret.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (for_part *For_part) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		for_part.Name = value.GetValueString()
-	case "Number":
-		for_part.Number = int(value.GetValueInt())
-	case "Id":
-		for_part.Id = value.GetValueString()
-	case "Part_clef":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			for_part.Part_clef = nil
-			for __instance__ := range stage.Part_clefs {
-				if stage.Part_clef_stagedOrder[__instance__] == uint(id) {
-					for_part.Part_clef = __instance__
-					break
-				}
-			}
-		}
-	case "Part_transpose":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			for_part.Part_transpose = nil
-			for __instance__ := range stage.Part_transposes {
-				if stage.Part_transpose_stagedOrder[__instance__] == uint(id) {
-					for_part.Part_transpose = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (formatted_symbol *Formatted_symbol) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		formatted_symbol.Name = value.GetValueString()
-	case "Justify":
-		formatted_symbol.Justify.FromCodeString(value.GetValueString())
-	case "Default_x":
-		formatted_symbol.Default_x = value.GetValueString()
-	case "Default_y":
-		formatted_symbol.Default_y = value.GetValueString()
-	case "Relative_x":
-		formatted_symbol.Relative_x = value.GetValueString()
-	case "Relative_y":
-		formatted_symbol.Relative_y = value.GetValueString()
-	case "Font_family":
-		formatted_symbol.Font_family = value.GetValueString()
-	case "Font_style":
-		formatted_symbol.Font_style = value.GetValueString()
-	case "Font_size":
-		formatted_symbol.Font_size = value.GetValueString()
-	case "Font_weight":
-		formatted_symbol.Font_weight = value.GetValueString()
-	case "Color":
-		formatted_symbol.Color = value.GetValueString()
-	case "Halign":
-		formatted_symbol.Halign = value.GetValueString()
-	case "Valign":
-		formatted_symbol.Valign = value.GetValueString()
-	case "Underline":
-		formatted_symbol.Underline = int(value.GetValueInt())
-	case "Overline":
-		formatted_symbol.Overline = int(value.GetValueInt())
-	case "Line_through":
-		formatted_symbol.Line_through = int(value.GetValueInt())
-	case "Rotation":
-		formatted_symbol.Rotation = value.GetValueString()
-	case "Letter_spacing":
-		formatted_symbol.Letter_spacing = value.GetValueString()
-	case "Line_height":
-		formatted_symbol.Line_height = value.GetValueString()
-	case "Dir":
-		formatted_symbol.Dir = value.GetValueString()
-	case "Enclosure":
-		formatted_symbol.Enclosure = value.GetValueString()
-	case "EnclosedText":
-		formatted_symbol.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (formatted_symbol_id *Formatted_symbol_id) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		formatted_symbol_id.Name = value.GetValueString()
-	case "Justify":
-		formatted_symbol_id.Justify.FromCodeString(value.GetValueString())
-	case "Default_x":
-		formatted_symbol_id.Default_x = value.GetValueString()
-	case "Default_y":
-		formatted_symbol_id.Default_y = value.GetValueString()
-	case "Relative_x":
-		formatted_symbol_id.Relative_x = value.GetValueString()
-	case "Relative_y":
-		formatted_symbol_id.Relative_y = value.GetValueString()
-	case "Font_family":
-		formatted_symbol_id.Font_family = value.GetValueString()
-	case "Font_style":
-		formatted_symbol_id.Font_style = value.GetValueString()
-	case "Font_size":
-		formatted_symbol_id.Font_size = value.GetValueString()
-	case "Font_weight":
-		formatted_symbol_id.Font_weight = value.GetValueString()
-	case "Color":
-		formatted_symbol_id.Color = value.GetValueString()
-	case "Halign":
-		formatted_symbol_id.Halign = value.GetValueString()
-	case "Valign":
-		formatted_symbol_id.Valign = value.GetValueString()
-	case "Underline":
-		formatted_symbol_id.Underline = int(value.GetValueInt())
-	case "Overline":
-		formatted_symbol_id.Overline = int(value.GetValueInt())
-	case "Line_through":
-		formatted_symbol_id.Line_through = int(value.GetValueInt())
-	case "Rotation":
-		formatted_symbol_id.Rotation = value.GetValueString()
-	case "Letter_spacing":
-		formatted_symbol_id.Letter_spacing = value.GetValueString()
-	case "Line_height":
-		formatted_symbol_id.Line_height = value.GetValueString()
-	case "Dir":
-		formatted_symbol_id.Dir = value.GetValueString()
-	case "Enclosure":
-		formatted_symbol_id.Enclosure = value.GetValueString()
-	case "Id":
-		formatted_symbol_id.Id = value.GetValueString()
-	case "EnclosedText":
-		formatted_symbol_id.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (formatted_text *Formatted_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		formatted_text.Name = value.GetValueString()
-	case "Lang":
-		formatted_text.Lang = value.GetValueString()
-	case "Space":
-		formatted_text.Space = value.GetValueString()
-	case "Justify":
-		formatted_text.Justify.FromCodeString(value.GetValueString())
-	case "Default_x":
-		formatted_text.Default_x = value.GetValueString()
-	case "Default_y":
-		formatted_text.Default_y = value.GetValueString()
-	case "Relative_x":
-		formatted_text.Relative_x = value.GetValueString()
-	case "Relative_y":
-		formatted_text.Relative_y = value.GetValueString()
-	case "Font_family":
-		formatted_text.Font_family = value.GetValueString()
-	case "Font_style":
-		formatted_text.Font_style = value.GetValueString()
-	case "Font_size":
-		formatted_text.Font_size = value.GetValueString()
-	case "Font_weight":
-		formatted_text.Font_weight = value.GetValueString()
-	case "Color":
-		formatted_text.Color = value.GetValueString()
-	case "Halign":
-		formatted_text.Halign = value.GetValueString()
-	case "Valign":
-		formatted_text.Valign = value.GetValueString()
-	case "Underline":
-		formatted_text.Underline = int(value.GetValueInt())
-	case "Overline":
-		formatted_text.Overline = int(value.GetValueInt())
-	case "Line_through":
-		formatted_text.Line_through = int(value.GetValueInt())
-	case "Rotation":
-		formatted_text.Rotation = value.GetValueString()
-	case "Letter_spacing":
-		formatted_text.Letter_spacing = value.GetValueString()
-	case "Line_height":
-		formatted_text.Line_height = value.GetValueString()
-	case "Dir":
-		formatted_text.Dir = value.GetValueString()
-	case "Enclosure":
-		formatted_text.Enclosure = value.GetValueString()
-	case "EnclosedText":
-		formatted_text.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (formatted_text_id *Formatted_text_id) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		formatted_text_id.Name = value.GetValueString()
-	case "Lang":
-		formatted_text_id.Lang = value.GetValueString()
-	case "Space":
-		formatted_text_id.Space = value.GetValueString()
-	case "Justify":
-		formatted_text_id.Justify.FromCodeString(value.GetValueString())
-	case "Default_x":
-		formatted_text_id.Default_x = value.GetValueString()
-	case "Default_y":
-		formatted_text_id.Default_y = value.GetValueString()
-	case "Relative_x":
-		formatted_text_id.Relative_x = value.GetValueString()
-	case "Relative_y":
-		formatted_text_id.Relative_y = value.GetValueString()
-	case "Font_family":
-		formatted_text_id.Font_family = value.GetValueString()
-	case "Font_style":
-		formatted_text_id.Font_style = value.GetValueString()
-	case "Font_size":
-		formatted_text_id.Font_size = value.GetValueString()
-	case "Font_weight":
-		formatted_text_id.Font_weight = value.GetValueString()
-	case "Color":
-		formatted_text_id.Color = value.GetValueString()
-	case "Halign":
-		formatted_text_id.Halign = value.GetValueString()
-	case "Valign":
-		formatted_text_id.Valign = value.GetValueString()
-	case "Underline":
-		formatted_text_id.Underline = int(value.GetValueInt())
-	case "Overline":
-		formatted_text_id.Overline = int(value.GetValueInt())
-	case "Line_through":
-		formatted_text_id.Line_through = int(value.GetValueInt())
-	case "Rotation":
-		formatted_text_id.Rotation = value.GetValueString()
-	case "Letter_spacing":
-		formatted_text_id.Letter_spacing = value.GetValueString()
-	case "Line_height":
-		formatted_text_id.Line_height = value.GetValueString()
-	case "Dir":
-		formatted_text_id.Dir = value.GetValueString()
-	case "Enclosure":
-		formatted_text_id.Enclosure = value.GetValueString()
-	case "Id":
-		formatted_text_id.Id = value.GetValueString()
-	case "EnclosedText":
-		formatted_text_id.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (forward *Forward) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		forward.Name = value.GetValueString()
-	case "Duration":
-		forward.Duration = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			forward.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					forward.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			forward.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					forward.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Voice":
-		forward.Voice = value.GetValueString()
-	case "Staff":
-		forward.Staff = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (frame *Frame) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		frame.Name = value.GetValueString()
-	case "Height":
-		frame.Height = value.GetValueString()
-	case "Width":
-		frame.Width = value.GetValueString()
-	case "Unplayed":
-		frame.Unplayed = value.GetValueString()
-	case "Default_x":
-		frame.Default_x = value.GetValueString()
-	case "Default_y":
-		frame.Default_y = value.GetValueString()
-	case "Relative_x":
-		frame.Relative_x = value.GetValueString()
-	case "Relative_y":
-		frame.Relative_y = value.GetValueString()
-	case "Color":
-		frame.Color = value.GetValueString()
-	case "Halign":
-		frame.Halign = value.GetValueString()
-	case "Valign":
-		frame.Valign = value.GetValueString()
-	case "Id":
-		frame.Id = value.GetValueString()
-	case "Frame_strings":
-		frame.Frame_strings = int(value.GetValueInt())
-	case "Frame_frets":
-		frame.Frame_frets = int(value.GetValueInt())
-	case "First_fret":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			frame.First_fret = nil
-			for __instance__ := range stage.First_frets {
-				if stage.First_fret_stagedOrder[__instance__] == uint(id) {
-					frame.First_fret = __instance__
-					break
-				}
-			}
-		}
-	case "Frame_note":
-		frame.Frame_note = make([]*Frame_note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Frame_notes {
-					if stage.Frame_note_stagedOrder[__instance__] == uint(id) {
-						frame.Frame_note = append(frame.Frame_note, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (frame_note *Frame_note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		frame_note.Name = value.GetValueString()
-	case "String":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			frame_note.String = nil
-			for __instance__ := range stage.String_types {
-				if stage.String_type_stagedOrder[__instance__] == uint(id) {
-					frame_note.String = __instance__
-					break
-				}
-			}
-		}
-	case "Fret":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			frame_note.Fret = nil
-			for __instance__ := range stage.Frets {
-				if stage.Fret_stagedOrder[__instance__] == uint(id) {
-					frame_note.Fret = __instance__
-					break
-				}
-			}
-		}
-	case "Fingering":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			frame_note.Fingering = nil
-			for __instance__ := range stage.Fingerings {
-				if stage.Fingering_stagedOrder[__instance__] == uint(id) {
-					frame_note.Fingering = __instance__
-					break
-				}
-			}
-		}
-	case "Barre":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			frame_note.Barre = nil
-			for __instance__ := range stage.Barres {
-				if stage.Barre_stagedOrder[__instance__] == uint(id) {
-					frame_note.Barre = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (fret *Fret) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		fret.Name = value.GetValueString()
-	case "Font_family":
-		fret.Font_family = value.GetValueString()
-	case "Font_style":
-		fret.Font_style = value.GetValueString()
-	case "Font_size":
-		fret.Font_size = value.GetValueString()
-	case "Font_weight":
-		fret.Font_weight = value.GetValueString()
-	case "Color":
-		fret.Color = value.GetValueString()
-	case "EnclosedText":
-		fret.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (glass *Glass) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		glass.Name = value.GetValueString()
-	case "Smufl":
-		glass.Smufl = value.GetValueString()
-	case "EnclosedText":
-		glass.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (glissando *Glissando) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		glissando.Name = value.GetValueString()
-	case "Type":
-		glissando.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		glissando.Number = int(value.GetValueInt())
-	case "Line_type":
-		glissando.Line_type = value.GetValueString()
-	case "Dash_length":
-		glissando.Dash_length = value.GetValueString()
-	case "Space_length":
-		glissando.Space_length = value.GetValueString()
-	case "Default_x":
-		glissando.Default_x = value.GetValueString()
-	case "Default_y":
-		glissando.Default_y = value.GetValueString()
-	case "Relative_x":
-		glissando.Relative_x = value.GetValueString()
-	case "Relative_y":
-		glissando.Relative_y = value.GetValueString()
-	case "Font_family":
-		glissando.Font_family = value.GetValueString()
-	case "Font_style":
-		glissando.Font_style = value.GetValueString()
-	case "Font_size":
-		glissando.Font_size = value.GetValueString()
-	case "Font_weight":
-		glissando.Font_weight = value.GetValueString()
-	case "Color":
-		glissando.Color = value.GetValueString()
-	case "Id":
-		glissando.Id = value.GetValueString()
-	case "EnclosedText":
-		glissando.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (glyph *Glyph) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		glyph.Name = value.GetValueString()
-	case "Type":
-		glyph.Type = value.GetValueString()
-	case "EnclosedText":
-		glyph.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (grace *Grace) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		grace.Name = value.GetValueString()
-	case "Steal_time_previous":
-		grace.Steal_time_previous = value.GetValueString()
-	case "Steal_time_following":
-		grace.Steal_time_following = value.GetValueString()
-	case "Make_time":
-		grace.Make_time = value.GetValueString()
-	case "Slash":
-		grace.Slash.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group_barline *Group_barline) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group_barline.Name = value.GetValueString()
-	case "Color":
-		group_barline.Color = value.GetValueString()
-	case "EnclosedText":
-		group_barline.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group_name *Group_name) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group_name.Name = value.GetValueString()
-	case "Default_x":
-		group_name.Default_x = value.GetValueString()
-	case "Default_y":
-		group_name.Default_y = value.GetValueString()
-	case "Relative_x":
-		group_name.Relative_x = value.GetValueString()
-	case "Relative_y":
-		group_name.Relative_y = value.GetValueString()
-	case "Font_family":
-		group_name.Font_family = value.GetValueString()
-	case "Font_style":
-		group_name.Font_style = value.GetValueString()
-	case "Font_size":
-		group_name.Font_size = value.GetValueString()
-	case "Font_weight":
-		group_name.Font_weight = value.GetValueString()
-	case "Color":
-		group_name.Color = value.GetValueString()
-	case "Justify":
-		group_name.Justify.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		group_name.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (group_symbol *Group_symbol) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		group_symbol.Name = value.GetValueString()
-	case "Default_x":
-		group_symbol.Default_x = value.GetValueString()
-	case "Default_y":
-		group_symbol.Default_y = value.GetValueString()
-	case "Relative_x":
-		group_symbol.Relative_x = value.GetValueString()
-	case "Relative_y":
-		group_symbol.Relative_y = value.GetValueString()
-	case "Color":
-		group_symbol.Color = value.GetValueString()
-	case "EnclosedText":
-		group_symbol.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (grouping *Grouping) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		grouping.Name = value.GetValueString()
-	case "Type":
-		grouping.Type = value.GetValueString()
-	case "Number":
-		grouping.Number = value.GetValueString()
-	case "Member_of":
-		grouping.Member_of = value.GetValueString()
-	case "Id":
-		grouping.Id = value.GetValueString()
-	case "Feature":
-		grouping.Feature = make([]*Feature, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Features {
-					if stage.Feature_stagedOrder[__instance__] == uint(id) {
-						grouping.Feature = append(grouping.Feature, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (hammer_on_pull_off *Hammer_on_pull_off) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		hammer_on_pull_off.Name = value.GetValueString()
-	case "Type":
-		hammer_on_pull_off.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		hammer_on_pull_off.Number = int(value.GetValueInt())
-	case "Default_x":
-		hammer_on_pull_off.Default_x = value.GetValueString()
-	case "Default_y":
-		hammer_on_pull_off.Default_y = value.GetValueString()
-	case "Relative_x":
-		hammer_on_pull_off.Relative_x = value.GetValueString()
-	case "Relative_y":
-		hammer_on_pull_off.Relative_y = value.GetValueString()
-	case "Font_family":
-		hammer_on_pull_off.Font_family = value.GetValueString()
-	case "Font_style":
-		hammer_on_pull_off.Font_style = value.GetValueString()
-	case "Font_size":
-		hammer_on_pull_off.Font_size = value.GetValueString()
-	case "Font_weight":
-		hammer_on_pull_off.Font_weight = value.GetValueString()
-	case "Color":
-		hammer_on_pull_off.Color = value.GetValueString()
-	case "Placement":
-		hammer_on_pull_off.Placement = value.GetValueString()
-	case "EnclosedText":
-		hammer_on_pull_off.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (handbell *Handbell) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		handbell.Name = value.GetValueString()
-	case "Default_x":
-		handbell.Default_x = value.GetValueString()
-	case "Default_y":
-		handbell.Default_y = value.GetValueString()
-	case "Relative_x":
-		handbell.Relative_x = value.GetValueString()
-	case "Relative_y":
-		handbell.Relative_y = value.GetValueString()
-	case "Font_family":
-		handbell.Font_family = value.GetValueString()
-	case "Font_style":
-		handbell.Font_style = value.GetValueString()
-	case "Font_size":
-		handbell.Font_size = value.GetValueString()
-	case "Font_weight":
-		handbell.Font_weight = value.GetValueString()
-	case "Color":
-		handbell.Color = value.GetValueString()
-	case "Placement":
-		handbell.Placement = value.GetValueString()
-	case "EnclosedText":
-		handbell.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (harmon_closed *Harmon_closed) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		harmon_closed.Name = value.GetValueString()
-	case "Location":
-		harmon_closed.Location = value.GetValueString()
-	case "EnclosedText":
-		harmon_closed.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (harmon_mute *Harmon_mute) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		harmon_mute.Name = value.GetValueString()
-	case "Default_x":
-		harmon_mute.Default_x = value.GetValueString()
-	case "Default_y":
-		harmon_mute.Default_y = value.GetValueString()
-	case "Relative_x":
-		harmon_mute.Relative_x = value.GetValueString()
-	case "Relative_y":
-		harmon_mute.Relative_y = value.GetValueString()
-	case "Font_family":
-		harmon_mute.Font_family = value.GetValueString()
-	case "Font_style":
-		harmon_mute.Font_style = value.GetValueString()
-	case "Font_size":
-		harmon_mute.Font_size = value.GetValueString()
-	case "Font_weight":
-		harmon_mute.Font_weight = value.GetValueString()
-	case "Color":
-		harmon_mute.Color = value.GetValueString()
-	case "Placement":
-		harmon_mute.Placement = value.GetValueString()
-	case "Harmon_closed":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmon_mute.Harmon_closed = nil
-			for __instance__ := range stage.Harmon_closeds {
-				if stage.Harmon_closed_stagedOrder[__instance__] == uint(id) {
-					harmon_mute.Harmon_closed = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (harmonic *Harmonic) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		harmonic.Name = value.GetValueString()
-	case "Print_object":
-		harmonic.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		harmonic.Default_x = value.GetValueString()
-	case "Default_y":
-		harmonic.Default_y = value.GetValueString()
-	case "Relative_x":
-		harmonic.Relative_x = value.GetValueString()
-	case "Relative_y":
-		harmonic.Relative_y = value.GetValueString()
-	case "Font_family":
-		harmonic.Font_family = value.GetValueString()
-	case "Font_style":
-		harmonic.Font_style = value.GetValueString()
-	case "Font_size":
-		harmonic.Font_size = value.GetValueString()
-	case "Font_weight":
-		harmonic.Font_weight = value.GetValueString()
-	case "Color":
-		harmonic.Color = value.GetValueString()
-	case "Placement":
-		harmonic.Placement = value.GetValueString()
-	case "Natural":
-		harmonic.Natural = value.GetValueString()
-	case "Artificial":
-		harmonic.Artificial = value.GetValueString()
-	case "Base_pitch":
-		harmonic.Base_pitch = value.GetValueString()
-	case "Touching_pitch":
-		harmonic.Touching_pitch = value.GetValueString()
-	case "Sounding_pitch":
-		harmonic.Sounding_pitch = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (harmony *Harmony) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		harmony.Name = value.GetValueString()
-	case "Type":
-		harmony.Type = value.GetValueString()
-	case "Print_frame":
-		harmony.Print_frame.FromCodeString(value.GetValueString())
-	case "Arrangement":
-		harmony.Arrangement.FromCodeString(value.GetValueString())
-	case "Print_object":
-		harmony.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		harmony.Default_x = value.GetValueString()
-	case "Default_y":
-		harmony.Default_y = value.GetValueString()
-	case "Relative_x":
-		harmony.Relative_x = value.GetValueString()
-	case "Relative_y":
-		harmony.Relative_y = value.GetValueString()
-	case "Font_family":
-		harmony.Font_family = value.GetValueString()
-	case "Font_style":
-		harmony.Font_style = value.GetValueString()
-	case "Font_size":
-		harmony.Font_size = value.GetValueString()
-	case "Font_weight":
-		harmony.Font_weight = value.GetValueString()
-	case "Color":
-		harmony.Color = value.GetValueString()
-	case "Placement":
-		harmony.Placement = value.GetValueString()
-	case "System":
-		harmony.System.FromCodeString(value.GetValueString())
-	case "Id":
-		harmony.Id = value.GetValueString()
-	case "Root":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Root = nil
-			for __instance__ := range stage.Roots {
-				if stage.Root_stagedOrder[__instance__] == uint(id) {
-					harmony.Root = __instance__
-					break
-				}
-			}
-		}
-	case "Numeral":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Numeral = nil
-			for __instance__ := range stage.Numerals {
-				if stage.Numeral_stagedOrder[__instance__] == uint(id) {
-					harmony.Numeral = __instance__
-					break
-				}
-			}
-		}
-	case "Function":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Function = nil
-			for __instance__ := range stage.Style_texts {
-				if stage.Style_text_stagedOrder[__instance__] == uint(id) {
-					harmony.Function = __instance__
-					break
-				}
-			}
-		}
-	case "Kind":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Kind = nil
-			for __instance__ := range stage.Kinds {
-				if stage.Kind_stagedOrder[__instance__] == uint(id) {
-					harmony.Kind = __instance__
-					break
-				}
-			}
-		}
-	case "Inversion":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Inversion = nil
-			for __instance__ := range stage.Inversions {
-				if stage.Inversion_stagedOrder[__instance__] == uint(id) {
-					harmony.Inversion = __instance__
-					break
-				}
-			}
-		}
-	case "Bass":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Bass = nil
-			for __instance__ := range stage.Basss {
-				if stage.Bass_stagedOrder[__instance__] == uint(id) {
-					harmony.Bass = __instance__
-					break
-				}
-			}
-		}
-	case "Degree":
-		harmony.Degree = make([]*Degree, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Degrees {
-					if stage.Degree_stagedOrder[__instance__] == uint(id) {
-						harmony.Degree = append(harmony.Degree, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Frame":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Frame = nil
-			for __instance__ := range stage.Frames {
-				if stage.Frame_stagedOrder[__instance__] == uint(id) {
-					harmony.Frame = __instance__
-					break
-				}
-			}
-		}
-	case "Offset":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Offset = nil
-			for __instance__ := range stage.Offsets {
-				if stage.Offset_stagedOrder[__instance__] == uint(id) {
-					harmony.Offset = __instance__
-					break
-				}
-			}
-		}
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					harmony.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			harmony.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					harmony.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Staff":
-		harmony.Staff = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (harmony_alter *Harmony_alter) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		harmony_alter.Name = value.GetValueString()
-	case "Location":
-		harmony_alter.Location.FromCodeString(value.GetValueString())
-	case "Print_object":
-		harmony_alter.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		harmony_alter.Default_x = value.GetValueString()
-	case "Default_y":
-		harmony_alter.Default_y = value.GetValueString()
-	case "Relative_x":
-		harmony_alter.Relative_x = value.GetValueString()
-	case "Relative_y":
-		harmony_alter.Relative_y = value.GetValueString()
-	case "Font_family":
-		harmony_alter.Font_family = value.GetValueString()
-	case "Font_style":
-		harmony_alter.Font_style = value.GetValueString()
-	case "Font_size":
-		harmony_alter.Font_size = value.GetValueString()
-	case "Font_weight":
-		harmony_alter.Font_weight = value.GetValueString()
-	case "Color":
-		harmony_alter.Color = value.GetValueString()
-	case "EnclosedText":
-		harmony_alter.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (harp_pedals *Harp_pedals) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		harp_pedals.Name = value.GetValueString()
-	case "Default_x":
-		harp_pedals.Default_x = value.GetValueString()
-	case "Default_y":
-		harp_pedals.Default_y = value.GetValueString()
-	case "Relative_x":
-		harp_pedals.Relative_x = value.GetValueString()
-	case "Relative_y":
-		harp_pedals.Relative_y = value.GetValueString()
-	case "Font_family":
-		harp_pedals.Font_family = value.GetValueString()
-	case "Font_style":
-		harp_pedals.Font_style = value.GetValueString()
-	case "Font_size":
-		harp_pedals.Font_size = value.GetValueString()
-	case "Font_weight":
-		harp_pedals.Font_weight = value.GetValueString()
-	case "Color":
-		harp_pedals.Color = value.GetValueString()
-	case "Halign":
-		harp_pedals.Halign = value.GetValueString()
-	case "Valign":
-		harp_pedals.Valign = value.GetValueString()
-	case "Id":
-		harp_pedals.Id = value.GetValueString()
-	case "Pedal_tuning":
-		harp_pedals.Pedal_tuning = make([]*Pedal_tuning, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Pedal_tunings {
-					if stage.Pedal_tuning_stagedOrder[__instance__] == uint(id) {
-						harp_pedals.Pedal_tuning = append(harp_pedals.Pedal_tuning, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (heel_toe *Heel_toe) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		heel_toe.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (hole *Hole) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		hole.Name = value.GetValueString()
-	case "Default_x":
-		hole.Default_x = value.GetValueString()
-	case "Default_y":
-		hole.Default_y = value.GetValueString()
-	case "Relative_x":
-		hole.Relative_x = value.GetValueString()
-	case "Relative_y":
-		hole.Relative_y = value.GetValueString()
-	case "Font_family":
-		hole.Font_family = value.GetValueString()
-	case "Font_style":
-		hole.Font_style = value.GetValueString()
-	case "Font_size":
-		hole.Font_size = value.GetValueString()
-	case "Font_weight":
-		hole.Font_weight = value.GetValueString()
-	case "Color":
-		hole.Color = value.GetValueString()
-	case "Placement":
-		hole.Placement = value.GetValueString()
-	case "Hole_type":
-		hole.Hole_type = value.GetValueString()
-	case "Hole_closed":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			hole.Hole_closed = nil
-			for __instance__ := range stage.Hole_closeds {
-				if stage.Hole_closed_stagedOrder[__instance__] == uint(id) {
-					hole.Hole_closed = __instance__
-					break
-				}
-			}
-		}
-	case "Hole_shape":
-		hole.Hole_shape = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (hole_closed *Hole_closed) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		hole_closed.Name = value.GetValueString()
-	case "Location":
-		hole_closed.Location = value.GetValueString()
-	case "EnclosedText":
-		hole_closed.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (horizontal_turn *Horizontal_turn) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		horizontal_turn.Name = value.GetValueString()
-	case "Slash":
-		horizontal_turn.Slash.FromCodeString(value.GetValueString())
-	case "Default_x":
-		horizontal_turn.Default_x = value.GetValueString()
-	case "Default_y":
-		horizontal_turn.Default_y = value.GetValueString()
-	case "Relative_x":
-		horizontal_turn.Relative_x = value.GetValueString()
-	case "Relative_y":
-		horizontal_turn.Relative_y = value.GetValueString()
-	case "Font_family":
-		horizontal_turn.Font_family = value.GetValueString()
-	case "Font_style":
-		horizontal_turn.Font_style = value.GetValueString()
-	case "Font_size":
-		horizontal_turn.Font_size = value.GetValueString()
-	case "Font_weight":
-		horizontal_turn.Font_weight = value.GetValueString()
-	case "Color":
-		horizontal_turn.Color = value.GetValueString()
-	case "Placement":
-		horizontal_turn.Placement = value.GetValueString()
-	case "Start_note":
-		horizontal_turn.Start_note = value.GetValueString()
-	case "Trill_step":
-		horizontal_turn.Trill_step = value.GetValueString()
-	case "Two_note_turn":
-		horizontal_turn.Two_note_turn = value.GetValueString()
-	case "Accelerate":
-		horizontal_turn.Accelerate.FromCodeString(value.GetValueString())
-	case "Beats":
-		horizontal_turn.Beats = value.GetValueString()
-	case "Second_beat":
-		horizontal_turn.Second_beat = value.GetValueString()
-	case "Last_beat":
-		horizontal_turn.Last_beat = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (identification *Identification) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		identification.Name = value.GetValueString()
-	case "Creator":
-		identification.Creator = make([]*Typed_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Typed_texts {
-					if stage.Typed_text_stagedOrder[__instance__] == uint(id) {
-						identification.Creator = append(identification.Creator, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Rights":
-		identification.Rights = make([]*Typed_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Typed_texts {
-					if stage.Typed_text_stagedOrder[__instance__] == uint(id) {
-						identification.Rights = append(identification.Rights, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Encoding":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			identification.Encoding = nil
-			for __instance__ := range stage.Encodings {
-				if stage.Encoding_stagedOrder[__instance__] == uint(id) {
-					identification.Encoding = __instance__
-					break
-				}
-			}
-		}
-	case "Source":
-		identification.Source = value.GetValueString()
-	case "Relation":
-		identification.Relation = make([]*Typed_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Typed_texts {
-					if stage.Typed_text_stagedOrder[__instance__] == uint(id) {
-						identification.Relation = append(identification.Relation, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Miscellaneous":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			identification.Miscellaneous = nil
-			for __instance__ := range stage.Miscellaneouss {
-				if stage.Miscellaneous_stagedOrder[__instance__] == uint(id) {
-					identification.Miscellaneous = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (image *Image) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		image.Name = value.GetValueString()
-	case "Source":
-		image.Source = value.GetValueString()
-	case "Type":
-		image.Type = value.GetValueString()
-	case "Height":
-		image.Height = value.GetValueString()
-	case "Width":
-		image.Width = value.GetValueString()
-	case "Default_x":
-		image.Default_x = value.GetValueString()
-	case "Default_y":
-		image.Default_y = value.GetValueString()
-	case "Relative_x":
-		image.Relative_x = value.GetValueString()
-	case "Relative_y":
-		image.Relative_y = value.GetValueString()
-	case "Halign":
-		image.Halign = value.GetValueString()
-	case "Valign":
-		image.Valign = value.GetValueString()
-	case "Id":
-		image.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (instrument *Instrument) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		instrument.Name = value.GetValueString()
-	case "Id":
-		instrument.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (instrument_change *Instrument_change) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		instrument_change.Name = value.GetValueString()
-	case "Id":
-		instrument_change.Id = value.GetValueString()
-	case "Instrument_sound":
-		instrument_change.Instrument_sound = value.GetValueString()
-	case "Solo":
-		instrument_change.Solo = value.GetValueString()
-	case "Ensemble":
-		instrument_change.Ensemble = value.GetValueString()
-	case "Virtual_instrument":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			instrument_change.Virtual_instrument = nil
-			for __instance__ := range stage.Virtual_instruments {
-				if stage.Virtual_instrument_stagedOrder[__instance__] == uint(id) {
-					instrument_change.Virtual_instrument = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (instrument_link *Instrument_link) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		instrument_link.Name = value.GetValueString()
-	case "Id":
-		instrument_link.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (interchangeable *Interchangeable) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		interchangeable.Name = value.GetValueString()
-	case "Symbol":
-		interchangeable.Symbol = value.GetValueString()
-	case "Separator":
-		interchangeable.Separator = value.GetValueString()
-	case "Time_relation":
-		interchangeable.Time_relation = value.GetValueString()
-	case "Beats":
-		interchangeable.Beats = value.GetValueString()
-	case "Beat_type":
-		interchangeable.Beat_type = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (inversion *Inversion) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		inversion.Name = value.GetValueString()
-	case "Text":
-		inversion.Text = value.GetValueString()
-	case "Default_x":
-		inversion.Default_x = value.GetValueString()
-	case "Default_y":
-		inversion.Default_y = value.GetValueString()
-	case "Relative_x":
-		inversion.Relative_x = value.GetValueString()
-	case "Relative_y":
-		inversion.Relative_y = value.GetValueString()
-	case "Font_family":
-		inversion.Font_family = value.GetValueString()
-	case "Font_style":
-		inversion.Font_style = value.GetValueString()
-	case "Font_size":
-		inversion.Font_size = value.GetValueString()
-	case "Font_weight":
-		inversion.Font_weight = value.GetValueString()
-	case "Color":
-		inversion.Color = value.GetValueString()
-	case "EnclosedText":
-		inversion.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (key *Key) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		key.Name = value.GetValueString()
-	case "Number":
-		key.Number = int(value.GetValueInt())
-	case "Default_x":
-		key.Default_x = value.GetValueString()
-	case "Default_y":
-		key.Default_y = value.GetValueString()
-	case "Relative_x":
-		key.Relative_x = value.GetValueString()
-	case "Relative_y":
-		key.Relative_y = value.GetValueString()
-	case "Font_family":
-		key.Font_family = value.GetValueString()
-	case "Font_style":
-		key.Font_style = value.GetValueString()
-	case "Font_size":
-		key.Font_size = value.GetValueString()
-	case "Font_weight":
-		key.Font_weight = value.GetValueString()
-	case "Color":
-		key.Color = value.GetValueString()
-	case "Print_object":
-		key.Print_object.FromCodeString(value.GetValueString())
-	case "Id":
-		key.Id = value.GetValueString()
-	case "Cancel":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			key.Cancel = nil
-			for __instance__ := range stage.Cancels {
-				if stage.Cancel_stagedOrder[__instance__] == uint(id) {
-					key.Cancel = __instance__
-					break
-				}
-			}
-		}
-	case "Fifths":
-		key.Fifths = int(value.GetValueInt())
-	case "Mode":
-		key.Mode = value.GetValueString()
-	case "Key_step":
-		key.Key_step.FromCodeString(value.GetValueString())
-	case "Key_alter":
-		key.Key_alter = value.GetValueString()
-	case "Key_accidental":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			key.Key_accidental = nil
-			for __instance__ := range stage.Key_accidentals {
-				if stage.Key_accidental_stagedOrder[__instance__] == uint(id) {
-					key.Key_accidental = __instance__
-					break
-				}
-			}
-		}
-	case "Key_octave":
-		key.Key_octave = make([]*Key_octave, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Key_octaves {
-					if stage.Key_octave_stagedOrder[__instance__] == uint(id) {
-						key.Key_octave = append(key.Key_octave, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (key_accidental *Key_accidental) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		key_accidental.Name = value.GetValueString()
-	case "Smufl":
-		key_accidental.Smufl = value.GetValueString()
-	case "EnclosedText":
-		key_accidental.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (key_octave *Key_octave) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		key_octave.Name = value.GetValueString()
-	case "Number":
-		key_octave.Number = int(value.GetValueInt())
-	case "Cancel":
-		key_octave.Cancel.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		key_octave.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (kind *Kind) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		kind.Name = value.GetValueString()
-	case "Use_symbols":
-		kind.Use_symbols.FromCodeString(value.GetValueString())
-	case "Text":
-		kind.Text = value.GetValueString()
-	case "Stack_degrees":
-		kind.Stack_degrees.FromCodeString(value.GetValueString())
-	case "Parentheses_degrees":
-		kind.Parentheses_degrees.FromCodeString(value.GetValueString())
-	case "Bracket_degrees":
-		kind.Bracket_degrees.FromCodeString(value.GetValueString())
-	case "Default_x":
-		kind.Default_x = value.GetValueString()
-	case "Default_y":
-		kind.Default_y = value.GetValueString()
-	case "Relative_x":
-		kind.Relative_x = value.GetValueString()
-	case "Relative_y":
-		kind.Relative_y = value.GetValueString()
-	case "Font_family":
-		kind.Font_family = value.GetValueString()
-	case "Font_style":
-		kind.Font_style = value.GetValueString()
-	case "Font_size":
-		kind.Font_size = value.GetValueString()
-	case "Font_weight":
-		kind.Font_weight = value.GetValueString()
-	case "Color":
-		kind.Color = value.GetValueString()
-	case "Halign":
-		kind.Halign = value.GetValueString()
-	case "Valign":
-		kind.Valign = value.GetValueString()
-	case "EnclosedText":
-		kind.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (level *Level) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		level.Name = value.GetValueString()
-	case "Reference":
-		level.Reference.FromCodeString(value.GetValueString())
-	case "Type":
-		level.Type.FromCodeString(value.GetValueString())
-	case "Parentheses":
-		level.Parentheses.FromCodeString(value.GetValueString())
-	case "Bracket":
-		level.Bracket.FromCodeString(value.GetValueString())
-	case "Size":
-		level.Size.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		level.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (line_detail *Line_detail) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		line_detail.Name = value.GetValueString()
-	case "Line":
-		line_detail.Line = int(value.GetValueInt())
-	case "Width":
-		line_detail.Width = value.GetValueString()
-	case "Color":
-		line_detail.Color = value.GetValueString()
-	case "Line_type":
-		line_detail.Line_type = value.GetValueString()
-	case "Print_object":
-		line_detail.Print_object.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (line_width *Line_width) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		line_width.Name = value.GetValueString()
-	case "Type":
-		line_width.Type = value.GetValueString()
-	case "EnclosedText":
-		line_width.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		link.Name = value.GetValueString()
-	case "NameXSD":
-		link.NameXSD = value.GetValueString()
-	case "Href":
-		link.Href = value.GetValueString()
-	case "Type":
-		link.Type = value.GetValueString()
-	case "Role":
-		link.Role = value.GetValueString()
-	case "Title":
-		link.Title = value.GetValueString()
-	case "Show":
-		link.Show = value.GetValueString()
-	case "Actuate":
-		link.Actuate = value.GetValueString()
-	case "Element":
-		link.Element = value.GetValueString()
-	case "Position":
-		link.Position = int(value.GetValueInt())
-	case "Default_x":
-		link.Default_x = value.GetValueString()
-	case "Default_y":
-		link.Default_y = value.GetValueString()
-	case "Relative_x":
-		link.Relative_x = value.GetValueString()
-	case "Relative_y":
-		link.Relative_y = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (listen *Listen) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		listen.Name = value.GetValueString()
-	case "Assess":
-		listen.Assess = make([]*Assess, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Assesss {
-					if stage.Assess_stagedOrder[__instance__] == uint(id) {
-						listen.Assess = append(listen.Assess, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Wait":
-		listen.Wait = make([]*Wait, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Waits {
-					if stage.Wait_stagedOrder[__instance__] == uint(id) {
-						listen.Wait = append(listen.Wait, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_listen":
-		listen.Other_listen = make([]*Other_listening, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_listenings {
-					if stage.Other_listening_stagedOrder[__instance__] == uint(id) {
-						listen.Other_listen = append(listen.Other_listen, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (listening *Listening) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		listening.Name = value.GetValueString()
-	case "Sync":
-		listening.Sync = make([]*Sync, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Syncs {
-					if stage.Sync_stagedOrder[__instance__] == uint(id) {
-						listening.Sync = append(listening.Sync, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_listening":
-		listening.Other_listening = make([]*Other_listening, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_listenings {
-					if stage.Other_listening_stagedOrder[__instance__] == uint(id) {
-						listening.Other_listening = append(listening.Other_listening, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Offset":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			listening.Offset = nil
-			for __instance__ := range stage.Offsets {
-				if stage.Offset_stagedOrder[__instance__] == uint(id) {
-					listening.Offset = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (lyric *Lyric) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		lyric.Name = value.GetValueString()
-	case "Number":
-		lyric.Number = value.GetValueString()
-	case "NameXSD":
-		lyric.NameXSD = value.GetValueString()
-	case "Time_only":
-		lyric.Time_only.FromCodeString(value.GetValueString())
-	case "Justify":
-		lyric.Justify.FromCodeString(value.GetValueString())
-	case "Default_x":
-		lyric.Default_x = value.GetValueString()
-	case "Default_y":
-		lyric.Default_y = value.GetValueString()
-	case "Relative_x":
-		lyric.Relative_x = value.GetValueString()
-	case "Relative_y":
-		lyric.Relative_y = value.GetValueString()
-	case "Placement":
-		lyric.Placement = value.GetValueString()
-	case "Color":
-		lyric.Color = value.GetValueString()
-	case "Print_object":
-		lyric.Print_object.FromCodeString(value.GetValueString())
-	case "Id":
-		lyric.Id = value.GetValueString()
-	case "Elision":
-		lyric.Elision = make([]*Elision, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Elisions {
-					if stage.Elision_stagedOrder[__instance__] == uint(id) {
-						lyric.Elision = append(lyric.Elision, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Syllabic":
-		lyric.Syllabic = value.GetValueString()
-	case "Text":
-		lyric.Text = make([]*Text_element_data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Text_element_datas {
-					if stage.Text_element_data_stagedOrder[__instance__] == uint(id) {
-						lyric.Text = append(lyric.Text, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Extend":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			lyric.Extend = nil
-			for __instance__ := range stage.Extends {
-				if stage.Extend_stagedOrder[__instance__] == uint(id) {
-					lyric.Extend = __instance__
-					break
-				}
-			}
-		}
-	case "Laughing":
-		lyric.Laughing = value.GetValueString()
-	case "Humming":
-		lyric.Humming = value.GetValueString()
-	case "End_line":
-		lyric.End_line = value.GetValueString()
-	case "End_paragraph":
-		lyric.End_paragraph = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			lyric.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					lyric.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			lyric.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					lyric.Level = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (lyric_font *Lyric_font) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		lyric_font.Name = value.GetValueString()
-	case "Number":
-		lyric_font.Number = value.GetValueString()
-	case "NameXSD":
-		lyric_font.NameXSD = value.GetValueString()
-	case "Font_family":
-		lyric_font.Font_family = value.GetValueString()
-	case "Font_style":
-		lyric_font.Font_style = value.GetValueString()
-	case "Font_size":
-		lyric_font.Font_size = value.GetValueString()
-	case "Font_weight":
-		lyric_font.Font_weight = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (lyric_language *Lyric_language) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		lyric_language.Name = value.GetValueString()
-	case "Number":
-		lyric_language.Number = value.GetValueString()
-	case "NameXSD":
-		lyric_language.NameXSD = value.GetValueString()
-	case "Lang":
-		lyric_language.Lang = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (measure_layout *Measure_layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		measure_layout.Name = value.GetValueString()
-	case "Measure_distance":
-		measure_layout.Measure_distance = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (measure_numbering *Measure_numbering) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		measure_numbering.Name = value.GetValueString()
-	case "System":
-		measure_numbering.System = value.GetValueString()
-	case "Staff":
-		measure_numbering.Staff = int(value.GetValueInt())
-	case "Multiple_rest_always":
-		measure_numbering.Multiple_rest_always.FromCodeString(value.GetValueString())
-	case "Multiple_rest_range":
-		measure_numbering.Multiple_rest_range.FromCodeString(value.GetValueString())
-	case "Default_x":
-		measure_numbering.Default_x = value.GetValueString()
-	case "Default_y":
-		measure_numbering.Default_y = value.GetValueString()
-	case "Relative_x":
-		measure_numbering.Relative_x = value.GetValueString()
-	case "Relative_y":
-		measure_numbering.Relative_y = value.GetValueString()
-	case "Font_family":
-		measure_numbering.Font_family = value.GetValueString()
-	case "Font_style":
-		measure_numbering.Font_style = value.GetValueString()
-	case "Font_size":
-		measure_numbering.Font_size = value.GetValueString()
-	case "Font_weight":
-		measure_numbering.Font_weight = value.GetValueString()
-	case "Color":
-		measure_numbering.Color = value.GetValueString()
-	case "Halign":
-		measure_numbering.Halign = value.GetValueString()
-	case "Valign":
-		measure_numbering.Valign = value.GetValueString()
-	case "EnclosedText":
-		measure_numbering.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (measure_repeat *Measure_repeat) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		measure_repeat.Name = value.GetValueString()
-	case "Type":
-		measure_repeat.Type.FromCodeString(value.GetValueString())
-	case "Slashes":
-		measure_repeat.Slashes = int(value.GetValueInt())
-	case "EnclosedText":
-		measure_repeat.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (measure_style *Measure_style) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		measure_style.Name = value.GetValueString()
-	case "Number":
-		measure_style.Number = int(value.GetValueInt())
-	case "Font_family":
-		measure_style.Font_family = value.GetValueString()
-	case "Font_style":
-		measure_style.Font_style = value.GetValueString()
-	case "Font_size":
-		measure_style.Font_size = value.GetValueString()
-	case "Font_weight":
-		measure_style.Font_weight = value.GetValueString()
-	case "Color":
-		measure_style.Color = value.GetValueString()
-	case "Id":
-		measure_style.Id = value.GetValueString()
-	case "Multiple_rest":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			measure_style.Multiple_rest = nil
-			for __instance__ := range stage.Multiple_rests {
-				if stage.Multiple_rest_stagedOrder[__instance__] == uint(id) {
-					measure_style.Multiple_rest = __instance__
-					break
-				}
-			}
-		}
-	case "Measure_repeat":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			measure_style.Measure_repeat = nil
-			for __instance__ := range stage.Measure_repeats {
-				if stage.Measure_repeat_stagedOrder[__instance__] == uint(id) {
-					measure_style.Measure_repeat = __instance__
-					break
-				}
-			}
-		}
-	case "Beat_repeat":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			measure_style.Beat_repeat = nil
-			for __instance__ := range stage.Beat_repeats {
-				if stage.Beat_repeat_stagedOrder[__instance__] == uint(id) {
-					measure_style.Beat_repeat = __instance__
-					break
-				}
-			}
-		}
-	case "Slash":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			measure_style.Slash = nil
-			for __instance__ := range stage.Slashs {
-				if stage.Slash_stagedOrder[__instance__] == uint(id) {
-					measure_style.Slash = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (membrane *Membrane) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		membrane.Name = value.GetValueString()
-	case "Smufl":
-		membrane.Smufl = value.GetValueString()
-	case "EnclosedText":
-		membrane.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (metal *Metal) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		metal.Name = value.GetValueString()
-	case "Smufl":
-		metal.Smufl = value.GetValueString()
-	case "EnclosedText":
-		metal.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (metronome *Metronome) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		metronome.Name = value.GetValueString()
-	case "Parentheses":
-		metronome.Parentheses.FromCodeString(value.GetValueString())
-	case "Default_x":
-		metronome.Default_x = value.GetValueString()
-	case "Default_y":
-		metronome.Default_y = value.GetValueString()
-	case "Relative_x":
-		metronome.Relative_x = value.GetValueString()
-	case "Relative_y":
-		metronome.Relative_y = value.GetValueString()
-	case "Font_family":
-		metronome.Font_family = value.GetValueString()
-	case "Font_style":
-		metronome.Font_style = value.GetValueString()
-	case "Font_size":
-		metronome.Font_size = value.GetValueString()
-	case "Font_weight":
-		metronome.Font_weight = value.GetValueString()
-	case "Color":
-		metronome.Color = value.GetValueString()
-	case "Halign":
-		metronome.Halign = value.GetValueString()
-	case "Valign":
-		metronome.Valign = value.GetValueString()
-	case "Print_object":
-		metronome.Print_object.FromCodeString(value.GetValueString())
-	case "Justify":
-		metronome.Justify.FromCodeString(value.GetValueString())
-	case "Id":
-		metronome.Id = value.GetValueString()
-	case "Beat_unit":
-		metronome.Beat_unit.FromCodeString(value.GetValueString())
-	case "Beat_unit_dot":
-		metronome.Beat_unit_dot = value.GetValueString()
-	case "Per_minute":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			metronome.Per_minute = nil
-			for __instance__ := range stage.Per_minutes {
-				if stage.Per_minute_stagedOrder[__instance__] == uint(id) {
-					metronome.Per_minute = __instance__
-					break
-				}
-			}
-		}
-	case "Beat_unit_tied":
-		metronome.Beat_unit_tied = make([]*Beat_unit_tied, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Beat_unit_tieds {
-					if stage.Beat_unit_tied_stagedOrder[__instance__] == uint(id) {
-						metronome.Beat_unit_tied = append(metronome.Beat_unit_tied, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Metronome_arrows":
-		metronome.Metronome_arrows = value.GetValueString()
-	case "Metronome_relation":
-		metronome.Metronome_relation = value.GetValueString()
-	case "Metronome_note":
-		metronome.Metronome_note = make([]*Metronome_note, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Metronome_notes {
-					if stage.Metronome_note_stagedOrder[__instance__] == uint(id) {
-						metronome.Metronome_note = append(metronome.Metronome_note, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (metronome_beam *Metronome_beam) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		metronome_beam.Name = value.GetValueString()
-	case "Number":
-		metronome_beam.Number = int(value.GetValueInt())
-	case "EnclosedText":
-		metronome_beam.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (metronome_note *Metronome_note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		metronome_note.Name = value.GetValueString()
-	case "Metronome_type":
-		metronome_note.Metronome_type = value.GetValueString()
-	case "Metronome_dot":
-		metronome_note.Metronome_dot = value.GetValueString()
-	case "Metronome_beam":
-		metronome_note.Metronome_beam = make([]*Metronome_beam, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Metronome_beams {
-					if stage.Metronome_beam_stagedOrder[__instance__] == uint(id) {
-						metronome_note.Metronome_beam = append(metronome_note.Metronome_beam, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Metronome_tied":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			metronome_note.Metronome_tied = nil
-			for __instance__ := range stage.Metronome_tieds {
-				if stage.Metronome_tied_stagedOrder[__instance__] == uint(id) {
-					metronome_note.Metronome_tied = __instance__
-					break
-				}
-			}
-		}
-	case "Metronome_tuplet":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			metronome_note.Metronome_tuplet = nil
-			for __instance__ := range stage.Metronome_tuplets {
-				if stage.Metronome_tuplet_stagedOrder[__instance__] == uint(id) {
-					metronome_note.Metronome_tuplet = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (metronome_tied *Metronome_tied) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		metronome_tied.Name = value.GetValueString()
-	case "Type":
-		metronome_tied.Type.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (metronome_tuplet *Metronome_tuplet) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		metronome_tuplet.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (midi_device *Midi_device) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		midi_device.Name = value.GetValueString()
-	case "Port":
-		midi_device.Port = int(value.GetValueInt())
-	case "Id":
-		midi_device.Id = value.GetValueString()
-	case "EnclosedText":
-		midi_device.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (midi_instrument *Midi_instrument) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		midi_instrument.Name = value.GetValueString()
-	case "Id":
-		midi_instrument.Id = value.GetValueString()
-	case "Midi_channel":
-		midi_instrument.Midi_channel = int(value.GetValueInt())
-	case "Midi_name":
-		midi_instrument.Midi_name = value.GetValueString()
-	case "Midi_bank":
-		midi_instrument.Midi_bank = int(value.GetValueInt())
-	case "Midi_program":
-		midi_instrument.Midi_program = int(value.GetValueInt())
-	case "Midi_unpitched":
-		midi_instrument.Midi_unpitched = int(value.GetValueInt())
-	case "Volume":
-		midi_instrument.Volume = value.GetValueString()
-	case "Pan":
-		midi_instrument.Pan = value.GetValueString()
-	case "Elevation":
-		midi_instrument.Elevation = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (miscellaneous *Miscellaneous) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		miscellaneous.Name = value.GetValueString()
-	case "Miscellaneous_field":
-		miscellaneous.Miscellaneous_field = make([]*Miscellaneous_field, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Miscellaneous_fields {
-					if stage.Miscellaneous_field_stagedOrder[__instance__] == uint(id) {
-						miscellaneous.Miscellaneous_field = append(miscellaneous.Miscellaneous_field, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (miscellaneous_field *Miscellaneous_field) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		miscellaneous_field.Name = value.GetValueString()
-	case "NameXSD":
-		miscellaneous_field.NameXSD = value.GetValueString()
-	case "EnclosedText":
-		miscellaneous_field.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (mordent *Mordent) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		mordent.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (multiple_rest *Multiple_rest) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		multiple_rest.Name = value.GetValueString()
-	case "Use_symbols":
-		multiple_rest.Use_symbols.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		multiple_rest.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (name_display *Name_display) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		name_display.Name = value.GetValueString()
-	case "Print_object":
-		name_display.Print_object.FromCodeString(value.GetValueString())
-	case "Display_text":
-		name_display.Display_text = make([]*Formatted_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_texts {
-					if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-						name_display.Display_text = append(name_display.Display_text, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Accidental_text":
-		name_display.Accidental_text = make([]*Accidental_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Accidental_texts {
-					if stage.Accidental_text_stagedOrder[__instance__] == uint(id) {
-						name_display.Accidental_text = append(name_display.Accidental_text, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (non_arpeggiate *Non_arpeggiate) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		non_arpeggiate.Name = value.GetValueString()
-	case "Type":
-		non_arpeggiate.Type = value.GetValueString()
-	case "Number":
-		non_arpeggiate.Number = int(value.GetValueInt())
-	case "Default_x":
-		non_arpeggiate.Default_x = value.GetValueString()
-	case "Default_y":
-		non_arpeggiate.Default_y = value.GetValueString()
-	case "Relative_x":
-		non_arpeggiate.Relative_x = value.GetValueString()
-	case "Relative_y":
-		non_arpeggiate.Relative_y = value.GetValueString()
-	case "Placement":
-		non_arpeggiate.Placement = value.GetValueString()
-	case "Color":
-		non_arpeggiate.Color = value.GetValueString()
-	case "Id":
-		non_arpeggiate.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notations *Notations) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notations.Name = value.GetValueString()
-	case "Print_object":
-		notations.Print_object.FromCodeString(value.GetValueString())
-	case "Id":
-		notations.Id = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notations.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					notations.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notations.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					notations.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Tied":
-		notations.Tied = make([]*Tied, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tieds {
-					if stage.Tied_stagedOrder[__instance__] == uint(id) {
-						notations.Tied = append(notations.Tied, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Slur":
-		notations.Slur = make([]*Slur, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Slurs {
-					if stage.Slur_stagedOrder[__instance__] == uint(id) {
-						notations.Slur = append(notations.Slur, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tuplet":
-		notations.Tuplet = make([]*Tuplet, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tuplets {
-					if stage.Tuplet_stagedOrder[__instance__] == uint(id) {
-						notations.Tuplet = append(notations.Tuplet, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Glissando":
-		notations.Glissando = make([]*Glissando, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Glissandos {
-					if stage.Glissando_stagedOrder[__instance__] == uint(id) {
-						notations.Glissando = append(notations.Glissando, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Slide":
-		notations.Slide = make([]*Slide, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Slides {
-					if stage.Slide_stagedOrder[__instance__] == uint(id) {
-						notations.Slide = append(notations.Slide, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Ornaments":
-		notations.Ornaments = make([]*Ornaments, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Ornamentss {
-					if stage.Ornaments_stagedOrder[__instance__] == uint(id) {
-						notations.Ornaments = append(notations.Ornaments, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Technical":
-		notations.Technical = make([]*Technical, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Technicals {
-					if stage.Technical_stagedOrder[__instance__] == uint(id) {
-						notations.Technical = append(notations.Technical, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Articulations":
-		notations.Articulations = make([]*Articulations, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Articulationss {
-					if stage.Articulations_stagedOrder[__instance__] == uint(id) {
-						notations.Articulations = append(notations.Articulations, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Dynamics":
-		notations.Dynamics = make([]*Dynamics, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Dynamicss {
-					if stage.Dynamics_stagedOrder[__instance__] == uint(id) {
-						notations.Dynamics = append(notations.Dynamics, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Fermata":
-		notations.Fermata = make([]*Fermata, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Fermatas {
-					if stage.Fermata_stagedOrder[__instance__] == uint(id) {
-						notations.Fermata = append(notations.Fermata, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Arpeggiate":
-		notations.Arpeggiate = make([]*Arpeggiate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Arpeggiates {
-					if stage.Arpeggiate_stagedOrder[__instance__] == uint(id) {
-						notations.Arpeggiate = append(notations.Arpeggiate, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Non_arpeggiate":
-		notations.Non_arpeggiate = make([]*Non_arpeggiate, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Non_arpeggiates {
-					if stage.Non_arpeggiate_stagedOrder[__instance__] == uint(id) {
-						notations.Non_arpeggiate = append(notations.Non_arpeggiate, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Accidental_mark":
-		notations.Accidental_mark = make([]*Accidental_mark, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Accidental_marks {
-					if stage.Accidental_mark_stagedOrder[__instance__] == uint(id) {
-						notations.Accidental_mark = append(notations.Accidental_mark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_notation":
-		notations.Other_notation = make([]*Other_notation, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_notations {
-					if stage.Other_notation_stagedOrder[__instance__] == uint(id) {
-						notations.Other_notation = append(notations.Other_notation, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note.Name = value.GetValueString()
-	case "Print_leger":
-		note.Print_leger.FromCodeString(value.GetValueString())
-	case "Dynamics":
-		note.Dynamics = value.GetValueString()
-	case "End_dynamics":
-		note.End_dynamics = value.GetValueString()
-	case "Attack":
-		note.Attack = value.GetValueString()
-	case "Release":
-		note.Release = value.GetValueString()
-	case "Time_only":
-		note.Time_only.FromCodeString(value.GetValueString())
-	case "Pizzicato":
-		note.Pizzicato.FromCodeString(value.GetValueString())
-	case "Default_x":
-		note.Default_x = value.GetValueString()
-	case "Default_y":
-		note.Default_y = value.GetValueString()
-	case "Relative_x":
-		note.Relative_x = value.GetValueString()
-	case "Relative_y":
-		note.Relative_y = value.GetValueString()
-	case "Font_family":
-		note.Font_family = value.GetValueString()
-	case "Font_style":
-		note.Font_style = value.GetValueString()
-	case "Font_size":
-		note.Font_size = value.GetValueString()
-	case "Font_weight":
-		note.Font_weight = value.GetValueString()
-	case "Color":
-		note.Color = value.GetValueString()
-	case "Print_dot":
-		note.Print_dot.FromCodeString(value.GetValueString())
-	case "Print_lyric":
-		note.Print_lyric.FromCodeString(value.GetValueString())
-	case "Print_object":
-		note.Print_object.FromCodeString(value.GetValueString())
-	case "Print_spacing":
-		note.Print_spacing.FromCodeString(value.GetValueString())
-	case "Id":
-		note.Id = value.GetValueString()
-	case "Grace":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Grace = nil
-			for __instance__ := range stage.Graces {
-				if stage.Grace_stagedOrder[__instance__] == uint(id) {
-					note.Grace = __instance__
-					break
-				}
-			}
-		}
-	case "Chord":
-		note.Chord = value.GetValueString()
-	case "Pitch":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Pitch = nil
-			for __instance__ := range stage.Pitchs {
-				if stage.Pitch_stagedOrder[__instance__] == uint(id) {
-					note.Pitch = __instance__
-					break
-				}
-			}
-		}
-	case "Unpitched":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Unpitched = nil
-			for __instance__ := range stage.Unpitcheds {
-				if stage.Unpitched_stagedOrder[__instance__] == uint(id) {
-					note.Unpitched = __instance__
-					break
-				}
-			}
-		}
-	case "Rest":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Rest = nil
-			for __instance__ := range stage.Rests {
-				if stage.Rest_stagedOrder[__instance__] == uint(id) {
-					note.Rest = __instance__
-					break
-				}
-			}
-		}
-	case "Tie":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Tie = nil
-			for __instance__ := range stage.Ties {
-				if stage.Tie_stagedOrder[__instance__] == uint(id) {
-					note.Tie = __instance__
-					break
-				}
-			}
-		}
-	case "Cue":
-		note.Cue = value.GetValueString()
-	case "Duration":
-		note.Duration = value.GetValueString()
-	case "Instrument":
-		note.Instrument = make([]*Instrument, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Instruments {
-					if stage.Instrument_stagedOrder[__instance__] == uint(id) {
-						note.Instrument = append(note.Instrument, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					note.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					note.Level = __instance__
-					break
-				}
-			}
-		}
-	case "Voice":
-		note.Voice = value.GetValueString()
-	case "Type":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Type = nil
-			for __instance__ := range stage.Note_types {
-				if stage.Note_type_stagedOrder[__instance__] == uint(id) {
-					note.Type = __instance__
-					break
-				}
-			}
-		}
-	case "Dot":
-		note.Dot = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						note.Dot = append(note.Dot, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Accidental":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Accidental = nil
-			for __instance__ := range stage.Accidentals {
-				if stage.Accidental_stagedOrder[__instance__] == uint(id) {
-					note.Accidental = __instance__
-					break
-				}
-			}
-		}
-	case "Time_modification":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Time_modification = nil
-			for __instance__ := range stage.Time_modifications {
-				if stage.Time_modification_stagedOrder[__instance__] == uint(id) {
-					note.Time_modification = __instance__
-					break
-				}
-			}
-		}
-	case "Stem":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Stem = nil
-			for __instance__ := range stage.Stems {
-				if stage.Stem_stagedOrder[__instance__] == uint(id) {
-					note.Stem = __instance__
-					break
-				}
-			}
-		}
-	case "Notehead":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Notehead = nil
-			for __instance__ := range stage.Noteheads {
-				if stage.Notehead_stagedOrder[__instance__] == uint(id) {
-					note.Notehead = __instance__
-					break
-				}
-			}
-		}
-	case "Notehead_text":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Notehead_text = nil
-			for __instance__ := range stage.Notehead_texts {
-				if stage.Notehead_text_stagedOrder[__instance__] == uint(id) {
-					note.Notehead_text = __instance__
-					break
-				}
-			}
-		}
-	case "Staff":
-		note.Staff = int(value.GetValueInt())
-	case "Beam":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Beam = nil
-			for __instance__ := range stage.Beams {
-				if stage.Beam_stagedOrder[__instance__] == uint(id) {
-					note.Beam = __instance__
-					break
-				}
-			}
-		}
-	case "Notations":
-		note.Notations = make([]*Notations, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Notationss {
-					if stage.Notations_stagedOrder[__instance__] == uint(id) {
-						note.Notations = append(note.Notations, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Lyric":
-		note.Lyric = make([]*Lyric, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Lyrics {
-					if stage.Lyric_stagedOrder[__instance__] == uint(id) {
-						note.Lyric = append(note.Lyric, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Play":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Play = nil
-			for __instance__ := range stage.Plays {
-				if stage.Play_stagedOrder[__instance__] == uint(id) {
-					note.Play = __instance__
-					break
-				}
-			}
-		}
-	case "Listen":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			note.Listen = nil
-			for __instance__ := range stage.Listens {
-				if stage.Listen_stagedOrder[__instance__] == uint(id) {
-					note.Listen = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note_size *Note_size) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note_size.Name = value.GetValueString()
-	case "Type":
-		note_size.Type = value.GetValueString()
-	case "EnclosedText":
-		note_size.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (note_type *Note_type) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		note_type.Name = value.GetValueString()
-	case "Size":
-		note_type.Size.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		note_type.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notehead *Notehead) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notehead.Name = value.GetValueString()
-	case "Filled":
-		notehead.Filled.FromCodeString(value.GetValueString())
-	case "Parentheses":
-		notehead.Parentheses.FromCodeString(value.GetValueString())
-	case "Font_family":
-		notehead.Font_family = value.GetValueString()
-	case "Font_style":
-		notehead.Font_style = value.GetValueString()
-	case "Font_size":
-		notehead.Font_size = value.GetValueString()
-	case "Font_weight":
-		notehead.Font_weight = value.GetValueString()
-	case "Color":
-		notehead.Color = value.GetValueString()
-	case "Smufl":
-		notehead.Smufl = value.GetValueString()
-	case "EnclosedText":
-		notehead.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (notehead_text *Notehead_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		notehead_text.Name = value.GetValueString()
-	case "Display_text":
-		notehead_text.Display_text = make([]*Formatted_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Formatted_texts {
-					if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-						notehead_text.Display_text = append(notehead_text.Display_text, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Accidental_text":
-		notehead_text.Accidental_text = make([]*Accidental_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Accidental_texts {
-					if stage.Accidental_text_stagedOrder[__instance__] == uint(id) {
-						notehead_text.Accidental_text = append(notehead_text.Accidental_text, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (numeral *Numeral) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		numeral.Name = value.GetValueString()
-	case "Numeral_root":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			numeral.Numeral_root = nil
-			for __instance__ := range stage.Numeral_roots {
-				if stage.Numeral_root_stagedOrder[__instance__] == uint(id) {
-					numeral.Numeral_root = __instance__
-					break
-				}
-			}
-		}
-	case "Numeral_alter":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			numeral.Numeral_alter = nil
-			for __instance__ := range stage.Harmony_alters {
-				if stage.Harmony_alter_stagedOrder[__instance__] == uint(id) {
-					numeral.Numeral_alter = __instance__
-					break
-				}
-			}
-		}
-	case "Numeral_key":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			numeral.Numeral_key = nil
-			for __instance__ := range stage.Numeral_keys {
-				if stage.Numeral_key_stagedOrder[__instance__] == uint(id) {
-					numeral.Numeral_key = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (numeral_key *Numeral_key) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		numeral_key.Name = value.GetValueString()
-	case "Print_object":
-		numeral_key.Print_object.FromCodeString(value.GetValueString())
-	case "Numeral_fifths":
-		numeral_key.Numeral_fifths = int(value.GetValueInt())
-	case "Numeral_mode":
-		numeral_key.Numeral_mode = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (numeral_root *Numeral_root) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		numeral_root.Name = value.GetValueString()
-	case "Text":
-		numeral_root.Text = value.GetValueString()
-	case "Default_x":
-		numeral_root.Default_x = value.GetValueString()
-	case "Default_y":
-		numeral_root.Default_y = value.GetValueString()
-	case "Relative_x":
-		numeral_root.Relative_x = value.GetValueString()
-	case "Relative_y":
-		numeral_root.Relative_y = value.GetValueString()
-	case "Font_family":
-		numeral_root.Font_family = value.GetValueString()
-	case "Font_style":
-		numeral_root.Font_style = value.GetValueString()
-	case "Font_size":
-		numeral_root.Font_size = value.GetValueString()
-	case "Font_weight":
-		numeral_root.Font_weight = value.GetValueString()
-	case "Color":
-		numeral_root.Color = value.GetValueString()
-	case "EnclosedText":
-		numeral_root.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (octave_shift *Octave_shift) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		octave_shift.Name = value.GetValueString()
-	case "Type":
-		octave_shift.Type = value.GetValueString()
-	case "Number":
-		octave_shift.Number = int(value.GetValueInt())
-	case "Size":
-		octave_shift.Size = int(value.GetValueInt())
-	case "Dash_length":
-		octave_shift.Dash_length = value.GetValueString()
-	case "Space_length":
-		octave_shift.Space_length = value.GetValueString()
-	case "Default_x":
-		octave_shift.Default_x = value.GetValueString()
-	case "Default_y":
-		octave_shift.Default_y = value.GetValueString()
-	case "Relative_x":
-		octave_shift.Relative_x = value.GetValueString()
-	case "Relative_y":
-		octave_shift.Relative_y = value.GetValueString()
-	case "Font_family":
-		octave_shift.Font_family = value.GetValueString()
-	case "Font_style":
-		octave_shift.Font_style = value.GetValueString()
-	case "Font_size":
-		octave_shift.Font_size = value.GetValueString()
-	case "Font_weight":
-		octave_shift.Font_weight = value.GetValueString()
-	case "Color":
-		octave_shift.Color = value.GetValueString()
-	case "Id":
-		octave_shift.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (offset *Offset) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		offset.Name = value.GetValueString()
-	case "Sound":
-		offset.Sound.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		offset.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (opus *Opus) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		opus.Name = value.GetValueString()
-	case "Href":
-		opus.Href = value.GetValueString()
-	case "Type":
-		opus.Type = value.GetValueString()
-	case "Role":
-		opus.Role = value.GetValueString()
-	case "Title":
-		opus.Title = value.GetValueString()
-	case "Show":
-		opus.Show = value.GetValueString()
-	case "Actuate":
-		opus.Actuate = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (ornaments *Ornaments) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		ornaments.Name = value.GetValueString()
-	case "Id":
-		ornaments.Id = value.GetValueString()
-	case "Trill_mark":
-		ornaments.Trill_mark = make([]*Empty_trill_sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_trill_sounds {
-					if stage.Empty_trill_sound_stagedOrder[__instance__] == uint(id) {
-						ornaments.Trill_mark = append(ornaments.Trill_mark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Turn":
-		ornaments.Turn = make([]*Horizontal_turn, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Horizontal_turns {
-					if stage.Horizontal_turn_stagedOrder[__instance__] == uint(id) {
-						ornaments.Turn = append(ornaments.Turn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Delayed_turn":
-		ornaments.Delayed_turn = make([]*Horizontal_turn, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Horizontal_turns {
-					if stage.Horizontal_turn_stagedOrder[__instance__] == uint(id) {
-						ornaments.Delayed_turn = append(ornaments.Delayed_turn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Inverted_turn":
-		ornaments.Inverted_turn = make([]*Horizontal_turn, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Horizontal_turns {
-					if stage.Horizontal_turn_stagedOrder[__instance__] == uint(id) {
-						ornaments.Inverted_turn = append(ornaments.Inverted_turn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Delayed_inverted_turn":
-		ornaments.Delayed_inverted_turn = make([]*Horizontal_turn, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Horizontal_turns {
-					if stage.Horizontal_turn_stagedOrder[__instance__] == uint(id) {
-						ornaments.Delayed_inverted_turn = append(ornaments.Delayed_inverted_turn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Vertical_turn":
-		ornaments.Vertical_turn = make([]*Empty_trill_sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_trill_sounds {
-					if stage.Empty_trill_sound_stagedOrder[__instance__] == uint(id) {
-						ornaments.Vertical_turn = append(ornaments.Vertical_turn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Inverted_vertical_turn":
-		ornaments.Inverted_vertical_turn = make([]*Empty_trill_sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_trill_sounds {
-					if stage.Empty_trill_sound_stagedOrder[__instance__] == uint(id) {
-						ornaments.Inverted_vertical_turn = append(ornaments.Inverted_vertical_turn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Shake":
-		ornaments.Shake = make([]*Empty_trill_sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_trill_sounds {
-					if stage.Empty_trill_sound_stagedOrder[__instance__] == uint(id) {
-						ornaments.Shake = append(ornaments.Shake, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Wavy_line":
-		ornaments.Wavy_line = make([]*Wavy_line, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Wavy_lines {
-					if stage.Wavy_line_stagedOrder[__instance__] == uint(id) {
-						ornaments.Wavy_line = append(ornaments.Wavy_line, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Mordent":
-		ornaments.Mordent = make([]*Mordent, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Mordents {
-					if stage.Mordent_stagedOrder[__instance__] == uint(id) {
-						ornaments.Mordent = append(ornaments.Mordent, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Inverted_mordent":
-		ornaments.Inverted_mordent = make([]*Mordent, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Mordents {
-					if stage.Mordent_stagedOrder[__instance__] == uint(id) {
-						ornaments.Inverted_mordent = append(ornaments.Inverted_mordent, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Schleifer":
-		ornaments.Schleifer = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						ornaments.Schleifer = append(ornaments.Schleifer, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tremolo":
-		ornaments.Tremolo = make([]*Tremolo, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tremolos {
-					if stage.Tremolo_stagedOrder[__instance__] == uint(id) {
-						ornaments.Tremolo = append(ornaments.Tremolo, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Haydn":
-		ornaments.Haydn = make([]*Empty_trill_sound, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_trill_sounds {
-					if stage.Empty_trill_sound_stagedOrder[__instance__] == uint(id) {
-						ornaments.Haydn = append(ornaments.Haydn, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_ornament":
-		ornaments.Other_ornament = make([]*Other_placement_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_placement_texts {
-					if stage.Other_placement_text_stagedOrder[__instance__] == uint(id) {
-						ornaments.Other_ornament = append(ornaments.Other_ornament, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Accidental_mark":
-		ornaments.Accidental_mark = make([]*Accidental_mark, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Accidental_marks {
-					if stage.Accidental_mark_stagedOrder[__instance__] == uint(id) {
-						ornaments.Accidental_mark = append(ornaments.Accidental_mark, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_appearance *Other_appearance) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_appearance.Name = value.GetValueString()
-	case "Type":
-		other_appearance.Type = value.GetValueString()
-	case "EnclosedText":
-		other_appearance.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_direction *Other_direction) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_direction.Name = value.GetValueString()
-	case "Print_object":
-		other_direction.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		other_direction.Default_x = value.GetValueString()
-	case "Default_y":
-		other_direction.Default_y = value.GetValueString()
-	case "Relative_x":
-		other_direction.Relative_x = value.GetValueString()
-	case "Relative_y":
-		other_direction.Relative_y = value.GetValueString()
-	case "Font_family":
-		other_direction.Font_family = value.GetValueString()
-	case "Font_style":
-		other_direction.Font_style = value.GetValueString()
-	case "Font_size":
-		other_direction.Font_size = value.GetValueString()
-	case "Font_weight":
-		other_direction.Font_weight = value.GetValueString()
-	case "Color":
-		other_direction.Color = value.GetValueString()
-	case "Halign":
-		other_direction.Halign = value.GetValueString()
-	case "Valign":
-		other_direction.Valign = value.GetValueString()
-	case "Smufl":
-		other_direction.Smufl = value.GetValueString()
-	case "Id":
-		other_direction.Id = value.GetValueString()
-	case "EnclosedText":
-		other_direction.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_listening *Other_listening) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_listening.Name = value.GetValueString()
-	case "Type":
-		other_listening.Type = value.GetValueString()
-	case "Player":
-		other_listening.Player = value.GetValueString()
-	case "Time_only":
-		other_listening.Time_only.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		other_listening.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_notation *Other_notation) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_notation.Name = value.GetValueString()
-	case "Type":
-		other_notation.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		other_notation.Number = int(value.GetValueInt())
-	case "Print_object":
-		other_notation.Print_object.FromCodeString(value.GetValueString())
-	case "Default_x":
-		other_notation.Default_x = value.GetValueString()
-	case "Default_y":
-		other_notation.Default_y = value.GetValueString()
-	case "Relative_x":
-		other_notation.Relative_x = value.GetValueString()
-	case "Relative_y":
-		other_notation.Relative_y = value.GetValueString()
-	case "Font_family":
-		other_notation.Font_family = value.GetValueString()
-	case "Font_style":
-		other_notation.Font_style = value.GetValueString()
-	case "Font_size":
-		other_notation.Font_size = value.GetValueString()
-	case "Font_weight":
-		other_notation.Font_weight = value.GetValueString()
-	case "Color":
-		other_notation.Color = value.GetValueString()
-	case "Placement":
-		other_notation.Placement = value.GetValueString()
-	case "Smufl":
-		other_notation.Smufl = value.GetValueString()
-	case "Id":
-		other_notation.Id = value.GetValueString()
-	case "EnclosedText":
-		other_notation.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_placement_text *Other_placement_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_placement_text.Name = value.GetValueString()
-	case "Default_x":
-		other_placement_text.Default_x = value.GetValueString()
-	case "Default_y":
-		other_placement_text.Default_y = value.GetValueString()
-	case "Relative_x":
-		other_placement_text.Relative_x = value.GetValueString()
-	case "Relative_y":
-		other_placement_text.Relative_y = value.GetValueString()
-	case "Font_family":
-		other_placement_text.Font_family = value.GetValueString()
-	case "Font_style":
-		other_placement_text.Font_style = value.GetValueString()
-	case "Font_size":
-		other_placement_text.Font_size = value.GetValueString()
-	case "Font_weight":
-		other_placement_text.Font_weight = value.GetValueString()
-	case "Color":
-		other_placement_text.Color = value.GetValueString()
-	case "Placement":
-		other_placement_text.Placement = value.GetValueString()
-	case "Smufl":
-		other_placement_text.Smufl = value.GetValueString()
-	case "EnclosedText":
-		other_placement_text.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_play *Other_play) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_play.Name = value.GetValueString()
-	case "Type":
-		other_play.Type = value.GetValueString()
-	case "EnclosedText":
-		other_play.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (other_text *Other_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		other_text.Name = value.GetValueString()
-	case "Smufl":
-		other_text.Smufl = value.GetValueString()
-	case "EnclosedText":
-		other_text.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (page_layout *Page_layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		page_layout.Name = value.GetValueString()
-	case "Page_height":
-		page_layout.Page_height = value.GetValueString()
-	case "Page_width":
-		page_layout.Page_width = value.GetValueString()
-	case "Page_margins":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			page_layout.Page_margins = nil
-			for __instance__ := range stage.Page_marginss {
-				if stage.Page_margins_stagedOrder[__instance__] == uint(id) {
-					page_layout.Page_margins = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (page_margins *Page_margins) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		page_margins.Name = value.GetValueString()
-	case "Type":
-		page_margins.Type = value.GetValueString()
-	case "Left_margin":
-		page_margins.Left_margin = value.GetValueString()
-	case "Right_margin":
-		page_margins.Right_margin = value.GetValueString()
-	case "Top_margin":
-		page_margins.Top_margin = value.GetValueString()
-	case "Bottom_margin":
-		page_margins.Bottom_margin = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_clef *Part_clef) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_clef.Name = value.GetValueString()
-	case "Sign":
-		part_clef.Sign = value.GetValueString()
-	case "Line":
-		part_clef.Line = int(value.GetValueInt())
-	case "Clef_octave_change":
-		part_clef.Clef_octave_change = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_group *Part_group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_group.Name = value.GetValueString()
-	case "Type":
-		part_group.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		part_group.Number = value.GetValueString()
-	case "Group_name":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Group_name = nil
-			for __instance__ := range stage.Group_names {
-				if stage.Group_name_stagedOrder[__instance__] == uint(id) {
-					part_group.Group_name = __instance__
-					break
-				}
-			}
-		}
-	case "Group_name_display":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Group_name_display = nil
-			for __instance__ := range stage.Name_displays {
-				if stage.Name_display_stagedOrder[__instance__] == uint(id) {
-					part_group.Group_name_display = __instance__
-					break
-				}
-			}
-		}
-	case "Group_abbreviation":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Group_abbreviation = nil
-			for __instance__ := range stage.Group_names {
-				if stage.Group_name_stagedOrder[__instance__] == uint(id) {
-					part_group.Group_abbreviation = __instance__
-					break
-				}
-			}
-		}
-	case "Group_abbreviation_display":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Group_abbreviation_display = nil
-			for __instance__ := range stage.Name_displays {
-				if stage.Name_display_stagedOrder[__instance__] == uint(id) {
-					part_group.Group_abbreviation_display = __instance__
-					break
-				}
-			}
-		}
-	case "Group_symbol":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Group_symbol = nil
-			for __instance__ := range stage.Group_symbols {
-				if stage.Group_symbol_stagedOrder[__instance__] == uint(id) {
-					part_group.Group_symbol = __instance__
-					break
-				}
-			}
-		}
-	case "Group_barline":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Group_barline = nil
-			for __instance__ := range stage.Group_barlines {
-				if stage.Group_barline_stagedOrder[__instance__] == uint(id) {
-					part_group.Group_barline = __instance__
-					break
-				}
-			}
-		}
-	case "Group_time":
-		part_group.Group_time = value.GetValueString()
-	case "Footnote":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Footnote = nil
-			for __instance__ := range stage.Formatted_texts {
-				if stage.Formatted_text_stagedOrder[__instance__] == uint(id) {
-					part_group.Footnote = __instance__
-					break
-				}
-			}
-		}
-	case "Level":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_group.Level = nil
-			for __instance__ := range stage.Levels {
-				if stage.Level_stagedOrder[__instance__] == uint(id) {
-					part_group.Level = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_link *Part_link) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_link.Name = value.GetValueString()
-	case "Href":
-		part_link.Href = value.GetValueString()
-	case "Type":
-		part_link.Type = value.GetValueString()
-	case "Role":
-		part_link.Role = value.GetValueString()
-	case "Title":
-		part_link.Title = value.GetValueString()
-	case "Show":
-		part_link.Show = value.GetValueString()
-	case "Actuate":
-		part_link.Actuate = value.GetValueString()
-	case "Instrument_link":
-		part_link.Instrument_link = make([]*Instrument_link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Instrument_links {
-					if stage.Instrument_link_stagedOrder[__instance__] == uint(id) {
-						part_link.Instrument_link = append(part_link.Instrument_link, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Group_link":
-		part_link.Group_link = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_list *Part_list) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_list.Name = value.GetValueString()
-	case "Part_group":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_list.Part_group = nil
-			for __instance__ := range stage.Part_groups {
-				if stage.Part_group_stagedOrder[__instance__] == uint(id) {
-					part_list.Part_group = __instance__
-					break
-				}
-			}
-		}
-	case "Score_part":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			part_list.Score_part = nil
-			for __instance__ := range stage.Score_parts {
-				if stage.Score_part_stagedOrder[__instance__] == uint(id) {
-					part_list.Score_part = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_name *Part_name) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_name.Name = value.GetValueString()
-	case "Default_x":
-		part_name.Default_x = value.GetValueString()
-	case "Default_y":
-		part_name.Default_y = value.GetValueString()
-	case "Relative_x":
-		part_name.Relative_x = value.GetValueString()
-	case "Relative_y":
-		part_name.Relative_y = value.GetValueString()
-	case "Font_family":
-		part_name.Font_family = value.GetValueString()
-	case "Font_style":
-		part_name.Font_style = value.GetValueString()
-	case "Font_size":
-		part_name.Font_size = value.GetValueString()
-	case "Font_weight":
-		part_name.Font_weight = value.GetValueString()
-	case "Color":
-		part_name.Color = value.GetValueString()
-	case "Print_object":
-		part_name.Print_object.FromCodeString(value.GetValueString())
-	case "Justify":
-		part_name.Justify.FromCodeString(value.GetValueString())
-	case "EnclosedText":
-		part_name.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_symbol *Part_symbol) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_symbol.Name = value.GetValueString()
-	case "Top_staff":
-		part_symbol.Top_staff = int(value.GetValueInt())
-	case "Bottom_staff":
-		part_symbol.Bottom_staff = int(value.GetValueInt())
-	case "Default_x":
-		part_symbol.Default_x = value.GetValueString()
-	case "Default_y":
-		part_symbol.Default_y = value.GetValueString()
-	case "Relative_x":
-		part_symbol.Relative_x = value.GetValueString()
-	case "Relative_y":
-		part_symbol.Relative_y = value.GetValueString()
-	case "Color":
-		part_symbol.Color = value.GetValueString()
-	case "EnclosedText":
-		part_symbol.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (part_transpose *Part_transpose) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		part_transpose.Name = value.GetValueString()
-	case "Diatonic":
-		part_transpose.Diatonic = int(value.GetValueInt())
-	case "Chromatic":
-		part_transpose.Chromatic = value.GetValueString()
-	case "Octave_change":
-		part_transpose.Octave_change = int(value.GetValueInt())
-	case "Double":
-		part_transpose.Double = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pedal *Pedal) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pedal.Name = value.GetValueString()
-	case "Type":
-		pedal.Type = value.GetValueString()
-	case "Number":
-		pedal.Number = int(value.GetValueInt())
-	case "Line":
-		pedal.Line.FromCodeString(value.GetValueString())
-	case "Sign":
-		pedal.Sign.FromCodeString(value.GetValueString())
-	case "Abbreviated":
-		pedal.Abbreviated.FromCodeString(value.GetValueString())
-	case "Default_x":
-		pedal.Default_x = value.GetValueString()
-	case "Default_y":
-		pedal.Default_y = value.GetValueString()
-	case "Relative_x":
-		pedal.Relative_x = value.GetValueString()
-	case "Relative_y":
-		pedal.Relative_y = value.GetValueString()
-	case "Font_family":
-		pedal.Font_family = value.GetValueString()
-	case "Font_style":
-		pedal.Font_style = value.GetValueString()
-	case "Font_size":
-		pedal.Font_size = value.GetValueString()
-	case "Font_weight":
-		pedal.Font_weight = value.GetValueString()
-	case "Color":
-		pedal.Color = value.GetValueString()
-	case "Halign":
-		pedal.Halign = value.GetValueString()
-	case "Valign":
-		pedal.Valign = value.GetValueString()
-	case "Id":
-		pedal.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pedal_tuning *Pedal_tuning) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pedal_tuning.Name = value.GetValueString()
-	case "Pedal_step":
-		pedal_tuning.Pedal_step.FromCodeString(value.GetValueString())
-	case "Pedal_alter":
-		pedal_tuning.Pedal_alter = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (per_minute *Per_minute) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		per_minute.Name = value.GetValueString()
-	case "Font_family":
-		per_minute.Font_family = value.GetValueString()
-	case "Font_style":
-		per_minute.Font_style = value.GetValueString()
-	case "Font_size":
-		per_minute.Font_size = value.GetValueString()
-	case "Font_weight":
-		per_minute.Font_weight = value.GetValueString()
-	case "EnclosedText":
-		per_minute.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (percussion *Percussion) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		percussion.Name = value.GetValueString()
-	case "Default_x":
-		percussion.Default_x = value.GetValueString()
-	case "Default_y":
-		percussion.Default_y = value.GetValueString()
-	case "Relative_x":
-		percussion.Relative_x = value.GetValueString()
-	case "Relative_y":
-		percussion.Relative_y = value.GetValueString()
-	case "Font_family":
-		percussion.Font_family = value.GetValueString()
-	case "Font_style":
-		percussion.Font_style = value.GetValueString()
-	case "Font_size":
-		percussion.Font_size = value.GetValueString()
-	case "Font_weight":
-		percussion.Font_weight = value.GetValueString()
-	case "Color":
-		percussion.Color = value.GetValueString()
-	case "Halign":
-		percussion.Halign = value.GetValueString()
-	case "Valign":
-		percussion.Valign = value.GetValueString()
-	case "Enclosure":
-		percussion.Enclosure = value.GetValueString()
-	case "Id":
-		percussion.Id = value.GetValueString()
-	case "Glass":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Glass = nil
-			for __instance__ := range stage.Glasss {
-				if stage.Glass_stagedOrder[__instance__] == uint(id) {
-					percussion.Glass = __instance__
-					break
-				}
-			}
-		}
-	case "Metal":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Metal = nil
-			for __instance__ := range stage.Metals {
-				if stage.Metal_stagedOrder[__instance__] == uint(id) {
-					percussion.Metal = __instance__
-					break
-				}
-			}
-		}
-	case "Wood":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Wood = nil
-			for __instance__ := range stage.Woods {
-				if stage.Wood_stagedOrder[__instance__] == uint(id) {
-					percussion.Wood = __instance__
-					break
-				}
-			}
-		}
-	case "Pitched":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Pitched = nil
-			for __instance__ := range stage.Pitcheds {
-				if stage.Pitched_stagedOrder[__instance__] == uint(id) {
-					percussion.Pitched = __instance__
-					break
-				}
-			}
-		}
-	case "Membrane":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Membrane = nil
-			for __instance__ := range stage.Membranes {
-				if stage.Membrane_stagedOrder[__instance__] == uint(id) {
-					percussion.Membrane = __instance__
-					break
-				}
-			}
-		}
-	case "Effect":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Effect = nil
-			for __instance__ := range stage.Effects {
-				if stage.Effect_stagedOrder[__instance__] == uint(id) {
-					percussion.Effect = __instance__
-					break
-				}
-			}
-		}
-	case "Timpani":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Timpani = nil
-			for __instance__ := range stage.Timpanis {
-				if stage.Timpani_stagedOrder[__instance__] == uint(id) {
-					percussion.Timpani = __instance__
-					break
-				}
-			}
-		}
-	case "Beater":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Beater = nil
-			for __instance__ := range stage.Beaters {
-				if stage.Beater_stagedOrder[__instance__] == uint(id) {
-					percussion.Beater = __instance__
-					break
-				}
-			}
-		}
-	case "Stick":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Stick = nil
-			for __instance__ := range stage.Sticks {
-				if stage.Stick_stagedOrder[__instance__] == uint(id) {
-					percussion.Stick = __instance__
-					break
-				}
-			}
-		}
-	case "Stick_location":
-		percussion.Stick_location = value.GetValueString()
-	case "Other_percussion":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			percussion.Other_percussion = nil
-			for __instance__ := range stage.Other_texts {
-				if stage.Other_text_stagedOrder[__instance__] == uint(id) {
-					percussion.Other_percussion = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pitch *Pitch) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pitch.Name = value.GetValueString()
-	case "Step":
-		pitch.Step.FromCodeString(value.GetValueString())
-	case "Alter":
-		pitch.Alter = value.GetValueString()
-	case "Octave":
-		pitch.Octave = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pitched *Pitched) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pitched.Name = value.GetValueString()
-	case "Smufl":
-		pitched.Smufl = value.GetValueString()
-	case "EnclosedText":
-		pitched.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (placement_text *Placement_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		placement_text.Name = value.GetValueString()
-	case "Default_x":
-		placement_text.Default_x = value.GetValueString()
-	case "Default_y":
-		placement_text.Default_y = value.GetValueString()
-	case "Relative_x":
-		placement_text.Relative_x = value.GetValueString()
-	case "Relative_y":
-		placement_text.Relative_y = value.GetValueString()
-	case "Font_family":
-		placement_text.Font_family = value.GetValueString()
-	case "Font_style":
-		placement_text.Font_style = value.GetValueString()
-	case "Font_size":
-		placement_text.Font_size = value.GetValueString()
-	case "Font_weight":
-		placement_text.Font_weight = value.GetValueString()
-	case "Color":
-		placement_text.Color = value.GetValueString()
-	case "Placement":
-		placement_text.Placement = value.GetValueString()
-	case "EnclosedText":
-		placement_text.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (play *Play) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		play.Name = value.GetValueString()
-	case "Id":
-		play.Id = value.GetValueString()
-	case "Ipa":
-		play.Ipa = value.GetValueString()
-	case "Mute":
-		play.Mute = value.GetValueString()
-	case "Semi_pitched":
-		play.Semi_pitched = value.GetValueString()
-	case "Other_play":
-		play.Other_play = make([]*Other_play, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_plays {
-					if stage.Other_play_stagedOrder[__instance__] == uint(id) {
-						play.Other_play = append(play.Other_play, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (player *Player) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		player.Name = value.GetValueString()
-	case "Id":
-		player.Id = value.GetValueString()
-	case "Player_name":
-		player.Player_name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (principal_voice *Principal_voice) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		principal_voice.Name = value.GetValueString()
-	case "Type":
-		principal_voice.Type.FromCodeString(value.GetValueString())
-	case "Symbol":
-		principal_voice.Symbol = value.GetValueString()
-	case "Default_x":
-		principal_voice.Default_x = value.GetValueString()
-	case "Default_y":
-		principal_voice.Default_y = value.GetValueString()
-	case "Relative_x":
-		principal_voice.Relative_x = value.GetValueString()
-	case "Relative_y":
-		principal_voice.Relative_y = value.GetValueString()
-	case "Font_family":
-		principal_voice.Font_family = value.GetValueString()
-	case "Font_style":
-		principal_voice.Font_style = value.GetValueString()
-	case "Font_size":
-		principal_voice.Font_size = value.GetValueString()
-	case "Font_weight":
-		principal_voice.Font_weight = value.GetValueString()
-	case "Color":
-		principal_voice.Color = value.GetValueString()
-	case "Halign":
-		principal_voice.Halign = value.GetValueString()
-	case "Valign":
-		principal_voice.Valign = value.GetValueString()
-	case "Id":
-		principal_voice.Id = value.GetValueString()
-	case "EnclosedText":
-		principal_voice.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (print *Print) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		print.Name = value.GetValueString()
-	case "Staff_spacing":
-		print.Staff_spacing = value.GetValueString()
-	case "New_system":
-		print.New_system.FromCodeString(value.GetValueString())
-	case "New_page":
-		print.New_page.FromCodeString(value.GetValueString())
-	case "Blank_page":
-		print.Blank_page = int(value.GetValueInt())
-	case "Page_number":
-		print.Page_number = value.GetValueString()
-	case "Id":
-		print.Id = value.GetValueString()
-	case "Page_layout":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			print.Page_layout = nil
-			for __instance__ := range stage.Page_layouts {
-				if stage.Page_layout_stagedOrder[__instance__] == uint(id) {
-					print.Page_layout = __instance__
-					break
-				}
-			}
-		}
-	case "System_layout":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			print.System_layout = nil
-			for __instance__ := range stage.System_layouts {
-				if stage.System_layout_stagedOrder[__instance__] == uint(id) {
-					print.System_layout = __instance__
-					break
-				}
-			}
-		}
-	case "Staff_layout":
-		print.Staff_layout = make([]*Staff_layout, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Staff_layouts {
-					if stage.Staff_layout_stagedOrder[__instance__] == uint(id) {
-						print.Staff_layout = append(print.Staff_layout, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Measure_layout":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			print.Measure_layout = nil
-			for __instance__ := range stage.Measure_layouts {
-				if stage.Measure_layout_stagedOrder[__instance__] == uint(id) {
-					print.Measure_layout = __instance__
-					break
-				}
-			}
-		}
-	case "Measure_numbering":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			print.Measure_numbering = nil
-			for __instance__ := range stage.Measure_numberings {
-				if stage.Measure_numbering_stagedOrder[__instance__] == uint(id) {
-					print.Measure_numbering = __instance__
-					break
-				}
-			}
-		}
-	case "Part_name_display":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			print.Part_name_display = nil
-			for __instance__ := range stage.Name_displays {
-				if stage.Name_display_stagedOrder[__instance__] == uint(id) {
-					print.Part_name_display = __instance__
-					break
-				}
-			}
-		}
-	case "Part_abbreviation_display":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			print.Part_abbreviation_display = nil
-			for __instance__ := range stage.Name_displays {
-				if stage.Name_display_stagedOrder[__instance__] == uint(id) {
-					print.Part_abbreviation_display = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (release *Release) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		release.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (repeat *Repeat) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		repeat.Name = value.GetValueString()
-	case "Direction":
-		repeat.Direction = value.GetValueString()
-	case "Times":
-		repeat.Times = int(value.GetValueInt())
-	case "After_jump":
-		repeat.After_jump.FromCodeString(value.GetValueString())
-	case "Winged":
-		repeat.Winged = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (rest *Rest) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		rest.Name = value.GetValueString()
-	case "Measure":
-		rest.Measure.FromCodeString(value.GetValueString())
-	case "Display_step":
-		rest.Display_step.FromCodeString(value.GetValueString())
-	case "Display_octave":
-		rest.Display_octave = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (root *Root) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		root.Name = value.GetValueString()
-	case "Root_step":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			root.Root_step = nil
-			for __instance__ := range stage.Root_steps {
-				if stage.Root_step_stagedOrder[__instance__] == uint(id) {
-					root.Root_step = __instance__
-					break
-				}
-			}
-		}
-	case "Root_alter":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			root.Root_alter = nil
-			for __instance__ := range stage.Harmony_alters {
-				if stage.Harmony_alter_stagedOrder[__instance__] == uint(id) {
-					root.Root_alter = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (root_step *Root_step) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		root_step.Name = value.GetValueString()
-	case "Text":
-		root_step.Text = value.GetValueString()
-	case "Default_x":
-		root_step.Default_x = value.GetValueString()
-	case "Default_y":
-		root_step.Default_y = value.GetValueString()
-	case "Relative_x":
-		root_step.Relative_x = value.GetValueString()
-	case "Relative_y":
-		root_step.Relative_y = value.GetValueString()
-	case "Font_family":
-		root_step.Font_family = value.GetValueString()
-	case "Font_style":
-		root_step.Font_style = value.GetValueString()
-	case "Font_size":
-		root_step.Font_size = value.GetValueString()
-	case "Font_weight":
-		root_step.Font_weight = value.GetValueString()
-	case "Color":
-		root_step.Color = value.GetValueString()
-	case "EnclosedText":
-		root_step.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (scaling *Scaling) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		scaling.Name = value.GetValueString()
-	case "Millimeters":
-		scaling.Millimeters = value.GetValueString()
-	case "Tenths":
-		scaling.Tenths = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (scordatura *Scordatura) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		scordatura.Name = value.GetValueString()
-	case "Id":
-		scordatura.Id = value.GetValueString()
-	case "Accord":
-		scordatura.Accord = make([]*Accord, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Accords {
-					if stage.Accord_stagedOrder[__instance__] == uint(id) {
-						scordatura.Accord = append(scordatura.Accord, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (score_instrument *Score_instrument) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		score_instrument.Name = value.GetValueString()
-	case "Id":
-		score_instrument.Id = value.GetValueString()
-	case "Instrument_name":
-		score_instrument.Instrument_name = value.GetValueString()
-	case "Instrument_abbreviation":
-		score_instrument.Instrument_abbreviation = value.GetValueString()
-	case "Instrument_sound":
-		score_instrument.Instrument_sound = value.GetValueString()
-	case "Solo":
-		score_instrument.Solo = value.GetValueString()
-	case "Ensemble":
-		score_instrument.Ensemble = value.GetValueString()
-	case "Virtual_instrument":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_instrument.Virtual_instrument = nil
-			for __instance__ := range stage.Virtual_instruments {
-				if stage.Virtual_instrument_stagedOrder[__instance__] == uint(id) {
-					score_instrument.Virtual_instrument = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (score_part *Score_part) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		score_part.Name = value.GetValueString()
-	case "Id":
-		score_part.Id = value.GetValueString()
-	case "Identification":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_part.Identification = nil
-			for __instance__ := range stage.Identifications {
-				if stage.Identification_stagedOrder[__instance__] == uint(id) {
-					score_part.Identification = __instance__
-					break
-				}
-			}
-		}
-	case "Part_link":
-		score_part.Part_link = make([]*Part_link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Part_links {
-					if stage.Part_link_stagedOrder[__instance__] == uint(id) {
-						score_part.Part_link = append(score_part.Part_link, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Part_name":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_part.Part_name = nil
-			for __instance__ := range stage.Part_names {
-				if stage.Part_name_stagedOrder[__instance__] == uint(id) {
-					score_part.Part_name = __instance__
-					break
-				}
-			}
-		}
-	case "Part_name_display":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_part.Part_name_display = nil
-			for __instance__ := range stage.Name_displays {
-				if stage.Name_display_stagedOrder[__instance__] == uint(id) {
-					score_part.Part_name_display = __instance__
-					break
-				}
-			}
-		}
-	case "Part_abbreviation":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_part.Part_abbreviation = nil
-			for __instance__ := range stage.Part_names {
-				if stage.Part_name_stagedOrder[__instance__] == uint(id) {
-					score_part.Part_abbreviation = __instance__
-					break
-				}
-			}
-		}
-	case "Part_abbreviation_display":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_part.Part_abbreviation_display = nil
-			for __instance__ := range stage.Name_displays {
-				if stage.Name_display_stagedOrder[__instance__] == uint(id) {
-					score_part.Part_abbreviation_display = __instance__
-					break
-				}
-			}
-		}
-	case "Group":
-		score_part.Group = value.GetValueString()
-	case "Score_instrument":
-		score_part.Score_instrument = make([]*Score_instrument, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Score_instruments {
-					if stage.Score_instrument_stagedOrder[__instance__] == uint(id) {
-						score_part.Score_instrument = append(score_part.Score_instrument, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Player":
-		score_part.Player = make([]*Player, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Players {
-					if stage.Player_stagedOrder[__instance__] == uint(id) {
-						score_part.Player = append(score_part.Player, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Midi_device":
-		score_part.Midi_device = make([]*Midi_device, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Midi_devices {
-					if stage.Midi_device_stagedOrder[__instance__] == uint(id) {
-						score_part.Midi_device = append(score_part.Midi_device, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Midi_instrument":
-		score_part.Midi_instrument = make([]*Midi_instrument, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Midi_instruments {
-					if stage.Midi_instrument_stagedOrder[__instance__] == uint(id) {
-						score_part.Midi_instrument = append(score_part.Midi_instrument, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (score_partwise *Score_partwise) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		score_partwise.Name = value.GetValueString()
-	case "Version":
-		score_partwise.Version = value.GetValueString()
-	case "Work":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_partwise.Work = nil
-			for __instance__ := range stage.Works {
-				if stage.Work_stagedOrder[__instance__] == uint(id) {
-					score_partwise.Work = __instance__
-					break
-				}
-			}
-		}
-	case "Movement_number":
-		score_partwise.Movement_number = value.GetValueString()
-	case "Movement_title":
-		score_partwise.Movement_title = value.GetValueString()
-	case "Identification":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_partwise.Identification = nil
-			for __instance__ := range stage.Identifications {
-				if stage.Identification_stagedOrder[__instance__] == uint(id) {
-					score_partwise.Identification = __instance__
-					break
-				}
-			}
-		}
-	case "Defaults":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_partwise.Defaults = nil
-			for __instance__ := range stage.Defaultss {
-				if stage.Defaults_stagedOrder[__instance__] == uint(id) {
-					score_partwise.Defaults = __instance__
-					break
-				}
-			}
-		}
-	case "Credit":
-		score_partwise.Credit = make([]*Credit, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Credits {
-					if stage.Credit_stagedOrder[__instance__] == uint(id) {
-						score_partwise.Credit = append(score_partwise.Credit, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Part_list":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_partwise.Part_list = nil
-			for __instance__ := range stage.Part_lists {
-				if stage.Part_list_stagedOrder[__instance__] == uint(id) {
-					score_partwise.Part_list = __instance__
-					break
-				}
-			}
-		}
-	case "Part":
-		score_partwise.Part = make([]*A_part, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.A_parts {
-					if stage.A_part_stagedOrder[__instance__] == uint(id) {
-						score_partwise.Part = append(score_partwise.Part, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (score_timewise *Score_timewise) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		score_timewise.Name = value.GetValueString()
-	case "Version":
-		score_timewise.Version = value.GetValueString()
-	case "Work":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_timewise.Work = nil
-			for __instance__ := range stage.Works {
-				if stage.Work_stagedOrder[__instance__] == uint(id) {
-					score_timewise.Work = __instance__
-					break
-				}
-			}
-		}
-	case "Movement_number":
-		score_timewise.Movement_number = value.GetValueString()
-	case "Movement_title":
-		score_timewise.Movement_title = value.GetValueString()
-	case "Identification":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_timewise.Identification = nil
-			for __instance__ := range stage.Identifications {
-				if stage.Identification_stagedOrder[__instance__] == uint(id) {
-					score_timewise.Identification = __instance__
-					break
-				}
-			}
-		}
-	case "Defaults":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_timewise.Defaults = nil
-			for __instance__ := range stage.Defaultss {
-				if stage.Defaults_stagedOrder[__instance__] == uint(id) {
-					score_timewise.Defaults = __instance__
-					break
-				}
-			}
-		}
-	case "Credit":
-		score_timewise.Credit = make([]*Credit, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Credits {
-					if stage.Credit_stagedOrder[__instance__] == uint(id) {
-						score_timewise.Credit = append(score_timewise.Credit, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Part_list":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			score_timewise.Part_list = nil
-			for __instance__ := range stage.Part_lists {
-				if stage.Part_list_stagedOrder[__instance__] == uint(id) {
-					score_timewise.Part_list = __instance__
-					break
-				}
-			}
-		}
-	case "Measure":
-		score_timewise.Measure = make([]*A_measure_1, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.A_measure_1s {
-					if stage.A_measure_1_stagedOrder[__instance__] == uint(id) {
-						score_timewise.Measure = append(score_timewise.Measure, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (segno *Segno) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		segno.Name = value.GetValueString()
-	case "Smufl":
-		segno.Smufl = value.GetValueString()
-	case "Default_x":
-		segno.Default_x = value.GetValueString()
-	case "Default_y":
-		segno.Default_y = value.GetValueString()
-	case "Relative_x":
-		segno.Relative_x = value.GetValueString()
-	case "Relative_y":
-		segno.Relative_y = value.GetValueString()
-	case "Font_family":
-		segno.Font_family = value.GetValueString()
-	case "Font_style":
-		segno.Font_style = value.GetValueString()
-	case "Font_size":
-		segno.Font_size = value.GetValueString()
-	case "Font_weight":
-		segno.Font_weight = value.GetValueString()
-	case "Color":
-		segno.Color = value.GetValueString()
-	case "Halign":
-		segno.Halign = value.GetValueString()
-	case "Valign":
-		segno.Valign = value.GetValueString()
-	case "Id":
-		segno.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (slash *Slash) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		slash.Name = value.GetValueString()
-	case "Type":
-		slash.Type.FromCodeString(value.GetValueString())
-	case "Use_dots":
-		slash.Use_dots.FromCodeString(value.GetValueString())
-	case "Use_stems":
-		slash.Use_stems.FromCodeString(value.GetValueString())
-	case "Slash_type":
-		slash.Slash_type.FromCodeString(value.GetValueString())
-	case "Slash_dot":
-		slash.Slash_dot = value.GetValueString()
-	case "Except_voice":
-		slash.Except_voice = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (slide *Slide) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		slide.Name = value.GetValueString()
-	case "Type":
-		slide.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		slide.Number = int(value.GetValueInt())
-	case "Line_type":
-		slide.Line_type = value.GetValueString()
-	case "Dash_length":
-		slide.Dash_length = value.GetValueString()
-	case "Space_length":
-		slide.Space_length = value.GetValueString()
-	case "Default_x":
-		slide.Default_x = value.GetValueString()
-	case "Default_y":
-		slide.Default_y = value.GetValueString()
-	case "Relative_x":
-		slide.Relative_x = value.GetValueString()
-	case "Relative_y":
-		slide.Relative_y = value.GetValueString()
-	case "Font_family":
-		slide.Font_family = value.GetValueString()
-	case "Font_style":
-		slide.Font_style = value.GetValueString()
-	case "Font_size":
-		slide.Font_size = value.GetValueString()
-	case "Font_weight":
-		slide.Font_weight = value.GetValueString()
-	case "Color":
-		slide.Color = value.GetValueString()
-	case "Accelerate":
-		slide.Accelerate.FromCodeString(value.GetValueString())
-	case "Beats":
-		slide.Beats = value.GetValueString()
-	case "First_beat":
-		slide.First_beat = value.GetValueString()
-	case "Last_beat":
-		slide.Last_beat = value.GetValueString()
-	case "Id":
-		slide.Id = value.GetValueString()
-	case "EnclosedText":
-		slide.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (slur *Slur) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		slur.Name = value.GetValueString()
-	case "Type":
-		slur.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		slur.Number = int(value.GetValueInt())
-	case "Line_type":
-		slur.Line_type = value.GetValueString()
-	case "Dash_length":
-		slur.Dash_length = value.GetValueString()
-	case "Space_length":
-		slur.Space_length = value.GetValueString()
-	case "Default_x":
-		slur.Default_x = value.GetValueString()
-	case "Default_y":
-		slur.Default_y = value.GetValueString()
-	case "Relative_x":
-		slur.Relative_x = value.GetValueString()
-	case "Relative_y":
-		slur.Relative_y = value.GetValueString()
-	case "Placement":
-		slur.Placement = value.GetValueString()
-	case "Orientation":
-		slur.Orientation = value.GetValueString()
-	case "Bezier_x":
-		slur.Bezier_x = value.GetValueString()
-	case "Bezier_y":
-		slur.Bezier_y = value.GetValueString()
-	case "Bezier_x2":
-		slur.Bezier_x2 = value.GetValueString()
-	case "Bezier_y2":
-		slur.Bezier_y2 = value.GetValueString()
-	case "Bezier_offset":
-		slur.Bezier_offset = value.GetValueString()
-	case "Bezier_offset2":
-		slur.Bezier_offset2 = value.GetValueString()
-	case "Color":
-		slur.Color = value.GetValueString()
-	case "Id":
-		slur.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (sound *Sound) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		sound.Name = value.GetValueString()
-	case "Tempo":
-		sound.Tempo = value.GetValueString()
-	case "Dynamics":
-		sound.Dynamics = value.GetValueString()
-	case "Dacapo":
-		sound.Dacapo.FromCodeString(value.GetValueString())
-	case "Segno":
-		sound.Segno = value.GetValueString()
-	case "Dalsegno":
-		sound.Dalsegno = value.GetValueString()
-	case "Coda":
-		sound.Coda = value.GetValueString()
-	case "Tocoda":
-		sound.Tocoda = value.GetValueString()
-	case "Divisions":
-		sound.Divisions = value.GetValueString()
-	case "Forward_repeat":
-		sound.Forward_repeat.FromCodeString(value.GetValueString())
-	case "Fine":
-		sound.Fine = value.GetValueString()
-	case "Time_only":
-		sound.Time_only.FromCodeString(value.GetValueString())
-	case "Pizzicato":
-		sound.Pizzicato.FromCodeString(value.GetValueString())
-	case "Pan":
-		sound.Pan = value.GetValueString()
-	case "Elevation":
-		sound.Elevation = value.GetValueString()
-	case "Damper_pedal":
-		sound.Damper_pedal = value.GetValueString()
-	case "Soft_pedal":
-		sound.Soft_pedal = value.GetValueString()
-	case "Sostenuto_pedal":
-		sound.Sostenuto_pedal = value.GetValueString()
-	case "Id":
-		sound.Id = value.GetValueString()
-	case "Instrument_change":
-		sound.Instrument_change = make([]*Instrument_change, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Instrument_changes {
-					if stage.Instrument_change_stagedOrder[__instance__] == uint(id) {
-						sound.Instrument_change = append(sound.Instrument_change, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Midi_device":
-		sound.Midi_device = make([]*Midi_device, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Midi_devices {
-					if stage.Midi_device_stagedOrder[__instance__] == uint(id) {
-						sound.Midi_device = append(sound.Midi_device, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Midi_instrument":
-		sound.Midi_instrument = make([]*Midi_instrument, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Midi_instruments {
-					if stage.Midi_instrument_stagedOrder[__instance__] == uint(id) {
-						sound.Midi_instrument = append(sound.Midi_instrument, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Play":
-		sound.Play = make([]*Play, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Plays {
-					if stage.Play_stagedOrder[__instance__] == uint(id) {
-						sound.Play = append(sound.Play, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Swing":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			sound.Swing = nil
-			for __instance__ := range stage.Swings {
-				if stage.Swing_stagedOrder[__instance__] == uint(id) {
-					sound.Swing = __instance__
-					break
-				}
-			}
-		}
-	case "Offset":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			sound.Offset = nil
-			for __instance__ := range stage.Offsets {
-				if stage.Offset_stagedOrder[__instance__] == uint(id) {
-					sound.Offset = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staff_details *Staff_details) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staff_details.Name = value.GetValueString()
-	case "Number":
-		staff_details.Number = int(value.GetValueInt())
-	case "Show_frets":
-		staff_details.Show_frets = value.GetValueString()
-	case "Print_object":
-		staff_details.Print_object.FromCodeString(value.GetValueString())
-	case "Print_spacing":
-		staff_details.Print_spacing.FromCodeString(value.GetValueString())
-	case "Staff_type":
-		staff_details.Staff_type = value.GetValueString()
-	case "Staff_lines":
-		staff_details.Staff_lines = int(value.GetValueInt())
-	case "Line_detail":
-		staff_details.Line_detail = make([]*Line_detail, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Line_details {
-					if stage.Line_detail_stagedOrder[__instance__] == uint(id) {
-						staff_details.Line_detail = append(staff_details.Line_detail, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Staff_tuning":
-		staff_details.Staff_tuning = make([]*Staff_tuning, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Staff_tunings {
-					if stage.Staff_tuning_stagedOrder[__instance__] == uint(id) {
-						staff_details.Staff_tuning = append(staff_details.Staff_tuning, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Capo":
-		staff_details.Capo = int(value.GetValueInt())
-	case "Staff_size":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			staff_details.Staff_size = nil
-			for __instance__ := range stage.Staff_sizes {
-				if stage.Staff_size_stagedOrder[__instance__] == uint(id) {
-					staff_details.Staff_size = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staff_divide *Staff_divide) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staff_divide.Name = value.GetValueString()
-	case "Type":
-		staff_divide.Type = value.GetValueString()
-	case "Default_x":
-		staff_divide.Default_x = value.GetValueString()
-	case "Default_y":
-		staff_divide.Default_y = value.GetValueString()
-	case "Relative_x":
-		staff_divide.Relative_x = value.GetValueString()
-	case "Relative_y":
-		staff_divide.Relative_y = value.GetValueString()
-	case "Font_family":
-		staff_divide.Font_family = value.GetValueString()
-	case "Font_style":
-		staff_divide.Font_style = value.GetValueString()
-	case "Font_size":
-		staff_divide.Font_size = value.GetValueString()
-	case "Font_weight":
-		staff_divide.Font_weight = value.GetValueString()
-	case "Color":
-		staff_divide.Color = value.GetValueString()
-	case "Halign":
-		staff_divide.Halign = value.GetValueString()
-	case "Valign":
-		staff_divide.Valign = value.GetValueString()
-	case "Id":
-		staff_divide.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staff_layout *Staff_layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staff_layout.Name = value.GetValueString()
-	case "Number":
-		staff_layout.Number = int(value.GetValueInt())
-	case "Staff_distance":
-		staff_layout.Staff_distance = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staff_size *Staff_size) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staff_size.Name = value.GetValueString()
-	case "Scaling":
-		staff_size.Scaling = value.GetValueString()
-	case "EnclosedText":
-		staff_size.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (staff_tuning *Staff_tuning) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		staff_tuning.Name = value.GetValueString()
-	case "Line":
-		staff_tuning.Line = int(value.GetValueInt())
-	case "Tuning_step":
-		staff_tuning.Tuning_step.FromCodeString(value.GetValueString())
-	case "Tuning_alter":
-		staff_tuning.Tuning_alter = value.GetValueString()
-	case "Tuning_octave":
-		staff_tuning.Tuning_octave = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stem *Stem) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stem.Name = value.GetValueString()
-	case "Default_x":
-		stem.Default_x = value.GetValueString()
-	case "Default_y":
-		stem.Default_y = value.GetValueString()
-	case "Relative_x":
-		stem.Relative_x = value.GetValueString()
-	case "Relative_y":
-		stem.Relative_y = value.GetValueString()
-	case "Color":
-		stem.Color = value.GetValueString()
-	case "EnclosedText":
-		stem.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (stick *Stick) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		stick.Name = value.GetValueString()
-	case "Tip":
-		stick.Tip.FromCodeString(value.GetValueString())
-	case "Parentheses":
-		stick.Parentheses.FromCodeString(value.GetValueString())
-	case "Dashed_circle":
-		stick.Dashed_circle.FromCodeString(value.GetValueString())
-	case "Stick_type":
-		stick.Stick_type = value.GetValueString()
-	case "Stick_material":
-		stick.Stick_material = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (string_mute *String_mute) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		string_mute.Name = value.GetValueString()
-	case "Type":
-		string_mute.Type = value.GetValueString()
-	case "Default_x":
-		string_mute.Default_x = value.GetValueString()
-	case "Default_y":
-		string_mute.Default_y = value.GetValueString()
-	case "Relative_x":
-		string_mute.Relative_x = value.GetValueString()
-	case "Relative_y":
-		string_mute.Relative_y = value.GetValueString()
-	case "Font_family":
-		string_mute.Font_family = value.GetValueString()
-	case "Font_style":
-		string_mute.Font_style = value.GetValueString()
-	case "Font_size":
-		string_mute.Font_size = value.GetValueString()
-	case "Font_weight":
-		string_mute.Font_weight = value.GetValueString()
-	case "Color":
-		string_mute.Color = value.GetValueString()
-	case "Halign":
-		string_mute.Halign = value.GetValueString()
-	case "Valign":
-		string_mute.Valign = value.GetValueString()
-	case "Id":
-		string_mute.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (string_type *String_type) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		string_type.Name = value.GetValueString()
-	case "Default_x":
-		string_type.Default_x = value.GetValueString()
-	case "Default_y":
-		string_type.Default_y = value.GetValueString()
-	case "Relative_x":
-		string_type.Relative_x = value.GetValueString()
-	case "Relative_y":
-		string_type.Relative_y = value.GetValueString()
-	case "Font_family":
-		string_type.Font_family = value.GetValueString()
-	case "Font_style":
-		string_type.Font_style = value.GetValueString()
-	case "Font_size":
-		string_type.Font_size = value.GetValueString()
-	case "Font_weight":
-		string_type.Font_weight = value.GetValueString()
-	case "Color":
-		string_type.Color = value.GetValueString()
-	case "Placement":
-		string_type.Placement = value.GetValueString()
-	case "EnclosedText":
-		string_type.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (strong_accent *Strong_accent) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		strong_accent.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (style_text *Style_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		style_text.Name = value.GetValueString()
-	case "Default_x":
-		style_text.Default_x = value.GetValueString()
-	case "Default_y":
-		style_text.Default_y = value.GetValueString()
-	case "Relative_x":
-		style_text.Relative_x = value.GetValueString()
-	case "Relative_y":
-		style_text.Relative_y = value.GetValueString()
-	case "Font_family":
-		style_text.Font_family = value.GetValueString()
-	case "Font_style":
-		style_text.Font_style = value.GetValueString()
-	case "Font_size":
-		style_text.Font_size = value.GetValueString()
-	case "Font_weight":
-		style_text.Font_weight = value.GetValueString()
-	case "Color":
-		style_text.Color = value.GetValueString()
-	case "EnclosedText":
-		style_text.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (supports *Supports) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		supports.Name = value.GetValueString()
-	case "Type":
-		supports.Type.FromCodeString(value.GetValueString())
-	case "Element":
-		supports.Element = value.GetValueString()
-	case "Attribute":
-		supports.Attribute = value.GetValueString()
-	case "Value":
-		supports.Value = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (swing *Swing) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		swing.Name = value.GetValueString()
-	case "Straight":
-		swing.Straight = value.GetValueString()
-	case "First":
-		swing.First = int(value.GetValueInt())
-	case "Second":
-		swing.Second = int(value.GetValueInt())
-	case "Swing_type":
-		swing.Swing_type.FromCodeString(value.GetValueString())
-	case "Swing_style":
-		swing.Swing_style = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (sync *Sync) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		sync.Name = value.GetValueString()
-	case "Type":
-		sync.Type = value.GetValueString()
-	case "Latency":
-		sync.Latency = int(value.GetValueInt())
-	case "Player":
-		sync.Player = value.GetValueString()
-	case "Time_only":
-		sync.Time_only.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (system_dividers *System_dividers) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		system_dividers.Name = value.GetValueString()
-	case "Left_divider":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			system_dividers.Left_divider = nil
-			for __instance__ := range stage.Empty_print_object_style_aligns {
-				if stage.Empty_print_object_style_align_stagedOrder[__instance__] == uint(id) {
-					system_dividers.Left_divider = __instance__
-					break
-				}
-			}
-		}
-	case "Right_divider":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			system_dividers.Right_divider = nil
-			for __instance__ := range stage.Empty_print_object_style_aligns {
-				if stage.Empty_print_object_style_align_stagedOrder[__instance__] == uint(id) {
-					system_dividers.Right_divider = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (system_layout *System_layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		system_layout.Name = value.GetValueString()
-	case "System_margins":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			system_layout.System_margins = nil
-			for __instance__ := range stage.System_marginss {
-				if stage.System_margins_stagedOrder[__instance__] == uint(id) {
-					system_layout.System_margins = __instance__
-					break
-				}
-			}
-		}
-	case "System_distance":
-		system_layout.System_distance = value.GetValueString()
-	case "Top_system_distance":
-		system_layout.Top_system_distance = value.GetValueString()
-	case "System_dividers":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			system_layout.System_dividers = nil
-			for __instance__ := range stage.System_dividerss {
-				if stage.System_dividers_stagedOrder[__instance__] == uint(id) {
-					system_layout.System_dividers = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (system_margins *System_margins) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		system_margins.Name = value.GetValueString()
-	case "Left_margin":
-		system_margins.Left_margin = value.GetValueString()
-	case "Right_margin":
-		system_margins.Right_margin = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tap *Tap) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tap.Name = value.GetValueString()
-	case "Hand":
-		tap.Hand = value.GetValueString()
-	case "Default_x":
-		tap.Default_x = value.GetValueString()
-	case "Default_y":
-		tap.Default_y = value.GetValueString()
-	case "Relative_x":
-		tap.Relative_x = value.GetValueString()
-	case "Relative_y":
-		tap.Relative_y = value.GetValueString()
-	case "Font_family":
-		tap.Font_family = value.GetValueString()
-	case "Font_style":
-		tap.Font_style = value.GetValueString()
-	case "Font_size":
-		tap.Font_size = value.GetValueString()
-	case "Font_weight":
-		tap.Font_weight = value.GetValueString()
-	case "Color":
-		tap.Color = value.GetValueString()
-	case "Placement":
-		tap.Placement = value.GetValueString()
-	case "EnclosedText":
-		tap.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (technical *Technical) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		technical.Name = value.GetValueString()
-	case "Id":
-		technical.Id = value.GetValueString()
-	case "Up_bow":
-		technical.Up_bow = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Up_bow = append(technical.Up_bow, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Down_bow":
-		technical.Down_bow = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Down_bow = append(technical.Down_bow, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Harmonic":
-		technical.Harmonic = make([]*Harmonic, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Harmonics {
-					if stage.Harmonic_stagedOrder[__instance__] == uint(id) {
-						technical.Harmonic = append(technical.Harmonic, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Open_string":
-		technical.Open_string = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Open_string = append(technical.Open_string, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Thumb_position":
-		technical.Thumb_position = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Thumb_position = append(technical.Thumb_position, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Fingering":
-		technical.Fingering = make([]*Fingering, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Fingerings {
-					if stage.Fingering_stagedOrder[__instance__] == uint(id) {
-						technical.Fingering = append(technical.Fingering, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Pluck":
-		technical.Pluck = make([]*Placement_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Placement_texts {
-					if stage.Placement_text_stagedOrder[__instance__] == uint(id) {
-						technical.Pluck = append(technical.Pluck, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Double_tongue":
-		technical.Double_tongue = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Double_tongue = append(technical.Double_tongue, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Triple_tongue":
-		technical.Triple_tongue = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Triple_tongue = append(technical.Triple_tongue, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Stopped":
-		technical.Stopped = make([]*Empty_placement_smufl, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placement_smufls {
-					if stage.Empty_placement_smufl_stagedOrder[__instance__] == uint(id) {
-						technical.Stopped = append(technical.Stopped, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Snap_pizzicato":
-		technical.Snap_pizzicato = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Snap_pizzicato = append(technical.Snap_pizzicato, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Fret":
-		technical.Fret = make([]*Fret, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Frets {
-					if stage.Fret_stagedOrder[__instance__] == uint(id) {
-						technical.Fret = append(technical.Fret, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "String":
-		technical.String = make([]*String_type, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.String_types {
-					if stage.String_type_stagedOrder[__instance__] == uint(id) {
-						technical.String = append(technical.String, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Hammer_on":
-		technical.Hammer_on = make([]*Hammer_on_pull_off, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Hammer_on_pull_offs {
-					if stage.Hammer_on_pull_off_stagedOrder[__instance__] == uint(id) {
-						technical.Hammer_on = append(technical.Hammer_on, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Pull_off":
-		technical.Pull_off = make([]*Hammer_on_pull_off, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Hammer_on_pull_offs {
-					if stage.Hammer_on_pull_off_stagedOrder[__instance__] == uint(id) {
-						technical.Pull_off = append(technical.Pull_off, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Bend":
-		technical.Bend = make([]*Bend, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Bends {
-					if stage.Bend_stagedOrder[__instance__] == uint(id) {
-						technical.Bend = append(technical.Bend, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Tap":
-		technical.Tap = make([]*Tap, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Taps {
-					if stage.Tap_stagedOrder[__instance__] == uint(id) {
-						technical.Tap = append(technical.Tap, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Heel":
-		technical.Heel = make([]*Heel_toe, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Heel_toes {
-					if stage.Heel_toe_stagedOrder[__instance__] == uint(id) {
-						technical.Heel = append(technical.Heel, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Toe":
-		technical.Toe = make([]*Heel_toe, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Heel_toes {
-					if stage.Heel_toe_stagedOrder[__instance__] == uint(id) {
-						technical.Toe = append(technical.Toe, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Fingernails":
-		technical.Fingernails = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Fingernails = append(technical.Fingernails, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Hole":
-		technical.Hole = make([]*Hole, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Holes {
-					if stage.Hole_stagedOrder[__instance__] == uint(id) {
-						technical.Hole = append(technical.Hole, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Arrow":
-		technical.Arrow = make([]*Arrow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Arrows {
-					if stage.Arrow_stagedOrder[__instance__] == uint(id) {
-						technical.Arrow = append(technical.Arrow, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Handbell":
-		technical.Handbell = make([]*Handbell, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Handbells {
-					if stage.Handbell_stagedOrder[__instance__] == uint(id) {
-						technical.Handbell = append(technical.Handbell, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Brass_bend":
-		technical.Brass_bend = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Brass_bend = append(technical.Brass_bend, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Flip":
-		technical.Flip = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Flip = append(technical.Flip, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Smear":
-		technical.Smear = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Smear = append(technical.Smear, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Open":
-		technical.Open = make([]*Empty_placement_smufl, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placement_smufls {
-					if stage.Empty_placement_smufl_stagedOrder[__instance__] == uint(id) {
-						technical.Open = append(technical.Open, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Half_muted":
-		technical.Half_muted = make([]*Empty_placement_smufl, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placement_smufls {
-					if stage.Empty_placement_smufl_stagedOrder[__instance__] == uint(id) {
-						technical.Half_muted = append(technical.Half_muted, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Harmon_mute":
-		technical.Harmon_mute = make([]*Harmon_mute, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Harmon_mutes {
-					if stage.Harmon_mute_stagedOrder[__instance__] == uint(id) {
-						technical.Harmon_mute = append(technical.Harmon_mute, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Golpe":
-		technical.Golpe = make([]*Empty_placement, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Empty_placements {
-					if stage.Empty_placement_stagedOrder[__instance__] == uint(id) {
-						technical.Golpe = append(technical.Golpe, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Other_technical":
-		technical.Other_technical = make([]*Other_placement_text, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Other_placement_texts {
-					if stage.Other_placement_text_stagedOrder[__instance__] == uint(id) {
-						technical.Other_technical = append(technical.Other_technical, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (text_element_data *Text_element_data) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		text_element_data.Name = value.GetValueString()
-	case "Lang":
-		text_element_data.Lang = value.GetValueString()
-	case "Font_family":
-		text_element_data.Font_family = value.GetValueString()
-	case "Font_style":
-		text_element_data.Font_style = value.GetValueString()
-	case "Font_size":
-		text_element_data.Font_size = value.GetValueString()
-	case "Font_weight":
-		text_element_data.Font_weight = value.GetValueString()
-	case "Color":
-		text_element_data.Color = value.GetValueString()
-	case "Underline":
-		text_element_data.Underline = int(value.GetValueInt())
-	case "Overline":
-		text_element_data.Overline = int(value.GetValueInt())
-	case "Line_through":
-		text_element_data.Line_through = int(value.GetValueInt())
-	case "Rotation":
-		text_element_data.Rotation = value.GetValueString()
-	case "Letter_spacing":
-		text_element_data.Letter_spacing = value.GetValueString()
-	case "Dir":
-		text_element_data.Dir = value.GetValueString()
-	case "EnclosedText":
-		text_element_data.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tie *Tie) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tie.Name = value.GetValueString()
-	case "Type":
-		tie.Type.FromCodeString(value.GetValueString())
-	case "Time_only":
-		tie.Time_only.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tied *Tied) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tied.Name = value.GetValueString()
-	case "Type":
-		tied.Type = value.GetValueString()
-	case "Number":
-		tied.Number = int(value.GetValueInt())
-	case "Line_type":
-		tied.Line_type = value.GetValueString()
-	case "Dash_length":
-		tied.Dash_length = value.GetValueString()
-	case "Space_length":
-		tied.Space_length = value.GetValueString()
-	case "Default_x":
-		tied.Default_x = value.GetValueString()
-	case "Default_y":
-		tied.Default_y = value.GetValueString()
-	case "Relative_x":
-		tied.Relative_x = value.GetValueString()
-	case "Relative_y":
-		tied.Relative_y = value.GetValueString()
-	case "Placement":
-		tied.Placement = value.GetValueString()
-	case "Orientation":
-		tied.Orientation = value.GetValueString()
-	case "Bezier_x":
-		tied.Bezier_x = value.GetValueString()
-	case "Bezier_y":
-		tied.Bezier_y = value.GetValueString()
-	case "Bezier_x2":
-		tied.Bezier_x2 = value.GetValueString()
-	case "Bezier_y2":
-		tied.Bezier_y2 = value.GetValueString()
-	case "Bezier_offset":
-		tied.Bezier_offset = value.GetValueString()
-	case "Bezier_offset2":
-		tied.Bezier_offset2 = value.GetValueString()
-	case "Color":
-		tied.Color = value.GetValueString()
-	case "Id":
-		tied.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (time *Time) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		time.Name = value.GetValueString()
-	case "Number":
-		time.Number = int(value.GetValueInt())
-	case "Symbol":
-		time.Symbol.FromCodeString(value.GetValueString())
-	case "Separator":
-		time.Separator.FromCodeString(value.GetValueString())
-	case "Default_x":
-		time.Default_x = value.GetValueString()
-	case "Default_y":
-		time.Default_y = value.GetValueString()
-	case "Relative_x":
-		time.Relative_x = value.GetValueString()
-	case "Relative_y":
-		time.Relative_y = value.GetValueString()
-	case "Font_family":
-		time.Font_family = value.GetValueString()
-	case "Font_style":
-		time.Font_style = value.GetValueString()
-	case "Font_size":
-		time.Font_size = value.GetValueString()
-	case "Font_weight":
-		time.Font_weight = value.GetValueString()
-	case "Color":
-		time.Color = value.GetValueString()
-	case "Halign":
-		time.Halign = value.GetValueString()
-	case "Valign":
-		time.Valign = value.GetValueString()
-	case "Print_object":
-		time.Print_object.FromCodeString(value.GetValueString())
-	case "Id":
-		time.Id = value.GetValueString()
-	case "Beats":
-		time.Beats = value.GetValueString()
-	case "Beat_type":
-		time.Beat_type = value.GetValueString()
-	case "Interchangeable":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			time.Interchangeable = nil
-			for __instance__ := range stage.Interchangeables {
-				if stage.Interchangeable_stagedOrder[__instance__] == uint(id) {
-					time.Interchangeable = __instance__
-					break
-				}
-			}
-		}
-	case "Senza_misura":
-		time.Senza_misura = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (time_modification *Time_modification) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		time_modification.Name = value.GetValueString()
-	case "Actual_notes":
-		time_modification.Actual_notes = int(value.GetValueInt())
-	case "Normal_notes":
-		time_modification.Normal_notes = int(value.GetValueInt())
-	case "Normal_type":
-		time_modification.Normal_type.FromCodeString(value.GetValueString())
-	case "Normal_dot":
-		time_modification.Normal_dot = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (timpani *Timpani) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		timpani.Name = value.GetValueString()
-	case "Smufl":
-		timpani.Smufl = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (transpose *Transpose) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		transpose.Name = value.GetValueString()
-	case "Number":
-		transpose.Number = int(value.GetValueInt())
-	case "Id":
-		transpose.Id = value.GetValueString()
-	case "Diatonic":
-		transpose.Diatonic = int(value.GetValueInt())
-	case "Chromatic":
-		transpose.Chromatic = value.GetValueString()
-	case "Octave_change":
-		transpose.Octave_change = int(value.GetValueInt())
-	case "Double":
-		transpose.Double = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tremolo *Tremolo) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tremolo.Name = value.GetValueString()
-	case "Type":
-		tremolo.Type = value.GetValueString()
-	case "Default_x":
-		tremolo.Default_x = value.GetValueString()
-	case "Default_y":
-		tremolo.Default_y = value.GetValueString()
-	case "Relative_x":
-		tremolo.Relative_x = value.GetValueString()
-	case "Relative_y":
-		tremolo.Relative_y = value.GetValueString()
-	case "Font_family":
-		tremolo.Font_family = value.GetValueString()
-	case "Font_style":
-		tremolo.Font_style = value.GetValueString()
-	case "Font_size":
-		tremolo.Font_size = value.GetValueString()
-	case "Font_weight":
-		tremolo.Font_weight = value.GetValueString()
-	case "Color":
-		tremolo.Color = value.GetValueString()
-	case "Placement":
-		tremolo.Placement = value.GetValueString()
-	case "Smufl":
-		tremolo.Smufl = value.GetValueString()
-	case "EnclosedText":
-		tremolo.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tuplet *Tuplet) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tuplet.Name = value.GetValueString()
-	case "Type":
-		tuplet.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		tuplet.Number = int(value.GetValueInt())
-	case "Bracket":
-		tuplet.Bracket.FromCodeString(value.GetValueString())
-	case "Show_number":
-		tuplet.Show_number = value.GetValueString()
-	case "Show_type":
-		tuplet.Show_type.FromCodeString(value.GetValueString())
-	case "Line_shape":
-		tuplet.Line_shape = value.GetValueString()
-	case "Default_x":
-		tuplet.Default_x = value.GetValueString()
-	case "Default_y":
-		tuplet.Default_y = value.GetValueString()
-	case "Relative_x":
-		tuplet.Relative_x = value.GetValueString()
-	case "Relative_y":
-		tuplet.Relative_y = value.GetValueString()
-	case "Placement":
-		tuplet.Placement = value.GetValueString()
-	case "Id":
-		tuplet.Id = value.GetValueString()
-	case "Tuplet_actual":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tuplet.Tuplet_actual = nil
-			for __instance__ := range stage.Tuplet_portions {
-				if stage.Tuplet_portion_stagedOrder[__instance__] == uint(id) {
-					tuplet.Tuplet_actual = __instance__
-					break
-				}
-			}
-		}
-	case "Tuplet_normal":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tuplet.Tuplet_normal = nil
-			for __instance__ := range stage.Tuplet_portions {
-				if stage.Tuplet_portion_stagedOrder[__instance__] == uint(id) {
-					tuplet.Tuplet_normal = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tuplet_dot *Tuplet_dot) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tuplet_dot.Name = value.GetValueString()
-	case "Font_family":
-		tuplet_dot.Font_family = value.GetValueString()
-	case "Font_style":
-		tuplet_dot.Font_style = value.GetValueString()
-	case "Font_size":
-		tuplet_dot.Font_size = value.GetValueString()
-	case "Font_weight":
-		tuplet_dot.Font_weight = value.GetValueString()
-	case "Color":
-		tuplet_dot.Color = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tuplet_number *Tuplet_number) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tuplet_number.Name = value.GetValueString()
-	case "Font_family":
-		tuplet_number.Font_family = value.GetValueString()
-	case "Font_style":
-		tuplet_number.Font_style = value.GetValueString()
-	case "Font_size":
-		tuplet_number.Font_size = value.GetValueString()
-	case "Font_weight":
-		tuplet_number.Font_weight = value.GetValueString()
-	case "Color":
-		tuplet_number.Color = value.GetValueString()
-	case "EnclosedText":
-		tuplet_number.EnclosedText = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tuplet_portion *Tuplet_portion) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tuplet_portion.Name = value.GetValueString()
-	case "Tuplet_number":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tuplet_portion.Tuplet_number = nil
-			for __instance__ := range stage.Tuplet_numbers {
-				if stage.Tuplet_number_stagedOrder[__instance__] == uint(id) {
-					tuplet_portion.Tuplet_number = __instance__
-					break
-				}
-			}
-		}
-	case "Tuplet_type":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			tuplet_portion.Tuplet_type = nil
-			for __instance__ := range stage.Tuplet_types {
-				if stage.Tuplet_type_stagedOrder[__instance__] == uint(id) {
-					tuplet_portion.Tuplet_type = __instance__
-					break
-				}
-			}
-		}
-	case "Tuplet_dot":
-		tuplet_portion.Tuplet_dot = make([]*Tuplet_dot, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tuplet_dots {
-					if stage.Tuplet_dot_stagedOrder[__instance__] == uint(id) {
-						tuplet_portion.Tuplet_dot = append(tuplet_portion.Tuplet_dot, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (tuplet_type *Tuplet_type) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		tuplet_type.Name = value.GetValueString()
-	case "Font_family":
-		tuplet_type.Font_family = value.GetValueString()
-	case "Font_style":
-		tuplet_type.Font_style = value.GetValueString()
-	case "Font_size":
-		tuplet_type.Font_size = value.GetValueString()
-	case "Font_weight":
-		tuplet_type.Font_weight = value.GetValueString()
-	case "Color":
-		tuplet_type.Color = value.GetValueString()
-	case "EnclosedText":
-		tuplet_type.EnclosedText.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (typed_text *Typed_text) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		typed_text.Name = value.GetValueString()
-	case "Type":
-		typed_text.Type = value.GetValueString()
-	case "EnclosedText":
-		typed_text.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (unpitched *Unpitched) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		unpitched.Name = value.GetValueString()
-	case "Display_step":
-		unpitched.Display_step.FromCodeString(value.GetValueString())
-	case "Display_octave":
-		unpitched.Display_octave = int(value.GetValueInt())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (virtual_instrument *Virtual_instrument) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		virtual_instrument.Name = value.GetValueString()
-	case "Virtual_library":
-		virtual_instrument.Virtual_library = value.GetValueString()
-	case "Virtual_name":
-		virtual_instrument.Virtual_name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (wait *Wait) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		wait.Name = value.GetValueString()
-	case "Player":
-		wait.Player = value.GetValueString()
-	case "Time_only":
-		wait.Time_only.FromCodeString(value.GetValueString())
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (wavy_line *Wavy_line) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		wavy_line.Name = value.GetValueString()
-	case "Type":
-		wavy_line.Type.FromCodeString(value.GetValueString())
-	case "Number":
-		wavy_line.Number = int(value.GetValueInt())
-	case "Smufl":
-		wavy_line.Smufl = value.GetValueString()
-	case "Default_x":
-		wavy_line.Default_x = value.GetValueString()
-	case "Default_y":
-		wavy_line.Default_y = value.GetValueString()
-	case "Relative_x":
-		wavy_line.Relative_x = value.GetValueString()
-	case "Relative_y":
-		wavy_line.Relative_y = value.GetValueString()
-	case "Placement":
-		wavy_line.Placement = value.GetValueString()
-	case "Color":
-		wavy_line.Color = value.GetValueString()
-	case "Start_note":
-		wavy_line.Start_note = value.GetValueString()
-	case "Trill_step":
-		wavy_line.Trill_step = value.GetValueString()
-	case "Two_note_turn":
-		wavy_line.Two_note_turn = value.GetValueString()
-	case "Accelerate":
-		wavy_line.Accelerate.FromCodeString(value.GetValueString())
-	case "Beats":
-		wavy_line.Beats = value.GetValueString()
-	case "Second_beat":
-		wavy_line.Second_beat = value.GetValueString()
-	case "Last_beat":
-		wavy_line.Last_beat = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (wedge *Wedge) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		wedge.Name = value.GetValueString()
-	case "Type":
-		wedge.Type = value.GetValueString()
-	case "Number":
-		wedge.Number = int(value.GetValueInt())
-	case "Spread":
-		wedge.Spread = value.GetValueString()
-	case "Niente":
-		wedge.Niente.FromCodeString(value.GetValueString())
-	case "Line_type":
-		wedge.Line_type = value.GetValueString()
-	case "Dash_length":
-		wedge.Dash_length = value.GetValueString()
-	case "Space_length":
-		wedge.Space_length = value.GetValueString()
-	case "Default_x":
-		wedge.Default_x = value.GetValueString()
-	case "Default_y":
-		wedge.Default_y = value.GetValueString()
-	case "Relative_x":
-		wedge.Relative_x = value.GetValueString()
-	case "Relative_y":
-		wedge.Relative_y = value.GetValueString()
-	case "Color":
-		wedge.Color = value.GetValueString()
-	case "Id":
-		wedge.Id = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (wood *Wood) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		wood.Name = value.GetValueString()
-	case "Smufl":
-		wood.Smufl = value.GetValueString()
-	case "EnclosedText":
-		wood.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (work *Work) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		work.Name = value.GetValueString()
-	case "Work_number":
-		work.Work_number = value.GetValueString()
-	case "Work_title":
-		work.Work_title = value.GetValueString()
-	case "Opus":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			work.Opus = nil
-			for __instance__ := range stage.Opuss {
-				if stage.Opus_stagedOrder[__instance__] == uint(id) {
-					work.Opus = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (a_directive *A_directive) GongGetGongstructName() string {

@@ -565,11 +565,6 @@ func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string,
 			models.ModelGongProbeFileTemplate)
 	}
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, string(gong_models.GeneratedGongDiffGoFilePath)),
-		models.ModelGongDiffFileTemplate)
-
 	models.GongAst2(modelPkg, pkgPath)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(

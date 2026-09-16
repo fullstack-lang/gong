@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	books_go "github.com/fullstack-lang/gong/app/xsd/tests/books/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -197,9 +184,6 @@ type Stage struct {
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -228,8 +212,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -555,14 +537,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -652,28 +626,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/app/xsd/tests/books/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return books_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return books_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -781,12 +735,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "BookType"},
-			{name: "Books"},
-			{name: "Credit"},
-			{name: "Link"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -995,9 +943,6 @@ func (booktype *BookType) Commit(stage *Stage) *BookType {
 	return booktype
 }
 
-func (booktype *BookType) CommitVoid(stage *Stage) {
-	booktype.Commit(stage)
-}
 
 func (booktype *BookType) StageVoid(stage *Stage) {
 	booktype.Stage(stage)
@@ -1083,9 +1028,6 @@ func (books *Books) Commit(stage *Stage) *Books {
 	return books
 }
 
-func (books *Books) CommitVoid(stage *Stage) {
-	books.Commit(stage)
-}
 
 func (books *Books) StageVoid(stage *Stage) {
 	books.Stage(stage)
@@ -1171,9 +1113,6 @@ func (credit *Credit) Commit(stage *Stage) *Credit {
 	return credit
 }
 
-func (credit *Credit) CommitVoid(stage *Stage) {
-	credit.Commit(stage)
-}
 
 func (credit *Credit) StageVoid(stage *Stage) {
 	credit.Stage(stage)
@@ -1259,9 +1198,6 @@ func (link *Link) Commit(stage *Stage) *Link {
 	return link
 }
 
-func (link *Link) CommitVoid(stage *Stage) {
-	link.Commit(stage)
-}
 
 func (link *Link) StageVoid(stage *Stage) {
 	link.Stage(stage)
@@ -1285,21 +1221,6 @@ func (link *Link) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (link *Link) SetName(name string) {
 	link.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMBookType(BookType *BookType)
-	CreateORMBooks(Books *Books)
-	CreateORMCredit(Credit *Credit)
-	CreateORMLink(Link *Link)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMBookType(BookType *BookType)
-	DeleteORMBooks(Books *Books)
-	DeleteORMCredit(Credit *Credit)
-	DeleteORMLink(Link *Link)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1331,42 +1252,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.BookTypes = nil
-	stage.BookTypes_mapString = nil
-
-	stage.Bookss = nil
-	stage.Bookss_mapString = nil
-
-	stage.Credits = nil
-	stage.Credits_mapString = nil
-
-	stage.Links = nil
-	stage.Links_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for booktype := range stage.BookTypes {
-		booktype.Unstage(stage)
-	}
-
-	for books := range stage.Bookss {
-		books.Unstage(stage)
-	}
-
-	for credit := range stage.Credits {
-		credit.Unstage(stage)
-	}
-
-	for link := range stage.Links {
-		link.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -1384,13 +1269,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -1923,122 +1806,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (booktype *BookType) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		booktype.Name = value.GetValueString()
-	case "Edition":
-		booktype.Edition = value.GetValueString()
-	case "Isbn":
-		booktype.Isbn = value.GetValueString()
-	case "Bestseller":
-		booktype.Bestseller = value.GetValueBool()
-	case "Title":
-		booktype.Title = value.GetValueString()
-	case "Author":
-		booktype.Author = value.GetValueString()
-	case "Year":
-		booktype.Year = int(value.GetValueInt())
-	case "Format":
-		booktype.Format = value.GetValueString()
-	case "Credit":
-		booktype.Credit = make([]*Credit, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Credits {
-					if stage.Credit_stagedOrder[__instance__] == uint(id) {
-						booktype.Credit = append(booktype.Credit, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (books *Books) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		books.Name = value.GetValueString()
-	case "Book":
-		books.Book = make([]*BookType, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.BookTypes {
-					if stage.BookType_stagedOrder[__instance__] == uint(id) {
-						books.Book = append(books.Book, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (credit *Credit) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		credit.Name = value.GetValueString()
-	case "Page":
-		credit.Page = int(value.GetValueInt())
-	case "Credit_type":
-		credit.Credit_type = value.GetValueString()
-	case "Link":
-		credit.Link = make([]*Link, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Links {
-					if stage.Link_stagedOrder[__instance__] == uint(id) {
-						credit.Link = append(credit.Link, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Credit_words":
-		credit.Credit_words = value.GetValueString()
-	case "Credit_symbol":
-		credit.Credit_symbol = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		link.Name = value.GetValueString()
-	case "NameXSD":
-		link.NameXSD = value.GetValueString()
-	case "EnclosedText":
-		link.EnclosedText = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (booktype *BookType) GongGetGongstructName() string {

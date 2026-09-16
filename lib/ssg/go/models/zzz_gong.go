@@ -3,7 +3,6 @@ package models
 
 import (
 	"cmp"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	ssg_go "github.com/fullstack-lang/gong/lib/ssg/go"
 )
 
 // can be used for
@@ -105,16 +102,6 @@ var (
 	_        = __member
 )
 
-// GongStructInterface is the interface met by GongStructs
-// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GongStructInterface interface {
-	GetName() (res string)
-	// GetID() (res int)
-	// GetFields() (res []string)
-	// GetFieldStringValue(fieldName string) (res string)
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
-	GongGetGongstructName() string
-}
 
 // Stage enables storage of staged instances
 type Stage struct {
@@ -261,9 +248,6 @@ type Stage struct {
 	OnAfterSvgImageDeleteCallback OnAfterDeleteInterface[SvgImage]
 	OnAfterSvgImageReadCallback   OnAfterReadInterface[SvgImage]
 
-	AllModelsStructCreateCallback AllModelsStructCreateInterface
-
-	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
 
@@ -292,8 +276,6 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
 	// end of insertion point
-
-	NamedStructs []*NamedStruct
 
 	// GongUnmarshallers is the registry of all model unmarshallers
 	GongUnmarshallers map[string]ModelUnmarshaller
@@ -691,14 +673,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 	return stage.probeIF
 }
 
-// GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
-	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
-	}
-
-	return
-}
 
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
@@ -844,28 +818,8 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 	return
 }
 
-type NamedStruct struct {
-	name string
-}
-
-func (namedStruct *NamedStruct) GetName() string {
-	return namedStruct.name
-}
-
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/ssg/go/models"
-}
-
-func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
-	return stage.Map_GongStructName_InstancesNb
-}
-
-func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return ssg_go.GoModelsDir
-}
-
-func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return ssg_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -1017,16 +971,6 @@ func NewStage(name string) (stage *Stage) {
 			// end of insertion point
 		},
 
-		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Chapter"},
-			{name: "Content"},
-			{name: "DownloadableFile"},
-			{name: "JpgImage"},
-			{name: "Page"},
-			{name: "PngImage"},
-			{name: "Section"},
-			{name: "SvgImage"},
-		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
 	}
@@ -1255,9 +1199,6 @@ func (chapter *Chapter) Commit(stage *Stage) *Chapter {
 	return chapter
 }
 
-func (chapter *Chapter) CommitVoid(stage *Stage) {
-	chapter.Commit(stage)
-}
 
 func (chapter *Chapter) StageVoid(stage *Stage) {
 	chapter.Stage(stage)
@@ -1343,9 +1284,6 @@ func (content *Content) Commit(stage *Stage) *Content {
 	return content
 }
 
-func (content *Content) CommitVoid(stage *Stage) {
-	content.Commit(stage)
-}
 
 func (content *Content) StageVoid(stage *Stage) {
 	content.Stage(stage)
@@ -1431,9 +1369,6 @@ func (downloadablefile *DownloadableFile) Commit(stage *Stage) *DownloadableFile
 	return downloadablefile
 }
 
-func (downloadablefile *DownloadableFile) CommitVoid(stage *Stage) {
-	downloadablefile.Commit(stage)
-}
 
 func (downloadablefile *DownloadableFile) StageVoid(stage *Stage) {
 	downloadablefile.Stage(stage)
@@ -1519,9 +1454,6 @@ func (jpgimage *JpgImage) Commit(stage *Stage) *JpgImage {
 	return jpgimage
 }
 
-func (jpgimage *JpgImage) CommitVoid(stage *Stage) {
-	jpgimage.Commit(stage)
-}
 
 func (jpgimage *JpgImage) StageVoid(stage *Stage) {
 	jpgimage.Stage(stage)
@@ -1607,9 +1539,6 @@ func (page *Page) Commit(stage *Stage) *Page {
 	return page
 }
 
-func (page *Page) CommitVoid(stage *Stage) {
-	page.Commit(stage)
-}
 
 func (page *Page) StageVoid(stage *Stage) {
 	page.Stage(stage)
@@ -1695,9 +1624,6 @@ func (pngimage *PngImage) Commit(stage *Stage) *PngImage {
 	return pngimage
 }
 
-func (pngimage *PngImage) CommitVoid(stage *Stage) {
-	pngimage.Commit(stage)
-}
 
 func (pngimage *PngImage) StageVoid(stage *Stage) {
 	pngimage.Stage(stage)
@@ -1783,9 +1709,6 @@ func (section *Section) Commit(stage *Stage) *Section {
 	return section
 }
 
-func (section *Section) CommitVoid(stage *Stage) {
-	section.Commit(stage)
-}
 
 func (section *Section) StageVoid(stage *Stage) {
 	section.Stage(stage)
@@ -1871,9 +1794,6 @@ func (svgimage *SvgImage) Commit(stage *Stage) *SvgImage {
 	return svgimage
 }
 
-func (svgimage *SvgImage) CommitVoid(stage *Stage) {
-	svgimage.Commit(stage)
-}
 
 func (svgimage *SvgImage) StageVoid(stage *Stage) {
 	svgimage.Stage(stage)
@@ -1897,29 +1817,6 @@ func (svgimage *SvgImage) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (svgimage *SvgImage) SetName(name string) {
 	svgimage.Name = name
-}
-
-// swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMChapter(Chapter *Chapter)
-	CreateORMContent(Content *Content)
-	CreateORMDownloadableFile(DownloadableFile *DownloadableFile)
-	CreateORMJpgImage(JpgImage *JpgImage)
-	CreateORMPage(Page *Page)
-	CreateORMPngImage(PngImage *PngImage)
-	CreateORMSection(Section *Section)
-	CreateORMSvgImage(SvgImage *SvgImage)
-}
-
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMChapter(Chapter *Chapter)
-	DeleteORMContent(Content *Content)
-	DeleteORMDownloadableFile(DownloadableFile *DownloadableFile)
-	DeleteORMJpgImage(JpgImage *JpgImage)
-	DeleteORMPage(Page *Page)
-	DeleteORMPngImage(PngImage *PngImage)
-	DeleteORMSection(Section *Section)
-	DeleteORMSvgImage(SvgImage *SvgImage)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1971,70 +1868,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	}
 }
 
-func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Chapters = nil
-	stage.Chapters_mapString = nil
-
-	stage.Contents = nil
-	stage.Contents_mapString = nil
-
-	stage.DownloadableFiles = nil
-	stage.DownloadableFiles_mapString = nil
-
-	stage.JpgImages = nil
-	stage.JpgImages_mapString = nil
-
-	stage.Pages = nil
-	stage.Pages_mapString = nil
-
-	stage.PngImages = nil
-	stage.PngImages_mapString = nil
-
-	stage.Sections = nil
-	stage.Sections_mapString = nil
-
-	stage.SvgImages = nil
-	stage.SvgImages_mapString = nil
-
-	// end of insertion point for array nil
-}
-
-func (stage *Stage) Unstage() { // insertion point for array nil
-	for chapter := range stage.Chapters {
-		chapter.Unstage(stage)
-	}
-
-	for content := range stage.Contents {
-		content.Unstage(stage)
-	}
-
-	for downloadablefile := range stage.DownloadableFiles {
-		downloadablefile.Unstage(stage)
-	}
-
-	for jpgimage := range stage.JpgImages {
-		jpgimage.Unstage(stage)
-	}
-
-	for page := range stage.Pages {
-		page.Unstage(stage)
-	}
-
-	for pngimage := range stage.PngImages {
-		pngimage.Unstage(stage)
-	}
-
-	for section := range stage.Sections {
-		section.Unstage(stage)
-	}
-
-	for svgimage := range stage.SvgImages {
-		svgimage.Unstage(stage)
-	}
-
-	// end of insertion point for array nil
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -2052,13 +1885,11 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	SetName(string)
-	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage) (modified bool)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
-	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
 	GongGetReferenceIdentifier(stage *Stage) string
@@ -2985,252 +2816,6 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 	return
 }
 
-// insertion point for generic set gongstruct field value
-func (chapter *Chapter) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		chapter.Name = value.GetValueString()
-	case "MardownContent":
-		chapter.MardownContent = value.GetValueString()
-	case "Sections":
-		chapter.Sections = make([]*Section, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Sections {
-					if stage.Section_stagedOrder[__instance__] == uint(id) {
-						chapter.Sections = append(chapter.Sections, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Pages":
-		chapter.Pages = make([]*Page, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Pages {
-					if stage.Page_stagedOrder[__instance__] == uint(id) {
-						chapter.Pages = append(chapter.Pages, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "SubChapters":
-		chapter.SubChapters = make([]*Chapter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Chapters {
-					if stage.Chapter_stagedOrder[__instance__] == uint(id) {
-						chapter.SubChapters = append(chapter.SubChapters, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		content.Name = value.GetValueString()
-	case "MardownContent":
-		content.MardownContent = value.GetValueString()
-	case "ContentPath":
-		content.ContentPath = value.GetValueString()
-	case "OutputPath":
-		content.OutputPath = value.GetValueString()
-	case "StaticPath":
-		content.StaticPath = value.GetValueString()
-	case "LogoSVGFile":
-		content.LogoSVGFile = value.GetValueString()
-	case "IsBespokeLogoFileName":
-		content.IsBespokeLogoFileName = value.GetValueBool()
-	case "BespokeLogoFileName":
-		content.BespokeLogoFileName = value.GetValueString()
-	case "IsBespokePageTileLogoFileName":
-		content.IsBespokePageTileLogoFileName = value.GetValueBool()
-	case "BespokePageTileLogoFileName":
-		content.BespokePageTileLogoFileName = value.GetValueString()
-	case "Target":
-		content.Target.FromCodeString(value.GetValueString())
-	case "Chapters":
-		content.Chapters = make([]*Chapter, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Chapters {
-					if stage.Chapter_stagedOrder[__instance__] == uint(id) {
-						content.Chapters = append(content.Chapters, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "VersionInfo":
-		content.VersionInfo = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (downloadablefile *DownloadableFile) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		downloadablefile.Name = value.GetValueString()
-	case "Base64Content":
-		downloadablefile.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (jpgimage *JpgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		jpgimage.Name = value.GetValueString()
-	case "Base64Content":
-		jpgimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (page *Page) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		page.Name = value.GetValueString()
-	case "MardownContent":
-		page.MardownContent = value.GetValueString()
-	case "Sections":
-		page.Sections = make([]*Section, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Sections {
-					if stage.Section_stagedOrder[__instance__] == uint(id) {
-						page.Sections = append(page.Sections, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (pngimage *PngImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		pngimage.Name = value.GetValueString()
-	case "Base64Content":
-		pngimage.Base64Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (section *Section) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		section.Name = value.GetValueString()
-	case "MardownContent":
-		section.MardownContent = value.GetValueString()
-	case "IsImage":
-		section.IsImage = value.GetValueBool()
-	case "SvgImage":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			section.SvgImage = nil
-			for __instance__ := range stage.SvgImages {
-				if stage.SvgImage_stagedOrder[__instance__] == uint(id) {
-					section.SvgImage = __instance__
-					break
-				}
-			}
-		}
-	case "PngImage":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			section.PngImage = nil
-			for __instance__ := range stage.PngImages {
-				if stage.PngImage_stagedOrder[__instance__] == uint(id) {
-					section.PngImage = __instance__
-					break
-				}
-			}
-		}
-	case "JpgImage":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			section.JpgImage = nil
-			for __instance__ := range stage.JpgImages {
-				if stage.JpgImage_stagedOrder[__instance__] == uint(id) {
-					section.JpgImage = __instance__
-					break
-				}
-			}
-		}
-	case "IsDownloadableFile":
-		section.IsDownloadableFile = value.GetValueBool()
-	case "DownloadableFile":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			section.DownloadableFile = nil
-			for __instance__ := range stage.DownloadableFiles {
-				if stage.DownloadableFile_stagedOrder[__instance__] == uint(id) {
-					section.DownloadableFile = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (svgimage *SvgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		svgimage.Name = value.GetValueString()
-	case "Content":
-		svgimage.Content = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
-	return instance.GongSetFieldValue(fieldName, value, stage)
-}
 
 // insertion point for generic get gongstruct name
 func (chapter *Chapter) GongGetGongstructName() string {
