@@ -2,8 +2,8 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common'; // 1. Import this
-import { provideNgtRenderer } from 'angular-three/dom';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideScopedNgtRenderer } from './scoped-ngt-renderer';
 
 import { routes } from './app.routes';
 import { wasmInterceptor } from './wasm.interceptor';
@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
     { provide: APP_BASE_HREF, useValue: window.location.pathname }, 
     
     provideHttpClient(withInterceptors([wasmInterceptor])),
-    provideNgtRenderer()
+    provideScopedNgtRenderer()
   ]
 };

@@ -220,6 +220,7 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GongthreejsSpecific {
+  static readonly __is_three__ = true;
 
   @Input() Name: string = ""
   public frontRepo?: threejs.FrontRepo
