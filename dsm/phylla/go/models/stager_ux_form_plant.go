@@ -108,5 +108,5 @@ func (stager *Stager) ux_plant_form() {
 
 	stager.plantFormStage.StageBranch(formGroup)
 	stager.plantFormStage.Commit()
-	stager.plantFormStage.GetProbeIF().Refresh()
+	// stager.plantFormStage.GetProbeIF().Refresh()
 }

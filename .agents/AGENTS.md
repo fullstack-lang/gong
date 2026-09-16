@@ -191,3 +191,16 @@ when you have finished udpating a dsm code. Compile it, therefore `go run . edit
 In a stack of height 4, the **only allowed frontend call** is the update of an existing object. 
 
 Creating new objects or deleting objects directly from frontend components is strictly prohibited. All creation and deletion of model instances must originate from backend logic or backend stager tree callbacks.
+
+---
+
+# Communicating about fix
+
+When proposing a fix to a problem, provide a confidence level, based on the following guidelines :
+
+- 100 % : problem fully understood, fix verified
+- 80 % : problem rather understood, fix verified but in particular settings
+- 60 % : problem midly understood, no fix verified yet
+- 40 % : problem poorly understood, no fix
+- 20 % : hunch on the problem, fix to explore the problem space
+- 0% : should not happen
