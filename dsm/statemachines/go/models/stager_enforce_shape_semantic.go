@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceShapeSemantic() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		for _, stateShape := range diagram.State_Shapes {
 			if stateShape.State == nil {
 				stateShape.Unstage(stager.stage)

@@ -74,15 +74,14 @@ func (aFormCallback *AFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.B](aFormCallback.probe.stageOfInterest)
+			instanceSet := *aFormCallback.probe.stageOfInterest.GetInstancesSet[*models.B]()
 			instanceSlice := make([]*models.B, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.B)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					aFormCallback.probe.stageOfInterest,
+				id := aFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -211,8 +210,8 @@ func (bFormCallback *BFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A instances and update their Bs slice
-			for _a := range *models.GetGongstructInstancesSetFromPointerType[*models.A](bFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(bFormCallback.probe.stageOfInterest, _a)
+			for _a := range *bFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A]() {
+				id := bFormCallback.probe.stageOfInterest.GetOrder(_a)
 				
 				// if A is selected
 				if targetAIDs[id] {

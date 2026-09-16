@@ -169,7 +169,7 @@ func (stager *Stager) treeStateMachines(
 		stateMachineNode.Menu.Buttons = append(stateMachineNode.Menu.Buttons, addButton)
 	}
 
-	transitionsSet := *GetGongstructInstancesSet[Transition](stager.stage)
+	transitionsSet := *stager.stage.GetInstancesSet[*Transition]()
 	transitionSlice := SortGongstructSetByName(transitionsSet)
 
 	for _, diagram := range stateMachine.Diagrams {

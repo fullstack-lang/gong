@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 
 		// Build a set of tasks that have a shape in this diagram
 		tasksInDiagram := make(map[*Task]bool)

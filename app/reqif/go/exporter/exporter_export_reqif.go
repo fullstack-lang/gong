@@ -42,7 +42,7 @@ func (exporter *Exporter) ExportReqif(stager *models.Stager) {
 	// get the root of the SPEC_TYPE slice
 	var specTypes *models.A_SPEC_TYPES
 
-	specTypesInstances := models.GetGongstrucsSorted[*models.A_SPEC_TYPES](stager.GetStage())
+	specTypesInstances := stager.GetStage().GetInstancesSorted[*models.A_SPEC_TYPES]()
 
 	if len(specTypesInstances) != 1 {
 		log.Println("Problem, there should be one models.A_SPEC_TYPES instance")
@@ -116,7 +116,7 @@ func (exporter *Exporter) ExportReqif(stager *models.Stager) {
 		return
 	}
 
-	specObjectsInstances := models.GetGongstrucsSorted[*models.A_SPEC_OBJECTS](stager.GetStage())
+	specObjectsInstances := stager.GetStage().GetInstancesSorted[*models.A_SPEC_OBJECTS]()
 
 	if len(specObjectsInstances) != 1 {
 		log.Println("Problem, there should be one models.A_SPEC_OBJECTS instance")

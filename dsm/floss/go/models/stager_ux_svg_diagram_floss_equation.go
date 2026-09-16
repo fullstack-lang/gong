@@ -13,7 +13,7 @@ func (stager *Stager) svg() {
 	stager.systemDiagramSvgStage.Reset()
 
 	var diagramFlossEquation *DiagramFlossEquation
-	for diagram_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+	for diagram_ := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		if diagram_.IsChecked {
 			diagramFlossEquation = diagram_
 			break
@@ -53,7 +53,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	owningSystem := diagram.GetOwningSystem()
 
 	if compareAnalysis == nil && owningSystem == nil {
-		for ca := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
+		for ca := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
 			for _, d := range ca.DiagramFlossEquations {
 				if d == diagram {
 					compareAnalysis = ca
@@ -62,7 +62,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			}
 		}
 		if compareAnalysis == nil {
-			for sys := range *GetGongstructInstancesSet[System](stager.stage) {
+			for sys := range *stager.stage.GetInstancesSet[*System]() {
 				for _, d := range sys.DiagramFlossEquations {
 					if d == diagram {
 						owningSystem = sys

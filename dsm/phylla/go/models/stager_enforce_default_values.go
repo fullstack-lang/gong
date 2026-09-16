@@ -20,7 +20,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
 	}
 
-	for _, plant := range GetGongstrucsSorted[*PlantAbstract](stager.stage) {
+	for _, plant := range stager.stage.GetInstancesSorted[*PlantAbstract]() {
 		if plant.N == 0 {
 			needCommit = true
 			plant.N = 1
@@ -137,7 +137,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		}
 	}
 
-	for _, plant2DDiagram := range GetGongstrucsSorted[*Plant2DDiagram](stager.stage) {
+	for _, plant2DDiagram := range stager.stage.GetInstancesSorted[*Plant2DDiagram]() {
 		if plant2DDiagram.Name == "" {
 			needCommit = true
 			plant2DDiagram.Name = "New Plant Diagram"
@@ -159,28 +159,28 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			stager.logAndNotify(fmt.Sprintf("Plant2DDiagram %s: default Zoom set to 1.0", plant2DDiagram.Name))
 		}
 	}
-	for _, vase2DDiagram := range GetGongstrucsSorted[*Vase2DDiagram](stager.stage) {
+	for _, vase2DDiagram := range stager.stage.GetInstancesSorted[*Vase2DDiagram]() {
 		if vase2DDiagram.Zoom == 0.0 {
 			needCommit = true
 			vase2DDiagram.Zoom = 1.0
 			stager.logAndNotify(fmt.Sprintf("Vase2DDiagram %s: default Zoom set to 1.0", vase2DDiagram.Name))
 		}
 	}
-	for _, stool2DDiagram := range GetGongstrucsSorted[*Stool2DDiagram](stager.stage) {
+	for _, stool2DDiagram := range stager.stage.GetInstancesSorted[*Stool2DDiagram]() {
 		if stool2DDiagram.Zoom == 0.0 {
 			needCommit = true
 			stool2DDiagram.Zoom = 1.0
 			stager.logAndNotify(fmt.Sprintf("Stool2DDiagram %s: default Zoom set to 1.0", stool2DDiagram.Name))
 		}
 	}
-	for _, clock2DDiagram := range GetGongstrucsSorted[*Clock2DDiagram](stager.stage) {
+	for _, clock2DDiagram := range stager.stage.GetInstancesSorted[*Clock2DDiagram]() {
 		if clock2DDiagram.Zoom == 0.0 {
 			needCommit = true
 			clock2DDiagram.Zoom = 1.0
 			stager.logAndNotify(fmt.Sprintf("Clock2DDiagram %s: default Zoom set to 1.0", clock2DDiagram.Name))
 		}
 	}
-	for _, axesShape := range GetGongstrucsSorted[*AxesShape](stager.stage) {
+	for _, axesShape := range stager.stage.GetInstancesSorted[*AxesShape]() {
 		if axesShape.LengthX == 0.0 {
 			needCommit = true
 			axesShape.LengthX = 200.0

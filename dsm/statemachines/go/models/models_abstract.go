@@ -181,7 +181,7 @@ type Guard struct {
 
 func (transition *Transition) performTransition(stage *Stage) {
 
-	objectSet := *GetGongstructInstancesSet[Object](stage)
+	objectSet := *stage.GetInstancesSet[*Object]()
 	for object := range objectSet {
 		if object.IsSelected {
 
@@ -201,7 +201,7 @@ func (transition *Transition) performTransition(stage *Stage) {
 				object.Messages = append(object.Messages, message)
 
 				// set new message to selected
-				for message_ := range *GetGongstructInstancesSet[Message](stage) {
+				for message_ := range *stage.GetInstancesSet[*Message]() {
 					message_.IsSelected = false
 				}
 				message.IsSelected = true

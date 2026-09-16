@@ -240,15 +240,14 @@ func (buffergeometryFormCallback *BufferGeometryFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector3](buffergeometryFormCallback.probe.stageOfInterest)
+			instanceSet := *buffergeometryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Vector3]()
 			instanceSlice := make([]*models.Vector3, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Vector3)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					buffergeometryFormCallback.probe.stageOfInterest,
+				id := buffergeometryFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -275,15 +274,14 @@ func (buffergeometryFormCallback *BufferGeometryFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Triangle](buffergeometryFormCallback.probe.stageOfInterest)
+			instanceSet := *buffergeometryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Triangle]()
 			instanceSlice := make([]*models.Triangle, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Triangle)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					buffergeometryFormCallback.probe.stageOfInterest,
+				id := buffergeometryFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -480,15 +478,14 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DirectionalLight](canvasFormCallback.probe.stageOfInterest)
+			instanceSet := *canvasFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DirectionalLight]()
 			instanceSlice := make([]*models.DirectionalLight, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DirectionalLight)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					canvasFormCallback.probe.stageOfInterest,
+				id := canvasFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -517,15 +514,14 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Mesh](canvasFormCallback.probe.stageOfInterest)
+			instanceSet := *canvasFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Mesh]()
 			instanceSlice := make([]*models.Mesh, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Mesh)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					canvasFormCallback.probe.stageOfInterest,
+				id := canvasFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -638,15 +634,14 @@ func (curveFormCallback *CurveFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector3](curveFormCallback.probe.stageOfInterest)
+			instanceSet := *curveFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Vector3]()
 			instanceSlice := make([]*models.Vector3, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Vector3)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					curveFormCallback.probe.stageOfInterest,
+				id := curveFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -873,8 +868,8 @@ func (directionallightFormCallback *DirectionalLightFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Canvas instances and update their DirectionalLights slice
-			for _canvas := range *models.GetGongstructInstancesSetFromPointerType[*models.Canvas](directionallightFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(directionallightFormCallback.probe.stageOfInterest, _canvas)
+			for _canvas := range *directionallightFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Canvas]() {
+				id := directionallightFormCallback.probe.stageOfInterest.GetOrder(_canvas)
 				
 				// if Canvas is selected
 				if targetCanvasIDs[id] {
@@ -1109,8 +1104,8 @@ func (meshFormCallback *MeshFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Canvas instances and update their Meshs slice
-			for _canvas := range *models.GetGongstructInstancesSetFromPointerType[*models.Canvas](meshFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(meshFormCallback.probe.stageOfInterest, _canvas)
+			for _canvas := range *meshFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Canvas]() {
+				id := meshFormCallback.probe.stageOfInterest.GetOrder(_canvas)
 				
 				// if Canvas is selected
 				if targetCanvasIDs[id] {
@@ -1471,15 +1466,14 @@ func (shapeFormCallback *ShapeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector2](shapeFormCallback.probe.stageOfInterest)
+			instanceSet := *shapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Vector2]()
 			instanceSlice := make([]*models.Vector2, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Vector2)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shapeFormCallback.probe.stageOfInterest,
+				id := shapeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1788,8 +1782,8 @@ func (triangleFormCallback *TriangleFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all BufferGeometry instances and update their Faces slice
-			for _buffergeometry := range *models.GetGongstructInstancesSetFromPointerType[*models.BufferGeometry](triangleFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(triangleFormCallback.probe.stageOfInterest, _buffergeometry)
+			for _buffergeometry := range *triangleFormCallback.probe.stageOfInterest.GetInstancesSet[*models.BufferGeometry]() {
+				id := triangleFormCallback.probe.stageOfInterest.GetOrder(_buffergeometry)
 				
 				// if BufferGeometry is selected
 				if targetBufferGeometryIDs[id] {
@@ -2006,8 +2000,8 @@ func (vector2FormCallback *Vector2FormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Shape instances and update their Points slice
-			for _shape := range *models.GetGongstructInstancesSetFromPointerType[*models.Shape](vector2FormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(vector2FormCallback.probe.stageOfInterest, _shape)
+			for _shape := range *vector2FormCallback.probe.stageOfInterest.GetInstancesSet[*models.Shape]() {
+				id := vector2FormCallback.probe.stageOfInterest.GetOrder(_shape)
 				
 				// if Shape is selected
 				if targetShapeIDs[id] {
@@ -2138,8 +2132,8 @@ func (vector3FormCallback *Vector3FormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all BufferGeometry instances and update their Vertices slice
-			for _buffergeometry := range *models.GetGongstructInstancesSetFromPointerType[*models.BufferGeometry](vector3FormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(vector3FormCallback.probe.stageOfInterest, _buffergeometry)
+			for _buffergeometry := range *vector3FormCallback.probe.stageOfInterest.GetInstancesSet[*models.BufferGeometry]() {
+				id := vector3FormCallback.probe.stageOfInterest.GetOrder(_buffergeometry)
 				
 				// if BufferGeometry is selected
 				if targetBufferGeometryIDs[id] {
@@ -2186,8 +2180,8 @@ func (vector3FormCallback *Vector3FormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Curve instances and update their Points slice
-			for _curve := range *models.GetGongstructInstancesSetFromPointerType[*models.Curve](vector3FormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(vector3FormCallback.probe.stageOfInterest, _curve)
+			for _curve := range *vector3FormCallback.probe.stageOfInterest.GetInstancesSet[*models.Curve]() {
+				id := vector3FormCallback.probe.stageOfInterest.GetOrder(_curve)
 				
 				// if Curve is selected
 				if targetCurveIDs[id] {

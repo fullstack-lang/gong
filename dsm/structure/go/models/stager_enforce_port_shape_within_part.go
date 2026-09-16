@@ -7,7 +7,7 @@ import (
 )
 
 func (stager *Stager) enforcePortShapeWithinPart() (needCommit bool) {
-	for _, diagramStructure := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+	for _, diagramStructure := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
 		owningSystem := diagramStructure.owningSystem
 		if owningSystem == nil {
 			continue

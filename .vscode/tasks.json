@@ -401,6 +401,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - project: go run . edit data/issue1428.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/project/go/cmd/project"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/issue1428.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - project: go run . edit data/issue325_stager.go",
             "type": "shell",
             "options": {

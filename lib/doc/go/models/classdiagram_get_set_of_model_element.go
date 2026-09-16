@@ -18,7 +18,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 	map_ModelElement_Shape map[ModelElement]Shape) {
 	map_ModelElement_Shape = make(map[ModelElement]Shape)
 
-	gongStructSet := *gong.GetGongstructInstancesMap[gong.GongStruct](stager.gongStage)
+	gongStructSet := stager.gongStage.GetInstancesMapByName[*gong.GongStruct]()
 
 	//
 	// Filter valid GongStructShapes (Fix for missing Structs)
@@ -98,7 +98,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 	// Update the diagram with only valid structs
 	classdiagram.GongStructShapes = validGongStructShapes
 
-	gongEnumSet := *gong.GetGongstructInstancesMap[gong.GongEnum](gongStage)
+	gongEnumSet := gongStage.GetInstancesMapByName[*gong.GongEnum]()
 	for _, gongEnumShape := range classdiagram.GongEnumShapes {
 
 		gongEnumName := GongEnumIdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
@@ -121,7 +121,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 		}
 	}
 
-	gongNoteSet := *gong.GetGongstructInstancesMap[gong.GongNote](gongStage)
+	gongNoteSet := gongStage.GetInstancesMapByName[*gong.GongNote]()
 	for _, gongNoteShape := range classdiagram.GongNoteShapes {
 
 		gongNoteName := IdentifierToGongStructName(gongNoteShape.Identifier)

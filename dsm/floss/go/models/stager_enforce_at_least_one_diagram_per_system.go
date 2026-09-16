@@ -4,7 +4,7 @@ func (stager *Stager) enforceAtLeastOneDiagramPerSystem() (needCommit bool) {
 	stage := stager.stage
 
 	// enforce that there is at least one diagram per system
-	for system := range *GetGongstructInstancesSetFromPointerType[*System](stage) {
+	for system := range *stage.GetInstancesSet[*System]() {
 		if len(system.DiagramFlossEquations) == 0 {
 			diagram := (&DiagramFlossEquation{
 				Name:        system.Name + " Equation Diagram",

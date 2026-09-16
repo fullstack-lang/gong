@@ -5,7 +5,7 @@ import "slices"
 func (stager *Stager) enforceDiagramMaps() {
 	stager.map_Element_Diagrams = make(map[AbstractType][]DiagramIF)
 
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		// computes all products presents in the diagram
 		diagram.map_Product_ProductShape = make(map[*Product]*ProductShape)
 		for _, shape := range diagram.Product_Shapes {

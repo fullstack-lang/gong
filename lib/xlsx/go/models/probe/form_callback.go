@@ -174,8 +174,8 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all XLRow instances and update their Cells slice
-			for _xlrow := range *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(xlcellFormCallback.probe.stageOfInterest, _xlrow)
+			for _xlrow := range *xlcellFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLRow]() {
+				id := xlcellFormCallback.probe.stageOfInterest.GetOrder(_xlrow)
 				
 				// if XLRow is selected
 				if targetXLRowIDs[id] {
@@ -222,8 +222,8 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all XLSheet instances and update their SheetCells slice
-			for _xlsheet := range *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(xlcellFormCallback.probe.stageOfInterest, _xlsheet)
+			for _xlsheet := range *xlcellFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLSheet]() {
+				id := xlcellFormCallback.probe.stageOfInterest.GetOrder(_xlsheet)
 				
 				// if XLSheet is selected
 				if targetXLSheetIDs[id] {
@@ -332,15 +332,14 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlfileFormCallback.probe.stageOfInterest)
+			instanceSet := *xlfileFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLSheet]()
 			instanceSlice := make([]*models.XLSheet, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.XLSheet)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					xlfileFormCallback.probe.stageOfInterest,
+				id := xlfileFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -447,15 +446,14 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlrowFormCallback.probe.stageOfInterest)
+			instanceSet := *xlrowFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLCell]()
 			instanceSlice := make([]*models.XLCell, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.XLCell)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					xlrowFormCallback.probe.stageOfInterest,
+				id := xlrowFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -500,8 +498,8 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all XLSheet instances and update their Rows slice
-			for _xlsheet := range *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(xlrowFormCallback.probe.stageOfInterest, _xlsheet)
+			for _xlsheet := range *xlrowFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLSheet]() {
+				id := xlrowFormCallback.probe.stageOfInterest.GetOrder(_xlsheet)
 				
 				// if XLSheet is selected
 				if targetXLSheetIDs[id] {
@@ -614,15 +612,14 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](xlsheetFormCallback.probe.stageOfInterest)
+			instanceSet := *xlsheetFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLRow]()
 			instanceSlice := make([]*models.XLRow, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.XLRow)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					xlsheetFormCallback.probe.stageOfInterest,
+				id := xlsheetFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -649,15 +646,14 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlsheetFormCallback.probe.stageOfInterest)
+			instanceSet := *xlsheetFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLCell]()
 			instanceSlice := make([]*models.XLCell, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.XLCell)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					xlsheetFormCallback.probe.stageOfInterest,
+				id := xlsheetFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -702,8 +698,8 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all XLFile instances and update their Sheets slice
-			for _xlfile := range *models.GetGongstructInstancesSetFromPointerType[*models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(xlsheetFormCallback.probe.stageOfInterest, _xlfile)
+			for _xlfile := range *xlsheetFormCallback.probe.stageOfInterest.GetInstancesSet[*models.XLFile]() {
+				id := xlsheetFormCallback.probe.stageOfInterest.GetOrder(_xlfile)
 				
 				// if XLFile is selected
 				if targetXLFileIDs[id] {

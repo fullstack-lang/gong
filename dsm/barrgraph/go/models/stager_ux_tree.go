@@ -76,7 +76,7 @@ func (stager *Stager) ux_tree() {
 	}
 	tree_.RootNodes = append(tree_.RootNodes, galleryNode)
 
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 
 		diagramNode := &tree.Node{
 			Name:              diagram.Name,
@@ -175,7 +175,7 @@ func (stager *Stager) ux_tree() {
 			map_Movement_MovementShape[_shape.Movement] = _shape
 		}
 
-		for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
+		for _, movement := range stager.stage.GetInstancesSorted[*Movement]() {
 			isInDiagram := false
 			var shape *MovementShape
 			shape = map_Movement_MovementShape[movement]
@@ -291,7 +291,7 @@ func (stager *Stager) ux_tree() {
 				},
 			})
 
-		for _, artefactType := range GetGongstrucsSorted[*ArtefactType](stager.stage) {
+		for _, artefactType := range stager.stage.GetInstancesSorted[*ArtefactType]() {
 
 			isInDiagram := false
 			var shape *ArtefactTypeShape
@@ -413,7 +413,7 @@ func (stager *Stager) ux_tree() {
 				},
 			})
 
-		for _, element := range GetGongstrucsSorted[*Artist](stager.stage) {
+		for _, element := range stager.stage.GetInstancesSorted[*Artist]() {
 
 			isInDiagram := false
 
@@ -508,7 +508,7 @@ func (stager *Stager) ux_tree() {
 			influenceCategoryNode.Buttons[0].ToolTipText = "Hide influences from diagram"
 		}
 
-		for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
+		for _, influence := range stager.stage.GetInstancesSorted[*Influence]() {
 
 			isInDiagram := false
 			var shape *InfluenceShape

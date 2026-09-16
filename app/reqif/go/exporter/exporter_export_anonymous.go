@@ -232,7 +232,7 @@ func (exporter *Exporter) ExportAnonymousReqif(stager *models.Stager) {
 		}
 	}
 
-	// for idx, a_specified_values := range models.GetGongstrucsSorted[*models.A_SPECIFIED_VALUES](stager.GetStage()) {
+	// for idx, a_specified_values := range stager.GetStage().GetInstancesSorted[*models.A_SPECIFIED_VALUES]() {
 
 	// 	for idx2, a_specified_value := range a_specified_values.ENUM_VALUE {
 	// 		a_specified_value.PROPERTIES.EMBEDDED_VALUE.OTHER_CONTENT = fmt.Sprintf("%5d", idx) + " - " + fmt.Sprintf("%5d", idx2)

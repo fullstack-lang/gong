@@ -8,7 +8,7 @@ import (
 func (stager *Stager) enforceInfluenceCardinality() (needCommit bool) {
 	stage := stager.stage
 
-	for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
+	for _, influence := range stager.stage.GetInstancesSorted[*Influence]() {
 		sourceCount := 0
 		if influence.SourceMovement != nil {
 			sourceCount++

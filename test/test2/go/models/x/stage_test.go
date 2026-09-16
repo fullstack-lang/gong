@@ -14,9 +14,9 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 	stageX := NewStage("test_x")
 
 	// 1. Initially empty
-	instancesMap := GetGongstructInstancesMap[X](stageX)
-	if len(*instancesMap) != 0 {
-		t.Fatalf("expected 0 instances, got %d", len(*instancesMap))
+	instancesMap := stageX.GetInstancesMapByName[*X]()
+	if len(instancesMap) != 0 {
+		t.Fatalf("expected 0 instances, got %d", len(instancesMap))
 	}
 
 	// 2. Stage instances referencing y
@@ -25,23 +25,23 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 
 	stageX.Commit()
 
-	// 3. Test GetGongstructInstancesMap
-	instancesMap = GetGongstructInstancesMap[X](stageX)
-	if len(*instancesMap) != 2 {
-		t.Fatalf("expected 2 instances in map, got %d", len(*instancesMap))
+	// 3. Test GetInstancesMapByName
+	instancesMap = stageX.GetInstancesMapByName[*X]()
+	if len(instancesMap) != 2 {
+		t.Fatalf("expected 2 instances in map, got %d", len(instancesMap))
 	}
-	if (*instancesMap)["A1"] != a1 {
+	if instancesMap["A1"] != a1 {
 		t.Fatalf("expected A1 in map")
 	}
-	if (*instancesMap)["A2"] != a2 {
+	if instancesMap["A2"] != a2 {
 		t.Fatalf("expected A2 in map")
 	}
-	if (*instancesMap)["A1"].Y != y1 {
+	if instancesMap["A1"].Y != y1 {
 		t.Fatalf("expected A1.Y to point to y1")
 	}
 
-	// 4. Test GetGongstructInstancesSet
-	instancesSet := GetGongstructInstancesSet[X](stageX)
+	// 4. Test GetInstancesSet
+	instancesSet := stageX.GetInstancesSet[*X]()
 	if len(*instancesSet) != 2 {
 		t.Fatalf("expected 2 instances in set, got %d", len(*instancesSet))
 	}
@@ -52,8 +52,8 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 		t.Fatalf("expected a2 in set")
 	}
 
-	// 5. Test GetGongstrucsSorted
-	sorted := GetGongstrucsSorted[*X](stageX)
+	// 5. Test GetInstancesSorted
+	sorted := stageX.GetInstancesSorted[*X]()
 	if len(sorted) != 2 {
 		t.Fatalf("expected 2 sorted instances, got %d", len(sorted))
 	}
@@ -65,8 +65,8 @@ func TestXStageBasicFunctionalities(t *testing.T) {
 	a1.Unstage(stageX)
 	stageX.Commit()
 
-	instancesMap = GetGongstructInstancesMap[X](stageX)
-	if len(*instancesMap) != 1 {
-		t.Fatalf("expected 1 instance after unstage, got %d", len(*instancesMap))
+	instancesMap = stageX.GetInstancesMapByName[*X]()
+	if len(instancesMap) != 1 {
+		t.Fatalf("expected 1 instance after unstage, got %d", len(instancesMap))
 	}
 }

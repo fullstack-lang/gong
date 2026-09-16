@@ -44,7 +44,7 @@ func (stager *Stager) treeProcesses(
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
 		newDiagram.IsExpanded = true
-		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*DiagramProcess]() {
 			diagram_.IsChecked = false
 		}
 		newDiagram.IsChecked = true

@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
-	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagramProcess := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 		owningProcess := diagramProcess.owningProcess
 		if owningProcess == nil {
 			continue

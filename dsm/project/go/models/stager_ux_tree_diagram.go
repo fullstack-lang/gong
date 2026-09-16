@@ -26,13 +26,13 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 	addRenameButton(element, node, stager)
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 			diagram.IsChecked = true
 		} else {
 			diagram.IsChecked = false
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 		}

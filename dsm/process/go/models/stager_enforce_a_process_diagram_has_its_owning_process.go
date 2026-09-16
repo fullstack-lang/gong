@@ -6,7 +6,7 @@ func (stager *Stager) enforceAProcessDiagramHasItsOwningProcess() (needCommit bo
 
 	rm := GetSliceOfPointersReverseMap[Process, DiagramProcess](GetAssociationName[Process]().DiagramProcesss[0].Name, stager.stage)
 
-	for diagramProcess := range *GetGongstructInstancesSetFromPointerType[*DiagramProcess](stager.stage) {
+	for diagramProcess := range *stager.stage.GetInstancesSet[*DiagramProcess]() {
 
 		owningProcesses := rm[diagramProcess]
 		if len(owningProcesses) > 1 {

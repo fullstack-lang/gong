@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforcePortShapePartPresence() (needCommit bool) {
-	for _, diagramStructure := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+	for _, diagramStructure := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
 		for _, portShape := range diagramStructure.Port_Shapes {
 			if portShape.Port != nil && portShape.Port.owningPart != nil {
 				owningPart := portShape.Port.owningPart

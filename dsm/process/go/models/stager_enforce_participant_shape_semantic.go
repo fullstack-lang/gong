@@ -7,7 +7,7 @@ import (
 )
 
 func (stager *Stager) enforceParticipantShapeSemantic() (needCommit bool) {
-	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagramProcess := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 
 		for _, participantShape := range diagramProcess.Participant_Shapes {
 			if participantShape.WidthWeight == 0 {

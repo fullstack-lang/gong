@@ -26,7 +26,7 @@ func executeServer(args []string) {
 	// get the unique svg and hook a callback for when it is edited or not
 	// the is the only way to update the commit nb from the back
 	var svg *svg_models.SVG
-	for svg_ := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
+	for svg_ := range *stack.Stage.GetInstancesSet[*svg_models.SVG]() {
 		svg = svg_
 	}
 	if svg != nil {
@@ -39,7 +39,7 @@ func executeServer(args []string) {
 	// insertion point for call to stager
 	NewStager(r, stack.Stage)
 
-	for svg := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
+	for svg := range *stack.Stage.GetInstancesSet[*svg_models.SVG]() {
 		result, _, _ := svg.GenerateString()
 		err := os.WriteFile(filepath.Join("../../diagrams/images", svg.Name+".svg"), []byte(result), 0644)
 		if err != nil {

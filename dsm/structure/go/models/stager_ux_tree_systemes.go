@@ -44,7 +44,7 @@ func (stager *Stager) treeSystemes(
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
 		newDiagram.IsExpanded = true
-		for diagram_ := range *GetGongstructInstancesSet[DiagramStructure](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*DiagramStructure]() {
 			diagram_.IsChecked = false
 		}
 		newDiagram.IsChecked = true

@@ -31,7 +31,7 @@ func (stager *Stager) treeDiagramProcess(
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			// uncheck all diagrams
-			for diagramProcess_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+			for diagramProcess_ := range *stager.stage.GetInstancesSet[*DiagramProcess]() {
 				diagramProcess_.IsChecked = false
 			}
 

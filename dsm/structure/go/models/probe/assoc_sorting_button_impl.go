@@ -61,7 +61,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 		selectedInstancesTable.DisplayedColumns = append(selectedInstancesTable.DisplayedColumns, column)
 	}
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onSortingEditon.probe.stageOfInterest)
+	instanceSet := *onSortingEditon.probe.stageOfInterest.GetInstancesSet[FieldType]()
 	instances := make([]FieldType, 0)
 	for instance := range instanceSet {
 		instances = append(instances, instance)
@@ -69,8 +69,8 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 	sort.Slice(instances[:], func(i, j int) bool {
 		instancei := instances[i]
 		instancej := instances[j]
-		instancei_order := models.GetOrderPointerGongstruct(onSortingEditon.probe.stageOfInterest, instancei)
-		instnacej_order := models.GetOrderPointerGongstruct(onSortingEditon.probe.stageOfInterest, instancej)
+		instancei_order := onSortingEditon.probe.stageOfInterest.GetOrder(instancei)
+		instnacej_order := onSortingEditon.probe.stageOfInterest.GetOrder(instancej)
 		return instancei_order < instnacej_order
 	})
 	map_RowID_instance := make(map[*table.Row]FieldType)
@@ -86,8 +86,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&table.CellInt{
 			Name: "ID",
-			Value: int(models.GetOrderPointerGongstruct(
-				onSortingEditon.probe.stageOfInterest,
+			Value: int(onSortingEditon.probe.stageOfInterest.GetOrder(
 				instance,
 			)),
 		}).Stage(tableStageForSelection)

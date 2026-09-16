@@ -82,7 +82,7 @@ func (a *A) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a), uint64(GetOrderPointerGongstruct(stage, a)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a), uint64(stage.GetOrder(a)))
 	return
 }
 
@@ -92,7 +92,7 @@ func (b *B) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(b), uint64(GetOrderPointerGongstruct(stage, b)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(b), uint64(stage.GetOrder(b)))
 	return
 }
 
@@ -102,7 +102,7 @@ func (c *C) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(c), uint64(GetOrderPointerGongstruct(stage, c)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(c), uint64(stage.GetOrder(c)))
 	return
 }
 

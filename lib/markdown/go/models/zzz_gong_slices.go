@@ -88,7 +88,7 @@ func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(GetOrderPointerGongstruct(stage, content)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(stage.GetOrder(content)))
 	return
 }
 
@@ -98,7 +98,7 @@ func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(jpgimage), uint64(GetOrderPointerGongstruct(stage, jpgimage)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(jpgimage), uint64(stage.GetOrder(jpgimage)))
 	return
 }
 
@@ -108,7 +108,7 @@ func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pngimage), uint64(GetOrderPointerGongstruct(stage, pngimage)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pngimage), uint64(stage.GetOrder(pngimage)))
 	return
 }
 
@@ -118,7 +118,7 @@ func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgimage), uint64(GetOrderPointerGongstruct(stage, svgimage)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgimage), uint64(stage.GetOrder(svgimage)))
 	return
 }
 

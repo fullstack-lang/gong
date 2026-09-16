@@ -106,8 +106,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Buttons slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](buttonFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(buttonFormCallback.probe.stageOfInterest, _group)
+			for _group := range *buttonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := buttonFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -240,8 +240,8 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all GroupToogle instances and update their ButtonToggles slice
-			for _grouptoogle := range *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](buttontoggleFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(buttontoggleFormCallback.probe.stageOfInterest, _grouptoogle)
+			for _grouptoogle := range *buttontoggleFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GroupToogle]() {
+				id := buttontoggleFormCallback.probe.stageOfInterest.GetOrder(_grouptoogle)
 				
 				// if GroupToogle is selected
 				if targetGroupToogleIDs[id] {
@@ -350,15 +350,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Button]()
 			instanceSlice := make([]*models.Button, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Button)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -405,8 +404,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layout instances and update their Groups slice
-			for _layout := range *models.GetGongstructInstancesSetFromPointerType[*models.Layout](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _layout)
+			for _layout := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layout]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_layout)
 				
 				// if Layout is selected
 				if targetLayoutIDs[id] {
@@ -515,15 +514,14 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ButtonToggle](grouptoogleFormCallback.probe.stageOfInterest)
+			instanceSet := *grouptoogleFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ButtonToggle]()
 			instanceSlice := make([]*models.ButtonToggle, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ButtonToggle)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					grouptoogleFormCallback.probe.stageOfInterest,
+				id := grouptoogleFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -570,8 +568,8 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layout instances and update their GroupToogles slice
-			for _layout := range *models.GetGongstructInstancesSetFromPointerType[*models.Layout](grouptoogleFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(grouptoogleFormCallback.probe.stageOfInterest, _layout)
+			for _layout := range *grouptoogleFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layout]() {
+				id := grouptoogleFormCallback.probe.stageOfInterest.GetOrder(_layout)
 				
 				// if Layout is selected
 				if targetLayoutIDs[id] {
@@ -678,15 +676,14 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](layoutFormCallback.probe.stageOfInterest)
+			instanceSet := *layoutFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layoutFormCallback.probe.stageOfInterest,
+				id := layoutFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -713,15 +710,14 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](layoutFormCallback.probe.stageOfInterest)
+			instanceSet := *layoutFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GroupToogle]()
 			instanceSlice := make([]*models.GroupToogle, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.GroupToogle)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layoutFormCallback.probe.stageOfInterest,
+				id := layoutFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance

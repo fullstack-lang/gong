@@ -19,7 +19,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 	modified := false
 	stage := stager.stage
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*TubeVase3DDiagram]() {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TorusStackShape, "TorusStackShape", func() *TorusStackShape { return new(TorusStackShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.VerticalTorusStackShape, "VerticalTorusStackShape", func() *VerticalTorusStackShape { return new(VerticalTorusStackShape) }) || modified
@@ -36,7 +36,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.SeatTopCurveShape, "SeatTopCurveShape", func() *SeatTopCurveShape { return new(SeatTopCurveShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.RotatedSeatTopCurveShape, "RotatedSeatTopCurveShape", func() *PartiallyRotatedSeatTopCurveShape { return new(PartiallyRotatedSeatTopCurveShape) }) || modified
@@ -58,7 +58,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Clock3DDiagram]() {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.ClockTopCurveShape, "ClockTopCurveShape", func() *ClockTopCurveShape { return new(ClockTopCurveShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Torus3DShape, "Torus3DShape", func() *Torus3DShape { return new(Torus3DShape) }) || modified
@@ -66,7 +66,7 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.TiledFloor3DShape, "TiledFloor3DShape", func() *TiledFloor3DShape { return new(TiledFloor3DShape) }) || modified
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Plant3DDiagram]() {
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.Rendered3DShape, "Rendered3DShape", func() *Rendered3DShape { return new(Rendered3DShape) }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.StemCylinder3DShape, "StemCylinder3DShape", func() *StemCylinder3DShape { return &StemCylinder3DShape{Transparency: 0.35} }) || modified
 		modified = ensureDiagramShape(stager, diagram.Name, &diagram.ParastichyNCurves3DShape, "ParastichyNCurves3DShape", func() *ParastichyNCurves3DShape { return new(ParastichyNCurves3DShape) }) || modified

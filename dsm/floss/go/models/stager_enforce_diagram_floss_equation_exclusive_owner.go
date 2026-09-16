@@ -11,7 +11,7 @@ func (stager *Stager) enforceDiagramFlossEquationExclusiveOwner() (needCommit bo
 	rmCA := GetSliceOfPointersReverseMap[CompareAnalysis, DiagramFlossEquation](
 		GetAssociationName[CompareAnalysis]().DiagramFlossEquations[0].Name, stager.stage)
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*DiagramFlossEquation](stager.stage) {
+	for diagram := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		owningSystems := rmSys[diagram]
 		owningCompareAnalyses := rmCA[diagram]
 		totalOwners := len(owningSystems) + len(owningCompareAnalyses)

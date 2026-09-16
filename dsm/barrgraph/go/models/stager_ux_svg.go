@@ -37,7 +37,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 	diagram.map_SvgRect_ArtefactTypeShape = make(map[*svg.Rect]*ArtefactTypeShape)
 	diagram.map_SvgRect_ArtistShape = make(map[*svg.Rect]*ArtistShape)
 
-	map_Artist_Influences := GetPointerReverseMap[Influence, Artist](GetAssociationName[Influence]().SourceArtist.Name, stager.stage)
+	map_Artist_Influences := stager.stage.GetPointerReverseMap[Influence, Artist](GetAssociationName[Influence]().SourceArtist.Name)
 
 	svg_ = &svg.SVG{
 		Name:       diagram.Name,

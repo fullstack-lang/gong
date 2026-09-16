@@ -8446,14 +8446,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *A_directive:
-		tmp := GetStructInstancesByOrder(stage.A_directives, stage.A_directive_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_directives, stage.A_directive_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8467,7 +8467,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_measure:
-		tmp := GetStructInstancesByOrder(stage.A_measures, stage.A_measure_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_measures, stage.A_measure_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8481,7 +8481,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_measure_1:
-		tmp := GetStructInstancesByOrder(stage.A_measure_1s, stage.A_measure_1_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_measure_1s, stage.A_measure_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8495,7 +8495,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_part:
-		tmp := GetStructInstancesByOrder(stage.A_parts, stage.A_part_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_parts, stage.A_part_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8509,7 +8509,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_part_1:
-		tmp := GetStructInstancesByOrder(stage.A_part_1s, stage.A_part_1_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_part_1s, stage.A_part_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8523,7 +8523,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Accidental:
-		tmp := GetStructInstancesByOrder(stage.Accidentals, stage.Accidental_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Accidentals, stage.Accidental_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8537,7 +8537,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Accidental_mark:
-		tmp := GetStructInstancesByOrder(stage.Accidental_marks, stage.Accidental_mark_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Accidental_marks, stage.Accidental_mark_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8551,7 +8551,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Accidental_text:
-		tmp := GetStructInstancesByOrder(stage.Accidental_texts, stage.Accidental_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Accidental_texts, stage.Accidental_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8565,7 +8565,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Accord:
-		tmp := GetStructInstancesByOrder(stage.Accords, stage.Accord_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Accords, stage.Accord_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8579,7 +8579,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Accordion_registration:
-		tmp := GetStructInstancesByOrder(stage.Accordion_registrations, stage.Accordion_registration_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Accordion_registrations, stage.Accordion_registration_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8593,7 +8593,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Appearance:
-		tmp := GetStructInstancesByOrder(stage.Appearances, stage.Appearance_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Appearances, stage.Appearance_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8607,7 +8607,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Arpeggiate:
-		tmp := GetStructInstancesByOrder(stage.Arpeggiates, stage.Arpeggiate_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Arpeggiates, stage.Arpeggiate_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8621,7 +8621,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Arrow:
-		tmp := GetStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8635,7 +8635,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Articulations:
-		tmp := GetStructInstancesByOrder(stage.Articulationss, stage.Articulations_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Articulationss, stage.Articulations_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8649,7 +8649,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Assess:
-		tmp := GetStructInstancesByOrder(stage.Assesss, stage.Assess_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Assesss, stage.Assess_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8663,7 +8663,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Attributes:
-		tmp := GetStructInstancesByOrder(stage.Attributess, stage.Attributes_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Attributess, stage.Attributes_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8677,7 +8677,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Backup:
-		tmp := GetStructInstancesByOrder(stage.Backups, stage.Backup_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Backups, stage.Backup_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8691,7 +8691,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Bar_style_color:
-		tmp := GetStructInstancesByOrder(stage.Bar_style_colors, stage.Bar_style_color_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Bar_style_colors, stage.Bar_style_color_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8705,7 +8705,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Barline:
-		tmp := GetStructInstancesByOrder(stage.Barlines, stage.Barline_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Barlines, stage.Barline_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8719,7 +8719,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Barre:
-		tmp := GetStructInstancesByOrder(stage.Barres, stage.Barre_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Barres, stage.Barre_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8733,7 +8733,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Bass:
-		tmp := GetStructInstancesByOrder(stage.Basss, stage.Bass_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Basss, stage.Bass_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8747,7 +8747,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Bass_step:
-		tmp := GetStructInstancesByOrder(stage.Bass_steps, stage.Bass_step_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Bass_steps, stage.Bass_step_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8761,7 +8761,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Beam:
-		tmp := GetStructInstancesByOrder(stage.Beams, stage.Beam_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Beams, stage.Beam_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8775,7 +8775,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Beat_repeat:
-		tmp := GetStructInstancesByOrder(stage.Beat_repeats, stage.Beat_repeat_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Beat_repeats, stage.Beat_repeat_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8789,7 +8789,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Beat_unit_tied:
-		tmp := GetStructInstancesByOrder(stage.Beat_unit_tieds, stage.Beat_unit_tied_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Beat_unit_tieds, stage.Beat_unit_tied_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8803,7 +8803,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Beater:
-		tmp := GetStructInstancesByOrder(stage.Beaters, stage.Beater_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Beaters, stage.Beater_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8817,7 +8817,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Bend:
-		tmp := GetStructInstancesByOrder(stage.Bends, stage.Bend_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Bends, stage.Bend_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8831,7 +8831,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Bookmark:
-		tmp := GetStructInstancesByOrder(stage.Bookmarks, stage.Bookmark_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Bookmarks, stage.Bookmark_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8845,7 +8845,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Bracket:
-		tmp := GetStructInstancesByOrder(stage.Brackets, stage.Bracket_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Brackets, stage.Bracket_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8859,7 +8859,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Breath_mark:
-		tmp := GetStructInstancesByOrder(stage.Breath_marks, stage.Breath_mark_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Breath_marks, stage.Breath_mark_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8873,7 +8873,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Caesura:
-		tmp := GetStructInstancesByOrder(stage.Caesuras, stage.Caesura_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Caesuras, stage.Caesura_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8887,7 +8887,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Cancel:
-		tmp := GetStructInstancesByOrder(stage.Cancels, stage.Cancel_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Cancels, stage.Cancel_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8901,7 +8901,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Clef:
-		tmp := GetStructInstancesByOrder(stage.Clefs, stage.Clef_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Clefs, stage.Clef_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8915,7 +8915,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Coda:
-		tmp := GetStructInstancesByOrder(stage.Codas, stage.Coda_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Codas, stage.Coda_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8929,7 +8929,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Credit:
-		tmp := GetStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Credits, stage.Credit_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8943,7 +8943,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Dashes:
-		tmp := GetStructInstancesByOrder(stage.Dashess, stage.Dashes_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Dashess, stage.Dashes_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8957,7 +8957,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Defaults:
-		tmp := GetStructInstancesByOrder(stage.Defaultss, stage.Defaults_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Defaultss, stage.Defaults_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8971,7 +8971,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Degree:
-		tmp := GetStructInstancesByOrder(stage.Degrees, stage.Degree_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Degrees, stage.Degree_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8985,7 +8985,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Degree_alter:
-		tmp := GetStructInstancesByOrder(stage.Degree_alters, stage.Degree_alter_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Degree_alters, stage.Degree_alter_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -8999,7 +8999,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Degree_type:
-		tmp := GetStructInstancesByOrder(stage.Degree_types, stage.Degree_type_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Degree_types, stage.Degree_type_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9013,7 +9013,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Degree_value:
-		tmp := GetStructInstancesByOrder(stage.Degree_values, stage.Degree_value_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Degree_values, stage.Degree_value_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9027,7 +9027,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Direction:
-		tmp := GetStructInstancesByOrder(stage.Directions, stage.Direction_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Directions, stage.Direction_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9041,7 +9041,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Direction_type:
-		tmp := GetStructInstancesByOrder(stage.Direction_types, stage.Direction_type_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Direction_types, stage.Direction_type_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9055,7 +9055,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Distance:
-		tmp := GetStructInstancesByOrder(stage.Distances, stage.Distance_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Distances, stage.Distance_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9069,7 +9069,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Double:
-		tmp := GetStructInstancesByOrder(stage.Doubles, stage.Double_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Doubles, stage.Double_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9083,7 +9083,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Dynamics:
-		tmp := GetStructInstancesByOrder(stage.Dynamicss, stage.Dynamics_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Dynamicss, stage.Dynamics_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9097,7 +9097,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Effect:
-		tmp := GetStructInstancesByOrder(stage.Effects, stage.Effect_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Effects, stage.Effect_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9111,7 +9111,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Elision:
-		tmp := GetStructInstancesByOrder(stage.Elisions, stage.Elision_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Elisions, stage.Elision_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9125,7 +9125,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty:
-		tmp := GetStructInstancesByOrder(stage.Emptys, stage.Empty_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Emptys, stage.Empty_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9139,7 +9139,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_font:
-		tmp := GetStructInstancesByOrder(stage.Empty_fonts, stage.Empty_font_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_fonts, stage.Empty_font_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9153,7 +9153,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_line:
-		tmp := GetStructInstancesByOrder(stage.Empty_lines, stage.Empty_line_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_lines, stage.Empty_line_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9167,7 +9167,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_placement:
-		tmp := GetStructInstancesByOrder(stage.Empty_placements, stage.Empty_placement_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_placements, stage.Empty_placement_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9181,7 +9181,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_placement_smufl:
-		tmp := GetStructInstancesByOrder(stage.Empty_placement_smufls, stage.Empty_placement_smufl_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_placement_smufls, stage.Empty_placement_smufl_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9195,7 +9195,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_print_object_style_align:
-		tmp := GetStructInstancesByOrder(stage.Empty_print_object_style_aligns, stage.Empty_print_object_style_align_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_print_object_style_aligns, stage.Empty_print_object_style_align_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9209,7 +9209,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_print_style:
-		tmp := GetStructInstancesByOrder(stage.Empty_print_styles, stage.Empty_print_style_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_print_styles, stage.Empty_print_style_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9223,7 +9223,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_print_style_align:
-		tmp := GetStructInstancesByOrder(stage.Empty_print_style_aligns, stage.Empty_print_style_align_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_print_style_aligns, stage.Empty_print_style_align_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9237,7 +9237,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_print_style_align_id:
-		tmp := GetStructInstancesByOrder(stage.Empty_print_style_align_ids, stage.Empty_print_style_align_id_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_print_style_align_ids, stage.Empty_print_style_align_id_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9251,7 +9251,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Empty_trill_sound:
-		tmp := GetStructInstancesByOrder(stage.Empty_trill_sounds, stage.Empty_trill_sound_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Empty_trill_sounds, stage.Empty_trill_sound_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9265,7 +9265,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Encoding:
-		tmp := GetStructInstancesByOrder(stage.Encodings, stage.Encoding_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Encodings, stage.Encoding_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9279,7 +9279,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Ending:
-		tmp := GetStructInstancesByOrder(stage.Endings, stage.Ending_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Endings, stage.Ending_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9293,7 +9293,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Extend:
-		tmp := GetStructInstancesByOrder(stage.Extends, stage.Extend_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Extends, stage.Extend_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9307,7 +9307,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Feature:
-		tmp := GetStructInstancesByOrder(stage.Features, stage.Feature_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Features, stage.Feature_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9321,7 +9321,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Fermata:
-		tmp := GetStructInstancesByOrder(stage.Fermatas, stage.Fermata_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Fermatas, stage.Fermata_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9335,7 +9335,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Figure:
-		tmp := GetStructInstancesByOrder(stage.Figures, stage.Figure_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Figures, stage.Figure_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9349,7 +9349,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Figured_bass:
-		tmp := GetStructInstancesByOrder(stage.Figured_basss, stage.Figured_bass_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Figured_basss, stage.Figured_bass_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9363,7 +9363,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Fingering:
-		tmp := GetStructInstancesByOrder(stage.Fingerings, stage.Fingering_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Fingerings, stage.Fingering_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9377,7 +9377,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *First_fret:
-		tmp := GetStructInstancesByOrder(stage.First_frets, stage.First_fret_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.First_frets, stage.First_fret_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9391,7 +9391,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *For_part:
-		tmp := GetStructInstancesByOrder(stage.For_parts, stage.For_part_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.For_parts, stage.For_part_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9405,7 +9405,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Formatted_symbol:
-		tmp := GetStructInstancesByOrder(stage.Formatted_symbols, stage.Formatted_symbol_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Formatted_symbols, stage.Formatted_symbol_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9419,7 +9419,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Formatted_symbol_id:
-		tmp := GetStructInstancesByOrder(stage.Formatted_symbol_ids, stage.Formatted_symbol_id_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Formatted_symbol_ids, stage.Formatted_symbol_id_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9433,7 +9433,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Formatted_text:
-		tmp := GetStructInstancesByOrder(stage.Formatted_texts, stage.Formatted_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Formatted_texts, stage.Formatted_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9447,7 +9447,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Formatted_text_id:
-		tmp := GetStructInstancesByOrder(stage.Formatted_text_ids, stage.Formatted_text_id_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Formatted_text_ids, stage.Formatted_text_id_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9461,7 +9461,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Forward:
-		tmp := GetStructInstancesByOrder(stage.Forwards, stage.Forward_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Forwards, stage.Forward_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9475,7 +9475,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Frame:
-		tmp := GetStructInstancesByOrder(stage.Frames, stage.Frame_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Frames, stage.Frame_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9489,7 +9489,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Frame_note:
-		tmp := GetStructInstancesByOrder(stage.Frame_notes, stage.Frame_note_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Frame_notes, stage.Frame_note_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9503,7 +9503,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Fret:
-		tmp := GetStructInstancesByOrder(stage.Frets, stage.Fret_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Frets, stage.Fret_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9517,7 +9517,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Glass:
-		tmp := GetStructInstancesByOrder(stage.Glasss, stage.Glass_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Glasss, stage.Glass_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9531,7 +9531,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Glissando:
-		tmp := GetStructInstancesByOrder(stage.Glissandos, stage.Glissando_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Glissandos, stage.Glissando_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9545,7 +9545,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Glyph:
-		tmp := GetStructInstancesByOrder(stage.Glyphs, stage.Glyph_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Glyphs, stage.Glyph_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9559,7 +9559,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Grace:
-		tmp := GetStructInstancesByOrder(stage.Graces, stage.Grace_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Graces, stage.Grace_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9573,7 +9573,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Group_barline:
-		tmp := GetStructInstancesByOrder(stage.Group_barlines, stage.Group_barline_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Group_barlines, stage.Group_barline_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9587,7 +9587,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Group_name:
-		tmp := GetStructInstancesByOrder(stage.Group_names, stage.Group_name_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Group_names, stage.Group_name_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9601,7 +9601,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Group_symbol:
-		tmp := GetStructInstancesByOrder(stage.Group_symbols, stage.Group_symbol_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Group_symbols, stage.Group_symbol_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9615,7 +9615,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Grouping:
-		tmp := GetStructInstancesByOrder(stage.Groupings, stage.Grouping_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Groupings, stage.Grouping_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9629,7 +9629,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Hammer_on_pull_off:
-		tmp := GetStructInstancesByOrder(stage.Hammer_on_pull_offs, stage.Hammer_on_pull_off_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Hammer_on_pull_offs, stage.Hammer_on_pull_off_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9643,7 +9643,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Handbell:
-		tmp := GetStructInstancesByOrder(stage.Handbells, stage.Handbell_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Handbells, stage.Handbell_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9657,7 +9657,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Harmon_closed:
-		tmp := GetStructInstancesByOrder(stage.Harmon_closeds, stage.Harmon_closed_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Harmon_closeds, stage.Harmon_closed_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9671,7 +9671,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Harmon_mute:
-		tmp := GetStructInstancesByOrder(stage.Harmon_mutes, stage.Harmon_mute_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Harmon_mutes, stage.Harmon_mute_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9685,7 +9685,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Harmonic:
-		tmp := GetStructInstancesByOrder(stage.Harmonics, stage.Harmonic_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Harmonics, stage.Harmonic_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9699,7 +9699,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Harmony:
-		tmp := GetStructInstancesByOrder(stage.Harmonys, stage.Harmony_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Harmonys, stage.Harmony_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9713,7 +9713,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Harmony_alter:
-		tmp := GetStructInstancesByOrder(stage.Harmony_alters, stage.Harmony_alter_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Harmony_alters, stage.Harmony_alter_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9727,7 +9727,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Harp_pedals:
-		tmp := GetStructInstancesByOrder(stage.Harp_pedalss, stage.Harp_pedals_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Harp_pedalss, stage.Harp_pedals_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9741,7 +9741,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Heel_toe:
-		tmp := GetStructInstancesByOrder(stage.Heel_toes, stage.Heel_toe_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Heel_toes, stage.Heel_toe_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9755,7 +9755,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Hole:
-		tmp := GetStructInstancesByOrder(stage.Holes, stage.Hole_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Holes, stage.Hole_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9769,7 +9769,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Hole_closed:
-		tmp := GetStructInstancesByOrder(stage.Hole_closeds, stage.Hole_closed_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Hole_closeds, stage.Hole_closed_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9783,7 +9783,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Horizontal_turn:
-		tmp := GetStructInstancesByOrder(stage.Horizontal_turns, stage.Horizontal_turn_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Horizontal_turns, stage.Horizontal_turn_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9797,7 +9797,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Identification:
-		tmp := GetStructInstancesByOrder(stage.Identifications, stage.Identification_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Identifications, stage.Identification_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9811,7 +9811,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Image:
-		tmp := GetStructInstancesByOrder(stage.Images, stage.Image_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Images, stage.Image_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9825,7 +9825,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Instrument:
-		tmp := GetStructInstancesByOrder(stage.Instruments, stage.Instrument_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Instruments, stage.Instrument_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9839,7 +9839,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Instrument_change:
-		tmp := GetStructInstancesByOrder(stage.Instrument_changes, stage.Instrument_change_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Instrument_changes, stage.Instrument_change_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9853,7 +9853,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Instrument_link:
-		tmp := GetStructInstancesByOrder(stage.Instrument_links, stage.Instrument_link_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Instrument_links, stage.Instrument_link_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9867,7 +9867,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Interchangeable:
-		tmp := GetStructInstancesByOrder(stage.Interchangeables, stage.Interchangeable_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Interchangeables, stage.Interchangeable_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9881,7 +9881,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Inversion:
-		tmp := GetStructInstancesByOrder(stage.Inversions, stage.Inversion_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Inversions, stage.Inversion_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9895,7 +9895,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Key:
-		tmp := GetStructInstancesByOrder(stage.Keys, stage.Key_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Keys, stage.Key_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9909,7 +9909,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Key_accidental:
-		tmp := GetStructInstancesByOrder(stage.Key_accidentals, stage.Key_accidental_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Key_accidentals, stage.Key_accidental_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9923,7 +9923,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Key_octave:
-		tmp := GetStructInstancesByOrder(stage.Key_octaves, stage.Key_octave_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Key_octaves, stage.Key_octave_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9937,7 +9937,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Kind:
-		tmp := GetStructInstancesByOrder(stage.Kinds, stage.Kind_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Kinds, stage.Kind_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9951,7 +9951,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Level:
-		tmp := GetStructInstancesByOrder(stage.Levels, stage.Level_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Levels, stage.Level_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9965,7 +9965,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Line_detail:
-		tmp := GetStructInstancesByOrder(stage.Line_details, stage.Line_detail_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Line_details, stage.Line_detail_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9979,7 +9979,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Line_width:
-		tmp := GetStructInstancesByOrder(stage.Line_widths, stage.Line_width_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Line_widths, stage.Line_width_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -9993,7 +9993,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Link:
-		tmp := GetStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10007,7 +10007,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Listen:
-		tmp := GetStructInstancesByOrder(stage.Listens, stage.Listen_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Listens, stage.Listen_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10021,7 +10021,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Listening:
-		tmp := GetStructInstancesByOrder(stage.Listenings, stage.Listening_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Listenings, stage.Listening_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10035,7 +10035,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Lyric:
-		tmp := GetStructInstancesByOrder(stage.Lyrics, stage.Lyric_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Lyrics, stage.Lyric_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10049,7 +10049,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Lyric_font:
-		tmp := GetStructInstancesByOrder(stage.Lyric_fonts, stage.Lyric_font_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Lyric_fonts, stage.Lyric_font_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10063,7 +10063,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Lyric_language:
-		tmp := GetStructInstancesByOrder(stage.Lyric_languages, stage.Lyric_language_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Lyric_languages, stage.Lyric_language_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10077,7 +10077,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Measure_layout:
-		tmp := GetStructInstancesByOrder(stage.Measure_layouts, stage.Measure_layout_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Measure_layouts, stage.Measure_layout_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10091,7 +10091,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Measure_numbering:
-		tmp := GetStructInstancesByOrder(stage.Measure_numberings, stage.Measure_numbering_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Measure_numberings, stage.Measure_numbering_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10105,7 +10105,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Measure_repeat:
-		tmp := GetStructInstancesByOrder(stage.Measure_repeats, stage.Measure_repeat_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Measure_repeats, stage.Measure_repeat_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10119,7 +10119,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Measure_style:
-		tmp := GetStructInstancesByOrder(stage.Measure_styles, stage.Measure_style_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Measure_styles, stage.Measure_style_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10133,7 +10133,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Membrane:
-		tmp := GetStructInstancesByOrder(stage.Membranes, stage.Membrane_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Membranes, stage.Membrane_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10147,7 +10147,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Metal:
-		tmp := GetStructInstancesByOrder(stage.Metals, stage.Metal_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Metals, stage.Metal_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10161,7 +10161,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Metronome:
-		tmp := GetStructInstancesByOrder(stage.Metronomes, stage.Metronome_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Metronomes, stage.Metronome_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10175,7 +10175,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Metronome_beam:
-		tmp := GetStructInstancesByOrder(stage.Metronome_beams, stage.Metronome_beam_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Metronome_beams, stage.Metronome_beam_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10189,7 +10189,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Metronome_note:
-		tmp := GetStructInstancesByOrder(stage.Metronome_notes, stage.Metronome_note_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Metronome_notes, stage.Metronome_note_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10203,7 +10203,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Metronome_tied:
-		tmp := GetStructInstancesByOrder(stage.Metronome_tieds, stage.Metronome_tied_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Metronome_tieds, stage.Metronome_tied_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10217,7 +10217,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Metronome_tuplet:
-		tmp := GetStructInstancesByOrder(stage.Metronome_tuplets, stage.Metronome_tuplet_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Metronome_tuplets, stage.Metronome_tuplet_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10231,7 +10231,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Midi_device:
-		tmp := GetStructInstancesByOrder(stage.Midi_devices, stage.Midi_device_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Midi_devices, stage.Midi_device_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10245,7 +10245,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Midi_instrument:
-		tmp := GetStructInstancesByOrder(stage.Midi_instruments, stage.Midi_instrument_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Midi_instruments, stage.Midi_instrument_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10259,7 +10259,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Miscellaneous:
-		tmp := GetStructInstancesByOrder(stage.Miscellaneouss, stage.Miscellaneous_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Miscellaneouss, stage.Miscellaneous_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10273,7 +10273,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Miscellaneous_field:
-		tmp := GetStructInstancesByOrder(stage.Miscellaneous_fields, stage.Miscellaneous_field_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Miscellaneous_fields, stage.Miscellaneous_field_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10287,7 +10287,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Mordent:
-		tmp := GetStructInstancesByOrder(stage.Mordents, stage.Mordent_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Mordents, stage.Mordent_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10301,7 +10301,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Multiple_rest:
-		tmp := GetStructInstancesByOrder(stage.Multiple_rests, stage.Multiple_rest_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Multiple_rests, stage.Multiple_rest_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10315,7 +10315,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Name_display:
-		tmp := GetStructInstancesByOrder(stage.Name_displays, stage.Name_display_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Name_displays, stage.Name_display_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10329,7 +10329,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Non_arpeggiate:
-		tmp := GetStructInstancesByOrder(stage.Non_arpeggiates, stage.Non_arpeggiate_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Non_arpeggiates, stage.Non_arpeggiate_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10343,7 +10343,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Notations:
-		tmp := GetStructInstancesByOrder(stage.Notationss, stage.Notations_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Notationss, stage.Notations_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10357,7 +10357,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Note:
-		tmp := GetStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10371,7 +10371,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Note_size:
-		tmp := GetStructInstancesByOrder(stage.Note_sizes, stage.Note_size_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Note_sizes, stage.Note_size_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10385,7 +10385,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Note_type:
-		tmp := GetStructInstancesByOrder(stage.Note_types, stage.Note_type_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Note_types, stage.Note_type_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10399,7 +10399,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Notehead:
-		tmp := GetStructInstancesByOrder(stage.Noteheads, stage.Notehead_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Noteheads, stage.Notehead_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10413,7 +10413,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Notehead_text:
-		tmp := GetStructInstancesByOrder(stage.Notehead_texts, stage.Notehead_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Notehead_texts, stage.Notehead_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10427,7 +10427,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Numeral:
-		tmp := GetStructInstancesByOrder(stage.Numerals, stage.Numeral_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Numerals, stage.Numeral_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10441,7 +10441,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Numeral_key:
-		tmp := GetStructInstancesByOrder(stage.Numeral_keys, stage.Numeral_key_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Numeral_keys, stage.Numeral_key_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10455,7 +10455,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Numeral_root:
-		tmp := GetStructInstancesByOrder(stage.Numeral_roots, stage.Numeral_root_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Numeral_roots, stage.Numeral_root_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10469,7 +10469,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Octave_shift:
-		tmp := GetStructInstancesByOrder(stage.Octave_shifts, stage.Octave_shift_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Octave_shifts, stage.Octave_shift_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10483,7 +10483,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Offset:
-		tmp := GetStructInstancesByOrder(stage.Offsets, stage.Offset_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Offsets, stage.Offset_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10497,7 +10497,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Opus:
-		tmp := GetStructInstancesByOrder(stage.Opuss, stage.Opus_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Opuss, stage.Opus_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10511,7 +10511,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Ornaments:
-		tmp := GetStructInstancesByOrder(stage.Ornamentss, stage.Ornaments_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Ornamentss, stage.Ornaments_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10525,7 +10525,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_appearance:
-		tmp := GetStructInstancesByOrder(stage.Other_appearances, stage.Other_appearance_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_appearances, stage.Other_appearance_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10539,7 +10539,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_direction:
-		tmp := GetStructInstancesByOrder(stage.Other_directions, stage.Other_direction_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_directions, stage.Other_direction_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10553,7 +10553,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_listening:
-		tmp := GetStructInstancesByOrder(stage.Other_listenings, stage.Other_listening_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_listenings, stage.Other_listening_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10567,7 +10567,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_notation:
-		tmp := GetStructInstancesByOrder(stage.Other_notations, stage.Other_notation_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_notations, stage.Other_notation_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10581,7 +10581,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_placement_text:
-		tmp := GetStructInstancesByOrder(stage.Other_placement_texts, stage.Other_placement_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_placement_texts, stage.Other_placement_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10595,7 +10595,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_play:
-		tmp := GetStructInstancesByOrder(stage.Other_plays, stage.Other_play_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_plays, stage.Other_play_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10609,7 +10609,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Other_text:
-		tmp := GetStructInstancesByOrder(stage.Other_texts, stage.Other_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Other_texts, stage.Other_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10623,7 +10623,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Page_layout:
-		tmp := GetStructInstancesByOrder(stage.Page_layouts, stage.Page_layout_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Page_layouts, stage.Page_layout_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10637,7 +10637,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Page_margins:
-		tmp := GetStructInstancesByOrder(stage.Page_marginss, stage.Page_margins_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Page_marginss, stage.Page_margins_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10651,7 +10651,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_clef:
-		tmp := GetStructInstancesByOrder(stage.Part_clefs, stage.Part_clef_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_clefs, stage.Part_clef_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10665,7 +10665,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_group:
-		tmp := GetStructInstancesByOrder(stage.Part_groups, stage.Part_group_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_groups, stage.Part_group_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10679,7 +10679,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_link:
-		tmp := GetStructInstancesByOrder(stage.Part_links, stage.Part_link_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_links, stage.Part_link_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10693,7 +10693,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_list:
-		tmp := GetStructInstancesByOrder(stage.Part_lists, stage.Part_list_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_lists, stage.Part_list_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10707,7 +10707,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_name:
-		tmp := GetStructInstancesByOrder(stage.Part_names, stage.Part_name_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_names, stage.Part_name_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10721,7 +10721,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_symbol:
-		tmp := GetStructInstancesByOrder(stage.Part_symbols, stage.Part_symbol_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_symbols, stage.Part_symbol_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10735,7 +10735,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Part_transpose:
-		tmp := GetStructInstancesByOrder(stage.Part_transposes, stage.Part_transpose_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Part_transposes, stage.Part_transpose_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10749,7 +10749,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Pedal:
-		tmp := GetStructInstancesByOrder(stage.Pedals, stage.Pedal_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Pedals, stage.Pedal_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10763,7 +10763,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Pedal_tuning:
-		tmp := GetStructInstancesByOrder(stage.Pedal_tunings, stage.Pedal_tuning_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Pedal_tunings, stage.Pedal_tuning_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10777,7 +10777,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Per_minute:
-		tmp := GetStructInstancesByOrder(stage.Per_minutes, stage.Per_minute_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Per_minutes, stage.Per_minute_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10791,7 +10791,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Percussion:
-		tmp := GetStructInstancesByOrder(stage.Percussions, stage.Percussion_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Percussions, stage.Percussion_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10805,7 +10805,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Pitch:
-		tmp := GetStructInstancesByOrder(stage.Pitchs, stage.Pitch_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Pitchs, stage.Pitch_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10819,7 +10819,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Pitched:
-		tmp := GetStructInstancesByOrder(stage.Pitcheds, stage.Pitched_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Pitcheds, stage.Pitched_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10833,7 +10833,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Placement_text:
-		tmp := GetStructInstancesByOrder(stage.Placement_texts, stage.Placement_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Placement_texts, stage.Placement_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10847,7 +10847,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Play:
-		tmp := GetStructInstancesByOrder(stage.Plays, stage.Play_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Plays, stage.Play_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10861,7 +10861,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Player:
-		tmp := GetStructInstancesByOrder(stage.Players, stage.Player_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Players, stage.Player_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10875,7 +10875,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Principal_voice:
-		tmp := GetStructInstancesByOrder(stage.Principal_voices, stage.Principal_voice_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Principal_voices, stage.Principal_voice_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10889,7 +10889,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Print:
-		tmp := GetStructInstancesByOrder(stage.Prints, stage.Print_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Prints, stage.Print_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10903,7 +10903,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Release:
-		tmp := GetStructInstancesByOrder(stage.Releases, stage.Release_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Releases, stage.Release_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10917,7 +10917,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Repeat:
-		tmp := GetStructInstancesByOrder(stage.Repeats, stage.Repeat_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Repeats, stage.Repeat_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10931,7 +10931,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Rest:
-		tmp := GetStructInstancesByOrder(stage.Rests, stage.Rest_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Rests, stage.Rest_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10945,7 +10945,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Root:
-		tmp := GetStructInstancesByOrder(stage.Roots, stage.Root_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Roots, stage.Root_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10959,7 +10959,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Root_step:
-		tmp := GetStructInstancesByOrder(stage.Root_steps, stage.Root_step_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Root_steps, stage.Root_step_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10973,7 +10973,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Scaling:
-		tmp := GetStructInstancesByOrder(stage.Scalings, stage.Scaling_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Scalings, stage.Scaling_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -10987,7 +10987,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Scordatura:
-		tmp := GetStructInstancesByOrder(stage.Scordaturas, stage.Scordatura_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Scordaturas, stage.Scordatura_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11001,7 +11001,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Score_instrument:
-		tmp := GetStructInstancesByOrder(stage.Score_instruments, stage.Score_instrument_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Score_instruments, stage.Score_instrument_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11015,7 +11015,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Score_part:
-		tmp := GetStructInstancesByOrder(stage.Score_parts, stage.Score_part_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Score_parts, stage.Score_part_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11029,7 +11029,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Score_partwise:
-		tmp := GetStructInstancesByOrder(stage.Score_partwises, stage.Score_partwise_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Score_partwises, stage.Score_partwise_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11043,7 +11043,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Score_timewise:
-		tmp := GetStructInstancesByOrder(stage.Score_timewises, stage.Score_timewise_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Score_timewises, stage.Score_timewise_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11057,7 +11057,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Segno:
-		tmp := GetStructInstancesByOrder(stage.Segnos, stage.Segno_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Segnos, stage.Segno_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11071,7 +11071,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Slash:
-		tmp := GetStructInstancesByOrder(stage.Slashs, stage.Slash_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Slashs, stage.Slash_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11085,7 +11085,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Slide:
-		tmp := GetStructInstancesByOrder(stage.Slides, stage.Slide_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Slides, stage.Slide_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11099,7 +11099,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Slur:
-		tmp := GetStructInstancesByOrder(stage.Slurs, stage.Slur_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Slurs, stage.Slur_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11113,7 +11113,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Sound:
-		tmp := GetStructInstancesByOrder(stage.Sounds, stage.Sound_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Sounds, stage.Sound_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11127,7 +11127,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Staff_details:
-		tmp := GetStructInstancesByOrder(stage.Staff_detailss, stage.Staff_details_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Staff_detailss, stage.Staff_details_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11141,7 +11141,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Staff_divide:
-		tmp := GetStructInstancesByOrder(stage.Staff_divides, stage.Staff_divide_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Staff_divides, stage.Staff_divide_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11155,7 +11155,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Staff_layout:
-		tmp := GetStructInstancesByOrder(stage.Staff_layouts, stage.Staff_layout_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Staff_layouts, stage.Staff_layout_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11169,7 +11169,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Staff_size:
-		tmp := GetStructInstancesByOrder(stage.Staff_sizes, stage.Staff_size_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Staff_sizes, stage.Staff_size_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11183,7 +11183,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Staff_tuning:
-		tmp := GetStructInstancesByOrder(stage.Staff_tunings, stage.Staff_tuning_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Staff_tunings, stage.Staff_tuning_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11197,7 +11197,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Stem:
-		tmp := GetStructInstancesByOrder(stage.Stems, stage.Stem_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Stems, stage.Stem_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11211,7 +11211,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Stick:
-		tmp := GetStructInstancesByOrder(stage.Sticks, stage.Stick_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Sticks, stage.Stick_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11225,7 +11225,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *String_mute:
-		tmp := GetStructInstancesByOrder(stage.String_mutes, stage.String_mute_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.String_mutes, stage.String_mute_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11239,7 +11239,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *String_type:
-		tmp := GetStructInstancesByOrder(stage.String_types, stage.String_type_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.String_types, stage.String_type_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11253,7 +11253,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Strong_accent:
-		tmp := GetStructInstancesByOrder(stage.Strong_accents, stage.Strong_accent_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Strong_accents, stage.Strong_accent_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11267,7 +11267,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Style_text:
-		tmp := GetStructInstancesByOrder(stage.Style_texts, stage.Style_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Style_texts, stage.Style_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11281,7 +11281,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Supports:
-		tmp := GetStructInstancesByOrder(stage.Supportss, stage.Supports_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Supportss, stage.Supports_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11295,7 +11295,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Swing:
-		tmp := GetStructInstancesByOrder(stage.Swings, stage.Swing_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Swings, stage.Swing_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11309,7 +11309,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Sync:
-		tmp := GetStructInstancesByOrder(stage.Syncs, stage.Sync_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Syncs, stage.Sync_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11323,7 +11323,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *System_dividers:
-		tmp := GetStructInstancesByOrder(stage.System_dividerss, stage.System_dividers_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.System_dividerss, stage.System_dividers_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11337,7 +11337,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *System_layout:
-		tmp := GetStructInstancesByOrder(stage.System_layouts, stage.System_layout_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.System_layouts, stage.System_layout_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11351,7 +11351,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *System_margins:
-		tmp := GetStructInstancesByOrder(stage.System_marginss, stage.System_margins_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.System_marginss, stage.System_margins_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11365,7 +11365,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tap:
-		tmp := GetStructInstancesByOrder(stage.Taps, stage.Tap_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Taps, stage.Tap_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11379,7 +11379,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Technical:
-		tmp := GetStructInstancesByOrder(stage.Technicals, stage.Technical_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Technicals, stage.Technical_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11393,7 +11393,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Text_element_data:
-		tmp := GetStructInstancesByOrder(stage.Text_element_datas, stage.Text_element_data_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Text_element_datas, stage.Text_element_data_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11407,7 +11407,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tie:
-		tmp := GetStructInstancesByOrder(stage.Ties, stage.Tie_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Ties, stage.Tie_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11421,7 +11421,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tied:
-		tmp := GetStructInstancesByOrder(stage.Tieds, stage.Tied_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tieds, stage.Tied_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11435,7 +11435,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Time:
-		tmp := GetStructInstancesByOrder(stage.Times, stage.Time_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Times, stage.Time_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11449,7 +11449,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Time_modification:
-		tmp := GetStructInstancesByOrder(stage.Time_modifications, stage.Time_modification_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Time_modifications, stage.Time_modification_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11463,7 +11463,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Timpani:
-		tmp := GetStructInstancesByOrder(stage.Timpanis, stage.Timpani_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Timpanis, stage.Timpani_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11477,7 +11477,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Transpose:
-		tmp := GetStructInstancesByOrder(stage.Transposes, stage.Transpose_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Transposes, stage.Transpose_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11491,7 +11491,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tremolo:
-		tmp := GetStructInstancesByOrder(stage.Tremolos, stage.Tremolo_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tremolos, stage.Tremolo_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11505,7 +11505,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tuplet:
-		tmp := GetStructInstancesByOrder(stage.Tuplets, stage.Tuplet_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tuplets, stage.Tuplet_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11519,7 +11519,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tuplet_dot:
-		tmp := GetStructInstancesByOrder(stage.Tuplet_dots, stage.Tuplet_dot_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tuplet_dots, stage.Tuplet_dot_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11533,7 +11533,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tuplet_number:
-		tmp := GetStructInstancesByOrder(stage.Tuplet_numbers, stage.Tuplet_number_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tuplet_numbers, stage.Tuplet_number_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11547,7 +11547,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tuplet_portion:
-		tmp := GetStructInstancesByOrder(stage.Tuplet_portions, stage.Tuplet_portion_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tuplet_portions, stage.Tuplet_portion_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11561,7 +11561,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tuplet_type:
-		tmp := GetStructInstancesByOrder(stage.Tuplet_types, stage.Tuplet_type_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tuplet_types, stage.Tuplet_type_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11575,7 +11575,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Typed_text:
-		tmp := GetStructInstancesByOrder(stage.Typed_texts, stage.Typed_text_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Typed_texts, stage.Typed_text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11589,7 +11589,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Unpitched:
-		tmp := GetStructInstancesByOrder(stage.Unpitcheds, stage.Unpitched_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Unpitcheds, stage.Unpitched_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11603,7 +11603,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Virtual_instrument:
-		tmp := GetStructInstancesByOrder(stage.Virtual_instruments, stage.Virtual_instrument_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Virtual_instruments, stage.Virtual_instrument_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11617,7 +11617,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Wait:
-		tmp := GetStructInstancesByOrder(stage.Waits, stage.Wait_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Waits, stage.Wait_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11631,7 +11631,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Wavy_line:
-		tmp := GetStructInstancesByOrder(stage.Wavy_lines, stage.Wavy_line_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Wavy_lines, stage.Wavy_line_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11645,7 +11645,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Wedge:
-		tmp := GetStructInstancesByOrder(stage.Wedges, stage.Wedge_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Wedges, stage.Wedge_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11659,7 +11659,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Wood:
-		tmp := GetStructInstancesByOrder(stage.Woods, stage.Wood_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Woods, stage.Wood_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11673,7 +11673,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Work:
-		tmp := GetStructInstancesByOrder(stage.Works, stage.Work_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Works, stage.Work_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -11691,12 +11691,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -15996,486 +15991,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *A_directive:
-		return stage.A_directive_stagedOrder[instance]
-	case *A_measure:
-		return stage.A_measure_stagedOrder[instance]
-	case *A_measure_1:
-		return stage.A_measure_1_stagedOrder[instance]
-	case *A_part:
-		return stage.A_part_stagedOrder[instance]
-	case *A_part_1:
-		return stage.A_part_1_stagedOrder[instance]
-	case *Accidental:
-		return stage.Accidental_stagedOrder[instance]
-	case *Accidental_mark:
-		return stage.Accidental_mark_stagedOrder[instance]
-	case *Accidental_text:
-		return stage.Accidental_text_stagedOrder[instance]
-	case *Accord:
-		return stage.Accord_stagedOrder[instance]
-	case *Accordion_registration:
-		return stage.Accordion_registration_stagedOrder[instance]
-	case *Appearance:
-		return stage.Appearance_stagedOrder[instance]
-	case *Arpeggiate:
-		return stage.Arpeggiate_stagedOrder[instance]
-	case *Arrow:
-		return stage.Arrow_stagedOrder[instance]
-	case *Articulations:
-		return stage.Articulations_stagedOrder[instance]
-	case *Assess:
-		return stage.Assess_stagedOrder[instance]
-	case *Attributes:
-		return stage.Attributes_stagedOrder[instance]
-	case *Backup:
-		return stage.Backup_stagedOrder[instance]
-	case *Bar_style_color:
-		return stage.Bar_style_color_stagedOrder[instance]
-	case *Barline:
-		return stage.Barline_stagedOrder[instance]
-	case *Barre:
-		return stage.Barre_stagedOrder[instance]
-	case *Bass:
-		return stage.Bass_stagedOrder[instance]
-	case *Bass_step:
-		return stage.Bass_step_stagedOrder[instance]
-	case *Beam:
-		return stage.Beam_stagedOrder[instance]
-	case *Beat_repeat:
-		return stage.Beat_repeat_stagedOrder[instance]
-	case *Beat_unit_tied:
-		return stage.Beat_unit_tied_stagedOrder[instance]
-	case *Beater:
-		return stage.Beater_stagedOrder[instance]
-	case *Bend:
-		return stage.Bend_stagedOrder[instance]
-	case *Bookmark:
-		return stage.Bookmark_stagedOrder[instance]
-	case *Bracket:
-		return stage.Bracket_stagedOrder[instance]
-	case *Breath_mark:
-		return stage.Breath_mark_stagedOrder[instance]
-	case *Caesura:
-		return stage.Caesura_stagedOrder[instance]
-	case *Cancel:
-		return stage.Cancel_stagedOrder[instance]
-	case *Clef:
-		return stage.Clef_stagedOrder[instance]
-	case *Coda:
-		return stage.Coda_stagedOrder[instance]
-	case *Credit:
-		return stage.Credit_stagedOrder[instance]
-	case *Dashes:
-		return stage.Dashes_stagedOrder[instance]
-	case *Defaults:
-		return stage.Defaults_stagedOrder[instance]
-	case *Degree:
-		return stage.Degree_stagedOrder[instance]
-	case *Degree_alter:
-		return stage.Degree_alter_stagedOrder[instance]
-	case *Degree_type:
-		return stage.Degree_type_stagedOrder[instance]
-	case *Degree_value:
-		return stage.Degree_value_stagedOrder[instance]
-	case *Direction:
-		return stage.Direction_stagedOrder[instance]
-	case *Direction_type:
-		return stage.Direction_type_stagedOrder[instance]
-	case *Distance:
-		return stage.Distance_stagedOrder[instance]
-	case *Double:
-		return stage.Double_stagedOrder[instance]
-	case *Dynamics:
-		return stage.Dynamics_stagedOrder[instance]
-	case *Effect:
-		return stage.Effect_stagedOrder[instance]
-	case *Elision:
-		return stage.Elision_stagedOrder[instance]
-	case *Empty:
-		return stage.Empty_stagedOrder[instance]
-	case *Empty_font:
-		return stage.Empty_font_stagedOrder[instance]
-	case *Empty_line:
-		return stage.Empty_line_stagedOrder[instance]
-	case *Empty_placement:
-		return stage.Empty_placement_stagedOrder[instance]
-	case *Empty_placement_smufl:
-		return stage.Empty_placement_smufl_stagedOrder[instance]
-	case *Empty_print_object_style_align:
-		return stage.Empty_print_object_style_align_stagedOrder[instance]
-	case *Empty_print_style:
-		return stage.Empty_print_style_stagedOrder[instance]
-	case *Empty_print_style_align:
-		return stage.Empty_print_style_align_stagedOrder[instance]
-	case *Empty_print_style_align_id:
-		return stage.Empty_print_style_align_id_stagedOrder[instance]
-	case *Empty_trill_sound:
-		return stage.Empty_trill_sound_stagedOrder[instance]
-	case *Encoding:
-		return stage.Encoding_stagedOrder[instance]
-	case *Ending:
-		return stage.Ending_stagedOrder[instance]
-	case *Extend:
-		return stage.Extend_stagedOrder[instance]
-	case *Feature:
-		return stage.Feature_stagedOrder[instance]
-	case *Fermata:
-		return stage.Fermata_stagedOrder[instance]
-	case *Figure:
-		return stage.Figure_stagedOrder[instance]
-	case *Figured_bass:
-		return stage.Figured_bass_stagedOrder[instance]
-	case *Fingering:
-		return stage.Fingering_stagedOrder[instance]
-	case *First_fret:
-		return stage.First_fret_stagedOrder[instance]
-	case *For_part:
-		return stage.For_part_stagedOrder[instance]
-	case *Formatted_symbol:
-		return stage.Formatted_symbol_stagedOrder[instance]
-	case *Formatted_symbol_id:
-		return stage.Formatted_symbol_id_stagedOrder[instance]
-	case *Formatted_text:
-		return stage.Formatted_text_stagedOrder[instance]
-	case *Formatted_text_id:
-		return stage.Formatted_text_id_stagedOrder[instance]
-	case *Forward:
-		return stage.Forward_stagedOrder[instance]
-	case *Frame:
-		return stage.Frame_stagedOrder[instance]
-	case *Frame_note:
-		return stage.Frame_note_stagedOrder[instance]
-	case *Fret:
-		return stage.Fret_stagedOrder[instance]
-	case *Glass:
-		return stage.Glass_stagedOrder[instance]
-	case *Glissando:
-		return stage.Glissando_stagedOrder[instance]
-	case *Glyph:
-		return stage.Glyph_stagedOrder[instance]
-	case *Grace:
-		return stage.Grace_stagedOrder[instance]
-	case *Group_barline:
-		return stage.Group_barline_stagedOrder[instance]
-	case *Group_name:
-		return stage.Group_name_stagedOrder[instance]
-	case *Group_symbol:
-		return stage.Group_symbol_stagedOrder[instance]
-	case *Grouping:
-		return stage.Grouping_stagedOrder[instance]
-	case *Hammer_on_pull_off:
-		return stage.Hammer_on_pull_off_stagedOrder[instance]
-	case *Handbell:
-		return stage.Handbell_stagedOrder[instance]
-	case *Harmon_closed:
-		return stage.Harmon_closed_stagedOrder[instance]
-	case *Harmon_mute:
-		return stage.Harmon_mute_stagedOrder[instance]
-	case *Harmonic:
-		return stage.Harmonic_stagedOrder[instance]
-	case *Harmony:
-		return stage.Harmony_stagedOrder[instance]
-	case *Harmony_alter:
-		return stage.Harmony_alter_stagedOrder[instance]
-	case *Harp_pedals:
-		return stage.Harp_pedals_stagedOrder[instance]
-	case *Heel_toe:
-		return stage.Heel_toe_stagedOrder[instance]
-	case *Hole:
-		return stage.Hole_stagedOrder[instance]
-	case *Hole_closed:
-		return stage.Hole_closed_stagedOrder[instance]
-	case *Horizontal_turn:
-		return stage.Horizontal_turn_stagedOrder[instance]
-	case *Identification:
-		return stage.Identification_stagedOrder[instance]
-	case *Image:
-		return stage.Image_stagedOrder[instance]
-	case *Instrument:
-		return stage.Instrument_stagedOrder[instance]
-	case *Instrument_change:
-		return stage.Instrument_change_stagedOrder[instance]
-	case *Instrument_link:
-		return stage.Instrument_link_stagedOrder[instance]
-	case *Interchangeable:
-		return stage.Interchangeable_stagedOrder[instance]
-	case *Inversion:
-		return stage.Inversion_stagedOrder[instance]
-	case *Key:
-		return stage.Key_stagedOrder[instance]
-	case *Key_accidental:
-		return stage.Key_accidental_stagedOrder[instance]
-	case *Key_octave:
-		return stage.Key_octave_stagedOrder[instance]
-	case *Kind:
-		return stage.Kind_stagedOrder[instance]
-	case *Level:
-		return stage.Level_stagedOrder[instance]
-	case *Line_detail:
-		return stage.Line_detail_stagedOrder[instance]
-	case *Line_width:
-		return stage.Line_width_stagedOrder[instance]
-	case *Link:
-		return stage.Link_stagedOrder[instance]
-	case *Listen:
-		return stage.Listen_stagedOrder[instance]
-	case *Listening:
-		return stage.Listening_stagedOrder[instance]
-	case *Lyric:
-		return stage.Lyric_stagedOrder[instance]
-	case *Lyric_font:
-		return stage.Lyric_font_stagedOrder[instance]
-	case *Lyric_language:
-		return stage.Lyric_language_stagedOrder[instance]
-	case *Measure_layout:
-		return stage.Measure_layout_stagedOrder[instance]
-	case *Measure_numbering:
-		return stage.Measure_numbering_stagedOrder[instance]
-	case *Measure_repeat:
-		return stage.Measure_repeat_stagedOrder[instance]
-	case *Measure_style:
-		return stage.Measure_style_stagedOrder[instance]
-	case *Membrane:
-		return stage.Membrane_stagedOrder[instance]
-	case *Metal:
-		return stage.Metal_stagedOrder[instance]
-	case *Metronome:
-		return stage.Metronome_stagedOrder[instance]
-	case *Metronome_beam:
-		return stage.Metronome_beam_stagedOrder[instance]
-	case *Metronome_note:
-		return stage.Metronome_note_stagedOrder[instance]
-	case *Metronome_tied:
-		return stage.Metronome_tied_stagedOrder[instance]
-	case *Metronome_tuplet:
-		return stage.Metronome_tuplet_stagedOrder[instance]
-	case *Midi_device:
-		return stage.Midi_device_stagedOrder[instance]
-	case *Midi_instrument:
-		return stage.Midi_instrument_stagedOrder[instance]
-	case *Miscellaneous:
-		return stage.Miscellaneous_stagedOrder[instance]
-	case *Miscellaneous_field:
-		return stage.Miscellaneous_field_stagedOrder[instance]
-	case *Mordent:
-		return stage.Mordent_stagedOrder[instance]
-	case *Multiple_rest:
-		return stage.Multiple_rest_stagedOrder[instance]
-	case *Name_display:
-		return stage.Name_display_stagedOrder[instance]
-	case *Non_arpeggiate:
-		return stage.Non_arpeggiate_stagedOrder[instance]
-	case *Notations:
-		return stage.Notations_stagedOrder[instance]
-	case *Note:
-		return stage.Note_stagedOrder[instance]
-	case *Note_size:
-		return stage.Note_size_stagedOrder[instance]
-	case *Note_type:
-		return stage.Note_type_stagedOrder[instance]
-	case *Notehead:
-		return stage.Notehead_stagedOrder[instance]
-	case *Notehead_text:
-		return stage.Notehead_text_stagedOrder[instance]
-	case *Numeral:
-		return stage.Numeral_stagedOrder[instance]
-	case *Numeral_key:
-		return stage.Numeral_key_stagedOrder[instance]
-	case *Numeral_root:
-		return stage.Numeral_root_stagedOrder[instance]
-	case *Octave_shift:
-		return stage.Octave_shift_stagedOrder[instance]
-	case *Offset:
-		return stage.Offset_stagedOrder[instance]
-	case *Opus:
-		return stage.Opus_stagedOrder[instance]
-	case *Ornaments:
-		return stage.Ornaments_stagedOrder[instance]
-	case *Other_appearance:
-		return stage.Other_appearance_stagedOrder[instance]
-	case *Other_direction:
-		return stage.Other_direction_stagedOrder[instance]
-	case *Other_listening:
-		return stage.Other_listening_stagedOrder[instance]
-	case *Other_notation:
-		return stage.Other_notation_stagedOrder[instance]
-	case *Other_placement_text:
-		return stage.Other_placement_text_stagedOrder[instance]
-	case *Other_play:
-		return stage.Other_play_stagedOrder[instance]
-	case *Other_text:
-		return stage.Other_text_stagedOrder[instance]
-	case *Page_layout:
-		return stage.Page_layout_stagedOrder[instance]
-	case *Page_margins:
-		return stage.Page_margins_stagedOrder[instance]
-	case *Part_clef:
-		return stage.Part_clef_stagedOrder[instance]
-	case *Part_group:
-		return stage.Part_group_stagedOrder[instance]
-	case *Part_link:
-		return stage.Part_link_stagedOrder[instance]
-	case *Part_list:
-		return stage.Part_list_stagedOrder[instance]
-	case *Part_name:
-		return stage.Part_name_stagedOrder[instance]
-	case *Part_symbol:
-		return stage.Part_symbol_stagedOrder[instance]
-	case *Part_transpose:
-		return stage.Part_transpose_stagedOrder[instance]
-	case *Pedal:
-		return stage.Pedal_stagedOrder[instance]
-	case *Pedal_tuning:
-		return stage.Pedal_tuning_stagedOrder[instance]
-	case *Per_minute:
-		return stage.Per_minute_stagedOrder[instance]
-	case *Percussion:
-		return stage.Percussion_stagedOrder[instance]
-	case *Pitch:
-		return stage.Pitch_stagedOrder[instance]
-	case *Pitched:
-		return stage.Pitched_stagedOrder[instance]
-	case *Placement_text:
-		return stage.Placement_text_stagedOrder[instance]
-	case *Play:
-		return stage.Play_stagedOrder[instance]
-	case *Player:
-		return stage.Player_stagedOrder[instance]
-	case *Principal_voice:
-		return stage.Principal_voice_stagedOrder[instance]
-	case *Print:
-		return stage.Print_stagedOrder[instance]
-	case *Release:
-		return stage.Release_stagedOrder[instance]
-	case *Repeat:
-		return stage.Repeat_stagedOrder[instance]
-	case *Rest:
-		return stage.Rest_stagedOrder[instance]
-	case *Root:
-		return stage.Root_stagedOrder[instance]
-	case *Root_step:
-		return stage.Root_step_stagedOrder[instance]
-	case *Scaling:
-		return stage.Scaling_stagedOrder[instance]
-	case *Scordatura:
-		return stage.Scordatura_stagedOrder[instance]
-	case *Score_instrument:
-		return stage.Score_instrument_stagedOrder[instance]
-	case *Score_part:
-		return stage.Score_part_stagedOrder[instance]
-	case *Score_partwise:
-		return stage.Score_partwise_stagedOrder[instance]
-	case *Score_timewise:
-		return stage.Score_timewise_stagedOrder[instance]
-	case *Segno:
-		return stage.Segno_stagedOrder[instance]
-	case *Slash:
-		return stage.Slash_stagedOrder[instance]
-	case *Slide:
-		return stage.Slide_stagedOrder[instance]
-	case *Slur:
-		return stage.Slur_stagedOrder[instance]
-	case *Sound:
-		return stage.Sound_stagedOrder[instance]
-	case *Staff_details:
-		return stage.Staff_details_stagedOrder[instance]
-	case *Staff_divide:
-		return stage.Staff_divide_stagedOrder[instance]
-	case *Staff_layout:
-		return stage.Staff_layout_stagedOrder[instance]
-	case *Staff_size:
-		return stage.Staff_size_stagedOrder[instance]
-	case *Staff_tuning:
-		return stage.Staff_tuning_stagedOrder[instance]
-	case *Stem:
-		return stage.Stem_stagedOrder[instance]
-	case *Stick:
-		return stage.Stick_stagedOrder[instance]
-	case *String_mute:
-		return stage.String_mute_stagedOrder[instance]
-	case *String_type:
-		return stage.String_type_stagedOrder[instance]
-	case *Strong_accent:
-		return stage.Strong_accent_stagedOrder[instance]
-	case *Style_text:
-		return stage.Style_text_stagedOrder[instance]
-	case *Supports:
-		return stage.Supports_stagedOrder[instance]
-	case *Swing:
-		return stage.Swing_stagedOrder[instance]
-	case *Sync:
-		return stage.Sync_stagedOrder[instance]
-	case *System_dividers:
-		return stage.System_dividers_stagedOrder[instance]
-	case *System_layout:
-		return stage.System_layout_stagedOrder[instance]
-	case *System_margins:
-		return stage.System_margins_stagedOrder[instance]
-	case *Tap:
-		return stage.Tap_stagedOrder[instance]
-	case *Technical:
-		return stage.Technical_stagedOrder[instance]
-	case *Text_element_data:
-		return stage.Text_element_data_stagedOrder[instance]
-	case *Tie:
-		return stage.Tie_stagedOrder[instance]
-	case *Tied:
-		return stage.Tied_stagedOrder[instance]
-	case *Time:
-		return stage.Time_stagedOrder[instance]
-	case *Time_modification:
-		return stage.Time_modification_stagedOrder[instance]
-	case *Timpani:
-		return stage.Timpani_stagedOrder[instance]
-	case *Transpose:
-		return stage.Transpose_stagedOrder[instance]
-	case *Tremolo:
-		return stage.Tremolo_stagedOrder[instance]
-	case *Tuplet:
-		return stage.Tuplet_stagedOrder[instance]
-	case *Tuplet_dot:
-		return stage.Tuplet_dot_stagedOrder[instance]
-	case *Tuplet_number:
-		return stage.Tuplet_number_stagedOrder[instance]
-	case *Tuplet_portion:
-		return stage.Tuplet_portion_stagedOrder[instance]
-	case *Tuplet_type:
-		return stage.Tuplet_type_stagedOrder[instance]
-	case *Typed_text:
-		return stage.Typed_text_stagedOrder[instance]
-	case *Unpitched:
-		return stage.Unpitched_stagedOrder[instance]
-	case *Virtual_instrument:
-		return stage.Virtual_instrument_stagedOrder[instance]
-	case *Wait:
-		return stage.Wait_stagedOrder[instance]
-	case *Wavy_line:
-		return stage.Wavy_line_stagedOrder[instance]
-	case *Wedge:
-		return stage.Wedge_stagedOrder[instance]
-	case *Wood:
-		return stage.Wood_stagedOrder[instance]
-	case *Work:
-		return stage.Work_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -40453,19 +39969,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -40939,489 +40442,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case A_directive:
-		return any(&stage.A_directives).(*map[*Type]struct{})
-	case A_measure:
-		return any(&stage.A_measures).(*map[*Type]struct{})
-	case A_measure_1:
-		return any(&stage.A_measure_1s).(*map[*Type]struct{})
-	case A_part:
-		return any(&stage.A_parts).(*map[*Type]struct{})
-	case A_part_1:
-		return any(&stage.A_part_1s).(*map[*Type]struct{})
-	case Accidental:
-		return any(&stage.Accidentals).(*map[*Type]struct{})
-	case Accidental_mark:
-		return any(&stage.Accidental_marks).(*map[*Type]struct{})
-	case Accidental_text:
-		return any(&stage.Accidental_texts).(*map[*Type]struct{})
-	case Accord:
-		return any(&stage.Accords).(*map[*Type]struct{})
-	case Accordion_registration:
-		return any(&stage.Accordion_registrations).(*map[*Type]struct{})
-	case Appearance:
-		return any(&stage.Appearances).(*map[*Type]struct{})
-	case Arpeggiate:
-		return any(&stage.Arpeggiates).(*map[*Type]struct{})
-	case Arrow:
-		return any(&stage.Arrows).(*map[*Type]struct{})
-	case Articulations:
-		return any(&stage.Articulationss).(*map[*Type]struct{})
-	case Assess:
-		return any(&stage.Assesss).(*map[*Type]struct{})
-	case Attributes:
-		return any(&stage.Attributess).(*map[*Type]struct{})
-	case Backup:
-		return any(&stage.Backups).(*map[*Type]struct{})
-	case Bar_style_color:
-		return any(&stage.Bar_style_colors).(*map[*Type]struct{})
-	case Barline:
-		return any(&stage.Barlines).(*map[*Type]struct{})
-	case Barre:
-		return any(&stage.Barres).(*map[*Type]struct{})
-	case Bass:
-		return any(&stage.Basss).(*map[*Type]struct{})
-	case Bass_step:
-		return any(&stage.Bass_steps).(*map[*Type]struct{})
-	case Beam:
-		return any(&stage.Beams).(*map[*Type]struct{})
-	case Beat_repeat:
-		return any(&stage.Beat_repeats).(*map[*Type]struct{})
-	case Beat_unit_tied:
-		return any(&stage.Beat_unit_tieds).(*map[*Type]struct{})
-	case Beater:
-		return any(&stage.Beaters).(*map[*Type]struct{})
-	case Bend:
-		return any(&stage.Bends).(*map[*Type]struct{})
-	case Bookmark:
-		return any(&stage.Bookmarks).(*map[*Type]struct{})
-	case Bracket:
-		return any(&stage.Brackets).(*map[*Type]struct{})
-	case Breath_mark:
-		return any(&stage.Breath_marks).(*map[*Type]struct{})
-	case Caesura:
-		return any(&stage.Caesuras).(*map[*Type]struct{})
-	case Cancel:
-		return any(&stage.Cancels).(*map[*Type]struct{})
-	case Clef:
-		return any(&stage.Clefs).(*map[*Type]struct{})
-	case Coda:
-		return any(&stage.Codas).(*map[*Type]struct{})
-	case Credit:
-		return any(&stage.Credits).(*map[*Type]struct{})
-	case Dashes:
-		return any(&stage.Dashess).(*map[*Type]struct{})
-	case Defaults:
-		return any(&stage.Defaultss).(*map[*Type]struct{})
-	case Degree:
-		return any(&stage.Degrees).(*map[*Type]struct{})
-	case Degree_alter:
-		return any(&stage.Degree_alters).(*map[*Type]struct{})
-	case Degree_type:
-		return any(&stage.Degree_types).(*map[*Type]struct{})
-	case Degree_value:
-		return any(&stage.Degree_values).(*map[*Type]struct{})
-	case Direction:
-		return any(&stage.Directions).(*map[*Type]struct{})
-	case Direction_type:
-		return any(&stage.Direction_types).(*map[*Type]struct{})
-	case Distance:
-		return any(&stage.Distances).(*map[*Type]struct{})
-	case Double:
-		return any(&stage.Doubles).(*map[*Type]struct{})
-	case Dynamics:
-		return any(&stage.Dynamicss).(*map[*Type]struct{})
-	case Effect:
-		return any(&stage.Effects).(*map[*Type]struct{})
-	case Elision:
-		return any(&stage.Elisions).(*map[*Type]struct{})
-	case Empty:
-		return any(&stage.Emptys).(*map[*Type]struct{})
-	case Empty_font:
-		return any(&stage.Empty_fonts).(*map[*Type]struct{})
-	case Empty_line:
-		return any(&stage.Empty_lines).(*map[*Type]struct{})
-	case Empty_placement:
-		return any(&stage.Empty_placements).(*map[*Type]struct{})
-	case Empty_placement_smufl:
-		return any(&stage.Empty_placement_smufls).(*map[*Type]struct{})
-	case Empty_print_object_style_align:
-		return any(&stage.Empty_print_object_style_aligns).(*map[*Type]struct{})
-	case Empty_print_style:
-		return any(&stage.Empty_print_styles).(*map[*Type]struct{})
-	case Empty_print_style_align:
-		return any(&stage.Empty_print_style_aligns).(*map[*Type]struct{})
-	case Empty_print_style_align_id:
-		return any(&stage.Empty_print_style_align_ids).(*map[*Type]struct{})
-	case Empty_trill_sound:
-		return any(&stage.Empty_trill_sounds).(*map[*Type]struct{})
-	case Encoding:
-		return any(&stage.Encodings).(*map[*Type]struct{})
-	case Ending:
-		return any(&stage.Endings).(*map[*Type]struct{})
-	case Extend:
-		return any(&stage.Extends).(*map[*Type]struct{})
-	case Feature:
-		return any(&stage.Features).(*map[*Type]struct{})
-	case Fermata:
-		return any(&stage.Fermatas).(*map[*Type]struct{})
-	case Figure:
-		return any(&stage.Figures).(*map[*Type]struct{})
-	case Figured_bass:
-		return any(&stage.Figured_basss).(*map[*Type]struct{})
-	case Fingering:
-		return any(&stage.Fingerings).(*map[*Type]struct{})
-	case First_fret:
-		return any(&stage.First_frets).(*map[*Type]struct{})
-	case For_part:
-		return any(&stage.For_parts).(*map[*Type]struct{})
-	case Formatted_symbol:
-		return any(&stage.Formatted_symbols).(*map[*Type]struct{})
-	case Formatted_symbol_id:
-		return any(&stage.Formatted_symbol_ids).(*map[*Type]struct{})
-	case Formatted_text:
-		return any(&stage.Formatted_texts).(*map[*Type]struct{})
-	case Formatted_text_id:
-		return any(&stage.Formatted_text_ids).(*map[*Type]struct{})
-	case Forward:
-		return any(&stage.Forwards).(*map[*Type]struct{})
-	case Frame:
-		return any(&stage.Frames).(*map[*Type]struct{})
-	case Frame_note:
-		return any(&stage.Frame_notes).(*map[*Type]struct{})
-	case Fret:
-		return any(&stage.Frets).(*map[*Type]struct{})
-	case Glass:
-		return any(&stage.Glasss).(*map[*Type]struct{})
-	case Glissando:
-		return any(&stage.Glissandos).(*map[*Type]struct{})
-	case Glyph:
-		return any(&stage.Glyphs).(*map[*Type]struct{})
-	case Grace:
-		return any(&stage.Graces).(*map[*Type]struct{})
-	case Group_barline:
-		return any(&stage.Group_barlines).(*map[*Type]struct{})
-	case Group_name:
-		return any(&stage.Group_names).(*map[*Type]struct{})
-	case Group_symbol:
-		return any(&stage.Group_symbols).(*map[*Type]struct{})
-	case Grouping:
-		return any(&stage.Groupings).(*map[*Type]struct{})
-	case Hammer_on_pull_off:
-		return any(&stage.Hammer_on_pull_offs).(*map[*Type]struct{})
-	case Handbell:
-		return any(&stage.Handbells).(*map[*Type]struct{})
-	case Harmon_closed:
-		return any(&stage.Harmon_closeds).(*map[*Type]struct{})
-	case Harmon_mute:
-		return any(&stage.Harmon_mutes).(*map[*Type]struct{})
-	case Harmonic:
-		return any(&stage.Harmonics).(*map[*Type]struct{})
-	case Harmony:
-		return any(&stage.Harmonys).(*map[*Type]struct{})
-	case Harmony_alter:
-		return any(&stage.Harmony_alters).(*map[*Type]struct{})
-	case Harp_pedals:
-		return any(&stage.Harp_pedalss).(*map[*Type]struct{})
-	case Heel_toe:
-		return any(&stage.Heel_toes).(*map[*Type]struct{})
-	case Hole:
-		return any(&stage.Holes).(*map[*Type]struct{})
-	case Hole_closed:
-		return any(&stage.Hole_closeds).(*map[*Type]struct{})
-	case Horizontal_turn:
-		return any(&stage.Horizontal_turns).(*map[*Type]struct{})
-	case Identification:
-		return any(&stage.Identifications).(*map[*Type]struct{})
-	case Image:
-		return any(&stage.Images).(*map[*Type]struct{})
-	case Instrument:
-		return any(&stage.Instruments).(*map[*Type]struct{})
-	case Instrument_change:
-		return any(&stage.Instrument_changes).(*map[*Type]struct{})
-	case Instrument_link:
-		return any(&stage.Instrument_links).(*map[*Type]struct{})
-	case Interchangeable:
-		return any(&stage.Interchangeables).(*map[*Type]struct{})
-	case Inversion:
-		return any(&stage.Inversions).(*map[*Type]struct{})
-	case Key:
-		return any(&stage.Keys).(*map[*Type]struct{})
-	case Key_accidental:
-		return any(&stage.Key_accidentals).(*map[*Type]struct{})
-	case Key_octave:
-		return any(&stage.Key_octaves).(*map[*Type]struct{})
-	case Kind:
-		return any(&stage.Kinds).(*map[*Type]struct{})
-	case Level:
-		return any(&stage.Levels).(*map[*Type]struct{})
-	case Line_detail:
-		return any(&stage.Line_details).(*map[*Type]struct{})
-	case Line_width:
-		return any(&stage.Line_widths).(*map[*Type]struct{})
-	case Link:
-		return any(&stage.Links).(*map[*Type]struct{})
-	case Listen:
-		return any(&stage.Listens).(*map[*Type]struct{})
-	case Listening:
-		return any(&stage.Listenings).(*map[*Type]struct{})
-	case Lyric:
-		return any(&stage.Lyrics).(*map[*Type]struct{})
-	case Lyric_font:
-		return any(&stage.Lyric_fonts).(*map[*Type]struct{})
-	case Lyric_language:
-		return any(&stage.Lyric_languages).(*map[*Type]struct{})
-	case Measure_layout:
-		return any(&stage.Measure_layouts).(*map[*Type]struct{})
-	case Measure_numbering:
-		return any(&stage.Measure_numberings).(*map[*Type]struct{})
-	case Measure_repeat:
-		return any(&stage.Measure_repeats).(*map[*Type]struct{})
-	case Measure_style:
-		return any(&stage.Measure_styles).(*map[*Type]struct{})
-	case Membrane:
-		return any(&stage.Membranes).(*map[*Type]struct{})
-	case Metal:
-		return any(&stage.Metals).(*map[*Type]struct{})
-	case Metronome:
-		return any(&stage.Metronomes).(*map[*Type]struct{})
-	case Metronome_beam:
-		return any(&stage.Metronome_beams).(*map[*Type]struct{})
-	case Metronome_note:
-		return any(&stage.Metronome_notes).(*map[*Type]struct{})
-	case Metronome_tied:
-		return any(&stage.Metronome_tieds).(*map[*Type]struct{})
-	case Metronome_tuplet:
-		return any(&stage.Metronome_tuplets).(*map[*Type]struct{})
-	case Midi_device:
-		return any(&stage.Midi_devices).(*map[*Type]struct{})
-	case Midi_instrument:
-		return any(&stage.Midi_instruments).(*map[*Type]struct{})
-	case Miscellaneous:
-		return any(&stage.Miscellaneouss).(*map[*Type]struct{})
-	case Miscellaneous_field:
-		return any(&stage.Miscellaneous_fields).(*map[*Type]struct{})
-	case Mordent:
-		return any(&stage.Mordents).(*map[*Type]struct{})
-	case Multiple_rest:
-		return any(&stage.Multiple_rests).(*map[*Type]struct{})
-	case Name_display:
-		return any(&stage.Name_displays).(*map[*Type]struct{})
-	case Non_arpeggiate:
-		return any(&stage.Non_arpeggiates).(*map[*Type]struct{})
-	case Notations:
-		return any(&stage.Notationss).(*map[*Type]struct{})
-	case Note:
-		return any(&stage.Notes).(*map[*Type]struct{})
-	case Note_size:
-		return any(&stage.Note_sizes).(*map[*Type]struct{})
-	case Note_type:
-		return any(&stage.Note_types).(*map[*Type]struct{})
-	case Notehead:
-		return any(&stage.Noteheads).(*map[*Type]struct{})
-	case Notehead_text:
-		return any(&stage.Notehead_texts).(*map[*Type]struct{})
-	case Numeral:
-		return any(&stage.Numerals).(*map[*Type]struct{})
-	case Numeral_key:
-		return any(&stage.Numeral_keys).(*map[*Type]struct{})
-	case Numeral_root:
-		return any(&stage.Numeral_roots).(*map[*Type]struct{})
-	case Octave_shift:
-		return any(&stage.Octave_shifts).(*map[*Type]struct{})
-	case Offset:
-		return any(&stage.Offsets).(*map[*Type]struct{})
-	case Opus:
-		return any(&stage.Opuss).(*map[*Type]struct{})
-	case Ornaments:
-		return any(&stage.Ornamentss).(*map[*Type]struct{})
-	case Other_appearance:
-		return any(&stage.Other_appearances).(*map[*Type]struct{})
-	case Other_direction:
-		return any(&stage.Other_directions).(*map[*Type]struct{})
-	case Other_listening:
-		return any(&stage.Other_listenings).(*map[*Type]struct{})
-	case Other_notation:
-		return any(&stage.Other_notations).(*map[*Type]struct{})
-	case Other_placement_text:
-		return any(&stage.Other_placement_texts).(*map[*Type]struct{})
-	case Other_play:
-		return any(&stage.Other_plays).(*map[*Type]struct{})
-	case Other_text:
-		return any(&stage.Other_texts).(*map[*Type]struct{})
-	case Page_layout:
-		return any(&stage.Page_layouts).(*map[*Type]struct{})
-	case Page_margins:
-		return any(&stage.Page_marginss).(*map[*Type]struct{})
-	case Part_clef:
-		return any(&stage.Part_clefs).(*map[*Type]struct{})
-	case Part_group:
-		return any(&stage.Part_groups).(*map[*Type]struct{})
-	case Part_link:
-		return any(&stage.Part_links).(*map[*Type]struct{})
-	case Part_list:
-		return any(&stage.Part_lists).(*map[*Type]struct{})
-	case Part_name:
-		return any(&stage.Part_names).(*map[*Type]struct{})
-	case Part_symbol:
-		return any(&stage.Part_symbols).(*map[*Type]struct{})
-	case Part_transpose:
-		return any(&stage.Part_transposes).(*map[*Type]struct{})
-	case Pedal:
-		return any(&stage.Pedals).(*map[*Type]struct{})
-	case Pedal_tuning:
-		return any(&stage.Pedal_tunings).(*map[*Type]struct{})
-	case Per_minute:
-		return any(&stage.Per_minutes).(*map[*Type]struct{})
-	case Percussion:
-		return any(&stage.Percussions).(*map[*Type]struct{})
-	case Pitch:
-		return any(&stage.Pitchs).(*map[*Type]struct{})
-	case Pitched:
-		return any(&stage.Pitcheds).(*map[*Type]struct{})
-	case Placement_text:
-		return any(&stage.Placement_texts).(*map[*Type]struct{})
-	case Play:
-		return any(&stage.Plays).(*map[*Type]struct{})
-	case Player:
-		return any(&stage.Players).(*map[*Type]struct{})
-	case Principal_voice:
-		return any(&stage.Principal_voices).(*map[*Type]struct{})
-	case Print:
-		return any(&stage.Prints).(*map[*Type]struct{})
-	case Release:
-		return any(&stage.Releases).(*map[*Type]struct{})
-	case Repeat:
-		return any(&stage.Repeats).(*map[*Type]struct{})
-	case Rest:
-		return any(&stage.Rests).(*map[*Type]struct{})
-	case Root:
-		return any(&stage.Roots).(*map[*Type]struct{})
-	case Root_step:
-		return any(&stage.Root_steps).(*map[*Type]struct{})
-	case Scaling:
-		return any(&stage.Scalings).(*map[*Type]struct{})
-	case Scordatura:
-		return any(&stage.Scordaturas).(*map[*Type]struct{})
-	case Score_instrument:
-		return any(&stage.Score_instruments).(*map[*Type]struct{})
-	case Score_part:
-		return any(&stage.Score_parts).(*map[*Type]struct{})
-	case Score_partwise:
-		return any(&stage.Score_partwises).(*map[*Type]struct{})
-	case Score_timewise:
-		return any(&stage.Score_timewises).(*map[*Type]struct{})
-	case Segno:
-		return any(&stage.Segnos).(*map[*Type]struct{})
-	case Slash:
-		return any(&stage.Slashs).(*map[*Type]struct{})
-	case Slide:
-		return any(&stage.Slides).(*map[*Type]struct{})
-	case Slur:
-		return any(&stage.Slurs).(*map[*Type]struct{})
-	case Sound:
-		return any(&stage.Sounds).(*map[*Type]struct{})
-	case Staff_details:
-		return any(&stage.Staff_detailss).(*map[*Type]struct{})
-	case Staff_divide:
-		return any(&stage.Staff_divides).(*map[*Type]struct{})
-	case Staff_layout:
-		return any(&stage.Staff_layouts).(*map[*Type]struct{})
-	case Staff_size:
-		return any(&stage.Staff_sizes).(*map[*Type]struct{})
-	case Staff_tuning:
-		return any(&stage.Staff_tunings).(*map[*Type]struct{})
-	case Stem:
-		return any(&stage.Stems).(*map[*Type]struct{})
-	case Stick:
-		return any(&stage.Sticks).(*map[*Type]struct{})
-	case String_mute:
-		return any(&stage.String_mutes).(*map[*Type]struct{})
-	case String_type:
-		return any(&stage.String_types).(*map[*Type]struct{})
-	case Strong_accent:
-		return any(&stage.Strong_accents).(*map[*Type]struct{})
-	case Style_text:
-		return any(&stage.Style_texts).(*map[*Type]struct{})
-	case Supports:
-		return any(&stage.Supportss).(*map[*Type]struct{})
-	case Swing:
-		return any(&stage.Swings).(*map[*Type]struct{})
-	case Sync:
-		return any(&stage.Syncs).(*map[*Type]struct{})
-	case System_dividers:
-		return any(&stage.System_dividerss).(*map[*Type]struct{})
-	case System_layout:
-		return any(&stage.System_layouts).(*map[*Type]struct{})
-	case System_margins:
-		return any(&stage.System_marginss).(*map[*Type]struct{})
-	case Tap:
-		return any(&stage.Taps).(*map[*Type]struct{})
-	case Technical:
-		return any(&stage.Technicals).(*map[*Type]struct{})
-	case Text_element_data:
-		return any(&stage.Text_element_datas).(*map[*Type]struct{})
-	case Tie:
-		return any(&stage.Ties).(*map[*Type]struct{})
-	case Tied:
-		return any(&stage.Tieds).(*map[*Type]struct{})
-	case Time:
-		return any(&stage.Times).(*map[*Type]struct{})
-	case Time_modification:
-		return any(&stage.Time_modifications).(*map[*Type]struct{})
-	case Timpani:
-		return any(&stage.Timpanis).(*map[*Type]struct{})
-	case Transpose:
-		return any(&stage.Transposes).(*map[*Type]struct{})
-	case Tremolo:
-		return any(&stage.Tremolos).(*map[*Type]struct{})
-	case Tuplet:
-		return any(&stage.Tuplets).(*map[*Type]struct{})
-	case Tuplet_dot:
-		return any(&stage.Tuplet_dots).(*map[*Type]struct{})
-	case Tuplet_number:
-		return any(&stage.Tuplet_numbers).(*map[*Type]struct{})
-	case Tuplet_portion:
-		return any(&stage.Tuplet_portions).(*map[*Type]struct{})
-	case Tuplet_type:
-		return any(&stage.Tuplet_types).(*map[*Type]struct{})
-	case Typed_text:
-		return any(&stage.Typed_texts).(*map[*Type]struct{})
-	case Unpitched:
-		return any(&stage.Unpitcheds).(*map[*Type]struct{})
-	case Virtual_instrument:
-		return any(&stage.Virtual_instruments).(*map[*Type]struct{})
-	case Wait:
-		return any(&stage.Waits).(*map[*Type]struct{})
-	case Wavy_line:
-		return any(&stage.Wavy_lines).(*map[*Type]struct{})
-	case Wedge:
-		return any(&stage.Wedges).(*map[*Type]struct{})
-	case Wood:
-		return any(&stage.Woods).(*map[*Type]struct{})
-	case Work:
-		return any(&stage.Works).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -41893,489 +40913,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case A_directive:
-		return any(&stage.A_directives_mapString).(*map[string]*Type)
-	case A_measure:
-		return any(&stage.A_measures_mapString).(*map[string]*Type)
-	case A_measure_1:
-		return any(&stage.A_measure_1s_mapString).(*map[string]*Type)
-	case A_part:
-		return any(&stage.A_parts_mapString).(*map[string]*Type)
-	case A_part_1:
-		return any(&stage.A_part_1s_mapString).(*map[string]*Type)
-	case Accidental:
-		return any(&stage.Accidentals_mapString).(*map[string]*Type)
-	case Accidental_mark:
-		return any(&stage.Accidental_marks_mapString).(*map[string]*Type)
-	case Accidental_text:
-		return any(&stage.Accidental_texts_mapString).(*map[string]*Type)
-	case Accord:
-		return any(&stage.Accords_mapString).(*map[string]*Type)
-	case Accordion_registration:
-		return any(&stage.Accordion_registrations_mapString).(*map[string]*Type)
-	case Appearance:
-		return any(&stage.Appearances_mapString).(*map[string]*Type)
-	case Arpeggiate:
-		return any(&stage.Arpeggiates_mapString).(*map[string]*Type)
-	case Arrow:
-		return any(&stage.Arrows_mapString).(*map[string]*Type)
-	case Articulations:
-		return any(&stage.Articulationss_mapString).(*map[string]*Type)
-	case Assess:
-		return any(&stage.Assesss_mapString).(*map[string]*Type)
-	case Attributes:
-		return any(&stage.Attributess_mapString).(*map[string]*Type)
-	case Backup:
-		return any(&stage.Backups_mapString).(*map[string]*Type)
-	case Bar_style_color:
-		return any(&stage.Bar_style_colors_mapString).(*map[string]*Type)
-	case Barline:
-		return any(&stage.Barlines_mapString).(*map[string]*Type)
-	case Barre:
-		return any(&stage.Barres_mapString).(*map[string]*Type)
-	case Bass:
-		return any(&stage.Basss_mapString).(*map[string]*Type)
-	case Bass_step:
-		return any(&stage.Bass_steps_mapString).(*map[string]*Type)
-	case Beam:
-		return any(&stage.Beams_mapString).(*map[string]*Type)
-	case Beat_repeat:
-		return any(&stage.Beat_repeats_mapString).(*map[string]*Type)
-	case Beat_unit_tied:
-		return any(&stage.Beat_unit_tieds_mapString).(*map[string]*Type)
-	case Beater:
-		return any(&stage.Beaters_mapString).(*map[string]*Type)
-	case Bend:
-		return any(&stage.Bends_mapString).(*map[string]*Type)
-	case Bookmark:
-		return any(&stage.Bookmarks_mapString).(*map[string]*Type)
-	case Bracket:
-		return any(&stage.Brackets_mapString).(*map[string]*Type)
-	case Breath_mark:
-		return any(&stage.Breath_marks_mapString).(*map[string]*Type)
-	case Caesura:
-		return any(&stage.Caesuras_mapString).(*map[string]*Type)
-	case Cancel:
-		return any(&stage.Cancels_mapString).(*map[string]*Type)
-	case Clef:
-		return any(&stage.Clefs_mapString).(*map[string]*Type)
-	case Coda:
-		return any(&stage.Codas_mapString).(*map[string]*Type)
-	case Credit:
-		return any(&stage.Credits_mapString).(*map[string]*Type)
-	case Dashes:
-		return any(&stage.Dashess_mapString).(*map[string]*Type)
-	case Defaults:
-		return any(&stage.Defaultss_mapString).(*map[string]*Type)
-	case Degree:
-		return any(&stage.Degrees_mapString).(*map[string]*Type)
-	case Degree_alter:
-		return any(&stage.Degree_alters_mapString).(*map[string]*Type)
-	case Degree_type:
-		return any(&stage.Degree_types_mapString).(*map[string]*Type)
-	case Degree_value:
-		return any(&stage.Degree_values_mapString).(*map[string]*Type)
-	case Direction:
-		return any(&stage.Directions_mapString).(*map[string]*Type)
-	case Direction_type:
-		return any(&stage.Direction_types_mapString).(*map[string]*Type)
-	case Distance:
-		return any(&stage.Distances_mapString).(*map[string]*Type)
-	case Double:
-		return any(&stage.Doubles_mapString).(*map[string]*Type)
-	case Dynamics:
-		return any(&stage.Dynamicss_mapString).(*map[string]*Type)
-	case Effect:
-		return any(&stage.Effects_mapString).(*map[string]*Type)
-	case Elision:
-		return any(&stage.Elisions_mapString).(*map[string]*Type)
-	case Empty:
-		return any(&stage.Emptys_mapString).(*map[string]*Type)
-	case Empty_font:
-		return any(&stage.Empty_fonts_mapString).(*map[string]*Type)
-	case Empty_line:
-		return any(&stage.Empty_lines_mapString).(*map[string]*Type)
-	case Empty_placement:
-		return any(&stage.Empty_placements_mapString).(*map[string]*Type)
-	case Empty_placement_smufl:
-		return any(&stage.Empty_placement_smufls_mapString).(*map[string]*Type)
-	case Empty_print_object_style_align:
-		return any(&stage.Empty_print_object_style_aligns_mapString).(*map[string]*Type)
-	case Empty_print_style:
-		return any(&stage.Empty_print_styles_mapString).(*map[string]*Type)
-	case Empty_print_style_align:
-		return any(&stage.Empty_print_style_aligns_mapString).(*map[string]*Type)
-	case Empty_print_style_align_id:
-		return any(&stage.Empty_print_style_align_ids_mapString).(*map[string]*Type)
-	case Empty_trill_sound:
-		return any(&stage.Empty_trill_sounds_mapString).(*map[string]*Type)
-	case Encoding:
-		return any(&stage.Encodings_mapString).(*map[string]*Type)
-	case Ending:
-		return any(&stage.Endings_mapString).(*map[string]*Type)
-	case Extend:
-		return any(&stage.Extends_mapString).(*map[string]*Type)
-	case Feature:
-		return any(&stage.Features_mapString).(*map[string]*Type)
-	case Fermata:
-		return any(&stage.Fermatas_mapString).(*map[string]*Type)
-	case Figure:
-		return any(&stage.Figures_mapString).(*map[string]*Type)
-	case Figured_bass:
-		return any(&stage.Figured_basss_mapString).(*map[string]*Type)
-	case Fingering:
-		return any(&stage.Fingerings_mapString).(*map[string]*Type)
-	case First_fret:
-		return any(&stage.First_frets_mapString).(*map[string]*Type)
-	case For_part:
-		return any(&stage.For_parts_mapString).(*map[string]*Type)
-	case Formatted_symbol:
-		return any(&stage.Formatted_symbols_mapString).(*map[string]*Type)
-	case Formatted_symbol_id:
-		return any(&stage.Formatted_symbol_ids_mapString).(*map[string]*Type)
-	case Formatted_text:
-		return any(&stage.Formatted_texts_mapString).(*map[string]*Type)
-	case Formatted_text_id:
-		return any(&stage.Formatted_text_ids_mapString).(*map[string]*Type)
-	case Forward:
-		return any(&stage.Forwards_mapString).(*map[string]*Type)
-	case Frame:
-		return any(&stage.Frames_mapString).(*map[string]*Type)
-	case Frame_note:
-		return any(&stage.Frame_notes_mapString).(*map[string]*Type)
-	case Fret:
-		return any(&stage.Frets_mapString).(*map[string]*Type)
-	case Glass:
-		return any(&stage.Glasss_mapString).(*map[string]*Type)
-	case Glissando:
-		return any(&stage.Glissandos_mapString).(*map[string]*Type)
-	case Glyph:
-		return any(&stage.Glyphs_mapString).(*map[string]*Type)
-	case Grace:
-		return any(&stage.Graces_mapString).(*map[string]*Type)
-	case Group_barline:
-		return any(&stage.Group_barlines_mapString).(*map[string]*Type)
-	case Group_name:
-		return any(&stage.Group_names_mapString).(*map[string]*Type)
-	case Group_symbol:
-		return any(&stage.Group_symbols_mapString).(*map[string]*Type)
-	case Grouping:
-		return any(&stage.Groupings_mapString).(*map[string]*Type)
-	case Hammer_on_pull_off:
-		return any(&stage.Hammer_on_pull_offs_mapString).(*map[string]*Type)
-	case Handbell:
-		return any(&stage.Handbells_mapString).(*map[string]*Type)
-	case Harmon_closed:
-		return any(&stage.Harmon_closeds_mapString).(*map[string]*Type)
-	case Harmon_mute:
-		return any(&stage.Harmon_mutes_mapString).(*map[string]*Type)
-	case Harmonic:
-		return any(&stage.Harmonics_mapString).(*map[string]*Type)
-	case Harmony:
-		return any(&stage.Harmonys_mapString).(*map[string]*Type)
-	case Harmony_alter:
-		return any(&stage.Harmony_alters_mapString).(*map[string]*Type)
-	case Harp_pedals:
-		return any(&stage.Harp_pedalss_mapString).(*map[string]*Type)
-	case Heel_toe:
-		return any(&stage.Heel_toes_mapString).(*map[string]*Type)
-	case Hole:
-		return any(&stage.Holes_mapString).(*map[string]*Type)
-	case Hole_closed:
-		return any(&stage.Hole_closeds_mapString).(*map[string]*Type)
-	case Horizontal_turn:
-		return any(&stage.Horizontal_turns_mapString).(*map[string]*Type)
-	case Identification:
-		return any(&stage.Identifications_mapString).(*map[string]*Type)
-	case Image:
-		return any(&stage.Images_mapString).(*map[string]*Type)
-	case Instrument:
-		return any(&stage.Instruments_mapString).(*map[string]*Type)
-	case Instrument_change:
-		return any(&stage.Instrument_changes_mapString).(*map[string]*Type)
-	case Instrument_link:
-		return any(&stage.Instrument_links_mapString).(*map[string]*Type)
-	case Interchangeable:
-		return any(&stage.Interchangeables_mapString).(*map[string]*Type)
-	case Inversion:
-		return any(&stage.Inversions_mapString).(*map[string]*Type)
-	case Key:
-		return any(&stage.Keys_mapString).(*map[string]*Type)
-	case Key_accidental:
-		return any(&stage.Key_accidentals_mapString).(*map[string]*Type)
-	case Key_octave:
-		return any(&stage.Key_octaves_mapString).(*map[string]*Type)
-	case Kind:
-		return any(&stage.Kinds_mapString).(*map[string]*Type)
-	case Level:
-		return any(&stage.Levels_mapString).(*map[string]*Type)
-	case Line_detail:
-		return any(&stage.Line_details_mapString).(*map[string]*Type)
-	case Line_width:
-		return any(&stage.Line_widths_mapString).(*map[string]*Type)
-	case Link:
-		return any(&stage.Links_mapString).(*map[string]*Type)
-	case Listen:
-		return any(&stage.Listens_mapString).(*map[string]*Type)
-	case Listening:
-		return any(&stage.Listenings_mapString).(*map[string]*Type)
-	case Lyric:
-		return any(&stage.Lyrics_mapString).(*map[string]*Type)
-	case Lyric_font:
-		return any(&stage.Lyric_fonts_mapString).(*map[string]*Type)
-	case Lyric_language:
-		return any(&stage.Lyric_languages_mapString).(*map[string]*Type)
-	case Measure_layout:
-		return any(&stage.Measure_layouts_mapString).(*map[string]*Type)
-	case Measure_numbering:
-		return any(&stage.Measure_numberings_mapString).(*map[string]*Type)
-	case Measure_repeat:
-		return any(&stage.Measure_repeats_mapString).(*map[string]*Type)
-	case Measure_style:
-		return any(&stage.Measure_styles_mapString).(*map[string]*Type)
-	case Membrane:
-		return any(&stage.Membranes_mapString).(*map[string]*Type)
-	case Metal:
-		return any(&stage.Metals_mapString).(*map[string]*Type)
-	case Metronome:
-		return any(&stage.Metronomes_mapString).(*map[string]*Type)
-	case Metronome_beam:
-		return any(&stage.Metronome_beams_mapString).(*map[string]*Type)
-	case Metronome_note:
-		return any(&stage.Metronome_notes_mapString).(*map[string]*Type)
-	case Metronome_tied:
-		return any(&stage.Metronome_tieds_mapString).(*map[string]*Type)
-	case Metronome_tuplet:
-		return any(&stage.Metronome_tuplets_mapString).(*map[string]*Type)
-	case Midi_device:
-		return any(&stage.Midi_devices_mapString).(*map[string]*Type)
-	case Midi_instrument:
-		return any(&stage.Midi_instruments_mapString).(*map[string]*Type)
-	case Miscellaneous:
-		return any(&stage.Miscellaneouss_mapString).(*map[string]*Type)
-	case Miscellaneous_field:
-		return any(&stage.Miscellaneous_fields_mapString).(*map[string]*Type)
-	case Mordent:
-		return any(&stage.Mordents_mapString).(*map[string]*Type)
-	case Multiple_rest:
-		return any(&stage.Multiple_rests_mapString).(*map[string]*Type)
-	case Name_display:
-		return any(&stage.Name_displays_mapString).(*map[string]*Type)
-	case Non_arpeggiate:
-		return any(&stage.Non_arpeggiates_mapString).(*map[string]*Type)
-	case Notations:
-		return any(&stage.Notationss_mapString).(*map[string]*Type)
-	case Note:
-		return any(&stage.Notes_mapString).(*map[string]*Type)
-	case Note_size:
-		return any(&stage.Note_sizes_mapString).(*map[string]*Type)
-	case Note_type:
-		return any(&stage.Note_types_mapString).(*map[string]*Type)
-	case Notehead:
-		return any(&stage.Noteheads_mapString).(*map[string]*Type)
-	case Notehead_text:
-		return any(&stage.Notehead_texts_mapString).(*map[string]*Type)
-	case Numeral:
-		return any(&stage.Numerals_mapString).(*map[string]*Type)
-	case Numeral_key:
-		return any(&stage.Numeral_keys_mapString).(*map[string]*Type)
-	case Numeral_root:
-		return any(&stage.Numeral_roots_mapString).(*map[string]*Type)
-	case Octave_shift:
-		return any(&stage.Octave_shifts_mapString).(*map[string]*Type)
-	case Offset:
-		return any(&stage.Offsets_mapString).(*map[string]*Type)
-	case Opus:
-		return any(&stage.Opuss_mapString).(*map[string]*Type)
-	case Ornaments:
-		return any(&stage.Ornamentss_mapString).(*map[string]*Type)
-	case Other_appearance:
-		return any(&stage.Other_appearances_mapString).(*map[string]*Type)
-	case Other_direction:
-		return any(&stage.Other_directions_mapString).(*map[string]*Type)
-	case Other_listening:
-		return any(&stage.Other_listenings_mapString).(*map[string]*Type)
-	case Other_notation:
-		return any(&stage.Other_notations_mapString).(*map[string]*Type)
-	case Other_placement_text:
-		return any(&stage.Other_placement_texts_mapString).(*map[string]*Type)
-	case Other_play:
-		return any(&stage.Other_plays_mapString).(*map[string]*Type)
-	case Other_text:
-		return any(&stage.Other_texts_mapString).(*map[string]*Type)
-	case Page_layout:
-		return any(&stage.Page_layouts_mapString).(*map[string]*Type)
-	case Page_margins:
-		return any(&stage.Page_marginss_mapString).(*map[string]*Type)
-	case Part_clef:
-		return any(&stage.Part_clefs_mapString).(*map[string]*Type)
-	case Part_group:
-		return any(&stage.Part_groups_mapString).(*map[string]*Type)
-	case Part_link:
-		return any(&stage.Part_links_mapString).(*map[string]*Type)
-	case Part_list:
-		return any(&stage.Part_lists_mapString).(*map[string]*Type)
-	case Part_name:
-		return any(&stage.Part_names_mapString).(*map[string]*Type)
-	case Part_symbol:
-		return any(&stage.Part_symbols_mapString).(*map[string]*Type)
-	case Part_transpose:
-		return any(&stage.Part_transposes_mapString).(*map[string]*Type)
-	case Pedal:
-		return any(&stage.Pedals_mapString).(*map[string]*Type)
-	case Pedal_tuning:
-		return any(&stage.Pedal_tunings_mapString).(*map[string]*Type)
-	case Per_minute:
-		return any(&stage.Per_minutes_mapString).(*map[string]*Type)
-	case Percussion:
-		return any(&stage.Percussions_mapString).(*map[string]*Type)
-	case Pitch:
-		return any(&stage.Pitchs_mapString).(*map[string]*Type)
-	case Pitched:
-		return any(&stage.Pitcheds_mapString).(*map[string]*Type)
-	case Placement_text:
-		return any(&stage.Placement_texts_mapString).(*map[string]*Type)
-	case Play:
-		return any(&stage.Plays_mapString).(*map[string]*Type)
-	case Player:
-		return any(&stage.Players_mapString).(*map[string]*Type)
-	case Principal_voice:
-		return any(&stage.Principal_voices_mapString).(*map[string]*Type)
-	case Print:
-		return any(&stage.Prints_mapString).(*map[string]*Type)
-	case Release:
-		return any(&stage.Releases_mapString).(*map[string]*Type)
-	case Repeat:
-		return any(&stage.Repeats_mapString).(*map[string]*Type)
-	case Rest:
-		return any(&stage.Rests_mapString).(*map[string]*Type)
-	case Root:
-		return any(&stage.Roots_mapString).(*map[string]*Type)
-	case Root_step:
-		return any(&stage.Root_steps_mapString).(*map[string]*Type)
-	case Scaling:
-		return any(&stage.Scalings_mapString).(*map[string]*Type)
-	case Scordatura:
-		return any(&stage.Scordaturas_mapString).(*map[string]*Type)
-	case Score_instrument:
-		return any(&stage.Score_instruments_mapString).(*map[string]*Type)
-	case Score_part:
-		return any(&stage.Score_parts_mapString).(*map[string]*Type)
-	case Score_partwise:
-		return any(&stage.Score_partwises_mapString).(*map[string]*Type)
-	case Score_timewise:
-		return any(&stage.Score_timewises_mapString).(*map[string]*Type)
-	case Segno:
-		return any(&stage.Segnos_mapString).(*map[string]*Type)
-	case Slash:
-		return any(&stage.Slashs_mapString).(*map[string]*Type)
-	case Slide:
-		return any(&stage.Slides_mapString).(*map[string]*Type)
-	case Slur:
-		return any(&stage.Slurs_mapString).(*map[string]*Type)
-	case Sound:
-		return any(&stage.Sounds_mapString).(*map[string]*Type)
-	case Staff_details:
-		return any(&stage.Staff_detailss_mapString).(*map[string]*Type)
-	case Staff_divide:
-		return any(&stage.Staff_divides_mapString).(*map[string]*Type)
-	case Staff_layout:
-		return any(&stage.Staff_layouts_mapString).(*map[string]*Type)
-	case Staff_size:
-		return any(&stage.Staff_sizes_mapString).(*map[string]*Type)
-	case Staff_tuning:
-		return any(&stage.Staff_tunings_mapString).(*map[string]*Type)
-	case Stem:
-		return any(&stage.Stems_mapString).(*map[string]*Type)
-	case Stick:
-		return any(&stage.Sticks_mapString).(*map[string]*Type)
-	case String_mute:
-		return any(&stage.String_mutes_mapString).(*map[string]*Type)
-	case String_type:
-		return any(&stage.String_types_mapString).(*map[string]*Type)
-	case Strong_accent:
-		return any(&stage.Strong_accents_mapString).(*map[string]*Type)
-	case Style_text:
-		return any(&stage.Style_texts_mapString).(*map[string]*Type)
-	case Supports:
-		return any(&stage.Supportss_mapString).(*map[string]*Type)
-	case Swing:
-		return any(&stage.Swings_mapString).(*map[string]*Type)
-	case Sync:
-		return any(&stage.Syncs_mapString).(*map[string]*Type)
-	case System_dividers:
-		return any(&stage.System_dividerss_mapString).(*map[string]*Type)
-	case System_layout:
-		return any(&stage.System_layouts_mapString).(*map[string]*Type)
-	case System_margins:
-		return any(&stage.System_marginss_mapString).(*map[string]*Type)
-	case Tap:
-		return any(&stage.Taps_mapString).(*map[string]*Type)
-	case Technical:
-		return any(&stage.Technicals_mapString).(*map[string]*Type)
-	case Text_element_data:
-		return any(&stage.Text_element_datas_mapString).(*map[string]*Type)
-	case Tie:
-		return any(&stage.Ties_mapString).(*map[string]*Type)
-	case Tied:
-		return any(&stage.Tieds_mapString).(*map[string]*Type)
-	case Time:
-		return any(&stage.Times_mapString).(*map[string]*Type)
-	case Time_modification:
-		return any(&stage.Time_modifications_mapString).(*map[string]*Type)
-	case Timpani:
-		return any(&stage.Timpanis_mapString).(*map[string]*Type)
-	case Transpose:
-		return any(&stage.Transposes_mapString).(*map[string]*Type)
-	case Tremolo:
-		return any(&stage.Tremolos_mapString).(*map[string]*Type)
-	case Tuplet:
-		return any(&stage.Tuplets_mapString).(*map[string]*Type)
-	case Tuplet_dot:
-		return any(&stage.Tuplet_dots_mapString).(*map[string]*Type)
-	case Tuplet_number:
-		return any(&stage.Tuplet_numbers_mapString).(*map[string]*Type)
-	case Tuplet_portion:
-		return any(&stage.Tuplet_portions_mapString).(*map[string]*Type)
-	case Tuplet_type:
-		return any(&stage.Tuplet_types_mapString).(*map[string]*Type)
-	case Typed_text:
-		return any(&stage.Typed_texts_mapString).(*map[string]*Type)
-	case Unpitched:
-		return any(&stage.Unpitcheds_mapString).(*map[string]*Type)
-	case Virtual_instrument:
-		return any(&stage.Virtual_instruments_mapString).(*map[string]*Type)
-	case Wait:
-		return any(&stage.Waits_mapString).(*map[string]*Type)
-	case Wavy_line:
-		return any(&stage.Wavy_lines_mapString).(*map[string]*Type)
-	case Wedge:
-		return any(&stage.Wedges_mapString).(*map[string]*Type)
-	case Wood:
-		return any(&stage.Woods_mapString).(*map[string]*Type)
-	case Work:
-		return any(&stage.Works_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -48147,11 +46684,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

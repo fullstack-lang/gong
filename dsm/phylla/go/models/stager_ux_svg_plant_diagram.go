@@ -15,7 +15,7 @@ func (stager *Stager) ux_svg_plant_diagram() {
 
 	var plant2DDiagram *Plant2DDiagram
 	var vase2DDiagram *Vase2DDiagram
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.IsSelected {
 			for _, d_ := range plant.Plant2DDiagrams {
 				if d_.IsChecked {
@@ -37,7 +37,7 @@ func (stager *Stager) ux_svg_plant_diagram() {
 	}
 
 	var plant *PlantAbstract
-	for p_ := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for p_ := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if p_.IsSelected {
 			plant = p_
 		}

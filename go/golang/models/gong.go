@@ -45,11 +45,9 @@ const (
 	ModelGongStructInsertionGenericPointerToGongstructName
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
-	ModelGongStructInsertionGenericInstancesSetFunctions
 	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions
 	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctionsReturnType
 
-	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
 
 	ModelGongStructInsertionGenericSetFieldValuesFromPointer
@@ -327,17 +325,9 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	case *{{Structname}}:
 		return any(stage.{{Structname}}s_mapString).(map[string]Type)`,
 
-	ModelGongStructInsertionGenericInstancesSetFunctions: `
-	case {{Structname}}:
-		return any(&stage.{{Structname}}s).(*map[*Type]struct{})`,
-
 	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions: `
 	case *{{Structname}}:
 		return any(&stage.{{Structname}}s).(*map[Type]struct{})`,
-
-	ModelGongStructInsertionGenericInstancesMapFunctions: `
-	case {{Structname}}:
-		return any(&stage.{{Structname}}s_mapString).(*map[string]*Type)`,
 
 	ModelGongStructInsertionGenericGetAssociationNameFunctions: `
 	case {{Structname}}:
@@ -372,7 +362,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
-		tmp := GetStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))

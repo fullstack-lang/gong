@@ -88,8 +88,8 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Note instances and update their Frequencies slice
-			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](freqencyFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(freqencyFormCallback.probe.stageOfInterest, _note)
+			for _note := range *freqencyFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Note]() {
+				id := freqencyFormCallback.probe.stageOfInterest.GetOrder(_note)
 				
 				// if Note is selected
 				if targetNoteIDs[id] {
@@ -196,15 +196,14 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Freqency](noteFormCallback.probe.stageOfInterest)
+			instanceSet := *noteFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Freqency]()
 			instanceSlice := make([]*models.Freqency, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Freqency)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					noteFormCallback.probe.stageOfInterest,
+				id := noteFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance

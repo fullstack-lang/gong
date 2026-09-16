@@ -4,7 +4,7 @@ func (stager *Stager) computePortFields() {
 	stage := stager.stage
 
 	// reset fields
-	for _, port := range GetGongstrucsSorted[*Port](stage) {
+	for _, port := range stage.GetInstancesSorted[*Port]() {
 		port.inControlFlows = nil
 		port.outControlFlows = nil
 		port.inDataFlows = nil
@@ -13,7 +13,7 @@ func (stager *Stager) computePortFields() {
 	}
 
 	// compute owningPart
-	for _, part := range GetGongstrucsSorted[*Part](stage) {
+	for _, part := range stage.GetInstancesSorted[*Part]() {
 		for _, port := range part.Ports {
 			if port != nil {
 				port.owningPart = part
@@ -22,7 +22,7 @@ func (stager *Stager) computePortFields() {
 	}
 
 	// compute outControlFlows and inControlFlows
-	for _, controlFlow := range GetGongstrucsSorted[*ControlFlow](stage) {
+	for _, controlFlow := range stage.GetInstancesSorted[*ControlFlow]() {
 		if controlFlow.Start != nil {
 			controlFlow.Start.outControlFlows = append(controlFlow.Start.outControlFlows, controlFlow)
 		}
@@ -32,7 +32,7 @@ func (stager *Stager) computePortFields() {
 	}
 
 	// compute outDataFlows and inDataFlows
-	for _, dataFlow := range GetGongstrucsSorted[*DataFlow](stage) {
+	for _, dataFlow := range stage.GetInstancesSorted[*DataFlow]() {
 		if dataFlow.StartPort != nil {
 			dataFlow.StartPort.outDataFlows = append(dataFlow.StartPort.outDataFlows, dataFlow)
 		}

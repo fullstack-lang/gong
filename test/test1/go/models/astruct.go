@@ -114,7 +114,7 @@ func ExampleOfReverseMapAccess(stage *Stage) {
 	_ = rm
 
 	// ifem for [Astruct.Bstruct]
-	rm2 := GetPointerReverseMap[Astruct, Bstruct](GetAssociationName[Astruct]().Bstruct.Name, stage)
+	rm2 := stage.GetPointerReverseMap[Astruct, Bstruct](GetAssociationName[Astruct]().Bstruct.Name)
 	_ = rm2
 	//
 }

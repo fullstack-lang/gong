@@ -94,8 +94,8 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Checkboxes slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](checkboxFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(checkboxFormCallback.probe.stageOfInterest, _group)
+			for _group := range *checkboxFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := checkboxFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -204,15 +204,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Slider](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Slider]()
 			instanceSlice := make([]*models.Slider, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Slider)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -239,15 +238,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Checkbox](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Checkbox]()
 			instanceSlice := make([]*models.Checkbox, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Checkbox)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -292,8 +290,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layout instances and update their Groups slice
-			for _layout := range *models.GetGongstructInstancesSetFromPointerType[*models.Layout](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _layout)
+			for _layout := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layout]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_layout)
 				
 				// if Layout is selected
 				if targetLayoutIDs[id] {
@@ -400,15 +398,14 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](layoutFormCallback.probe.stageOfInterest)
+			instanceSet := *layoutFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layoutFormCallback.probe.stageOfInterest,
+				id := layoutFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -557,8 +554,8 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Sliders slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](sliderFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sliderFormCallback.probe.stageOfInterest, _group)
+			for _group := range *sliderFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := sliderFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {

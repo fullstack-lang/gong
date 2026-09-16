@@ -70,7 +70,7 @@ func (stager *Stager) treeSystemes(
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
 		newDiagram.Scale = 5.0
-		for d_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+		for d_ := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 			d_.IsChecked = false
 		}
 		newDiagram.IsChecked = true
@@ -249,7 +249,7 @@ func (stager *Stager) treeDiagramFlossEquationWithinSystem(
 
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			for d_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+			for d_ := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 				d_.IsChecked = false
 			}
 			diagram.IsChecked = true

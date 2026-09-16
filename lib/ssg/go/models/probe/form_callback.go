@@ -72,15 +72,14 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Section](chapterFormCallback.probe.stageOfInterest)
+			instanceSet := *chapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Section]()
 			instanceSlice := make([]*models.Section, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Section)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					chapterFormCallback.probe.stageOfInterest,
+				id := chapterFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -107,15 +106,14 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Page](chapterFormCallback.probe.stageOfInterest)
+			instanceSet := *chapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Page]()
 			instanceSlice := make([]*models.Page, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Page)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					chapterFormCallback.probe.stageOfInterest,
+				id := chapterFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -142,15 +140,14 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](chapterFormCallback.probe.stageOfInterest)
+			instanceSet := *chapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Chapter]()
 			instanceSlice := make([]*models.Chapter, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Chapter)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					chapterFormCallback.probe.stageOfInterest,
+				id := chapterFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -195,8 +192,8 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Chapter instances and update their SubChapters slice
-			for _chapter := range *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](chapterFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(chapterFormCallback.probe.stageOfInterest, _chapter)
+			for _chapter := range *chapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Chapter]() {
+				id := chapterFormCallback.probe.stageOfInterest.GetOrder(_chapter)
 				
 				// if Chapter is selected
 				if targetChapterIDs[id] {
@@ -243,8 +240,8 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Content instances and update their Chapters slice
-			for _content := range *models.GetGongstructInstancesSetFromPointerType[*models.Content](chapterFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(chapterFormCallback.probe.stageOfInterest, _content)
+			for _content := range *chapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Content]() {
+				id := chapterFormCallback.probe.stageOfInterest.GetOrder(_content)
 				
 				// if Content is selected
 				if targetContentIDs[id] {
@@ -371,15 +368,14 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](contentFormCallback.probe.stageOfInterest)
+			instanceSet := *contentFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Chapter]()
 			instanceSlice := make([]*models.Chapter, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Chapter)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					contentFormCallback.probe.stageOfInterest,
+				id := contentFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -648,15 +644,14 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Section](pageFormCallback.probe.stageOfInterest)
+			instanceSet := *pageFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Section]()
 			instanceSlice := make([]*models.Section, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Section)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					pageFormCallback.probe.stageOfInterest,
+				id := pageFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -701,8 +696,8 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Chapter instances and update their Pages slice
-			for _chapter := range *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](pageFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(pageFormCallback.probe.stageOfInterest, _chapter)
+			for _chapter := range *pageFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Chapter]() {
+				id := pageFormCallback.probe.stageOfInterest.GetOrder(_chapter)
 				
 				// if Chapter is selected
 				if targetChapterIDs[id] {
@@ -921,8 +916,8 @@ func (sectionFormCallback *SectionFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Chapter instances and update their Sections slice
-			for _chapter := range *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](sectionFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sectionFormCallback.probe.stageOfInterest, _chapter)
+			for _chapter := range *sectionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Chapter]() {
+				id := sectionFormCallback.probe.stageOfInterest.GetOrder(_chapter)
 				
 				// if Chapter is selected
 				if targetChapterIDs[id] {
@@ -969,8 +964,8 @@ func (sectionFormCallback *SectionFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Page instances and update their Sections slice
-			for _page := range *models.GetGongstructInstancesSetFromPointerType[*models.Page](sectionFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sectionFormCallback.probe.stageOfInterest, _page)
+			for _page := range *sectionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Page]() {
+				id := sectionFormCallback.probe.stageOfInterest.GetOrder(_page)
 				
 				// if Page is selected
 				if targetPageIDs[id] {

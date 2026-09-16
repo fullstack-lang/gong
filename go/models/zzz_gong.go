@@ -824,14 +824,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *GongBasicField:
-		tmp := GetStructInstancesByOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongBasicFields, stage.GongBasicField_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -845,7 +845,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GongEnum:
-		tmp := GetStructInstancesByOrder(stage.GongEnums, stage.GongEnum_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongEnums, stage.GongEnum_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -859,7 +859,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GongEnumValue:
-		tmp := GetStructInstancesByOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongEnumValues, stage.GongEnumValue_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -873,7 +873,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GongLink:
-		tmp := GetStructInstancesByOrder(stage.GongLinks, stage.GongLink_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongLinks, stage.GongLink_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -887,7 +887,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GongNote:
-		tmp := GetStructInstancesByOrder(stage.GongNotes, stage.GongNote_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongNotes, stage.GongNote_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -901,7 +901,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GongStruct:
-		tmp := GetStructInstancesByOrder(stage.GongStructs, stage.GongStruct_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongStructs, stage.GongStruct_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -915,7 +915,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GongTimeField:
-		tmp := GetStructInstancesByOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GongTimeFields, stage.GongTimeField_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -929,7 +929,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *MetaReference:
-		tmp := GetStructInstancesByOrder(stage.MetaReferences, stage.MetaReference_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.MetaReferences, stage.MetaReference_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -943,7 +943,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ModelPkg:
-		tmp := GetStructInstancesByOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ModelPkgs, stage.ModelPkg_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -957,7 +957,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PointerToGongStructField:
-		tmp := GetStructInstancesByOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PointerToGongStructFields, stage.PointerToGongStructField_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -971,7 +971,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SliceOfPointerToGongStructField:
-		tmp := GetStructInstancesByOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructField_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -989,12 +989,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1334,46 +1329,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *GongBasicField:
-		return stage.GongBasicField_stagedOrder[instance]
-	case *GongEnum:
-		return stage.GongEnum_stagedOrder[instance]
-	case *GongEnumValue:
-		return stage.GongEnumValue_stagedOrder[instance]
-	case *GongLink:
-		return stage.GongLink_stagedOrder[instance]
-	case *GongNote:
-		return stage.GongNote_stagedOrder[instance]
-	case *GongStruct:
-		return stage.GongStruct_stagedOrder[instance]
-	case *GongTimeField:
-		return stage.GongTimeField_stagedOrder[instance]
-	case *MetaReference:
-		return stage.MetaReference_stagedOrder[instance]
-	case *ModelPkg:
-		return stage.ModelPkg_stagedOrder[instance]
-	case *PointerToGongStructField:
-		return stage.PointerToGongStructField_stagedOrder[instance]
-	case *SliceOfPointerToGongStructField:
-		return stage.SliceOfPointerToGongStructField_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -2691,19 +2647,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -2737,49 +2680,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case GongBasicField:
-		return any(&stage.GongBasicFields).(*map[*Type]struct{})
-	case GongEnum:
-		return any(&stage.GongEnums).(*map[*Type]struct{})
-	case GongEnumValue:
-		return any(&stage.GongEnumValues).(*map[*Type]struct{})
-	case GongLink:
-		return any(&stage.GongLinks).(*map[*Type]struct{})
-	case GongNote:
-		return any(&stage.GongNotes).(*map[*Type]struct{})
-	case GongStruct:
-		return any(&stage.GongStructs).(*map[*Type]struct{})
-	case GongTimeField:
-		return any(&stage.GongTimeFields).(*map[*Type]struct{})
-	case MetaReference:
-		return any(&stage.MetaReferences).(*map[*Type]struct{})
-	case ModelPkg:
-		return any(&stage.ModelPkgs).(*map[*Type]struct{})
-	case PointerToGongStructField:
-		return any(&stage.PointerToGongStructFields).(*map[*Type]struct{})
-	case SliceOfPointerToGongStructField:
-		return any(&stage.SliceOfPointerToGongStructFields).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -2811,49 +2711,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case GongBasicField:
-		return any(&stage.GongBasicFields_mapString).(*map[string]*Type)
-	case GongEnum:
-		return any(&stage.GongEnums_mapString).(*map[string]*Type)
-	case GongEnumValue:
-		return any(&stage.GongEnumValues_mapString).(*map[string]*Type)
-	case GongLink:
-		return any(&stage.GongLinks_mapString).(*map[string]*Type)
-	case GongNote:
-		return any(&stage.GongNotes_mapString).(*map[string]*Type)
-	case GongStruct:
-		return any(&stage.GongStructs_mapString).(*map[string]*Type)
-	case GongTimeField:
-		return any(&stage.GongTimeFields_mapString).(*map[string]*Type)
-	case MetaReference:
-		return any(&stage.MetaReferences_mapString).(*map[string]*Type)
-	case ModelPkg:
-		return any(&stage.ModelPkgs_mapString).(*map[string]*Type)
-	case PointerToGongStructField:
-		return any(&stage.PointerToGongStructFields_mapString).(*map[string]*Type)
-	case SliceOfPointerToGongStructField:
-		return any(&stage.SliceOfPointerToGongStructFields_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -3053,11 +2910,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

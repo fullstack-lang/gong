@@ -1532,14 +1532,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *AnalysisNeed:
-		tmp := GetStructInstancesByOrder(stage.AnalysisNeeds, stage.AnalysisNeed_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.AnalysisNeeds, stage.AnalysisNeed_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1553,7 +1553,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Concept:
-		tmp := GetStructInstancesByOrder(stage.Concepts, stage.Concept_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Concepts, stage.Concept_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1567,7 +1567,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ConceptShape:
-		tmp := GetStructInstancesByOrder(stage.ConceptShapes, stage.ConceptShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ConceptShapes, stage.ConceptShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1581,7 +1581,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Concern:
-		tmp := GetStructInstancesByOrder(stage.Concerns, stage.Concern_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Concerns, stage.Concern_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1595,7 +1595,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ConcernCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.ConcernCompositionShapes, stage.ConcernCompositionShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ConcernCompositionShapes, stage.ConcernCompositionShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1609,7 +1609,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ConcernInputShape:
-		tmp := GetStructInstancesByOrder(stage.ConcernInputShapes, stage.ConcernInputShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ConcernInputShapes, stage.ConcernInputShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1623,7 +1623,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ConcernOutputShape:
-		tmp := GetStructInstancesByOrder(stage.ConcernOutputShapes, stage.ConcernOutputShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ConcernOutputShapes, stage.ConcernOutputShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1637,7 +1637,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ConcernShape:
-		tmp := GetStructInstancesByOrder(stage.ConcernShapes, stage.ConcernShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ConcernShapes, stage.ConcernShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1651,7 +1651,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ControlPointShape:
-		tmp := GetStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1665,7 +1665,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Deliverable:
-		tmp := GetStructInstancesByOrder(stage.Deliverables, stage.Deliverable_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Deliverables, stage.Deliverable_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1679,7 +1679,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DeliverableCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.DeliverableCompositionShapes, stage.DeliverableCompositionShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DeliverableCompositionShapes, stage.DeliverableCompositionShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1693,7 +1693,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DeliverableConceptShape:
-		tmp := GetStructInstancesByOrder(stage.DeliverableConceptShapes, stage.DeliverableConceptShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DeliverableConceptShapes, stage.DeliverableConceptShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1707,7 +1707,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DeliverableShape:
-		tmp := GetStructInstancesByOrder(stage.DeliverableShapes, stage.DeliverableShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DeliverableShapes, stage.DeliverableShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1721,7 +1721,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Diagram:
-		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1735,7 +1735,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DiagramShape:
-		tmp := GetStructInstancesByOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1749,7 +1749,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Library:
-		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1763,7 +1763,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Note:
-		tmp := GetStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1777,7 +1777,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *NoteDeliverableShape:
-		tmp := GetStructInstancesByOrder(stage.NoteDeliverableShapes, stage.NoteDeliverableShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.NoteDeliverableShapes, stage.NoteDeliverableShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1791,7 +1791,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *NoteShape:
-		tmp := GetStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1805,7 +1805,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *NoteStakeholderShape:
-		tmp := GetStructInstancesByOrder(stage.NoteStakeholderShapes, stage.NoteStakeholderShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.NoteStakeholderShapes, stage.NoteStakeholderShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1819,7 +1819,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *NoteTaskShape:
-		tmp := GetStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1833,7 +1833,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Requirement:
-		tmp := GetStructInstancesByOrder(stage.Requirements, stage.Requirement_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Requirements, stage.Requirement_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1847,7 +1847,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RequirementShape:
-		tmp := GetStructInstancesByOrder(stage.RequirementShapes, stage.RequirementShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RequirementShapes, stage.RequirementShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1861,7 +1861,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Stakeholder:
-		tmp := GetStructInstancesByOrder(stage.Stakeholders, stage.Stakeholder_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Stakeholders, stage.Stakeholder_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1875,7 +1875,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StakeholderCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.StakeholderCompositionShapes, stage.StakeholderCompositionShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StakeholderCompositionShapes, stage.StakeholderCompositionShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1889,7 +1889,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StakeholderConcernShape:
-		tmp := GetStructInstancesByOrder(stage.StakeholderConcernShapes, stage.StakeholderConcernShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StakeholderConcernShapes, stage.StakeholderConcernShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1903,7 +1903,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StakeholderShape:
-		tmp := GetStructInstancesByOrder(stage.StakeholderShapes, stage.StakeholderShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StakeholderShapes, stage.StakeholderShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1917,7 +1917,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SupportLevel:
-		tmp := GetStructInstancesByOrder(stage.SupportLevels, stage.SupportLevel_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SupportLevels, stage.SupportLevel_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1931,7 +1931,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Tool:
-		tmp := GetStructInstancesByOrder(stage.Tools, stage.Tool_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Tools, stage.Tool_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1949,12 +1949,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -2618,82 +2613,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *AnalysisNeed:
-		return stage.AnalysisNeed_stagedOrder[instance]
-	case *Concept:
-		return stage.Concept_stagedOrder[instance]
-	case *ConceptShape:
-		return stage.ConceptShape_stagedOrder[instance]
-	case *Concern:
-		return stage.Concern_stagedOrder[instance]
-	case *ConcernCompositionShape:
-		return stage.ConcernCompositionShape_stagedOrder[instance]
-	case *ConcernInputShape:
-		return stage.ConcernInputShape_stagedOrder[instance]
-	case *ConcernOutputShape:
-		return stage.ConcernOutputShape_stagedOrder[instance]
-	case *ConcernShape:
-		return stage.ConcernShape_stagedOrder[instance]
-	case *ControlPointShape:
-		return stage.ControlPointShape_stagedOrder[instance]
-	case *Deliverable:
-		return stage.Deliverable_stagedOrder[instance]
-	case *DeliverableCompositionShape:
-		return stage.DeliverableCompositionShape_stagedOrder[instance]
-	case *DeliverableConceptShape:
-		return stage.DeliverableConceptShape_stagedOrder[instance]
-	case *DeliverableShape:
-		return stage.DeliverableShape_stagedOrder[instance]
-	case *Diagram:
-		return stage.Diagram_stagedOrder[instance]
-	case *DiagramShape:
-		return stage.DiagramShape_stagedOrder[instance]
-	case *Library:
-		return stage.Library_stagedOrder[instance]
-	case *Note:
-		return stage.Note_stagedOrder[instance]
-	case *NoteDeliverableShape:
-		return stage.NoteDeliverableShape_stagedOrder[instance]
-	case *NoteShape:
-		return stage.NoteShape_stagedOrder[instance]
-	case *NoteStakeholderShape:
-		return stage.NoteStakeholderShape_stagedOrder[instance]
-	case *NoteTaskShape:
-		return stage.NoteTaskShape_stagedOrder[instance]
-	case *Requirement:
-		return stage.Requirement_stagedOrder[instance]
-	case *RequirementShape:
-		return stage.RequirementShape_stagedOrder[instance]
-	case *Stakeholder:
-		return stage.Stakeholder_stagedOrder[instance]
-	case *StakeholderCompositionShape:
-		return stage.StakeholderCompositionShape_stagedOrder[instance]
-	case *StakeholderConcernShape:
-		return stage.StakeholderConcernShape_stagedOrder[instance]
-	case *StakeholderShape:
-		return stage.StakeholderShape_stagedOrder[instance]
-	case *SupportLevel:
-		return stage.SupportLevel_stagedOrder[instance]
-	case *Tool:
-		return stage.Tool_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -5865,19 +5785,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -5947,85 +5854,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case AnalysisNeed:
-		return any(&stage.AnalysisNeeds).(*map[*Type]struct{})
-	case Concept:
-		return any(&stage.Concepts).(*map[*Type]struct{})
-	case ConceptShape:
-		return any(&stage.ConceptShapes).(*map[*Type]struct{})
-	case Concern:
-		return any(&stage.Concerns).(*map[*Type]struct{})
-	case ConcernCompositionShape:
-		return any(&stage.ConcernCompositionShapes).(*map[*Type]struct{})
-	case ConcernInputShape:
-		return any(&stage.ConcernInputShapes).(*map[*Type]struct{})
-	case ConcernOutputShape:
-		return any(&stage.ConcernOutputShapes).(*map[*Type]struct{})
-	case ConcernShape:
-		return any(&stage.ConcernShapes).(*map[*Type]struct{})
-	case ControlPointShape:
-		return any(&stage.ControlPointShapes).(*map[*Type]struct{})
-	case Deliverable:
-		return any(&stage.Deliverables).(*map[*Type]struct{})
-	case DeliverableCompositionShape:
-		return any(&stage.DeliverableCompositionShapes).(*map[*Type]struct{})
-	case DeliverableConceptShape:
-		return any(&stage.DeliverableConceptShapes).(*map[*Type]struct{})
-	case DeliverableShape:
-		return any(&stage.DeliverableShapes).(*map[*Type]struct{})
-	case Diagram:
-		return any(&stage.Diagrams).(*map[*Type]struct{})
-	case DiagramShape:
-		return any(&stage.DiagramShapes).(*map[*Type]struct{})
-	case Library:
-		return any(&stage.Librarys).(*map[*Type]struct{})
-	case Note:
-		return any(&stage.Notes).(*map[*Type]struct{})
-	case NoteDeliverableShape:
-		return any(&stage.NoteDeliverableShapes).(*map[*Type]struct{})
-	case NoteShape:
-		return any(&stage.NoteShapes).(*map[*Type]struct{})
-	case NoteStakeholderShape:
-		return any(&stage.NoteStakeholderShapes).(*map[*Type]struct{})
-	case NoteTaskShape:
-		return any(&stage.NoteTaskShapes).(*map[*Type]struct{})
-	case Requirement:
-		return any(&stage.Requirements).(*map[*Type]struct{})
-	case RequirementShape:
-		return any(&stage.RequirementShapes).(*map[*Type]struct{})
-	case Stakeholder:
-		return any(&stage.Stakeholders).(*map[*Type]struct{})
-	case StakeholderCompositionShape:
-		return any(&stage.StakeholderCompositionShapes).(*map[*Type]struct{})
-	case StakeholderConcernShape:
-		return any(&stage.StakeholderConcernShapes).(*map[*Type]struct{})
-	case StakeholderShape:
-		return any(&stage.StakeholderShapes).(*map[*Type]struct{})
-	case SupportLevel:
-		return any(&stage.SupportLevels).(*map[*Type]struct{})
-	case Tool:
-		return any(&stage.Tools).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -6093,85 +5921,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case AnalysisNeed:
-		return any(&stage.AnalysisNeeds_mapString).(*map[string]*Type)
-	case Concept:
-		return any(&stage.Concepts_mapString).(*map[string]*Type)
-	case ConceptShape:
-		return any(&stage.ConceptShapes_mapString).(*map[string]*Type)
-	case Concern:
-		return any(&stage.Concerns_mapString).(*map[string]*Type)
-	case ConcernCompositionShape:
-		return any(&stage.ConcernCompositionShapes_mapString).(*map[string]*Type)
-	case ConcernInputShape:
-		return any(&stage.ConcernInputShapes_mapString).(*map[string]*Type)
-	case ConcernOutputShape:
-		return any(&stage.ConcernOutputShapes_mapString).(*map[string]*Type)
-	case ConcernShape:
-		return any(&stage.ConcernShapes_mapString).(*map[string]*Type)
-	case ControlPointShape:
-		return any(&stage.ControlPointShapes_mapString).(*map[string]*Type)
-	case Deliverable:
-		return any(&stage.Deliverables_mapString).(*map[string]*Type)
-	case DeliverableCompositionShape:
-		return any(&stage.DeliverableCompositionShapes_mapString).(*map[string]*Type)
-	case DeliverableConceptShape:
-		return any(&stage.DeliverableConceptShapes_mapString).(*map[string]*Type)
-	case DeliverableShape:
-		return any(&stage.DeliverableShapes_mapString).(*map[string]*Type)
-	case Diagram:
-		return any(&stage.Diagrams_mapString).(*map[string]*Type)
-	case DiagramShape:
-		return any(&stage.DiagramShapes_mapString).(*map[string]*Type)
-	case Library:
-		return any(&stage.Librarys_mapString).(*map[string]*Type)
-	case Note:
-		return any(&stage.Notes_mapString).(*map[string]*Type)
-	case NoteDeliverableShape:
-		return any(&stage.NoteDeliverableShapes_mapString).(*map[string]*Type)
-	case NoteShape:
-		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
-	case NoteStakeholderShape:
-		return any(&stage.NoteStakeholderShapes_mapString).(*map[string]*Type)
-	case NoteTaskShape:
-		return any(&stage.NoteTaskShapes_mapString).(*map[string]*Type)
-	case Requirement:
-		return any(&stage.Requirements_mapString).(*map[string]*Type)
-	case RequirementShape:
-		return any(&stage.RequirementShapes_mapString).(*map[string]*Type)
-	case Stakeholder:
-		return any(&stage.Stakeholders_mapString).(*map[string]*Type)
-	case StakeholderCompositionShape:
-		return any(&stage.StakeholderCompositionShapes_mapString).(*map[string]*Type)
-	case StakeholderConcernShape:
-		return any(&stage.StakeholderConcernShapes_mapString).(*map[string]*Type)
-	case StakeholderShape:
-		return any(&stage.StakeholderShapes_mapString).(*map[string]*Type)
-	case SupportLevel:
-		return any(&stage.SupportLevels_mapString).(*map[string]*Type)
-	case Tool:
-		return any(&stage.Tools_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -7065,11 +6814,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

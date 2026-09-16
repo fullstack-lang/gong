@@ -11,13 +11,13 @@ func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 
 	// Build a reverse map from ControlFlow to its owning Parts
 	controlFlowToParts := make(map[*ControlFlow][]*Part)
-	for _, part := range GetGongstrucsSorted[*Part](stage) {
+	for _, part := range stage.GetInstancesSorted[*Part]() {
 		for _, controlFlow := range part.ControlFlows {
 			controlFlowToParts[controlFlow] = append(controlFlowToParts[controlFlow], part)
 		}
 	}
 
-	for _, controlFlow := range GetGongstrucsSorted[*ControlFlow](stage) {
+	for _, controlFlow := range stage.GetInstancesSorted[*ControlFlow]() {
 		// Rule: A control flow must have exactly one owning part.
 		owners := controlFlowToParts[controlFlow]
 		if len(owners) == 0 {

@@ -23,7 +23,7 @@ func (stager *Stager) assignProbeCallback() bool {
 func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 	// when a Data is added/removed to/from a DataFlow
 	// update all diagrams accordingly
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 		// check if this diagram has a DataFlowShape for this dataFlow
 		var hasDataFlowShape bool
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {

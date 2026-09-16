@@ -184,8 +184,8 @@ func (attribute_definition_booleanFormCallback *ATTRIBUTE_DEFINITION_BOOLEANForm
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_BOOLEAN slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_booleanFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_booleanFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_booleanFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_booleanFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -412,8 +412,8 @@ func (attribute_definition_dateFormCallback *ATTRIBUTE_DEFINITION_DATEFormCallba
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_DATE slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_dateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_dateFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_dateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_dateFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -642,8 +642,8 @@ func (attribute_definition_enumerationFormCallback *ATTRIBUTE_DEFINITION_ENUMERA
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_ENUMERATION slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_enumerationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_enumerationFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_enumerationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_enumerationFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -870,8 +870,8 @@ func (attribute_definition_integerFormCallback *ATTRIBUTE_DEFINITION_INTEGERForm
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_INTEGER slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_integerFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_integerFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_integerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_integerFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -1098,8 +1098,8 @@ func (attribute_definition_realFormCallback *ATTRIBUTE_DEFINITION_REALFormCallba
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_REAL slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_realFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_realFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_realFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_realFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -1412,8 +1412,8 @@ func (attribute_definition_stringFormCallback *ATTRIBUTE_DEFINITION_STRINGFormCa
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_STRING slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_stringFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_stringFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_stringFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_stringFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -1640,8 +1640,8 @@ func (attribute_definition_xhtmlFormCallback *ATTRIBUTE_DEFINITION_XHTMLFormCall
 			}
 
 			// 3. Iterate over all A_SPEC_ATTRIBUTES instances and update their ATTRIBUTE_DEFINITION_XHTML slice
-			for _a_spec_attributes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_ATTRIBUTES](attribute_definition_xhtmlFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_definition_xhtmlFormCallback.probe.stageOfInterest, _a_spec_attributes)
+			for _a_spec_attributes := range *attribute_definition_xhtmlFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES]() {
+				id := attribute_definition_xhtmlFormCallback.probe.stageOfInterest.GetOrder(_a_spec_attributes)
 				
 				// if A_SPEC_ATTRIBUTES is selected
 				if targetA_SPEC_ATTRIBUTESIDs[id] {
@@ -1856,8 +1856,8 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_BOOLEAN instances and update their ATTRIBUTE_VALUE_BOOLEAN slice
-			for _a_attribute_value_boolean := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_BOOLEAN](attribute_value_booleanFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_booleanFormCallback.probe.stageOfInterest, _a_attribute_value_boolean)
+			for _a_attribute_value_boolean := range *attribute_value_booleanFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_BOOLEAN]() {
+				id := attribute_value_booleanFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_boolean)
 				
 				// if A_ATTRIBUTE_VALUE_BOOLEAN is selected
 				if targetA_ATTRIBUTE_VALUE_BOOLEANIDs[id] {
@@ -1904,8 +1904,8 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_BOOLEAN slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_booleanFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_booleanFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_booleanFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_booleanFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -2034,8 +2034,8 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_DATE instances and update their ATTRIBUTE_VALUE_DATE slice
-			for _a_attribute_value_date := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_DATE](attribute_value_dateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_dateFormCallback.probe.stageOfInterest, _a_attribute_value_date)
+			for _a_attribute_value_date := range *attribute_value_dateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_DATE]() {
+				id := attribute_value_dateFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_date)
 				
 				// if A_ATTRIBUTE_VALUE_DATE is selected
 				if targetA_ATTRIBUTE_VALUE_DATEIDs[id] {
@@ -2082,8 +2082,8 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_DATE slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_dateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_dateFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_dateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_dateFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -2212,8 +2212,8 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_ENUMERATION instances and update their ATTRIBUTE_VALUE_ENUMERATION slice
-			for _a_attribute_value_enumeration := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_ENUMERATION](attribute_value_enumerationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_enumerationFormCallback.probe.stageOfInterest, _a_attribute_value_enumeration)
+			for _a_attribute_value_enumeration := range *attribute_value_enumerationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_ENUMERATION]() {
+				id := attribute_value_enumerationFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_enumeration)
 				
 				// if A_ATTRIBUTE_VALUE_ENUMERATION is selected
 				if targetA_ATTRIBUTE_VALUE_ENUMERATIONIDs[id] {
@@ -2260,8 +2260,8 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_ENUMERATION slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_enumerationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_enumerationFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_enumerationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_enumerationFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -2390,8 +2390,8 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_INTEGER instances and update their ATTRIBUTE_VALUE_INTEGER slice
-			for _a_attribute_value_integer := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_INTEGER](attribute_value_integerFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_integerFormCallback.probe.stageOfInterest, _a_attribute_value_integer)
+			for _a_attribute_value_integer := range *attribute_value_integerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_INTEGER]() {
+				id := attribute_value_integerFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_integer)
 				
 				// if A_ATTRIBUTE_VALUE_INTEGER is selected
 				if targetA_ATTRIBUTE_VALUE_INTEGERIDs[id] {
@@ -2438,8 +2438,8 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_INTEGER slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_integerFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_integerFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_integerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_integerFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -2568,8 +2568,8 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_REAL instances and update their ATTRIBUTE_VALUE_REAL slice
-			for _a_attribute_value_real := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_REAL](attribute_value_realFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_realFormCallback.probe.stageOfInterest, _a_attribute_value_real)
+			for _a_attribute_value_real := range *attribute_value_realFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_REAL]() {
+				id := attribute_value_realFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_real)
 				
 				// if A_ATTRIBUTE_VALUE_REAL is selected
 				if targetA_ATTRIBUTE_VALUE_REALIDs[id] {
@@ -2616,8 +2616,8 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_REAL slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_realFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_realFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_realFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_realFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -2746,8 +2746,8 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_STRING instances and update their ATTRIBUTE_VALUE_STRING slice
-			for _a_attribute_value_string := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_STRING](attribute_value_stringFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_stringFormCallback.probe.stageOfInterest, _a_attribute_value_string)
+			for _a_attribute_value_string := range *attribute_value_stringFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_STRING]() {
+				id := attribute_value_stringFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_string)
 				
 				// if A_ATTRIBUTE_VALUE_STRING is selected
 				if targetA_ATTRIBUTE_VALUE_STRINGIDs[id] {
@@ -2794,8 +2794,8 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_STRING slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_stringFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_stringFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_stringFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_stringFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -2928,8 +2928,8 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML instances and update their ATTRIBUTE_VALUE_XHTML slice
-			for _a_attribute_value_xhtml := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML](attribute_value_xhtmlFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_xhtmlFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml)
+			for _a_attribute_value_xhtml := range *attribute_value_xhtmlFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML]() {
+				id := attribute_value_xhtmlFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML is selected
 				if targetA_ATTRIBUTE_VALUE_XHTMLIDs[id] {
@@ -2976,8 +2976,8 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 			}
 
 			// 3. Iterate over all A_ATTRIBUTE_VALUE_XHTML_1 instances and update their ATTRIBUTE_VALUE_XHTML slice
-			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSetFromPointerType[*models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_xhtmlFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attribute_value_xhtmlFormCallback.probe.stageOfInterest, _a_attribute_value_xhtml_1)
+			for _a_attribute_value_xhtml_1 := range *attribute_value_xhtmlFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1]() {
+				id := attribute_value_xhtmlFormCallback.probe.stageOfInterest.GetOrder(_a_attribute_value_xhtml_1)
 				
 				// if A_ATTRIBUTE_VALUE_XHTML_1 is selected
 				if targetA_ATTRIBUTE_VALUE_XHTML_1IDs[id] {
@@ -3724,15 +3724,14 @@ func (a_attribute_value_booleanFormCallback *A_ATTRIBUTE_VALUE_BOOLEANFormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_BOOLEAN](a_attribute_value_booleanFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_booleanFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_BOOLEAN]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_BOOLEAN, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_BOOLEAN)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_booleanFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_booleanFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3837,15 +3836,14 @@ func (a_attribute_value_dateFormCallback *A_ATTRIBUTE_VALUE_DATEFormCallback) On
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_DATE](a_attribute_value_dateFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_dateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_DATE]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_DATE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_DATE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_dateFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_dateFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3950,15 +3948,14 @@ func (a_attribute_value_enumerationFormCallback *A_ATTRIBUTE_VALUE_ENUMERATIONFo
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_ENUMERATION](a_attribute_value_enumerationFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_enumerationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_ENUMERATION]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_ENUMERATION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_ENUMERATION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_enumerationFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_enumerationFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4063,15 +4060,14 @@ func (a_attribute_value_integerFormCallback *A_ATTRIBUTE_VALUE_INTEGERFormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_INTEGER](a_attribute_value_integerFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_integerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_INTEGER]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_INTEGER, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_INTEGER)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_integerFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_integerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4176,15 +4172,14 @@ func (a_attribute_value_realFormCallback *A_ATTRIBUTE_VALUE_REALFormCallback) On
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_REAL](a_attribute_value_realFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_realFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_REAL]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_REAL, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_REAL)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_realFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_realFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4289,15 +4284,14 @@ func (a_attribute_value_stringFormCallback *A_ATTRIBUTE_VALUE_STRINGFormCallback
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_STRING](a_attribute_value_stringFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_stringFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_STRING]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_STRING, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_STRING)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_stringFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_stringFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4402,15 +4396,14 @@ func (a_attribute_value_xhtmlFormCallback *A_ATTRIBUTE_VALUE_XHTMLFormCallback) 
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_XHTML](a_attribute_value_xhtmlFormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtmlFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_XHTML]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_XHTML, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_XHTML)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtmlFormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtmlFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4515,15 +4508,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_BOOLEAN](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_BOOLEAN]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_BOOLEAN, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_BOOLEAN)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4550,15 +4542,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_DATE](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_DATE]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_DATE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_DATE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4585,15 +4576,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_ENUMERATION](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_ENUMERATION]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_ENUMERATION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_ENUMERATION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4620,15 +4610,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_INTEGER](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_INTEGER]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_INTEGER, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_INTEGER)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4655,15 +4644,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_REAL](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_REAL]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_REAL, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_REAL)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4690,15 +4678,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_STRING](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_STRING]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_STRING, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_STRING)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4725,15 +4712,14 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_XHTML](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
+			instanceSet := *a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_VALUE_XHTML]()
 			instanceSlice := make([]*models.ATTRIBUTE_VALUE_XHTML, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_VALUE_XHTML)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest,
+				id := a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4838,15 +4824,14 @@ func (a_childrenFormCallback *A_CHILDRENFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_HIERARCHY](a_childrenFormCallback.probe.stageOfInterest)
+			instanceSet := *a_childrenFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPEC_HIERARCHY]()
 			instanceSlice := make([]*models.SPEC_HIERARCHY, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPEC_HIERARCHY)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_childrenFormCallback.probe.stageOfInterest,
+				id := a_childrenFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5031,15 +5016,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_BOOLEAN](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_BOOLEAN]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_BOOLEAN, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_BOOLEAN)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5066,15 +5050,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_DATE](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_DATE]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_DATE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_DATE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5101,15 +5084,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_ENUMERATION](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_ENUMERATION]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_ENUMERATION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_ENUMERATION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5136,15 +5118,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_INTEGER](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_INTEGER]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_INTEGER, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_INTEGER)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5171,15 +5152,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_REAL](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_REAL]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_REAL, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_REAL)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5206,15 +5186,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_STRING](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_STRING]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_STRING, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_STRING)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5241,15 +5220,14 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_XHTML](a_datatypesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_datatypesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.DATATYPE_DEFINITION_XHTML]()
 			instanceSlice := make([]*models.DATATYPE_DEFINITION_XHTML, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.DATATYPE_DEFINITION_XHTML)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_datatypesFormCallback.probe.stageOfInterest,
+				id := a_datatypesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6486,15 +6464,14 @@ func (a_specificationsFormCallback *A_SPECIFICATIONSFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION](a_specificationsFormCallback.probe.stageOfInterest)
+			instanceSet := *a_specificationsFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPECIFICATION]()
 			instanceSlice := make([]*models.SPECIFICATION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPECIFICATION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_specificationsFormCallback.probe.stageOfInterest,
+				id := a_specificationsFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6679,15 +6656,14 @@ func (a_specified_valuesFormCallback *A_SPECIFIED_VALUESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ENUM_VALUE](a_specified_valuesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_specified_valuesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ENUM_VALUE]()
 			instanceSlice := make([]*models.ENUM_VALUE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ENUM_VALUE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_specified_valuesFormCallback.probe.stageOfInterest,
+				id := a_specified_valuesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6792,15 +6768,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_BOOLEAN](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_BOOLEAN]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_BOOLEAN, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_BOOLEAN)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6827,15 +6802,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_DATE](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_DATE]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_DATE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_DATE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6862,15 +6836,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_ENUMERATION](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_ENUMERATION]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_ENUMERATION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_ENUMERATION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6897,15 +6870,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_INTEGER](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_INTEGER]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_INTEGER, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_INTEGER)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6932,15 +6904,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_REAL](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_REAL]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_REAL, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_REAL)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -6967,15 +6938,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_STRING](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_STRING]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_STRING, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_STRING)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7002,15 +6972,14 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_XHTML](a_spec_attributesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_attributesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ATTRIBUTE_DEFINITION_XHTML]()
 			instanceSlice := make([]*models.ATTRIBUTE_DEFINITION_XHTML, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ATTRIBUTE_DEFINITION_XHTML)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_attributesFormCallback.probe.stageOfInterest,
+				id := a_spec_attributesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7115,15 +7084,14 @@ func (a_spec_objectsFormCallback *A_SPEC_OBJECTSFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_OBJECT](a_spec_objectsFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_objectsFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPEC_OBJECT]()
 			instanceSlice := make([]*models.SPEC_OBJECT, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPEC_OBJECT)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_objectsFormCallback.probe.stageOfInterest,
+				id := a_spec_objectsFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7308,15 +7276,14 @@ func (a_spec_relationsFormCallback *A_SPEC_RELATIONSFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_RELATION](a_spec_relationsFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_relationsFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPEC_RELATION]()
 			instanceSlice := make([]*models.SPEC_RELATION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPEC_RELATION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_relationsFormCallback.probe.stageOfInterest,
+				id := a_spec_relationsFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7421,15 +7388,14 @@ func (a_spec_relation_groupsFormCallback *A_SPEC_RELATION_GROUPSFormCallback) On
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RELATION_GROUP](a_spec_relation_groupsFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_relation_groupsFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RELATION_GROUP]()
 			instanceSlice := make([]*models.RELATION_GROUP, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RELATION_GROUP)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_relation_groupsFormCallback.probe.stageOfInterest,
+				id := a_spec_relation_groupsFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7694,15 +7660,14 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RELATION_GROUP_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_typesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RELATION_GROUP_TYPE]()
 			instanceSlice := make([]*models.RELATION_GROUP_TYPE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RELATION_GROUP_TYPE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_typesFormCallback.probe.stageOfInterest,
+				id := a_spec_typesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7729,15 +7694,14 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_OBJECT_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_typesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPEC_OBJECT_TYPE]()
 			instanceSlice := make([]*models.SPEC_OBJECT_TYPE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPEC_OBJECT_TYPE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_typesFormCallback.probe.stageOfInterest,
+				id := a_spec_typesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7764,15 +7728,14 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_RELATION_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_typesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPEC_RELATION_TYPE]()
 			instanceSlice := make([]*models.SPEC_RELATION_TYPE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPEC_RELATION_TYPE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_typesFormCallback.probe.stageOfInterest,
+				id := a_spec_typesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7799,15 +7762,14 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
+			instanceSet := *a_spec_typesFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SPECIFICATION_TYPE]()
 			instanceSlice := make([]*models.SPECIFICATION_TYPE, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SPECIFICATION_TYPE)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_spec_typesFormCallback.probe.stageOfInterest,
+				id := a_spec_typesFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7992,15 +7954,14 @@ func (a_tool_extensionsFormCallback *A_TOOL_EXTENSIONSFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.REQ_IF_TOOL_EXTENSION](a_tool_extensionsFormCallback.probe.stageOfInterest)
+			instanceSet := *a_tool_extensionsFormCallback.probe.stageOfInterest.GetInstancesSet[*models.REQ_IF_TOOL_EXTENSION]()
 			instanceSlice := make([]*models.REQ_IF_TOOL_EXTENSION, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.REQ_IF_TOOL_EXTENSION)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_tool_extensionsFormCallback.probe.stageOfInterest,
+				id := a_tool_extensionsFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -8133,8 +8094,8 @@ func (datatype_definition_booleanFormCallback *DATATYPE_DEFINITION_BOOLEANFormCa
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_BOOLEAN slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_booleanFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_booleanFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_booleanFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_booleanFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -8269,8 +8230,8 @@ func (datatype_definition_dateFormCallback *DATATYPE_DEFINITION_DATEFormCallback
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_DATE slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_dateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_dateFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_dateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_dateFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -8407,8 +8368,8 @@ func (datatype_definition_enumerationFormCallback *DATATYPE_DEFINITION_ENUMERATI
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_ENUMERATION slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_enumerationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_enumerationFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_enumerationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_enumerationFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -8547,8 +8508,8 @@ func (datatype_definition_integerFormCallback *DATATYPE_DEFINITION_INTEGERFormCa
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_INTEGER slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_integerFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_integerFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_integerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_integerFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -8689,8 +8650,8 @@ func (datatype_definition_realFormCallback *DATATYPE_DEFINITION_REALFormCallback
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_REAL slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_realFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_realFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_realFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_realFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -8827,8 +8788,8 @@ func (datatype_definition_stringFormCallback *DATATYPE_DEFINITION_STRINGFormCall
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_STRING slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_stringFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_stringFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_stringFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_stringFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -8963,8 +8924,8 @@ func (datatype_definition_xhtmlFormCallback *DATATYPE_DEFINITION_XHTMLFormCallba
 			}
 
 			// 3. Iterate over all A_DATATYPES instances and update their DATATYPE_DEFINITION_XHTML slice
-			for _a_datatypes := range *models.GetGongstructInstancesSetFromPointerType[*models.A_DATATYPES](datatype_definition_xhtmlFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datatype_definition_xhtmlFormCallback.probe.stageOfInterest, _a_datatypes)
+			for _a_datatypes := range *datatype_definition_xhtmlFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES]() {
+				id := datatype_definition_xhtmlFormCallback.probe.stageOfInterest.GetOrder(_a_datatypes)
 				
 				// if A_DATATYPES is selected
 				if targetA_DATATYPESIDs[id] {
@@ -9183,8 +9144,8 @@ func (enum_valueFormCallback *ENUM_VALUEFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPECIFIED_VALUES instances and update their ENUM_VALUE slice
-			for _a_specified_values := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPECIFIED_VALUES](enum_valueFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(enum_valueFormCallback.probe.stageOfInterest, _a_specified_values)
+			for _a_specified_values := range *enum_valueFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPECIFIED_VALUES]() {
+				id := enum_valueFormCallback.probe.stageOfInterest.GetOrder(_a_specified_values)
 				
 				// if A_SPECIFIED_VALUES is selected
 				if targetA_SPECIFIED_VALUESIDs[id] {
@@ -9725,8 +9686,8 @@ func (relation_groupFormCallback *RELATION_GROUPFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPEC_RELATION_GROUPS instances and update their RELATION_GROUP slice
-			for _a_spec_relation_groups := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_RELATION_GROUPS](relation_groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(relation_groupFormCallback.probe.stageOfInterest, _a_spec_relation_groups)
+			for _a_spec_relation_groups := range *relation_groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_RELATION_GROUPS]() {
+				id := relation_groupFormCallback.probe.stageOfInterest.GetOrder(_a_spec_relation_groups)
 				
 				// if A_SPEC_RELATION_GROUPS is selected
 				if targetA_SPEC_RELATION_GROUPSIDs[id] {
@@ -9863,8 +9824,8 @@ func (relation_group_typeFormCallback *RELATION_GROUP_TYPEFormCallback) OnSave()
 			}
 
 			// 3. Iterate over all A_SPEC_TYPES instances and update their RELATION_GROUP_TYPE slice
-			for _a_spec_types := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_TYPES](relation_group_typeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(relation_group_typeFormCallback.probe.stageOfInterest, _a_spec_types)
+			for _a_spec_types := range *relation_group_typeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_TYPES]() {
+				id := relation_group_typeFormCallback.probe.stageOfInterest.GetOrder(_a_spec_types)
 				
 				// if A_SPEC_TYPES is selected
 				if targetA_SPEC_TYPESIDs[id] {
@@ -10259,8 +10220,8 @@ func (req_if_tool_extensionFormCallback *REQ_IF_TOOL_EXTENSIONFormCallback) OnSa
 			}
 
 			// 3. Iterate over all A_TOOL_EXTENSIONS instances and update their REQ_IF_TOOL_EXTENSION slice
-			for _a_tool_extensions := range *models.GetGongstructInstancesSetFromPointerType[*models.A_TOOL_EXTENSIONS](req_if_tool_extensionFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(req_if_tool_extensionFormCallback.probe.stageOfInterest, _a_tool_extensions)
+			for _a_tool_extensions := range *req_if_tool_extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_TOOL_EXTENSIONS]() {
+				id := req_if_tool_extensionFormCallback.probe.stageOfInterest.GetOrder(_a_tool_extensions)
 				
 				// if A_TOOL_EXTENSIONS is selected
 				if targetA_TOOL_EXTENSIONSIDs[id] {
@@ -10401,8 +10362,8 @@ func (specificationFormCallback *SPECIFICATIONFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPECIFICATIONS instances and update their SPECIFICATION slice
-			for _a_specifications := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPECIFICATIONS](specificationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(specificationFormCallback.probe.stageOfInterest, _a_specifications)
+			for _a_specifications := range *specificationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPECIFICATIONS]() {
+				id := specificationFormCallback.probe.stageOfInterest.GetOrder(_a_specifications)
 				
 				// if A_SPECIFICATIONS is selected
 				if targetA_SPECIFICATIONSIDs[id] {
@@ -10623,8 +10584,8 @@ func (specification_typeFormCallback *SPECIFICATION_TYPEFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPEC_TYPES instances and update their SPECIFICATION_TYPE slice
-			for _a_spec_types := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_TYPES](specification_typeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(specification_typeFormCallback.probe.stageOfInterest, _a_spec_types)
+			for _a_spec_types := range *specification_typeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_TYPES]() {
+				id := specification_typeFormCallback.probe.stageOfInterest.GetOrder(_a_spec_types)
 				
 				// if A_SPEC_TYPES is selected
 				if targetA_SPEC_TYPESIDs[id] {
@@ -10769,8 +10730,8 @@ func (spec_hierarchyFormCallback *SPEC_HIERARCHYFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_CHILDREN instances and update their SPEC_HIERARCHY slice
-			for _a_children := range *models.GetGongstructInstancesSetFromPointerType[*models.A_CHILDREN](spec_hierarchyFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(spec_hierarchyFormCallback.probe.stageOfInterest, _a_children)
+			for _a_children := range *spec_hierarchyFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_CHILDREN]() {
+				id := spec_hierarchyFormCallback.probe.stageOfInterest.GetOrder(_a_children)
 				
 				// if A_CHILDREN is selected
 				if targetA_CHILDRENIDs[id] {
@@ -10909,8 +10870,8 @@ func (spec_objectFormCallback *SPEC_OBJECTFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPEC_OBJECTS instances and update their SPEC_OBJECT slice
-			for _a_spec_objects := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_OBJECTS](spec_objectFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(spec_objectFormCallback.probe.stageOfInterest, _a_spec_objects)
+			for _a_spec_objects := range *spec_objectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_OBJECTS]() {
+				id := spec_objectFormCallback.probe.stageOfInterest.GetOrder(_a_spec_objects)
 				
 				// if A_SPEC_OBJECTS is selected
 				if targetA_SPEC_OBJECTSIDs[id] {
@@ -11047,8 +11008,8 @@ func (spec_object_typeFormCallback *SPEC_OBJECT_TYPEFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPEC_TYPES instances and update their SPEC_OBJECT_TYPE slice
-			for _a_spec_types := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_TYPES](spec_object_typeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(spec_object_typeFormCallback.probe.stageOfInterest, _a_spec_types)
+			for _a_spec_types := range *spec_object_typeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_TYPES]() {
+				id := spec_object_typeFormCallback.probe.stageOfInterest.GetOrder(_a_spec_types)
 				
 				// if A_SPEC_TYPES is selected
 				if targetA_SPEC_TYPESIDs[id] {
@@ -11279,8 +11240,8 @@ func (spec_relationFormCallback *SPEC_RELATIONFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPEC_RELATIONS instances and update their SPEC_RELATION slice
-			for _a_spec_relations := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_RELATIONS](spec_relationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(spec_relationFormCallback.probe.stageOfInterest, _a_spec_relations)
+			for _a_spec_relations := range *spec_relationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_RELATIONS]() {
+				id := spec_relationFormCallback.probe.stageOfInterest.GetOrder(_a_spec_relations)
 				
 				// if A_SPEC_RELATIONS is selected
 				if targetA_SPEC_RELATIONSIDs[id] {
@@ -11417,8 +11378,8 @@ func (spec_relation_typeFormCallback *SPEC_RELATION_TYPEFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all A_SPEC_TYPES instances and update their SPEC_RELATION_TYPE slice
-			for _a_spec_types := range *models.GetGongstructInstancesSetFromPointerType[*models.A_SPEC_TYPES](spec_relation_typeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(spec_relation_typeFormCallback.probe.stageOfInterest, _a_spec_types)
+			for _a_spec_types := range *spec_relation_typeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_TYPES]() {
+				id := spec_relation_typeFormCallback.probe.stageOfInterest.GetOrder(_a_spec_types)
 				
 				// if A_SPEC_TYPES is selected
 				if targetA_SPEC_TYPESIDs[id] {
@@ -11527,15 +11488,14 @@ func (staticwebsiteFormCallback *StaticWebSiteFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StaticWebSiteChapter](staticwebsiteFormCallback.probe.stageOfInterest)
+			instanceSet := *staticwebsiteFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StaticWebSiteChapter]()
 			instanceSlice := make([]*models.StaticWebSiteChapter, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StaticWebSiteChapter)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					staticwebsiteFormCallback.probe.stageOfInterest,
+				id := staticwebsiteFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11648,15 +11608,14 @@ func (staticwebsitechapterFormCallback *StaticWebSiteChapterFormCallback) OnSave
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StaticWebSiteParagraph](staticwebsitechapterFormCallback.probe.stageOfInterest)
+			instanceSet := *staticwebsitechapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StaticWebSiteParagraph]()
 			instanceSlice := make([]*models.StaticWebSiteParagraph, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StaticWebSiteParagraph)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					staticwebsitechapterFormCallback.probe.stageOfInterest,
+				id := staticwebsitechapterFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11701,8 +11660,8 @@ func (staticwebsitechapterFormCallback *StaticWebSiteChapterFormCallback) OnSave
 			}
 
 			// 3. Iterate over all StaticWebSite instances and update their Chapters slice
-			for _staticwebsite := range *models.GetGongstructInstancesSetFromPointerType[*models.StaticWebSite](staticwebsitechapterFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(staticwebsitechapterFormCallback.probe.stageOfInterest, _staticwebsite)
+			for _staticwebsite := range *staticwebsitechapterFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StaticWebSite]() {
+				id := staticwebsitechapterFormCallback.probe.stageOfInterest.GetOrder(_staticwebsite)
 				
 				// if StaticWebSite is selected
 				if targetStaticWebSiteIDs[id] {
@@ -11999,8 +11958,8 @@ func (staticwebsiteparagraphFormCallback *StaticWebSiteParagraphFormCallback) On
 			}
 
 			// 3. Iterate over all StaticWebSiteChapter instances and update their Paragraphs slice
-			for _staticwebsitechapter := range *models.GetGongstructInstancesSetFromPointerType[*models.StaticWebSiteChapter](staticwebsiteparagraphFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(staticwebsiteparagraphFormCallback.probe.stageOfInterest, _staticwebsitechapter)
+			for _staticwebsitechapter := range *staticwebsiteparagraphFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StaticWebSiteChapter]() {
+				id := staticwebsiteparagraphFormCallback.probe.stageOfInterest.GetOrder(_staticwebsitechapter)
 				
 				// if StaticWebSiteChapter is selected
 				if targetStaticWebSiteChapterIDs[id] {

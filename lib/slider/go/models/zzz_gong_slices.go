@@ -109,7 +109,7 @@ func (checkbox *Checkbox) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(GetOrderPointerGongstruct(stage, checkbox)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
 	return
 }
 
@@ -119,7 +119,7 @@ func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group), uint64(GetOrderPointerGongstruct(stage, group)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group), uint64(stage.GetOrder(group)))
 	return
 }
 
@@ -129,7 +129,7 @@ func (layout *Layout) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(layout), uint64(GetOrderPointerGongstruct(stage, layout)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(layout), uint64(stage.GetOrder(layout)))
 	return
 }
 
@@ -139,7 +139,7 @@ func (slider *Slider) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slider), uint64(GetOrderPointerGongstruct(stage, slider)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slider), uint64(stage.GetOrder(slider)))
 	return
 }
 

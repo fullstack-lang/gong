@@ -7,7 +7,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*PlantAbstract {
 			roots := make([]*PlantAbstract, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.Plants...)
 			}
 			return roots

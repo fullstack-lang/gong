@@ -39,7 +39,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_XHTML]int)
 
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_XHTML_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_XHTML_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_XHTML[x.DATATYPE_DEFINITION_XHTML_REF]
 			if !ok {
@@ -71,7 +71,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_STRING]int)
 
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_STRING_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_STRING_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_STRING[x.DATATYPE_DEFINITION_STRING_REF]
 			if !ok {
@@ -102,7 +102,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_ENUMERATION]int)
 
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_ENUMERATION_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_ENUMERATION_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_ENUMERATION[x.DATATYPE_DEFINITION_ENUMERATION_REF]
 			if !ok {
@@ -139,7 +139,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_BOOLEAN]int)
 
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_BOOLEAN_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_BOOLEAN_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_BOOLEAN[x.DATATYPE_DEFINITION_BOOLEAN_REF]
 			if !ok {
@@ -169,7 +169,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_INTEGER]int)
 
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_INTEGER_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_INTEGER_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_INTEGER[x.DATATYPE_DEFINITION_INTEGER_REF]
 			if !ok {
@@ -198,7 +198,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_DATE]int)
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_DATE_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_DATE_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_DATE[x.DATATYPE_DEFINITION_DATE_REF]
 			if !ok {
@@ -228,7 +228,7 @@ func (dataTypeTreeStageUpdater *DataTypeTreeStageUpdater) UpdateAndCommitDataTyp
 		// compute the number of time this datatype is used
 		map_datatypeDefinition_nbInstance := make(map[*m.DATATYPE_DEFINITION_REAL]int)
 
-		for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_REAL_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_DATATYPE_DEFINITION_REAL_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_DATATYPE_DEFINITION_REAL[x.DATATYPE_DEFINITION_REAL_REF]
 			if !ok {

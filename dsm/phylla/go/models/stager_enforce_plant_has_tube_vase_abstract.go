@@ -3,7 +3,7 @@ package models
 import "fmt"
 
 func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == TubeVase {
 			if plant.TubeVaseAbstract == nil {
 				va := (&TubeVaseAbstract{
@@ -23,9 +23,9 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced TubeVaseAbstract
-	for va := range *GetGongstructInstancesSetFromPointerType[*TubeVaseAbstract](stager.stage) {
+	for va := range *stager.stage.GetInstancesSet[*TubeVaseAbstract]() {
 		hasOwner := false
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.TubeVaseAbstract == va {
 				hasOwner = true
 				break
@@ -42,7 +42,7 @@ func (stager *Stager) enforcePlantHasTubeVaseAbstract() (needCommit bool) {
 }
 
 func (stager *Stager) enforceTubeVaseAbstractName() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == TubeVase && plant.TubeVaseAbstract != nil {
 			expectedName := plant.Name + "-TubeVaseAbstract"
 			if plant.TubeVaseAbstract.Name != expectedName {

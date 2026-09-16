@@ -27,7 +27,7 @@ func (stager *Stager) treeConceptBSinDiagram(diagram *Diagram, concept *Concept,
 	conceptNode := addNodeToTreeWithoutLink(stager, confNode)
 
 	var deliverables []*Deliverable
-	for deliverable := range *GetGongstructInstancesSet[Deliverable](stager.stage) {
+	for deliverable := range *stager.stage.GetInstancesSet[*Deliverable]() {
 		if slices.Contains(deliverable.Concepts, concept) {
 			deliverables = append(deliverables, deliverable)
 		}

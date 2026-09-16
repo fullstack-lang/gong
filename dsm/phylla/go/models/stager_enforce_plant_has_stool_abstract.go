@@ -3,7 +3,7 @@ package models
 import "fmt"
 
 func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Stool {
 			if plant.StoolAbstract == nil {
 				sa := (&StoolAbstract{
@@ -28,9 +28,9 @@ func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced StoolAbstract
-	for sa := range *GetGongstructInstancesSetFromPointerType[*StoolAbstract](stager.stage) {
+	for sa := range *stager.stage.GetInstancesSet[*StoolAbstract]() {
 		hasOwner := false
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.StoolAbstract == sa {
 				hasOwner = true
 				break
@@ -47,7 +47,7 @@ func (stager *Stager) enforcePlantHasStoolAbstract() (needCommit bool) {
 }
 
 func (stager *Stager) enforceStoolAbstractName() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Stool && plant.StoolAbstract != nil {
 			expectedName := plant.Name + "-StoolAbstract"
 			if plant.StoolAbstract.Name != expectedName {

@@ -109,7 +109,7 @@ func (booktype *BookType) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(booktype), uint64(GetOrderPointerGongstruct(stage, booktype)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(booktype), uint64(stage.GetOrder(booktype)))
 	return
 }
 
@@ -119,7 +119,7 @@ func (books *Books) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(books), uint64(GetOrderPointerGongstruct(stage, books)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(books), uint64(stage.GetOrder(books)))
 	return
 }
 
@@ -129,7 +129,7 @@ func (credit *Credit) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(credit), uint64(GetOrderPointerGongstruct(stage, credit)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(credit), uint64(stage.GetOrder(credit)))
 	return
 }
 
@@ -139,7 +139,7 @@ func (link *Link) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link), uint64(GetOrderPointerGongstruct(stage, link)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link), uint64(stage.GetOrder(link)))
 	return
 }
 

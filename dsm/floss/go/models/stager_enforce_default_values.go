@@ -23,7 +23,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		}
 	}
 
-	for _, diagramEquation := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+	for _, diagramEquation := range stager.stage.GetInstancesSorted[*DiagramFlossEquation]() {
 		if !diagramEquation.IsEditable_ {
 			diagramEquation.IsEditable_ = true
 			needCommit = true

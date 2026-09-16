@@ -4,7 +4,7 @@ func (stager *Stager) enforceAtLeastOneDiagramPerProcess() (needCommit bool) {
 	stage := stager.stage
 
 	// enforce that there is at least one diagram per process
-	for process := range *GetGongstructInstancesSetFromPointerType[*Process](stage) {
+	for process := range *stage.GetInstancesSet[*Process]() {
 		if len(process.DiagramProcesss) == 0 {
 			diagramProcess := (&DiagramProcess{
 				Name:        "DiagramProcess",

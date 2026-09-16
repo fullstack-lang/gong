@@ -14,7 +14,7 @@ func (stager *Stager) svg() {
 
 	var diagram *Diagram
 	{
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 			if diagram_.IsChecked {
 				diagram = diagram_
 			}
@@ -49,7 +49,7 @@ func (stager *Stager) svg() {
 	// get the selected object
 	var selectedObject *Object
 	{
-		objects := *GetGongstructInstancesSet[Object](stager.stage)
+		objects := *stager.stage.GetInstancesSet[*Object]()
 		for object := range objects {
 			if object.IsSelected {
 				selectedObject = object

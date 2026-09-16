@@ -246,7 +246,7 @@ func (checkbox *CheckBox) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(GetOrderPointerGongstruct(stage, checkbox)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(stage.GetOrder(checkbox)))
 	return
 }
 
@@ -256,7 +256,7 @@ func (formdiv *FormDiv) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formdiv), uint64(GetOrderPointerGongstruct(stage, formdiv)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formdiv), uint64(stage.GetOrder(formdiv)))
 	return
 }
 
@@ -266,7 +266,7 @@ func (formeditassocbutton *FormEditAssocButton) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formeditassocbutton), uint64(GetOrderPointerGongstruct(stage, formeditassocbutton)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formeditassocbutton), uint64(stage.GetOrder(formeditassocbutton)))
 	return
 }
 
@@ -276,7 +276,7 @@ func (formfield *FormField) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield), uint64(GetOrderPointerGongstruct(stage, formfield)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield), uint64(stage.GetOrder(formfield)))
 	return
 }
 
@@ -286,7 +286,7 @@ func (formfielddate *FormFieldDate) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddate), uint64(GetOrderPointerGongstruct(stage, formfielddate)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddate), uint64(stage.GetOrder(formfielddate)))
 	return
 }
 
@@ -296,7 +296,7 @@ func (formfielddatetime *FormFieldDateTime) GongGetUUID(stage *Stage) (uuid stri
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddatetime), uint64(GetOrderPointerGongstruct(stage, formfielddatetime)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddatetime), uint64(stage.GetOrder(formfielddatetime)))
 	return
 }
 
@@ -306,7 +306,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongGetUUID(stage *Stage) (uuid string
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldfloat64), uint64(GetOrderPointerGongstruct(stage, formfieldfloat64)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldfloat64), uint64(stage.GetOrder(formfieldfloat64)))
 	return
 }
 
@@ -316,7 +316,7 @@ func (formfieldint *FormFieldInt) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldint), uint64(GetOrderPointerGongstruct(stage, formfieldint)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldint), uint64(stage.GetOrder(formfieldint)))
 	return
 }
 
@@ -326,7 +326,7 @@ func (formfieldselect *FormFieldSelect) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldselect), uint64(GetOrderPointerGongstruct(stage, formfieldselect)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldselect), uint64(stage.GetOrder(formfieldselect)))
 	return
 }
 
@@ -336,7 +336,7 @@ func (formfieldstring *FormFieldString) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldstring), uint64(GetOrderPointerGongstruct(stage, formfieldstring)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldstring), uint64(stage.GetOrder(formfieldstring)))
 	return
 }
 
@@ -346,7 +346,7 @@ func (formfieldtime *FormFieldTime) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldtime), uint64(GetOrderPointerGongstruct(stage, formfieldtime)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldtime), uint64(stage.GetOrder(formfieldtime)))
 	return
 }
 
@@ -356,7 +356,7 @@ func (formgroup *FormGroup) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formgroup), uint64(GetOrderPointerGongstruct(stage, formgroup)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formgroup), uint64(stage.GetOrder(formgroup)))
 	return
 }
 
@@ -366,7 +366,7 @@ func (formsortassocbutton *FormSortAssocButton) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formsortassocbutton), uint64(GetOrderPointerGongstruct(stage, formsortassocbutton)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formsortassocbutton), uint64(stage.GetOrder(formsortassocbutton)))
 	return
 }
 
@@ -376,7 +376,7 @@ func (option *Option) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(option), uint64(GetOrderPointerGongstruct(stage, option)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(option), uint64(stage.GetOrder(option)))
 	return
 }
 

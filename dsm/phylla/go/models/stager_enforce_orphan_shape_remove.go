@@ -142,7 +142,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refTorus3DShape := make(map[*Torus3DShape]bool)
 
 	// Collect referenced shapes from all plants
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.AxesShape != nil {
 			refAxes[plant.AxesShape] = true
 		}
@@ -461,7 +461,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*TubeVase3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
@@ -505,7 +505,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
 		}
 	}
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Stool3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
@@ -564,7 +564,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
 		}
 	}
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Clock3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
@@ -581,7 +581,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
 		}
 	}
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Plant3DDiagram]() {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
@@ -609,798 +609,798 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 
 	// Unstage unreferenced shapes
-	for shape := range *GetGongstructInstancesSetFromPointerType[*AxesShape](stage) {
+	for shape := range *stage.GetInstancesSet[*AxesShape]() {
 		if !refAxes[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PlantCircumferenceShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PlantCircumferenceShape]() {
 		if !refPlantCirc[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GridPathShape](stage) {
+	for shape := range *stage.GetInstancesSet[*GridPathShape]() {
 		if !refGridPath[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*CircleGridShape](stage) {
+	for shape := range *stage.GetInstancesSet[*CircleGridShape]() {
 		if !refCircleGrid[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ExplanationTextShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ExplanationTextShape]() {
 		if !refExplanation[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthVectorShape](stage) {
+	for shape := range *stage.GetInstancesSet[*GrowthVectorShape]() {
 		if !refGrowthVector[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*InitialRhombusGridShape](stage) {
+	for grid := range *stage.GetInstancesSet[*InitialRhombusGridShape]() {
 		if !refInitialGrid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for grid := range *GetGongstructInstancesSetFromPointerType[*RotatedRhombusGridShape](stage) {
+	for grid := range *stage.GetInstancesSet[*RotatedRhombusGridShape]() {
 		if !refRotatedGrid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for grid := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveRhombusGridShape](stage) {
+	for grid := range *stage.GetInstancesSet[*GrowthCurveRhombusGridShape]() {
 		if !refGrowthCurveGrid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for grid := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVectorGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*PerpendicularVectorGrid]() {
 		if !refVectorGrid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVectorGridHalfway](stage) {
+	for grid := range *stage.GetInstancesSet[*PerpendicularVectorGridHalfway]() {
 		if !refPerpendicularVectorGridHalfway[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*BaseVectorShapeGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*BaseVectorShapeGrid]() {
 		if !refBaseVectorShapeGrid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*ArcNormalVectorShapeGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*ArcNormalVectorShapeGrid]() {
 		if !refArcNormalVectorShapeGrid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*StartArcShapeGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*StartArcShapeGrid]() {
 		if !refStartArcShapeV2Grid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*TopStartArcShapeGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*TopStartArcShapeGrid]() {
 		if !refTopStartArcShapeV2Grid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*EndArcShapeGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*EndArcShapeGrid]() {
 		if !refEndArcShapeV2Grid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*TopEndArcShapeGrid](stage) {
+	for grid := range *stage.GetInstancesSet[*TopEndArcShapeGrid]() {
 		if !refTopEndArcShapeV2Grid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for stack := range *GetGongstructInstancesSetFromPointerType[*StackOfRotatedGrowthCurve2D](stage) {
+	for stack := range *stage.GetInstancesSet[*StackOfRotatedGrowthCurve2D]() {
 		if !refStackOfGrowthCurveV2[stack] {
 			stack.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*RhombusShape](stage) {
+	for shape := range *stage.GetInstancesSet[*RhombusShape]() {
 		if !refRhombusShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*InitialRhombusShape](stage) {
+	for shape := range *stage.GetInstancesSet[*InitialRhombusShape]() {
 		if !refInitialShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*RotatedRhombusShape](stage) {
+	for shape := range *stage.GetInstancesSet[*RotatedRhombusShape]() {
 		if !refRotatedShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveRhombusShape](stage) {
+	for shape := range *stage.GetInstancesSet[*GrowthCurveRhombusShape]() {
 		if !refGrowthCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for vec := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVector](stage) {
+	for vec := range *stage.GetInstancesSet[*PerpendicularVector]() {
 		if !refPerpendicularVector[vec] {
 			vec.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVectorHalfway](stage) {
+	for shape := range *stage.GetInstancesSet[*PerpendicularVectorHalfway]() {
 		if !refPerpendicularVectorHalfway[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*BaseVectorShape](stage) {
+	for shape := range *stage.GetInstancesSet[*BaseVectorShape]() {
 		if !refBaseVectorShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ArcNormalVectorShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ArcNormalVectorShape]() {
 		if !refArcNormalVectorShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StartArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StartArcShape]() {
 		if !refStartArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStartArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopStartArcShape]() {
 		if !refTopStartArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*EndArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*EndArcShape]() {
 		if !refEndArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopEndArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopEndArcShape]() {
 		if !refTopEndArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackRotatedGrowthCurve2DStartArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackRotatedGrowthCurve2DStartArcShape]() {
 		if !refStackGrowthCurveStartArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackRotatedGrowthCurve2DEndArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackRotatedGrowthCurve2DEndArcShape]() {
 		if !refStackGrowthCurveEndArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Rendered3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Rendered3DShape]() {
 		if !refRendered3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TiledFloor3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TiledFloor3DShape]() {
 		if !refTiledFloor3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*OriginalPoints3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*OriginalPoints3DShape]() {
 		if !refOriginalPoints3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Angle0Shape](stage) {
+	for shape := range *stage.GetInstancesSet[*Angle0Shape]() {
 		if !refAngle0Shape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStackOfRotatedGrowthCurve2D](stage) {
+	for shape := range *stage.GetInstancesSet[*TopStackOfRotatedGrowthCurve2D]() {
 		if !refTopStackOfGrowthCurveV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStackOfRotatedGrowthCurve2DStartArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopStackOfRotatedGrowthCurve2DStartArcShape]() {
 		if !refTopStackGrowthCurveStartArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStackOfRotatedGrowthCurve2DEndArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopStackOfRotatedGrowthCurve2DEndArcShape]() {
 		if !refTopStackGrowthCurveEndArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedBottomTopStartArcShapeGrid](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedBottomTopStartArcShapeGrid]() {
 		if !refShiftedBottomTopStartArcShapeGrid[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedBottomTopStartArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedBottomTopStartArcShape]() {
 		if !refShiftedBottomTopStartArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*MidArcVectorShapeGrid](stage) {
+	for shape := range *stage.GetInstancesSet[*MidArcVectorShapeGrid]() {
 		if !refMidArcVectorShapeGrid[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*MidArcVectorShape](stage) {
+	for shape := range *stage.GetInstancesSet[*MidArcVectorShape]() {
 		if !refMidArcVectorShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopMidArcVectorShapeGrid](stage) {
+	for shape := range *stage.GetInstancesSet[*TopMidArcVectorShapeGrid]() {
 		if !refTopMidArcVectorShapeGrid[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopMidArcVectorShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopMidArcVectorShape]() {
 		if !refTopMidArcVectorShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftStackOfNormalVector](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftStackOfNormalVector]() {
 		if !refShiftedLeftStackOfNormalVector[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftStackNormalVector](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftStackNormalVector]() {
 		if !refShiftedLeftStackNormalVector[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftStackOfGrowthCurve](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftStackOfGrowthCurve]() {
 		if !refShiftedLeftStackOfGrowthCurve[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftStackGrowthCurveStartArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftStackGrowthCurveStartArcShape]() {
 		if !refShiftedLeftStackGrowthCurveStartArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftStackGrowthCurveEndArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftStackGrowthCurveEndArcShape]() {
 		if !refShiftedLeftStackGrowthCurveEndArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for stack := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurve2D](stage) {
+	for stack := range *stage.GetInstancesSet[*StackOfGrowthCurve2D]() {
 		if !refStackOfGrowthCurve2D[stack] {
 			stack.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DStartHalfwayArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackGrowthCurve2DStartHalfwayArcShape]() {
 		if !refStackGrowthCurve2DStartHalfwayArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DEndHalfwayArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackGrowthCurve2DEndHalfwayArcShape]() {
 		if !refStackGrowthCurve2DEndHalfwayArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for stack := range *GetGongstructInstancesSetFromPointerType[*TopStackOfGrowthCurve2D](stage) {
+	for stack := range *stage.GetInstancesSet[*TopStackOfGrowthCurve2D]() {
 		if !refTopStackOfGrowthCurve2D[stack] {
 			stack.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStackGrowthCurve2DStartHalfwayArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopStackGrowthCurve2DStartHalfwayArcShape]() {
 		if !refTopStackGrowthCurve2DStartHalfwayArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStackGrowthCurve2DEndHalfwayArcShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TopStackGrowthCurve2DEndHalfwayArcShape]() {
 		if !refTopStackGrowthCurve2DEndHalfwayArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*StackOfGrowthCurve2DRibbon]() {
 		if !refStackOfGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackGrowthCurve2DRibbonStartShape]() {
 		if !refStackGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackGrowthCurve2DRibbonEndShape]() {
 		if !refStackGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackOfRotatedGrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*StackOfRotatedGrowthCurve2DRibbon]() {
 		if !refStackOfRotatedGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackRotatedGrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackRotatedGrowthCurve2DRibbonStartShape]() {
 		if !refStackRotatedGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackRotatedGrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackRotatedGrowthCurve2DRibbonEndShape]() {
 		if !refStackRotatedGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DRibbon]() {
 		if !refPartiallyGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DRibbonStartShape]() {
 		if !refPartiallyGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DRibbonEndShape]() {
 		if !refPartiallyGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftPartiallyGrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftPartiallyGrowthCurve2DRibbon]() {
 		if !refShiftedLeftPartiallyGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]() {
 		if !refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]() {
 		if !refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectory](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectory]() {
 		if !refPartiallyGrowthCurve2DTrajectory[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryShape]() {
 		if !refPartiallyGrowthCurve2DTrajectoryShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1P2](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryP1P2]() {
 		if !refPartiallyGrowthCurve2DTrajectoryP1P2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1PointShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryP1PointShape]() {
 		if !refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP2PointShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryP2PointShape]() {
 		if !refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1CurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]() {
 		if !refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP2CurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]() {
 		if !refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]() {
 		if !refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PxShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PxShape]() {
 		if !refPxShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ChosenP1P2PairShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ChosenP1P2PairShape]() {
 		if !refChosenP1P2PairShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*KeyHoleShape](stage) {
+	for shape := range *stage.GetInstancesSet[*KeyHoleShape]() {
 		if !refKeyHoleShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*GrowthCurve2DRibbon]() {
 		if !refGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*GrowthCurve2DRibbonStartShape]() {
 		if !refGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*GrowthCurve2DRibbonEndShape]() {
 		if !refGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedRightGrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedRightGrowthCurve2DRibbon]() {
 		if !refShiftedRightGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedRightGrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedRightGrowthCurve2DRibbonStartShape]() {
 		if !refShiftedRightGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedRightGrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedRightGrowthCurve2DRibbonEndShape]() {
 		if !refShiftedRightGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftGrowthCurve2DRibbon](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftGrowthCurve2DRibbon]() {
 		if !refShiftedLeftGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftGrowthCurve2DRibbonStartShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftGrowthCurve2DRibbonStartShape]() {
 		if !refShiftedLeftGrowthCurve2DRibbonStartShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftGrowthCurve2DRibbonEndShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ShiftedLeftGrowthCurve2DRibbonEndShape]() {
 		if !refShiftedLeftGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusStackShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TorusStackShape]() {
 		if !refTorusStackShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*VerticalTorusStackShape](stage) {
+	for shape := range *stage.GetInstancesSet[*VerticalTorusStackShape]() {
 		if !refVerticalTorusStackShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyRotatedTorusShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyRotatedTorusShape]() {
 		if !refPartiallyRotatedTorusShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackOfPartiallyRotatedTorusShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StackOfPartiallyRotatedTorusShape]() {
 		if !refStackOfPartiallyRotatedTorusShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*KeyHole3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*KeyHole3DShape]() {
 		if !refKeyHole3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Key3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Key3DShape]() {
 		if !refKey3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*VolumeKey3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*VolumeKey3DShape]() {
 		if !refVolumeKey3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusEdge3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*TorusEdge3DShape]() {
 		if !refTorusEdge3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*SampledPoints3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*SampledPoints3DShape]() {
 		if !refSampledPoints3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ClockTopCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ClockTopCurveShape]() {
 		if !refClockTopCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatTopCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*SeatTopCurveShape]() {
 		if !refSeatTopCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyRotatedSeatTopCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyRotatedSeatTopCurveShape]() {
 		if !refPartiallyRotatedSeatTopCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatBottomCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*SeatBottomCurveShape]() {
 		if !refSeatBottomCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyRotatedSeatBottomCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*PartiallyRotatedSeatBottomCurveShape]() {
 		if !refPartiallyRotatedSeatBottomCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Torus3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Torus3DShape]() {
 		if !refTorus3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*RotatedSampledPoints3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*RotatedSampledPoints3DShape]() {
 		if !refRotatedSampledPoints3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeSampledPoints3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*EyeSampledPoints3DShape]() {
 		if !refEyeSampledPoints3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeCornersSampledPoints3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*EyeCornersSampledPoints3DShape]() {
 		if !refEyeCornersSampledPoints3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Eye3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Eye3DShape]() {
 		if !refEye3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeSeatBottomCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*EyeSeatBottomCurveShape]() {
 		if !refEyeSeatBottomCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeStoolBottomCurveShape](stage) {
+	for shape := range *stage.GetInstancesSet[*EyeStoolBottomCurveShape]() {
 		if !refEyeStoolBottomCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Seat3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Seat3DShape]() {
 		if !refSeat3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeVolume3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*EyeVolume3DShape]() {
 		if !refEyeVolume3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatAndLegs3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*SeatAndLegs3DShape]() {
 		if !refSeatAndLegs3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*RotatedSeatAndLegs3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*RotatedSeatAndLegs3DShape]() {
 		if !refRotatedSeatAndLegs3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StemCylinder3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*StemCylinder3DShape]() {
 		if !refStemCylinder3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ParastichyNCurves3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ParastichyNCurves3DShape]() {
 		if !refParastichyNCurves3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*ParastichyMCurves3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*ParastichyMCurves3DShape]() {
 		if !refParastichyMCurves3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*CutLine3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*CutLine3DShape]() {
 		if !refCutLine3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Circumference3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Circumference3DShape]() {
 		if !refCircumference3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*Leaves3DShape](stage) {
+	for shape := range *stage.GetInstancesSet[*Leaves3DShape]() {
 		if !refLeaves3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true

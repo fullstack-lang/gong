@@ -8,7 +8,7 @@ import (
 func (stager *Stager) enforceParticipantSemanticRules() (needCommit bool) {
 	stage := stager.stage
 
-	for _, participant := range GetGongstrucsSorted[*Participant](stage) {
+	for _, participant := range stage.GetInstancesSorted[*Participant]() {
 		if participant.owningProcess == nil {
 			participant.UnstageVoid(stage)
 			needCommit = true

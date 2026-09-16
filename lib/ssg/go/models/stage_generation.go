@@ -24,7 +24,7 @@ import (
 // files for pages). It also embeds sections (text, images, downloadable files)
 // into the page markdown. Finally, it triggers the HTML rendering process.
 func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
-	contents := GetGongstructInstancesSet[Content](stage)
+	contents := stage.GetInstancesSet[*Content]()
 
 	if len(*contents) != 1 {
 		err = fmt.Errorf("generation requires exactly one Content instance")

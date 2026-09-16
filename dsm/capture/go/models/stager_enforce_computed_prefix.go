@@ -13,7 +13,7 @@ import (
 // if a ComputedPrefix has to be changed, returns true
 func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
 
-	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stager.stage) {
+	for library := range *stager.stage.GetInstancesSet[*Library]() {
 		needCommit = numberNodes(stager, library.RootDeliverables, "", []int{}, func(p *Deliverable) []*Deliverable { return p.SubDeliverables }, make(map[*Deliverable]bool)) || needCommit
 		needCommit = numberNodes(stager, library.RootConcerns, "", []int{}, func(t *Concern) []*Concern { return t.SubConcerns }, make(map[*Concern]bool)) || needCommit
 		needCommit = numberNodes(stager, library.Notes, "", []int{}, func(n *Note) []*Note { return nil }, make(map[*Note]bool)) || needCommit

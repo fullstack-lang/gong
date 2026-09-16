@@ -6,9 +6,9 @@ import (
 )
 
 func (stager *Stager) enforceTransitionSemanticRules() (needCommit bool) {
-	rm := GetPointerReverseMap[Transition_Shape, Transition](GetAssociationName[Transition_Shape]().Transition.Name, stager.stage)
+	rm := stager.stage.GetPointerReverseMap[Transition_Shape, Transition](GetAssociationName[Transition_Shape]().Transition.Name)
 
-	for _, transition := range GetGongstrucsSorted[*Transition](stager.stage) {
+	for _, transition := range stager.stage.GetInstancesSorted[*Transition]() {
 		if transition.Start == nil {
 			transition.Unstage(stager.stage)
 			if transitionShapes, ok := rm[transition]; ok {

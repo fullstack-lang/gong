@@ -11,13 +11,13 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 
 	// Build a reverse map from DataFlow to its owning Libraries
 	dataFlowToLibraries := make(map[*DataFlow][]*Library)
-	for _, library := range GetGongstrucsSorted[*Library](stage) {
+	for _, library := range stage.GetInstancesSorted[*Library]() {
 		for _, dataFlow := range library.RootDataFlows {
 			dataFlowToLibraries[dataFlow] = append(dataFlowToLibraries[dataFlow], library)
 		}
 	}
 
-	for _, dataFlow := range GetGongstrucsSorted[*DataFlow](stage) {
+	for _, dataFlow := range stage.GetInstancesSorted[*DataFlow]() {
 		// Rule: A data flow belongs to one and only one library.
 		owners := dataFlowToLibraries[dataFlow]
 		if len(owners) == 0 {

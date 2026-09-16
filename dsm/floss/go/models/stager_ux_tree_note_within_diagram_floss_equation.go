@@ -81,7 +81,7 @@ func (stager *Stager) treeNoteWithinDiagramFlossEquation(
 		HasToolTip:      true,
 		ToolTipPosition: tree.Above,
 		OnClick: func() {
-			for _, lib := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, lib := range stager.stage.GetInstancesSorted[*Library]() {
 				lib.RootNotes = slices.DeleteFunc(lib.RootNotes, func(n *Note) bool { return n == note })
 			}
 			note.Unstage(stager.stage)

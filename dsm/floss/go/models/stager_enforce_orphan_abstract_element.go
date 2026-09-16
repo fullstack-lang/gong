@@ -5,7 +5,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*System {
 			roots := make([]*System, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootSystems...)
 			}
 			return roots
@@ -22,7 +22,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Complexity {
 			roots := make([]*Complexity, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootComplexitys...)
 			}
 			return roots
@@ -41,7 +41,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Performance {
 			roots := make([]*Performance, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootPerformances...)
 			}
 			return roots
@@ -60,7 +60,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Effort {
 			roots := make([]*Effort, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootEfforts...)
 			}
 			return roots
@@ -79,7 +79,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*CompareAnalysis {
 			roots := make([]*CompareAnalysis, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootCompareAnalysis...)
 			}
 			return roots
@@ -98,7 +98,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Note {
 			roots := make([]*Note, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootNotes...)
 			}
 			return roots

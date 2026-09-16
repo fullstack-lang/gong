@@ -27,21 +27,21 @@ func getSystemCPE(sys *System) (c, p, e float64) {
 
 func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 	// Enforce 1-decimal precision on CPE items
-	for c := range *GetGongstructInstancesSet[Complexity](stager.stage) {
+	for c := range *stager.stage.GetInstancesSet[*Complexity]() {
 		rounded := roundTo1Decimal(c.Strength)
 		if c.Strength != rounded {
 			c.Strength = rounded
 			needCommit = true
 		}
 	}
-	for p := range *GetGongstructInstancesSet[Performance](stager.stage) {
+	for p := range *stager.stage.GetInstancesSet[*Performance]() {
 		rounded := roundTo1Decimal(p.Strength)
 		if p.Strength != rounded {
 			p.Strength = rounded
 			needCommit = true
 		}
 	}
-	for e := range *GetGongstructInstancesSet[Effort](stager.stage) {
+	for e := range *stager.stage.GetInstancesSet[*Effort]() {
 		rounded := roundTo1Decimal(e.Strength)
 		if e.Strength != rounded {
 			e.Strength = rounded
@@ -50,7 +50,7 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 	}
 
 	// Enforce 1-decimal precision on diagram scale
-	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		if d.Scale != 0 {
 			rounded := roundTo1Decimal(d.Scale)
 			if d.Scale != rounded {
@@ -60,7 +60,7 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 		}
 	}
 
-	for compareAnalysis := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
+	for compareAnalysis := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
 
 		if compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil {
 			C1, P1, E1 := getSystemCPE(compareAnalysis.FromSystem)
@@ -107,7 +107,7 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 		}
 	}
 
-	for system := range *GetGongstructInstancesSet[System](stager.stage) {
+	for system := range *stager.stage.GetInstancesSet[*System]() {
 		if system.AreCPEsCompoundedFromSubSystems && len(system.SubSystems) > 0 {
 			// Enforce C1 = sum of subsystem complexities
 			if len(system.Complexities) == 1 {

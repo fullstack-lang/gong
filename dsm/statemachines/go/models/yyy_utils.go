@@ -63,7 +63,7 @@ func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
 
 func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 	stage := stager.stage
-	libraries := stage.GetInstancesByOrderAuto[*Library]()
+	libraries := stage.GetInstancesByOrder[*Library]()
 	if len(libraries) == 0 {
 		rootLibrary := (&Library{Name: "", IsRootLibrary: true}).Stage(stage)
 		if stager.probeForm != nil {

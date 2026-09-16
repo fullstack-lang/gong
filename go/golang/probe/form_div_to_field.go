@@ -88,7 +88,7 @@ func FormDivSelectFieldToField[TF models.PointerToGongstruct](field *TF, stageOf
 			*field = zero
 		}
 	} else {
-		for _instance := range *models.GetGongstructInstancesSetFromPointerType[TF](stageOfInterest) {
+		for _instance := range *stageOfInterest.GetInstancesSet[TF]() {
 			if any(_instance).(TF).GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
 				*field = any(_instance).(TF)
 			}

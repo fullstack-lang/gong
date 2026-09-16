@@ -87,7 +87,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 	// generate the map to navigate from children to parents
 	fieldName := GetAssociationName[GongNoteShape]().GongNoteLinkShapes[0].Name
 	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[GongNoteShape, GongNoteLinkShape](fieldName, stage)
-	for noteShapeLink := range *GetGongstructInstancesSet[GongNoteLinkShape](stage) {
+	for noteShapeLink := range *stage.GetInstancesSet[*GongNoteLinkShape]() {
 		if noteShapeLink.Name == gongstructName {
 
 			// get the note shape

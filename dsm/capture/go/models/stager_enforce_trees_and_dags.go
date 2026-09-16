@@ -7,7 +7,7 @@ import (
 )
 
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
-	deliverables := GetGongstrucsSorted[*Deliverable](stager.stage)
+	deliverables := stager.stage.GetInstancesSorted[*Deliverable]()
 
 	// 1. Hierarchy Tree for Deliverable
 	needCommit = EnforceTree(
@@ -26,7 +26,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 2. Hierarchy Tree for Resource
-	resources := GetGongstrucsSorted[*Stakeholder](stager.stage)
+	resources := stager.stage.GetInstancesSorted[*Stakeholder]()
 	needCommit = EnforceTree(
 		stager,
 		resources,
@@ -43,7 +43,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 3. Hierarchy Tree for Task
-	tasks := GetGongstrucsSorted[*Concern](stager.stage)
+	tasks := stager.stage.GetInstancesSorted[*Concern]()
 	needCommit = EnforceTree(
 		stager,
 		tasks,
@@ -60,7 +60,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 4. Hierarchy Tree for Library
-	libraries := GetGongstrucsSorted[*Library](stager.stage)
+	libraries := stager.stage.GetInstancesSorted[*Library]()
 	needCommit = EnforceTree(
 		stager,
 		libraries,

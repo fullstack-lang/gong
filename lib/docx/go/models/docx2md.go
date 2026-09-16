@@ -266,7 +266,7 @@ func docx2md(docx *Docx, gongdocx_stage *Stage, path string, embed bool) error {
 	document := (&Document{Name: f.Name}).Stage(gongdocx_stage)
 	docx.Document = document
 
-	file_ := (*GetGongstructInstancesMap[File](gongdocx_stage))["word/document.xml"]
+	file_ := gongdocx_stage.GetInstancesMapByName[*File]()["word/document.xml"]
 	document.File = file_
 
 	node_, err := readFile(f)

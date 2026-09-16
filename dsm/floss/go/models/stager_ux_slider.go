@@ -37,13 +37,13 @@ func (stager *Stager) ux_slider() {
 	var activeCompareAnalysis *CompareAnalysis
 	var activeSystem *System
 	var activeDiagram *DiagramFlossEquation
-	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		if d.IsChecked {
 			activeDiagram = d
 			activeCompareAnalysis = d.GetOwningCompareAnalysis()
 			activeSystem = d.GetOwningSystem()
 			if activeCompareAnalysis == nil && activeSystem == nil {
-				for ca := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
+				for ca := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
 					for _, eqD := range ca.DiagramFlossEquations {
 						if eqD == d {
 							activeCompareAnalysis = ca
@@ -52,7 +52,7 @@ func (stager *Stager) ux_slider() {
 					}
 				}
 				if activeCompareAnalysis == nil {
-					for sys := range *GetGongstructInstancesSet[System](stager.stage) {
+					for sys := range *stager.stage.GetInstancesSet[*System]() {
 						for _, eqD := range sys.DiagramFlossEquations {
 							if eqD == d {
 								activeSystem = sys

@@ -3299,14 +3299,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *ALTERNATIVE_ID:
-		tmp := GetStructInstancesByOrder(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3320,7 +3320,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEANs, stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_BOOLEANs, stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3334,7 +3334,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_DATE:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATEs, stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_DATEs, stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3348,7 +3348,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_ENUMERATIONs, stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3362,7 +3362,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_INTEGER:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGERs, stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_INTEGERs, stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3376,7 +3376,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_REAL:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REALs, stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_REALs, stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3390,7 +3390,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_STRING:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRINGs, stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_STRINGs, stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3404,7 +3404,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_DEFINITION_XHTML:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTMLs, stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_DEFINITION_XHTMLs, stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3418,7 +3418,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_BOOLEAN:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_BOOLEANs, stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_BOOLEANs, stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3432,7 +3432,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_DATE:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_DATEs, stage.ATTRIBUTE_VALUE_DATE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_DATEs, stage.ATTRIBUTE_VALUE_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3446,7 +3446,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_ENUMERATION:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_ENUMERATIONs, stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_ENUMERATIONs, stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3460,7 +3460,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_INTEGER:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_INTEGERs, stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_INTEGERs, stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3474,7 +3474,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_REAL:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_REALs, stage.ATTRIBUTE_VALUE_REAL_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_REALs, stage.ATTRIBUTE_VALUE_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3488,7 +3488,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_STRING:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_STRINGs, stage.ATTRIBUTE_VALUE_STRING_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_STRINGs, stage.ATTRIBUTE_VALUE_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3502,7 +3502,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ATTRIBUTE_VALUE_XHTML:
-		tmp := GetStructInstancesByOrder(stage.ATTRIBUTE_VALUE_XHTMLs, stage.ATTRIBUTE_VALUE_XHTML_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ATTRIBUTE_VALUE_XHTMLs, stage.ATTRIBUTE_VALUE_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3516,7 +3516,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ALTERNATIVE_ID:
-		tmp := GetStructInstancesByOrder(stage.A_ALTERNATIVE_IDs, stage.A_ALTERNATIVE_ID_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ALTERNATIVE_IDs, stage.A_ALTERNATIVE_ID_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3530,7 +3530,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs, stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3544,7 +3544,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_DATE_REFs, stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3558,7 +3558,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs, stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3572,7 +3572,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs, stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3586,7 +3586,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_REAL_REFs, stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3600,7 +3600,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_STRING_REFs, stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3614,7 +3614,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs, stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3628,7 +3628,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_BOOLEANs, stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_BOOLEANs, stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3642,7 +3642,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_DATE:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_DATEs, stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_DATEs, stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3656,7 +3656,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_ENUMERATIONs, stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3670,7 +3670,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_INTEGER:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_INTEGERs, stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_INTEGERs, stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3684,7 +3684,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_REAL:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_REALs, stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_REALs, stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3698,7 +3698,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_STRING:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_STRINGs, stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_STRINGs, stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3712,7 +3712,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_XHTML:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTMLs, stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTMLs, stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3726,7 +3726,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		tmp := GetStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTML_1s, stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ATTRIBUTE_VALUE_XHTML_1s, stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3740,7 +3740,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_CHILDREN:
-		tmp := GetStructInstancesByOrder(stage.A_CHILDRENs, stage.A_CHILDREN_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_CHILDRENs, stage.A_CHILDREN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3754,7 +3754,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_CORE_CONTENT:
-		tmp := GetStructInstancesByOrder(stage.A_CORE_CONTENTs, stage.A_CORE_CONTENT_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_CORE_CONTENTs, stage.A_CORE_CONTENT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3768,7 +3768,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPES:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPESs, stage.A_DATATYPES_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPESs, stage.A_DATATYPES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3782,7 +3782,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs, stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3796,7 +3796,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_DATE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_DATE_REFs, stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_DATE_REFs, stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3810,7 +3810,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs, stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3824,7 +3824,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_INTEGER_REFs, stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3838,7 +3838,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_REAL_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_REAL_REFs, stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_REAL_REFs, stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3852,7 +3852,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_STRING_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_STRING_REFs, stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_STRING_REFs, stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3866,7 +3866,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		tmp := GetStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_XHTML_REFs, stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_DATATYPE_DEFINITION_XHTML_REFs, stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3880,7 +3880,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_EDITABLE_ATTS:
-		tmp := GetStructInstancesByOrder(stage.A_EDITABLE_ATTSs, stage.A_EDITABLE_ATTS_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_EDITABLE_ATTSs, stage.A_EDITABLE_ATTS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3894,7 +3894,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_ENUM_VALUE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_ENUM_VALUE_REFs, stage.A_ENUM_VALUE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_ENUM_VALUE_REFs, stage.A_ENUM_VALUE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3908,7 +3908,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_OBJECT:
-		tmp := GetStructInstancesByOrder(stage.A_OBJECTs, stage.A_OBJECT_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_OBJECTs, stage.A_OBJECT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3922,7 +3922,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_PROPERTIES:
-		tmp := GetStructInstancesByOrder(stage.A_PROPERTIESs, stage.A_PROPERTIES_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_PROPERTIESs, stage.A_PROPERTIES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3936,7 +3936,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_RELATION_GROUP_TYPE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3950,7 +3950,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SOURCE_1:
-		tmp := GetStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3964,7 +3964,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SOURCE_SPECIFICATION_1:
-		tmp := GetStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3978,7 +3978,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPECIFICATIONS:
-		tmp := GetStructInstancesByOrder(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONS_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -3992,7 +3992,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPECIFICATION_TYPE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_SPECIFICATION_TYPE_REFs, stage.A_SPECIFICATION_TYPE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPECIFICATION_TYPE_REFs, stage.A_SPECIFICATION_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4006,7 +4006,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPECIFIED_VALUES:
-		tmp := GetStructInstancesByOrder(stage.A_SPECIFIED_VALUESs, stage.A_SPECIFIED_VALUES_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPECIFIED_VALUESs, stage.A_SPECIFIED_VALUES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4020,7 +4020,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_ATTRIBUTES:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_ATTRIBUTESs, stage.A_SPEC_ATTRIBUTES_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_ATTRIBUTESs, stage.A_SPEC_ATTRIBUTES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4034,7 +4034,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_OBJECTS:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_OBJECTSs, stage.A_SPEC_OBJECTS_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_OBJECTSs, stage.A_SPEC_OBJECTS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4048,7 +4048,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_OBJECT_TYPE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_OBJECT_TYPE_REFs, stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_OBJECT_TYPE_REFs, stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4062,7 +4062,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATIONS:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_RELATIONSs, stage.A_SPEC_RELATIONS_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATIONSs, stage.A_SPEC_RELATIONS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4076,7 +4076,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATION_GROUPS:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_RELATION_GROUPSs, stage.A_SPEC_RELATION_GROUPS_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATION_GROUPSs, stage.A_SPEC_RELATION_GROUPS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4090,7 +4090,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATION_REF:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_RELATION_REFs, stage.A_SPEC_RELATION_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATION_REFs, stage.A_SPEC_RELATION_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4104,7 +4104,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_RELATION_TYPE_REF:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_RELATION_TYPE_REFs, stage.A_SPEC_RELATION_TYPE_REF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_RELATION_TYPE_REFs, stage.A_SPEC_RELATION_TYPE_REF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4118,7 +4118,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_SPEC_TYPES:
-		tmp := GetStructInstancesByOrder(stage.A_SPEC_TYPESs, stage.A_SPEC_TYPES_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_SPEC_TYPESs, stage.A_SPEC_TYPES_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4132,7 +4132,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_THE_HEADER:
-		tmp := GetStructInstancesByOrder(stage.A_THE_HEADERs, stage.A_THE_HEADER_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_THE_HEADERs, stage.A_THE_HEADER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4146,7 +4146,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *A_TOOL_EXTENSIONS:
-		tmp := GetStructInstancesByOrder(stage.A_TOOL_EXTENSIONSs, stage.A_TOOL_EXTENSIONS_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.A_TOOL_EXTENSIONSs, stage.A_TOOL_EXTENSIONS_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4160,7 +4160,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_BOOLEAN:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_BOOLEANs, stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_BOOLEANs, stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4174,7 +4174,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_DATE:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_DATEs, stage.DATATYPE_DEFINITION_DATE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_DATEs, stage.DATATYPE_DEFINITION_DATE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4188,7 +4188,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_ENUMERATION:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_ENUMERATIONs, stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_ENUMERATIONs, stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4202,7 +4202,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_INTEGER:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_INTEGERs, stage.DATATYPE_DEFINITION_INTEGER_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_INTEGERs, stage.DATATYPE_DEFINITION_INTEGER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4216,7 +4216,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_REAL:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_REALs, stage.DATATYPE_DEFINITION_REAL_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_REALs, stage.DATATYPE_DEFINITION_REAL_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4230,7 +4230,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_STRING:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_STRINGs, stage.DATATYPE_DEFINITION_STRING_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_STRINGs, stage.DATATYPE_DEFINITION_STRING_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4244,7 +4244,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *DATATYPE_DEFINITION_XHTML:
-		tmp := GetStructInstancesByOrder(stage.DATATYPE_DEFINITION_XHTMLs, stage.DATATYPE_DEFINITION_XHTML_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.DATATYPE_DEFINITION_XHTMLs, stage.DATATYPE_DEFINITION_XHTML_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4258,7 +4258,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EMBEDDED_VALUE:
-		tmp := GetStructInstancesByOrder(stage.EMBEDDED_VALUEs, stage.EMBEDDED_VALUE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EMBEDDED_VALUEs, stage.EMBEDDED_VALUE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4272,7 +4272,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ENUM_VALUE:
-		tmp := GetStructInstancesByOrder(stage.ENUM_VALUEs, stage.ENUM_VALUE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ENUM_VALUEs, stage.ENUM_VALUE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4286,7 +4286,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RELATION_GROUP:
-		tmp := GetStructInstancesByOrder(stage.RELATION_GROUPs, stage.RELATION_GROUP_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RELATION_GROUPs, stage.RELATION_GROUP_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4300,7 +4300,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RELATION_GROUP_TYPE:
-		tmp := GetStructInstancesByOrder(stage.RELATION_GROUP_TYPEs, stage.RELATION_GROUP_TYPE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RELATION_GROUP_TYPEs, stage.RELATION_GROUP_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4314,7 +4314,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF:
-		tmp := GetStructInstancesByOrder(stage.REQ_IFs, stage.REQ_IF_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.REQ_IFs, stage.REQ_IF_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4328,7 +4328,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF_CONTENT:
-		tmp := GetStructInstancesByOrder(stage.REQ_IF_CONTENTs, stage.REQ_IF_CONTENT_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.REQ_IF_CONTENTs, stage.REQ_IF_CONTENT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4342,7 +4342,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF_HEADER:
-		tmp := GetStructInstancesByOrder(stage.REQ_IF_HEADERs, stage.REQ_IF_HEADER_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.REQ_IF_HEADERs, stage.REQ_IF_HEADER_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4356,7 +4356,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *REQ_IF_TOOL_EXTENSION:
-		tmp := GetStructInstancesByOrder(stage.REQ_IF_TOOL_EXTENSIONs, stage.REQ_IF_TOOL_EXTENSION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.REQ_IF_TOOL_EXTENSIONs, stage.REQ_IF_TOOL_EXTENSION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4370,7 +4370,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPECIFICATION:
-		tmp := GetStructInstancesByOrder(stage.SPECIFICATIONs, stage.SPECIFICATION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPECIFICATIONs, stage.SPECIFICATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4384,7 +4384,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPECIFICATION_TYPE:
-		tmp := GetStructInstancesByOrder(stage.SPECIFICATION_TYPEs, stage.SPECIFICATION_TYPE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPECIFICATION_TYPEs, stage.SPECIFICATION_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4398,7 +4398,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_HIERARCHY:
-		tmp := GetStructInstancesByOrder(stage.SPEC_HIERARCHYs, stage.SPEC_HIERARCHY_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPEC_HIERARCHYs, stage.SPEC_HIERARCHY_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4412,7 +4412,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_OBJECT:
-		tmp := GetStructInstancesByOrder(stage.SPEC_OBJECTs, stage.SPEC_OBJECT_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPEC_OBJECTs, stage.SPEC_OBJECT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4426,7 +4426,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_OBJECT_TYPE:
-		tmp := GetStructInstancesByOrder(stage.SPEC_OBJECT_TYPEs, stage.SPEC_OBJECT_TYPE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPEC_OBJECT_TYPEs, stage.SPEC_OBJECT_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4440,7 +4440,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_RELATION:
-		tmp := GetStructInstancesByOrder(stage.SPEC_RELATIONs, stage.SPEC_RELATION_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPEC_RELATIONs, stage.SPEC_RELATION_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4454,7 +4454,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SPEC_RELATION_TYPE:
-		tmp := GetStructInstancesByOrder(stage.SPEC_RELATION_TYPEs, stage.SPEC_RELATION_TYPE_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SPEC_RELATION_TYPEs, stage.SPEC_RELATION_TYPE_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4468,7 +4468,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *XHTML_CONTENT:
-		tmp := GetStructInstancesByOrder(stage.XHTML_CONTENTs, stage.XHTML_CONTENT_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.XHTML_CONTENTs, stage.XHTML_CONTENT_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4486,12 +4486,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -6145,192 +6140,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *ALTERNATIVE_ID:
-		return stage.ALTERNATIVE_ID_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		return stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_DATE:
-		return stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		return stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		return stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_REAL:
-		return stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_STRING:
-		return stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		return stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		return stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_DATE:
-		return stage.ATTRIBUTE_VALUE_DATE_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		return stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_INTEGER:
-		return stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_REAL:
-		return stage.ATTRIBUTE_VALUE_REAL_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_STRING:
-		return stage.ATTRIBUTE_VALUE_STRING_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_XHTML:
-		return stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[instance]
-	case *A_ALTERNATIVE_ID:
-		return stage.A_ALTERNATIVE_ID_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		return stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_DATE:
-		return stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		return stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		return stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_REAL:
-		return stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_STRING:
-		return stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		return stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		return stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[instance]
-	case *A_CHILDREN:
-		return stage.A_CHILDREN_stagedOrder[instance]
-	case *A_CORE_CONTENT:
-		return stage.A_CORE_CONTENT_stagedOrder[instance]
-	case *A_DATATYPES:
-		return stage.A_DATATYPES_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		return stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		return stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		return stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		return stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		return stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[instance]
-	case *A_EDITABLE_ATTS:
-		return stage.A_EDITABLE_ATTS_stagedOrder[instance]
-	case *A_ENUM_VALUE_REF:
-		return stage.A_ENUM_VALUE_REF_stagedOrder[instance]
-	case *A_OBJECT:
-		return stage.A_OBJECT_stagedOrder[instance]
-	case *A_PROPERTIES:
-		return stage.A_PROPERTIES_stagedOrder[instance]
-	case *A_RELATION_GROUP_TYPE_REF:
-		return stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[instance]
-	case *A_SOURCE_1:
-		return stage.A_SOURCE_1_stagedOrder[instance]
-	case *A_SOURCE_SPECIFICATION_1:
-		return stage.A_SOURCE_SPECIFICATION_1_stagedOrder[instance]
-	case *A_SPECIFICATIONS:
-		return stage.A_SPECIFICATIONS_stagedOrder[instance]
-	case *A_SPECIFICATION_TYPE_REF:
-		return stage.A_SPECIFICATION_TYPE_REF_stagedOrder[instance]
-	case *A_SPECIFIED_VALUES:
-		return stage.A_SPECIFIED_VALUES_stagedOrder[instance]
-	case *A_SPEC_ATTRIBUTES:
-		return stage.A_SPEC_ATTRIBUTES_stagedOrder[instance]
-	case *A_SPEC_OBJECTS:
-		return stage.A_SPEC_OBJECTS_stagedOrder[instance]
-	case *A_SPEC_OBJECT_TYPE_REF:
-		return stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[instance]
-	case *A_SPEC_RELATIONS:
-		return stage.A_SPEC_RELATIONS_stagedOrder[instance]
-	case *A_SPEC_RELATION_GROUPS:
-		return stage.A_SPEC_RELATION_GROUPS_stagedOrder[instance]
-	case *A_SPEC_RELATION_REF:
-		return stage.A_SPEC_RELATION_REF_stagedOrder[instance]
-	case *A_SPEC_RELATION_TYPE_REF:
-		return stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[instance]
-	case *A_SPEC_TYPES:
-		return stage.A_SPEC_TYPES_stagedOrder[instance]
-	case *A_THE_HEADER:
-		return stage.A_THE_HEADER_stagedOrder[instance]
-	case *A_TOOL_EXTENSIONS:
-		return stage.A_TOOL_EXTENSIONS_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		return stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_DATE:
-		return stage.DATATYPE_DEFINITION_DATE_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		return stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_INTEGER:
-		return stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_REAL:
-		return stage.DATATYPE_DEFINITION_REAL_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_STRING:
-		return stage.DATATYPE_DEFINITION_STRING_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_XHTML:
-		return stage.DATATYPE_DEFINITION_XHTML_stagedOrder[instance]
-	case *EMBEDDED_VALUE:
-		return stage.EMBEDDED_VALUE_stagedOrder[instance]
-	case *ENUM_VALUE:
-		return stage.ENUM_VALUE_stagedOrder[instance]
-	case *RELATION_GROUP:
-		return stage.RELATION_GROUP_stagedOrder[instance]
-	case *RELATION_GROUP_TYPE:
-		return stage.RELATION_GROUP_TYPE_stagedOrder[instance]
-	case *REQ_IF:
-		return stage.REQ_IF_stagedOrder[instance]
-	case *REQ_IF_CONTENT:
-		return stage.REQ_IF_CONTENT_stagedOrder[instance]
-	case *REQ_IF_HEADER:
-		return stage.REQ_IF_HEADER_stagedOrder[instance]
-	case *REQ_IF_TOOL_EXTENSION:
-		return stage.REQ_IF_TOOL_EXTENSION_stagedOrder[instance]
-	case *SPECIFICATION:
-		return stage.SPECIFICATION_stagedOrder[instance]
-	case *SPECIFICATION_TYPE:
-		return stage.SPECIFICATION_TYPE_stagedOrder[instance]
-	case *SPEC_HIERARCHY:
-		return stage.SPEC_HIERARCHY_stagedOrder[instance]
-	case *SPEC_OBJECT:
-		return stage.SPEC_OBJECT_stagedOrder[instance]
-	case *SPEC_OBJECT_TYPE:
-		return stage.SPEC_OBJECT_TYPE_stagedOrder[instance]
-	case *SPEC_RELATION:
-		return stage.SPEC_RELATION_stagedOrder[instance]
-	case *SPEC_RELATION_TYPE:
-		return stage.SPEC_RELATION_TYPE_stagedOrder[instance]
-	case *XHTML_CONTENT:
-		return stage.XHTML_CONTENT_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -15167,19 +14977,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -15359,195 +15156,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case ALTERNATIVE_ID:
-		return any(&stage.ALTERNATIVE_IDs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_BOOLEAN:
-		return any(&stage.ATTRIBUTE_DEFINITION_BOOLEANs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_DATE:
-		return any(&stage.ATTRIBUTE_DEFINITION_DATEs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_ENUMERATION:
-		return any(&stage.ATTRIBUTE_DEFINITION_ENUMERATIONs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_INTEGER:
-		return any(&stage.ATTRIBUTE_DEFINITION_INTEGERs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_REAL:
-		return any(&stage.ATTRIBUTE_DEFINITION_REALs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_STRING:
-		return any(&stage.ATTRIBUTE_DEFINITION_STRINGs).(*map[*Type]struct{})
-	case ATTRIBUTE_DEFINITION_XHTML:
-		return any(&stage.ATTRIBUTE_DEFINITION_XHTMLs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&stage.ATTRIBUTE_VALUE_BOOLEANs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_DATE:
-		return any(&stage.ATTRIBUTE_VALUE_DATEs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&stage.ATTRIBUTE_VALUE_ENUMERATIONs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_INTEGER:
-		return any(&stage.ATTRIBUTE_VALUE_INTEGERs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_REAL:
-		return any(&stage.ATTRIBUTE_VALUE_REALs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_STRING:
-		return any(&stage.ATTRIBUTE_VALUE_STRINGs).(*map[*Type]struct{})
-	case ATTRIBUTE_VALUE_XHTML:
-		return any(&stage.ATTRIBUTE_VALUE_XHTMLs).(*map[*Type]struct{})
-	case A_ALTERNATIVE_ID:
-		return any(&stage.A_ALTERNATIVE_IDs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_DATE_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_REAL_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_STRING_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&stage.A_ATTRIBUTE_VALUE_BOOLEANs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_DATE:
-		return any(&stage.A_ATTRIBUTE_VALUE_DATEs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&stage.A_ATTRIBUTE_VALUE_ENUMERATIONs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_INTEGER:
-		return any(&stage.A_ATTRIBUTE_VALUE_INTEGERs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_REAL:
-		return any(&stage.A_ATTRIBUTE_VALUE_REALs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_STRING:
-		return any(&stage.A_ATTRIBUTE_VALUE_STRINGs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_XHTML:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTMLs).(*map[*Type]struct{})
-	case A_ATTRIBUTE_VALUE_XHTML_1:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTML_1s).(*map[*Type]struct{})
-	case A_CHILDREN:
-		return any(&stage.A_CHILDRENs).(*map[*Type]struct{})
-	case A_CORE_CONTENT:
-		return any(&stage.A_CORE_CONTENTs).(*map[*Type]struct{})
-	case A_DATATYPES:
-		return any(&stage.A_DATATYPESs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_DATE_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_DATE_REFs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_INTEGER_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_INTEGER_REFs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_REAL_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_REAL_REFs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_STRING_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_STRING_REFs).(*map[*Type]struct{})
-	case A_DATATYPE_DEFINITION_XHTML_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_XHTML_REFs).(*map[*Type]struct{})
-	case A_EDITABLE_ATTS:
-		return any(&stage.A_EDITABLE_ATTSs).(*map[*Type]struct{})
-	case A_ENUM_VALUE_REF:
-		return any(&stage.A_ENUM_VALUE_REFs).(*map[*Type]struct{})
-	case A_OBJECT:
-		return any(&stage.A_OBJECTs).(*map[*Type]struct{})
-	case A_PROPERTIES:
-		return any(&stage.A_PROPERTIESs).(*map[*Type]struct{})
-	case A_RELATION_GROUP_TYPE_REF:
-		return any(&stage.A_RELATION_GROUP_TYPE_REFs).(*map[*Type]struct{})
-	case A_SOURCE_1:
-		return any(&stage.A_SOURCE_1s).(*map[*Type]struct{})
-	case A_SOURCE_SPECIFICATION_1:
-		return any(&stage.A_SOURCE_SPECIFICATION_1s).(*map[*Type]struct{})
-	case A_SPECIFICATIONS:
-		return any(&stage.A_SPECIFICATIONSs).(*map[*Type]struct{})
-	case A_SPECIFICATION_TYPE_REF:
-		return any(&stage.A_SPECIFICATION_TYPE_REFs).(*map[*Type]struct{})
-	case A_SPECIFIED_VALUES:
-		return any(&stage.A_SPECIFIED_VALUESs).(*map[*Type]struct{})
-	case A_SPEC_ATTRIBUTES:
-		return any(&stage.A_SPEC_ATTRIBUTESs).(*map[*Type]struct{})
-	case A_SPEC_OBJECTS:
-		return any(&stage.A_SPEC_OBJECTSs).(*map[*Type]struct{})
-	case A_SPEC_OBJECT_TYPE_REF:
-		return any(&stage.A_SPEC_OBJECT_TYPE_REFs).(*map[*Type]struct{})
-	case A_SPEC_RELATIONS:
-		return any(&stage.A_SPEC_RELATIONSs).(*map[*Type]struct{})
-	case A_SPEC_RELATION_GROUPS:
-		return any(&stage.A_SPEC_RELATION_GROUPSs).(*map[*Type]struct{})
-	case A_SPEC_RELATION_REF:
-		return any(&stage.A_SPEC_RELATION_REFs).(*map[*Type]struct{})
-	case A_SPEC_RELATION_TYPE_REF:
-		return any(&stage.A_SPEC_RELATION_TYPE_REFs).(*map[*Type]struct{})
-	case A_SPEC_TYPES:
-		return any(&stage.A_SPEC_TYPESs).(*map[*Type]struct{})
-	case A_THE_HEADER:
-		return any(&stage.A_THE_HEADERs).(*map[*Type]struct{})
-	case A_TOOL_EXTENSIONS:
-		return any(&stage.A_TOOL_EXTENSIONSs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_BOOLEAN:
-		return any(&stage.DATATYPE_DEFINITION_BOOLEANs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_DATE:
-		return any(&stage.DATATYPE_DEFINITION_DATEs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_ENUMERATION:
-		return any(&stage.DATATYPE_DEFINITION_ENUMERATIONs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_INTEGER:
-		return any(&stage.DATATYPE_DEFINITION_INTEGERs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_REAL:
-		return any(&stage.DATATYPE_DEFINITION_REALs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_STRING:
-		return any(&stage.DATATYPE_DEFINITION_STRINGs).(*map[*Type]struct{})
-	case DATATYPE_DEFINITION_XHTML:
-		return any(&stage.DATATYPE_DEFINITION_XHTMLs).(*map[*Type]struct{})
-	case EMBEDDED_VALUE:
-		return any(&stage.EMBEDDED_VALUEs).(*map[*Type]struct{})
-	case ENUM_VALUE:
-		return any(&stage.ENUM_VALUEs).(*map[*Type]struct{})
-	case RELATION_GROUP:
-		return any(&stage.RELATION_GROUPs).(*map[*Type]struct{})
-	case RELATION_GROUP_TYPE:
-		return any(&stage.RELATION_GROUP_TYPEs).(*map[*Type]struct{})
-	case REQ_IF:
-		return any(&stage.REQ_IFs).(*map[*Type]struct{})
-	case REQ_IF_CONTENT:
-		return any(&stage.REQ_IF_CONTENTs).(*map[*Type]struct{})
-	case REQ_IF_HEADER:
-		return any(&stage.REQ_IF_HEADERs).(*map[*Type]struct{})
-	case REQ_IF_TOOL_EXTENSION:
-		return any(&stage.REQ_IF_TOOL_EXTENSIONs).(*map[*Type]struct{})
-	case SPECIFICATION:
-		return any(&stage.SPECIFICATIONs).(*map[*Type]struct{})
-	case SPECIFICATION_TYPE:
-		return any(&stage.SPECIFICATION_TYPEs).(*map[*Type]struct{})
-	case SPEC_HIERARCHY:
-		return any(&stage.SPEC_HIERARCHYs).(*map[*Type]struct{})
-	case SPEC_OBJECT:
-		return any(&stage.SPEC_OBJECTs).(*map[*Type]struct{})
-	case SPEC_OBJECT_TYPE:
-		return any(&stage.SPEC_OBJECT_TYPEs).(*map[*Type]struct{})
-	case SPEC_RELATION:
-		return any(&stage.SPEC_RELATIONs).(*map[*Type]struct{})
-	case SPEC_RELATION_TYPE:
-		return any(&stage.SPEC_RELATION_TYPEs).(*map[*Type]struct{})
-	case XHTML_CONTENT:
-		return any(&stage.XHTML_CONTENTs).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -15725,195 +15333,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case ALTERNATIVE_ID:
-		return any(&stage.ALTERNATIVE_IDs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_BOOLEAN:
-		return any(&stage.ATTRIBUTE_DEFINITION_BOOLEANs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_DATE:
-		return any(&stage.ATTRIBUTE_DEFINITION_DATEs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_ENUMERATION:
-		return any(&stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_INTEGER:
-		return any(&stage.ATTRIBUTE_DEFINITION_INTEGERs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_REAL:
-		return any(&stage.ATTRIBUTE_DEFINITION_REALs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_STRING:
-		return any(&stage.ATTRIBUTE_DEFINITION_STRINGs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_DEFINITION_XHTML:
-		return any(&stage.ATTRIBUTE_DEFINITION_XHTMLs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&stage.ATTRIBUTE_VALUE_BOOLEANs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_DATE:
-		return any(&stage.ATTRIBUTE_VALUE_DATEs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&stage.ATTRIBUTE_VALUE_ENUMERATIONs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_INTEGER:
-		return any(&stage.ATTRIBUTE_VALUE_INTEGERs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_REAL:
-		return any(&stage.ATTRIBUTE_VALUE_REALs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_STRING:
-		return any(&stage.ATTRIBUTE_VALUE_STRINGs_mapString).(*map[string]*Type)
-	case ATTRIBUTE_VALUE_XHTML:
-		return any(&stage.ATTRIBUTE_VALUE_XHTMLs_mapString).(*map[string]*Type)
-	case A_ALTERNATIVE_ID:
-		return any(&stage.A_ALTERNATIVE_IDs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return any(&stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_BOOLEAN:
-		return any(&stage.A_ATTRIBUTE_VALUE_BOOLEANs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_DATE:
-		return any(&stage.A_ATTRIBUTE_VALUE_DATEs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_ENUMERATION:
-		return any(&stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_INTEGER:
-		return any(&stage.A_ATTRIBUTE_VALUE_INTEGERs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_REAL:
-		return any(&stage.A_ATTRIBUTE_VALUE_REALs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_STRING:
-		return any(&stage.A_ATTRIBUTE_VALUE_STRINGs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_XHTML:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTMLs_mapString).(*map[string]*Type)
-	case A_ATTRIBUTE_VALUE_XHTML_1:
-		return any(&stage.A_ATTRIBUTE_VALUE_XHTML_1s_mapString).(*map[string]*Type)
-	case A_CHILDREN:
-		return any(&stage.A_CHILDRENs_mapString).(*map[string]*Type)
-	case A_CORE_CONTENT:
-		return any(&stage.A_CORE_CONTENTs_mapString).(*map[string]*Type)
-	case A_DATATYPES:
-		return any(&stage.A_DATATYPESs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_DATE_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_DATE_REFs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_INTEGER_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_INTEGER_REFs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_REAL_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_REAL_REFs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_STRING_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_STRING_REFs_mapString).(*map[string]*Type)
-	case A_DATATYPE_DEFINITION_XHTML_REF:
-		return any(&stage.A_DATATYPE_DEFINITION_XHTML_REFs_mapString).(*map[string]*Type)
-	case A_EDITABLE_ATTS:
-		return any(&stage.A_EDITABLE_ATTSs_mapString).(*map[string]*Type)
-	case A_ENUM_VALUE_REF:
-		return any(&stage.A_ENUM_VALUE_REFs_mapString).(*map[string]*Type)
-	case A_OBJECT:
-		return any(&stage.A_OBJECTs_mapString).(*map[string]*Type)
-	case A_PROPERTIES:
-		return any(&stage.A_PROPERTIESs_mapString).(*map[string]*Type)
-	case A_RELATION_GROUP_TYPE_REF:
-		return any(&stage.A_RELATION_GROUP_TYPE_REFs_mapString).(*map[string]*Type)
-	case A_SOURCE_1:
-		return any(&stage.A_SOURCE_1s_mapString).(*map[string]*Type)
-	case A_SOURCE_SPECIFICATION_1:
-		return any(&stage.A_SOURCE_SPECIFICATION_1s_mapString).(*map[string]*Type)
-	case A_SPECIFICATIONS:
-		return any(&stage.A_SPECIFICATIONSs_mapString).(*map[string]*Type)
-	case A_SPECIFICATION_TYPE_REF:
-		return any(&stage.A_SPECIFICATION_TYPE_REFs_mapString).(*map[string]*Type)
-	case A_SPECIFIED_VALUES:
-		return any(&stage.A_SPECIFIED_VALUESs_mapString).(*map[string]*Type)
-	case A_SPEC_ATTRIBUTES:
-		return any(&stage.A_SPEC_ATTRIBUTESs_mapString).(*map[string]*Type)
-	case A_SPEC_OBJECTS:
-		return any(&stage.A_SPEC_OBJECTSs_mapString).(*map[string]*Type)
-	case A_SPEC_OBJECT_TYPE_REF:
-		return any(&stage.A_SPEC_OBJECT_TYPE_REFs_mapString).(*map[string]*Type)
-	case A_SPEC_RELATIONS:
-		return any(&stage.A_SPEC_RELATIONSs_mapString).(*map[string]*Type)
-	case A_SPEC_RELATION_GROUPS:
-		return any(&stage.A_SPEC_RELATION_GROUPSs_mapString).(*map[string]*Type)
-	case A_SPEC_RELATION_REF:
-		return any(&stage.A_SPEC_RELATION_REFs_mapString).(*map[string]*Type)
-	case A_SPEC_RELATION_TYPE_REF:
-		return any(&stage.A_SPEC_RELATION_TYPE_REFs_mapString).(*map[string]*Type)
-	case A_SPEC_TYPES:
-		return any(&stage.A_SPEC_TYPESs_mapString).(*map[string]*Type)
-	case A_THE_HEADER:
-		return any(&stage.A_THE_HEADERs_mapString).(*map[string]*Type)
-	case A_TOOL_EXTENSIONS:
-		return any(&stage.A_TOOL_EXTENSIONSs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_BOOLEAN:
-		return any(&stage.DATATYPE_DEFINITION_BOOLEANs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_DATE:
-		return any(&stage.DATATYPE_DEFINITION_DATEs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_ENUMERATION:
-		return any(&stage.DATATYPE_DEFINITION_ENUMERATIONs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_INTEGER:
-		return any(&stage.DATATYPE_DEFINITION_INTEGERs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_REAL:
-		return any(&stage.DATATYPE_DEFINITION_REALs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_STRING:
-		return any(&stage.DATATYPE_DEFINITION_STRINGs_mapString).(*map[string]*Type)
-	case DATATYPE_DEFINITION_XHTML:
-		return any(&stage.DATATYPE_DEFINITION_XHTMLs_mapString).(*map[string]*Type)
-	case EMBEDDED_VALUE:
-		return any(&stage.EMBEDDED_VALUEs_mapString).(*map[string]*Type)
-	case ENUM_VALUE:
-		return any(&stage.ENUM_VALUEs_mapString).(*map[string]*Type)
-	case RELATION_GROUP:
-		return any(&stage.RELATION_GROUPs_mapString).(*map[string]*Type)
-	case RELATION_GROUP_TYPE:
-		return any(&stage.RELATION_GROUP_TYPEs_mapString).(*map[string]*Type)
-	case REQ_IF:
-		return any(&stage.REQ_IFs_mapString).(*map[string]*Type)
-	case REQ_IF_CONTENT:
-		return any(&stage.REQ_IF_CONTENTs_mapString).(*map[string]*Type)
-	case REQ_IF_HEADER:
-		return any(&stage.REQ_IF_HEADERs_mapString).(*map[string]*Type)
-	case REQ_IF_TOOL_EXTENSION:
-		return any(&stage.REQ_IF_TOOL_EXTENSIONs_mapString).(*map[string]*Type)
-	case SPECIFICATION:
-		return any(&stage.SPECIFICATIONs_mapString).(*map[string]*Type)
-	case SPECIFICATION_TYPE:
-		return any(&stage.SPECIFICATION_TYPEs_mapString).(*map[string]*Type)
-	case SPEC_HIERARCHY:
-		return any(&stage.SPEC_HIERARCHYs_mapString).(*map[string]*Type)
-	case SPEC_OBJECT:
-		return any(&stage.SPEC_OBJECTs_mapString).(*map[string]*Type)
-	case SPEC_OBJECT_TYPE:
-		return any(&stage.SPEC_OBJECT_TYPEs_mapString).(*map[string]*Type)
-	case SPEC_RELATION:
-		return any(&stage.SPEC_RELATIONs_mapString).(*map[string]*Type)
-	case SPEC_RELATION_TYPE:
-		return any(&stage.SPEC_RELATION_TYPEs_mapString).(*map[string]*Type)
-	case XHTML_CONTENT:
-		return any(&stage.XHTML_CONTENTs_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -18356,11 +17775,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

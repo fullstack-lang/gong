@@ -18,7 +18,7 @@ func (proxy *ButtonNewClassdiagramProxy) ButtonUpdated(
 	stager := proxy.stager
 	stage := stager.stage
 
-	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
+	diagramPackages := *stage.GetInstancesSet[*DiagramPackage]()
 	var diagramPackage *DiagramPackage
 	for k := range diagramPackages {
 		diagramPackage = k
@@ -37,7 +37,7 @@ func (proxy *ButtonNewClassdiagramProxy) ButtonUpdated(
 	for index == 0 || hasNameCollision {
 		index++
 		hasNameCollision = false
-		for classdiagram := range *GetGongstructInstancesSet[Classdiagram](stage) {
+		for classdiagram := range *stage.GetInstancesSet[*Classdiagram]() {
 			if classdiagram.Name == newClassdiagramName {
 				hasNameCollision = true
 			}

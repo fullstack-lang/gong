@@ -42,10 +42,10 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needCommit bool) {
 
-	gongStructSet := *gong.GetGongstructInstancesMap[gong.GongStruct](stager.gongStage)
-	// gongEnumSet := *gong.GetGongstructInstancesMap[gong.GongEnum](stager.gongStage)
+	gongStructSet := stager.gongStage.GetInstancesMapByName[*gong.GongStruct]()
+	// gongEnumSet := stager.gongStage.GetInstancesMapByName[*gong.GongEnum]()
 
-	for gongStructShape := range *GetGongstructInstancesSetFromPointerType[*GongStructShape](stager.stage) {
+	for gongStructShape := range *stager.stage.GetInstancesSet[*GongStructShape]() {
 		gongStructName := IdentifierMetaToGongStructName(gongStructShape.IdentifierMeta)
 		_, ok := gongStructSet[gongStructName]
 
@@ -57,7 +57,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 	}
 
-	for fieldShape := range *GetGongstructInstancesSetFromPointerType[*AttributeShape](stager.stage) {
+	for fieldShape := range *stager.stage.GetInstancesSet[*AttributeShape]() {
 		structname, fieldShapeName := IdentifierMetaToStructAndFieldName(fieldShape.IdentifierMeta)
 
 		gongStruct, ok := gongStructSet[structname]
@@ -97,7 +97,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 	}
 
-	for linkShape := range *GetGongstructInstancesSetFromPointerType[*LinkShape](stager.stage) {
+	for linkShape := range *stager.stage.GetInstancesSet[*LinkShape]() {
 		structname, fieldShapeName := IdentifierMetaToStructAndFieldName(linkShape.IdentifierMeta)
 
 		gongStruct, ok := gongStructSet[structname]
@@ -167,8 +167,8 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 	}
 
-	gongEnumSet := *gong.GetGongstructInstancesMap[gong.GongEnum](stager.gongStage)
-	for gongEnumShape := range *GetGongstructInstancesSetFromPointerType[*GongEnumShape](stager.stage) {
+	gongEnumSet := stager.gongStage.GetInstancesMapByName[*gong.GongEnum]()
+	for gongEnumShape := range *stager.stage.GetInstancesSet[*GongEnumShape]() {
 
 		gongEnumName := GongEnumIdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
 		_, ok := gongEnumSet[gongEnumName]
@@ -179,8 +179,8 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 	}
 
-	gongEnumValueSet := *gong.GetGongstructInstancesMap[gong.GongEnumValue](stager.gongStage)
-	for gongEnumValueShape := range *GetGongstructInstancesSetFromPointerType[*GongEnumValueShape](stager.stage) {
+	gongEnumValueSet := stager.gongStage.GetInstancesMapByName[*gong.GongEnumValue]()
+	for gongEnumValueShape := range *stager.stage.GetInstancesSet[*GongEnumValueShape]() {
 
 		gongEnumValueName := GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
 		_, ok := gongEnumValueSet[gongEnumValueName]

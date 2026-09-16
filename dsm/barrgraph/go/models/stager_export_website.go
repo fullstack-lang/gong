@@ -18,14 +18,14 @@ func (stager *Stager) exportWebsite() {
 		MardownContent: "## Barrgraph website",
 	}
 
-	if len(GetGongstrucsSorted[*Diagram](stager.stage)) > 0 {
+	if len(stager.stage.GetInstancesSorted[*Diagram]()) > 0 {
 		chapter := &ssg.Chapter{
 			Name:           "Diagrams",
 			MardownContent: "### Diagrams\n",
 		}
 		content.Chapters = append(content.Chapters, chapter)
 
-		for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+		for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 			svgObject := stager.generateSvgObject(diagram)
 			_ = svgObject
 			svgString, maxX, maxY := svgObject.GenerateString()
@@ -46,7 +46,7 @@ func (stager *Stager) exportWebsite() {
 		}
 	}
 
-	movements := GetGongstrucsSorted[*Movement](stager.stage)
+	movements := stager.stage.GetInstancesSorted[*Movement]()
 	if len(movements) > 0 {
 		chapter := &ssg.Chapter{
 			Name:           "Movements",
@@ -68,7 +68,7 @@ func (stager *Stager) exportWebsite() {
 		chapter.Pages = append(chapter.Pages, page)
 	}
 
-	artists := GetGongstrucsSorted[*Artist](stager.stage)
+	artists := stager.stage.GetInstancesSorted[*Artist]()
 	if len(artists) > 0 {
 		chapter := &ssg.Chapter{
 			Name:           "Artists",
@@ -94,7 +94,7 @@ func (stager *Stager) exportWebsite() {
 		chapter.Pages = append(chapter.Pages, page)
 	}
 
-	artefacts := GetGongstrucsSorted[*ArtefactType](stager.stage)
+	artefacts := stager.stage.GetInstancesSorted[*ArtefactType]()
 	if len(artefacts) > 0 {
 		chapter := &ssg.Chapter{
 			Name:           "Artefact Types",
@@ -112,7 +112,7 @@ func (stager *Stager) exportWebsite() {
 		chapter.Pages = append(chapter.Pages, page)
 	}
 
-	influences := GetGongstrucsSorted[*Influence](stager.stage)
+	influences := stager.stage.GetInstancesSorted[*Influence]()
 	if len(influences) > 0 {
 		chapter := &ssg.Chapter{
 			Name:           "Influences",
@@ -152,7 +152,7 @@ func (stager *Stager) exportWebsite() {
 		chapter.Pages = append(chapter.Pages, page)
 	}
 
-	places := GetGongstrucsSorted[*Place](stager.stage)
+	places := stager.stage.GetInstancesSorted[*Place]()
 	if len(places) > 0 {
 		chapter := &ssg.Chapter{
 			Name:           "Places",

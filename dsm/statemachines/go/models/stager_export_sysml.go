@@ -273,7 +273,7 @@ func (stager *Stager) writeLibraryPackage(sb *strings.Builder, lib *Library, ind
 	// Gather state machines belonging to this library
 	sms := lib.RootStateMachines
 	if len(sms) == 0 && lib.IsRootLibrary {
-		sms = GetGongstrucsSorted[*StateMachine](stager.stage)
+		sms = stager.stage.GetInstancesSorted[*StateMachine]()
 	}
 
 	// Collect message types used across these state machines
@@ -308,7 +308,7 @@ func (stager *Stager) writeLibraryPackage(sb *strings.Builder, lib *Library, ind
 
 	// If root library, also include message types defined in stage if none gathered
 	if lib.IsRootLibrary && len(usedMessageTypes) == 0 {
-		for _, msg := range GetGongstrucsSorted[*MessageType](stager.stage) {
+		for _, msg := range stager.stage.GetInstancesSorted[*MessageType]() {
 			usedMessageTypes[msg] = true
 		}
 	}
@@ -360,7 +360,7 @@ func (stager *Stager) writeLibraryPackage(sb *strings.Builder, lib *Library, ind
 func (stager *Stager) generateSysML(library *Library) string {
 	var sb strings.Builder
 
-	allTransitions := GetGongstrucsSorted[*Transition](stager.stage)
+	allTransitions := stager.stage.GetInstancesSorted[*Transition]()
 	stager.writeLibraryPackage(&sb, library, "", allTransitions)
 
 	return sb.String()

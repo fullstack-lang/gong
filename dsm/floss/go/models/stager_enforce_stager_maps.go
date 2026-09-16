@@ -3,7 +3,7 @@ package models
 func (stager *Stager) enforceStagerMaps() {
 	stager.map_Element_Diagrams = make(map[AbstractType][]*DiagramFlossEquation)
 
-	for _, diagramEquation := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+	for _, diagramEquation := range stager.stage.GetInstancesSorted[*DiagramFlossEquation]() {
 		diagramEquation.map_Note_NoteShape = make(map[*Note]*NoteShape)
 		for _, shape := range diagramEquation.Note_Shapes {
 			if shape.Note != nil {

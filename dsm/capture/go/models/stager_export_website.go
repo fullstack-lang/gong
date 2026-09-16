@@ -25,7 +25,7 @@ Ce site web statique présente l'analyse des besoins pour l'outil du référenti
 		OutputPath: "./generated static web site",
 	}
 
-	for _, lib := range GetGongstrucsSorted[*Library](stager.stage) {
+	for _, lib := range stager.stage.GetInstancesSorted[*Library]() {
 		chapter := &ssg.Chapter{
 			Name:           lib.Name,
 			MardownContent: "### " + lib.Name,

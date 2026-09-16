@@ -4,7 +4,7 @@ func (stager *Stager) enforceAtLeastOneDiagramPerCompareAnalysis() (needCommit b
 	stage := stager.stage
 
 	// enforce that there is at least one diagram per compare analysis
-	for compareAnalysis := range *GetGongstructInstancesSetFromPointerType[*CompareAnalysis](stage) {
+	for compareAnalysis := range *stage.GetInstancesSet[*CompareAnalysis]() {
 		if len(compareAnalysis.DiagramFlossEquations) == 0 {
 			diagram := (&DiagramFlossEquation{
 				Name:        compareAnalysis.Name + " Equation Diagram",

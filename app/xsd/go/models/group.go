@@ -20,19 +20,19 @@ func (group *Group) GetFields(stage *Stage) (fields string) {
 	setOfFieldGoIdentifiers := make(map[string]any)
 
 	stMap := make(map[string]*SimpleType)
-	for st := range *GetGongstructInstancesSet[SimpleType](stage) {
+	for st := range *stage.GetInstancesSet[*SimpleType]() {
 		stMap[st.Name] = st
 	}
 	ctMap := make(map[string]*ComplexType)
-	for st := range *GetGongstructInstancesSet[ComplexType](stage) {
+	for st := range *stage.GetInstancesSet[*ComplexType]() {
 		ctMap[st.Name] = st
 	}
 	agMap := make(map[string]*AttributeGroup)
-	for ag := range *GetGongstructInstancesSet[AttributeGroup](stage) {
+	for ag := range *stage.GetInstancesSet[*AttributeGroup]() {
 		agMap[ag.Name] = ag
 	}
 	groupMap := make(map[string]*Group)
-	for group := range *GetGongstructInstancesSet[Group](stage) {
+	for group := range *stage.GetInstancesSet[*Group]() {
 		groupMap[group.Name] = group
 	}
 

@@ -49,7 +49,7 @@ func (cursor *Cursor) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cursor), uint64(GetOrderPointerGongstruct(stage, cursor)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cursor), uint64(stage.GetOrder(cursor)))
 	return
 }
 

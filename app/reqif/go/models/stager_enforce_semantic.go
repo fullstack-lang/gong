@@ -41,7 +41,7 @@ func (stager *Stager) enforceModelSemantic() {
 // where keys are string identifiers and values are pointers to the instances.
 // T must satisfy the Identifiable interface.
 func populateIdMap[T Identifiable](stager *Stager) map[string]T {
-	instances := *GetGongstructInstancesSetFromPointerType[T](stager.GetStage())
+	instances := *stager.GetStage().GetInstancesSet[T]()
 	resultMap := make(map[string]T)
 	for instance := range instances {
 		resultMap[instance.GetIdentifier()] = instance // Correctly calls the method

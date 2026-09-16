@@ -21,7 +21,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
 	}
 
-	for _, diagramprocess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagramprocess := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 		if diagramprocess.DefaultBoxHeigth == 0 {
 			diagramprocess.DefaultBoxHeigth = defaultBoxHeigth
 			needCommit = true

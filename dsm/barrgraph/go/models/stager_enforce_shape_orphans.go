@@ -11,7 +11,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// remove orphean movement shapes
 	{
 		rm := GetSliceOfPointersReverseMap[Diagram, MovementShape](GetAssociationName[Diagram]().MovementShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*MovementShape](stager.stage) {
+		for _, shape := range stager.stage.GetInstancesSorted[*MovementShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
@@ -29,7 +29,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	}
 	{
 		rm := GetSliceOfPointersReverseMap[Diagram, ArtistShape](GetAssociationName[Diagram]().ArtistShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*ArtistShape](stager.stage) {
+		for _, shape := range stager.stage.GetInstancesSorted[*ArtistShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
@@ -47,7 +47,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	}
 	{
 		rm := GetSliceOfPointersReverseMap[Diagram, ArtefactTypeShape](GetAssociationName[Diagram]().ArtefactTypeShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*ArtefactTypeShape](stager.stage) {
+		for _, shape := range stager.stage.GetInstancesSorted[*ArtefactTypeShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
@@ -65,7 +65,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	}
 	{
 		rm := GetSliceOfPointersReverseMap[Diagram, InfluenceShape](GetAssociationName[Diagram]().InfluenceShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*InfluenceShape](stager.stage) {
+		for _, shape := range stager.stage.GetInstancesSorted[*InfluenceShape]() {
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
@@ -83,7 +83,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	}
 	{
 		rm := GetSliceOfPointersReverseMap[InfluenceShape, ControlPointShape](GetAssociationName[InfluenceShape]().ControlPointShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*ControlPointShape](stager.stage) {
+		for _, shape := range stager.stage.GetInstancesSorted[*ControlPointShape]() {
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)
 				needCommit = true

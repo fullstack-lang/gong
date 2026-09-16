@@ -37,8 +37,7 @@ func executeServer(args []string) {
 	{
 
 		// hook table stack creation to on pressed button
-		for formEditAssocButton := range *form.GetGongstructInstancesSet[form.FormEditAssocButton](
-			stageForManualyEditedForm) {
+		for formEditAssocButton := range *stageForManualyEditedForm.GetInstancesSet[*form.FormEditAssocButton]() {
 			_ = formEditAssocButton
 
 			// create the struct for callabck
@@ -47,8 +46,7 @@ func executeServer(args []string) {
 			onAssocEditon.sourceStackName = stageForManualyEditedForm.GetName()
 			formEditAssocButton.OnAssocEditon = onAssocEditon
 		}
-		for formSortAssocButton := range *form.GetGongstructInstancesSet[form.FormSortAssocButton](
-			stageForManualyEditedForm) {
+		for formSortAssocButton := range *stageForManualyEditedForm.GetInstancesSet[*form.FormSortAssocButton]() {
 			_ = formSortAssocButton
 
 			// create the struct for callabck

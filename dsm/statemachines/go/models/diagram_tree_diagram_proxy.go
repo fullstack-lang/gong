@@ -14,7 +14,7 @@ func (p *Diagram_Tree_DiagramProxy) OnAfterUpdate(stage *tree.Stage, staged *tre
 	if front.IsChecked && !staged.IsChecked {
 
 		// reset all ddiagram selection
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](p.stager.stage) {
+		for diagram_ := range *p.stager.stage.GetInstancesSet[*Diagram]() {
 			diagram_.IsChecked = false
 		}
 		p.diagram.IsChecked = true
@@ -27,7 +27,7 @@ func (p *Diagram_Tree_DiagramProxy) OnAfterUpdate(stage *tree.Stage, staged *tre
 		staged.IsChecked = front.IsChecked
 
 		// reset all ddiagram selection
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](p.stager.stage) {
+		for diagram_ := range *p.stager.stage.GetInstancesSet[*Diagram]() {
 			diagram_.IsChecked = false
 		}
 		p.stager.stage.Commit()

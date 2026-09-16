@@ -98,7 +98,7 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 		log.Println("SVG generation requested")
 
 		// Clear any previously generated files
-		for f := range *GetGongstructInstancesSet[FileToDownload](stage) {
+		for f := range *stage.GetInstancesSet[*FileToDownload]() {
 			f.Unstage(stage)
 		}
 
@@ -110,7 +110,7 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 		stage.Commit()
 
 		// Clear  generated files
-		for f := range *GetGongstructInstancesSet[FileToDownload](stage) {
+		for f := range *stage.GetInstancesSet[*FileToDownload]() {
 			f.Unstage(stage)
 		}
 		// wiath 1 second before commiting the unstaging of the generated file, to be sure that the download is triggered on the frontend

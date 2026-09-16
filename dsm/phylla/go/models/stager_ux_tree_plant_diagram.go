@@ -101,7 +101,7 @@ func (stager *Stager) addHideAllButton(categoryNode *tree.Node, hiddenPtrs ...*b
 func (stager *Stager) handleDiagramCheck(diagramType interface{}, plant *PlantAbstract, view ViewType) {
 	uncheckAllDiagrams(stager)
 	// Actually we should set the passed diagram to checked, but it's done by the caller
-	for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for p := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		p.IsSelected = (p == plant)
 	}
 	stager.selectedPlant = plant

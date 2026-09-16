@@ -7,9 +7,9 @@ import (
 )
 
 func GetSelectedSpecification(stage *models.Stage) (specification *models.SPECIFICATION) {
-	for specificationRendering := range *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION_Rendering](stage) {
+	for specificationRendering := range *stage.GetInstancesSet[*models.SPECIFICATION_Rendering]() {
 		if specificationRendering.IsSelected {
-			for specification_ := range *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION](stage) {
+			for specification_ := range *stage.GetInstancesSet[*models.SPECIFICATION]() {
 				if specification_.GetIdentifier() == specificationRendering.GetName() {
 					specification = specification_
 				}
@@ -22,7 +22,7 @@ func GetSelectedSpecification(stage *models.Stage) (specification *models.SPECIF
 
 func SetSelectedSpecification(stage *models.Stage, specification *models.SPECIFICATION) {
 
-	for specificationRendering := range *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION_Rendering](stage) {
+	for specificationRendering := range *stage.GetInstancesSet[*models.SPECIFICATION_Rendering]() {
 		specificationRendering.IsSelected = false
 		if specificationRendering.GetName() == specification.GetIdentifier() {
 			specificationRendering.IsSelected = true
@@ -39,7 +39,7 @@ func GetSpecificationRendering(
 	// SPECIFICATION_Rendering instances Names are the identifiers of the
 	// SPECIFICATION instance. Since, by ReqIF design, those identifiers are unique,
 	// we can use the gong map of those instances
-	map_ := models.GongGetMap[*models.SPECIFICATION_Rendering](stage)
+	map_ := stage.GetInstancesMapByName[*models.SPECIFICATION_Rendering]()
 
 	var ok bool
 	if specificationRendering, ok = map_[spectObjectType.GetIdentifier()]; !ok {

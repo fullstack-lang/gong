@@ -300,7 +300,7 @@ func (body *Body) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(body), uint64(GetOrderPointerGongstruct(stage, body)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(body), uint64(stage.GetOrder(body)))
 	return
 }
 
@@ -310,7 +310,7 @@ func (document *Document) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(document), uint64(GetOrderPointerGongstruct(stage, document)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(document), uint64(stage.GetOrder(document)))
 	return
 }
 
@@ -320,7 +320,7 @@ func (docx *Docx) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(docx), uint64(GetOrderPointerGongstruct(stage, docx)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(docx), uint64(stage.GetOrder(docx)))
 	return
 }
 
@@ -330,7 +330,7 @@ func (file *File) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(file), uint64(GetOrderPointerGongstruct(stage, file)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(file), uint64(stage.GetOrder(file)))
 	return
 }
 
@@ -340,7 +340,7 @@ func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node), uint64(GetOrderPointerGongstruct(stage, node)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node), uint64(stage.GetOrder(node)))
 	return
 }
 
@@ -350,7 +350,7 @@ func (paragraph *Paragraph) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph), uint64(GetOrderPointerGongstruct(stage, paragraph)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph), uint64(stage.GetOrder(paragraph)))
 	return
 }
 
@@ -360,7 +360,7 @@ func (paragraphproperties *ParagraphProperties) GongGetUUID(stage *Stage) (uuid 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphproperties), uint64(GetOrderPointerGongstruct(stage, paragraphproperties)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphproperties), uint64(stage.GetOrder(paragraphproperties)))
 	return
 }
 
@@ -370,7 +370,7 @@ func (paragraphstyle *ParagraphStyle) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphstyle), uint64(GetOrderPointerGongstruct(stage, paragraphstyle)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphstyle), uint64(stage.GetOrder(paragraphstyle)))
 	return
 }
 
@@ -380,7 +380,7 @@ func (rune *Rune) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rune), uint64(GetOrderPointerGongstruct(stage, rune)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rune), uint64(stage.GetOrder(rune)))
 	return
 }
 
@@ -390,7 +390,7 @@ func (runeproperties *RuneProperties) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(runeproperties), uint64(GetOrderPointerGongstruct(stage, runeproperties)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(runeproperties), uint64(stage.GetOrder(runeproperties)))
 	return
 }
 
@@ -400,7 +400,7 @@ func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(GetOrderPointerGongstruct(stage, table)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(stage.GetOrder(table)))
 	return
 }
 
@@ -410,7 +410,7 @@ func (tablecolumn *TableColumn) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablecolumn), uint64(GetOrderPointerGongstruct(stage, tablecolumn)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablecolumn), uint64(stage.GetOrder(tablecolumn)))
 	return
 }
 
@@ -420,7 +420,7 @@ func (tableproperties *TableProperties) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tableproperties), uint64(GetOrderPointerGongstruct(stage, tableproperties)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tableproperties), uint64(stage.GetOrder(tableproperties)))
 	return
 }
 
@@ -430,7 +430,7 @@ func (tablerow *TableRow) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablerow), uint64(GetOrderPointerGongstruct(stage, tablerow)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablerow), uint64(stage.GetOrder(tablerow)))
 	return
 }
 
@@ -440,7 +440,7 @@ func (tablestyle *TableStyle) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablestyle), uint64(GetOrderPointerGongstruct(stage, tablestyle)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablestyle), uint64(stage.GetOrder(tablestyle)))
 	return
 }
 
@@ -450,7 +450,7 @@ func (text *Text) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(text), uint64(GetOrderPointerGongstruct(stage, text)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(text), uint64(stage.GetOrder(text)))
 	return
 }
 

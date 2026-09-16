@@ -3,11 +3,11 @@ package models
 import "math"
 
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
-	for _, diagramEq := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+	for _, diagramEq := range stager.stage.GetInstancesSorted[*DiagramFlossEquation]() {
 		compareAnalysis := diagramEq.GetOwningCompareAnalysis()
 		owningSystem := diagramEq.GetOwningSystem()
 		if compareAnalysis == nil && owningSystem == nil {
-			for ca := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
+			for ca := range *stager.stage.GetInstancesSet[*CompareAnalysis]() {
 				for _, d := range ca.DiagramFlossEquations {
 					if d == diagramEq {
 						compareAnalysis = ca
@@ -16,7 +16,7 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 				}
 			}
 			if compareAnalysis == nil {
-				for sys := range *GetGongstructInstancesSet[System](stager.stage) {
+				for sys := range *stager.stage.GetInstancesSet[*System]() {
 					for _, d := range sys.DiagramFlossEquations {
 						if d == diagramEq {
 							owningSystem = sys

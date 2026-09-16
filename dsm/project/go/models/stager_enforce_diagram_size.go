@@ -1,7 +1,7 @@
 package models
 
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 
 		width := 0.0
 		height := 0.0

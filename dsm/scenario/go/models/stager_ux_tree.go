@@ -22,7 +22,7 @@ func (stager *Stager) ux_tree() {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
 
-	list := GetGongstrucsSorted[*Analysis](stager.stage)
+	list := stager.stage.GetInstancesSorted[*Analysis]()
 
 	for _, analysis := range list {
 		stager.treeAnalysis(treeInstance, analysis, &treeInstance.RootNodes)

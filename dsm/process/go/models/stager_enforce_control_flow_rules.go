@@ -11,13 +11,13 @@ func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 
 	// Build a reverse map from ControlFlow to its owning Participants
 	controlFlowToParticipants := make(map[*ControlFlow][]*Participant)
-	for _, participant := range GetGongstrucsSorted[*Participant](stage) {
+	for _, participant := range stage.GetInstancesSorted[*Participant]() {
 		for _, controlFlow := range participant.ControlFlows {
 			controlFlowToParticipants[controlFlow] = append(controlFlowToParticipants[controlFlow], participant)
 		}
 	}
 
-	for _, controlFlow := range GetGongstrucsSorted[*ControlFlow](stage) {
+	for _, controlFlow := range stage.GetInstancesSorted[*ControlFlow]() {
 		// Rule: A control flow must have exactly one owning participant.
 		owners := controlFlowToParticipants[controlFlow]
 		if len(owners) == 0 {

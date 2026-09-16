@@ -31,7 +31,7 @@ func (stager *Stager) treeDiagramStructure(
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			// uncheck all diagrams
-			for diagramStructure_ := range *GetGongstructInstancesSet[DiagramStructure](stager.stage) {
+			for diagramStructure_ := range *stager.stage.GetInstancesSet[*DiagramStructure]() {
 				diagramStructure_.IsChecked = false
 			}
 

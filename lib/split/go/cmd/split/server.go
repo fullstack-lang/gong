@@ -212,7 +212,7 @@ func executeServer(args []string) {
 
 		// fetch the view tone probe view
 		key := "view of tone probe"
-		mapView := *split.GetGongstructInstancesMap[split.View](stack.Stage)
+		mapView := stack.Stage.GetInstancesMapByName[*split.View]()
 
 		viewToneProbe, ok := mapView[key]
 		if !ok {

@@ -14,7 +14,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	validTaskInputs := make(map[taskProductKey]bool)
 	validTaskOutputs := make(map[taskProductKey]bool)
 	validTaskPredecessors := make(map[taskPredecessorKey]bool)
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		for _, prod := range task.Inputs {
 			validTaskInputs[taskProductKey{Task: task, Product: prod}] = true
 		}
@@ -29,7 +29,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	validNoteProducts := make(map[noteProductKey]bool)
 	validNoteTasks := make(map[noteTaskKey]bool)
 	validNoteResources := make(map[noteResourceKey]bool)
-	for _, note := range GetGongstrucsSorted[*Note](stage) {
+	for _, note := range stage.GetInstancesSorted[*Note]() {
 		for _, prod := range note.Products {
 			validNoteProducts[noteProductKey{Note: note, Product: prod}] = true
 		}
@@ -42,34 +42,34 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	}
 
 	validResourceTasks := make(map[resourceTaskKey]bool)
-	for _, res := range GetGongstrucsSorted[*Resource](stage) {
+	for _, res := range stage.GetInstancesSorted[*Resource]() {
 		for _, task := range res.Tasks {
 			validResourceTasks[resourceTaskKey{Resource: res, Task: task}] = true
 		}
 	}
 
 	validTaskCompositions := make(map[*Task]bool)
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		for _, subTask := range task.SubTasks {
 			validTaskCompositions[subTask] = true
 		}
 	}
 
 	validProductCompositions := make(map[*Product]bool)
-	for _, product := range GetGongstrucsSorted[*Product](stage) {
+	for _, product := range stage.GetInstancesSorted[*Product]() {
 		for _, subProduct := range product.SubProducts {
 			validProductCompositions[subProduct] = true
 		}
 	}
 
 	validResourceCompositions := make(map[*Resource]bool)
-	for _, resource := range GetGongstrucsSorted[*Resource](stage) {
+	for _, resource := range stage.GetInstancesSorted[*Resource]() {
 		for _, subResource := range resource.SubResources {
 			validResourceCompositions[subResource] = true
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*TaskInputShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*TaskInputShape]() {
 		if shape.Task != nil && shape.Product != nil {
 			if !validTaskInputs[taskProductKey{Task: shape.Task, Product: shape.Product}] {
 				shape.UnstageVoid(stage)
@@ -81,7 +81,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*TaskOutputShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*TaskOutputShape]() {
 		if shape.Task != nil && shape.Product != nil {
 			if !validTaskOutputs[taskProductKey{Task: shape.Task, Product: shape.Product}] {
 				shape.UnstageVoid(stage)
@@ -93,7 +93,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*TaskPredecessorShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*TaskPredecessorShape]() {
 		if shape.Task != nil && shape.Predecessor != nil {
 			if !validTaskPredecessors[taskPredecessorKey{Task: shape.Task, Predecessor: shape.Predecessor}] {
 				shape.UnstageVoid(stage)
@@ -105,7 +105,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteProductShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*NoteProductShape]() {
 		if shape.Note != nil && shape.Product != nil {
 			if !validNoteProducts[noteProductKey{Note: shape.Note, Product: shape.Product}] {
 				shape.UnstageVoid(stage)
@@ -117,7 +117,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteTaskShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*NoteTaskShape]() {
 		if shape.Note != nil && shape.Task != nil {
 			if !validNoteTasks[noteTaskKey{Note: shape.Note, Task: shape.Task}] {
 				shape.UnstageVoid(stage)
@@ -129,7 +129,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteResourceShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*NoteResourceShape]() {
 		if shape.Note != nil && shape.Resource != nil {
 			if !validNoteResources[noteResourceKey{Note: shape.Note, Resource: shape.Resource}] {
 				shape.UnstageVoid(stage)
@@ -141,7 +141,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*ResourceTaskShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*ResourceTaskShape]() {
 		if shape.Resource != nil && shape.Task != nil {
 			if !validResourceTasks[resourceTaskKey{Resource: shape.Resource, Task: shape.Task}] {
 				shape.UnstageVoid(stage)
@@ -153,7 +153,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*TaskCompositionShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*TaskCompositionShape]() {
 		if shape.Task != nil {
 			if !validTaskCompositions[shape.Task] {
 				shape.UnstageVoid(stage)
@@ -165,7 +165,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*ProductCompositionShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*ProductCompositionShape]() {
 		if shape.Product != nil {
 			if !validProductCompositions[shape.Product] {
 				shape.UnstageVoid(stage)
@@ -177,7 +177,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*ResourceCompositionShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*ResourceCompositionShape]() {
 		if shape.Resource != nil {
 			if !validResourceCompositions[shape.Resource] {
 				shape.UnstageVoid(stage)

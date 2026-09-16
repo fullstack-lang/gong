@@ -9,7 +9,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 
 	needCommit = removeDuplicatesSlice(stager, &stager.GetRootLibrary().SubLibraries) || needCommit
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Diagram](stage) {
+	for diagram := range *stage.GetInstancesSet[*Diagram]() {
 		needCommit = removeDuplicatesSlice(stager, &diagram.Deliverable_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableComposition_Shapes) || needCommit
 
@@ -32,30 +32,30 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.StakeholderConcernShapes) || needCommit
 	}
 
-	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+	for library := range *stage.GetInstancesSet[*Library]() {
 		needCommit = removeDuplicatesSlice(stager, &library.RootDeliverables) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &library.RootConcerns) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &library.RootStakeholders) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &library.Notes) || needCommit
 	}
 
-	for deliverable := range *GetGongstructInstancesSetFromPointerType[*Deliverable](stage) {
+	for deliverable := range *stage.GetInstancesSet[*Deliverable]() {
 		needCommit = removeDuplicatesSlice(stager, &deliverable.SubDeliverables) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &deliverable.Concepts) || needCommit
 	}
 
-	for concern := range *GetGongstructInstancesSetFromPointerType[*Concern](stage) {
+	for concern := range *stage.GetInstancesSet[*Concern]() {
 		needCommit = removeDuplicatesSlice(stager, &concern.SubConcerns) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &concern.Inputs) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &concern.Outputs) || needCommit
 	}
 
-	for note := range *GetGongstructInstancesSetFromPointerType[*Note](stage) {
+	for note := range *stage.GetInstancesSet[*Note]() {
 		needCommit = removeDuplicatesSlice(stager, &note.Deliverables) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &note.Tasks) || needCommit
 	}
 
-	for stakeholder := range *GetGongstructInstancesSetFromPointerType[*Stakeholder](stage) {
+	for stakeholder := range *stage.GetInstancesSet[*Stakeholder]() {
 		needCommit = removeDuplicatesSlice(stager, &stakeholder.SubStakeholders) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &stakeholder.Concerns) || needCommit
 	}

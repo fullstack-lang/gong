@@ -24,8 +24,8 @@ import (
 // If any violations are found, they are automatically corrected (by breaking edges) and the stage is marked
 // as needing a commit. Notifications are also added to the stager's probe form if available.
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
-	products := GetGongstrucsSorted[*Product](stager.stage)
-	libraries := GetGongstrucsSorted[*Library](stager.stage)
+	products := stager.stage.GetInstancesSorted[*Product]()
+	libraries := stager.stage.GetInstancesSorted[*Library]()
 
 	// 1. Hierarchy Tree for Product
 	needCommit = EnforceTree(
@@ -69,7 +69,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	}
 
 	// 2. Hierarchy Tree for Resource
-	resources := GetGongstrucsSorted[*Resource](stager.stage)
+	resources := stager.stage.GetInstancesSorted[*Resource]()
 	needCommit = EnforceTree(
 		stager,
 		resources,
@@ -111,7 +111,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	}
 
 	// 3. Hierarchy Tree for Task
-	tasks := GetGongstrucsSorted[*Task](stager.stage)
+	tasks := stager.stage.GetInstancesSorted[*Task]()
 	needCommit = EnforceTree(
 		stager,
 		tasks,

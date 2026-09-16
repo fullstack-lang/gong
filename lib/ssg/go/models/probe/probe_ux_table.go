@@ -67,7 +67,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 		table.NbOfStickyColumns = 2
 	}
 
-	setOfStructs := (*models.GetGongstructInstancesSetFromPointerType[T](probe.stageOfInterest))
+	setOfStructs := (*probe.stageOfInterest.GetInstancesSet[T]())
 	sliceOfGongStructsSorted := make([]T, len(setOfStructs))
 	i := 0
 	for k := range setOfStructs {
@@ -75,8 +75,8 @@ func updateProbeTable[T models.PointerToGongstruct](
 		i++
 	}
 	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
-		return models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[i]) <
-			models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[j])
+		return probe.stageOfInterest.GetOrder(sliceOfGongStructsSorted[i]) <
+			probe.stageOfInterest.GetOrder(sliceOfGongStructsSorted[j])
 	})
 
 	// add a button for bulk delete
@@ -119,7 +119,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 			for _, row := range updatedTable.RowsSelectedForBulkDelete {
 				cellID := row.Cells[0]
 				id := cellID.CellInt.Value
-				instance := models.GongGetInstanceFromOrder[T](probe.stageOfInterest, uint(id))
+				instance := probe.stageOfInterest.GetInstanceFromOrder[T](uint(id))
 				var zeroInstance T
 				if instance == zeroInstance {
 					continue
@@ -169,8 +169,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 		row.Cells = append(row.Cells, cell)
 		cellInt := &table_models.CellInt{
 			Name: "ID",
-			Value: int(models.GetOrderPointerGongstruct(
-				probe.stageOfInterest,
+			Value: int(probe.stageOfInterest.GetOrder(
 				structInstance,
 			)),
 		}
@@ -182,8 +181,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 			}
 			row.Cells = append(row.Cells, cell)
 			cellIcon := &table_models.CellIcon{
-				Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
-					probe.stageOfInterest,
+				Name: fmt.Sprintf("Delete Icon %d", probe.stageOfInterest.GetOrder(
 					structInstance,
 				)),
 				Icon:                string(maticons.BUTTON_delete),

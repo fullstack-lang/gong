@@ -7,7 +7,7 @@ import (
 func (stager *Stager) enforceStagerMaps() {
 	stager.map_Element_Diagrams = make(map[AbstractType][]*DiagramStructure)
 
-	for _, diagramStructure := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+	for _, diagramStructure := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
 		_ = diagramStructure
 
 		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.System_Shapes, &diagramStructure.map_System_SystemShape)

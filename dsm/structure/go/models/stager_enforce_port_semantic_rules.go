@@ -10,7 +10,7 @@ import (
 // - per part, cannot have more than one start port
 func (stager *Stager) enforcePortSemanticRules() (needCommit bool) {
 
-	for part := range *GetGongstructInstancesSetFromPointerType[*Part](stager.stage) {
+	for part := range *stager.stage.GetInstancesSet[*Part]() {
 
 		if part.TypeOfPart != nil && !part.IsPartNameNotSystemName && part.GetName() != part.TypeOfPart.GetName() {
 			needCommit = true

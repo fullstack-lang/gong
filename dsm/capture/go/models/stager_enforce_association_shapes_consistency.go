@@ -13,7 +13,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 
 	validTaskInputs := make(map[concernDeliverableKey]bool)
 	validTaskOutputs := make(map[concernDeliverableKey]bool)
-	for _, task := range GetGongstrucsSorted[*Concern](stage) {
+	for _, task := range stage.GetInstancesSorted[*Concern]() {
 		for _, prod := range task.Inputs {
 			validTaskInputs[concernDeliverableKey{Concern: task, Deliverable: prod}] = true
 		}
@@ -23,7 +23,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	}
 
 	validDeliverableConcepts := make(map[deliverableConceptKey]bool)
-	for _, deliverable := range GetGongstrucsSorted[*Deliverable](stage) {
+	for _, deliverable := range stage.GetInstancesSorted[*Deliverable]() {
 		for _, concept := range deliverable.Concepts {
 			validDeliverableConcepts[deliverableConceptKey{Deliverable: deliverable, Concept: concept}] = true
 		}
@@ -32,7 +32,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	validNoteDeliverables := make(map[noteDeliverableKey]bool)
 	validNoteTasks := make(map[noteTaskKey]bool)
 	validNoteResources := make(map[noteResourceKey]bool)
-	for _, note := range GetGongstrucsSorted[*Note](stage) {
+	for _, note := range stage.GetInstancesSorted[*Note]() {
 		for _, prod := range note.Deliverables {
 			validNoteDeliverables[noteDeliverableKey{Note: note, Deliverable: prod}] = true
 		}
@@ -45,13 +45,13 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	}
 
 	validResourceTasks := make(map[stakeholderConcernKey]bool)
-	for _, res := range GetGongstrucsSorted[*Stakeholder](stage) {
+	for _, res := range stage.GetInstancesSorted[*Stakeholder]() {
 		for _, task := range res.Concerns {
 			validResourceTasks[stakeholderConcernKey{Stakeholder: res, Concern: task}] = true
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*ConcernInputShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*ConcernInputShape]() {
 		if shape.Concern != nil && shape.Deliverable != nil {
 			if !validTaskInputs[concernDeliverableKey{Concern: shape.Concern, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
@@ -61,7 +61,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*ConcernOutputShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*ConcernOutputShape]() {
 		if shape.Concern != nil && shape.Deliverable != nil {
 			if !validTaskOutputs[concernDeliverableKey{Concern: shape.Concern, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
@@ -71,7 +71,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteDeliverableShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*NoteDeliverableShape]() {
 		if shape.Note != nil && shape.Deliverable != nil {
 			if !validNoteDeliverables[noteDeliverableKey{Note: shape.Note, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
@@ -81,7 +81,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteTaskShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*NoteTaskShape]() {
 		if shape.Note != nil && shape.Task != nil {
 			if !validNoteTasks[noteTaskKey{Note: shape.Note, Task: shape.Task}] {
 				shape.UnstageVoid(stage)
@@ -91,7 +91,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteStakeholderShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*NoteStakeholderShape]() {
 		if shape.Note != nil && shape.Stakeholder != nil {
 			if !validNoteResources[noteResourceKey{Note: shape.Note, Stakeholder: shape.Stakeholder}] {
 				shape.UnstageVoid(stage)
@@ -101,7 +101,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*StakeholderConcernShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*StakeholderConcernShape]() {
 		if shape.Stakeholder != nil && shape.Concern != nil {
 			if !validResourceTasks[stakeholderConcernKey{Stakeholder: shape.Stakeholder, Concern: shape.Concern}] {
 				shape.UnstageVoid(stage)
@@ -111,7 +111,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*DeliverableConceptShape](stage) {
+	for _, shape := range stage.GetInstancesSorted[*DeliverableConceptShape]() {
 		if shape.Deliverable != nil && shape.Concept != nil {
 			if !validDeliverableConcepts[deliverableConceptKey{Deliverable: shape.Deliverable, Concept: shape.Concept}] {
 				shape.UnstageVoid(stage)

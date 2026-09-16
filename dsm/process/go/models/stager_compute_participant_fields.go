@@ -4,14 +4,14 @@ func (stager *Stager) computeParticipantFields() {
 	stage := stager.stage
 
 	// reset fields
-	for _, participant := range GetGongstrucsSorted[*Participant](stage) {
+	for _, participant := range stage.GetInstancesSorted[*Participant]() {
 		participant.owningProcess = nil
 		participant.inDataFlows = nil
 		participant.outDataFlows = nil
 	}
 
 	// compute owningProcess
-	for _, process := range GetGongstrucsSorted[*Process](stage) {
+	for _, process := range stage.GetInstancesSorted[*Process]() {
 		for _, participant := range process.Participants {
 			if participant != nil {
 				participant.owningProcess = process
@@ -24,7 +24,7 @@ func (stager *Stager) computeParticipantFields() {
 		}
 	}
 
-	for _, dataFlow := range GetGongstrucsSorted[*DataFlow](stage) {
+	for _, dataFlow := range stage.GetInstancesSorted[*DataFlow]() {
 		if startExternalParticipant := dataFlow.StartExternalParticipant; startExternalParticipant != nil {
 			startExternalParticipant.outDataFlows = append(startExternalParticipant.outDataFlows, dataFlow)
 		}

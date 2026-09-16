@@ -10,7 +10,7 @@ import (
 // - per participant, cannot have more than one start task
 func (stager *Stager) enforceTaskSemanticRules() (needCommit bool) {
 
-	for task := range *GetGongstructInstancesSetFromPointerType[*Task](stager.stage) {
+	for task := range *stager.stage.GetInstancesSet[*Task]() {
 
 		if task.IsStartTask && task.IsEndTask {
 			needCommit = true
@@ -27,7 +27,7 @@ func (stager *Stager) enforceTaskSemanticRules() (needCommit bool) {
 		}
 	}
 
-	for participant := range *GetGongstructInstancesSetFromPointerType[*Participant](stager.stage) {
+	for participant := range *stager.stage.GetInstancesSet[*Participant]() {
 		nbStartTask := 0
 		for _, task := range participant.Tasks {
 			if nbStartTask == 1 && task.IsStartTask {

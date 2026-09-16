@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceShapeNames() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		needCommit = enforceNodeShapeName(stager, diagram.Name, diagram.Product_Shapes) || needCommit
 		needCommit = enforceNodeShapeName(stager, diagram.Name, diagram.Task_Shapes) || needCommit
 		needCommit = enforceNodeShapeName(stager, diagram.Name, diagram.Note_Shapes) || needCommit

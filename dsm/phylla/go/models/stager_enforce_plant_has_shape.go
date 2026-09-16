@@ -15,7 +15,7 @@ func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
 	stage := stager.stage
 
 	// 1. Ensure each Plant has the shape
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 		var zero ShapePointerType
 		if getShape(plant) == zero {
 			shapePointer := newShape()
@@ -29,9 +29,9 @@ func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
 	}
 
 	// 2. Ensure each Shape belongs to exactly one Plant. If orphaned, remove it.
-	for shape := range *GetGongstructInstancesSetFromPointerType[ShapePointerType](stage) {
+	for shape := range *stage.GetInstancesSet[ShapePointerType]() {
 		hasOwner := false
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+		for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 			if isOwned(plant, shape) {
 				hasOwner = true
 				break
@@ -54,7 +54,7 @@ func enforcePlantShapeName[ShapePointerType PointerToGongstruct](
 ) (needCommit bool) {
 	stage := stager.stage
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 		var zero ShapePointerType
 		shape := getShape(plant)
 		if shape != zero {
@@ -368,7 +368,7 @@ func enforceTubeVaseHasShape[ShapePointerType PointerToGongstruct](
 	stage := stager.stage
 
 	// 1. Ensure each Vase has the shape
-	for vase := range *GetGongstructInstancesSetFromPointerType[*TubeVaseAbstract](stage) {
+	for vase := range *stage.GetInstancesSet[*TubeVaseAbstract]() {
 		var zero ShapePointerType
 		if getShape(vase) == zero {
 			shapePointer := newShape()
@@ -382,9 +382,9 @@ func enforceTubeVaseHasShape[ShapePointerType PointerToGongstruct](
 	}
 
 	// 2. Ensure each Shape belongs to exactly one Vase. If orphaned, remove it.
-	for shape := range *GetGongstructInstancesSetFromPointerType[ShapePointerType](stage) {
+	for shape := range *stage.GetInstancesSet[ShapePointerType]() {
 		hasOwner := false
-		for vase := range *GetGongstructInstancesSetFromPointerType[*TubeVaseAbstract](stage) {
+		for vase := range *stage.GetInstancesSet[*TubeVaseAbstract]() {
 			if isOwned(vase, shape) {
 				hasOwner = true
 				break
@@ -407,7 +407,7 @@ func enforceTubeVaseShapeName[ShapePointerType PointerToGongstruct](
 ) (needCommit bool) {
 	stage := stager.stage
 
-	for vase := range *GetGongstructInstancesSetFromPointerType[*TubeVaseAbstract](stage) {
+	for vase := range *stage.GetInstancesSet[*TubeVaseAbstract]() {
 		var zero ShapePointerType
 		shape := getShape(vase)
 		if shape != zero {

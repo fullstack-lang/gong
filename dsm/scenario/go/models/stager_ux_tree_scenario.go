@@ -247,7 +247,7 @@ func (stager *Stager) treeCategoryDiagrams(treeInstance *tree.Tree, scenario *Sc
 func onIsCheckedChangedDiagram(stager *Stager, diagram *Diagram) func(isChecked bool) {
 	return func(isChecked bool) {
 		if isChecked {
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 			diagram.IsChecked = true

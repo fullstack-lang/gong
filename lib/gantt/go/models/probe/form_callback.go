@@ -96,8 +96,8 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Gantt instances and update their Arrows slice
-			for _gantt := range *models.GetGongstructInstancesSetFromPointerType[*models.Gantt](arrowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(arrowFormCallback.probe.stageOfInterest, _gantt)
+			for _gantt := range *arrowFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
+				id := arrowFormCallback.probe.stageOfInterest.GetOrder(_gantt)
 				
 				// if Gantt is selected
 				if targetGanttIDs[id] {
@@ -238,8 +238,8 @@ func (barFormCallback *BarFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Lane instances and update their Bars slice
-			for _lane := range *models.GetGongstructInstancesSetFromPointerType[*models.Lane](barFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(barFormCallback.probe.stageOfInterest, _lane)
+			for _lane := range *barFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]() {
+				id := barFormCallback.probe.stageOfInterest.GetOrder(_lane)
 				
 				// if Lane is selected
 				if targetLaneIDs[id] {
@@ -394,15 +394,14 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](ganttFormCallback.probe.stageOfInterest)
+			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]()
 			instanceSlice := make([]*models.Lane, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Lane)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					ganttFormCallback.probe.stageOfInterest,
+				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -429,15 +428,14 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](ganttFormCallback.probe.stageOfInterest)
+			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Milestone]()
 			instanceSlice := make([]*models.Milestone, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Milestone)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					ganttFormCallback.probe.stageOfInterest,
+				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -464,15 +462,14 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](ganttFormCallback.probe.stageOfInterest)
+			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					ganttFormCallback.probe.stageOfInterest,
+				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -499,15 +496,14 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](ganttFormCallback.probe.stageOfInterest)
+			instanceSet := *ganttFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Arrow]()
 			instanceSlice := make([]*models.Arrow, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Arrow)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					ganttFormCallback.probe.stageOfInterest,
+				id := ganttFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -612,15 +608,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]()
 			instanceSlice := make([]*models.Lane, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Lane)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -665,8 +660,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Gantt instances and update their Groups slice
-			for _gantt := range *models.GetGongstructInstancesSetFromPointerType[*models.Gantt](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _gantt)
+			for _gantt := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_gantt)
 				
 				// if Gantt is selected
 				if targetGanttIDs[id] {
@@ -775,15 +770,14 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bar](laneFormCallback.probe.stageOfInterest)
+			instanceSet := *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Bar]()
 			instanceSlice := make([]*models.Bar, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Bar)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					laneFormCallback.probe.stageOfInterest,
+				id := laneFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -828,8 +822,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Gantt instances and update their Lanes slice
-			for _gantt := range *models.GetGongstructInstancesSetFromPointerType[*models.Gantt](laneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(laneFormCallback.probe.stageOfInterest, _gantt)
+			for _gantt := range *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
+				id := laneFormCallback.probe.stageOfInterest.GetOrder(_gantt)
 				
 				// if Gantt is selected
 				if targetGanttIDs[id] {
@@ -876,8 +870,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their GroupLanes slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](laneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(laneFormCallback.probe.stageOfInterest, _group)
+			for _group := range *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := laneFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -924,8 +918,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Milestone instances and update their LanesToDisplay slice
-			for _milestone := range *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](laneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(laneFormCallback.probe.stageOfInterest, _milestone)
+			for _milestone := range *laneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Milestone]() {
+				id := laneFormCallback.probe.stageOfInterest.GetOrder(_milestone)
 				
 				// if Milestone is selected
 				if targetMilestoneIDs[id] {
@@ -1116,15 +1110,14 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](milestoneFormCallback.probe.stageOfInterest)
+			instanceSet := *milestoneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Lane]()
 			instanceSlice := make([]*models.Lane, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Lane)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					milestoneFormCallback.probe.stageOfInterest,
+				id := milestoneFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1169,8 +1162,8 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Gantt instances and update their Milestones slice
-			for _gantt := range *models.GetGongstructInstancesSetFromPointerType[*models.Gantt](milestoneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(milestoneFormCallback.probe.stageOfInterest, _gantt)
+			for _gantt := range *milestoneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Gantt]() {
+				id := milestoneFormCallback.probe.stageOfInterest.GetOrder(_gantt)
 				
 				// if Gantt is selected
 				if targetGanttIDs[id] {

@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceDiagramDates() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		oldStart := diagram.ComputedStart
 		oldEnd := diagram.ComputedEnd
 		oldDuration := diagram.ComputedDuration

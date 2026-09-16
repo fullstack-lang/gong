@@ -12,7 +12,7 @@ func (stager *Stager) treeZoom() {
 	})
 
 	var diagramProcess *DiagramProcess
-	for diagramprocess_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+	for diagramprocess_ := range *stager.stage.GetInstancesSet[*DiagramProcess]() {
 		if diagramprocess_.IsChecked {
 			diagramProcess = diagramprocess_
 			break

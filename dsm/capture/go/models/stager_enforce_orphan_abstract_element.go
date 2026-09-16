@@ -5,7 +5,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Deliverable {
 			roots := make([]*Deliverable, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootDeliverables...)
 			}
 			return roots
@@ -22,7 +22,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Concern {
 			roots := make([]*Concern, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootConcerns...)
 			}
 			return roots
@@ -39,7 +39,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Note {
 			roots := make([]*Note, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.Notes...)
 			}
 			return roots
@@ -56,7 +56,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Stakeholder {
 			roots := make([]*Stakeholder, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootStakeholders...)
 			}
 			return roots
@@ -73,7 +73,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*Diagram {
 			roots := make([]*Diagram, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.Diagrams...)
 			}
 			return roots

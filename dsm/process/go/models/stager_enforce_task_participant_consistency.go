@@ -13,14 +13,14 @@ func (stager *Stager) enforceTaskParticipantConsistency() (needCommit bool) {
 
 	// 1. Build a reverse map from Task to its owning Participants
 	taskToParticipants := make(map[*Task][]*Participant)
-	for _, participant := range GetGongstrucsSorted[*Participant](stage) {
+	for _, participant := range stage.GetInstancesSorted[*Participant]() {
 		for _, task := range participant.Tasks {
 			taskToParticipants[task] = append(taskToParticipants[task], participant)
 		}
 	}
 
 	// 2. Iterate over all tasks and check their ownership
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		owners := taskToParticipants[task]
 
 		// Unstage tasks with no owner

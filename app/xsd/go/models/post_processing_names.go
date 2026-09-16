@@ -16,7 +16,7 @@ func PostProcessingNames(stage *Stage) {
 	map_EmbeddedGroup := make(map[*Group]*Element)
 	setOfGoIdentifiers := make(map[string]any)
 
-	for _, x := range GetGongstrucsSorted[*ComplexType](stage) {
+	for _, x := range stage.GetInstancesSorted[*ComplexType]() {
 
 		if x.IsAnonymous {
 			continue
@@ -41,7 +41,7 @@ func PostProcessingNames(stage *Stage) {
 			x.SimpleContent.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Group](stage) {
+	for _, x := range stage.GetInstancesSorted[*Group]() {
 
 		if x.Ref != "" {
 			continue
@@ -60,7 +60,7 @@ func PostProcessingNames(stage *Stage) {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*SimpleType](stage) {
+	for _, x := range stage.GetInstancesSorted[*SimpleType]() {
 		x.Name = x.NameXSD
 
 		if x.Restriction != nil {
@@ -70,13 +70,13 @@ func PostProcessingNames(stage *Stage) {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Schema](stage) {
+	for _, x := range stage.GetInstancesSorted[*Schema]() {
 		x.Name = "Schema"
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Restriction](stage) {
+	for _, x := range stage.GetInstancesSorted[*Restriction]() {
 		for _, e := range x.Enumerations {
 			e.Name = prefix(x.Name)
 		}
@@ -113,69 +113,69 @@ func PostProcessingNames(stage *Stage) {
 	//
 	// Restrictions
 	//
-	for _, x := range GetGongstrucsSorted[*Enumeration](stage) {
+	for _, x := range stage.GetInstancesSorted[*Enumeration]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Enumeration](stage) {
+	for _, x := range stage.GetInstancesSorted[*Enumeration]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*MinInclusive](stage) {
+	for _, x := range stage.GetInstancesSorted[*MinInclusive]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*MaxInclusive](stage) {
+	for _, x := range stage.GetInstancesSorted[*MaxInclusive]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Pattern](stage) {
+	for _, x := range stage.GetInstancesSorted[*Pattern]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*WhiteSpace](stage) {
+	for _, x := range stage.GetInstancesSorted[*WhiteSpace]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*MinLength](stage) {
+	for _, x := range stage.GetInstancesSorted[*MinLength]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*MaxLength](stage) {
+	for _, x := range stage.GetInstancesSorted[*MaxLength]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Length](stage) {
+	for _, x := range stage.GetInstancesSorted[*Length]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*TotalDigit](stage) {
+	for _, x := range stage.GetInstancesSorted[*TotalDigit]() {
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
 
-	for _, x := range GetGongstrucsSorted[*Annotation](stage) {
+	for _, x := range stage.GetInstancesSorted[*Annotation]() {
 		for _, d := range x.Documentations {
 			d.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*Attribute](stage) {
+	for _, x := range stage.GetInstancesSorted[*Attribute]() {
 		x.Name = x.NameXSD
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
 	}
-	for _, x := range GetGongstrucsSorted[*AttributeGroup](stage) {
+	for _, x := range stage.GetInstancesSorted[*AttributeGroup]() {
 		x.Name = x.NameXSD
 
 		computeGoIdentifier("AttributeGroup_"+x.Name, &x.WithGoIdentifier, setOfGoIdentifiers)
@@ -185,7 +185,7 @@ func PostProcessingNames(stage *Stage) {
 		}
 	}
 
-	for _, x := range GetGongstrucsSorted[*SimpleContent](stage) {
+	for _, x := range stage.GetInstancesSorted[*SimpleContent]() {
 
 		if x.Extension != nil {
 			x.Extension.Name = prefix(x.Name)
@@ -195,7 +195,7 @@ func PostProcessingNames(stage *Stage) {
 		}
 	}
 
-	elems := GetGongstrucsSorted[*Element](stage)
+	elems := stage.GetInstancesSorted[*Element]()
 	slices.SortFunc(elems,
 		func(a, b *Element) int {
 			return cmp.Compare(a.GetOrder(), b.GetOrder())

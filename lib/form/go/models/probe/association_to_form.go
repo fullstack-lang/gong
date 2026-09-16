@@ -32,7 +32,7 @@ func AssociationFieldToForm[FieldType models.PointerToGongstruct](
 
 	// generate one option per possible instances for the field
 	formField.FormFieldSelect.Options = make([]*form.Option, 0)
-	for instance := range *models.GetGongstructInstancesSetFromPointerType[FieldType](probe.stageOfInterest) {
+	for instance := range *probe.stageOfInterest.GetInstancesSet[FieldType]() {
 		option := (&form.Option{
 			Name: instance.GetName(),
 		}).Stage(probe.formStage)
@@ -74,7 +74,7 @@ func AssociationReverseFieldToForm[OwnerType models.PointerToGongstruct, FieldTy
 
 	// generate one option per possible instances for the field
 	formField.FormFieldSelect.Options = make([]*form.Option, 0)
-	for _instance := range *models.GetGongstructInstancesSetFromPointerType[OwnerType](probe.stageOfInterest) {
+	for _instance := range *probe.stageOfInterest.GetInstancesSet[OwnerType]() {
 		option := (&form.Option{
 			Name: _instance.GetName(),
 		}).Stage(probe.formStage)

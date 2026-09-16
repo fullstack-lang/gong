@@ -18,7 +18,7 @@ func (stager *Stager) exportWebsite() {
 		MardownContent: "## Project website",
 	}
 
-	for _, lib := range GetGongstrucsSorted[*Library](stager.stage) {
+	for _, lib := range stager.stage.GetInstancesSorted[*Library]() {
 		fmt.Println("exportWebsite: Processing library:", lib.Name)
 		chapter := &ssg.Chapter{
 			Name:           lib.Name,

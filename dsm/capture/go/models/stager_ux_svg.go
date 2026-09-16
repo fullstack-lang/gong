@@ -14,7 +14,7 @@ func (stager *Stager) svg() {
 
 	var diagram *Diagram
 	{
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 			if diagram_.IsChecked {
 				diagram = diagram_
 			}
@@ -681,7 +681,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		diagram.map_SvgRect_DiagramShape[rect] = diagramShape
 
 		rect.OnSelect = func() {
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 			diagramShape.Diagram.IsChecked = true

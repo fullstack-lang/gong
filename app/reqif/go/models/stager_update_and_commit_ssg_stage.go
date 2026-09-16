@@ -30,7 +30,7 @@ func (stager *Stager) UpdateAndCommitSsgStage() {
 
 	var siteWeb *StaticWebSite
 	{
-		siteWebs := GetGongstructInstancesSet[StaticWebSite](stager.stage)
+		siteWebs := stager.stage.GetInstancesSet[*StaticWebSite]()
 		if len(*siteWebs) != 1 {
 			log.Fatalln("There should be one siteWeb")
 		}
@@ -85,7 +85,7 @@ func (stager *Stager) UpdateAndCommitSsgStage() {
 
 	stager.ssgStage.Commit()
 
-	// for image := range *GetGongstructInstancesSet[Image](stager.stage) {
+	// for image := range *stager.stage.GetInstancesSet[*Image]() {
 	// 	image.Unstage(stager.stage)
 	// }
 }

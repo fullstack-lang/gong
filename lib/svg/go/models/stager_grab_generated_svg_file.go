@@ -15,7 +15,7 @@ func GrabGeneratedSVGFile(stage *Stage, imageFilePath string, timeout time.Durat
 
 	var svgInstance *SVG
 	// Find the existing SVG instance
-	for inst := range *GetGongstructInstancesSet[SVG](stage) {
+	for inst := range *stage.GetInstancesSet[*SVG]() {
 		svgInstance = inst
 		break // Assuming the first one is the target
 	}
@@ -26,7 +26,7 @@ func GrabGeneratedSVGFile(stage *Stage, imageFilePath string, timeout time.Durat
 
 	var svgTextInstance *SvgText
 	// Find the existing SvgText instance
-	for inst := range *GetGongstructInstancesSet[SvgText](stage) {
+	for inst := range *stage.GetInstancesSet[*SvgText]() {
 		svgTextInstance = inst
 		break // Assuming the first one is the target
 	}

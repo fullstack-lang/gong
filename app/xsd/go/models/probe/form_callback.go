@@ -74,15 +74,14 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](allFormCallback.probe.stageOfInterest)
+			instanceSet := *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]()
 			instanceSlice := make([]*models.Sequence, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Sequence)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					allFormCallback.probe.stageOfInterest,
+				id := allFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -109,15 +108,14 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](allFormCallback.probe.stageOfInterest)
+			instanceSet := *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]()
 			instanceSlice := make([]*models.All, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.All)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					allFormCallback.probe.stageOfInterest,
+				id := allFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -144,15 +142,14 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](allFormCallback.probe.stageOfInterest)
+			instanceSet := *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]()
 			instanceSlice := make([]*models.Choice, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Choice)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					allFormCallback.probe.stageOfInterest,
+				id := allFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -179,15 +176,14 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](allFormCallback.probe.stageOfInterest)
+			instanceSet := *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					allFormCallback.probe.stageOfInterest,
+				id := allFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -214,15 +210,14 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](allFormCallback.probe.stageOfInterest)
+			instanceSet := *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					allFormCallback.probe.stageOfInterest,
+				id := allFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -275,8 +270,8 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all All instances and update their Alls slice
-			for _all := range *models.GetGongstructInstancesSetFromPointerType[*models.All](allFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allFormCallback.probe.stageOfInterest, _all)
+			for _all := range *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]() {
+				id := allFormCallback.probe.stageOfInterest.GetOrder(_all)
 				
 				// if All is selected
 				if targetAllIDs[id] {
@@ -323,8 +318,8 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Choice instances and update their Alls slice
-			for _choice := range *models.GetGongstructInstancesSetFromPointerType[*models.Choice](allFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allFormCallback.probe.stageOfInterest, _choice)
+			for _choice := range *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]() {
+				id := allFormCallback.probe.stageOfInterest.GetOrder(_choice)
 				
 				// if Choice is selected
 				if targetChoiceIDs[id] {
@@ -371,8 +366,8 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their Alls slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](allFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := allFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -419,8 +414,8 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their Alls slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](allFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := allFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -467,8 +462,8 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Alls slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](allFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allFormCallback.probe.stageOfInterest, _group)
+			for _group := range *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := allFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -515,8 +510,8 @@ func (allFormCallback *AllFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Sequence instances and update their Alls slice
-			for _sequence := range *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](allFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allFormCallback.probe.stageOfInterest, _sequence)
+			for _sequence := range *allFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]() {
+				id := allFormCallback.probe.stageOfInterest.GetOrder(_sequence)
 				
 				// if Sequence is selected
 				if targetSequenceIDs[id] {
@@ -623,15 +618,14 @@ func (annotationFormCallback *AnnotationFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Documentation](annotationFormCallback.probe.stageOfInterest)
+			instanceSet := *annotationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Documentation]()
 			instanceSlice := make([]*models.Documentation, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Documentation)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					annotationFormCallback.probe.stageOfInterest,
+				id := annotationFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -780,8 +774,8 @@ func (attributeFormCallback *AttributeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all AttributeGroup instances and update their Attributes slice
-			for _attributegroup := range *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](attributeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributeFormCallback.probe.stageOfInterest, _attributegroup)
+			for _attributegroup := range *attributeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeGroup]() {
+				id := attributeFormCallback.probe.stageOfInterest.GetOrder(_attributegroup)
 				
 				// if AttributeGroup is selected
 				if targetAttributeGroupIDs[id] {
@@ -828,8 +822,8 @@ func (attributeFormCallback *AttributeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their Attributes slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](attributeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributeFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *attributeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := attributeFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -876,8 +870,8 @@ func (attributeFormCallback *AttributeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their Attributes slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](attributeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributeFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *attributeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := attributeFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -992,15 +986,14 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](attributegroupFormCallback.probe.stageOfInterest)
+			instanceSet := *attributegroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeGroup]()
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.AttributeGroup)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					attributegroupFormCallback.probe.stageOfInterest,
+				id := attributegroupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1029,15 +1022,14 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attribute](attributegroupFormCallback.probe.stageOfInterest)
+			instanceSet := *attributegroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Attribute]()
 			instanceSlice := make([]*models.Attribute, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Attribute)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					attributegroupFormCallback.probe.stageOfInterest,
+				id := attributegroupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1086,8 +1078,8 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all AttributeGroup instances and update their AttributeGroups slice
-			for _attributegroup := range *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](attributegroupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributegroupFormCallback.probe.stageOfInterest, _attributegroup)
+			for _attributegroup := range *attributegroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeGroup]() {
+				id := attributegroupFormCallback.probe.stageOfInterest.GetOrder(_attributegroup)
 				
 				// if AttributeGroup is selected
 				if targetAttributeGroupIDs[id] {
@@ -1134,8 +1126,8 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their AttributeGroups slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](attributegroupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributegroupFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *attributegroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := attributegroupFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -1182,8 +1174,8 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their AttributeGroups slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](attributegroupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributegroupFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *attributegroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := attributegroupFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -1230,8 +1222,8 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Schema instances and update their AttributeGroups slice
-			for _schema := range *models.GetGongstructInstancesSetFromPointerType[*models.Schema](attributegroupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(attributegroupFormCallback.probe.stageOfInterest, _schema)
+			for _schema := range *attributegroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Schema]() {
+				id := attributegroupFormCallback.probe.stageOfInterest.GetOrder(_schema)
 				
 				// if Schema is selected
 				if targetSchemaIDs[id] {
@@ -1342,15 +1334,14 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](choiceFormCallback.probe.stageOfInterest)
+			instanceSet := *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]()
 			instanceSlice := make([]*models.Sequence, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Sequence)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					choiceFormCallback.probe.stageOfInterest,
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1377,15 +1368,14 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](choiceFormCallback.probe.stageOfInterest)
+			instanceSet := *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]()
 			instanceSlice := make([]*models.All, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.All)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					choiceFormCallback.probe.stageOfInterest,
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1412,15 +1402,14 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](choiceFormCallback.probe.stageOfInterest)
+			instanceSet := *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]()
 			instanceSlice := make([]*models.Choice, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Choice)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					choiceFormCallback.probe.stageOfInterest,
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1447,15 +1436,14 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](choiceFormCallback.probe.stageOfInterest)
+			instanceSet := *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					choiceFormCallback.probe.stageOfInterest,
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1482,15 +1470,14 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](choiceFormCallback.probe.stageOfInterest)
+			instanceSet := *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					choiceFormCallback.probe.stageOfInterest,
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1545,8 +1532,8 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all All instances and update their Choices slice
-			for _all := range *models.GetGongstructInstancesSetFromPointerType[*models.All](choiceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(choiceFormCallback.probe.stageOfInterest, _all)
+			for _all := range *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]() {
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(_all)
 				
 				// if All is selected
 				if targetAllIDs[id] {
@@ -1593,8 +1580,8 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Choice instances and update their Choices slice
-			for _choice := range *models.GetGongstructInstancesSetFromPointerType[*models.Choice](choiceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(choiceFormCallback.probe.stageOfInterest, _choice)
+			for _choice := range *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]() {
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(_choice)
 				
 				// if Choice is selected
 				if targetChoiceIDs[id] {
@@ -1641,8 +1628,8 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their Choices slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](choiceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(choiceFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -1689,8 +1676,8 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their Choices slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](choiceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(choiceFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -1737,8 +1724,8 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Choices slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](choiceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(choiceFormCallback.probe.stageOfInterest, _group)
+			for _group := range *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -1785,8 +1772,8 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Sequence instances and update their Choices slice
-			for _sequence := range *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](choiceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(choiceFormCallback.probe.stageOfInterest, _sequence)
+			for _sequence := range *choiceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]() {
+				id := choiceFormCallback.probe.stageOfInterest.GetOrder(_sequence)
 				
 				// if Sequence is selected
 				if targetSequenceIDs[id] {
@@ -1985,15 +1972,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]()
 			instanceSlice := make([]*models.Sequence, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Sequence)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2020,15 +2006,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]()
 			instanceSlice := make([]*models.All, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.All)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2055,15 +2040,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]()
 			instanceSlice := make([]*models.Choice, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Choice)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2090,15 +2074,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2125,15 +2108,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2174,15 +2156,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attribute](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Attribute]()
 			instanceSlice := make([]*models.Attribute, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Attribute)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2209,15 +2190,14 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](complextypeFormCallback.probe.stageOfInterest)
+			instanceSet := *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeGroup]()
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.AttributeGroup)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					complextypeFormCallback.probe.stageOfInterest,
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2264,8 +2244,8 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Schema instances and update their ComplexTypes slice
-			for _schema := range *models.GetGongstructInstancesSetFromPointerType[*models.Schema](complextypeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(complextypeFormCallback.probe.stageOfInterest, _schema)
+			for _schema := range *complextypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Schema]() {
+				id := complextypeFormCallback.probe.stageOfInterest.GetOrder(_schema)
 				
 				// if Schema is selected
 				if targetSchemaIDs[id] {
@@ -2396,8 +2376,8 @@ func (documentationFormCallback *DocumentationFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Annotation instances and update their Documentations slice
-			for _annotation := range *models.GetGongstructInstancesSetFromPointerType[*models.Annotation](documentationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(documentationFormCallback.probe.stageOfInterest, _annotation)
+			for _annotation := range *documentationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Annotation]() {
+				id := documentationFormCallback.probe.stageOfInterest.GetOrder(_annotation)
 				
 				// if Annotation is selected
 				if targetAnnotationIDs[id] {
@@ -2542,15 +2522,14 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](elementFormCallback.probe.stageOfInterest)
+			instanceSet := *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					elementFormCallback.probe.stageOfInterest,
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2597,8 +2576,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all All instances and update their Elements slice
-			for _all := range *models.GetGongstructInstancesSetFromPointerType[*models.All](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _all)
+			for _all := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_all)
 				
 				// if All is selected
 				if targetAllIDs[id] {
@@ -2645,8 +2624,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Choice instances and update their Elements slice
-			for _choice := range *models.GetGongstructInstancesSetFromPointerType[*models.Choice](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _choice)
+			for _choice := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_choice)
 				
 				// if Choice is selected
 				if targetChoiceIDs[id] {
@@ -2693,8 +2672,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their Elements slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -2741,8 +2720,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their Elements slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -2789,8 +2768,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Elements slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _group)
+			for _group := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -2837,8 +2816,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Schema instances and update their Elements slice
-			for _schema := range *models.GetGongstructInstancesSetFromPointerType[*models.Schema](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _schema)
+			for _schema := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Schema]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_schema)
 				
 				// if Schema is selected
 				if targetSchemaIDs[id] {
@@ -2885,8 +2864,8 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Sequence instances and update their Elements slice
-			for _sequence := range *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](elementFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(elementFormCallback.probe.stageOfInterest, _sequence)
+			for _sequence := range *elementFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]() {
+				id := elementFormCallback.probe.stageOfInterest.GetOrder(_sequence)
 				
 				// if Sequence is selected
 				if targetSequenceIDs[id] {
@@ -3015,8 +2994,8 @@ func (enumerationFormCallback *EnumerationFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Restriction instances and update their Enumerations slice
-			for _restriction := range *models.GetGongstructInstancesSetFromPointerType[*models.Restriction](enumerationFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(enumerationFormCallback.probe.stageOfInterest, _restriction)
+			for _restriction := range *enumerationFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Restriction]() {
+				id := enumerationFormCallback.probe.stageOfInterest.GetOrder(_restriction)
 				
 				// if Restriction is selected
 				if targetRestrictionIDs[id] {
@@ -3125,15 +3104,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]()
 			instanceSlice := make([]*models.Sequence, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Sequence)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3160,15 +3138,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]()
 			instanceSlice := make([]*models.All, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.All)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3195,15 +3172,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]()
 			instanceSlice := make([]*models.Choice, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Choice)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3230,15 +3206,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3265,15 +3240,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3312,15 +3286,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attribute](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Attribute]()
 			instanceSlice := make([]*models.Attribute, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Attribute)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3347,15 +3320,14 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](extensionFormCallback.probe.stageOfInterest)
+			instanceSet := *extensionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeGroup]()
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.AttributeGroup)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					extensionFormCallback.probe.stageOfInterest,
+				id := extensionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3476,15 +3448,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]()
 			instanceSlice := make([]*models.Sequence, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Sequence)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3511,15 +3482,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]()
 			instanceSlice := make([]*models.All, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.All)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3546,15 +3516,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]()
 			instanceSlice := make([]*models.Choice, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Choice)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3581,15 +3550,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3616,15 +3584,14 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](groupFormCallback.probe.stageOfInterest)
+			instanceSet := *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					groupFormCallback.probe.stageOfInterest,
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3677,8 +3644,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all All instances and update their Groups slice
-			for _all := range *models.GetGongstructInstancesSetFromPointerType[*models.All](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _all)
+			for _all := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_all)
 				
 				// if All is selected
 				if targetAllIDs[id] {
@@ -3725,8 +3692,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Choice instances and update their Groups slice
-			for _choice := range *models.GetGongstructInstancesSetFromPointerType[*models.Choice](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _choice)
+			for _choice := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_choice)
 				
 				// if Choice is selected
 				if targetChoiceIDs[id] {
@@ -3773,8 +3740,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their Groups slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -3821,8 +3788,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Element instances and update their Groups slice
-			for _element := range *models.GetGongstructInstancesSetFromPointerType[*models.Element](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _element)
+			for _element := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_element)
 				
 				// if Element is selected
 				if targetElementIDs[id] {
@@ -3869,8 +3836,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their Groups slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -3917,8 +3884,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Groups slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _group)
+			for _group := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -3965,8 +3932,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Schema instances and update their Groups slice
-			for _schema := range *models.GetGongstructInstancesSetFromPointerType[*models.Schema](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _schema)
+			for _schema := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Schema]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_schema)
 				
 				// if Schema is selected
 				if targetSchemaIDs[id] {
@@ -4013,8 +3980,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Sequence instances and update their Groups slice
-			for _sequence := range *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](groupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _sequence)
+			for _sequence := range *groupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]() {
+				id := groupFormCallback.probe.stageOfInterest.GetOrder(_sequence)
 				
 				// if Sequence is selected
 				if targetSequenceIDs[id] {
@@ -4617,15 +4584,14 @@ func (restrictionFormCallback *RestrictionFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Enumeration](restrictionFormCallback.probe.stageOfInterest)
+			instanceSet := *restrictionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Enumeration]()
 			instanceSlice := make([]*models.Enumeration, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Enumeration)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					restrictionFormCallback.probe.stageOfInterest,
+				id := restrictionFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4750,15 +4716,14 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](schemaFormCallback.probe.stageOfInterest)
+			instanceSet := *schemaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					schemaFormCallback.probe.stageOfInterest,
+				id := schemaFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4785,15 +4750,14 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SimpleType](schemaFormCallback.probe.stageOfInterest)
+			instanceSet := *schemaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SimpleType]()
 			instanceSlice := make([]*models.SimpleType, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.SimpleType)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					schemaFormCallback.probe.stageOfInterest,
+				id := schemaFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4820,15 +4784,14 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](schemaFormCallback.probe.stageOfInterest)
+			instanceSet := *schemaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]()
 			instanceSlice := make([]*models.ComplexType, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ComplexType)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					schemaFormCallback.probe.stageOfInterest,
+				id := schemaFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4855,15 +4818,14 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](schemaFormCallback.probe.stageOfInterest)
+			instanceSet := *schemaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AttributeGroup]()
 			instanceSlice := make([]*models.AttributeGroup, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.AttributeGroup)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					schemaFormCallback.probe.stageOfInterest,
+				id := schemaFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4890,15 +4852,14 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](schemaFormCallback.probe.stageOfInterest)
+			instanceSet := *schemaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					schemaFormCallback.probe.stageOfInterest,
+				id := schemaFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5011,15 +4972,14 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](sequenceFormCallback.probe.stageOfInterest)
+			instanceSet := *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]()
 			instanceSlice := make([]*models.Sequence, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Sequence)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					sequenceFormCallback.probe.stageOfInterest,
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5046,15 +5006,14 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](sequenceFormCallback.probe.stageOfInterest)
+			instanceSet := *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]()
 			instanceSlice := make([]*models.All, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.All)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					sequenceFormCallback.probe.stageOfInterest,
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5081,15 +5040,14 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](sequenceFormCallback.probe.stageOfInterest)
+			instanceSet := *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]()
 			instanceSlice := make([]*models.Choice, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Choice)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					sequenceFormCallback.probe.stageOfInterest,
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5116,15 +5074,14 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](sequenceFormCallback.probe.stageOfInterest)
+			instanceSet := *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]()
 			instanceSlice := make([]*models.Group, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Group)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					sequenceFormCallback.probe.stageOfInterest,
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5151,15 +5108,14 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](sequenceFormCallback.probe.stageOfInterest)
+			instanceSet := *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Element]()
 			instanceSlice := make([]*models.Element, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Element)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					sequenceFormCallback.probe.stageOfInterest,
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5212,8 +5168,8 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all All instances and update their Sequences slice
-			for _all := range *models.GetGongstructInstancesSetFromPointerType[*models.All](sequenceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sequenceFormCallback.probe.stageOfInterest, _all)
+			for _all := range *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.All]() {
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(_all)
 				
 				// if All is selected
 				if targetAllIDs[id] {
@@ -5260,8 +5216,8 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Choice instances and update their Sequences slice
-			for _choice := range *models.GetGongstructInstancesSetFromPointerType[*models.Choice](sequenceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sequenceFormCallback.probe.stageOfInterest, _choice)
+			for _choice := range *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Choice]() {
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(_choice)
 				
 				// if Choice is selected
 				if targetChoiceIDs[id] {
@@ -5308,8 +5264,8 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all ComplexType instances and update their Sequences slice
-			for _complextype := range *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](sequenceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sequenceFormCallback.probe.stageOfInterest, _complextype)
+			for _complextype := range *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ComplexType]() {
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(_complextype)
 				
 				// if ComplexType is selected
 				if targetComplexTypeIDs[id] {
@@ -5356,8 +5312,8 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Extension instances and update their Sequences slice
-			for _extension := range *models.GetGongstructInstancesSetFromPointerType[*models.Extension](sequenceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sequenceFormCallback.probe.stageOfInterest, _extension)
+			for _extension := range *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Extension]() {
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(_extension)
 				
 				// if Extension is selected
 				if targetExtensionIDs[id] {
@@ -5404,8 +5360,8 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Group instances and update their Sequences slice
-			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](sequenceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sequenceFormCallback.probe.stageOfInterest, _group)
+			for _group := range *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Group]() {
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(_group)
 				
 				// if Group is selected
 				if targetGroupIDs[id] {
@@ -5452,8 +5408,8 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Sequence instances and update their Sequences slice
-			for _sequence := range *models.GetGongstructInstancesSetFromPointerType[*models.Sequence](sequenceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(sequenceFormCallback.probe.stageOfInterest, _sequence)
+			for _sequence := range *sequenceFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Sequence]() {
+				id := sequenceFormCallback.probe.stageOfInterest.GetOrder(_sequence)
 				
 				// if Sequence is selected
 				if targetSequenceIDs[id] {
@@ -5672,8 +5628,8 @@ func (simpletypeFormCallback *SimpleTypeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Schema instances and update their SimpleTypes slice
-			for _schema := range *models.GetGongstructInstancesSetFromPointerType[*models.Schema](simpletypeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(simpletypeFormCallback.probe.stageOfInterest, _schema)
+			for _schema := range *simpletypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Schema]() {
+				id := simpletypeFormCallback.probe.stageOfInterest.GetOrder(_schema)
 				
 				// if Schema is selected
 				if targetSchemaIDs[id] {

@@ -7,7 +7,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*StateMachine {
 			roots := make([]*StateMachine, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootStateMachines...)
 			}
 			return roots
@@ -20,7 +20,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		},
 	)
 
-	for _, note := range GetGongstrucsSorted[*Note](stager.stage) {
+	for _, note := range stager.stage.GetInstancesSorted[*Note]() {
 		if note.State == nil {
 			note.Unstage(stager.stage)
 			needCommit = true
@@ -32,7 +32,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		}
 	}
 
-	for _, state := range GetGongstrucsSorted[*State](stager.stage) {
+	for _, state := range stager.stage.GetInstancesSorted[*State]() {
 		var validNotes []*Note
 		for _, note := range state.Notes {
 			if note != nil && note.State == state {
@@ -63,7 +63,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	}
 
 	if root := stager.GetRootLibrary(); root != nil {
-		for _, role := range GetGongstrucsSorted[*Role](stager.stage) {
+		for _, role := range stager.stage.GetInstancesSorted[*Role]() {
 			if !slices.Contains(root.Roles, role) {
 				root.Roles = append(root.Roles, role)
 				needCommit = true
@@ -71,9 +71,9 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		}
 	}
 
-	for _, object := range GetGongstrucsSorted[*Object](stager.stage) {
+	for _, object := range stager.stage.GetInstancesSorted[*Object]() {
 		if object.State == nil {
-			for _, sm := range GetGongstrucsSorted[*StateMachine](stager.stage) {
+			for _, sm := range stager.stage.GetInstancesSorted[*StateMachine]() {
 				if sm.InitialState != nil {
 					object.State = sm.InitialState
 					needCommit = true

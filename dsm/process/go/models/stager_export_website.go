@@ -33,15 +33,15 @@ func (stager *Stager) exportWebsite() {
 	}
 	content.Chapters = append(content.Chapters, refChapter)
 
-	appendWebExportableChapter(stager, refChapter, "Processes", GetGongstrucsSorted[*Process](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Participants", GetGongstrucsSorted[*Participant](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Tasks", GetGongstrucsSorted[*Task](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Control Flows", GetGongstrucsSorted[*ControlFlow](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Data Flows", GetGongstrucsSorted[*DataFlow](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Datas", GetGongstrucsSorted[*Data](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Resources", GetGongstrucsSorted[*Resource](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Notes", GetGongstrucsSorted[*Note](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Libraries", GetGongstrucsSorted[*Library](stager.stage))
+	appendWebExportableChapter(stager, refChapter, "Processes", stager.stage.GetInstancesSorted[*Process]())
+	appendWebExportableChapter(stager, refChapter, "Participants", stager.stage.GetInstancesSorted[*Participant]())
+	appendWebExportableChapter(stager, refChapter, "Tasks", stager.stage.GetInstancesSorted[*Task]())
+	appendWebExportableChapter(stager, refChapter, "Control Flows", stager.stage.GetInstancesSorted[*ControlFlow]())
+	appendWebExportableChapter(stager, refChapter, "Data Flows", stager.stage.GetInstancesSorted[*DataFlow]())
+	appendWebExportableChapter(stager, refChapter, "Datas", stager.stage.GetInstancesSorted[*Data]())
+	appendWebExportableChapter(stager, refChapter, "Resources", stager.stage.GetInstancesSorted[*Resource]())
+	appendWebExportableChapter(stager, refChapter, "Notes", stager.stage.GetInstancesSorted[*Note]())
+	appendWebExportableChapter(stager, refChapter, "Libraries", stager.stage.GetInstancesSorted[*Library]())
 
 	ssg.StageBranch(stager.ssgStage, &content)
 

@@ -6,7 +6,7 @@ func (stager *Stager) enforceASystemDiagramHasItsOwningSystem() (needCommit bool
 
 	rm := GetSliceOfPointersReverseMap[System, DiagramStructure](GetAssociationName[System]().DiagramStructures[0].Name, stager.stage)
 
-	for diagramStructure := range *GetGongstructInstancesSetFromPointerType[*DiagramStructure](stager.stage) {
+	for diagramStructure := range *stager.stage.GetInstancesSet[*DiagramStructure]() {
 
 		owningSystemes := rm[diagramStructure]
 		if len(owningSystemes) > 1 {

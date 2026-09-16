@@ -63,7 +63,7 @@ type Analysis struct {
 
 // Sanitize remove orphaned actor state transitions
 func Sanitize(stage *Stage) {
-	for analysis := range *GetGongstructInstancesSet[Analysis](stage) {
+	for analysis := range *stage.GetInstancesSet[*Analysis]() {
 		analysis.Sanitize()
 	}
 }
@@ -309,7 +309,7 @@ type Workspace struct {
 
 func GetWorkspace(stage *Stage) (workspace *Workspace) {
 
-	workspaces := *GetGongstructInstancesSet[Workspace](stage)
+	workspaces := *stage.GetInstancesSet[*Workspace]()
 
 	for _workspace := range workspaces {
 		workspace = _workspace

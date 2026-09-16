@@ -174,8 +174,8 @@ func (arcnormalvectorshapeFormCallback *ArcNormalVectorShapeFormCallback) OnSave
 			}
 
 			// 3. Iterate over all ArcNormalVectorShapeGrid instances and update their ArcNormalVectorShapes slice
-			for _arcnormalvectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.ArcNormalVectorShapeGrid](arcnormalvectorshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(arcnormalvectorshapeFormCallback.probe.stageOfInterest, _arcnormalvectorshapegrid)
+			for _arcnormalvectorshapegrid := range *arcnormalvectorshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ArcNormalVectorShapeGrid]() {
+				id := arcnormalvectorshapeFormCallback.probe.stageOfInterest.GetOrder(_arcnormalvectorshapegrid)
 				
 				// if ArcNormalVectorShapeGrid is selected
 				if targetArcNormalVectorShapeGridIDs[id] {
@@ -282,15 +282,14 @@ func (arcnormalvectorshapegridFormCallback *ArcNormalVectorShapeGridFormCallback
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArcNormalVectorShape](arcnormalvectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *arcnormalvectorshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ArcNormalVectorShape]()
 			instanceSlice := make([]*models.ArcNormalVectorShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ArcNormalVectorShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					arcnormalvectorshapegridFormCallback.probe.stageOfInterest,
+				id := arcnormalvectorshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -505,8 +504,8 @@ func (basevectorshapeFormCallback *BaseVectorShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all BaseVectorShapeGrid instances and update their BaseVectorShapes slice
-			for _basevectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.BaseVectorShapeGrid](basevectorshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(basevectorshapeFormCallback.probe.stageOfInterest, _basevectorshapegrid)
+			for _basevectorshapegrid := range *basevectorshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.BaseVectorShapeGrid]() {
+				id := basevectorshapeFormCallback.probe.stageOfInterest.GetOrder(_basevectorshapegrid)
 				
 				// if BaseVectorShapeGrid is selected
 				if targetBaseVectorShapeGridIDs[id] {
@@ -613,15 +612,14 @@ func (basevectorshapegridFormCallback *BaseVectorShapeGridFormCallback) OnSave()
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.BaseVectorShape](basevectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *basevectorshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.BaseVectorShape]()
 			instanceSlice := make([]*models.BaseVectorShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.BaseVectorShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					basevectorshapegridFormCallback.probe.stageOfInterest,
+				id := basevectorshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1006,8 +1004,8 @@ func (clock2ddiagramFormCallback *Clock2DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Clock2DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](clock2ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(clock2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *clock2ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := clock2ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -1156,8 +1154,8 @@ func (clock3ddiagramFormCallback *Clock3DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Clock3DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](clock3ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(clock3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *clock3ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := clock3ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -1548,8 +1546,8 @@ func (endarcshapeFormCallback *EndArcShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all EndArcShapeGrid instances and update their EndArcShapes slice
-			for _endarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShapeGrid](endarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(endarcshapeFormCallback.probe.stageOfInterest, _endarcshapegrid)
+			for _endarcshapegrid := range *endarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.EndArcShapeGrid]() {
+				id := endarcshapeFormCallback.probe.stageOfInterest.GetOrder(_endarcshapegrid)
 				
 				// if EndArcShapeGrid is selected
 				if targetEndArcShapeGridIDs[id] {
@@ -1656,15 +1654,14 @@ func (endarcshapegridFormCallback *EndArcShapeGridFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShape](endarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *endarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.EndArcShape]()
 			instanceSlice := make([]*models.EndArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.EndArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					endarcshapegridFormCallback.probe.stageOfInterest,
+				id := endarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1805,8 +1802,8 @@ func (endhalfwayarcshapeFormCallback *EndHalfwayArcShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all EndHalfwayArcShapeGrid instances and update their EndHalfwayArcShapes slice
-			for _endhalfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.EndHalfwayArcShapeGrid](endhalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(endhalfwayarcshapeFormCallback.probe.stageOfInterest, _endhalfwayarcshapegrid)
+			for _endhalfwayarcshapegrid := range *endhalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.EndHalfwayArcShapeGrid]() {
+				id := endhalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_endhalfwayarcshapegrid)
 				
 				// if EndHalfwayArcShapeGrid is selected
 				if targetEndHalfwayArcShapeGridIDs[id] {
@@ -1913,15 +1910,14 @@ func (endhalfwayarcshapegridFormCallback *EndHalfwayArcShapeGridFormCallback) On
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.EndHalfwayArcShape](endhalfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *endhalfwayarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.EndHalfwayArcShape]()
 			instanceSlice := make([]*models.EndHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.EndHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					endhalfwayarcshapegridFormCallback.probe.stageOfInterest,
+				id := endhalfwayarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2732,15 +2728,14 @@ func (growthcurve2dribbonFormCallback *GrowthCurve2DRibbonFormCallback) OnSave()
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurve2DRibbonStartShape](growthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *growthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.GrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.GrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					growthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := growthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2767,15 +2762,14 @@ func (growthcurve2dribbonFormCallback *GrowthCurve2DRibbonFormCallback) OnSave()
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurve2DRibbonEndShape](growthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *growthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.GrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.GrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					growthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := growthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2934,8 +2928,8 @@ func (growthcurve2dribbonendshapeFormCallback *GrowthCurve2DRibbonEndShapeFormCa
 			}
 
 			// 3. Iterate over all GrowthCurve2DRibbon instances and update their GrowthCurve2DRibbonEndShapes slice
-			for _growthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurve2DRibbon](growthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(growthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _growthcurve2dribbon)
+			for _growthcurve2dribbon := range *growthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbon]() {
+				id := growthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_growthcurve2dribbon)
 				
 				// if GrowthCurve2DRibbon is selected
 				if targetGrowthCurve2DRibbonIDs[id] {
@@ -3096,8 +3090,8 @@ func (growthcurve2dribbonstartshapeFormCallback *GrowthCurve2DRibbonStartShapeFo
 			}
 
 			// 3. Iterate over all GrowthCurve2DRibbon instances and update their GrowthCurve2DRibbonStartShapes slice
-			for _growthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurve2DRibbon](growthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(growthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _growthcurve2dribbon)
+			for _growthcurve2dribbon := range *growthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GrowthCurve2DRibbon]() {
+				id := growthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_growthcurve2dribbon)
 				
 				// if GrowthCurve2DRibbon is selected
 				if targetGrowthCurve2DRibbonIDs[id] {
@@ -3204,15 +3198,14 @@ func (growthcurverhombusgridshapeFormCallback *GrowthCurveRhombusGridShapeFormCa
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurveRhombusShape](growthcurverhombusgridshapeFormCallback.probe.stageOfInterest)
+			instanceSet := *growthcurverhombusgridshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GrowthCurveRhombusShape]()
 			instanceSlice := make([]*models.GrowthCurveRhombusShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.GrowthCurveRhombusShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					growthcurverhombusgridshapeFormCallback.probe.stageOfInterest,
+				id := growthcurverhombusgridshapeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3339,8 +3332,8 @@ func (growthcurverhombusshapeFormCallback *GrowthCurveRhombusShapeFormCallback) 
 			}
 
 			// 3. Iterate over all GrowthCurveRhombusGridShape instances and update their GrowthCurveRhombusShapes slice
-			for _growthcurverhombusgridshape := range *models.GetGongstructInstancesSetFromPointerType[*models.GrowthCurveRhombusGridShape](growthcurverhombusshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(growthcurverhombusshapeFormCallback.probe.stageOfInterest, _growthcurverhombusgridshape)
+			for _growthcurverhombusgridshape := range *growthcurverhombusshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.GrowthCurveRhombusGridShape]() {
+				id := growthcurverhombusshapeFormCallback.probe.stageOfInterest.GetOrder(_growthcurverhombusgridshape)
 				
 				// if GrowthCurveRhombusGridShape is selected
 				if targetGrowthCurveRhombusGridShapeIDs[id] {
@@ -3529,15 +3522,14 @@ func (initialrhombusgridshapeFormCallback *InitialRhombusGridShapeFormCallback) 
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.InitialRhombusShape](initialrhombusgridshapeFormCallback.probe.stageOfInterest)
+			instanceSet := *initialrhombusgridshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.InitialRhombusShape]()
 			instanceSlice := make([]*models.InitialRhombusShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.InitialRhombusShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					initialrhombusgridshapeFormCallback.probe.stageOfInterest,
+				id := initialrhombusgridshapeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3664,8 +3656,8 @@ func (initialrhombusshapeFormCallback *InitialRhombusShapeFormCallback) OnSave()
 			}
 
 			// 3. Iterate over all InitialRhombusGridShape instances and update their InitialRhombusShapes slice
-			for _initialrhombusgridshape := range *models.GetGongstructInstancesSetFromPointerType[*models.InitialRhombusGridShape](initialrhombusshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(initialrhombusshapeFormCallback.probe.stageOfInterest, _initialrhombusgridshape)
+			for _initialrhombusgridshape := range *initialrhombusshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.InitialRhombusGridShape]() {
+				id := initialrhombusshapeFormCallback.probe.stageOfInterest.GetOrder(_initialrhombusgridshape)
 				
 				// if InitialRhombusGridShape is selected
 				if targetInitialRhombusGridShapeIDs[id] {
@@ -4092,15 +4084,14 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
+			instanceSet := *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]()
 			instanceSlice := make([]*models.PlantAbstract, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PlantAbstract)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					libraryFormCallback.probe.stageOfInterest,
+				id := libraryFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4127,15 +4118,14 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
+			instanceSet := *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]()
 			instanceSlice := make([]*models.Library, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Library)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					libraryFormCallback.probe.stageOfInterest,
+				id := libraryFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4190,8 +4180,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Library instances and update their SubLibraries slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(libraryFormCallback.probe.stageOfInterest, _library)
+			for _library := range *libraryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]() {
+				id := libraryFormCallback.probe.stageOfInterest.GetOrder(_library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
@@ -4324,8 +4314,8 @@ func (midarcvectorshapeFormCallback *MidArcVectorShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all MidArcVectorShapeGrid instances and update their MidArcVectorShapes slice
-			for _midarcvectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.MidArcVectorShapeGrid](midarcvectorshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(midarcvectorshapeFormCallback.probe.stageOfInterest, _midarcvectorshapegrid)
+			for _midarcvectorshapegrid := range *midarcvectorshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.MidArcVectorShapeGrid]() {
+				id := midarcvectorshapeFormCallback.probe.stageOfInterest.GetOrder(_midarcvectorshapegrid)
 				
 				// if MidArcVectorShapeGrid is selected
 				if targetMidArcVectorShapeGridIDs[id] {
@@ -4432,15 +4422,14 @@ func (midarcvectorshapegridFormCallback *MidArcVectorShapeGridFormCallback) OnSa
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MidArcVectorShape](midarcvectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *midarcvectorshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.MidArcVectorShape]()
 			instanceSlice := make([]*models.MidArcVectorShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.MidArcVectorShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					midarcvectorshapegridFormCallback.probe.stageOfInterest,
+				id := midarcvectorshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4909,15 +4898,14 @@ func (partiallygrowthcurve2dribbonFormCallback *PartiallyGrowthCurve2DRibbonForm
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DRibbonStartShape](partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4944,15 +4932,14 @@ func (partiallygrowthcurve2dribbonFormCallback *PartiallyGrowthCurve2DRibbonForm
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DRibbonEndShape](partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5111,8 +5098,8 @@ func (partiallygrowthcurve2dribbonendshapeFormCallback *PartiallyGrowthCurve2DRi
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DRibbon instances and update their PartiallyGrowthCurve2DRibbonEndShapes slice
-			for _partiallygrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DRibbon](partiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dribbon)
+			for _partiallygrowthcurve2dribbon := range *partiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbon]() {
+				id := partiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dribbon)
 				
 				// if PartiallyGrowthCurve2DRibbon is selected
 				if targetPartiallyGrowthCurve2DRibbonIDs[id] {
@@ -5273,8 +5260,8 @@ func (partiallygrowthcurve2dribbonstartshapeFormCallback *PartiallyGrowthCurve2D
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DRibbon instances and update their PartiallyGrowthCurve2DRibbonStartShapes slice
-			for _partiallygrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DRibbon](partiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dribbon)
+			for _partiallygrowthcurve2dribbon := range *partiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DRibbon]() {
+				id := partiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dribbon)
 				
 				// if PartiallyGrowthCurve2DRibbon is selected
 				if targetPartiallyGrowthCurve2DRibbonIDs[id] {
@@ -5381,15 +5368,14 @@ func (partiallygrowthcurve2dtrajectoryFormCallback *PartiallyGrowthCurve2DTrajec
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryShape](partiallygrowthcurve2dtrajectoryFormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dtrajectoryFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dtrajectoryFormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dtrajectoryFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5520,8 +5506,8 @@ func (partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback *PartiallyGrowthC
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P1CurveShapes slice
-			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2]() {
+				id := partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dtrajectoryp1p2)
 				
 				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
 				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
@@ -5628,15 +5614,14 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1PointShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP1PointShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5663,15 +5648,14 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP2PointShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP2PointShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5698,15 +5682,14 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5733,15 +5716,14 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5768,15 +5750,14 @@ func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTr
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSet := *partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]()
 			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+				id := partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5907,8 +5888,8 @@ func (partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback *PartiallyGr
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P1P2PairLineShapes slice
-			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2]() {
+				id := partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dtrajectoryp1p2)
 				
 				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
 				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
@@ -6037,8 +6018,8 @@ func (partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback *PartiallyGrowthC
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P1PointShapes slice
-			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2]() {
+				id := partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dtrajectoryp1p2)
 				
 				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
 				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
@@ -6171,8 +6152,8 @@ func (partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback *PartiallyGrowthC
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P2CurveShapes slice
-			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2]() {
+				id := partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dtrajectoryp1p2)
 				
 				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
 				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
@@ -6301,8 +6282,8 @@ func (partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback *PartiallyGrowthC
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P2PointShapes slice
-			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectoryP1P2]() {
+				id := partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dtrajectoryp1p2)
 				
 				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
 				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
@@ -6435,8 +6416,8 @@ func (partiallygrowthcurve2dtrajectoryshapeFormCallback *PartiallyGrowthCurve2DT
 			}
 
 			// 3. Iterate over all PartiallyGrowthCurve2DTrajectory instances and update their PartiallyGrowthCurve2DTrajectoryShapes slice
-			for _partiallygrowthcurve2dtrajectory := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectory](partiallygrowthcurve2dtrajectoryshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectory)
+			for _partiallygrowthcurve2dtrajectory := range *partiallygrowthcurve2dtrajectoryshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PartiallyGrowthCurve2DTrajectory]() {
+				id := partiallygrowthcurve2dtrajectoryshapeFormCallback.probe.stageOfInterest.GetOrder(_partiallygrowthcurve2dtrajectory)
 				
 				// if PartiallyGrowthCurve2DTrajectory is selected
 				if targetPartiallyGrowthCurve2DTrajectoryIDs[id] {
@@ -6803,8 +6784,8 @@ func (perpendicularvectorFormCallback *PerpendicularVectorFormCallback) OnSave()
 			}
 
 			// 3. Iterate over all PerpendicularVectorGrid instances and update their PerpendicularVectors slice
-			for _perpendicularvectorgrid := range *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorGrid](perpendicularvectorFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(perpendicularvectorFormCallback.probe.stageOfInterest, _perpendicularvectorgrid)
+			for _perpendicularvectorgrid := range *perpendicularvectorFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVectorGrid]() {
+				id := perpendicularvectorFormCallback.probe.stageOfInterest.GetOrder(_perpendicularvectorgrid)
 				
 				// if PerpendicularVectorGrid is selected
 				if targetPerpendicularVectorGridIDs[id] {
@@ -6911,15 +6892,14 @@ func (perpendicularvectorgridFormCallback *PerpendicularVectorGridFormCallback) 
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVector](perpendicularvectorgridFormCallback.probe.stageOfInterest)
+			instanceSet := *perpendicularvectorgridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVector]()
 			instanceSlice := make([]*models.PerpendicularVector, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PerpendicularVector)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					perpendicularvectorgridFormCallback.probe.stageOfInterest,
+				id := perpendicularvectorgridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7024,15 +7004,14 @@ func (perpendicularvectorgridhalfwayFormCallback *PerpendicularVectorGridHalfway
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorHalfway](perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest)
+			instanceSet := *perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVectorHalfway]()
 			instanceSlice := make([]*models.PerpendicularVectorHalfway, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.PerpendicularVectorHalfway)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest,
+				id := perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7163,8 +7142,8 @@ func (perpendicularvectorhalfwayFormCallback *PerpendicularVectorHalfwayFormCall
 			}
 
 			// 3. Iterate over all PerpendicularVectorGridHalfway instances and update their PerpendicularVectorHalfways slice
-			for _perpendicularvectorgridhalfway := range *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorGridHalfway](perpendicularvectorhalfwayFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(perpendicularvectorhalfwayFormCallback.probe.stageOfInterest, _perpendicularvectorgridhalfway)
+			for _perpendicularvectorgridhalfway := range *perpendicularvectorhalfwayFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PerpendicularVectorGridHalfway]() {
+				id := perpendicularvectorhalfwayFormCallback.probe.stageOfInterest.GetOrder(_perpendicularvectorgridhalfway)
 				
 				// if PerpendicularVectorGridHalfway is selected
 				if targetPerpendicularVectorGridHalfwayIDs[id] {
@@ -7345,8 +7324,8 @@ func (plant2ddiagramFormCallback *Plant2DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Plant2DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](plant2ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plant2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *plant2ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := plant2ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -7507,8 +7486,8 @@ func (plant3ddiagramFormCallback *Plant3DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Plant3DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](plant3ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plant3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *plant3ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := plant3ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -7645,15 +7624,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Plant2DDiagram]()
 			instanceSlice := make([]*models.Plant2DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Plant2DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7682,15 +7660,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Plant3DDiagram]()
 			instanceSlice := make([]*models.Plant3DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Plant3DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7719,15 +7696,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vase2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Vase2DDiagram]()
 			instanceSlice := make([]*models.Vase2DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Vase2DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7756,15 +7732,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TubeVase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TubeVase3DDiagram]()
 			instanceSlice := make([]*models.TubeVase3DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TubeVase3DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7793,15 +7768,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Stool2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Stool2DDiagram]()
 			instanceSlice := make([]*models.Stool2DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Stool2DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7830,15 +7804,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Stool3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Stool3DDiagram]()
 			instanceSlice := make([]*models.Stool3DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Stool3DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7867,15 +7840,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Clock2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Clock2DDiagram]()
 			instanceSlice := make([]*models.Clock2DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Clock2DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7904,15 +7876,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Clock3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSet := *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Clock3DDiagram]()
 			instanceSlice := make([]*models.Clock3DDiagram, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Clock3DDiagram)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantabstractFormCallback.probe.stageOfInterest,
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -7979,8 +7950,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Library instances and update their Plants slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](plantabstractFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plantabstractFormCallback.probe.stageOfInterest, _library)
+			for _library := range *plantabstractFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Library]() {
+				id := plantabstractFormCallback.probe.stageOfInterest.GetOrder(_library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
@@ -8601,15 +8572,14 @@ func (rotatedrhombusgridshapeFormCallback *RotatedRhombusGridShapeFormCallback) 
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RotatedRhombusShape](rotatedrhombusgridshapeFormCallback.probe.stageOfInterest)
+			instanceSet := *rotatedrhombusgridshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RotatedRhombusShape]()
 			instanceSlice := make([]*models.RotatedRhombusShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RotatedRhombusShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rotatedrhombusgridshapeFormCallback.probe.stageOfInterest,
+				id := rotatedrhombusgridshapeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -8736,8 +8706,8 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 			}
 
 			// 3. Iterate over all RotatedRhombusGridShape instances and update their RotatedRhombusShapes slice
-			for _rotatedrhombusgridshape := range *models.GetGongstructInstancesSetFromPointerType[*models.RotatedRhombusGridShape](rotatedrhombusshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rotatedrhombusshapeFormCallback.probe.stageOfInterest, _rotatedrhombusgridshape)
+			for _rotatedrhombusgridshape := range *rotatedrhombusshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RotatedRhombusGridShape]() {
+				id := rotatedrhombusshapeFormCallback.probe.stageOfInterest.GetOrder(_rotatedrhombusgridshape)
 				
 				// if RotatedRhombusGridShape is selected
 				if targetRotatedRhombusGridShapeIDs[id] {
@@ -9426,8 +9396,8 @@ func (shiftedbottomtopstartarcshapeFormCallback *ShiftedBottomTopStartArcShapeFo
 			}
 
 			// 3. Iterate over all ShiftedBottomTopStartArcShapeGrid instances and update their ShiftedBottomTopStartArcShapes slice
-			for _shiftedbottomtopstartarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedBottomTopStartArcShapeGrid](shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest, _shiftedbottomtopstartarcshapegrid)
+			for _shiftedbottomtopstartarcshapegrid := range *shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedBottomTopStartArcShapeGrid]() {
+				id := shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedbottomtopstartarcshapegrid)
 				
 				// if ShiftedBottomTopStartArcShapeGrid is selected
 				if targetShiftedBottomTopStartArcShapeGridIDs[id] {
@@ -9534,15 +9504,14 @@ func (shiftedbottomtopstartarcshapegridFormCallback *ShiftedBottomTopStartArcSha
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedBottomTopStartArcShape](shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedBottomTopStartArcShape]()
 			instanceSlice := make([]*models.ShiftedBottomTopStartArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedBottomTopStartArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest,
+				id := shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -9647,15 +9616,14 @@ func (shiftedleftgrowthcurve2dribbonFormCallback *ShiftedLeftGrowthCurve2DRibbon
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftGrowthCurve2DRibbonStartShape](shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.ShiftedLeftGrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftGrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -9682,15 +9650,14 @@ func (shiftedleftgrowthcurve2dribbonFormCallback *ShiftedLeftGrowthCurve2DRibbon
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftGrowthCurve2DRibbonEndShape](shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.ShiftedLeftGrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftGrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := shiftedleftgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -9849,8 +9816,8 @@ func (shiftedleftgrowthcurve2dribbonendshapeFormCallback *ShiftedLeftGrowthCurve
 			}
 
 			// 3. Iterate over all ShiftedLeftGrowthCurve2DRibbon instances and update their ShiftedLeftGrowthCurve2DRibbonEndShapes slice
-			for _shiftedleftgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftGrowthCurve2DRibbon](shiftedleftgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _shiftedleftgrowthcurve2dribbon)
+			for _shiftedleftgrowthcurve2dribbon := range *shiftedleftgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbon]() {
+				id := shiftedleftgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftgrowthcurve2dribbon)
 				
 				// if ShiftedLeftGrowthCurve2DRibbon is selected
 				if targetShiftedLeftGrowthCurve2DRibbonIDs[id] {
@@ -10011,8 +9978,8 @@ func (shiftedleftgrowthcurve2dribbonstartshapeFormCallback *ShiftedLeftGrowthCur
 			}
 
 			// 3. Iterate over all ShiftedLeftGrowthCurve2DRibbon instances and update their ShiftedLeftGrowthCurve2DRibbonStartShapes slice
-			for _shiftedleftgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftGrowthCurve2DRibbon](shiftedleftgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _shiftedleftgrowthcurve2dribbon)
+			for _shiftedleftgrowthcurve2dribbon := range *shiftedleftgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftGrowthCurve2DRibbon]() {
+				id := shiftedleftgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftgrowthcurve2dribbon)
 				
 				// if ShiftedLeftGrowthCurve2DRibbon is selected
 				if targetShiftedLeftGrowthCurve2DRibbonIDs[id] {
@@ -10119,15 +10086,14 @@ func (shiftedleftpartiallygrowthcurve2dribbonFormCallback *ShiftedLeftPartiallyG
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -10154,15 +10120,14 @@ func (shiftedleftpartiallygrowthcurve2dribbonFormCallback *ShiftedLeftPartiallyG
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := shiftedleftpartiallygrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -10321,8 +10286,8 @@ func (shiftedleftpartiallygrowthcurve2dribbonendshapeFormCallback *ShiftedLeftPa
 			}
 
 			// 3. Iterate over all ShiftedLeftPartiallyGrowthCurve2DRibbon instances and update their ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes slice
-			for _shiftedleftpartiallygrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon](shiftedleftpartiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftpartiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _shiftedleftpartiallygrowthcurve2dribbon)
+			for _shiftedleftpartiallygrowthcurve2dribbon := range *shiftedleftpartiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon]() {
+				id := shiftedleftpartiallygrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftpartiallygrowthcurve2dribbon)
 				
 				// if ShiftedLeftPartiallyGrowthCurve2DRibbon is selected
 				if targetShiftedLeftPartiallyGrowthCurve2DRibbonIDs[id] {
@@ -10483,8 +10448,8 @@ func (shiftedleftpartiallygrowthcurve2dribbonstartshapeFormCallback *ShiftedLeft
 			}
 
 			// 3. Iterate over all ShiftedLeftPartiallyGrowthCurve2DRibbon instances and update their ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes slice
-			for _shiftedleftpartiallygrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon](shiftedleftpartiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftpartiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _shiftedleftpartiallygrowthcurve2dribbon)
+			for _shiftedleftpartiallygrowthcurve2dribbon := range *shiftedleftpartiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftPartiallyGrowthCurve2DRibbon]() {
+				id := shiftedleftpartiallygrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftpartiallygrowthcurve2dribbon)
 				
 				// if ShiftedLeftPartiallyGrowthCurve2DRibbon is selected
 				if targetShiftedLeftPartiallyGrowthCurve2DRibbonIDs[id] {
@@ -10627,8 +10592,8 @@ func (shiftedleftstackgrowthcurveendarcshapeFormCallback *ShiftedLeftStackGrowth
 			}
 
 			// 3. Iterate over all ShiftedLeftStackOfGrowthCurve instances and update their ShiftedLeftStackGrowthCurveEndArcShapes slice
-			for _shiftedleftstackofgrowthcurve := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackOfGrowthCurve](shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest, _shiftedleftstackofgrowthcurve)
+			for _shiftedleftstackofgrowthcurve := range *shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackOfGrowthCurve]() {
+				id := shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftstackofgrowthcurve)
 				
 				// if ShiftedLeftStackOfGrowthCurve is selected
 				if targetShiftedLeftStackOfGrowthCurveIDs[id] {
@@ -10771,8 +10736,8 @@ func (shiftedleftstackgrowthcurvestartarcshapeFormCallback *ShiftedLeftStackGrow
 			}
 
 			// 3. Iterate over all ShiftedLeftStackOfGrowthCurve instances and update their ShiftedLeftStackGrowthCurveStartArcShapes slice
-			for _shiftedleftstackofgrowthcurve := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackOfGrowthCurve](shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest, _shiftedleftstackofgrowthcurve)
+			for _shiftedleftstackofgrowthcurve := range *shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackOfGrowthCurve]() {
+				id := shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftstackofgrowthcurve)
 				
 				// if ShiftedLeftStackOfGrowthCurve is selected
 				if targetShiftedLeftStackOfGrowthCurveIDs[id] {
@@ -10905,8 +10870,8 @@ func (shiftedleftstacknormalvectorFormCallback *ShiftedLeftStackNormalVectorForm
 			}
 
 			// 3. Iterate over all ShiftedLeftStackOfNormalVector instances and update their ShiftedLeftStackNormalVectors slice
-			for _shiftedleftstackofnormalvector := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackOfNormalVector](shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest, _shiftedleftstackofnormalvector)
+			for _shiftedleftstackofnormalvector := range *shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackOfNormalVector]() {
+				id := shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest.GetOrder(_shiftedleftstackofnormalvector)
 				
 				// if ShiftedLeftStackOfNormalVector is selected
 				if targetShiftedLeftStackOfNormalVectorIDs[id] {
@@ -11013,15 +10978,14 @@ func (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFo
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackGrowthCurveStartArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackGrowthCurveStartArcShape]()
 			instanceSlice := make([]*models.ShiftedLeftStackGrowthCurveStartArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftStackGrowthCurveStartArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest,
+				id := shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11048,15 +11012,14 @@ func (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFo
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackGrowthCurveEndArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackGrowthCurveEndArcShape]()
 			instanceSlice := make([]*models.ShiftedLeftStackGrowthCurveEndArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftStackGrowthCurveEndArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest,
+				id := shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11161,15 +11124,14 @@ func (shiftedleftstackofnormalvectorFormCallback *ShiftedLeftStackOfNormalVector
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackNormalVector](shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedLeftStackNormalVector]()
 			instanceSlice := make([]*models.ShiftedLeftStackNormalVector, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedLeftStackNormalVector)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest,
+				id := shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11274,15 +11236,14 @@ func (shiftedrightgrowthcurve2dribbonFormCallback *ShiftedRightGrowthCurve2DRibb
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedRightGrowthCurve2DRibbonStartShape](shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.ShiftedRightGrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedRightGrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11309,15 +11270,14 @@ func (shiftedrightgrowthcurve2dribbonFormCallback *ShiftedRightGrowthCurve2DRibb
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedRightGrowthCurve2DRibbonEndShape](shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.ShiftedRightGrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ShiftedRightGrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := shiftedrightgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -11476,8 +11436,8 @@ func (shiftedrightgrowthcurve2dribbonendshapeFormCallback *ShiftedRightGrowthCur
 			}
 
 			// 3. Iterate over all ShiftedRightGrowthCurve2DRibbon instances and update their ShiftedRightGrowthCurve2DRibbonEndShapes slice
-			for _shiftedrightgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedRightGrowthCurve2DRibbon](shiftedrightgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedrightgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _shiftedrightgrowthcurve2dribbon)
+			for _shiftedrightgrowthcurve2dribbon := range *shiftedrightgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbon]() {
+				id := shiftedrightgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedrightgrowthcurve2dribbon)
 				
 				// if ShiftedRightGrowthCurve2DRibbon is selected
 				if targetShiftedRightGrowthCurve2DRibbonIDs[id] {
@@ -11638,8 +11598,8 @@ func (shiftedrightgrowthcurve2dribbonstartshapeFormCallback *ShiftedRightGrowthC
 			}
 
 			// 3. Iterate over all ShiftedRightGrowthCurve2DRibbon instances and update their ShiftedRightGrowthCurve2DRibbonStartShapes slice
-			for _shiftedrightgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedRightGrowthCurve2DRibbon](shiftedrightgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(shiftedrightgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _shiftedrightgrowthcurve2dribbon)
+			for _shiftedrightgrowthcurve2dribbon := range *shiftedrightgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ShiftedRightGrowthCurve2DRibbon]() {
+				id := shiftedrightgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_shiftedrightgrowthcurve2dribbon)
 				
 				// if ShiftedRightGrowthCurve2DRibbon is selected
 				if targetShiftedRightGrowthCurve2DRibbonIDs[id] {
@@ -11782,8 +11742,8 @@ func (stackgrowthcurve2dendhalfwayarcshapeFormCallback *StackGrowthCurve2DEndHal
 			}
 
 			// 3. Iterate over all StackOfGrowthCurve2D instances and update their StackGrowthCurve2DEndHalfwayArcShapes slice
-			for _stackofgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurve2D](stackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest, _stackofgrowthcurve2d)
+			for _stackofgrowthcurve2d := range *stackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2D]() {
+				id := stackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofgrowthcurve2d)
 				
 				// if StackOfGrowthCurve2D is selected
 				if targetStackOfGrowthCurve2DIDs[id] {
@@ -11944,8 +11904,8 @@ func (stackgrowthcurve2dribbonendshapeFormCallback *StackGrowthCurve2DRibbonEndS
 			}
 
 			// 3. Iterate over all StackOfGrowthCurve2DRibbon instances and update their StackGrowthCurve2DRibbonEndShapes slice
-			for _stackofgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurve2DRibbon](stackgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _stackofgrowthcurve2dribbon)
+			for _stackofgrowthcurve2dribbon := range *stackgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2DRibbon]() {
+				id := stackgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofgrowthcurve2dribbon)
 				
 				// if StackOfGrowthCurve2DRibbon is selected
 				if targetStackOfGrowthCurve2DRibbonIDs[id] {
@@ -12106,8 +12066,8 @@ func (stackgrowthcurve2dribbonstartshapeFormCallback *StackGrowthCurve2DRibbonSt
 			}
 
 			// 3. Iterate over all StackOfGrowthCurve2DRibbon instances and update their StackGrowthCurve2DRibbonStartShapes slice
-			for _stackofgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurve2DRibbon](stackgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _stackofgrowthcurve2dribbon)
+			for _stackofgrowthcurve2dribbon := range *stackgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2DRibbon]() {
+				id := stackgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofgrowthcurve2dribbon)
 				
 				// if StackOfGrowthCurve2DRibbon is selected
 				if targetStackOfGrowthCurve2DRibbonIDs[id] {
@@ -12250,8 +12210,8 @@ func (stackgrowthcurve2dstarthalfwayarcshapeFormCallback *StackGrowthCurve2DStar
 			}
 
 			// 3. Iterate over all StackOfGrowthCurve2D instances and update their StackGrowthCurve2DStartHalfwayArcShapes slice
-			for _stackofgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurve2D](stackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest, _stackofgrowthcurve2d)
+			for _stackofgrowthcurve2d := range *stackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfGrowthCurve2D]() {
+				id := stackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofgrowthcurve2d)
 				
 				// if StackOfGrowthCurve2D is selected
 				if targetStackOfGrowthCurve2DIDs[id] {
@@ -12358,15 +12318,14 @@ func (stackofgrowthcurve2dFormCallback *StackOfGrowthCurve2DFormCallback) OnSave
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DStartHalfwayArcShape](stackofgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DStartHalfwayArcShape]()
 			instanceSlice := make([]*models.StackGrowthCurve2DStartHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackGrowthCurve2DStartHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := stackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12393,15 +12352,14 @@ func (stackofgrowthcurve2dFormCallback *StackOfGrowthCurve2DFormCallback) OnSave
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DEndHalfwayArcShape](stackofgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DEndHalfwayArcShape]()
 			instanceSlice := make([]*models.StackGrowthCurve2DEndHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackGrowthCurve2DEndHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := stackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12584,15 +12542,14 @@ func (stackofgrowthcurve2dribbonFormCallback *StackOfGrowthCurve2DRibbonFormCall
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DRibbonStartShape](stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.StackGrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackGrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12619,15 +12576,14 @@ func (stackofgrowthcurve2dribbonFormCallback *StackOfGrowthCurve2DRibbonFormCall
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurve2DRibbonEndShape](stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackGrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.StackGrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackGrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := stackofgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12810,15 +12766,14 @@ func (stackofrotatedgrowthcurve2dFormCallback *StackOfRotatedGrowthCurve2DFormCa
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DStartArcShape](stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DStartArcShape]()
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DStartArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackRotatedGrowthCurve2DStartArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12845,15 +12800,14 @@ func (stackofrotatedgrowthcurve2dFormCallback *StackOfRotatedGrowthCurve2DFormCa
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DEndArcShape](stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DEndArcShape]()
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DEndArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackRotatedGrowthCurve2DEndArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := stackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12958,15 +12912,14 @@ func (stackofrotatedgrowthcurve2dribbonFormCallback *StackOfRotatedGrowthCurve2D
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DRibbonStartShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DRibbonStartShape]()
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DRibbonStartShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackRotatedGrowthCurve2DRibbonStartShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -12993,15 +12946,14 @@ func (stackofrotatedgrowthcurve2dribbonFormCallback *StackOfRotatedGrowthCurve2D
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DRibbonEndShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSet := *stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackRotatedGrowthCurve2DRibbonEndShape]()
 			instanceSlice := make([]*models.StackRotatedGrowthCurve2DRibbonEndShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StackRotatedGrowthCurve2DRibbonEndShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+				id := stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -13142,8 +13094,8 @@ func (stackrotatedgrowthcurve2dendarcshapeFormCallback *StackRotatedGrowthCurve2
 			}
 
 			// 3. Iterate over all StackOfRotatedGrowthCurve2D instances and update their StackRotatedGrowthCurve2DEndArcShapes slice
-			for _stackofrotatedgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfRotatedGrowthCurve2D](stackrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest, _stackofrotatedgrowthcurve2d)
+			for _stackofrotatedgrowthcurve2d := range *stackrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedGrowthCurve2D]() {
+				id := stackrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofrotatedgrowthcurve2d)
 				
 				// if StackOfRotatedGrowthCurve2D is selected
 				if targetStackOfRotatedGrowthCurve2DIDs[id] {
@@ -13304,8 +13256,8 @@ func (stackrotatedgrowthcurve2dribbonendshapeFormCallback *StackRotatedGrowthCur
 			}
 
 			// 3. Iterate over all StackOfRotatedGrowthCurve2DRibbon instances and update their StackRotatedGrowthCurve2DRibbonEndShapes slice
-			for _stackofrotatedgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfRotatedGrowthCurve2DRibbon](stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _stackofrotatedgrowthcurve2dribbon)
+			for _stackofrotatedgrowthcurve2dribbon := range *stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedGrowthCurve2DRibbon]() {
+				id := stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofrotatedgrowthcurve2dribbon)
 				
 				// if StackOfRotatedGrowthCurve2DRibbon is selected
 				if targetStackOfRotatedGrowthCurve2DRibbonIDs[id] {
@@ -13466,8 +13418,8 @@ func (stackrotatedgrowthcurve2dribbonstartshapeFormCallback *StackRotatedGrowthC
 			}
 
 			// 3. Iterate over all StackOfRotatedGrowthCurve2DRibbon instances and update their StackRotatedGrowthCurve2DRibbonStartShapes slice
-			for _stackofrotatedgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfRotatedGrowthCurve2DRibbon](stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _stackofrotatedgrowthcurve2dribbon)
+			for _stackofrotatedgrowthcurve2dribbon := range *stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedGrowthCurve2DRibbon]() {
+				id := stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofrotatedgrowthcurve2dribbon)
 				
 				// if StackOfRotatedGrowthCurve2DRibbon is selected
 				if targetStackOfRotatedGrowthCurve2DRibbonIDs[id] {
@@ -13610,8 +13562,8 @@ func (stackrotatedgrowthcurve2dstartarcshapeFormCallback *StackRotatedGrowthCurv
 			}
 
 			// 3. Iterate over all StackOfRotatedGrowthCurve2D instances and update their StackRotatedGrowthCurve2DStartArcShapes slice
-			for _stackofrotatedgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfRotatedGrowthCurve2D](stackrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest, _stackofrotatedgrowthcurve2d)
+			for _stackofrotatedgrowthcurve2d := range *stackrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StackOfRotatedGrowthCurve2D]() {
+				id := stackrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest.GetOrder(_stackofrotatedgrowthcurve2d)
 				
 				// if StackOfRotatedGrowthCurve2D is selected
 				if targetStackOfRotatedGrowthCurve2DIDs[id] {
@@ -13754,8 +13706,8 @@ func (startarcshapeFormCallback *StartArcShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all StartArcShapeGrid instances and update their StartArcShapes slice
-			for _startarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShapeGrid](startarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(startarcshapeFormCallback.probe.stageOfInterest, _startarcshapegrid)
+			for _startarcshapegrid := range *startarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StartArcShapeGrid]() {
+				id := startarcshapeFormCallback.probe.stageOfInterest.GetOrder(_startarcshapegrid)
 				
 				// if StartArcShapeGrid is selected
 				if targetStartArcShapeGridIDs[id] {
@@ -13862,15 +13814,14 @@ func (startarcshapegridFormCallback *StartArcShapeGridFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShape](startarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *startarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StartArcShape]()
 			instanceSlice := make([]*models.StartArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StartArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					startarcshapegridFormCallback.probe.stageOfInterest,
+				id := startarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -14011,8 +13962,8 @@ func (starthalfwayarcshapeFormCallback *StartHalfwayArcShapeFormCallback) OnSave
 			}
 
 			// 3. Iterate over all StartHalfwayArcShapeGrid instances and update their StartHalfwayArcShapes slice
-			for _starthalfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.StartHalfwayArcShapeGrid](starthalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(starthalfwayarcshapeFormCallback.probe.stageOfInterest, _starthalfwayarcshapegrid)
+			for _starthalfwayarcshapegrid := range *starthalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StartHalfwayArcShapeGrid]() {
+				id := starthalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_starthalfwayarcshapegrid)
 				
 				// if StartHalfwayArcShapeGrid is selected
 				if targetStartHalfwayArcShapeGridIDs[id] {
@@ -14119,15 +14070,14 @@ func (starthalfwayarcshapegridFormCallback *StartHalfwayArcShapeGridFormCallback
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StartHalfwayArcShape](starthalfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *starthalfwayarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.StartHalfwayArcShape]()
 			instanceSlice := make([]*models.StartHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.StartHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					starthalfwayarcshapegridFormCallback.probe.stageOfInterest,
+				id := starthalfwayarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -14340,8 +14290,8 @@ func (stool2ddiagramFormCallback *Stool2DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Stool2DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](stool2ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stool2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *stool2ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := stool2ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -14546,8 +14496,8 @@ func (stool3ddiagramFormCallback *Stool3DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Stool3DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](stool3ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stool3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *stool3ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := stool3ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -14866,8 +14816,8 @@ func (topendarcshapeFormCallback *TopEndArcShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all TopEndArcShapeGrid instances and update their TopEndArcShapes slice
-			for _topendarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShapeGrid](topendarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topendarcshapeFormCallback.probe.stageOfInterest, _topendarcshapegrid)
+			for _topendarcshapegrid := range *topendarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopEndArcShapeGrid]() {
+				id := topendarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topendarcshapegrid)
 				
 				// if TopEndArcShapeGrid is selected
 				if targetTopEndArcShapeGridIDs[id] {
@@ -14974,15 +14924,14 @@ func (topendarcshapegridFormCallback *TopEndArcShapeGridFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShape](topendarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *topendarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopEndArcShape]()
 			instanceSlice := make([]*models.TopEndArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopEndArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topendarcshapegridFormCallback.probe.stageOfInterest,
+				id := topendarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -15123,8 +15072,8 @@ func (topendhalfwayarcshapeFormCallback *TopEndHalfwayArcShapeFormCallback) OnSa
 			}
 
 			// 3. Iterate over all TopEndHalfwayArcShapeGrid instances and update their TopEndHalfwayArcShapes slice
-			for _topendhalfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopEndHalfwayArcShapeGrid](topendhalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topendhalfwayarcshapeFormCallback.probe.stageOfInterest, _topendhalfwayarcshapegrid)
+			for _topendhalfwayarcshapegrid := range *topendhalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopEndHalfwayArcShapeGrid]() {
+				id := topendhalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topendhalfwayarcshapegrid)
 				
 				// if TopEndHalfwayArcShapeGrid is selected
 				if targetTopEndHalfwayArcShapeGridIDs[id] {
@@ -15231,15 +15180,14 @@ func (topendhalfwayarcshapegridFormCallback *TopEndHalfwayArcShapeGridFormCallba
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndHalfwayArcShape](topendhalfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *topendhalfwayarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopEndHalfwayArcShape]()
 			instanceSlice := make([]*models.TopEndHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopEndHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topendhalfwayarcshapegridFormCallback.probe.stageOfInterest,
+				id := topendhalfwayarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -15452,8 +15400,8 @@ func (topmidarcvectorshapeFormCallback *TopMidArcVectorShapeFormCallback) OnSave
 			}
 
 			// 3. Iterate over all TopMidArcVectorShapeGrid instances and update their TopMidArcVectorShapes slice
-			for _topmidarcvectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopMidArcVectorShapeGrid](topmidarcvectorshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topmidarcvectorshapeFormCallback.probe.stageOfInterest, _topmidarcvectorshapegrid)
+			for _topmidarcvectorshapegrid := range *topmidarcvectorshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopMidArcVectorShapeGrid]() {
+				id := topmidarcvectorshapeFormCallback.probe.stageOfInterest.GetOrder(_topmidarcvectorshapegrid)
 				
 				// if TopMidArcVectorShapeGrid is selected
 				if targetTopMidArcVectorShapeGridIDs[id] {
@@ -15560,15 +15508,14 @@ func (topmidarcvectorshapegridFormCallback *TopMidArcVectorShapeGridFormCallback
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopMidArcVectorShape](topmidarcvectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *topmidarcvectorshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopMidArcVectorShape]()
 			instanceSlice := make([]*models.TopMidArcVectorShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopMidArcVectorShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topmidarcvectorshapegridFormCallback.probe.stageOfInterest,
+				id := topmidarcvectorshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -15709,8 +15656,8 @@ func (topstackgrowthcurve2dendhalfwayarcshapeFormCallback *TopStackGrowthCurve2D
 			}
 
 			// 3. Iterate over all TopStackOfGrowthCurve2D instances and update their TopStackGrowthCurve2DEndHalfwayArcShapes slice
-			for _topstackofgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfGrowthCurve2D](topstackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topstackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest, _topstackofgrowthcurve2d)
+			for _topstackofgrowthcurve2d := range *topstackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackOfGrowthCurve2D]() {
+				id := topstackgrowthcurve2dendhalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topstackofgrowthcurve2d)
 				
 				// if TopStackOfGrowthCurve2D is selected
 				if targetTopStackOfGrowthCurve2DIDs[id] {
@@ -15853,8 +15800,8 @@ func (topstackgrowthcurve2dstarthalfwayarcshapeFormCallback *TopStackGrowthCurve
 			}
 
 			// 3. Iterate over all TopStackOfGrowthCurve2D instances and update their TopStackGrowthCurve2DStartHalfwayArcShapes slice
-			for _topstackofgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfGrowthCurve2D](topstackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topstackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest, _topstackofgrowthcurve2d)
+			for _topstackofgrowthcurve2d := range *topstackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackOfGrowthCurve2D]() {
+				id := topstackgrowthcurve2dstarthalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topstackofgrowthcurve2d)
 				
 				// if TopStackOfGrowthCurve2D is selected
 				if targetTopStackOfGrowthCurve2DIDs[id] {
@@ -15961,15 +15908,14 @@ func (topstackofgrowthcurve2dFormCallback *TopStackOfGrowthCurve2DFormCallback) 
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurve2DStartHalfwayArcShape](topstackofgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *topstackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackGrowthCurve2DStartHalfwayArcShape]()
 			instanceSlice := make([]*models.TopStackGrowthCurve2DStartHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopStackGrowthCurve2DStartHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topstackofgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := topstackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -15996,15 +15942,14 @@ func (topstackofgrowthcurve2dFormCallback *TopStackOfGrowthCurve2DFormCallback) 
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurve2DEndHalfwayArcShape](topstackofgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *topstackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackGrowthCurve2DEndHalfwayArcShape]()
 			instanceSlice := make([]*models.TopStackGrowthCurve2DEndHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopStackGrowthCurve2DEndHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topstackofgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := topstackofgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -16109,15 +16054,14 @@ func (topstackofrotatedgrowthcurve2dFormCallback *TopStackOfRotatedGrowthCurve2D
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfRotatedGrowthCurve2DStartArcShape](topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2DStartArcShape]()
 			instanceSlice := make([]*models.TopStackOfRotatedGrowthCurve2DStartArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopStackOfRotatedGrowthCurve2DStartArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -16144,15 +16088,14 @@ func (topstackofrotatedgrowthcurve2dFormCallback *TopStackOfRotatedGrowthCurve2D
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfRotatedGrowthCurve2DEndArcShape](topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest)
+			instanceSet := *topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2DEndArcShape]()
 			instanceSlice := make([]*models.TopStackOfRotatedGrowthCurve2DEndArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopStackOfRotatedGrowthCurve2DEndArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest,
+				id := topstackofrotatedgrowthcurve2dFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -16293,8 +16236,8 @@ func (topstackofrotatedgrowthcurve2dendarcshapeFormCallback *TopStackOfRotatedGr
 			}
 
 			// 3. Iterate over all TopStackOfRotatedGrowthCurve2D instances and update their TopStackOfRotatedGrowthCurve2DEndArcShapes slice
-			for _topstackofrotatedgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfRotatedGrowthCurve2D](topstackofrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topstackofrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest, _topstackofrotatedgrowthcurve2d)
+			for _topstackofrotatedgrowthcurve2d := range *topstackofrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2D]() {
+				id := topstackofrotatedgrowthcurve2dendarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topstackofrotatedgrowthcurve2d)
 				
 				// if TopStackOfRotatedGrowthCurve2D is selected
 				if targetTopStackOfRotatedGrowthCurve2DIDs[id] {
@@ -16437,8 +16380,8 @@ func (topstackofrotatedgrowthcurve2dstartarcshapeFormCallback *TopStackOfRotated
 			}
 
 			// 3. Iterate over all TopStackOfRotatedGrowthCurve2D instances and update their TopStackOfRotatedGrowthCurve2DStartArcShapes slice
-			for _topstackofrotatedgrowthcurve2d := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfRotatedGrowthCurve2D](topstackofrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topstackofrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest, _topstackofrotatedgrowthcurve2d)
+			for _topstackofrotatedgrowthcurve2d := range *topstackofrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStackOfRotatedGrowthCurve2D]() {
+				id := topstackofrotatedgrowthcurve2dstartarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topstackofrotatedgrowthcurve2d)
 				
 				// if TopStackOfRotatedGrowthCurve2D is selected
 				if targetTopStackOfRotatedGrowthCurve2DIDs[id] {
@@ -16581,8 +16524,8 @@ func (topstartarcshapeFormCallback *TopStartArcShapeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all TopStartArcShapeGrid instances and update their TopStartArcShapes slice
-			for _topstartarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShapeGrid](topstartarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topstartarcshapeFormCallback.probe.stageOfInterest, _topstartarcshapegrid)
+			for _topstartarcshapegrid := range *topstartarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStartArcShapeGrid]() {
+				id := topstartarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topstartarcshapegrid)
 				
 				// if TopStartArcShapeGrid is selected
 				if targetTopStartArcShapeGridIDs[id] {
@@ -16689,15 +16632,14 @@ func (topstartarcshapegridFormCallback *TopStartArcShapeGridFormCallback) OnSave
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShape](topstartarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *topstartarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStartArcShape]()
 			instanceSlice := make([]*models.TopStartArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopStartArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topstartarcshapegridFormCallback.probe.stageOfInterest,
+				id := topstartarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -16838,8 +16780,8 @@ func (topstarthalfwayarcshapeFormCallback *TopStartHalfwayArcShapeFormCallback) 
 			}
 
 			// 3. Iterate over all TopStartHalfwayArcShapeGrid instances and update their TopStartHalfwayArcShapes slice
-			for _topstarthalfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStartHalfwayArcShapeGrid](topstarthalfwayarcshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(topstarthalfwayarcshapeFormCallback.probe.stageOfInterest, _topstarthalfwayarcshapegrid)
+			for _topstarthalfwayarcshapegrid := range *topstarthalfwayarcshapeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStartHalfwayArcShapeGrid]() {
+				id := topstarthalfwayarcshapeFormCallback.probe.stageOfInterest.GetOrder(_topstarthalfwayarcshapegrid)
 				
 				// if TopStartHalfwayArcShapeGrid is selected
 				if targetTopStartHalfwayArcShapeGridIDs[id] {
@@ -16946,15 +16888,14 @@ func (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCa
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartHalfwayArcShape](topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSet := *topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest.GetInstancesSet[*models.TopStartHalfwayArcShape]()
 			instanceSlice := make([]*models.TopStartHalfwayArcShape, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.TopStartHalfwayArcShape)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest,
+				id := topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -17373,8 +17314,8 @@ func (tubevase3ddiagramFormCallback *TubeVase3DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their TubeVase3DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](tubevase3ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(tubevase3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *tubevase3ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := tubevase3ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {
@@ -17743,8 +17684,8 @@ func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all PlantAbstract instances and update their Vase2DDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](vase2ddiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(vase2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+			for _plantabstract := range *vase2ddiagramFormCallback.probe.stageOfInterest.GetInstancesSet[*models.PlantAbstract]() {
+				id := vase2ddiagramFormCallback.probe.stageOfInterest.GetOrder(_plantabstract)
 				
 				// if PlantAbstract is selected
 				if targetPlantAbstractIDs[id] {

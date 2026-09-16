@@ -8,10 +8,10 @@ func (stager *Stager) enforceParentAssociation() {
 	stage := stager.stage
 
 	// 1. Reset and compute for Products
-	for _, product := range GetGongstrucsSorted[*Product](stage) {
+	for _, product := range stage.GetInstancesSorted[*Product]() {
 		product.parentProduct = nil
 	}
-	for _, product := range GetGongstrucsSorted[*Product](stage) {
+	for _, product := range stage.GetInstancesSorted[*Product]() {
 		for _, subProduct := range product.SubProducts {
 			if subProduct != nil {
 				subProduct.parentProduct = product
@@ -20,10 +20,10 @@ func (stager *Stager) enforceParentAssociation() {
 	}
 
 	// 2. Reset and compute for Tasks
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		task.parentTask = nil
 	}
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		for _, subTask := range task.SubTasks {
 			if subTask != nil {
 				subTask.parentTask = task
@@ -32,10 +32,10 @@ func (stager *Stager) enforceParentAssociation() {
 	}
 
 	// 3. Reset and compute for Resources
-	for _, resource := range GetGongstrucsSorted[*Resource](stage) {
+	for _, resource := range stage.GetInstancesSorted[*Resource]() {
 		resource.parentResource = nil
 	}
-	for _, resource := range GetGongstrucsSorted[*Resource](stage) {
+	for _, resource := range stage.GetInstancesSorted[*Resource]() {
 		for _, subResource := range resource.SubResources {
 			if subResource != nil {
 				subResource.parentResource = resource

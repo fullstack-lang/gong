@@ -100,8 +100,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Circle instances and update their Animations slice
-			for _circle := range *models.GetGongstructInstancesSetFromPointerType[*models.Circle](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _circle)
+			for _circle := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Circle]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_circle)
 				
 				// if Circle is selected
 				if targetCircleIDs[id] {
@@ -148,8 +148,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Ellipse instances and update their Animates slice
-			for _ellipse := range *models.GetGongstructInstancesSetFromPointerType[*models.Ellipse](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _ellipse)
+			for _ellipse := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Ellipse]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_ellipse)
 				
 				// if Ellipse is selected
 				if targetEllipseIDs[id] {
@@ -196,8 +196,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Line instances and update their Animates slice
-			for _line := range *models.GetGongstructInstancesSetFromPointerType[*models.Line](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _line)
+			for _line := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Line]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_line)
 				
 				// if Line is selected
 				if targetLineIDs[id] {
@@ -244,8 +244,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all LinkAnchoredText instances and update their Animates slice
-			for _linkanchoredtext := range *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _linkanchoredtext)
+			for _linkanchoredtext := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredText]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_linkanchoredtext)
 				
 				// if LinkAnchoredText is selected
 				if targetLinkAnchoredTextIDs[id] {
@@ -292,8 +292,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Path instances and update their Animates slice
-			for _path := range *models.GetGongstructInstancesSetFromPointerType[*models.Path](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _path)
+			for _path := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Path]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_path)
 				
 				// if Path is selected
 				if targetPathIDs[id] {
@@ -340,8 +340,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Polygone instances and update their Animates slice
-			for _polygone := range *models.GetGongstructInstancesSetFromPointerType[*models.Polygone](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _polygone)
+			for _polygone := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Polygone]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_polygone)
 				
 				// if Polygone is selected
 				if targetPolygoneIDs[id] {
@@ -388,8 +388,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Polyline instances and update their Animates slice
-			for _polyline := range *models.GetGongstructInstancesSetFromPointerType[*models.Polyline](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _polyline)
+			for _polyline := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Polyline]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_polyline)
 				
 				// if Polyline is selected
 				if targetPolylineIDs[id] {
@@ -436,8 +436,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their Animations slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -484,8 +484,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all RectAnchoredText instances and update their Animates slice
-			for _rectanchoredtext := range *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredText](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _rectanchoredtext)
+			for _rectanchoredtext := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RectAnchoredText]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_rectanchoredtext)
 				
 				// if RectAnchoredText is selected
 				if targetRectAnchoredTextIDs[id] {
@@ -532,8 +532,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Text instances and update their Animates slice
-			for _text := range *models.GetGongstructInstancesSetFromPointerType[*models.Text](animateFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(animateFormCallback.probe.stageOfInterest, _text)
+			for _text := range *animateFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Text]() {
+				id := animateFormCallback.probe.stageOfInterest.GetOrder(_text)
 				
 				// if Text is selected
 				if targetTextIDs[id] {
@@ -662,15 +662,14 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](circleFormCallback.probe.stageOfInterest)
+			instanceSet := *circleFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					circleFormCallback.probe.stageOfInterest,
+				id := circleFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -715,8 +714,8 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Circles slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](circleFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(circleFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *circleFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := circleFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -841,8 +840,8 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their HoveringTrigger slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](conditionFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(conditionFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *conditionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := conditionFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -889,8 +888,8 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their DisplayConditions slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](conditionFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(conditionFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *conditionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := conditionFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -1021,8 +1020,8 @@ func (controlpointFormCallback *ControlPointFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their ControlPoints slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](controlpointFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(controlpointFormCallback.probe.stageOfInterest, _link)
+			for _link := range *controlpointFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := controlpointFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -1153,15 +1152,14 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](ellipseFormCallback.probe.stageOfInterest)
+			instanceSet := *ellipseFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					ellipseFormCallback.probe.stageOfInterest,
+				id := ellipseFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1206,8 +1204,8 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Ellipses slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](ellipseFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(ellipseFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *ellipseFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := ellipseFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -1394,15 +1392,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]()
 			instanceSlice := make([]*models.Rect, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Rect)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1429,15 +1426,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Text](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Text]()
 			instanceSlice := make([]*models.Text, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Text)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1464,15 +1460,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Circle](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Circle]()
 			instanceSlice := make([]*models.Circle, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Circle)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1499,15 +1494,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Line](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Line]()
 			instanceSlice := make([]*models.Line, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Line)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1534,15 +1528,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Ellipse](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Ellipse]()
 			instanceSlice := make([]*models.Ellipse, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Ellipse)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1569,15 +1562,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polyline](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Polyline]()
 			instanceSlice := make([]*models.Polyline, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Polyline)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1604,15 +1596,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polygone](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Polygone]()
 			instanceSlice := make([]*models.Polygone, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Polygone)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1639,15 +1630,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Path](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Path]()
 			instanceSlice := make([]*models.Path, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Path)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1674,15 +1664,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]()
 			instanceSlice := make([]*models.Link, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Link)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1709,15 +1698,14 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectLinkLink](layerFormCallback.probe.stageOfInterest)
+			instanceSet := *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RectLinkLink]()
 			instanceSlice := make([]*models.RectLinkLink, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RectLinkLink)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					layerFormCallback.probe.stageOfInterest,
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1762,8 +1750,8 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all SVG instances and update their Layers slice
-			for _svg := range *models.GetGongstructInstancesSetFromPointerType[*models.SVG](layerFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(layerFormCallback.probe.stageOfInterest, _svg)
+			for _svg := range *layerFormCallback.probe.stageOfInterest.GetInstancesSet[*models.SVG]() {
+				id := layerFormCallback.probe.stageOfInterest.GetOrder(_svg)
 				
 				// if SVG is selected
 				if targetSVGIDs[id] {
@@ -1894,15 +1882,14 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](lineFormCallback.probe.stageOfInterest)
+			instanceSet := *lineFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					lineFormCallback.probe.stageOfInterest,
+				id := lineFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1951,8 +1938,8 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Lines slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](lineFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(lineFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *lineFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := lineFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -2095,15 +2082,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredText]()
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.LinkAnchoredText)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2130,15 +2116,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredText]()
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.LinkAnchoredText)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2165,15 +2150,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredText]()
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.LinkAnchoredText)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2200,15 +2184,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredPath]()
 			instanceSlice := make([]*models.LinkAnchoredPath, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.LinkAnchoredPath)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2235,15 +2218,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredPath]()
 			instanceSlice := make([]*models.LinkAnchoredPath, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.LinkAnchoredPath)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2270,15 +2252,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.LinkAnchoredPath]()
 			instanceSlice := make([]*models.LinkAnchoredPath, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.LinkAnchoredPath)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2305,15 +2286,14 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPoint](linkFormCallback.probe.stageOfInterest)
+			instanceSet := *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.ControlPoint]()
 			instanceSlice := make([]*models.ControlPoint, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.ControlPoint)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2380,8 +2360,8 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Links slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](linkFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -2532,8 +2512,8 @@ func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their PathAtArrowStart slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](linkanchoredpathFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkanchoredpathFormCallback.probe.stageOfInterest, _link)
+			for _link := range *linkanchoredpathFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := linkanchoredpathFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -2580,8 +2560,8 @@ func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their PathAtArrowEnd slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](linkanchoredpathFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkanchoredpathFormCallback.probe.stageOfInterest, _link)
+			for _link := range *linkanchoredpathFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := linkanchoredpathFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -2628,8 +2608,8 @@ func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their PathAtCorner slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](linkanchoredpathFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkanchoredpathFormCallback.probe.stageOfInterest, _link)
+			for _link := range *linkanchoredpathFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := linkanchoredpathFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -2774,15 +2754,14 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](linkanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSet := *linkanchoredtextFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkanchoredtextFormCallback.probe.stageOfInterest,
+				id := linkanchoredtextFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2827,8 +2806,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their TextAtArrowStart slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkanchoredtextFormCallback.probe.stageOfInterest, _link)
+			for _link := range *linkanchoredtextFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := linkanchoredtextFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -2875,8 +2854,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their TextAtArrowEnd slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkanchoredtextFormCallback.probe.stageOfInterest, _link)
+			for _link := range *linkanchoredtextFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := linkanchoredtextFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -2923,8 +2902,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Link instances and update their TextAtCorner slice
-			for _link := range *models.GetGongstructInstancesSetFromPointerType[*models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkanchoredtextFormCallback.probe.stageOfInterest, _link)
+			for _link := range *linkanchoredtextFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]() {
+				id := linkanchoredtextFormCallback.probe.stageOfInterest.GetOrder(_link)
 				
 				// if Link is selected
 				if targetLinkIDs[id] {
@@ -3049,15 +3028,14 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](pathFormCallback.probe.stageOfInterest)
+			instanceSet := *pathFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					pathFormCallback.probe.stageOfInterest,
+				id := pathFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3102,8 +3080,8 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Paths slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](pathFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(pathFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *pathFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := pathFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -3310,15 +3288,14 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polygoneFormCallback.probe.stageOfInterest)
+			instanceSet := *polygoneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					polygoneFormCallback.probe.stageOfInterest,
+				id := polygoneFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3363,8 +3340,8 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Polygones slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](polygoneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(polygoneFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *polygoneFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := polygoneFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -3489,15 +3466,14 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polylineFormCallback.probe.stageOfInterest)
+			instanceSet := *polylineFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					polylineFormCallback.probe.stageOfInterest,
+				id := polylineFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3542,8 +3518,8 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Polylines slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](polylineFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(polylineFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *polylineFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := polylineFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -3660,15 +3636,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]()
 			instanceSlice := make([]*models.Rect, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Rect)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3697,15 +3672,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]()
 			instanceSlice := make([]*models.Rect, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Rect)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3750,15 +3724,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Condition]()
 			instanceSlice := make([]*models.Condition, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Condition)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3785,15 +3758,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Condition]()
 			instanceSlice := make([]*models.Condition, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Condition)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3820,15 +3792,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3881,15 +3852,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredText](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RectAnchoredText]()
 			instanceSlice := make([]*models.RectAnchoredText, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RectAnchoredText)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3916,15 +3886,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredRect](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RectAnchoredRect]()
 			instanceSlice := make([]*models.RectAnchoredRect, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RectAnchoredRect)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3951,15 +3920,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPath](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RectAnchoredPath]()
 			instanceSlice := make([]*models.RectAnchoredPath, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RectAnchoredPath)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3986,15 +3954,14 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPngImage](rectFormCallback.probe.stageOfInterest)
+			instanceSet := *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.RectAnchoredPngImage]()
 			instanceSlice := make([]*models.RectAnchoredPngImage, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.RectAnchoredPngImage)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectFormCallback.probe.stageOfInterest,
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4065,8 +4032,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Rects slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](rectFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -4113,8 +4080,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their Peers slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -4161,8 +4128,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their Obstacles slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *rectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := rectFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -4315,8 +4282,8 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their RectAnchoredPaths slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectanchoredpathFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectanchoredpathFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *rectanchoredpathFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := rectanchoredpathFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -4459,8 +4426,8 @@ func (rectanchoredpngimageFormCallback *RectAnchoredPngImageFormCallback) OnSave
 			}
 
 			// 3. Iterate over all Rect instances and update their RectAnchoredPngImages slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectanchoredpngimageFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectanchoredpngimageFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *rectanchoredpngimageFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := rectanchoredpngimageFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -4625,8 +4592,8 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their RectAnchoredRects slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectanchoredrectFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectanchoredrectFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *rectanchoredrectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := rectanchoredrectFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -4775,15 +4742,14 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSet := *rectanchoredtextFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rectanchoredtextFormCallback.probe.stageOfInterest,
+				id := rectanchoredtextFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4832,8 +4798,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Rect instances and update their RectAnchoredTexts slice
-			for _rect := range *models.GetGongstructInstancesSetFromPointerType[*models.Rect](rectanchoredtextFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectanchoredtextFormCallback.probe.stageOfInterest, _rect)
+			for _rect := range *rectanchoredtextFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Rect]() {
+				id := rectanchoredtextFormCallback.probe.stageOfInterest.GetOrder(_rect)
 				
 				// if Rect is selected
 				if targetRectIDs[id] {
@@ -4980,8 +4946,8 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their RectLinkLinks slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](rectlinklinkFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(rectlinklinkFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *rectlinklinkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := rectlinklinkFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {
@@ -5088,15 +5054,14 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Layer](svgFormCallback.probe.stageOfInterest)
+			instanceSet := *svgFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]()
 			instanceSlice := make([]*models.Layer, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Layer)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					svgFormCallback.probe.stageOfInterest,
+				id := svgFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5345,15 +5310,14 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
+			instanceSet := *textFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Animate]()
 			instanceSlice := make([]*models.Animate, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Animate)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					textFormCallback.probe.stageOfInterest,
+				id := textFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5398,8 +5362,8 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Layer instances and update their Texts slice
-			for _layer := range *models.GetGongstructInstancesSetFromPointerType[*models.Layer](textFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(textFormCallback.probe.stageOfInterest, _layer)
+			for _layer := range *textFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Layer]() {
+				id := textFormCallback.probe.stageOfInterest.GetOrder(_layer)
 				
 				// if Layer is selected
 				if targetLayerIDs[id] {

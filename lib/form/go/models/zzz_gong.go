@@ -919,14 +919,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *CheckBox:
-		tmp := GetStructInstancesByOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.CheckBoxs, stage.CheckBox_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -940,7 +940,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormDiv:
-		tmp := GetStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -954,7 +954,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormEditAssocButton:
-		tmp := GetStructInstancesByOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -968,7 +968,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormField:
-		tmp := GetStructInstancesByOrder(stage.FormFields, stage.FormField_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFields, stage.FormField_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -982,7 +982,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldDate:
-		tmp := GetStructInstancesByOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldDates, stage.FormFieldDate_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -996,7 +996,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldDateTime:
-		tmp := GetStructInstancesByOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1010,7 +1010,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldFloat64:
-		tmp := GetStructInstancesByOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1024,7 +1024,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldInt:
-		tmp := GetStructInstancesByOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldInts, stage.FormFieldInt_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1038,7 +1038,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldSelect:
-		tmp := GetStructInstancesByOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1052,7 +1052,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldString:
-		tmp := GetStructInstancesByOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldStrings, stage.FormFieldString_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1066,7 +1066,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormFieldTime:
-		tmp := GetStructInstancesByOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1080,7 +1080,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormGroup:
-		tmp := GetStructInstancesByOrder(stage.FormGroups, stage.FormGroup_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormGroups, stage.FormGroup_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1094,7 +1094,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *FormSortAssocButton:
-		tmp := GetStructInstancesByOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1108,7 +1108,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Option:
-		tmp := GetStructInstancesByOrder(stage.Options, stage.Option_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Options, stage.Option_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1126,12 +1126,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1525,52 +1520,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *CheckBox:
-		return stage.CheckBox_stagedOrder[instance]
-	case *FormDiv:
-		return stage.FormDiv_stagedOrder[instance]
-	case *FormEditAssocButton:
-		return stage.FormEditAssocButton_stagedOrder[instance]
-	case *FormField:
-		return stage.FormField_stagedOrder[instance]
-	case *FormFieldDate:
-		return stage.FormFieldDate_stagedOrder[instance]
-	case *FormFieldDateTime:
-		return stage.FormFieldDateTime_stagedOrder[instance]
-	case *FormFieldFloat64:
-		return stage.FormFieldFloat64_stagedOrder[instance]
-	case *FormFieldInt:
-		return stage.FormFieldInt_stagedOrder[instance]
-	case *FormFieldSelect:
-		return stage.FormFieldSelect_stagedOrder[instance]
-	case *FormFieldString:
-		return stage.FormFieldString_stagedOrder[instance]
-	case *FormFieldTime:
-		return stage.FormFieldTime_stagedOrder[instance]
-	case *FormGroup:
-		return stage.FormGroup_stagedOrder[instance]
-	case *FormSortAssocButton:
-		return stage.FormSortAssocButton_stagedOrder[instance]
-	case *Option:
-		return stage.Option_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -3197,19 +3147,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -3249,55 +3186,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case CheckBox:
-		return any(&stage.CheckBoxs).(*map[*Type]struct{})
-	case FormDiv:
-		return any(&stage.FormDivs).(*map[*Type]struct{})
-	case FormEditAssocButton:
-		return any(&stage.FormEditAssocButtons).(*map[*Type]struct{})
-	case FormField:
-		return any(&stage.FormFields).(*map[*Type]struct{})
-	case FormFieldDate:
-		return any(&stage.FormFieldDates).(*map[*Type]struct{})
-	case FormFieldDateTime:
-		return any(&stage.FormFieldDateTimes).(*map[*Type]struct{})
-	case FormFieldFloat64:
-		return any(&stage.FormFieldFloat64s).(*map[*Type]struct{})
-	case FormFieldInt:
-		return any(&stage.FormFieldInts).(*map[*Type]struct{})
-	case FormFieldSelect:
-		return any(&stage.FormFieldSelects).(*map[*Type]struct{})
-	case FormFieldString:
-		return any(&stage.FormFieldStrings).(*map[*Type]struct{})
-	case FormFieldTime:
-		return any(&stage.FormFieldTimes).(*map[*Type]struct{})
-	case FormGroup:
-		return any(&stage.FormGroups).(*map[*Type]struct{})
-	case FormSortAssocButton:
-		return any(&stage.FormSortAssocButtons).(*map[*Type]struct{})
-	case Option:
-		return any(&stage.Options).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -3335,55 +3223,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case CheckBox:
-		return any(&stage.CheckBoxs_mapString).(*map[string]*Type)
-	case FormDiv:
-		return any(&stage.FormDivs_mapString).(*map[string]*Type)
-	case FormEditAssocButton:
-		return any(&stage.FormEditAssocButtons_mapString).(*map[string]*Type)
-	case FormField:
-		return any(&stage.FormFields_mapString).(*map[string]*Type)
-	case FormFieldDate:
-		return any(&stage.FormFieldDates_mapString).(*map[string]*Type)
-	case FormFieldDateTime:
-		return any(&stage.FormFieldDateTimes_mapString).(*map[string]*Type)
-	case FormFieldFloat64:
-		return any(&stage.FormFieldFloat64s_mapString).(*map[string]*Type)
-	case FormFieldInt:
-		return any(&stage.FormFieldInts_mapString).(*map[string]*Type)
-	case FormFieldSelect:
-		return any(&stage.FormFieldSelects_mapString).(*map[string]*Type)
-	case FormFieldString:
-		return any(&stage.FormFieldStrings_mapString).(*map[string]*Type)
-	case FormFieldTime:
-		return any(&stage.FormFieldTimes_mapString).(*map[string]*Type)
-	case FormGroup:
-		return any(&stage.FormGroups_mapString).(*map[string]*Type)
-	case FormSortAssocButton:
-		return any(&stage.FormSortAssocButtons_mapString).(*map[string]*Type)
-	case Option:
-		return any(&stage.Options_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -3758,11 +3597,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

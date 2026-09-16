@@ -160,15 +160,14 @@ map[FormCallbackSubTemplateId]string{
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
+			instanceSet := *{{structname}}FormCallback.probe.stageOfInterest.GetInstancesSet[*models.{{AssocStructName}}]()
 			instanceSlice := make([]*models.{{AssocStructName}}, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.{{AssocStructName}})
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					{{structname}}FormCallback.probe.stageOfInterest,
+				id := {{structname}}FormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -214,8 +213,8 @@ map[FormCallbackSubTemplateId]string{
 			}
 
 			// 3. Iterate over all {{AssocStructName}} instances and update their {{FieldName}} slice
-			for _{{assocStructName}} := range *models.GetGongstructInstancesSetFromPointerType[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct({{structname}}FormCallback.probe.stageOfInterest, _{{assocStructName}})
+			for _{{assocStructName}} := range *{{structname}}FormCallback.probe.stageOfInterest.GetInstancesSet[*models.{{AssocStructName}}]() {
+				id := {{structname}}FormCallback.probe.stageOfInterest.GetOrder(_{{assocStructName}})
 				
 				// if {{AssocStructName}} is selected
 				if target{{AssocStructName}}IDs[id] {

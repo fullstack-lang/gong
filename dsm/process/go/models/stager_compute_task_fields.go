@@ -4,7 +4,7 @@ func (stager *Stager) computeTaskFields() {
 	stage := stager.stage
 
 	// reset fields
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		task.inControlFlows = nil
 		task.outControlFlows = nil
 		task.inDataFlows = nil
@@ -13,7 +13,7 @@ func (stager *Stager) computeTaskFields() {
 	}
 
 	// compute owningParticipant
-	for _, participant := range GetGongstrucsSorted[*Participant](stage) {
+	for _, participant := range stage.GetInstancesSorted[*Participant]() {
 		for _, task := range participant.Tasks {
 			if task != nil {
 				task.owningParticipant = participant
@@ -22,7 +22,7 @@ func (stager *Stager) computeTaskFields() {
 	}
 
 	// compute outControlFlows and inControlFlows
-	for _, controlFlow := range GetGongstrucsSorted[*ControlFlow](stage) {
+	for _, controlFlow := range stage.GetInstancesSorted[*ControlFlow]() {
 		if controlFlow.Start != nil {
 			controlFlow.Start.outControlFlows = append(controlFlow.Start.outControlFlows, controlFlow)
 		}
@@ -32,7 +32,7 @@ func (stager *Stager) computeTaskFields() {
 	}
 
 	// compute outDataFlows and inDataFlows
-	for _, dataFlow := range GetGongstrucsSorted[*DataFlow](stage) {
+	for _, dataFlow := range stage.GetInstancesSorted[*DataFlow]() {
 		if dataFlow.StartTask != nil {
 			dataFlow.StartTask.outDataFlows = append(dataFlow.StartTask.outDataFlows, dataFlow)
 		}

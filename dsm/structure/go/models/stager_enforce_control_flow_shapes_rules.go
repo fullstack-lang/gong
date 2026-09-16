@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
 
 		// Build a set of ports that have a shape in this diagram
 		portsInDiagram := make(map[*Port]bool)

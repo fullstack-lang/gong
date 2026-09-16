@@ -39,7 +39,7 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 
 		// compute the number of time this spec object type is used
 		map_specType_nbInstance := make(map[*m.SPEC_OBJECT_TYPE]int)
-		for x := range *m.GetGongstructInstancesSet[m.A_SPEC_OBJECT_TYPE_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_SPEC_OBJECT_TYPE_REF]() {
 
 			specObjecType, ok := stager.Map_id_SPEC_OBJECT_TYPE[x.SPEC_OBJECT_TYPE_REF]
 			if !ok {
@@ -170,7 +170,7 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 
 		// compute the number of time this spec object type is used
 		map_specType_nbInstance := make(map[*m.SPEC_RELATION_TYPE]int)
-		for x := range *m.GetGongstructInstancesSet[m.A_SPEC_RELATION_TYPE_REF](stager.GetStage()) {
+		for x := range *stager.GetStage().GetInstancesSet[*m.A_SPEC_RELATION_TYPE_REF]() {
 
 			datatypeDefinition, ok := stager.Map_id_SPEC_RELATION_TYPE[x.SPEC_RELATION_TYPE_REF]
 			if !ok {
@@ -224,7 +224,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_XHTML,
 		stager.Map_id_ATTRIBUTE_DEFINITION_XHTML,
 		stager.Map_ATTRIBUTE_DEFINITION_XHTML_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_XHTML_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_XHTML_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_XHTML,
 		&collectedAttributes)
 
@@ -233,7 +233,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_STRING,
 		stager.Map_id_ATTRIBUTE_DEFINITION_STRING,
 		stager.Map_ATTRIBUTE_DEFINITION_STRING_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_STRING_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_STRING_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_STRING,
 		&collectedAttributes)
 
@@ -242,7 +242,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_BOOLEAN,
 		stager.Map_id_ATTRIBUTE_DEFINITION_BOOLEAN,
 		stager.Map_ATTRIBUTE_DEFINITION_BOOLEAN_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_BOOLEAN,
 		&collectedAttributes)
 
@@ -251,7 +251,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_INTEGER,
 		stager.Map_id_ATTRIBUTE_DEFINITION_INTEGER,
 		stager.Map_ATTRIBUTE_DEFINITION_INTEGER_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_INTEGER_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_INTEGER_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_INTEGER,
 		&collectedAttributes)
 
@@ -260,7 +260,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_REAL,
 		stager.Map_id_ATTRIBUTE_DEFINITION_REAL,
 		stager.Map_ATTRIBUTE_DEFINITION_REAL_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_REAL_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_REAL_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_REAL,
 		&collectedAttributes)
 
@@ -269,7 +269,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_DATE,
 		stager.Map_id_ATTRIBUTE_DEFINITION_DATE,
 		stager.Map_ATTRIBUTE_DEFINITION_DATE_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_DATE_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_DATE_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_DATE,
 		&collectedAttributes)
 
@@ -278,7 +278,7 @@ func addAttibutesNodes(
 		specAttributes.ATTRIBUTE_DEFINITION_ENUMERATION,
 		stager.Map_id_ATTRIBUTE_DEFINITION_ENUMERATION,
 		stager.Map_ATTRIBUTE_DEFINITION_ENUMERATION_Spec_nbInstance,
-		*m.GetGongstructInstancesSetFromPointerType[*m.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF](stager.GetStage()),
+		*stager.GetStage().GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF](),
 		stager.Map_id_DATATYPE_DEFINITION_ENUMERATION,
 		&collectedAttributes)
 

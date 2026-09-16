@@ -8,12 +8,12 @@ func (stager *Stager) enforceProducersConsumers() {
 	stage := stager.stage
 
 	// reset producers and consumers
-	for _, product := range GetGongstrucsSorted[*Product](stage) {
+	for _, product := range stage.GetInstancesSorted[*Product]() {
 		product.producers = nil
 		product.consumers = nil
 	}
 
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
+	for _, task := range stage.GetInstancesSorted[*Task]() {
 		// consumers are computed from [models.Task.Inputs]
 		for _, product := range task.Inputs {
 			product.consumers = append(product.consumers, task)

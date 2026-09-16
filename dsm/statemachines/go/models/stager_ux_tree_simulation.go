@@ -20,7 +20,7 @@ func (stager *Stager) treeSimulation() {
 	treeInstance := new(tree.Tree).Stage(stager.treeObjectsSimulationStage)
 	treeInstance.Name = string(ObjectTreeName)
 
-	for _, stateMachine := range GetGongstrucsSorted[*StateMachine](stager.stage) {
+	for _, stateMachine := range stager.stage.GetInstancesSorted[*StateMachine]() {
 
 		nodeForAddButton := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
 		nodeForAddButton.Name = stateMachine.Name
@@ -30,7 +30,7 @@ func (stager *Stager) treeSimulation() {
 			Name: "Object" + " " + string(buttons.BUTTON_add),
 			Icon: string(buttons.BUTTON_add),
 			OnClick: func() {
-				for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+				for object_ := range *stager.stage.GetInstancesSet[*Object]() {
 					object_.IsSelected = false
 				}
 
@@ -74,7 +74,7 @@ func (stager *Stager) treeSimulation() {
 			nodeObject.IsExpanded = true
 			nodeObject.OnIsCheckedChanged = func(isChecked bool) {
 				if isChecked {
-					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+					for object_ := range *stager.stage.GetInstancesSet[*Object]() {
 						object_.IsSelected = false
 					}
 					object.IsSelected = true
@@ -82,7 +82,7 @@ func (stager *Stager) treeSimulation() {
 				} else {
 					object.IsSelected = false
 
-					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+					for object_ := range *stager.stage.GetInstancesSet[*Object]() {
 						object_.IsSelected = false
 					}
 					stager.stage.Commit()

@@ -16,13 +16,13 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 
 	gongsvgStage.Reset()
 
-	if len(*GetGongstructInstancesSet[Gantt](gongganttStage)) != 1 {
+	if len(*gongganttStage.GetInstancesSet[*Gantt]()) != 1 {
 		log.Printf("It is supposed to have only one gantt chart")
 		return
 	}
 
 	var gantt *Gantt
-	for gantt_ := range *GetGongstructInstancesSet[Gantt](gongganttStage) {
+	for gantt_ := range *gongganttStage.GetInstancesSet[*Gantt]() {
 		gantt = gantt_
 	}
 	gantt.ComputeStartAndEndDate()
@@ -50,7 +50,7 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	RatioBarToLaneHeight := gantt.RatioBarToLaneHeight
 	barHeigth := LaneHeight * RatioBarToLaneHeight
 	YTopMargin := gantt.YTopMargin
-	yTimeLine := LaneHeight*float64(len(*GetGongstructInstancesSet[Lane](gongganttStage))) + YTopMargin
+	yTimeLine := LaneHeight*float64(len(*gongganttStage.GetInstancesSet[*Lane]())) + YTopMargin
 
 	XLeftText := gantt.XLeftText
 	TextHeight := gantt.TextHeight

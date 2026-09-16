@@ -6,7 +6,7 @@ func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
 	var equationChecked bool
-	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		if d.IsChecked {
 			equationChecked = true
 			break

@@ -3,7 +3,7 @@ package models
 import "fmt"
 
 func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Music {
 			if plant.MusicAbstract == nil {
 				ma := (&MusicAbstract{
@@ -95,9 +95,9 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced MusicAbstract
-	for ma := range *GetGongstructInstancesSetFromPointerType[*MusicAbstract](stager.stage) {
+	for ma := range *stager.stage.GetInstancesSet[*MusicAbstract]() {
 		hasOwner := false
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.MusicAbstract == ma {
 				hasOwner = true
 				break
@@ -114,7 +114,7 @@ func (stager *Stager) enforcePlantHasMusicAbstract() (needCommit bool) {
 }
 
 func (stager *Stager) enforceMusicAbstractName() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Music && plant.MusicAbstract != nil {
 			expectedName := plant.Name + "-MusicAbstract"
 			if plant.MusicAbstract.Name != expectedName {

@@ -8,7 +8,7 @@ import (
 func (stager *Stager) enforceInfluenceConsistency() (needCommit bool) {
 	stage := stager.stage
 
-	for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
+	for _, influence := range stager.stage.GetInstancesSorted[*Influence]() {
 		if influence.SourceMovement != nil {
 			influence.source = influence.SourceMovement
 		}

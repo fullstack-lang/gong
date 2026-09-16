@@ -206,7 +206,7 @@ func NewStager(
 	beforeCommit(stager.stage)
 	afterCommit(stager.stage)
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.IsSelected {
 			stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*PlantAbstract]())
 			break

@@ -90,8 +90,8 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all FormDiv instances and update their CheckBoxs slice
-			for _formdiv := range *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](checkboxFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(checkboxFormCallback.probe.stageOfInterest, _formdiv)
+			for _formdiv := range *checkboxFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormDiv]() {
+				id := checkboxFormCallback.probe.stageOfInterest.GetOrder(_formdiv)
 				
 				// if FormDiv is selected
 				if targetFormDivIDs[id] {
@@ -198,15 +198,14 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormField](formdivFormCallback.probe.stageOfInterest)
+			instanceSet := *formdivFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormField]()
 			instanceSlice := make([]*models.FormField, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.FormField)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					formdivFormCallback.probe.stageOfInterest,
+				id := formdivFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -233,15 +232,14 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CheckBox](formdivFormCallback.probe.stageOfInterest)
+			instanceSet := *formdivFormCallback.probe.stageOfInterest.GetInstancesSet[*models.CheckBox]()
 			instanceSlice := make([]*models.CheckBox, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.CheckBox)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					formdivFormCallback.probe.stageOfInterest,
+				id := formdivFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -298,8 +296,8 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all FormGroup instances and update their FormDivs slice
-			for _formgroup := range *models.GetGongstructInstancesSetFromPointerType[*models.FormGroup](formdivFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(formdivFormCallback.probe.stageOfInterest, _formgroup)
+			for _formgroup := range *formdivFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormGroup]() {
+				id := formdivFormCallback.probe.stageOfInterest.GetOrder(_formgroup)
 				
 				// if FormGroup is selected
 				if targetFormGroupIDs[id] {
@@ -544,8 +542,8 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all FormDiv instances and update their FormFields slice
-			for _formdiv := range *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](formfieldFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(formfieldFormCallback.probe.stageOfInterest, _formdiv)
+			for _formdiv := range *formfieldFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormDiv]() {
+				id := formfieldFormCallback.probe.stageOfInterest.GetOrder(_formdiv)
 				
 				// if FormDiv is selected
 				if targetFormDivIDs[id] {
@@ -990,15 +988,14 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Option](formfieldselectFormCallback.probe.stageOfInterest)
+			instanceSet := *formfieldselectFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Option]()
 			instanceSlice := make([]*models.Option, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Option)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					formfieldselectFormCallback.probe.stageOfInterest,
+				id := formfieldselectFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1275,15 +1272,14 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](formgroupFormCallback.probe.stageOfInterest)
+			instanceSet := *formgroupFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormDiv]()
 			instanceSlice := make([]*models.FormDiv, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.FormDiv)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					formgroupFormCallback.probe.stageOfInterest,
+				id := formgroupFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1498,8 +1494,8 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all FormFieldSelect instances and update their Options slice
-			for _formfieldselect := range *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldSelect](optionFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(optionFormCallback.probe.stageOfInterest, _formfieldselect)
+			for _formfieldselect := range *optionFormCallback.probe.stageOfInterest.GetInstancesSet[*models.FormFieldSelect]() {
+				id := optionFormCallback.probe.stageOfInterest.GetOrder(_formfieldselect)
 				
 				// if FormFieldSelect is selected
 				if targetFormFieldSelectIDs[id] {

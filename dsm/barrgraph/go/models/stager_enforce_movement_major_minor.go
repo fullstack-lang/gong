@@ -7,7 +7,7 @@ import (
 
 func (stager *Stager) enforceMovementMajorMinor() (needCommit bool) {
 	stage := stager.stage
-	for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
+	for _, movement := range stager.stage.GetInstancesSorted[*Movement]() {
 		//  movement cannot be minor AND major
 		if movement.IsMajor && movement.IsMinor {
 			movement.IsMinor = false

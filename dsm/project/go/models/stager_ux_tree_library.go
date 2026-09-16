@@ -75,7 +75,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		newDiagram.IsEditable_ = true
 		newDiagram.IsExpanded = true
 		newDiagram.IsInAutoLayoutMode = true
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 			diagram_.IsChecked = false
 		}
 		newDiagram.IsChecked = true

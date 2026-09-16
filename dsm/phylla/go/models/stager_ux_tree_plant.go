@@ -50,7 +50,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 	plantNode.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*PlantAbstract]())
 
-		for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for p := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			p.IsSelected = (p == plant)
 		}
 
@@ -84,7 +84,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		}
 
 		// Uncheck all diagrams of other plants
-		for otherPlant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for otherPlant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if otherPlant != plant {
 				for _, d := range otherPlant.Plant2DDiagrams {
 					d.IsChecked = false
@@ -472,7 +472,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			composerNode.OnIsCheckedChanged = func(isChecked bool) {
 				if isChecked {
 					uncheckAllDiagrams(stager)
-					for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+					for p := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 						p.IsSelected = (p == plant)
 					}
 					stager.selectedPlant = plant
@@ -488,7 +488,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			composerNode.OnClick = func(frontNode *tree.Node) {
 				stager.probeForm.FillUpFormFromGongstruct(ma, GetPointerToGongstructName[*MusicAbstract]())
 				uncheckAllDiagrams(stager)
-				for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+				for p := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 					p.IsSelected = (p == plant)
 				}
 				stager.selectedPlant = plant
@@ -551,31 +551,31 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 }
 
 func uncheckAllDiagrams(stager *Stager) {
-	for d := range *GetGongstructInstancesSetFromPointerType[*Plant2DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Plant2DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Plant3DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Plant3DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Vase2DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Vase2DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*TubeVase3DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*TubeVase3DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Stool2DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Stool2DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Stool3DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Clock2DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Clock2DDiagram]() {
 		d.IsChecked = false
 	}
-	for d := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*Clock3DDiagram]() {
 		d.IsChecked = false
 	}
-	for ma := range *GetGongstructInstancesSetFromPointerType[*MusicAbstract](stager.stage) {
+	for ma := range *stager.stage.GetInstancesSet[*MusicAbstract]() {
 		ma.IsChecked = false
 	}
 }

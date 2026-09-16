@@ -37,56 +37,56 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 
 	stageModels.Commit()
 
-	// Test GetGongstructInstancesMap for models.A
-	aMap := GetGongstructInstancesMap[A](stageModels)
-	if len(*aMap) != 1 {
-		t.Fatalf("expected 1 A instance in models stage, got %d", len(*aMap))
+	// Test GetInstancesMapByName for models.A
+	aMap := stageModels.GetInstancesMapByName[*A]()
+	if len(aMap) != 1 {
+		t.Fatalf("expected 1 A instance in models stage, got %d", len(aMap))
 	}
-	if (*aMap)["A_Root"] != aInstance {
+	if aMap["A_Root"] != aInstance {
 		t.Fatalf("expected A_Root in models map")
 	}
-	if (*aMap)["A_Root"].X != xInstance {
+	if aMap["A_Root"].X != xInstance {
 		t.Fatalf("expected A_Root.X to link to xInstance")
 	}
-	if (*aMap)["A_Root"].X.Y != yInstance {
+	if aMap["A_Root"].X.Y != yInstance {
 		t.Fatalf("expected A_Root.X.Y to link to yInstance")
 	}
-	if (*aMap)["A_Root"].Foo != 123 {
-		t.Fatalf("expected Foo to be 123, got %d", (*aMap)["A_Root"].Foo)
+	if aMap["A_Root"].Foo != 123 {
+		t.Fatalf("expected Foo to be 123, got %d", aMap["A_Root"].Foo)
 	}
-	if (*aMap)["A_Root"].Bar != 45.67 {
-		t.Fatalf("expected Bar to be 45.67, got %f", (*aMap)["A_Root"].Bar)
+	if aMap["A_Root"].Bar != 45.67 {
+		t.Fatalf("expected Bar to be 45.67, got %f", aMap["A_Root"].Bar)
 	}
-	if (*aMap)["A_Root"].Zorgh != "Hello Gong" {
-		t.Fatalf("expected Zorgh to be 'Hello Gong', got %s", (*aMap)["A_Root"].Zorgh)
-	}
-
-	// Test GetGongstructInstancesMap for models.B
-	bMap := GetGongstructInstancesMap[B](stageModels)
-	if len(*bMap) != 1 {
-		t.Fatalf("expected 1 B instance in models stage, got %d", len(*bMap))
+	if aMap["A_Root"].Zorgh != "Hello Gong" {
+		t.Fatalf("expected Zorgh to be 'Hello Gong', got %s", aMap["A_Root"].Zorgh)
 	}
 
-	// Test GetGongstructInstancesSet
-	aSet := GetGongstructInstancesSet[A](stageModels)
+	// Test GetInstancesMapByName for models.B
+	bMap := stageModels.GetInstancesMapByName[*B]()
+	if len(bMap) != 1 {
+		t.Fatalf("expected 1 B instance in models stage, got %d", len(bMap))
+	}
+
+	// Test GetInstancesSet
+	aSet := stageModels.GetInstancesSet[*A]()
 	if len(*aSet) != 1 {
 		t.Fatalf("expected 1 A in set, got %d", len(*aSet))
 	}
 
-	// Test GetGongstrucsSorted
-	aSorted := GetGongstrucsSorted[*A](stageModels)
+	// Test GetInstancesSorted
+	aSorted := stageModels.GetInstancesSorted[*A]()
 	if len(aSorted) != 1 || aSorted[0].Name != "A_Root" {
 		t.Fatalf("expected sorted A_Root")
 	}
 
 	// Verify all 3 stages simultaneously maintain their respective instances
-	yMap := y.GetGongstructInstancesMap[y.Y](stageY)
-	if len(*yMap) != 1 || (*yMap)["Y_Root"] != yInstance {
+	yMap := stageY.GetInstancesMapByName[*y.Y]()
+	if len(yMap) != 1 || yMap["Y_Root"] != yInstance {
 		t.Fatalf("expected Y_Root in stageY")
 	}
 
-	xMap := x.GetGongstructInstancesMap[x.X](stageX)
-	if len(*xMap) != 1 || (*xMap)["X_Root"] != xInstance {
+	xMap := stageX.GetInstancesMapByName[*x.X]()
+	if len(xMap) != 1 || xMap["X_Root"] != xInstance {
 		t.Fatalf("expected X_Root in stageX")
 	}
 
@@ -94,8 +94,8 @@ func TestModelsStageBasicFunctionalities(t *testing.T) {
 	aInstance.Unstage(stageModels)
 	stageModels.Commit()
 
-	aMap = GetGongstructInstancesMap[A](stageModels)
-	if len(*aMap) != 0 {
-		t.Fatalf("expected 0 A instances after unstage, got %d", len(*aMap))
+	aMap = stageModels.GetInstancesMapByName[*A]()
+	if len(aMap) != 0 {
+		t.Fatalf("expected 0 A instances after unstage, got %d", len(aMap))
 	}
 }

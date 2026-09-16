@@ -7,7 +7,7 @@ import (
 func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit bool) {
 	stage := stager.stage
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 		angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 		length := plant.RhombusSideLength
 

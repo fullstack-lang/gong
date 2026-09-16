@@ -2,13 +2,13 @@ package models
 
 func PostProcessingAnalyzeXSDStructure(stage *Stage) {
 
-	schemas := GetGongstrucsSorted[*Schema](stage)
+	schemas := stage.GetInstancesSorted[*Schema]()
 	if len(schemas) == 1 {
 		schemas[0].SetParentAndChildren(schemas[0])
 	}
 
 	// characterize complex types that are inlined
-	for element := range *GetGongstructInstancesSet[Element](stage) {
+	for element := range *stage.GetInstancesSet[*Element]() {
 
 		if element.ComplexType != nil {
 			element.ComplexType.IsAnonymous = true

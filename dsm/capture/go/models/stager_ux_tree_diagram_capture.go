@@ -25,14 +25,14 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			// reset all ddiagram selection
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 			diagram.IsChecked = true
 		} else {
 			diagram.IsChecked = false
 			// reset all ddiagram selection
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 		}

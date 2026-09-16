@@ -5385,14 +5385,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Angle0Shape:
-		tmp := GetStructInstancesByOrder(stage.Angle0Shapes, stage.Angle0Shape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Angle0Shapes, stage.Angle0Shape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5406,7 +5406,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ArcNormalVectorShape:
-		tmp := GetStructInstancesByOrder(stage.ArcNormalVectorShapes, stage.ArcNormalVectorShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ArcNormalVectorShapes, stage.ArcNormalVectorShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5420,7 +5420,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ArcNormalVectorShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.ArcNormalVectorShapeGrids, stage.ArcNormalVectorShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ArcNormalVectorShapeGrids, stage.ArcNormalVectorShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5434,7 +5434,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *AxesShape:
-		tmp := GetStructInstancesByOrder(stage.AxesShapes, stage.AxesShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.AxesShapes, stage.AxesShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5448,7 +5448,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *BaseVectorShape:
-		tmp := GetStructInstancesByOrder(stage.BaseVectorShapes, stage.BaseVectorShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.BaseVectorShapes, stage.BaseVectorShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5462,7 +5462,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *BaseVectorShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5476,7 +5476,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ChosenP1P2PairShape:
-		tmp := GetStructInstancesByOrder(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5490,7 +5490,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *CircleGridShape:
-		tmp := GetStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5504,7 +5504,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Circumference3DShape:
-		tmp := GetStructInstancesByOrder(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5518,7 +5518,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Clock2DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5532,7 +5532,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Clock3DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5546,7 +5546,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ClockAbstract:
-		tmp := GetStructInstancesByOrder(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5560,7 +5560,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ClockTopCurveShape:
-		tmp := GetStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5574,7 +5574,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *CutLine3DShape:
-		tmp := GetStructInstancesByOrder(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5588,7 +5588,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EndArcShape:
-		tmp := GetStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5602,7 +5602,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EndArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.EndArcShapeGrids, stage.EndArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EndArcShapeGrids, stage.EndArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5616,7 +5616,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EndHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.EndHalfwayArcShapes, stage.EndHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EndHalfwayArcShapes, stage.EndHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5630,7 +5630,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EndHalfwayArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.EndHalfwayArcShapeGrids, stage.EndHalfwayArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EndHalfwayArcShapeGrids, stage.EndHalfwayArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5644,7 +5644,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ExplanationTextShape:
-		tmp := GetStructInstancesByOrder(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5658,7 +5658,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Eye3DShape:
-		tmp := GetStructInstancesByOrder(stage.Eye3DShapes, stage.Eye3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Eye3DShapes, stage.Eye3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5672,7 +5672,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EyeCornersSampledPoints3DShape:
-		tmp := GetStructInstancesByOrder(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5686,7 +5686,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EyeSampledPoints3DShape:
-		tmp := GetStructInstancesByOrder(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5700,7 +5700,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EyeSeatBottomCurveShape:
-		tmp := GetStructInstancesByOrder(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5714,7 +5714,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EyeStoolBottomCurveShape:
-		tmp := GetStructInstancesByOrder(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5728,7 +5728,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *EyeVolume3DShape:
-		tmp := GetStructInstancesByOrder(stage.EyeVolume3DShapes, stage.EyeVolume3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.EyeVolume3DShapes, stage.EyeVolume3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5742,7 +5742,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GridPathShape:
-		tmp := GetStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5756,7 +5756,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthCurve2D:
-		tmp := GetStructInstancesByOrder(stage.GrowthCurve2Ds, stage.GrowthCurve2D_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthCurve2Ds, stage.GrowthCurve2D_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5770,7 +5770,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.GrowthCurve2DRibbons, stage.GrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthCurve2DRibbons, stage.GrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5784,7 +5784,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.GrowthCurve2DRibbonEndShapes, stage.GrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthCurve2DRibbonEndShapes, stage.GrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5798,7 +5798,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.GrowthCurve2DRibbonStartShapes, stage.GrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthCurve2DRibbonStartShapes, stage.GrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5812,7 +5812,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthCurveRhombusGridShape:
-		tmp := GetStructInstancesByOrder(stage.GrowthCurveRhombusGridShapes, stage.GrowthCurveRhombusGridShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthCurveRhombusGridShapes, stage.GrowthCurveRhombusGridShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5826,7 +5826,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthCurveRhombusShape:
-		tmp := GetStructInstancesByOrder(stage.GrowthCurveRhombusShapes, stage.GrowthCurveRhombusShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthCurveRhombusShapes, stage.GrowthCurveRhombusShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5840,7 +5840,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *GrowthVectorShape:
-		tmp := GetStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5854,7 +5854,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *InitialRhombusGridShape:
-		tmp := GetStructInstancesByOrder(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5868,7 +5868,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *InitialRhombusShape:
-		tmp := GetStructInstancesByOrder(stage.InitialRhombusShapes, stage.InitialRhombusShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.InitialRhombusShapes, stage.InitialRhombusShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5882,7 +5882,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Key3DShape:
-		tmp := GetStructInstancesByOrder(stage.Key3DShapes, stage.Key3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Key3DShapes, stage.Key3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5896,7 +5896,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *KeyHole3DShape:
-		tmp := GetStructInstancesByOrder(stage.KeyHole3DShapes, stage.KeyHole3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.KeyHole3DShapes, stage.KeyHole3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5910,7 +5910,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *KeyHoleShape:
-		tmp := GetStructInstancesByOrder(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5924,7 +5924,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Leaves3DShape:
-		tmp := GetStructInstancesByOrder(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5938,7 +5938,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Library:
-		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5952,7 +5952,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *MidArcVectorShape:
-		tmp := GetStructInstancesByOrder(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5966,7 +5966,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *MidArcVectorShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5980,7 +5980,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *MusicAbstract:
-		tmp := GetStructInstancesByOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.MusicAbstracts, stage.MusicAbstract_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -5994,7 +5994,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *OriginalPoints3DShape:
-		tmp := GetStructInstancesByOrder(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6008,7 +6008,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ParastichyMCurves3DShape:
-		tmp := GetStructInstancesByOrder(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6022,7 +6022,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ParastichyNCurves3DShape:
-		tmp := GetStructInstancesByOrder(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6036,7 +6036,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6050,7 +6050,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonEndShapes, stage.PartiallyGrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonEndShapes, stage.PartiallyGrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6064,7 +6064,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonStartShapes, stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbonStartShapes, stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6078,7 +6078,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectory:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectorys, stage.PartiallyGrowthCurve2DTrajectory_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectorys, stage.PartiallyGrowthCurve2DTrajectory_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6092,7 +6092,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6106,7 +6106,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6120,7 +6120,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6134,7 +6134,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6148,7 +6148,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6162,7 +6162,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6176,7 +6176,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyGrowthCurve2DTrajectoryShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6190,7 +6190,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyRotatedSeatBottomCurveShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6204,7 +6204,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyRotatedSeatTopCurveShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6218,7 +6218,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PartiallyRotatedTorusShape:
-		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedTorusShapes, stage.PartiallyRotatedTorusShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PartiallyRotatedTorusShapes, stage.PartiallyRotatedTorusShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6232,7 +6232,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PerpendicularVector:
-		tmp := GetStructInstancesByOrder(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6246,7 +6246,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PerpendicularVectorGrid:
-		tmp := GetStructInstancesByOrder(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6260,7 +6260,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PerpendicularVectorGridHalfway:
-		tmp := GetStructInstancesByOrder(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6274,7 +6274,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PerpendicularVectorHalfway:
-		tmp := GetStructInstancesByOrder(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6288,7 +6288,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Plant2DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6302,7 +6302,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Plant3DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6316,7 +6316,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PlantAbstract:
-		tmp := GetStructInstancesByOrder(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6330,7 +6330,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PlantCircumferenceShape:
-		tmp := GetStructInstancesByOrder(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6344,7 +6344,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PointsAndLines3DShape:
-		tmp := GetStructInstancesByOrder(stage.PointsAndLines3DShapes, stage.PointsAndLines3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PointsAndLines3DShapes, stage.PointsAndLines3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6358,7 +6358,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *PxShape:
-		tmp := GetStructInstancesByOrder(stage.PxShapes, stage.PxShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.PxShapes, stage.PxShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6372,7 +6372,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Rendered3DShape:
-		tmp := GetStructInstancesByOrder(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6386,7 +6386,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RhombusShape:
-		tmp := GetStructInstancesByOrder(stage.RhombusShapes, stage.RhombusShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RhombusShapes, stage.RhombusShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6400,7 +6400,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RhombusStuff:
-		tmp := GetStructInstancesByOrder(stage.RhombusStuffs, stage.RhombusStuff_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RhombusStuffs, stage.RhombusStuff_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6414,7 +6414,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RotatedRhombusGridShape:
-		tmp := GetStructInstancesByOrder(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6428,7 +6428,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RotatedRhombusShape:
-		tmp := GetStructInstancesByOrder(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6442,7 +6442,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RotatedSampledPoints3DShape:
-		tmp := GetStructInstancesByOrder(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6456,7 +6456,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *RotatedSeatAndLegs3DShape:
-		tmp := GetStructInstancesByOrder(stage.RotatedSeatAndLegs3DShapes, stage.RotatedSeatAndLegs3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.RotatedSeatAndLegs3DShapes, stage.RotatedSeatAndLegs3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6470,7 +6470,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SampledPoints3DShape:
-		tmp := GetStructInstancesByOrder(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6484,7 +6484,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Seat3DShape:
-		tmp := GetStructInstancesByOrder(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6498,7 +6498,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SeatAndLegs3DShape:
-		tmp := GetStructInstancesByOrder(stage.SeatAndLegs3DShapes, stage.SeatAndLegs3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SeatAndLegs3DShapes, stage.SeatAndLegs3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6512,7 +6512,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SeatBottomCurveShape:
-		tmp := GetStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6526,7 +6526,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *SeatTopCurveShape:
-		tmp := GetStructInstancesByOrder(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6540,7 +6540,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedBottomTopStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6554,7 +6554,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedBottomTopStartArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapeGrids, stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapeGrids, stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6568,7 +6568,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftGrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbons, stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbons, stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6582,7 +6582,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftGrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftGrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6596,7 +6596,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftGrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftGrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6610,7 +6610,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbons, stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbons, stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6624,7 +6624,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6638,7 +6638,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes, stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6652,7 +6652,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6666,7 +6666,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveStartArcShapes, stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveStartArcShapes, stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6680,7 +6680,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftStackNormalVector:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVector_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVector_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6694,7 +6694,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftStackOfGrowthCurve:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackOfGrowthCurves, stage.ShiftedLeftStackOfGrowthCurve_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftStackOfGrowthCurves, stage.ShiftedLeftStackOfGrowthCurve_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6708,7 +6708,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedLeftStackOfNormalVector:
-		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6722,7 +6722,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedRightGrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbons, stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbons, stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6736,7 +6736,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonEndShapes, stage.ShiftedRightGrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonEndShapes, stage.ShiftedRightGrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6750,7 +6750,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonStartShapes, stage.ShiftedRightGrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ShiftedRightGrowthCurve2DRibbonStartShapes, stage.ShiftedRightGrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6764,7 +6764,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackGrowthCurve2DEndHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DEndHalfwayArcShapes, stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackGrowthCurve2DEndHalfwayArcShapes, stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6778,7 +6778,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackGrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DRibbonEndShapes, stage.StackGrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackGrowthCurve2DRibbonEndShapes, stage.StackGrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6792,7 +6792,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackGrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DRibbonStartShapes, stage.StackGrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackGrowthCurve2DRibbonStartShapes, stage.StackGrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6806,7 +6806,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackGrowthCurve2DStartHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6820,7 +6820,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackOfGrowthCurve2D:
-		tmp := GetStructInstancesByOrder(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2D_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2D_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6834,7 +6834,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackOfGrowthCurve2DByGrowthVector:
-		tmp := GetStructInstancesByOrder(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6848,7 +6848,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackOfGrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6862,7 +6862,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackOfPartiallyRotatedTorusShape:
-		tmp := GetStructInstancesByOrder(stage.StackOfPartiallyRotatedTorusShapes, stage.StackOfPartiallyRotatedTorusShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackOfPartiallyRotatedTorusShapes, stage.StackOfPartiallyRotatedTorusShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6876,7 +6876,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackOfRotatedGrowthCurve2D:
-		tmp := GetStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2Ds, stage.StackOfRotatedGrowthCurve2D_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2Ds, stage.StackOfRotatedGrowthCurve2D_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6890,7 +6890,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackOfRotatedGrowthCurve2DRibbon:
-		tmp := GetStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2DRibbons, stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackOfRotatedGrowthCurve2DRibbons, stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6904,7 +6904,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackRotatedGrowthCurve2DEndArcShape:
-		tmp := GetStructInstancesByOrder(stage.StackRotatedGrowthCurve2DEndArcShapes, stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DEndArcShapes, stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6918,7 +6918,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		tmp := GetStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonEndShapes, stage.StackRotatedGrowthCurve2DRibbonEndShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonEndShapes, stage.StackRotatedGrowthCurve2DRibbonEndShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6932,7 +6932,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		tmp := GetStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonStartShapes, stage.StackRotatedGrowthCurve2DRibbonStartShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DRibbonStartShapes, stage.StackRotatedGrowthCurve2DRibbonStartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6946,7 +6946,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StackRotatedGrowthCurve2DStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.StackRotatedGrowthCurve2DStartArcShapes, stage.StackRotatedGrowthCurve2DStartArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StackRotatedGrowthCurve2DStartArcShapes, stage.StackRotatedGrowthCurve2DStartArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6960,7 +6960,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StartArcShape:
-		tmp := GetStructInstancesByOrder(stage.StartArcShapes, stage.StartArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StartArcShapes, stage.StartArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6974,7 +6974,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StartArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.StartArcShapeGrids, stage.StartArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StartArcShapeGrids, stage.StartArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -6988,7 +6988,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StartHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.StartHalfwayArcShapes, stage.StartHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StartHalfwayArcShapes, stage.StartHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7002,7 +7002,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StartHalfwayArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7016,7 +7016,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StemCylinder3DShape:
-		tmp := GetStructInstancesByOrder(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7030,7 +7030,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Stool2DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7044,7 +7044,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Stool3DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7058,7 +7058,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *StoolAbstract:
-		tmp := GetStructInstancesByOrder(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7072,7 +7072,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TiledFloor3DShape:
-		tmp := GetStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7086,7 +7086,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopEndArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7100,7 +7100,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopEndArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.TopEndArcShapeGrids, stage.TopEndArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopEndArcShapeGrids, stage.TopEndArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7114,7 +7114,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopEndHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopEndHalfwayArcShapes, stage.TopEndHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopEndHalfwayArcShapes, stage.TopEndHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7128,7 +7128,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopEndHalfwayArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.TopEndHalfwayArcShapeGrids, stage.TopEndHalfwayArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopEndHalfwayArcShapeGrids, stage.TopEndHalfwayArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7142,7 +7142,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopGrowthCurve2D:
-		tmp := GetStructInstancesByOrder(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7156,7 +7156,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopMidArcVectorShape:
-		tmp := GetStructInstancesByOrder(stage.TopMidArcVectorShapes, stage.TopMidArcVectorShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopMidArcVectorShapes, stage.TopMidArcVectorShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7170,7 +7170,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopMidArcVectorShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.TopMidArcVectorShapeGrids, stage.TopMidArcVectorShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopMidArcVectorShapeGrids, stage.TopMidArcVectorShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7184,7 +7184,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopStackGrowthCurve2DEndHalfwayArcShapes, stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStackGrowthCurve2DEndHalfwayArcShapes, stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7198,7 +7198,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopStackGrowthCurve2DStartHalfwayArcShapes, stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStackGrowthCurve2DStartHalfwayArcShapes, stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7212,7 +7212,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStackOfGrowthCurve2D:
-		tmp := GetStructInstancesByOrder(stage.TopStackOfGrowthCurve2Ds, stage.TopStackOfGrowthCurve2D_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStackOfGrowthCurve2Ds, stage.TopStackOfGrowthCurve2D_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7226,7 +7226,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStackOfRotatedGrowthCurve2D:
-		tmp := GetStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2Ds, stage.TopStackOfRotatedGrowthCurve2D_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2Ds, stage.TopStackOfRotatedGrowthCurve2D_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7240,7 +7240,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DEndArcShapes, stage.TopStackOfRotatedGrowthCurve2DEndArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DEndArcShapes, stage.TopStackOfRotatedGrowthCurve2DEndArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7254,7 +7254,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DStartArcShapes, stage.TopStackOfRotatedGrowthCurve2DStartArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStackOfRotatedGrowthCurve2DStartArcShapes, stage.TopStackOfRotatedGrowthCurve2DStartArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7268,7 +7268,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopStartArcShapes, stage.TopStartArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStartArcShapes, stage.TopStartArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7282,7 +7282,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStartArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.TopStartArcShapeGrids, stage.TopStartArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStartArcShapeGrids, stage.TopStartArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7296,7 +7296,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStartHalfwayArcShape:
-		tmp := GetStructInstancesByOrder(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7310,7 +7310,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TopStartHalfwayArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7324,7 +7324,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Torus3DShape:
-		tmp := GetStructInstancesByOrder(stage.Torus3DShapes, stage.Torus3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Torus3DShapes, stage.Torus3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7338,7 +7338,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TorusEdge3DShape:
-		tmp := GetStructInstancesByOrder(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7352,7 +7352,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TorusStackShape:
-		tmp := GetStructInstancesByOrder(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7366,7 +7366,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TubeVase3DDiagram:
-		tmp := GetStructInstancesByOrder(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7380,7 +7380,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *TubeVaseAbstract:
-		tmp := GetStructInstancesByOrder(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7394,7 +7394,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Vase2DDiagram:
-		tmp := GetStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7408,7 +7408,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *VerticalTorusStackShape:
-		tmp := GetStructInstancesByOrder(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7422,7 +7422,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *VolumeKey3DShape:
-		tmp := GetStructInstancesByOrder(stage.VolumeKey3DShapes, stage.VolumeKey3DShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.VolumeKey3DShapes, stage.VolumeKey3DShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -7440,12 +7440,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -10215,316 +10210,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *Angle0Shape:
-		return stage.Angle0Shape_stagedOrder[instance]
-	case *ArcNormalVectorShape:
-		return stage.ArcNormalVectorShape_stagedOrder[instance]
-	case *ArcNormalVectorShapeGrid:
-		return stage.ArcNormalVectorShapeGrid_stagedOrder[instance]
-	case *AxesShape:
-		return stage.AxesShape_stagedOrder[instance]
-	case *BaseVectorShape:
-		return stage.BaseVectorShape_stagedOrder[instance]
-	case *BaseVectorShapeGrid:
-		return stage.BaseVectorShapeGrid_stagedOrder[instance]
-	case *ChosenP1P2PairShape:
-		return stage.ChosenP1P2PairShape_stagedOrder[instance]
-	case *CircleGridShape:
-		return stage.CircleGridShape_stagedOrder[instance]
-	case *Circumference3DShape:
-		return stage.Circumference3DShape_stagedOrder[instance]
-	case *Clock2DDiagram:
-		return stage.Clock2DDiagram_stagedOrder[instance]
-	case *Clock3DDiagram:
-		return stage.Clock3DDiagram_stagedOrder[instance]
-	case *ClockAbstract:
-		return stage.ClockAbstract_stagedOrder[instance]
-	case *ClockTopCurveShape:
-		return stage.ClockTopCurveShape_stagedOrder[instance]
-	case *CutLine3DShape:
-		return stage.CutLine3DShape_stagedOrder[instance]
-	case *EndArcShape:
-		return stage.EndArcShape_stagedOrder[instance]
-	case *EndArcShapeGrid:
-		return stage.EndArcShapeGrid_stagedOrder[instance]
-	case *EndHalfwayArcShape:
-		return stage.EndHalfwayArcShape_stagedOrder[instance]
-	case *EndHalfwayArcShapeGrid:
-		return stage.EndHalfwayArcShapeGrid_stagedOrder[instance]
-	case *ExplanationTextShape:
-		return stage.ExplanationTextShape_stagedOrder[instance]
-	case *Eye3DShape:
-		return stage.Eye3DShape_stagedOrder[instance]
-	case *EyeCornersSampledPoints3DShape:
-		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
-	case *EyeSampledPoints3DShape:
-		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
-	case *EyeSeatBottomCurveShape:
-		return stage.EyeSeatBottomCurveShape_stagedOrder[instance]
-	case *EyeStoolBottomCurveShape:
-		return stage.EyeStoolBottomCurveShape_stagedOrder[instance]
-	case *EyeVolume3DShape:
-		return stage.EyeVolume3DShape_stagedOrder[instance]
-	case *GridPathShape:
-		return stage.GridPathShape_stagedOrder[instance]
-	case *GrowthCurve2D:
-		return stage.GrowthCurve2D_stagedOrder[instance]
-	case *GrowthCurve2DRibbon:
-		return stage.GrowthCurve2DRibbon_stagedOrder[instance]
-	case *GrowthCurve2DRibbonEndShape:
-		return stage.GrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *GrowthCurve2DRibbonStartShape:
-		return stage.GrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *GrowthCurveRhombusGridShape:
-		return stage.GrowthCurveRhombusGridShape_stagedOrder[instance]
-	case *GrowthCurveRhombusShape:
-		return stage.GrowthCurveRhombusShape_stagedOrder[instance]
-	case *GrowthVectorShape:
-		return stage.GrowthVectorShape_stagedOrder[instance]
-	case *InitialRhombusGridShape:
-		return stage.InitialRhombusGridShape_stagedOrder[instance]
-	case *InitialRhombusShape:
-		return stage.InitialRhombusShape_stagedOrder[instance]
-	case *Key3DShape:
-		return stage.Key3DShape_stagedOrder[instance]
-	case *KeyHole3DShape:
-		return stage.KeyHole3DShape_stagedOrder[instance]
-	case *KeyHoleShape:
-		return stage.KeyHoleShape_stagedOrder[instance]
-	case *Leaves3DShape:
-		return stage.Leaves3DShape_stagedOrder[instance]
-	case *Library:
-		return stage.Library_stagedOrder[instance]
-	case *MidArcVectorShape:
-		return stage.MidArcVectorShape_stagedOrder[instance]
-	case *MidArcVectorShapeGrid:
-		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
-	case *MusicAbstract:
-		return stage.MusicAbstract_stagedOrder[instance]
-	case *OriginalPoints3DShape:
-		return stage.OriginalPoints3DShape_stagedOrder[instance]
-	case *ParastichyMCurves3DShape:
-		return stage.ParastichyMCurves3DShape_stagedOrder[instance]
-	case *ParastichyNCurves3DShape:
-		return stage.ParastichyNCurves3DShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DRibbon:
-		return stage.PartiallyGrowthCurve2DRibbon_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		return stage.PartiallyGrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		return stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectory:
-		return stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		return stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
-	case *PartiallyRotatedSeatBottomCurveShape:
-		return stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[instance]
-	case *PartiallyRotatedSeatTopCurveShape:
-		return stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[instance]
-	case *PartiallyRotatedTorusShape:
-		return stage.PartiallyRotatedTorusShape_stagedOrder[instance]
-	case *PerpendicularVector:
-		return stage.PerpendicularVector_stagedOrder[instance]
-	case *PerpendicularVectorGrid:
-		return stage.PerpendicularVectorGrid_stagedOrder[instance]
-	case *PerpendicularVectorGridHalfway:
-		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
-	case *PerpendicularVectorHalfway:
-		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
-	case *Plant2DDiagram:
-		return stage.Plant2DDiagram_stagedOrder[instance]
-	case *Plant3DDiagram:
-		return stage.Plant3DDiagram_stagedOrder[instance]
-	case *PlantAbstract:
-		return stage.PlantAbstract_stagedOrder[instance]
-	case *PlantCircumferenceShape:
-		return stage.PlantCircumferenceShape_stagedOrder[instance]
-	case *PointsAndLines3DShape:
-		return stage.PointsAndLines3DShape_stagedOrder[instance]
-	case *PxShape:
-		return stage.PxShape_stagedOrder[instance]
-	case *Rendered3DShape:
-		return stage.Rendered3DShape_stagedOrder[instance]
-	case *RhombusShape:
-		return stage.RhombusShape_stagedOrder[instance]
-	case *RhombusStuff:
-		return stage.RhombusStuff_stagedOrder[instance]
-	case *RotatedRhombusGridShape:
-		return stage.RotatedRhombusGridShape_stagedOrder[instance]
-	case *RotatedRhombusShape:
-		return stage.RotatedRhombusShape_stagedOrder[instance]
-	case *RotatedSampledPoints3DShape:
-		return stage.RotatedSampledPoints3DShape_stagedOrder[instance]
-	case *RotatedSeatAndLegs3DShape:
-		return stage.RotatedSeatAndLegs3DShape_stagedOrder[instance]
-	case *SampledPoints3DShape:
-		return stage.SampledPoints3DShape_stagedOrder[instance]
-	case *Seat3DShape:
-		return stage.Seat3DShape_stagedOrder[instance]
-	case *SeatAndLegs3DShape:
-		return stage.SeatAndLegs3DShape_stagedOrder[instance]
-	case *SeatBottomCurveShape:
-		return stage.SeatBottomCurveShape_stagedOrder[instance]
-	case *SeatTopCurveShape:
-		return stage.SeatTopCurveShape_stagedOrder[instance]
-	case *ShiftedBottomTopStartArcShape:
-		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
-	case *ShiftedBottomTopStartArcShapeGrid:
-		return stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[instance]
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		return stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[instance]
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return stage.ShiftedLeftGrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return stage.ShiftedLeftGrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[instance]
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		return stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[instance]
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		return stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder[instance]
-	case *ShiftedLeftStackNormalVector:
-		return stage.ShiftedLeftStackNormalVector_stagedOrder[instance]
-	case *ShiftedLeftStackOfGrowthCurve:
-		return stage.ShiftedLeftStackOfGrowthCurve_stagedOrder[instance]
-	case *ShiftedLeftStackOfNormalVector:
-		return stage.ShiftedLeftStackOfNormalVector_stagedOrder[instance]
-	case *ShiftedRightGrowthCurve2DRibbon:
-		return stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[instance]
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		return stage.ShiftedRightGrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		return stage.ShiftedRightGrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		return stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[instance]
-	case *StackGrowthCurve2DRibbonEndShape:
-		return stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *StackGrowthCurve2DRibbonStartShape:
-		return stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		return stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[instance]
-	case *StackOfGrowthCurve2D:
-		return stage.StackOfGrowthCurve2D_stagedOrder[instance]
-	case *StackOfGrowthCurve2DByGrowthVector:
-		return stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[instance]
-	case *StackOfGrowthCurve2DRibbon:
-		return stage.StackOfGrowthCurve2DRibbon_stagedOrder[instance]
-	case *StackOfPartiallyRotatedTorusShape:
-		return stage.StackOfPartiallyRotatedTorusShape_stagedOrder[instance]
-	case *StackOfRotatedGrowthCurve2D:
-		return stage.StackOfRotatedGrowthCurve2D_stagedOrder[instance]
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		return stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[instance]
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		return stage.StackRotatedGrowthCurve2DEndArcShape_stagedOrder[instance]
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		return stage.StackRotatedGrowthCurve2DRibbonEndShape_stagedOrder[instance]
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		return stage.StackRotatedGrowthCurve2DRibbonStartShape_stagedOrder[instance]
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		return stage.StackRotatedGrowthCurve2DStartArcShape_stagedOrder[instance]
-	case *StartArcShape:
-		return stage.StartArcShape_stagedOrder[instance]
-	case *StartArcShapeGrid:
-		return stage.StartArcShapeGrid_stagedOrder[instance]
-	case *StartHalfwayArcShape:
-		return stage.StartHalfwayArcShape_stagedOrder[instance]
-	case *StartHalfwayArcShapeGrid:
-		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
-	case *StemCylinder3DShape:
-		return stage.StemCylinder3DShape_stagedOrder[instance]
-	case *Stool2DDiagram:
-		return stage.Stool2DDiagram_stagedOrder[instance]
-	case *Stool3DDiagram:
-		return stage.Stool3DDiagram_stagedOrder[instance]
-	case *StoolAbstract:
-		return stage.StoolAbstract_stagedOrder[instance]
-	case *TiledFloor3DShape:
-		return stage.TiledFloor3DShape_stagedOrder[instance]
-	case *TopEndArcShape:
-		return stage.TopEndArcShape_stagedOrder[instance]
-	case *TopEndArcShapeGrid:
-		return stage.TopEndArcShapeGrid_stagedOrder[instance]
-	case *TopEndHalfwayArcShape:
-		return stage.TopEndHalfwayArcShape_stagedOrder[instance]
-	case *TopEndHalfwayArcShapeGrid:
-		return stage.TopEndHalfwayArcShapeGrid_stagedOrder[instance]
-	case *TopGrowthCurve2D:
-		return stage.TopGrowthCurve2D_stagedOrder[instance]
-	case *TopMidArcVectorShape:
-		return stage.TopMidArcVectorShape_stagedOrder[instance]
-	case *TopMidArcVectorShapeGrid:
-		return stage.TopMidArcVectorShapeGrid_stagedOrder[instance]
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		return stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder[instance]
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		return stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder[instance]
-	case *TopStackOfGrowthCurve2D:
-		return stage.TopStackOfGrowthCurve2D_stagedOrder[instance]
-	case *TopStackOfRotatedGrowthCurve2D:
-		return stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[instance]
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return stage.TopStackOfRotatedGrowthCurve2DEndArcShape_stagedOrder[instance]
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return stage.TopStackOfRotatedGrowthCurve2DStartArcShape_stagedOrder[instance]
-	case *TopStartArcShape:
-		return stage.TopStartArcShape_stagedOrder[instance]
-	case *TopStartArcShapeGrid:
-		return stage.TopStartArcShapeGrid_stagedOrder[instance]
-	case *TopStartHalfwayArcShape:
-		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
-	case *TopStartHalfwayArcShapeGrid:
-		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
-	case *Torus3DShape:
-		return stage.Torus3DShape_stagedOrder[instance]
-	case *TorusEdge3DShape:
-		return stage.TorusEdge3DShape_stagedOrder[instance]
-	case *TorusStackShape:
-		return stage.TorusStackShape_stagedOrder[instance]
-	case *TubeVase3DDiagram:
-		return stage.TubeVase3DDiagram_stagedOrder[instance]
-	case *TubeVaseAbstract:
-		return stage.TubeVaseAbstract_stagedOrder[instance]
-	case *Vase2DDiagram:
-		return stage.Vase2DDiagram_stagedOrder[instance]
-	case *VerticalTorusStackShape:
-		return stage.VerticalTorusStackShape_stagedOrder[instance]
-	case *VolumeKey3DShape:
-		return stage.VolumeKey3DShape_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -25747,19 +25433,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -26063,319 +25736,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case Angle0Shape:
-		return any(&stage.Angle0Shapes).(*map[*Type]struct{})
-	case ArcNormalVectorShape:
-		return any(&stage.ArcNormalVectorShapes).(*map[*Type]struct{})
-	case ArcNormalVectorShapeGrid:
-		return any(&stage.ArcNormalVectorShapeGrids).(*map[*Type]struct{})
-	case AxesShape:
-		return any(&stage.AxesShapes).(*map[*Type]struct{})
-	case BaseVectorShape:
-		return any(&stage.BaseVectorShapes).(*map[*Type]struct{})
-	case BaseVectorShapeGrid:
-		return any(&stage.BaseVectorShapeGrids).(*map[*Type]struct{})
-	case ChosenP1P2PairShape:
-		return any(&stage.ChosenP1P2PairShapes).(*map[*Type]struct{})
-	case CircleGridShape:
-		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
-	case Circumference3DShape:
-		return any(&stage.Circumference3DShapes).(*map[*Type]struct{})
-	case Clock2DDiagram:
-		return any(&stage.Clock2DDiagrams).(*map[*Type]struct{})
-	case Clock3DDiagram:
-		return any(&stage.Clock3DDiagrams).(*map[*Type]struct{})
-	case ClockAbstract:
-		return any(&stage.ClockAbstracts).(*map[*Type]struct{})
-	case ClockTopCurveShape:
-		return any(&stage.ClockTopCurveShapes).(*map[*Type]struct{})
-	case CutLine3DShape:
-		return any(&stage.CutLine3DShapes).(*map[*Type]struct{})
-	case EndArcShape:
-		return any(&stage.EndArcShapes).(*map[*Type]struct{})
-	case EndArcShapeGrid:
-		return any(&stage.EndArcShapeGrids).(*map[*Type]struct{})
-	case EndHalfwayArcShape:
-		return any(&stage.EndHalfwayArcShapes).(*map[*Type]struct{})
-	case EndHalfwayArcShapeGrid:
-		return any(&stage.EndHalfwayArcShapeGrids).(*map[*Type]struct{})
-	case ExplanationTextShape:
-		return any(&stage.ExplanationTextShapes).(*map[*Type]struct{})
-	case Eye3DShape:
-		return any(&stage.Eye3DShapes).(*map[*Type]struct{})
-	case EyeCornersSampledPoints3DShape:
-		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[*Type]struct{})
-	case EyeSampledPoints3DShape:
-		return any(&stage.EyeSampledPoints3DShapes).(*map[*Type]struct{})
-	case EyeSeatBottomCurveShape:
-		return any(&stage.EyeSeatBottomCurveShapes).(*map[*Type]struct{})
-	case EyeStoolBottomCurveShape:
-		return any(&stage.EyeStoolBottomCurveShapes).(*map[*Type]struct{})
-	case EyeVolume3DShape:
-		return any(&stage.EyeVolume3DShapes).(*map[*Type]struct{})
-	case GridPathShape:
-		return any(&stage.GridPathShapes).(*map[*Type]struct{})
-	case GrowthCurve2D:
-		return any(&stage.GrowthCurve2Ds).(*map[*Type]struct{})
-	case GrowthCurve2DRibbon:
-		return any(&stage.GrowthCurve2DRibbons).(*map[*Type]struct{})
-	case GrowthCurve2DRibbonEndShape:
-		return any(&stage.GrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case GrowthCurve2DRibbonStartShape:
-		return any(&stage.GrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case GrowthCurveRhombusGridShape:
-		return any(&stage.GrowthCurveRhombusGridShapes).(*map[*Type]struct{})
-	case GrowthCurveRhombusShape:
-		return any(&stage.GrowthCurveRhombusShapes).(*map[*Type]struct{})
-	case GrowthVectorShape:
-		return any(&stage.GrowthVectorShapes).(*map[*Type]struct{})
-	case InitialRhombusGridShape:
-		return any(&stage.InitialRhombusGridShapes).(*map[*Type]struct{})
-	case InitialRhombusShape:
-		return any(&stage.InitialRhombusShapes).(*map[*Type]struct{})
-	case Key3DShape:
-		return any(&stage.Key3DShapes).(*map[*Type]struct{})
-	case KeyHole3DShape:
-		return any(&stage.KeyHole3DShapes).(*map[*Type]struct{})
-	case KeyHoleShape:
-		return any(&stage.KeyHoleShapes).(*map[*Type]struct{})
-	case Leaves3DShape:
-		return any(&stage.Leaves3DShapes).(*map[*Type]struct{})
-	case Library:
-		return any(&stage.Librarys).(*map[*Type]struct{})
-	case MidArcVectorShape:
-		return any(&stage.MidArcVectorShapes).(*map[*Type]struct{})
-	case MidArcVectorShapeGrid:
-		return any(&stage.MidArcVectorShapeGrids).(*map[*Type]struct{})
-	case MusicAbstract:
-		return any(&stage.MusicAbstracts).(*map[*Type]struct{})
-	case OriginalPoints3DShape:
-		return any(&stage.OriginalPoints3DShapes).(*map[*Type]struct{})
-	case ParastichyMCurves3DShape:
-		return any(&stage.ParastichyMCurves3DShapes).(*map[*Type]struct{})
-	case ParastichyNCurves3DShape:
-		return any(&stage.ParastichyNCurves3DShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DRibbon:
-		return any(&stage.PartiallyGrowthCurve2DRibbons).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DRibbonEndShape:
-		return any(&stage.PartiallyGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DRibbonStartShape:
-		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectory:
-		return any(&stage.PartiallyGrowthCurve2DTrajectorys).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryP1P2:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[*Type]struct{})
-	case PartiallyGrowthCurve2DTrajectoryShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[*Type]struct{})
-	case PartiallyRotatedSeatBottomCurveShape:
-		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*map[*Type]struct{})
-	case PartiallyRotatedSeatTopCurveShape:
-		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*map[*Type]struct{})
-	case PartiallyRotatedTorusShape:
-		return any(&stage.PartiallyRotatedTorusShapes).(*map[*Type]struct{})
-	case PerpendicularVector:
-		return any(&stage.PerpendicularVectors).(*map[*Type]struct{})
-	case PerpendicularVectorGrid:
-		return any(&stage.PerpendicularVectorGrids).(*map[*Type]struct{})
-	case PerpendicularVectorGridHalfway:
-		return any(&stage.PerpendicularVectorGridHalfways).(*map[*Type]struct{})
-	case PerpendicularVectorHalfway:
-		return any(&stage.PerpendicularVectorHalfways).(*map[*Type]struct{})
-	case Plant2DDiagram:
-		return any(&stage.Plant2DDiagrams).(*map[*Type]struct{})
-	case Plant3DDiagram:
-		return any(&stage.Plant3DDiagrams).(*map[*Type]struct{})
-	case PlantAbstract:
-		return any(&stage.PlantAbstracts).(*map[*Type]struct{})
-	case PlantCircumferenceShape:
-		return any(&stage.PlantCircumferenceShapes).(*map[*Type]struct{})
-	case PointsAndLines3DShape:
-		return any(&stage.PointsAndLines3DShapes).(*map[*Type]struct{})
-	case PxShape:
-		return any(&stage.PxShapes).(*map[*Type]struct{})
-	case Rendered3DShape:
-		return any(&stage.Rendered3DShapes).(*map[*Type]struct{})
-	case RhombusShape:
-		return any(&stage.RhombusShapes).(*map[*Type]struct{})
-	case RhombusStuff:
-		return any(&stage.RhombusStuffs).(*map[*Type]struct{})
-	case RotatedRhombusGridShape:
-		return any(&stage.RotatedRhombusGridShapes).(*map[*Type]struct{})
-	case RotatedRhombusShape:
-		return any(&stage.RotatedRhombusShapes).(*map[*Type]struct{})
-	case RotatedSampledPoints3DShape:
-		return any(&stage.RotatedSampledPoints3DShapes).(*map[*Type]struct{})
-	case RotatedSeatAndLegs3DShape:
-		return any(&stage.RotatedSeatAndLegs3DShapes).(*map[*Type]struct{})
-	case SampledPoints3DShape:
-		return any(&stage.SampledPoints3DShapes).(*map[*Type]struct{})
-	case Seat3DShape:
-		return any(&stage.Seat3DShapes).(*map[*Type]struct{})
-	case SeatAndLegs3DShape:
-		return any(&stage.SeatAndLegs3DShapes).(*map[*Type]struct{})
-	case SeatBottomCurveShape:
-		return any(&stage.SeatBottomCurveShapes).(*map[*Type]struct{})
-	case SeatTopCurveShape:
-		return any(&stage.SeatTopCurveShapes).(*map[*Type]struct{})
-	case ShiftedBottomTopStartArcShape:
-		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[*Type]struct{})
-	case ShiftedBottomTopStartArcShapeGrid:
-		return any(&stage.ShiftedBottomTopStartArcShapeGrids).(*map[*Type]struct{})
-	case ShiftedLeftGrowthCurve2DRibbon:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbons).(*map[*Type]struct{})
-	case ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbons).(*map[*Type]struct{})
-	case ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case ShiftedLeftStackGrowthCurveEndArcShape:
-		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*map[*Type]struct{})
-	case ShiftedLeftStackGrowthCurveStartArcShape:
-		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes).(*map[*Type]struct{})
-	case ShiftedLeftStackNormalVector:
-		return any(&stage.ShiftedLeftStackNormalVectors).(*map[*Type]struct{})
-	case ShiftedLeftStackOfGrowthCurve:
-		return any(&stage.ShiftedLeftStackOfGrowthCurves).(*map[*Type]struct{})
-	case ShiftedLeftStackOfNormalVector:
-		return any(&stage.ShiftedLeftStackOfNormalVectors).(*map[*Type]struct{})
-	case ShiftedRightGrowthCurve2DRibbon:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbons).(*map[*Type]struct{})
-	case ShiftedRightGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case ShiftedRightGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case StackGrowthCurve2DEndHalfwayArcShape:
-		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes).(*map[*Type]struct{})
-	case StackGrowthCurve2DRibbonEndShape:
-		return any(&stage.StackGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case StackGrowthCurve2DRibbonStartShape:
-		return any(&stage.StackGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case StackGrowthCurve2DStartHalfwayArcShape:
-		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*map[*Type]struct{})
-	case StackOfGrowthCurve2D:
-		return any(&stage.StackOfGrowthCurve2Ds).(*map[*Type]struct{})
-	case StackOfGrowthCurve2DByGrowthVector:
-		return any(&stage.StackOfGrowthCurve2DByGrowthVectors).(*map[*Type]struct{})
-	case StackOfGrowthCurve2DRibbon:
-		return any(&stage.StackOfGrowthCurve2DRibbons).(*map[*Type]struct{})
-	case StackOfPartiallyRotatedTorusShape:
-		return any(&stage.StackOfPartiallyRotatedTorusShapes).(*map[*Type]struct{})
-	case StackOfRotatedGrowthCurve2D:
-		return any(&stage.StackOfRotatedGrowthCurve2Ds).(*map[*Type]struct{})
-	case StackOfRotatedGrowthCurve2DRibbon:
-		return any(&stage.StackOfRotatedGrowthCurve2DRibbons).(*map[*Type]struct{})
-	case StackRotatedGrowthCurve2DEndArcShape:
-		return any(&stage.StackRotatedGrowthCurve2DEndArcShapes).(*map[*Type]struct{})
-	case StackRotatedGrowthCurve2DRibbonEndShape:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
-	case StackRotatedGrowthCurve2DRibbonStartShape:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
-	case StackRotatedGrowthCurve2DStartArcShape:
-		return any(&stage.StackRotatedGrowthCurve2DStartArcShapes).(*map[*Type]struct{})
-	case StartArcShape:
-		return any(&stage.StartArcShapes).(*map[*Type]struct{})
-	case StartArcShapeGrid:
-		return any(&stage.StartArcShapeGrids).(*map[*Type]struct{})
-	case StartHalfwayArcShape:
-		return any(&stage.StartHalfwayArcShapes).(*map[*Type]struct{})
-	case StartHalfwayArcShapeGrid:
-		return any(&stage.StartHalfwayArcShapeGrids).(*map[*Type]struct{})
-	case StemCylinder3DShape:
-		return any(&stage.StemCylinder3DShapes).(*map[*Type]struct{})
-	case Stool2DDiagram:
-		return any(&stage.Stool2DDiagrams).(*map[*Type]struct{})
-	case Stool3DDiagram:
-		return any(&stage.Stool3DDiagrams).(*map[*Type]struct{})
-	case StoolAbstract:
-		return any(&stage.StoolAbstracts).(*map[*Type]struct{})
-	case TiledFloor3DShape:
-		return any(&stage.TiledFloor3DShapes).(*map[*Type]struct{})
-	case TopEndArcShape:
-		return any(&stage.TopEndArcShapes).(*map[*Type]struct{})
-	case TopEndArcShapeGrid:
-		return any(&stage.TopEndArcShapeGrids).(*map[*Type]struct{})
-	case TopEndHalfwayArcShape:
-		return any(&stage.TopEndHalfwayArcShapes).(*map[*Type]struct{})
-	case TopEndHalfwayArcShapeGrid:
-		return any(&stage.TopEndHalfwayArcShapeGrids).(*map[*Type]struct{})
-	case TopGrowthCurve2D:
-		return any(&stage.TopGrowthCurve2Ds).(*map[*Type]struct{})
-	case TopMidArcVectorShape:
-		return any(&stage.TopMidArcVectorShapes).(*map[*Type]struct{})
-	case TopMidArcVectorShapeGrid:
-		return any(&stage.TopMidArcVectorShapeGrids).(*map[*Type]struct{})
-	case TopStackGrowthCurve2DEndHalfwayArcShape:
-		return any(&stage.TopStackGrowthCurve2DEndHalfwayArcShapes).(*map[*Type]struct{})
-	case TopStackGrowthCurve2DStartHalfwayArcShape:
-		return any(&stage.TopStackGrowthCurve2DStartHalfwayArcShapes).(*map[*Type]struct{})
-	case TopStackOfGrowthCurve2D:
-		return any(&stage.TopStackOfGrowthCurve2Ds).(*map[*Type]struct{})
-	case TopStackOfRotatedGrowthCurve2D:
-		return any(&stage.TopStackOfRotatedGrowthCurve2Ds).(*map[*Type]struct{})
-	case TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DEndArcShapes).(*map[*Type]struct{})
-	case TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DStartArcShapes).(*map[*Type]struct{})
-	case TopStartArcShape:
-		return any(&stage.TopStartArcShapes).(*map[*Type]struct{})
-	case TopStartArcShapeGrid:
-		return any(&stage.TopStartArcShapeGrids).(*map[*Type]struct{})
-	case TopStartHalfwayArcShape:
-		return any(&stage.TopStartHalfwayArcShapes).(*map[*Type]struct{})
-	case TopStartHalfwayArcShapeGrid:
-		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[*Type]struct{})
-	case Torus3DShape:
-		return any(&stage.Torus3DShapes).(*map[*Type]struct{})
-	case TorusEdge3DShape:
-		return any(&stage.TorusEdge3DShapes).(*map[*Type]struct{})
-	case TorusStackShape:
-		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
-	case TubeVase3DDiagram:
-		return any(&stage.TubeVase3DDiagrams).(*map[*Type]struct{})
-	case TubeVaseAbstract:
-		return any(&stage.TubeVaseAbstracts).(*map[*Type]struct{})
-	case Vase2DDiagram:
-		return any(&stage.Vase2DDiagrams).(*map[*Type]struct{})
-	case VerticalTorusStackShape:
-		return any(&stage.VerticalTorusStackShapes).(*map[*Type]struct{})
-	case VolumeKey3DShape:
-		return any(&stage.VolumeKey3DShapes).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -26677,319 +26037,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case Angle0Shape:
-		return any(&stage.Angle0Shapes_mapString).(*map[string]*Type)
-	case ArcNormalVectorShape:
-		return any(&stage.ArcNormalVectorShapes_mapString).(*map[string]*Type)
-	case ArcNormalVectorShapeGrid:
-		return any(&stage.ArcNormalVectorShapeGrids_mapString).(*map[string]*Type)
-	case AxesShape:
-		return any(&stage.AxesShapes_mapString).(*map[string]*Type)
-	case BaseVectorShape:
-		return any(&stage.BaseVectorShapes_mapString).(*map[string]*Type)
-	case BaseVectorShapeGrid:
-		return any(&stage.BaseVectorShapeGrids_mapString).(*map[string]*Type)
-	case ChosenP1P2PairShape:
-		return any(&stage.ChosenP1P2PairShapes_mapString).(*map[string]*Type)
-	case CircleGridShape:
-		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
-	case Circumference3DShape:
-		return any(&stage.Circumference3DShapes_mapString).(*map[string]*Type)
-	case Clock2DDiagram:
-		return any(&stage.Clock2DDiagrams_mapString).(*map[string]*Type)
-	case Clock3DDiagram:
-		return any(&stage.Clock3DDiagrams_mapString).(*map[string]*Type)
-	case ClockAbstract:
-		return any(&stage.ClockAbstracts_mapString).(*map[string]*Type)
-	case ClockTopCurveShape:
-		return any(&stage.ClockTopCurveShapes_mapString).(*map[string]*Type)
-	case CutLine3DShape:
-		return any(&stage.CutLine3DShapes_mapString).(*map[string]*Type)
-	case EndArcShape:
-		return any(&stage.EndArcShapes_mapString).(*map[string]*Type)
-	case EndArcShapeGrid:
-		return any(&stage.EndArcShapeGrids_mapString).(*map[string]*Type)
-	case EndHalfwayArcShape:
-		return any(&stage.EndHalfwayArcShapes_mapString).(*map[string]*Type)
-	case EndHalfwayArcShapeGrid:
-		return any(&stage.EndHalfwayArcShapeGrids_mapString).(*map[string]*Type)
-	case ExplanationTextShape:
-		return any(&stage.ExplanationTextShapes_mapString).(*map[string]*Type)
-	case Eye3DShape:
-		return any(&stage.Eye3DShapes_mapString).(*map[string]*Type)
-	case EyeCornersSampledPoints3DShape:
-		return any(&stage.EyeCornersSampledPoints3DShapes_mapString).(*map[string]*Type)
-	case EyeSampledPoints3DShape:
-		return any(&stage.EyeSampledPoints3DShapes_mapString).(*map[string]*Type)
-	case EyeSeatBottomCurveShape:
-		return any(&stage.EyeSeatBottomCurveShapes_mapString).(*map[string]*Type)
-	case EyeStoolBottomCurveShape:
-		return any(&stage.EyeStoolBottomCurveShapes_mapString).(*map[string]*Type)
-	case EyeVolume3DShape:
-		return any(&stage.EyeVolume3DShapes_mapString).(*map[string]*Type)
-	case GridPathShape:
-		return any(&stage.GridPathShapes_mapString).(*map[string]*Type)
-	case GrowthCurve2D:
-		return any(&stage.GrowthCurve2Ds_mapString).(*map[string]*Type)
-	case GrowthCurve2DRibbon:
-		return any(&stage.GrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case GrowthCurve2DRibbonEndShape:
-		return any(&stage.GrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case GrowthCurve2DRibbonStartShape:
-		return any(&stage.GrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case GrowthCurveRhombusGridShape:
-		return any(&stage.GrowthCurveRhombusGridShapes_mapString).(*map[string]*Type)
-	case GrowthCurveRhombusShape:
-		return any(&stage.GrowthCurveRhombusShapes_mapString).(*map[string]*Type)
-	case GrowthVectorShape:
-		return any(&stage.GrowthVectorShapes_mapString).(*map[string]*Type)
-	case InitialRhombusGridShape:
-		return any(&stage.InitialRhombusGridShapes_mapString).(*map[string]*Type)
-	case InitialRhombusShape:
-		return any(&stage.InitialRhombusShapes_mapString).(*map[string]*Type)
-	case Key3DShape:
-		return any(&stage.Key3DShapes_mapString).(*map[string]*Type)
-	case KeyHole3DShape:
-		return any(&stage.KeyHole3DShapes_mapString).(*map[string]*Type)
-	case KeyHoleShape:
-		return any(&stage.KeyHoleShapes_mapString).(*map[string]*Type)
-	case Leaves3DShape:
-		return any(&stage.Leaves3DShapes_mapString).(*map[string]*Type)
-	case Library:
-		return any(&stage.Librarys_mapString).(*map[string]*Type)
-	case MidArcVectorShape:
-		return any(&stage.MidArcVectorShapes_mapString).(*map[string]*Type)
-	case MidArcVectorShapeGrid:
-		return any(&stage.MidArcVectorShapeGrids_mapString).(*map[string]*Type)
-	case MusicAbstract:
-		return any(&stage.MusicAbstracts_mapString).(*map[string]*Type)
-	case OriginalPoints3DShape:
-		return any(&stage.OriginalPoints3DShapes_mapString).(*map[string]*Type)
-	case ParastichyMCurves3DShape:
-		return any(&stage.ParastichyMCurves3DShapes_mapString).(*map[string]*Type)
-	case ParastichyNCurves3DShape:
-		return any(&stage.ParastichyNCurves3DShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DRibbon:
-		return any(&stage.PartiallyGrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DRibbonEndShape:
-		return any(&stage.PartiallyGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DRibbonStartShape:
-		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectory:
-		return any(&stage.PartiallyGrowthCurve2DTrajectorys_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1P2:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(*map[string]*Type)
-	case PartiallyGrowthCurve2DTrajectoryShape:
-		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(*map[string]*Type)
-	case PartiallyRotatedSeatBottomCurveShape:
-		return any(&stage.PartiallyRotatedSeatBottomCurveShapes_mapString).(*map[string]*Type)
-	case PartiallyRotatedSeatTopCurveShape:
-		return any(&stage.PartiallyRotatedSeatTopCurveShapes_mapString).(*map[string]*Type)
-	case PartiallyRotatedTorusShape:
-		return any(&stage.PartiallyRotatedTorusShapes_mapString).(*map[string]*Type)
-	case PerpendicularVector:
-		return any(&stage.PerpendicularVectors_mapString).(*map[string]*Type)
-	case PerpendicularVectorGrid:
-		return any(&stage.PerpendicularVectorGrids_mapString).(*map[string]*Type)
-	case PerpendicularVectorGridHalfway:
-		return any(&stage.PerpendicularVectorGridHalfways_mapString).(*map[string]*Type)
-	case PerpendicularVectorHalfway:
-		return any(&stage.PerpendicularVectorHalfways_mapString).(*map[string]*Type)
-	case Plant2DDiagram:
-		return any(&stage.Plant2DDiagrams_mapString).(*map[string]*Type)
-	case Plant3DDiagram:
-		return any(&stage.Plant3DDiagrams_mapString).(*map[string]*Type)
-	case PlantAbstract:
-		return any(&stage.PlantAbstracts_mapString).(*map[string]*Type)
-	case PlantCircumferenceShape:
-		return any(&stage.PlantCircumferenceShapes_mapString).(*map[string]*Type)
-	case PointsAndLines3DShape:
-		return any(&stage.PointsAndLines3DShapes_mapString).(*map[string]*Type)
-	case PxShape:
-		return any(&stage.PxShapes_mapString).(*map[string]*Type)
-	case Rendered3DShape:
-		return any(&stage.Rendered3DShapes_mapString).(*map[string]*Type)
-	case RhombusShape:
-		return any(&stage.RhombusShapes_mapString).(*map[string]*Type)
-	case RhombusStuff:
-		return any(&stage.RhombusStuffs_mapString).(*map[string]*Type)
-	case RotatedRhombusGridShape:
-		return any(&stage.RotatedRhombusGridShapes_mapString).(*map[string]*Type)
-	case RotatedRhombusShape:
-		return any(&stage.RotatedRhombusShapes_mapString).(*map[string]*Type)
-	case RotatedSampledPoints3DShape:
-		return any(&stage.RotatedSampledPoints3DShapes_mapString).(*map[string]*Type)
-	case RotatedSeatAndLegs3DShape:
-		return any(&stage.RotatedSeatAndLegs3DShapes_mapString).(*map[string]*Type)
-	case SampledPoints3DShape:
-		return any(&stage.SampledPoints3DShapes_mapString).(*map[string]*Type)
-	case Seat3DShape:
-		return any(&stage.Seat3DShapes_mapString).(*map[string]*Type)
-	case SeatAndLegs3DShape:
-		return any(&stage.SeatAndLegs3DShapes_mapString).(*map[string]*Type)
-	case SeatBottomCurveShape:
-		return any(&stage.SeatBottomCurveShapes_mapString).(*map[string]*Type)
-	case SeatTopCurveShape:
-		return any(&stage.SeatTopCurveShapes_mapString).(*map[string]*Type)
-	case ShiftedBottomTopStartArcShape:
-		return any(&stage.ShiftedBottomTopStartArcShapes_mapString).(*map[string]*Type)
-	case ShiftedBottomTopStartArcShapeGrid:
-		return any(&stage.ShiftedBottomTopStartArcShapeGrids_mapString).(*map[string]*Type)
-	case ShiftedLeftGrowthCurve2DRibbon:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case ShiftedLeftGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case ShiftedLeftGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedLeftGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case ShiftedLeftStackGrowthCurveEndArcShape:
-		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString).(*map[string]*Type)
-	case ShiftedLeftStackGrowthCurveStartArcShape:
-		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString).(*map[string]*Type)
-	case ShiftedLeftStackNormalVector:
-		return any(&stage.ShiftedLeftStackNormalVectors_mapString).(*map[string]*Type)
-	case ShiftedLeftStackOfGrowthCurve:
-		return any(&stage.ShiftedLeftStackOfGrowthCurves_mapString).(*map[string]*Type)
-	case ShiftedLeftStackOfNormalVector:
-		return any(&stage.ShiftedLeftStackOfNormalVectors_mapString).(*map[string]*Type)
-	case ShiftedRightGrowthCurve2DRibbon:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case ShiftedRightGrowthCurve2DRibbonEndShape:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case ShiftedRightGrowthCurve2DRibbonStartShape:
-		return any(&stage.ShiftedRightGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case StackGrowthCurve2DEndHalfwayArcShape:
-		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString).(*map[string]*Type)
-	case StackGrowthCurve2DRibbonEndShape:
-		return any(&stage.StackGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case StackGrowthCurve2DRibbonStartShape:
-		return any(&stage.StackGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case StackGrowthCurve2DStartHalfwayArcShape:
-		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString).(*map[string]*Type)
-	case StackOfGrowthCurve2D:
-		return any(&stage.StackOfGrowthCurve2Ds_mapString).(*map[string]*Type)
-	case StackOfGrowthCurve2DByGrowthVector:
-		return any(&stage.StackOfGrowthCurve2DByGrowthVectors_mapString).(*map[string]*Type)
-	case StackOfGrowthCurve2DRibbon:
-		return any(&stage.StackOfGrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case StackOfPartiallyRotatedTorusShape:
-		return any(&stage.StackOfPartiallyRotatedTorusShapes_mapString).(*map[string]*Type)
-	case StackOfRotatedGrowthCurve2D:
-		return any(&stage.StackOfRotatedGrowthCurve2Ds_mapString).(*map[string]*Type)
-	case StackOfRotatedGrowthCurve2DRibbon:
-		return any(&stage.StackOfRotatedGrowthCurve2DRibbons_mapString).(*map[string]*Type)
-	case StackRotatedGrowthCurve2DEndArcShape:
-		return any(&stage.StackRotatedGrowthCurve2DEndArcShapes_mapString).(*map[string]*Type)
-	case StackRotatedGrowthCurve2DRibbonEndShape:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
-	case StackRotatedGrowthCurve2DRibbonStartShape:
-		return any(&stage.StackRotatedGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
-	case StackRotatedGrowthCurve2DStartArcShape:
-		return any(&stage.StackRotatedGrowthCurve2DStartArcShapes_mapString).(*map[string]*Type)
-	case StartArcShape:
-		return any(&stage.StartArcShapes_mapString).(*map[string]*Type)
-	case StartArcShapeGrid:
-		return any(&stage.StartArcShapeGrids_mapString).(*map[string]*Type)
-	case StartHalfwayArcShape:
-		return any(&stage.StartHalfwayArcShapes_mapString).(*map[string]*Type)
-	case StartHalfwayArcShapeGrid:
-		return any(&stage.StartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
-	case StemCylinder3DShape:
-		return any(&stage.StemCylinder3DShapes_mapString).(*map[string]*Type)
-	case Stool2DDiagram:
-		return any(&stage.Stool2DDiagrams_mapString).(*map[string]*Type)
-	case Stool3DDiagram:
-		return any(&stage.Stool3DDiagrams_mapString).(*map[string]*Type)
-	case StoolAbstract:
-		return any(&stage.StoolAbstracts_mapString).(*map[string]*Type)
-	case TiledFloor3DShape:
-		return any(&stage.TiledFloor3DShapes_mapString).(*map[string]*Type)
-	case TopEndArcShape:
-		return any(&stage.TopEndArcShapes_mapString).(*map[string]*Type)
-	case TopEndArcShapeGrid:
-		return any(&stage.TopEndArcShapeGrids_mapString).(*map[string]*Type)
-	case TopEndHalfwayArcShape:
-		return any(&stage.TopEndHalfwayArcShapes_mapString).(*map[string]*Type)
-	case TopEndHalfwayArcShapeGrid:
-		return any(&stage.TopEndHalfwayArcShapeGrids_mapString).(*map[string]*Type)
-	case TopGrowthCurve2D:
-		return any(&stage.TopGrowthCurve2Ds_mapString).(*map[string]*Type)
-	case TopMidArcVectorShape:
-		return any(&stage.TopMidArcVectorShapes_mapString).(*map[string]*Type)
-	case TopMidArcVectorShapeGrid:
-		return any(&stage.TopMidArcVectorShapeGrids_mapString).(*map[string]*Type)
-	case TopStackGrowthCurve2DEndHalfwayArcShape:
-		return any(&stage.TopStackGrowthCurve2DEndHalfwayArcShapes_mapString).(*map[string]*Type)
-	case TopStackGrowthCurve2DStartHalfwayArcShape:
-		return any(&stage.TopStackGrowthCurve2DStartHalfwayArcShapes_mapString).(*map[string]*Type)
-	case TopStackOfGrowthCurve2D:
-		return any(&stage.TopStackOfGrowthCurve2Ds_mapString).(*map[string]*Type)
-	case TopStackOfRotatedGrowthCurve2D:
-		return any(&stage.TopStackOfRotatedGrowthCurve2Ds_mapString).(*map[string]*Type)
-	case TopStackOfRotatedGrowthCurve2DEndArcShape:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DEndArcShapes_mapString).(*map[string]*Type)
-	case TopStackOfRotatedGrowthCurve2DStartArcShape:
-		return any(&stage.TopStackOfRotatedGrowthCurve2DStartArcShapes_mapString).(*map[string]*Type)
-	case TopStartArcShape:
-		return any(&stage.TopStartArcShapes_mapString).(*map[string]*Type)
-	case TopStartArcShapeGrid:
-		return any(&stage.TopStartArcShapeGrids_mapString).(*map[string]*Type)
-	case TopStartHalfwayArcShape:
-		return any(&stage.TopStartHalfwayArcShapes_mapString).(*map[string]*Type)
-	case TopStartHalfwayArcShapeGrid:
-		return any(&stage.TopStartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
-	case Torus3DShape:
-		return any(&stage.Torus3DShapes_mapString).(*map[string]*Type)
-	case TorusEdge3DShape:
-		return any(&stage.TorusEdge3DShapes_mapString).(*map[string]*Type)
-	case TorusStackShape:
-		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
-	case TubeVase3DDiagram:
-		return any(&stage.TubeVase3DDiagrams_mapString).(*map[string]*Type)
-	case TubeVaseAbstract:
-		return any(&stage.TubeVaseAbstracts_mapString).(*map[string]*Type)
-	case Vase2DDiagram:
-		return any(&stage.Vase2DDiagrams_mapString).(*map[string]*Type)
-	case VerticalTorusStackShape:
-		return any(&stage.VerticalTorusStackShapes_mapString).(*map[string]*Type)
-	case VolumeKey3DShape:
-		return any(&stage.VolumeKey3DShapes_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -30372,11 +29419,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

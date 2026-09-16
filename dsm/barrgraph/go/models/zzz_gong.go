@@ -894,14 +894,14 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
-// GetInstancesByOrderAuto is the Stage method returning a slice of generic pointers to gongstructs
+// GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
-func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
+func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
 	case *ArtefactType:
-		tmp := GetStructInstancesByOrder(stage.ArtefactTypes, stage.ArtefactType_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ArtefactTypes, stage.ArtefactType_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -915,7 +915,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ArtefactTypeShape:
-		tmp := GetStructInstancesByOrder(stage.ArtefactTypeShapes, stage.ArtefactTypeShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ArtefactTypeShapes, stage.ArtefactTypeShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -929,7 +929,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Artist:
-		tmp := GetStructInstancesByOrder(stage.Artists, stage.Artist_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Artists, stage.Artist_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -943,7 +943,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ArtistShape:
-		tmp := GetStructInstancesByOrder(stage.ArtistShapes, stage.ArtistShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ArtistShapes, stage.ArtistShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -957,7 +957,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *ControlPointShape:
-		tmp := GetStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -971,7 +971,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Desk:
-		tmp := GetStructInstancesByOrder(stage.Desks, stage.Desk_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Desks, stage.Desk_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -985,7 +985,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Diagram:
-		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -999,7 +999,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Influence:
-		tmp := GetStructInstancesByOrder(stage.Influences, stage.Influence_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Influences, stage.Influence_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1013,7 +1013,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *InfluenceShape:
-		tmp := GetStructInstancesByOrder(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1027,7 +1027,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Library:
-		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1041,7 +1041,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Movement:
-		tmp := GetStructInstancesByOrder(stage.Movements, stage.Movement_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Movements, stage.Movement_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1055,7 +1055,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *MovementShape:
-		tmp := GetStructInstancesByOrder(stage.MovementShapes, stage.MovementShape_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.MovementShapes, stage.MovementShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1069,7 +1069,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 		}
 		return res
 	case *Place:
-		tmp := GetStructInstancesByOrder(stage.Places, stage.Place_stagedOrder)
+		tmp := getStructInstancesByOrder(stage.Places, stage.Place_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1087,12 +1087,7 @@ func (stage *Stage) GetInstancesByOrderAuto[T PointerToGongstruct]() (res []T) {
 	return
 }
 
-// GetStructInstancesByOrderAuto is a backward-compatible forwarder to stage.GetInstancesByOrderAuto.
-func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
-	return stage.GetInstancesByOrderAuto[T]()
-}
-
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1468,50 +1463,7 @@ func (stage *Stage) GetInstanceFromOrder[Type PointerToGongstruct](order uint) (
 	}
 }
 
-// GetOrder is a backward-compatible forwarder.
-func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *ArtefactType:
-		return stage.ArtefactType_stagedOrder[instance]
-	case *ArtefactTypeShape:
-		return stage.ArtefactTypeShape_stagedOrder[instance]
-	case *Artist:
-		return stage.Artist_stagedOrder[instance]
-	case *ArtistShape:
-		return stage.ArtistShape_stagedOrder[instance]
-	case *ControlPointShape:
-		return stage.ControlPointShape_stagedOrder[instance]
-	case *Desk:
-		return stage.Desk_stagedOrder[instance]
-	case *Diagram:
-		return stage.Diagram_stagedOrder[instance]
-	case *Influence:
-		return stage.Influence_stagedOrder[instance]
-	case *InfluenceShape:
-		return stage.InfluenceShape_stagedOrder[instance]
-	case *Library:
-		return stage.Library_stagedOrder[instance]
-	case *Movement:
-		return stage.Movement_stagedOrder[instance]
-	case *MovementShape:
-		return stage.MovementShape_stagedOrder[instance]
-	case *Place:
-		return stage.Place_stagedOrder[instance]
-	default:
-		return 0 // should not happen
-	}
-}
 
-// GongGetInstanceFromOrder is a backward-compatible forwarder to stage.GetInstanceFromOrder.
-func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
-	return stage.GetInstanceFromOrder[Type](order)
-}
-
-// GetOrderPointerGongstruct is a backward-compatible forwarder to stage.GetOrder.
-func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-	return stage.GetOrder(instance)
-}
 
 func (stage *Stage) GetName() string {
 	return stage.name
@@ -3035,19 +2987,6 @@ func (stage *Stage) GetInstancesSorted[T PointerToGongstruct]() (sortedSlice []T
 	return
 }
 
-// GetGongstrucsSorted is a backward-compatible forwarder to stage.GetInstancesSorted.
-func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-	return stage.GetInstancesSorted[T]()
-}
-
-type GongstructSet interface {
-	map[any]any
-}
-
-type GongstructMapString interface {
-	map[any]any
-}
-
 // GetInstancesMapByName is the Stage method returning a map of staged instances by their name.
 func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	var ret Type
@@ -3085,53 +3024,6 @@ func (stage *Stage) GetInstancesMapByName[Type GongstructIF]() map[string]Type {
 	}
 }
 
-// GongGetMap is a backward-compatible forwarder to stage.GetInstancesMapByName.
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
-	return stage.GetInstancesMapByName[Type]()
-}
-
-// GetInstancesSetFromType is the Stage method returning the set of staged instances (value-type constraint).
-func (stage *Stage) GetInstancesSetFromType[Type Gongstruct]() *map[*Type]struct{} {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case ArtefactType:
-		return any(&stage.ArtefactTypes).(*map[*Type]struct{})
-	case ArtefactTypeShape:
-		return any(&stage.ArtefactTypeShapes).(*map[*Type]struct{})
-	case Artist:
-		return any(&stage.Artists).(*map[*Type]struct{})
-	case ArtistShape:
-		return any(&stage.ArtistShapes).(*map[*Type]struct{})
-	case ControlPointShape:
-		return any(&stage.ControlPointShapes).(*map[*Type]struct{})
-	case Desk:
-		return any(&stage.Desks).(*map[*Type]struct{})
-	case Diagram:
-		return any(&stage.Diagrams).(*map[*Type]struct{})
-	case Influence:
-		return any(&stage.Influences).(*map[*Type]struct{})
-	case InfluenceShape:
-		return any(&stage.InfluenceShapes).(*map[*Type]struct{})
-	case Library:
-		return any(&stage.Librarys).(*map[*Type]struct{})
-	case Movement:
-		return any(&stage.Movements).(*map[*Type]struct{})
-	case MovementShape:
-		return any(&stage.MovementShapes).(*map[*Type]struct{})
-	case Place:
-		return any(&stage.Places).(*map[*Type]struct{})
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesSet is a backward-compatible forwarder to stage.GetInstancesSetFromType.
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
-	return stage.GetInstancesSetFromType[Type]()
-}
-
 // GetInstancesSet is the Stage method returning the set of staged instances (pointer-type constraint).
 func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct{} {
 	var ret Type
@@ -3167,53 +3059,6 @@ func (stage *Stage) GetInstancesSet[Type PointerToGongstruct]() *map[Type]struct
 	default:
 		return nil
 	}
-}
-
-// GetGongstructInstancesSetFromPointerType is a backward-compatible forwarder to stage.GetInstancesSet.
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
-	return stage.GetInstancesSet[Type]()
-}
-
-// GetInstancesMap is the Stage method returning the map of staged instances.
-func (stage *Stage) GetInstancesMap[Type Gongstruct]() *map[string]*Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case ArtefactType:
-		return any(&stage.ArtefactTypes_mapString).(*map[string]*Type)
-	case ArtefactTypeShape:
-		return any(&stage.ArtefactTypeShapes_mapString).(*map[string]*Type)
-	case Artist:
-		return any(&stage.Artists_mapString).(*map[string]*Type)
-	case ArtistShape:
-		return any(&stage.ArtistShapes_mapString).(*map[string]*Type)
-	case ControlPointShape:
-		return any(&stage.ControlPointShapes_mapString).(*map[string]*Type)
-	case Desk:
-		return any(&stage.Desks_mapString).(*map[string]*Type)
-	case Diagram:
-		return any(&stage.Diagrams_mapString).(*map[string]*Type)
-	case Influence:
-		return any(&stage.Influences_mapString).(*map[string]*Type)
-	case InfluenceShape:
-		return any(&stage.InfluenceShapes_mapString).(*map[string]*Type)
-	case Library:
-		return any(&stage.Librarys_mapString).(*map[string]*Type)
-	case Movement:
-		return any(&stage.Movements_mapString).(*map[string]*Type)
-	case MovementShape:
-		return any(&stage.MovementShapes_mapString).(*map[string]*Type)
-	case Place:
-		return any(&stage.Places_mapString).(*map[string]*Type)
-	default:
-		return nil
-	}
-}
-
-// GetGongstructInstancesMap is a backward-compatible forwarder to stage.GetInstancesMap.
-func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
-	return stage.GetInstancesMap[Type]()
 }
 
 // GetAssociationName is a generic function that returns an instance of Type
@@ -3606,11 +3451,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		}
 	}
 	return nil
-}
-
-// GetPointerReverseMap is a backward-compatible package-level forwarder.
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-	return stage.GetPointerReverseMap[Start, End](fieldname)
 }
 
 // GetSliceOfPointersReverseMap is the Stage method for backtrack navigation of slice-of-pointers associations.

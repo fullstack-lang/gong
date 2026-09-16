@@ -11,7 +11,7 @@ func (stager *Stager) form() {
 	var selectedDiagram *Classdiagram
 
 	var diagramPackage *DiagramPackage
-	for diagramPackage = range *GetGongstructInstancesSet[DiagramPackage](stager.stage) {
+	for diagramPackage = range *stager.stage.GetInstancesSet[*DiagramPackage]() {
 
 		selectedDiagram = diagramPackage.SelectedClassdiagram
 

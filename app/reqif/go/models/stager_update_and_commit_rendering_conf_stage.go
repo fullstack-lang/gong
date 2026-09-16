@@ -12,14 +12,14 @@ import (
 
 // StageAllOfTypeToAnotherStage stages all instances of type T from source to dest stage
 func StageAllOfTypeToAnotherStage[T PointerToGongstruct](source, dest *Stage) {
-	for o := range *GetGongstructInstancesSetFromPointerType[T](source) {
+	for o := range *source.GetInstancesSet[T]() {
 		o.StageVoid(dest)
 	}
 }
 
 // UnstageAllOfType unstages all instances of type T from a stage
 func UnstageAllOfType[T PointerToGongstruct](stage *Stage) {
-	for o := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+	for o := range *stage.GetInstancesSet[T]() {
 		o.UnstageVoid(stage)
 	}
 }

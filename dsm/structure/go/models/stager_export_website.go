@@ -33,15 +33,15 @@ func (stager *Stager) exportWebsite() {
 	}
 	content.Chapters = append(content.Chapters, refChapter)
 
-	appendWebExportableChapter(stager, refChapter, "Systemes", GetGongstrucsSorted[*System](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Parts", GetGongstrucsSorted[*Part](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Ports", GetGongstrucsSorted[*Port](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Control Flows", GetGongstrucsSorted[*ControlFlow](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Data Flows", GetGongstrucsSorted[*DataFlow](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Datas", GetGongstrucsSorted[*Data](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Resources", GetGongstrucsSorted[*Resource](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Notes", GetGongstrucsSorted[*Note](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Libraries", GetGongstrucsSorted[*Library](stager.stage))
+	appendWebExportableChapter(stager, refChapter, "Systemes", stager.stage.GetInstancesSorted[*System]())
+	appendWebExportableChapter(stager, refChapter, "Parts", stager.stage.GetInstancesSorted[*Part]())
+	appendWebExportableChapter(stager, refChapter, "Ports", stager.stage.GetInstancesSorted[*Port]())
+	appendWebExportableChapter(stager, refChapter, "Control Flows", stager.stage.GetInstancesSorted[*ControlFlow]())
+	appendWebExportableChapter(stager, refChapter, "Data Flows", stager.stage.GetInstancesSorted[*DataFlow]())
+	appendWebExportableChapter(stager, refChapter, "Datas", stager.stage.GetInstancesSorted[*Data]())
+	appendWebExportableChapter(stager, refChapter, "Resources", stager.stage.GetInstancesSorted[*Resource]())
+	appendWebExportableChapter(stager, refChapter, "Notes", stager.stage.GetInstancesSorted[*Note]())
+	appendWebExportableChapter(stager, refChapter, "Libraries", stager.stage.GetInstancesSorted[*Library]())
 
 	ssg.StageBranch(stager.ssgStage, &content)
 

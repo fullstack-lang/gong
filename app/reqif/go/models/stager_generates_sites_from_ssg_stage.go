@@ -14,7 +14,7 @@ func (stager *Stager) generatesSiteFromSSGStage() {
 
 	var siteWeb *StaticWebSite
 	{
-		siteWebs := GetGongstructInstancesSet[StaticWebSite](stager.stage)
+		siteWebs := stager.stage.GetInstancesSet[*StaticWebSite]()
 		if len(*siteWebs) != 1 {
 			log.Fatalln("There should be one siteWeb")
 		}
@@ -53,7 +53,7 @@ func (stager *Stager) copyImagesToDirectoryForSsgGeneration() (error, bool) {
 
 	var siteWeb *StaticWebSite
 	{
-		siteWebs := GetGongstructInstancesSet[StaticWebSite](stager.stage)
+		siteWebs := stager.stage.GetInstancesSet[*StaticWebSite]()
 		if len(*siteWebs) != 1 {
 			log.Fatalln("There should be one siteWeb")
 		}
@@ -92,7 +92,7 @@ func (stager *Stager) copyImagesToDirectoryForSsgGeneration() (error, bool) {
 		filepath.Join(stager.rootPathToImageInputs, siteWeb.InputImagesDir, logo),
 		filepath.Join(pathToGeneratedImages, logo))
 
-	images := *GetGongstructInstancesSet[StaticWebSiteImage](stager.stage)
+	images := *stager.stage.GetInstancesSet[*StaticWebSiteImage]()
 	for image := range images {
 		ssg.CopyFile(filepath.Join(image.SourceDirectoryPath, siteWeb.InputImagesDir, image.Name), filepath.Join(pathToGeneratedImages, image.Name))
 	}

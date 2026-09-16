@@ -64,7 +64,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		newDiagram := diagramItemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
 		newDiagram.IsExpanded = true
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 			diagram_.IsChecked = false
 		}
 		newDiagram.IsChecked = true
@@ -86,7 +86,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				newAbstractElement := processAbstractItemAddition(stager, confDiagrams, callbacks)
 				newAbstractElement.IsEditable_ = true
 				newAbstractElement.IsExpanded = true
-				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+				for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 					diagram_.IsChecked = false
 				}
 				newAbstractElement.IsChecked = true

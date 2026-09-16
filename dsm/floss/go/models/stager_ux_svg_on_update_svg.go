@@ -26,7 +26,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 	// Equation Diagram (DiagramFlossEquation) is active
 	var diagramEquation *DiagramFlossEquation
-	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+	for d := range *stager.stage.GetInstancesSet[*DiagramFlossEquation]() {
 		if d.IsChecked {
 			diagramEquation = d
 			break

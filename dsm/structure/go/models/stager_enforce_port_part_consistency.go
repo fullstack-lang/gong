@@ -13,14 +13,14 @@ func (stager *Stager) enforcePortPartConsistency() (needCommit bool) {
 
 	// 1. Build a reverse map from Port to its owning Parts
 	portToParts := make(map[*Port][]*Part)
-	for _, part := range GetGongstrucsSorted[*Part](stage) {
+	for _, part := range stage.GetInstancesSorted[*Part]() {
 		for _, port := range part.Ports {
 			portToParts[port] = append(portToParts[port], part)
 		}
 	}
 
 	// 2. Iterate over all ports and check their ownership
-	for _, port := range GetGongstrucsSorted[*Port](stage) {
+	for _, port := range stage.GetInstancesSorted[*Port]() {
 		owners := portToParts[port]
 
 		// Unstage ports with no owner

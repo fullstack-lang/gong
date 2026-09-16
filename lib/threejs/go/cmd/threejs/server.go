@@ -40,7 +40,7 @@ func executeServer() {
 	if testRenderingTimeFlag {
 		log.Println("[Backend TRACE] Test rendering time mode enabled: Toggling BoxGeometry height every 5s")
 
-		for canvas := range *models.GetGongstructInstancesSet[models.Canvas](stack.Stage) {
+		for canvas := range *stack.Stage.GetInstancesSet[*models.Canvas]() {
 			canvas.IsWithLastRenderingUpdate = true
 		}
 
@@ -49,13 +49,13 @@ func executeServer() {
 			ticker := time.NewTicker(5 * time.Second)
 			delta := 1.0
 			for range ticker.C {
-				for box := range *models.GetGongstructInstancesSet[models.BoxGeometry](stack.Stage) {
+				for box := range *stack.Stage.GetInstancesSet[*models.BoxGeometry]() {
 					box.Height += delta
 					log.Printf("[Backend TRACE] Toggled BoxGeometry '%s' Height to %.2f", box.Name, box.Height)
 				}
 				delta = -delta
 
-				for canvas := range *models.GetGongstructInstancesSet[models.Canvas](stack.Stage) {
+				for canvas := range *stack.Stage.GetInstancesSet[*models.Canvas]() {
 					canvas.IsWithLastRenderingUpdate = true
 				}
 

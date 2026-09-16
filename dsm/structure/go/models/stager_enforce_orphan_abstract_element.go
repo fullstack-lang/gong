@@ -5,7 +5,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*System {
 			roots := make([]*System, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootSystemes...)
 			}
 			return roots
@@ -22,7 +22,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		stager,
 		func() []*DataFlow {
 			roots := make([]*DataFlow, 0)
-			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 				roots = append(roots, library.RootDataFlows...)
 			}
 			return roots

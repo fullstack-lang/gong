@@ -139,14 +139,14 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 	if hasChecked(stager.selectedPlant) {
 		plantWithCheckedDiagram = stager.selectedPlant
 	} else {
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.IsSelected && hasChecked(plant) {
 				plantWithCheckedDiagram = plant
 				break
 			}
 		}
 		if plantWithCheckedDiagram == nil {
-			for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+			for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 				if hasChecked(plant) {
 					plantWithCheckedDiagram = plant
 					break
@@ -156,7 +156,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 	}
 
 	if plantWithCheckedDiagram != nil {
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			shouldBeSelected := (plant == plantWithCheckedDiagram)
 			if plant.IsSelected != shouldBeSelected {
 				plant.IsSelected = shouldBeSelected
@@ -182,7 +182,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		}
 	} else {
 		var selectedPlant *PlantAbstract
-		plants := *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage)
+		plants := *stager.stage.GetInstancesSet[*PlantAbstract]()
 		for plant := range plants {
 			if plant.IsSelected {
 				if selectedPlant == nil {
@@ -278,7 +278,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 }
 func (stager *Stager) enforcePlantRotationRatioHeights() bool {
 	modified := false
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType != TubeVase {
 			continue
 		}

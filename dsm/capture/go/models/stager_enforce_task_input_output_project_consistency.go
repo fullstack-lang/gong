@@ -8,7 +8,7 @@ func (stager *Stager) enforceTaskInputOutputLibraryConsistency() (needCommit boo
 	taskToLibrary := make(map[*Concern]*Library)
 	deliverableToLibrary := make(map[*Deliverable]*Library)
 
-	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+	for library := range *stage.GetInstancesSet[*Library]() {
 		for _, task := range library.RootConcerns {
 			mapTaskToLibrary(task, library, taskToLibrary)
 		}
@@ -17,7 +17,7 @@ func (stager *Stager) enforceTaskInputOutputLibraryConsistency() (needCommit boo
 		}
 	}
 
-	for task := range *GetGongstructInstancesSetFromPointerType[*Concern](stage) {
+	for task := range *stage.GetInstancesSet[*Concern]() {
 
 		library, ok := taskToLibrary[task]
 		if !ok {

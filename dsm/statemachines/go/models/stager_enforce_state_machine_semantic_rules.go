@@ -7,7 +7,7 @@ import (
 )
 
 func (stager *Stager) enforceStateMachineSemanticRules() (needCommit bool) {
-	for _, stateMachine := range GetGongstrucsSorted[*StateMachine](stager.stage) {
+	for _, stateMachine := range stager.stage.GetInstancesSorted[*StateMachine]() {
 		if stateMachine.InitialState == nil {
 			msg := fmt.Sprintf("State Machine \"%s\" has no Start State", stateMachine.Name)
 			log.Println(msg)
@@ -55,7 +55,7 @@ func (stager *Stager) enforceStateMachineSemanticRules() (needCommit bool) {
 			}
 
 			// Add edges from transitions between states of this state machine
-			for _, transition := range GetGongstrucsSorted[*Transition](stager.stage) {
+			for _, transition := range stager.stage.GetInstancesSorted[*Transition]() {
 				if transition.Start != nil && transition.End != nil {
 					idxStart, okStart := stateIndex[transition.Start]
 					idxEnd, okEnd := stateIndex[transition.End]

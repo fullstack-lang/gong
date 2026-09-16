@@ -8,7 +8,7 @@ import (
 func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 	stage := stager.stage
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
+	for plant := range *stage.GetInstancesSet[*PlantAbstract]() {
 		if len(plant.Plant2DDiagrams) == 0 {
 			plantDiagram := new(Plant2DDiagram).Stage(stage)
 			plantDiagram.Name = plant.Name + " - Diagram"
@@ -16,7 +16,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 			plantDiagram.OriginY = 950.0
 			plantDiagram.Zoom = 1.0
 			hasAnyChecked := false
-			for d := range *GetGongstructInstancesSetFromPointerType[*Plant2DDiagram](stage) {
+			for d := range *stage.GetInstancesSet[*Plant2DDiagram]() {
 				if d.IsChecked {
 					hasAnyChecked = true
 					break
@@ -24,7 +24,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 			}
 			if !hasAnyChecked || plant.IsSelected {
 				if plant.IsSelected {
-					for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*Plant2DDiagram](stager.stage) {
+					for plantDiagram_ := range *stager.stage.GetInstancesSet[*Plant2DDiagram]() {
 						plantDiagram_.IsChecked = false
 					}
 				}

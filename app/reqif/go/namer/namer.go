@@ -13,123 +13,123 @@ type ObjectNamer struct {
 func (objectNamer *ObjectNamer) SetNamesToElements(stage *m.Stage, reqif *m.REQ_IF) {
 	idx := 0
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_XHTML](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_XHTML]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_ENUMERATION](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_ENUMERATION]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_BOOLEAN](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_BOOLEAN]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_STRING](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_STRING]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_REAL](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_REAL]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_INTEGER](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_INTEGER]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_DEFINITION_DATE](stage) {
+	for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_DEFINITION_DATE]() {
 		x.Name = x.LONG_NAME
 	}
 
 	// Attribute Value
 
-	// for x := range *m.GetGongstructInstancesSet[m.ATTRIBUTE_VALUE_ENUMERATION](stage) {
+	// for x := range *stage.GetInstancesSet[*m.ATTRIBUTE_VALUE_ENUMERATION]() {
 	// 	x.Name = x.DEFINITION
 	// }
 
 	// anonymous without ATTRIBUTE DEF
 
-	for x := range *m.GetGongstructInstancesSet[m.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]() {
 		x.Name = x.ATTRIBUTE_DEFINITION_ENUMERATION_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.A_ATTRIBUTE_DEFINITION_XHTML_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_ATTRIBUTE_DEFINITION_XHTML_REF]() {
 		x.Name = x.ATTRIBUTE_DEFINITION_XHTML_REF
 	}
 
-	// for x := range *m.GetGongstructInstancesSet[m.A_ATTRIBUTE_VALUE_XHTML_1](stage) {
+	// for x := range *stage.GetInstancesSet[*m.A_ATTRIBUTE_VALUE_XHTML_1]() {
 	// 	if x.
 	// 	x.Name = x.DATATYPE_DEFINITION_ENUMERATION_REF
 	// }
 
-	for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_ENUMERATION_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_DATATYPE_DEFINITION_ENUMERATION_REF]() {
 		x.Name = x.DATATYPE_DEFINITION_ENUMERATION_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.A_DATATYPE_DEFINITION_XHTML_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_DATATYPE_DEFINITION_XHTML_REF]() {
 		x.Name = x.DATATYPE_DEFINITION_XHTML_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.A_ENUM_VALUE_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_ENUM_VALUE_REF]() {
 		x.Name = x.ENUM_VALUE_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.A_OBJECT](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_OBJECT]() {
 		x.Name = x.SPEC_OBJECT_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.A_SPECIFICATION_TYPE_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_SPECIFICATION_TYPE_REF]() {
 		x.Name = x.SPECIFICATION_TYPE_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.A_SPEC_OBJECT_TYPE_REF](stage) {
+	for x := range *stage.GetInstancesSet[*m.A_SPEC_OBJECT_TYPE_REF]() {
 		x.Name = x.SPEC_OBJECT_TYPE_REF
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_ENUMERATION](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_ENUMERATION]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_BOOLEAN](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_BOOLEAN]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_INTEGER](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_INTEGER]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_REAL](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_REAL]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_DATE](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_DATE]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_STRING](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_STRING]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.DATATYPE_DEFINITION_XHTML](stage) {
+	for x := range *stage.GetInstancesSet[*m.DATATYPE_DEFINITION_XHTML]() {
 		x.Name = x.LONG_NAME
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.EMBEDDED_VALUE](stage) {
+	for x := range *stage.GetInstancesSet[*m.EMBEDDED_VALUE]() {
 		x.Name = x.OTHER_CONTENT
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.ENUM_VALUE](stage) {
+	for x := range *stage.GetInstancesSet[*m.ENUM_VALUE]() {
 		x.Name = x.LONG_NAME
 	}
 
 	// DATATYPE_DEFINITION_XHTML EMBEDDED_VALUE ENUM_VALUE
 
-	for x := range *m.GetGongstructInstancesSet[m.SPECIFICATION](stage) {
+	for x := range *stage.GetInstancesSet[*m.SPECIFICATION]() {
 		x.Name = x.LONG_NAME
 	}
 
 	idx = 0
-	for x := range *m.GetGongstructInstancesSet[m.SPECIFICATION_TYPE](stage) {
+	for x := range *stage.GetInstancesSet[*m.SPECIFICATION_TYPE]() {
 		x.Name = x.LONG_NAME
 		if x.LONG_NAME == "" {
 			x.Name = fmt.Sprintf("Specification_type_%.2d", idx)
@@ -137,7 +137,7 @@ func (objectNamer *ObjectNamer) SetNamesToElements(stage *m.Stage, reqif *m.REQ_
 		}
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.SPEC_HIERARCHY](stage) {
+	for x := range *stage.GetInstancesSet[*m.SPEC_HIERARCHY]() {
 		x.Name = x.LONG_NAME
 	}
 
@@ -154,7 +154,7 @@ func (objectNamer *ObjectNamer) SetNamesToElements(stage *m.Stage, reqif *m.REQ_
 	}
 
 	idx = 0
-	for x := range *m.GetGongstructInstancesSet[m.SPEC_OBJECT_TYPE](stage) {
+	for x := range *stage.GetInstancesSet[*m.SPEC_OBJECT_TYPE]() {
 		x.Name = x.LONG_NAME
 		if x.LONG_NAME == "" {
 			x.Name = fmt.Sprintf("Spec_object_type_%.2d", idx)
@@ -173,7 +173,7 @@ func (objectNamer *ObjectNamer) SetNamesToElements(stage *m.Stage, reqif *m.REQ_
 		}
 	}
 
-	for x := range *m.GetGongstructInstancesSet[m.SPEC_RELATION_TYPE](stage) {
+	for x := range *stage.GetInstancesSet[*m.SPEC_RELATION_TYPE]() {
 		x.Name = x.LONG_NAME
 	}
 }

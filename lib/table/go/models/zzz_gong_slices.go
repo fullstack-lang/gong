@@ -214,7 +214,7 @@ func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(stage.GetOrder(button)))
 	return
 }
 
@@ -224,7 +224,7 @@ func (cell *Cell) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell), uint64(GetOrderPointerGongstruct(stage, cell)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell), uint64(stage.GetOrder(cell)))
 	return
 }
 
@@ -234,7 +234,7 @@ func (cellboolean *CellBoolean) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellboolean), uint64(GetOrderPointerGongstruct(stage, cellboolean)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellboolean), uint64(stage.GetOrder(cellboolean)))
 	return
 }
 
@@ -244,7 +244,7 @@ func (cellfloat64 *CellFloat64) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellfloat64), uint64(GetOrderPointerGongstruct(stage, cellfloat64)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellfloat64), uint64(stage.GetOrder(cellfloat64)))
 	return
 }
 
@@ -254,7 +254,7 @@ func (cellicon *CellIcon) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellicon), uint64(GetOrderPointerGongstruct(stage, cellicon)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellicon), uint64(stage.GetOrder(cellicon)))
 	return
 }
 
@@ -264,7 +264,7 @@ func (cellint *CellInt) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellint), uint64(GetOrderPointerGongstruct(stage, cellint)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellint), uint64(stage.GetOrder(cellint)))
 	return
 }
 
@@ -274,7 +274,7 @@ func (cellstring *CellString) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellstring), uint64(GetOrderPointerGongstruct(stage, cellstring)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellstring), uint64(stage.GetOrder(cellstring)))
 	return
 }
 
@@ -284,7 +284,7 @@ func (displayedcolumn *DisplayedColumn) GongGetUUID(stage *Stage) (uuid string) 
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayedcolumn), uint64(GetOrderPointerGongstruct(stage, displayedcolumn)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayedcolumn), uint64(stage.GetOrder(displayedcolumn)))
 	return
 }
 
@@ -294,7 +294,7 @@ func (row *Row) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(row), uint64(GetOrderPointerGongstruct(stage, row)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(row), uint64(stage.GetOrder(row)))
 	return
 }
 
@@ -304,7 +304,7 @@ func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(GetOrderPointerGongstruct(stage, svgicon)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(stage.GetOrder(svgicon)))
 	return
 }
 
@@ -314,7 +314,7 @@ func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(GetOrderPointerGongstruct(stage, table)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(stage.GetOrder(table)))
 	return
 }
 

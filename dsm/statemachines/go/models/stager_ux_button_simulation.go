@@ -16,7 +16,7 @@ func (stager *Stager) buttonSimulation() {
 		roles = root.Roles
 	}
 	if len(roles) == 0 {
-		roles = GetGongstrucsSorted[*Role](stager.stage)
+		roles = stager.stage.GetInstancesSorted[*Role]()
 	}
 
 	if len(roles) == 0 {
@@ -40,7 +40,7 @@ func (stager *Stager) buttonSimulation() {
 	// get the selected object
 	var selectedObject *Object
 	{
-		objects := *GetGongstructInstancesSet[Object](stager.stage)
+		objects := *stager.stage.GetInstancesSet[*Object]()
 		for object := range objects {
 			if object.IsSelected {
 				selectedObject = object
@@ -54,7 +54,7 @@ func (stager *Stager) buttonSimulation() {
 
 	var selectedDiagram *Diagram
 	{
-		diagramSet := *GetGongstructInstancesSet[Diagram](stager.stage)
+		diagramSet := *stager.stage.GetInstancesSet[*Diagram]()
 		for diagram_ := range diagramSet {
 			if diagram_.IsChecked {
 				selectedDiagram = diagram_

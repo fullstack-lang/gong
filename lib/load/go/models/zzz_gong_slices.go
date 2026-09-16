@@ -75,7 +75,7 @@ func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(GetOrderPointerGongstruct(stage, filetodownload)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(stage.GetOrder(filetodownload)))
 	return
 }
 
@@ -85,7 +85,7 @@ func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetoupload), uint64(GetOrderPointerGongstruct(stage, filetoupload)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetoupload), uint64(stage.GetOrder(filetoupload)))
 	return
 }
 
@@ -95,7 +95,7 @@ func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(GetOrderPointerGongstruct(stage, message)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(stage.GetOrder(message)))
 	return
 }
 

@@ -6,9 +6,9 @@ import (
 )
 
 func (stager *Stager) enforceLibraryHasAtLeastOneDiagram() (needCommit bool) {
-	for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+	for _, library := range stager.stage.GetInstancesSorted[*Library]() {
 		if len(library.Diagrams) == 0 {
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 				diagram_.IsChecked = false
 			}
 			newDiagram := &Diagram{

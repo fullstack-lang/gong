@@ -31,7 +31,7 @@ func (stager *Stager) Svg() {
 	var classdiagram *Classdiagram
 
 	var diagramPackage *DiagramPackage
-	for diagramPackage = range *GetGongstructInstancesSet[DiagramPackage](stager.stage) {
+	for diagramPackage = range *stager.stage.GetInstancesSet[*DiagramPackage]() {
 
 		classdiagram = diagramPackage.SelectedClassdiagram
 

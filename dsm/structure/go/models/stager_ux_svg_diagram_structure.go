@@ -14,7 +14,7 @@ func (stager *Stager) svg() {
 
 	var diagramStructure *DiagramStructure
 	{
-		for diagramsystem_ := range *GetGongstructInstancesSet[DiagramStructure](stager.stage) {
+		for diagramsystem_ := range *stager.stage.GetInstancesSet[*DiagramStructure]() {
 			if diagramsystem_.IsChecked {
 				diagramStructure = diagramsystem_
 			}

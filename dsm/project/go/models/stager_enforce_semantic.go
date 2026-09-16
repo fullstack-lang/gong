@@ -102,7 +102,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 }
 
 func (stager *Stager) enforceTaskMilestoneDates() (needCommit bool) {
-	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
+	for _, task := range stager.stage.GetInstancesSorted[*Task]() {
 		if task.IsMilestone && task.End != task.Start {
 			task.End = task.Start
 			needCommit = true
@@ -115,7 +115,7 @@ func (stager *Stager) enforceTaskMilestoneDates() (needCommit bool) {
 }
 
 func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
-	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
+	for _, task := range stager.stage.GetInstancesSorted[*Task]() {
 		if task.IsEndDateComputedFromDuration {
 			days := task.DurationWeeks*7 + task.DurationDays
 			fractionalDays := days - float64(int(days))
@@ -139,7 +139,7 @@ func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
 }
 
 func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
-	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
+	for _, task := range stager.stage.GetInstancesSorted[*Task]() {
 		if task.IsStartDateComputedFromPredecessors && len(task.Predecessors) > 0 {
 			var maxEnd time.Time
 			first := true

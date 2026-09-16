@@ -17,7 +17,7 @@ func (stager *Stager) updateSelectedViewFromPlant(plant *PlantAbstract) {
 		return
 	}
 	modified := false
-	for view := range *split.GetGongstructInstancesSetFromPointerType[*split.View](stager.splitStage) {
+	for view := range *stager.splitStage.GetInstancesSet[*split.View]() {
 		isSelected := (view.Name == string(plant.CurrentView))
 		if view.IsSelectedView != isSelected {
 			view.IsSelectedView = isSelected

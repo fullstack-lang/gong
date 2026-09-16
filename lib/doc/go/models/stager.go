@@ -70,7 +70,7 @@ func NewStager(
 	stager.createViews(receivingAsSplitArea)
 
 	// if no diagram package is present, creates one
-	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
+	diagramPackages := *stage.GetInstancesSet[*DiagramPackage]()
 	var diagramPackage *DiagramPackage
 	for k := range diagramPackages {
 		diagramPackage = k
@@ -90,7 +90,7 @@ func NewStager(
 	// because, note are not synchronized via the gopls renaming request
 	//
 	// if a can be traced, this is probably for a lack of diagram maintenance
-	gongNotes := *gong.GetGongstructInstancesMap[gong.GongNote](stager.gongStage)
+	gongNotes := stager.gongStage.GetInstancesMapByName[*gong.GongNote]()
 	for _, classdiagram := range diagramPackage.Classdiagrams {
 
 		for _, gongNoteShape := range classdiagram.GongNoteShapes {

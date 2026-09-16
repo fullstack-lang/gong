@@ -44,9 +44,9 @@ func DecodeStringToIntSlice(str string) ([]uint, error) {
 func GetMap_ID_RowID[FieldType models.PointerToGongstruct](stageOfInterest *models.Stage) (map_ID_rowID map[uint]int) {
 	map_ID_rowID = make(map[uint]int)
 	{
-		orderedByIdInstance := models.GetStructInstancesByOrderAuto[FieldType](stageOfInterest)
+		orderedByIdInstance := stageOfInterest.GetInstancesByOrder[FieldType]()
 		for rowID, instance := range orderedByIdInstance {
-			id := models.GetOrderPointerGongstruct(stageOfInterest, instance)
+			id := stageOfInterest.GetOrder(instance)
 			map_ID_rowID[id] = rowID
 		}
 	}
@@ -56,9 +56,9 @@ func GetMap_ID_RowID[FieldType models.PointerToGongstruct](stageOfInterest *mode
 func GetMap_RowID_ID[FieldType models.PointerToGongstruct](stageOfInterest *models.Stage) (map_RowID_ID map[int]uint) {
 	map_RowID_ID = make(map[int]uint)
 	{
-		orderedByIdInstance := models.GetStructInstancesByOrderAuto[FieldType](stageOfInterest)
+		orderedByIdInstance := stageOfInterest.GetInstancesByOrder[FieldType]()
 		for rowID, instance := range orderedByIdInstance {
-			id := models.GetOrderPointerGongstruct(stageOfInterest, instance)
+			id := stageOfInterest.GetOrder(instance)
 			map_RowID_ID[rowID] = id
 		}
 	}
@@ -86,7 +86,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	rowIDsOfInstancesInField := make([]uint, 0)
 	{
 		for _, instance := range *field {
-			id := models.GetOrderPointerGongstruct(probe.stageOfInterest, instance)
+			id := probe.stageOfInterest.GetOrder(instance)
 			rowIDsOfInstancesInField = append(rowIDsOfInstancesInField,
 				uint(map_ID_RowID[id]))
 		}
@@ -150,7 +150,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	// tableStackName supposed to be "test-form-table"
 	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.probe.r, tableStackName)
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.probe.stageOfInterest)
+	instanceSet := *onAssocEditon.probe.stageOfInterest.GetInstancesSet[FieldType]()
 	instanceSlice := make([]FieldType, 0)
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
@@ -158,8 +158,8 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 
 	// we supposed that the table is ordered by ID
 	sort.Slice(instanceSlice, func(i, j int) bool {
-		idI := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[i])
-		idJ := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[j])
+		idI := onAssocEditon.probe.stageOfInterest.GetOrder(instanceSlice[i])
+		idJ := onAssocEditon.probe.stageOfInterest.GetOrder(instanceSlice[j])
 
 		return idI < idJ
 	})
@@ -192,8 +192,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&table.CellInt{
 			Name: "ID",
-			Value: int(models.GetOrderPointerGongstruct(
-				onAssocEditon.probe.stageOfInterest,
+			Value: int(onAssocEditon.probe.stageOfInterest.GetOrder(
 				instance,
 			)),
 		}).Stage(tableStageForSelection)

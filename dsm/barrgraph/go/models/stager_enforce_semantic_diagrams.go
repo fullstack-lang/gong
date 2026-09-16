@@ -5,7 +5,7 @@ import (
 )
 
 func (stager *Stager) enforce_semantic_diagrams() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 
 		var zeroDate time.Time
 		if diagram.StartDate.Equal(zeroDate) {

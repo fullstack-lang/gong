@@ -17,7 +17,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableNoteShapes := make(map[*NoteShape]struct{})
 	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
 
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 		collectShapes(diagram.Process_Shapes, reachableProcessShapes)
 		collectShapes(diagram.Participant_Shapes, reachableParticipantShapes)
 		collectShapes(diagram.ExternalParticipant_Shapes, reachableExternalParticipantShapes)
@@ -50,7 +50,7 @@ func collectShapes[T comparable](shapes []T, reachable map[T]struct{}) {
 }
 
 func unstageUnreachableOrphans[T PointerToGongstruct](stager *Stager, reachable map[T]struct{}) (needCommit bool) {
-	for _, object := range GetGongstrucsSorted[T](stager.stage) {
+	for _, object := range stager.stage.GetInstancesSorted[T]() {
 		if _, ok := reachable[object]; !ok {
 			object.UnstageVoid(stager.stage)
 			needCommit = true

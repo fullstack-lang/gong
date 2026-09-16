@@ -8,7 +8,7 @@ import (
 func (stager *Stager) enforceInfluenceShapeConsistency() (needCommit bool) {
 	stage := stager.stage
 
-	for _, influenceShape := range GetGongstrucsSorted[*InfluenceShape](stager.stage) {
+	for _, influenceShape := range stager.stage.GetInstancesSorted[*InfluenceShape]() {
 		if influenceShape.Influence == nil {
 			influenceShape.Unstage(stager.stage)
 			needCommit = true

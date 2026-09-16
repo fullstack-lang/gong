@@ -111,7 +111,7 @@ func (probe *Probe) ux_tree() {
 	topNode.Buttons = append(topNode.Buttons, resetButton)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *probe.gongStage.GetInstancesSet[*gong_models.GongStruct]()
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -142,7 +142,7 @@ func (probe *Probe) ux_tree() {
 		// insertion point
 		case "A_directive":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.A_directive](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.A_directive]()
 			count := 0
 			for _a_directive := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -166,7 +166,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.A_directive](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -174,7 +174,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "A_measure":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.A_measure](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.A_measure]()
 			count := 0
 			for _a_measure := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -198,7 +198,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.A_measure](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -206,7 +206,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "A_measure_1":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.A_measure_1](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.A_measure_1]()
 			count := 0
 			for _a_measure_1 := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -230,7 +230,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.A_measure_1](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -238,7 +238,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "A_part":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.A_part](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.A_part]()
 			count := 0
 			for _a_part := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -262,7 +262,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.A_part](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -270,7 +270,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "A_part_1":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.A_part_1](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.A_part_1]()
 			count := 0
 			for _a_part_1 := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -294,7 +294,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.A_part_1](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -302,7 +302,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Accidental":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Accidental]()
 			count := 0
 			for _accidental := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -326,7 +326,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Accidental](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -334,7 +334,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Accidental_mark":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental_mark](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Accidental_mark]()
 			count := 0
 			for _accidental_mark := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -358,7 +358,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Accidental_mark](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -366,7 +366,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Accidental_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Accidental_text]()
 			count := 0
 			for _accidental_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -390,7 +390,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Accidental_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -398,7 +398,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Accord":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Accord](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Accord]()
 			count := 0
 			for _accord := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -422,7 +422,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Accord](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -430,7 +430,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Accordion_registration":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Accordion_registration](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Accordion_registration]()
 			count := 0
 			for _accordion_registration := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -454,7 +454,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Accordion_registration](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -462,7 +462,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Appearance":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Appearance](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Appearance]()
 			count := 0
 			for _appearance := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -486,7 +486,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Appearance](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -494,7 +494,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Arpeggiate":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Arpeggiate](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Arpeggiate]()
 			count := 0
 			for _arpeggiate := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -518,7 +518,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Arpeggiate](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -526,7 +526,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Arrow":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Arrow]()
 			count := 0
 			for _arrow := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -550,7 +550,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Arrow](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -558,7 +558,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Articulations":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Articulations](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Articulations]()
 			count := 0
 			for _articulations := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -582,7 +582,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Articulations](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -590,7 +590,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Assess":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Assess](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Assess]()
 			count := 0
 			for _assess := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -614,7 +614,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Assess](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -622,7 +622,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Attributes":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Attributes](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Attributes]()
 			count := 0
 			for _attributes := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -646,7 +646,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Attributes](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -654,7 +654,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Backup":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Backup](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Backup]()
 			count := 0
 			for _backup := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -678,7 +678,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Backup](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -686,7 +686,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Bar_style_color":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bar_style_color](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Bar_style_color]()
 			count := 0
 			for _bar_style_color := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -710,7 +710,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Bar_style_color](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -718,7 +718,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Barline":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Barline](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Barline]()
 			count := 0
 			for _barline := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -742,7 +742,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Barline](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -750,7 +750,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Barre":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Barre](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Barre]()
 			count := 0
 			for _barre := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -774,7 +774,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Barre](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -782,7 +782,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Bass":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bass](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Bass]()
 			count := 0
 			for _bass := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -806,7 +806,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Bass](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -814,7 +814,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Bass_step":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bass_step](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Bass_step]()
 			count := 0
 			for _bass_step := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -838,7 +838,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Bass_step](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -846,7 +846,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Beam":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Beam](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Beam]()
 			count := 0
 			for _beam := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -870,7 +870,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Beam](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -878,7 +878,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Beat_repeat":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Beat_repeat](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Beat_repeat]()
 			count := 0
 			for _beat_repeat := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -902,7 +902,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Beat_repeat](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -910,7 +910,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Beat_unit_tied":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Beat_unit_tied](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Beat_unit_tied]()
 			count := 0
 			for _beat_unit_tied := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -934,7 +934,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Beat_unit_tied](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -942,7 +942,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Beater":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Beater](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Beater]()
 			count := 0
 			for _beater := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -966,7 +966,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Beater](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -974,7 +974,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Bend":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bend](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Bend]()
 			count := 0
 			for _bend := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -998,7 +998,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Bend](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1006,7 +1006,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Bookmark":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bookmark](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Bookmark]()
 			count := 0
 			for _bookmark := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1030,7 +1030,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Bookmark](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1038,7 +1038,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Bracket":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bracket](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Bracket]()
 			count := 0
 			for _bracket := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1062,7 +1062,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Bracket](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1070,7 +1070,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Breath_mark":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Breath_mark](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Breath_mark]()
 			count := 0
 			for _breath_mark := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1094,7 +1094,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Breath_mark](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1102,7 +1102,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Caesura":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Caesura](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Caesura]()
 			count := 0
 			for _caesura := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1126,7 +1126,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Caesura](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1134,7 +1134,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Cancel":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Cancel](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Cancel]()
 			count := 0
 			for _cancel := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1158,7 +1158,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Cancel](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1166,7 +1166,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Clef":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Clef](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Clef]()
 			count := 0
 			for _clef := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1190,7 +1190,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Clef](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1198,7 +1198,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Coda":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Coda](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Coda]()
 			count := 0
 			for _coda := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1222,7 +1222,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Coda](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1230,7 +1230,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Credit":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Credit](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Credit]()
 			count := 0
 			for _credit := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1254,7 +1254,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Credit](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1262,7 +1262,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Dashes":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Dashes](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Dashes]()
 			count := 0
 			for _dashes := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1286,7 +1286,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Dashes](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1294,7 +1294,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Defaults":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Defaults](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Defaults]()
 			count := 0
 			for _defaults := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1318,7 +1318,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Defaults](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1326,7 +1326,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Degree":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Degree](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Degree]()
 			count := 0
 			for _degree := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1350,7 +1350,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Degree](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1358,7 +1358,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Degree_alter":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Degree_alter](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Degree_alter]()
 			count := 0
 			for _degree_alter := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1382,7 +1382,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Degree_alter](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1390,7 +1390,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Degree_type":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Degree_type](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Degree_type]()
 			count := 0
 			for _degree_type := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1414,7 +1414,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Degree_type](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1422,7 +1422,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Degree_value":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Degree_value](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Degree_value]()
 			count := 0
 			for _degree_value := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1446,7 +1446,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Degree_value](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1454,7 +1454,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Direction":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Direction](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Direction]()
 			count := 0
 			for _direction := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1478,7 +1478,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Direction](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1486,7 +1486,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Direction_type":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Direction_type](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Direction_type]()
 			count := 0
 			for _direction_type := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1510,7 +1510,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Direction_type](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1518,7 +1518,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Distance":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Distance](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Distance]()
 			count := 0
 			for _distance := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1542,7 +1542,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Distance](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1550,7 +1550,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Double":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Double](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Double]()
 			count := 0
 			for _double := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1574,7 +1574,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Double](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1582,7 +1582,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Dynamics":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Dynamics](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Dynamics]()
 			count := 0
 			for _dynamics := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1606,7 +1606,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Dynamics](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1614,7 +1614,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Effect":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Effect](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Effect]()
 			count := 0
 			for _effect := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1638,7 +1638,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Effect](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1646,7 +1646,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Elision":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Elision](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Elision]()
 			count := 0
 			for _elision := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1670,7 +1670,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Elision](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1678,7 +1678,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty]()
 			count := 0
 			for _empty := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1702,7 +1702,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1710,7 +1710,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_font":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_font](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_font]()
 			count := 0
 			for _empty_font := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1734,7 +1734,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_font](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1742,7 +1742,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_line":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_line](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_line]()
 			count := 0
 			for _empty_line := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1766,7 +1766,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_line](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1774,7 +1774,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_placement":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_placement]()
 			count := 0
 			for _empty_placement := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1798,7 +1798,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_placement](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1806,7 +1806,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_placement_smufl":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement_smufl](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_placement_smufl]()
 			count := 0
 			for _empty_placement_smufl := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1830,7 +1830,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_placement_smufl](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1838,7 +1838,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_print_object_style_align":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_print_object_style_align](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_print_object_style_align]()
 			count := 0
 			for _empty_print_object_style_align := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1862,7 +1862,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_print_object_style_align](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1870,7 +1870,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_print_style":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_print_style](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_print_style]()
 			count := 0
 			for _empty_print_style := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1894,7 +1894,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_print_style](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1902,7 +1902,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_print_style_align":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_print_style_align](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_print_style_align]()
 			count := 0
 			for _empty_print_style_align := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1926,7 +1926,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_print_style_align](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1934,7 +1934,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_print_style_align_id":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_print_style_align_id](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_print_style_align_id]()
 			count := 0
 			for _empty_print_style_align_id := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1958,7 +1958,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_print_style_align_id](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1966,7 +1966,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Empty_trill_sound":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_trill_sound](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Empty_trill_sound]()
 			count := 0
 			for _empty_trill_sound := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -1990,7 +1990,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Empty_trill_sound](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -1998,7 +1998,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Encoding":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Encoding](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Encoding]()
 			count := 0
 			for _encoding := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2022,7 +2022,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Encoding](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2030,7 +2030,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Ending":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Ending](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Ending]()
 			count := 0
 			for _ending := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2054,7 +2054,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Ending](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2062,7 +2062,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Extend":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Extend](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Extend]()
 			count := 0
 			for _extend := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2086,7 +2086,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Extend](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2094,7 +2094,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Feature":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Feature](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Feature]()
 			count := 0
 			for _feature := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2118,7 +2118,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Feature](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2126,7 +2126,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Fermata":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Fermata](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Fermata]()
 			count := 0
 			for _fermata := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2150,7 +2150,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Fermata](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2158,7 +2158,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Figure":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Figure](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Figure]()
 			count := 0
 			for _figure := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2182,7 +2182,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Figure](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2190,7 +2190,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Figured_bass":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Figured_bass](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Figured_bass]()
 			count := 0
 			for _figured_bass := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2214,7 +2214,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Figured_bass](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2222,7 +2222,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Fingering":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Fingering](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Fingering]()
 			count := 0
 			for _fingering := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2246,7 +2246,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Fingering](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2254,7 +2254,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "First_fret":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.First_fret](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.First_fret]()
 			count := 0
 			for _first_fret := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2278,7 +2278,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.First_fret](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2286,7 +2286,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "For_part":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.For_part](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.For_part]()
 			count := 0
 			for _for_part := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2310,7 +2310,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.For_part](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2318,7 +2318,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Formatted_symbol":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_symbol](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Formatted_symbol]()
 			count := 0
 			for _formatted_symbol := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2342,7 +2342,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Formatted_symbol](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2350,7 +2350,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Formatted_symbol_id":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_symbol_id](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Formatted_symbol_id]()
 			count := 0
 			for _formatted_symbol_id := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2374,7 +2374,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Formatted_symbol_id](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2382,7 +2382,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Formatted_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Formatted_text]()
 			count := 0
 			for _formatted_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2406,7 +2406,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Formatted_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2414,7 +2414,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Formatted_text_id":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_text_id](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Formatted_text_id]()
 			count := 0
 			for _formatted_text_id := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2438,7 +2438,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Formatted_text_id](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2446,7 +2446,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Forward":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Forward](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Forward]()
 			count := 0
 			for _forward := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2470,7 +2470,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Forward](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2478,7 +2478,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Frame":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Frame](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Frame]()
 			count := 0
 			for _frame := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2502,7 +2502,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Frame](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2510,7 +2510,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Frame_note":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Frame_note](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Frame_note]()
 			count := 0
 			for _frame_note := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2534,7 +2534,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Frame_note](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2542,7 +2542,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Fret":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Fret](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Fret]()
 			count := 0
 			for _fret := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2566,7 +2566,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Fret](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2574,7 +2574,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Glass":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Glass](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Glass]()
 			count := 0
 			for _glass := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2598,7 +2598,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Glass](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2606,7 +2606,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Glissando":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Glissando](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Glissando]()
 			count := 0
 			for _glissando := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2630,7 +2630,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Glissando](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2638,7 +2638,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Glyph":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Glyph](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Glyph]()
 			count := 0
 			for _glyph := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2662,7 +2662,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Glyph](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2670,7 +2670,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Grace":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Grace](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Grace]()
 			count := 0
 			for _grace := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2694,7 +2694,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Grace](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2702,7 +2702,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Group_barline":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Group_barline](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Group_barline]()
 			count := 0
 			for _group_barline := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2726,7 +2726,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Group_barline](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2734,7 +2734,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Group_name":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Group_name](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Group_name]()
 			count := 0
 			for _group_name := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2758,7 +2758,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Group_name](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2766,7 +2766,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Group_symbol":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Group_symbol](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Group_symbol]()
 			count := 0
 			for _group_symbol := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2790,7 +2790,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Group_symbol](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2798,7 +2798,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Grouping":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Grouping](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Grouping]()
 			count := 0
 			for _grouping := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2822,7 +2822,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Grouping](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2830,7 +2830,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Hammer_on_pull_off":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Hammer_on_pull_off](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Hammer_on_pull_off]()
 			count := 0
 			for _hammer_on_pull_off := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2854,7 +2854,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Hammer_on_pull_off](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2862,7 +2862,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Handbell":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Handbell](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Handbell]()
 			count := 0
 			for _handbell := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2886,7 +2886,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Handbell](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2894,7 +2894,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Harmon_closed":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Harmon_closed](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Harmon_closed]()
 			count := 0
 			for _harmon_closed := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2918,7 +2918,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Harmon_closed](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2926,7 +2926,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Harmon_mute":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Harmon_mute](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Harmon_mute]()
 			count := 0
 			for _harmon_mute := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2950,7 +2950,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Harmon_mute](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2958,7 +2958,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Harmonic":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Harmonic](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Harmonic]()
 			count := 0
 			for _harmonic := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -2982,7 +2982,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Harmonic](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -2990,7 +2990,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Harmony":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Harmony](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Harmony]()
 			count := 0
 			for _harmony := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3014,7 +3014,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Harmony](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3022,7 +3022,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Harmony_alter":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Harmony_alter](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Harmony_alter]()
 			count := 0
 			for _harmony_alter := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3046,7 +3046,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Harmony_alter](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3054,7 +3054,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Harp_pedals":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Harp_pedals](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Harp_pedals]()
 			count := 0
 			for _harp_pedals := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3078,7 +3078,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Harp_pedals](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3086,7 +3086,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Heel_toe":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Heel_toe](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Heel_toe]()
 			count := 0
 			for _heel_toe := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3110,7 +3110,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Heel_toe](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3118,7 +3118,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Hole":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Hole](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Hole]()
 			count := 0
 			for _hole := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3142,7 +3142,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Hole](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3150,7 +3150,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Hole_closed":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Hole_closed](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Hole_closed]()
 			count := 0
 			for _hole_closed := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3174,7 +3174,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Hole_closed](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3182,7 +3182,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Horizontal_turn":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Horizontal_turn](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Horizontal_turn]()
 			count := 0
 			for _horizontal_turn := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3206,7 +3206,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Horizontal_turn](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3214,7 +3214,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Identification":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Identification](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Identification]()
 			count := 0
 			for _identification := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3238,7 +3238,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Identification](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3246,7 +3246,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Image":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Image](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Image]()
 			count := 0
 			for _image := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3270,7 +3270,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Image](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3278,7 +3278,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Instrument":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Instrument](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Instrument]()
 			count := 0
 			for _instrument := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3302,7 +3302,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Instrument](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3310,7 +3310,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Instrument_change":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Instrument_change](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Instrument_change]()
 			count := 0
 			for _instrument_change := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3334,7 +3334,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Instrument_change](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3342,7 +3342,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Instrument_link":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Instrument_link](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Instrument_link]()
 			count := 0
 			for _instrument_link := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3366,7 +3366,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Instrument_link](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3374,7 +3374,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Interchangeable":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Interchangeable](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Interchangeable]()
 			count := 0
 			for _interchangeable := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3398,7 +3398,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Interchangeable](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3406,7 +3406,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Inversion":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Inversion](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Inversion]()
 			count := 0
 			for _inversion := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3430,7 +3430,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Inversion](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3438,7 +3438,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Key":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Key](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Key]()
 			count := 0
 			for _key := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3462,7 +3462,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Key](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3470,7 +3470,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Key_accidental":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Key_accidental](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Key_accidental]()
 			count := 0
 			for _key_accidental := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3494,7 +3494,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Key_accidental](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3502,7 +3502,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Key_octave":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Key_octave](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Key_octave]()
 			count := 0
 			for _key_octave := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3526,7 +3526,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Key_octave](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3534,7 +3534,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Kind":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Kind](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Kind]()
 			count := 0
 			for _kind := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3558,7 +3558,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Kind](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3566,7 +3566,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Level":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Level](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Level]()
 			count := 0
 			for _level := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3590,7 +3590,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Level](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3598,7 +3598,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Line_detail":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Line_detail](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Line_detail]()
 			count := 0
 			for _line_detail := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3622,7 +3622,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Line_detail](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3630,7 +3630,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Line_width":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Line_width](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Line_width]()
 			count := 0
 			for _line_width := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3654,7 +3654,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Line_width](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3662,7 +3662,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Link":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Link](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Link]()
 			count := 0
 			for _link := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3686,7 +3686,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Link](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3694,7 +3694,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Listen":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Listen](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Listen]()
 			count := 0
 			for _listen := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3718,7 +3718,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Listen](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3726,7 +3726,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Listening":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Listening](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Listening]()
 			count := 0
 			for _listening := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3750,7 +3750,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Listening](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3758,7 +3758,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Lyric":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Lyric](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Lyric]()
 			count := 0
 			for _lyric := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3782,7 +3782,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Lyric](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3790,7 +3790,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Lyric_font":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Lyric_font](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Lyric_font]()
 			count := 0
 			for _lyric_font := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3814,7 +3814,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Lyric_font](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3822,7 +3822,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Lyric_language":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Lyric_language](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Lyric_language]()
 			count := 0
 			for _lyric_language := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3846,7 +3846,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Lyric_language](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3854,7 +3854,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Measure_layout":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Measure_layout](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Measure_layout]()
 			count := 0
 			for _measure_layout := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3878,7 +3878,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Measure_layout](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3886,7 +3886,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Measure_numbering":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Measure_numbering](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Measure_numbering]()
 			count := 0
 			for _measure_numbering := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3910,7 +3910,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Measure_numbering](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3918,7 +3918,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Measure_repeat":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Measure_repeat](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Measure_repeat]()
 			count := 0
 			for _measure_repeat := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3942,7 +3942,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Measure_repeat](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3950,7 +3950,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Measure_style":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Measure_style](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Measure_style]()
 			count := 0
 			for _measure_style := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -3974,7 +3974,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Measure_style](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -3982,7 +3982,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Membrane":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Membrane](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Membrane]()
 			count := 0
 			for _membrane := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4006,7 +4006,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Membrane](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4014,7 +4014,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Metal":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Metal](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Metal]()
 			count := 0
 			for _metal := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4038,7 +4038,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Metal](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4046,7 +4046,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Metronome":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Metronome](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Metronome]()
 			count := 0
 			for _metronome := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4070,7 +4070,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Metronome](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4078,7 +4078,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Metronome_beam":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Metronome_beam](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Metronome_beam]()
 			count := 0
 			for _metronome_beam := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4102,7 +4102,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Metronome_beam](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4110,7 +4110,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Metronome_note":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Metronome_note](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Metronome_note]()
 			count := 0
 			for _metronome_note := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4134,7 +4134,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Metronome_note](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4142,7 +4142,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Metronome_tied":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Metronome_tied](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Metronome_tied]()
 			count := 0
 			for _metronome_tied := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4166,7 +4166,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Metronome_tied](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4174,7 +4174,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Metronome_tuplet":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Metronome_tuplet](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Metronome_tuplet]()
 			count := 0
 			for _metronome_tuplet := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4198,7 +4198,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Metronome_tuplet](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4206,7 +4206,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Midi_device":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Midi_device](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Midi_device]()
 			count := 0
 			for _midi_device := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4230,7 +4230,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Midi_device](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4238,7 +4238,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Midi_instrument":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Midi_instrument](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Midi_instrument]()
 			count := 0
 			for _midi_instrument := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4262,7 +4262,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Midi_instrument](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4270,7 +4270,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Miscellaneous":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Miscellaneous](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Miscellaneous]()
 			count := 0
 			for _miscellaneous := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4294,7 +4294,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Miscellaneous](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4302,7 +4302,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Miscellaneous_field":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Miscellaneous_field](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Miscellaneous_field]()
 			count := 0
 			for _miscellaneous_field := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4326,7 +4326,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Miscellaneous_field](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4334,7 +4334,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Mordent":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Mordent](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Mordent]()
 			count := 0
 			for _mordent := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4358,7 +4358,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Mordent](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4366,7 +4366,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Multiple_rest":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Multiple_rest](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Multiple_rest]()
 			count := 0
 			for _multiple_rest := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4390,7 +4390,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Multiple_rest](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4398,7 +4398,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Name_display":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Name_display](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Name_display]()
 			count := 0
 			for _name_display := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4422,7 +4422,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Name_display](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4430,7 +4430,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Non_arpeggiate":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Non_arpeggiate](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Non_arpeggiate]()
 			count := 0
 			for _non_arpeggiate := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4454,7 +4454,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Non_arpeggiate](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4462,7 +4462,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Notations":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Notations](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Notations]()
 			count := 0
 			for _notations := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4486,7 +4486,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Notations](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4494,7 +4494,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Note":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Note](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Note]()
 			count := 0
 			for _note := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4518,7 +4518,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Note](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4526,7 +4526,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Note_size":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Note_size](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Note_size]()
 			count := 0
 			for _note_size := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4550,7 +4550,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Note_size](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4558,7 +4558,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Note_type":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Note_type](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Note_type]()
 			count := 0
 			for _note_type := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4582,7 +4582,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Note_type](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4590,7 +4590,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Notehead":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Notehead](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Notehead]()
 			count := 0
 			for _notehead := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4614,7 +4614,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Notehead](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4622,7 +4622,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Notehead_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Notehead_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Notehead_text]()
 			count := 0
 			for _notehead_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4646,7 +4646,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Notehead_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4654,7 +4654,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Numeral":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Numeral](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Numeral]()
 			count := 0
 			for _numeral := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4678,7 +4678,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Numeral](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4686,7 +4686,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Numeral_key":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Numeral_key](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Numeral_key]()
 			count := 0
 			for _numeral_key := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4710,7 +4710,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Numeral_key](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4718,7 +4718,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Numeral_root":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Numeral_root](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Numeral_root]()
 			count := 0
 			for _numeral_root := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4742,7 +4742,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Numeral_root](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4750,7 +4750,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Octave_shift":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Octave_shift](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Octave_shift]()
 			count := 0
 			for _octave_shift := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4774,7 +4774,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Octave_shift](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4782,7 +4782,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Offset":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Offset](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Offset]()
 			count := 0
 			for _offset := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4806,7 +4806,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Offset](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4814,7 +4814,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Opus":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Opus](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Opus]()
 			count := 0
 			for _opus := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4838,7 +4838,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Opus](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4846,7 +4846,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Ornaments":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Ornaments](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Ornaments]()
 			count := 0
 			for _ornaments := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4870,7 +4870,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Ornaments](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4878,7 +4878,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_appearance":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_appearance](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_appearance]()
 			count := 0
 			for _other_appearance := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4902,7 +4902,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_appearance](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4910,7 +4910,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_direction":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_direction](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_direction]()
 			count := 0
 			for _other_direction := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4934,7 +4934,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_direction](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4942,7 +4942,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_listening":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_listening](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_listening]()
 			count := 0
 			for _other_listening := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4966,7 +4966,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_listening](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -4974,7 +4974,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_notation":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_notation](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_notation]()
 			count := 0
 			for _other_notation := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -4998,7 +4998,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_notation](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5006,7 +5006,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_placement_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_placement_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_placement_text]()
 			count := 0
 			for _other_placement_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5030,7 +5030,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_placement_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5038,7 +5038,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_play":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_play](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_play]()
 			count := 0
 			for _other_play := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5062,7 +5062,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_play](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5070,7 +5070,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Other_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Other_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Other_text]()
 			count := 0
 			for _other_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5094,7 +5094,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Other_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5102,7 +5102,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Page_layout":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Page_layout](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Page_layout]()
 			count := 0
 			for _page_layout := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5126,7 +5126,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Page_layout](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5134,7 +5134,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Page_margins":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Page_margins](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Page_margins]()
 			count := 0
 			for _page_margins := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5158,7 +5158,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Page_margins](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5166,7 +5166,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_clef":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_clef](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_clef]()
 			count := 0
 			for _part_clef := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5190,7 +5190,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_clef](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5198,7 +5198,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_group":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_group](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_group]()
 			count := 0
 			for _part_group := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5222,7 +5222,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_group](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5230,7 +5230,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_link":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_link](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_link]()
 			count := 0
 			for _part_link := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5254,7 +5254,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_link](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5262,7 +5262,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_list":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_list](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_list]()
 			count := 0
 			for _part_list := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5286,7 +5286,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_list](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5294,7 +5294,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_name":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_name](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_name]()
 			count := 0
 			for _part_name := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5318,7 +5318,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_name](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5326,7 +5326,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_symbol":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_symbol](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_symbol]()
 			count := 0
 			for _part_symbol := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5350,7 +5350,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_symbol](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5358,7 +5358,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Part_transpose":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Part_transpose](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Part_transpose]()
 			count := 0
 			for _part_transpose := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5382,7 +5382,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Part_transpose](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5390,7 +5390,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Pedal":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Pedal](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Pedal]()
 			count := 0
 			for _pedal := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5414,7 +5414,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Pedal](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5422,7 +5422,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Pedal_tuning":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Pedal_tuning](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Pedal_tuning]()
 			count := 0
 			for _pedal_tuning := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5446,7 +5446,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Pedal_tuning](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5454,7 +5454,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Per_minute":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Per_minute](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Per_minute]()
 			count := 0
 			for _per_minute := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5478,7 +5478,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Per_minute](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5486,7 +5486,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Percussion":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Percussion](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Percussion]()
 			count := 0
 			for _percussion := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5510,7 +5510,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Percussion](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5518,7 +5518,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Pitch":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Pitch](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Pitch]()
 			count := 0
 			for _pitch := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5542,7 +5542,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Pitch](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5550,7 +5550,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Pitched":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Pitched](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Pitched]()
 			count := 0
 			for _pitched := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5574,7 +5574,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Pitched](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5582,7 +5582,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Placement_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Placement_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Placement_text]()
 			count := 0
 			for _placement_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5606,7 +5606,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Placement_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5614,7 +5614,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Play":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Play](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Play]()
 			count := 0
 			for _play := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5638,7 +5638,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Play](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5646,7 +5646,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Player":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Player](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Player]()
 			count := 0
 			for _player := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5670,7 +5670,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Player](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5678,7 +5678,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Principal_voice":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Principal_voice](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Principal_voice]()
 			count := 0
 			for _principal_voice := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5702,7 +5702,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Principal_voice](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5710,7 +5710,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Print":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Print](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Print]()
 			count := 0
 			for _print := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5734,7 +5734,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Print](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5742,7 +5742,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Release":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Release](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Release]()
 			count := 0
 			for _release := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5766,7 +5766,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Release](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5774,7 +5774,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Repeat":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Repeat](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Repeat]()
 			count := 0
 			for _repeat := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5798,7 +5798,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Repeat](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5806,7 +5806,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Rest":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Rest](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Rest]()
 			count := 0
 			for _rest := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5830,7 +5830,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Rest](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5838,7 +5838,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Root":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Root](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Root]()
 			count := 0
 			for _root := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5862,7 +5862,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Root](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5870,7 +5870,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Root_step":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Root_step](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Root_step]()
 			count := 0
 			for _root_step := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5894,7 +5894,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Root_step](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5902,7 +5902,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Scaling":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Scaling](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Scaling]()
 			count := 0
 			for _scaling := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5926,7 +5926,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Scaling](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5934,7 +5934,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Scordatura":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Scordatura](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Scordatura]()
 			count := 0
 			for _scordatura := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5958,7 +5958,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Scordatura](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5966,7 +5966,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Score_instrument":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Score_instrument](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Score_instrument]()
 			count := 0
 			for _score_instrument := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -5990,7 +5990,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Score_instrument](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -5998,7 +5998,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Score_part":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Score_part](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Score_part]()
 			count := 0
 			for _score_part := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6022,7 +6022,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Score_part](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6030,7 +6030,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Score_partwise":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Score_partwise](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Score_partwise]()
 			count := 0
 			for _score_partwise := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6054,7 +6054,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Score_partwise](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6062,7 +6062,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Score_timewise":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Score_timewise](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Score_timewise]()
 			count := 0
 			for _score_timewise := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6086,7 +6086,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Score_timewise](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6094,7 +6094,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Segno":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Segno](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Segno]()
 			count := 0
 			for _segno := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6118,7 +6118,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Segno](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6126,7 +6126,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Slash":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Slash](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Slash]()
 			count := 0
 			for _slash := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6150,7 +6150,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Slash](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6158,7 +6158,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Slide":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Slide](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Slide]()
 			count := 0
 			for _slide := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6182,7 +6182,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Slide](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6190,7 +6190,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Slur":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Slur](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Slur]()
 			count := 0
 			for _slur := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6214,7 +6214,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Slur](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6222,7 +6222,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Sound":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Sound](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Sound]()
 			count := 0
 			for _sound := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6246,7 +6246,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Sound](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6254,7 +6254,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Staff_details":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_details](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Staff_details]()
 			count := 0
 			for _staff_details := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6278,7 +6278,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Staff_details](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6286,7 +6286,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Staff_divide":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_divide](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Staff_divide]()
 			count := 0
 			for _staff_divide := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6310,7 +6310,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Staff_divide](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6318,7 +6318,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Staff_layout":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_layout](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Staff_layout]()
 			count := 0
 			for _staff_layout := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6342,7 +6342,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Staff_layout](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6350,7 +6350,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Staff_size":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_size](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Staff_size]()
 			count := 0
 			for _staff_size := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6374,7 +6374,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Staff_size](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6382,7 +6382,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Staff_tuning":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_tuning](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Staff_tuning]()
 			count := 0
 			for _staff_tuning := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6406,7 +6406,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Staff_tuning](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6414,7 +6414,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Stem":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Stem](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Stem]()
 			count := 0
 			for _stem := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6438,7 +6438,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Stem](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6446,7 +6446,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Stick":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Stick](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Stick]()
 			count := 0
 			for _stick := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6470,7 +6470,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Stick](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6478,7 +6478,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "String_mute":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.String_mute](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.String_mute]()
 			count := 0
 			for _string_mute := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6502,7 +6502,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.String_mute](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6510,7 +6510,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "String_type":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.String_type](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.String_type]()
 			count := 0
 			for _string_type := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6534,7 +6534,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.String_type](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6542,7 +6542,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Strong_accent":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Strong_accent](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Strong_accent]()
 			count := 0
 			for _strong_accent := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6566,7 +6566,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Strong_accent](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6574,7 +6574,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Style_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Style_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Style_text]()
 			count := 0
 			for _style_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6598,7 +6598,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Style_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6606,7 +6606,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Supports":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Supports](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Supports]()
 			count := 0
 			for _supports := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6630,7 +6630,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Supports](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6638,7 +6638,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Swing":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Swing](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Swing]()
 			count := 0
 			for _swing := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6662,7 +6662,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Swing](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6670,7 +6670,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Sync":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Sync](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Sync]()
 			count := 0
 			for _sync := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6694,7 +6694,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Sync](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6702,7 +6702,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "System_dividers":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.System_dividers](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.System_dividers]()
 			count := 0
 			for _system_dividers := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6726,7 +6726,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.System_dividers](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6734,7 +6734,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "System_layout":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.System_layout](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.System_layout]()
 			count := 0
 			for _system_layout := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6758,7 +6758,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.System_layout](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6766,7 +6766,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "System_margins":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.System_margins](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.System_margins]()
 			count := 0
 			for _system_margins := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6790,7 +6790,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.System_margins](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6798,7 +6798,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tap":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tap](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tap]()
 			count := 0
 			for _tap := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6822,7 +6822,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tap](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6830,7 +6830,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Technical":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Technical](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Technical]()
 			count := 0
 			for _technical := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6854,7 +6854,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Technical](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6862,7 +6862,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Text_element_data":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Text_element_data](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Text_element_data]()
 			count := 0
 			for _text_element_data := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6886,7 +6886,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Text_element_data](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6894,7 +6894,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tie":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tie](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tie]()
 			count := 0
 			for _tie := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6918,7 +6918,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tie](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6926,7 +6926,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tied":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tied](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tied]()
 			count := 0
 			for _tied := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6950,7 +6950,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tied](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6958,7 +6958,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Time":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Time](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Time]()
 			count := 0
 			for _time := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -6982,7 +6982,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Time](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -6990,7 +6990,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Time_modification":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Time_modification](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Time_modification]()
 			count := 0
 			for _time_modification := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7014,7 +7014,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Time_modification](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7022,7 +7022,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Timpani":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Timpani](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Timpani]()
 			count := 0
 			for _timpani := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7046,7 +7046,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Timpani](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7054,7 +7054,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Transpose":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Transpose](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Transpose]()
 			count := 0
 			for _transpose := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7078,7 +7078,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Transpose](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7086,7 +7086,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tremolo":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tremolo](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tremolo]()
 			count := 0
 			for _tremolo := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7110,7 +7110,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tremolo](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7118,7 +7118,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tuplet":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tuplet](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tuplet]()
 			count := 0
 			for _tuplet := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7142,7 +7142,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tuplet](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7150,7 +7150,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tuplet_dot":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tuplet_dot](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tuplet_dot]()
 			count := 0
 			for _tuplet_dot := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7174,7 +7174,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tuplet_dot](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7182,7 +7182,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tuplet_number":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tuplet_number](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tuplet_number]()
 			count := 0
 			for _tuplet_number := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7206,7 +7206,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tuplet_number](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7214,7 +7214,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tuplet_portion":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tuplet_portion](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tuplet_portion]()
 			count := 0
 			for _tuplet_portion := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7238,7 +7238,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tuplet_portion](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7246,7 +7246,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Tuplet_type":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Tuplet_type](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Tuplet_type]()
 			count := 0
 			for _tuplet_type := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7270,7 +7270,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Tuplet_type](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7278,7 +7278,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Typed_text":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Typed_text](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Typed_text]()
 			count := 0
 			for _typed_text := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7302,7 +7302,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Typed_text](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7310,7 +7310,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Unpitched":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Unpitched](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Unpitched]()
 			count := 0
 			for _unpitched := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7334,7 +7334,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Unpitched](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7342,7 +7342,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Virtual_instrument":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Virtual_instrument](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Virtual_instrument]()
 			count := 0
 			for _virtual_instrument := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7366,7 +7366,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Virtual_instrument](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7374,7 +7374,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Wait":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Wait](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Wait]()
 			count := 0
 			for _wait := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7398,7 +7398,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Wait](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7406,7 +7406,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Wavy_line":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Wavy_line](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Wavy_line]()
 			count := 0
 			for _wavy_line := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7430,7 +7430,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Wavy_line](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7438,7 +7438,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Wedge":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Wedge](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Wedge]()
 			count := 0
 			for _wedge := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7462,7 +7462,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Wedge](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7470,7 +7470,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Wood":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Wood](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Wood]()
 			count := 0
 			for _wood := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7494,7 +7494,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Wood](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"
@@ -7502,7 +7502,7 @@ func (probe *Probe) ux_tree() {
 			}
 		case "Work":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Work](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.Work]()
 			count := 0
 			for _work := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -7526,7 +7526,7 @@ func (probe *Probe) ux_tree() {
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.Work](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"

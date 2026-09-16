@@ -30,7 +30,7 @@ func Generate(stage *Stage, outputFilePath string) {
 	var gongStructsParticleCodes []*ParticleCode
 	var gongEnumsParticleCodes []*ParticleCode
 
-	for _, ct := range GetGongstrucsSorted[*ComplexType](stage) {
+	for _, ct := range stage.GetInstancesSorted[*ComplexType]() {
 
 		fields := ct.GetFields(stage)
 
@@ -66,7 +66,7 @@ func Generate(stage *Stage, outputFilePath string) {
 				outerElementName = ct.OuterElement.Name
 
 				isRootElement := false
-				schemas := GetGongstrucsSorted[*Schema](stage)
+				schemas := stage.GetInstancesSorted[*Schema]()
 				if len(schemas) == 1 {
 					for _, el := range schemas[0].Elements {
 						if el == ct.OuterElement {
@@ -115,7 +115,7 @@ func Generate(stage *Stage, outputFilePath string) {
 
 	// groups are generated into unamed struct that can be composed
 	// into named struct
-	for _, group := range GetGongstrucsSorted[*Group](stage) {
+	for _, group := range stage.GetInstancesSorted[*Group]() {
 
 		// not the inline complex type
 		if group.Ref != "" {
@@ -140,7 +140,7 @@ func Generate(stage *Stage, outputFilePath string) {
 		})
 	}
 
-	for _, ag := range GetGongstrucsSorted[*AttributeGroup](stage) {
+	for _, ag := range stage.GetInstancesSorted[*AttributeGroup]() {
 
 		// not the inline complex type
 		if ag.Ref != "" {
@@ -148,11 +148,11 @@ func Generate(stage *Stage, outputFilePath string) {
 		}
 
 		stMap := make(map[string]*SimpleType)
-		for st := range *GetGongstructInstancesSet[SimpleType](stage) {
+		for st := range *stage.GetInstancesSet[*SimpleType]() {
 			stMap[st.Name] = st
 		}
 		agMap := make(map[string]*AttributeGroup)
-		for ag := range *GetGongstructInstancesSet[AttributeGroup](stage) {
+		for ag := range *stage.GetInstancesSet[*AttributeGroup]() {
 			agMap[ag.Name] = ag
 		}
 
@@ -189,19 +189,19 @@ func Generate(stage *Stage, outputFilePath string) {
 	}
 
 	// elements do not need to be translated into gong struct
-	for _, element := range GetGongstrucsSorted[*Element](stage) {
+	for _, element := range stage.GetInstancesSorted[*Element]() {
 
 		_ = element
 	}
 
 	// parse THE schema
-	if len(GetGongstrucsSorted[*Schema](stage)) != 1 {
+	if len(stage.GetInstancesSorted[*Schema]()) != 1 {
 		log.Fatalln("an XSD (XML Schema Definition) cannot contain more than one " +
 			"<xs:schema> element directly within a single XSD file. The <xs:schema> element " +
 			"is the root element of the schema, and there can only be one root element in an XML document.")
 	}
 
-	schema := GetGongstrucsSorted[*Schema](stage)[0]
+	schema := stage.GetInstancesSorted[*Schema]()[0]
 	for _, element := range schema.Elements {
 		// add the XMLName because it is a root element
 		fields := "\n\n\t// necessary since it is a root element" +
@@ -239,7 +239,7 @@ func Generate(stage *Stage, outputFilePath string) {
 		}
 	}
 
-	for _, st := range GetGongstrucsSorted[*SimpleType](stage) {
+	for _, st := range stage.GetInstancesSorted[*SimpleType]() {
 		if st.IsStringEnumerate() {
 
 			tmp := st.generateGongEnum()

@@ -3,7 +3,7 @@ package models
 import "fmt"
 
 func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Clock {
 			if plant.ClockAbstract == nil {
 				ca := (&ClockAbstract{
@@ -31,9 +31,9 @@ func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
 	}
 
 	// Unstage unreferenced ClockAbstract
-	for ca := range *GetGongstructInstancesSetFromPointerType[*ClockAbstract](stager.stage) {
+	for ca := range *stager.stage.GetInstancesSet[*ClockAbstract]() {
 		hasOwner := false
-		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 			if plant.ClockAbstract == ca {
 				hasOwner = true
 				break
@@ -50,7 +50,7 @@ func (stager *Stager) enforcePlantHasClockAbstract() (needCommit bool) {
 }
 
 func (stager *Stager) enforceClockAbstractName() (needCommit bool) {
-	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+	for plant := range *stager.stage.GetInstancesSet[*PlantAbstract]() {
 		if plant.PlantType == Clock && plant.ClockAbstract != nil {
 			expectedName := plant.Name + "-ClockAbstract"
 			if plant.ClockAbstract.Name != expectedName {

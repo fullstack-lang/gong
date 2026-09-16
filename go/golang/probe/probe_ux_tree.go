@@ -113,7 +113,7 @@ func (probe *Probe) ux_tree() {
 	topNode.Buttons = append(topNode.Buttons, resetButton)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *probe.gongStage.GetInstancesSet[*gong_models.GongStruct]()
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -310,7 +310,7 @@ map[string]string{
 	string(rune(FillUpTreeStructCase)): `
 		case "{{Structname}}":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.{{Structname}}](probe.stageOfInterest)
+			set := *probe.stageOfInterest.GetInstancesSet[*models.{{Structname}}]()
 			count := 0
 			for _{{structname}} := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
@@ -334,7 +334,7 @@ map[string]string{
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
 				updateProbeTable[*models.{{Structname}}](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
 					node.BackgroundColor = ""
 				}
 				nodeGongstruct.BackgroundColor = "lightgrey"

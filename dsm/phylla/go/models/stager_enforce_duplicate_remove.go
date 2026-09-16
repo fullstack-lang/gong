@@ -8,7 +8,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 
 	needCommit = removeDuplicatesSlice(stager, &stager.getRootLibrary().SubLibraries) || needCommit
 
-	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+	for library := range *stage.GetInstancesSet[*Library]() {
 		needCommit = removeDuplicatesSlice(stager, &library.Plants) || needCommit
 	}
 

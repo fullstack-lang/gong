@@ -12,7 +12,7 @@ func (stager *Stager) svg() {
 
 	var diagram *Diagram
 	{
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+		for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
 			if diagram_.IsChecked {
 				diagram = diagram_
 			}

@@ -33,8 +33,8 @@ func (stager *Stager) exportWebsite() {
 	}
 	content.Chapters = append(content.Chapters, refChapter)
 
-	appendWebExportableChapter(stager, refChapter, "Systemes", GetGongstrucsSorted[*System](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Libraries", GetGongstrucsSorted[*Library](stager.stage))
+	appendWebExportableChapter(stager, refChapter, "Systemes", stager.stage.GetInstancesSorted[*System]())
+	appendWebExportableChapter(stager, refChapter, "Libraries", stager.stage.GetInstancesSorted[*Library]())
 
 	ssg.StageBranch(stager.ssgStage, &content)
 

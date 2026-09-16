@@ -35,7 +35,7 @@ type DiagramPackage struct {
 
 func getTheDiagramPackage(stage *Stage) (diagramPackage *DiagramPackage) {
 
-	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
+	diagramPackages := *stage.GetInstancesSet[*DiagramPackage]()
 	for k := range diagramPackages {
 		diagramPackage = k
 	}

@@ -39,7 +39,7 @@ func executeServer(unmarshallFromCode string, marshallOnCommit string, port int,
 
 	stager := test_models.NewStager(r, stack.Stage, splitStage)
 
-	tmp := test_models.GetStructInstancesByOrderAuto[*test_models.Astruct](stack.Stage)
+	tmp := stack.Stage.GetInstancesByOrder[*test_models.Astruct]()
 
 	log.Printf("%v\n", tmp)
 

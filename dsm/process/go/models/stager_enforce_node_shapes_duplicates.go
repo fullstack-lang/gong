@@ -6,7 +6,7 @@ import (
 )
 
 func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Process_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Participant_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Task_Shapes) || needCommit

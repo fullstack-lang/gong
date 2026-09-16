@@ -10,7 +10,7 @@ func ExtractStyleText(styleName string, gongdocxStage *Stage) (res []string) {
 	map_StyleName_Occurence := make(map[string]int)
 	map_StyleName_SliceOfParagraphStyle := make(map[string][]*ParagraphStyle)
 
-	for paragraphStyle := range *GetGongstructInstancesSet[ParagraphStyle](gongdocxStage) {
+	for paragraphStyle := range *gongdocxStage.GetInstancesSet[*ParagraphStyle]() {
 
 		if paragraphStyle.ValAttr != "" {
 			map_ParagraphStyle_StyleName[*paragraphStyle] = paragraphStyle.ValAttr
@@ -29,15 +29,15 @@ func ExtractStyleText(styleName string, gongdocxStage *Stage) (res []string) {
 	}
 
 	reverseMapParagraph_ParagraphProperties :=
-		GetPointerReverseMap[
+		gongdocxStage.GetPointerReverseMap[
 			Paragraph, ParagraphProperties](
-			GetAssociationName[Paragraph]().ParagraphProperties.Name, gongdocxStage)
+			GetAssociationName[Paragraph]().ParagraphProperties.Name)
 	_ = reverseMapParagraph_ParagraphProperties
 
 	reverseMapParagraphProperties_ParagraphStyles :=
-		GetPointerReverseMap[
+		gongdocxStage.GetPointerReverseMap[
 			ParagraphProperties, ParagraphStyle](
-			GetAssociationName[ParagraphProperties]().ParagraphStyle.Name, gongdocxStage)
+			GetAssociationName[ParagraphProperties]().ParagraphStyle.Name)
 	_ = reverseMapParagraphProperties_ParagraphStyles
 
 	log.Println("Used styles are ")

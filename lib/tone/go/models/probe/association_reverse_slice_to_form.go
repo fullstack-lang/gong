@@ -34,13 +34,13 @@ func AssociationReverseSliceToForm[OwnerType models.PointerToGongstruct, FieldTy
 
 	rowIDsOfInstancesInField := make([]uint, 0)
 	{
-		ownerSet := *models.GetGongstructInstancesSetFromPointerType[OwnerType](probe.stageOfInterest)
+		ownerSet := *probe.stageOfInterest.GetInstancesSet[OwnerType]()
 		for owner := range ownerSet {
 			slice := getSlice(owner)
 			// check if instance is in slice
 			for _, item := range slice {
 				if any(item) == any(instance) {
-					id := models.GetOrderPointerGongstruct(probe.stageOfInterest, owner)
+					id := probe.stageOfInterest.GetOrder(owner)
 					rowIDsOfInstancesInField = append(rowIDsOfInstancesInField, uint(map_ID_RowID[id]))
 					break
 				}
@@ -100,15 +100,15 @@ func (onAssocEditon *OnReverseAssocEditon[OwnerType, FieldType]) OnButtonPressed
 
 	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.probe.r, tableStackName)
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[OwnerType](onAssocEditon.probe.stageOfInterest)
+	instanceSet := *onAssocEditon.probe.stageOfInterest.GetInstancesSet[OwnerType]()
 	instanceSlice := make([]OwnerType, 0)
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
 	}
 
 	sort.Slice(instanceSlice, func(i, j int) bool {
-		idI := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[i])
-		idJ := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[j])
+		idI := onAssocEditon.probe.stageOfInterest.GetOrder(instanceSlice[i])
+		idJ := onAssocEditon.probe.stageOfInterest.GetOrder(instanceSlice[j])
 
 		return idI < idJ
 	})
@@ -141,7 +141,7 @@ func (onAssocEditon *OnReverseAssocEditon[OwnerType, FieldType]) OnButtonPressed
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&table.CellInt{
 			Name:  "ID",
-			Value: int(models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instance)),
+			Value: int(onAssocEditon.probe.stageOfInterest.GetOrder(instance)),
 		}).Stage(tableStageForSelection)
 		cell.CellInt = cellInt
 

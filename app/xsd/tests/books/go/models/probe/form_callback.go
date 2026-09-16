@@ -84,15 +84,14 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Credit](booktypeFormCallback.probe.stageOfInterest)
+			instanceSet := *booktypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Credit]()
 			instanceSlice := make([]*models.Credit, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Credit)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					booktypeFormCallback.probe.stageOfInterest,
+				id := booktypeFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -137,8 +136,8 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Books instances and update their Book slice
-			for _books := range *models.GetGongstructInstancesSetFromPointerType[*models.Books](booktypeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(booktypeFormCallback.probe.stageOfInterest, _books)
+			for _books := range *booktypeFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Books]() {
+				id := booktypeFormCallback.probe.stageOfInterest.GetOrder(_books)
 				
 				// if Books is selected
 				if targetBooksIDs[id] {
@@ -245,15 +244,14 @@ func (booksFormCallback *BooksFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.BookType](booksFormCallback.probe.stageOfInterest)
+			instanceSet := *booksFormCallback.probe.stageOfInterest.GetInstancesSet[*models.BookType]()
 			instanceSlice := make([]*models.BookType, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.BookType)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					booksFormCallback.probe.stageOfInterest,
+				id := booksFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -362,15 +360,14 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](creditFormCallback.probe.stageOfInterest)
+			instanceSet := *creditFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Link]()
 			instanceSlice := make([]*models.Link, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.Link)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					creditFormCallback.probe.stageOfInterest,
+				id := creditFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -419,8 +416,8 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all BookType instances and update their Credit slice
-			for _booktype := range *models.GetGongstructInstancesSetFromPointerType[*models.BookType](creditFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(creditFormCallback.probe.stageOfInterest, _booktype)
+			for _booktype := range *creditFormCallback.probe.stageOfInterest.GetInstancesSet[*models.BookType]() {
+				id := creditFormCallback.probe.stageOfInterest.GetOrder(_booktype)
 				
 				// if BookType is selected
 				if targetBookTypeIDs[id] {
@@ -549,8 +546,8 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Credit instances and update their Link slice
-			for _credit := range *models.GetGongstructInstancesSetFromPointerType[*models.Credit](linkFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(linkFormCallback.probe.stageOfInterest, _credit)
+			for _credit := range *linkFormCallback.probe.stageOfInterest.GetInstancesSet[*models.Credit]() {
+				id := linkFormCallback.probe.stageOfInterest.GetOrder(_credit)
 				
 				// if Credit is selected
 				if targetCreditIDs[id] {

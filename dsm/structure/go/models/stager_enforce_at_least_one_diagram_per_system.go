@@ -4,7 +4,7 @@ func (stager *Stager) enforceAtLeastOneDiagramPerSystem() (needCommit bool) {
 	stage := stager.stage
 
 	// enforce that there is at least one diagram per system
-	for system := range *GetGongstructInstancesSetFromPointerType[*System](stage) {
+	for system := range *stage.GetInstancesSet[*System]() {
 		if len(system.DiagramStructures) == 0 {
 			diagramStructure := (&DiagramStructure{
 				Name:        "DiagramStructure",

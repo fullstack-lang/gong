@@ -10,7 +10,7 @@ import (
 func SetupMapDocLinkRenaming(gongStage *gong_models.Stage, gongdocStage *Stage) {
 
 	gongstructOrdered := []*gong_models.GongStruct{}
-	for gongstruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](gongStage) {
+	for gongstruct := range *gongStage.GetInstancesSet[*gong_models.GongStruct]() {
 		gongstructOrdered = append(gongstructOrdered, gongstruct)
 	}
 	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
@@ -35,7 +35,7 @@ func SetupMapDocLinkRenaming(gongStage *gong_models.Stage, gongdocStage *Stage) 
 			gongdocStage.Map_DocLink_Renaming[ident] = identifier
 		}
 	}
-	for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum](gongStage) {
+	for gongEnum := range *gongStage.GetInstancesSet[*gong_models.GongEnum]() {
 		ident := GongStructNameToIdentifier(gongEnum.Name)
 
 		var identifier GONG__Identifier
@@ -62,7 +62,7 @@ func SetupMapDocLinkRenaming(gongStage *gong_models.Stage, gongdocStage *Stage) 
 		// stage.Map_DocLink_Renaming[ident] = ident
 	}
 
-	for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote](gongStage) {
+	for gongNote := range *gongStage.GetInstancesSet[*gong_models.GongNote]() {
 		ident := GongStructNameToIdentifier(gongNote.Name)
 
 		var identifier GONG__Identifier

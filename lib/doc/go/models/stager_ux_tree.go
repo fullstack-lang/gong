@@ -60,7 +60,7 @@ func (stager *Stager) tree() {
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
 
-	classDiagrams := GetGongstrucsSorted[*Classdiagram](stager.stage)
+	classDiagrams := stager.stage.GetInstancesSorted[*Classdiagram]()
 
 	for _, classDiagram := range classDiagrams {
 		var selected bool
@@ -144,7 +144,7 @@ func (stager *Stager) tree() {
 
 		map_modelElement_shape := stager.compute_map_modelElement_shape(classDiagram, stager.gongStage)
 
-		gongstructs := gong.GetGongstrucsSorted[*gong.GongStruct](stager.gongStage)
+		gongstructs := stager.gongStage.GetInstancesSorted[*gong.GongStruct]()
 		nbGongstructsInDiagram := 0
 		for _, gongStruct := range gongstructs {
 			_, isInDiagram := map_modelElement_shape[gongStruct]
@@ -162,7 +162,7 @@ func (stager *Stager) tree() {
 		}
 		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongStructs)
 
-		gongenums := gong.GetGongstrucsSorted[*gong.GongEnum](stager.gongStage)
+		gongenums := stager.gongStage.GetInstancesSorted[*gong.GongEnum]()
 		nbGongenumsInDiagram := 0
 		for _, gongEnumItem := range gongenums { // Renamed variable to avoid conflict
 			_, isInDiagram := map_modelElement_shape[gongEnumItem]
@@ -180,7 +180,7 @@ func (stager *Stager) tree() {
 		}
 		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongEnums)
 
-		gongnotes := gong.GetGongstrucsSorted[*gong.GongNote](stager.gongStage)
+		gongnotes := stager.gongStage.GetInstancesSorted[*gong.GongNote]()
 		nbGongnotesInDiagram := 0
 		for _, gongNoteItem := range gongnotes { // Renamed variable to avoid conflict
 			_, isInDiagram := map_modelElement_shape[gongNoteItem]

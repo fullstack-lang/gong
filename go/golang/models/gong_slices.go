@@ -211,7 +211,7 @@ func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}), uint64(GetOrderPointerGongstruct(stage, {{structname}})))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}), uint64(stage.GetOrder({{structname}})))
 	return
 }
 `,
@@ -345,7 +345,7 @@ map[GongSliceSubTemplateId]string{
 		if fieldName == "{{FieldName}}" {
 
 			// walk all instances of the owning type
-			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+			for _instance := range *stage.GetInstancesSet[OwningType]() {
 				if any(_instance).(*{{Structname}}) != owningInstanceInfered {
 					_inferedTypeInstance := any(_instance).(*{{Structname}})
 					reference := make([]FieldType, 0)

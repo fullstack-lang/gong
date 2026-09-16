@@ -72,15 +72,14 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AsSplitArea](assplitFormCallback.probe.stageOfInterest)
+			instanceSet := *assplitFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AsSplitArea]()
 			instanceSlice := make([]*models.AsSplitArea, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.AsSplitArea)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					assplitFormCallback.probe.stageOfInterest,
+				id := assplitFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -247,8 +246,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all AsSplit instances and update their AsSplitAreas slice
-			for _assplit := range *models.GetGongstructInstancesSetFromPointerType[*models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(assplitareaFormCallback.probe.stageOfInterest, _assplit)
+			for _assplit := range *assplitareaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AsSplit]() {
+				id := assplitareaFormCallback.probe.stageOfInterest.GetOrder(_assplit)
 				
 				// if AsSplit is selected
 				if targetAsSplitIDs[id] {
@@ -295,8 +294,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all View instances and update their RootAsSplitAreas slice
-			for _view := range *models.GetGongstructInstancesSetFromPointerType[*models.View](assplitareaFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(assplitareaFormCallback.probe.stageOfInterest, _view)
+			for _view := range *assplitareaFormCallback.probe.stageOfInterest.GetInstancesSet[*models.View]() {
+				id := assplitareaFormCallback.probe.stageOfInterest.GetOrder(_view)
 				
 				// if View is selected
 				if targetViewIDs[id] {
@@ -1695,15 +1694,14 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			if formDiv.FormEditAssocButton == nil {
 				continue
 			}
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AsSplitArea](viewFormCallback.probe.stageOfInterest)
+			instanceSet := *viewFormCallback.probe.stageOfInterest.GetInstancesSet[*models.AsSplitArea]()
 			instanceSlice := make([]*models.AsSplitArea, 0)
 
 			// make a map of all instances by their ID
 			map_id_instances := make(map[uint]*models.AsSplitArea)
 
 			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					viewFormCallback.probe.stageOfInterest,
+				id := viewFormCallback.probe.stageOfInterest.GetOrder(
 					instance,
 				)
 				map_id_instances[id] = instance

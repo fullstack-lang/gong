@@ -676,7 +676,7 @@ func (stager *Stager) processReqifData(reqifData []byte, svgImages []*EmbeddedSv
 	}
 
 	// fetch the root REQ_IF element and exit otherwise
-	for reqif := range *GetGongstructInstancesSet[REQ_IF](stager.stage) {
+	for reqif := range *stager.stage.GetInstancesSet[*REQ_IF]() {
 		stager.rootReqif = reqif
 	}
 
