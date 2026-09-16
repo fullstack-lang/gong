@@ -970,29 +970,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1239,52 +1216,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "Body":
-		res = GetNamedStructInstances(stage.Bodys, stage.Body_stagedOrder)
-	case "Document":
-		res = GetNamedStructInstances(stage.Documents, stage.Document_stagedOrder)
-	case "Docx":
-		res = GetNamedStructInstances(stage.Docxs, stage.Docx_stagedOrder)
-	case "File":
-		res = GetNamedStructInstances(stage.Files, stage.File_stagedOrder)
-	case "Node":
-		res = GetNamedStructInstances(stage.Nodes, stage.Node_stagedOrder)
-	case "Paragraph":
-		res = GetNamedStructInstances(stage.Paragraphs, stage.Paragraph_stagedOrder)
-	case "ParagraphProperties":
-		res = GetNamedStructInstances(stage.ParagraphPropertiess, stage.ParagraphProperties_stagedOrder)
-	case "ParagraphStyle":
-		res = GetNamedStructInstances(stage.ParagraphStyles, stage.ParagraphStyle_stagedOrder)
-	case "Rune":
-		res = GetNamedStructInstances(stage.Runes, stage.Rune_stagedOrder)
-	case "RuneProperties":
-		res = GetNamedStructInstances(stage.RunePropertiess, stage.RuneProperties_stagedOrder)
-	case "Table":
-		res = GetNamedStructInstances(stage.Tables, stage.Table_stagedOrder)
-	case "TableColumn":
-		res = GetNamedStructInstances(stage.TableColumns, stage.TableColumn_stagedOrder)
-	case "TableProperties":
-		res = GetNamedStructInstances(stage.TablePropertiess, stage.TableProperties_stagedOrder)
-	case "TableRow":
-		res = GetNamedStructInstances(stage.TableRows, stage.TableRow_stagedOrder)
-	case "TableStyle":
-		res = GetNamedStructInstances(stage.TableStyles, stage.TableStyle_stagedOrder)
-	case "Text":
-		res = GetNamedStructInstances(stage.Texts, stage.Text_stagedOrder)
-	}
 
 	return
 }

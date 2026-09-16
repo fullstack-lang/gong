@@ -525,29 +525,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -612,26 +589,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "FileToDownload":
-		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
-	case "FileToUpload":
-		res = GetNamedStructInstances(stage.FileToUploads, stage.FileToUpload_stagedOrder)
-	case "Message":
-		res = GetNamedStructInstances(stage.Messages, stage.Message_stagedOrder)
-	}
 
 	return
 }

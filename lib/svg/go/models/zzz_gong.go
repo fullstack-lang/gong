@@ -1290,29 +1290,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1671,68 +1648,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "Animate":
-		res = GetNamedStructInstances(stage.Animates, stage.Animate_stagedOrder)
-	case "Circle":
-		res = GetNamedStructInstances(stage.Circles, stage.Circle_stagedOrder)
-	case "Condition":
-		res = GetNamedStructInstances(stage.Conditions, stage.Condition_stagedOrder)
-	case "ControlPoint":
-		res = GetNamedStructInstances(stage.ControlPoints, stage.ControlPoint_stagedOrder)
-	case "Ellipse":
-		res = GetNamedStructInstances(stage.Ellipses, stage.Ellipse_stagedOrder)
-	case "FileToDownload":
-		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
-	case "Layer":
-		res = GetNamedStructInstances(stage.Layers, stage.Layer_stagedOrder)
-	case "Line":
-		res = GetNamedStructInstances(stage.Lines, stage.Line_stagedOrder)
-	case "Link":
-		res = GetNamedStructInstances(stage.Links, stage.Link_stagedOrder)
-	case "LinkAnchoredPath":
-		res = GetNamedStructInstances(stage.LinkAnchoredPaths, stage.LinkAnchoredPath_stagedOrder)
-	case "LinkAnchoredText":
-		res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder)
-	case "Path":
-		res = GetNamedStructInstances(stage.Paths, stage.Path_stagedOrder)
-	case "Point":
-		res = GetNamedStructInstances(stage.Points, stage.Point_stagedOrder)
-	case "Polygone":
-		res = GetNamedStructInstances(stage.Polygones, stage.Polygone_stagedOrder)
-	case "Polyline":
-		res = GetNamedStructInstances(stage.Polylines, stage.Polyline_stagedOrder)
-	case "Rect":
-		res = GetNamedStructInstances(stage.Rects, stage.Rect_stagedOrder)
-	case "RectAnchoredPath":
-		res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder)
-	case "RectAnchoredPngImage":
-		res = GetNamedStructInstances(stage.RectAnchoredPngImages, stage.RectAnchoredPngImage_stagedOrder)
-	case "RectAnchoredRect":
-		res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder)
-	case "RectAnchoredText":
-		res = GetNamedStructInstances(stage.RectAnchoredTexts, stage.RectAnchoredText_stagedOrder)
-	case "RectLinkLink":
-		res = GetNamedStructInstances(stage.RectLinkLinks, stage.RectLinkLink_stagedOrder)
-	case "SVG":
-		res = GetNamedStructInstances(stage.SVGs, stage.SVG_stagedOrder)
-	case "SvgText":
-		res = GetNamedStructInstances(stage.SvgTexts, stage.SvgText_stagedOrder)
-	case "Text":
-		res = GetNamedStructInstances(stage.Texts, stage.Text_stagedOrder)
-	}
 
 	return
 }

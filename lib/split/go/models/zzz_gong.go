@@ -1090,29 +1090,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1415,60 +1392,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "AsSplit":
-		res = GetNamedStructInstances(stage.AsSplits, stage.AsSplit_stagedOrder)
-	case "AsSplitArea":
-		res = GetNamedStructInstances(stage.AsSplitAreas, stage.AsSplitArea_stagedOrder)
-	case "Button":
-		res = GetNamedStructInstances(stage.Buttons, stage.Button_stagedOrder)
-	case "Cursor":
-		res = GetNamedStructInstances(stage.Cursors, stage.Cursor_stagedOrder)
-	case "FavIcon":
-		res = GetNamedStructInstances(stage.FavIcons, stage.FavIcon_stagedOrder)
-	case "Form":
-		res = GetNamedStructInstances(stage.Forms, stage.Form_stagedOrder)
-	case "Load":
-		res = GetNamedStructInstances(stage.Loads, stage.Load_stagedOrder)
-	case "LogoOnTheLeft":
-		res = GetNamedStructInstances(stage.LogoOnTheLefts, stage.LogoOnTheLeft_stagedOrder)
-	case "LogoOnTheRight":
-		res = GetNamedStructInstances(stage.LogoOnTheRights, stage.LogoOnTheRight_stagedOrder)
-	case "Markdown":
-		res = GetNamedStructInstances(stage.Markdowns, stage.Markdown_stagedOrder)
-	case "Slider":
-		res = GetNamedStructInstances(stage.Sliders, stage.Slider_stagedOrder)
-	case "Split":
-		res = GetNamedStructInstances(stage.Splits, stage.Split_stagedOrder)
-	case "Svg":
-		res = GetNamedStructInstances(stage.Svgs, stage.Svg_stagedOrder)
-	case "Table":
-		res = GetNamedStructInstances(stage.Tables, stage.Table_stagedOrder)
-	case "Threejs":
-		res = GetNamedStructInstances(stage.Threejss, stage.Threejs_stagedOrder)
-	case "Title":
-		res = GetNamedStructInstances(stage.Titles, stage.Title_stagedOrder)
-	case "Tone":
-		res = GetNamedStructInstances(stage.Tones, stage.Tone_stagedOrder)
-	case "Tree":
-		res = GetNamedStructInstances(stage.Trees, stage.Tree_stagedOrder)
-	case "View":
-		res = GetNamedStructInstances(stage.Views, stage.View_stagedOrder)
-	case "Xlsx":
-		res = GetNamedStructInstances(stage.Xlsxs, stage.Xlsx_stagedOrder)
-	}
 
 	return
 }

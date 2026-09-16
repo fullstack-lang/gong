@@ -1098,29 +1098,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1423,60 +1400,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "AmbiantLight":
-		res = GetNamedStructInstances(stage.AmbiantLights, stage.AmbiantLight_stagedOrder)
-	case "BoxGeometry":
-		res = GetNamedStructInstances(stage.BoxGeometrys, stage.BoxGeometry_stagedOrder)
-	case "BufferGeometry":
-		res = GetNamedStructInstances(stage.BufferGeometrys, stage.BufferGeometry_stagedOrder)
-	case "Camera":
-		res = GetNamedStructInstances(stage.Cameras, stage.Camera_stagedOrder)
-	case "Canvas":
-		res = GetNamedStructInstances(stage.Canvass, stage.Canvas_stagedOrder)
-	case "Curve":
-		res = GetNamedStructInstances(stage.Curves, stage.Curve_stagedOrder)
-	case "CylinderGeometry":
-		res = GetNamedStructInstances(stage.CylinderGeometrys, stage.CylinderGeometry_stagedOrder)
-	case "DirectionalLight":
-		res = GetNamedStructInstances(stage.DirectionalLights, stage.DirectionalLight_stagedOrder)
-	case "ExtrudeGeometry":
-		res = GetNamedStructInstances(stage.ExtrudeGeometrys, stage.ExtrudeGeometry_stagedOrder)
-	case "Mesh":
-		res = GetNamedStructInstances(stage.Meshs, stage.Mesh_stagedOrder)
-	case "MeshMaterialBasic":
-		res = GetNamedStructInstances(stage.MeshMaterialBasics, stage.MeshMaterialBasic_stagedOrder)
-	case "MeshPhysicalMaterial":
-		res = GetNamedStructInstances(stage.MeshPhysicalMaterials, stage.MeshPhysicalMaterial_stagedOrder)
-	case "PlaneGeometry":
-		res = GetNamedStructInstances(stage.PlaneGeometrys, stage.PlaneGeometry_stagedOrder)
-	case "Shape":
-		res = GetNamedStructInstances(stage.Shapes, stage.Shape_stagedOrder)
-	case "SphereGeometry":
-		res = GetNamedStructInstances(stage.SphereGeometrys, stage.SphereGeometry_stagedOrder)
-	case "TorusGeometry":
-		res = GetNamedStructInstances(stage.TorusGeometrys, stage.TorusGeometry_stagedOrder)
-	case "Triangle":
-		res = GetNamedStructInstances(stage.Triangles, stage.Triangle_stagedOrder)
-	case "TubeGeometry":
-		res = GetNamedStructInstances(stage.TubeGeometrys, stage.TubeGeometry_stagedOrder)
-	case "Vector2":
-		res = GetNamedStructInstances(stage.Vector2s, stage.Vector2_stagedOrder)
-	case "Vector3":
-		res = GetNamedStructInstances(stage.Vector3s, stage.Vector3_stagedOrder)
-	}
 
 	return
 }

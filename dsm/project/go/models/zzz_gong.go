@@ -1236,29 +1236,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1589,64 +1566,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "Diagram":
-		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
-	case "Library":
-		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
-	case "Note":
-		res = GetNamedStructInstances(stage.Notes, stage.Note_stagedOrder)
-	case "NoteProductShape":
-		res = GetNamedStructInstances(stage.NoteProductShapes, stage.NoteProductShape_stagedOrder)
-	case "NoteResourceShape":
-		res = GetNamedStructInstances(stage.NoteResourceShapes, stage.NoteResourceShape_stagedOrder)
-	case "NoteShape":
-		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShape_stagedOrder)
-	case "NoteTaskShape":
-		res = GetNamedStructInstances(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
-	case "Product":
-		res = GetNamedStructInstances(stage.Products, stage.Product_stagedOrder)
-	case "ProductCompositionShape":
-		res = GetNamedStructInstances(stage.ProductCompositionShapes, stage.ProductCompositionShape_stagedOrder)
-	case "ProductShape":
-		res = GetNamedStructInstances(stage.ProductShapes, stage.ProductShape_stagedOrder)
-	case "Resource":
-		res = GetNamedStructInstances(stage.Resources, stage.Resource_stagedOrder)
-	case "ResourceCompositionShape":
-		res = GetNamedStructInstances(stage.ResourceCompositionShapes, stage.ResourceCompositionShape_stagedOrder)
-	case "ResourceShape":
-		res = GetNamedStructInstances(stage.ResourceShapes, stage.ResourceShape_stagedOrder)
-	case "ResourceTaskShape":
-		res = GetNamedStructInstances(stage.ResourceTaskShapes, stage.ResourceTaskShape_stagedOrder)
-	case "Task":
-		res = GetNamedStructInstances(stage.Tasks, stage.Task_stagedOrder)
-	case "TaskCompositionShape":
-		res = GetNamedStructInstances(stage.TaskCompositionShapes, stage.TaskCompositionShape_stagedOrder)
-	case "TaskGroup":
-		res = GetNamedStructInstances(stage.TaskGroups, stage.TaskGroup_stagedOrder)
-	case "TaskGroupShape":
-		res = GetNamedStructInstances(stage.TaskGroupShapes, stage.TaskGroupShape_stagedOrder)
-	case "TaskInputShape":
-		res = GetNamedStructInstances(stage.TaskInputShapes, stage.TaskInputShape_stagedOrder)
-	case "TaskOutputShape":
-		res = GetNamedStructInstances(stage.TaskOutputShapes, stage.TaskOutputShape_stagedOrder)
-	case "TaskPredecessorShape":
-		res = GetNamedStructInstances(stage.TaskPredecessorShapes, stage.TaskPredecessorShape_stagedOrder)
-	case "TaskShape":
-		res = GetNamedStructInstances(stage.TaskShapes, stage.TaskShape_stagedOrder)
-	}
 
 	return
 }

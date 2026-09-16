@@ -896,29 +896,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1137,48 +1114,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "CheckBox":
-		res = GetNamedStructInstances(stage.CheckBoxs, stage.CheckBox_stagedOrder)
-	case "FormDiv":
-		res = GetNamedStructInstances(stage.FormDivs, stage.FormDiv_stagedOrder)
-	case "FormEditAssocButton":
-		res = GetNamedStructInstances(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder)
-	case "FormField":
-		res = GetNamedStructInstances(stage.FormFields, stage.FormField_stagedOrder)
-	case "FormFieldDate":
-		res = GetNamedStructInstances(stage.FormFieldDates, stage.FormFieldDate_stagedOrder)
-	case "FormFieldDateTime":
-		res = GetNamedStructInstances(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder)
-	case "FormFieldFloat64":
-		res = GetNamedStructInstances(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder)
-	case "FormFieldInt":
-		res = GetNamedStructInstances(stage.FormFieldInts, stage.FormFieldInt_stagedOrder)
-	case "FormFieldSelect":
-		res = GetNamedStructInstances(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder)
-	case "FormFieldString":
-		res = GetNamedStructInstances(stage.FormFieldStrings, stage.FormFieldString_stagedOrder)
-	case "FormFieldTime":
-		res = GetNamedStructInstances(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder)
-	case "FormGroup":
-		res = GetNamedStructInstances(stage.FormGroups, stage.FormGroup_stagedOrder)
-	case "FormSortAssocButton":
-		res = GetNamedStructInstances(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder)
-	case "Option":
-		res = GetNamedStructInstances(stage.Options, stage.Option_stagedOrder)
-	}
 
 	return
 }

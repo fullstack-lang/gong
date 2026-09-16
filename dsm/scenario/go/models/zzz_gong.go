@@ -1517,29 +1517,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
-	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
-		}
-		return i_order < j_order
-	})
-
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
-	}
-
-	return
-}
-
 // GetInstancesByOrder is the Stage method returning a slice of generic pointers to gongstructs
 // ordered by their order in the stage.
 func (stage *Stage) GetInstancesByOrder[T PointerToGongstruct]() (res []T) {
@@ -1996,82 +1973,12 @@ func getStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+			log.Fatalf("getStructInstancesByOrder: pointer not found")
 		}
 		return i_order < j_order
 	})
 
 	res = append(res, orderedSet...)
-
-	return
-}
-
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-	switch namedStructName {
-	// insertion point for case
-	case "ActorState":
-		res = GetNamedStructInstances(stage.ActorStates, stage.ActorState_stagedOrder)
-	case "ActorStateShape":
-		res = GetNamedStructInstances(stage.ActorStateShapes, stage.ActorStateShape_stagedOrder)
-	case "ActorStateTransition":
-		res = GetNamedStructInstances(stage.ActorStateTransitions, stage.ActorStateTransition_stagedOrder)
-	case "ActorStateTransitionShape":
-		res = GetNamedStructInstances(stage.ActorStateTransitionShapes, stage.ActorStateTransitionShape_stagedOrder)
-	case "Analysis":
-		res = GetNamedStructInstances(stage.Analysiss, stage.Analysis_stagedOrder)
-	case "ControlPointShape":
-		res = GetNamedStructInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
-	case "Diagram":
-		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
-	case "Document":
-		res = GetNamedStructInstances(stage.Documents, stage.Document_stagedOrder)
-	case "DocumentUse":
-		res = GetNamedStructInstances(stage.DocumentUses, stage.DocumentUse_stagedOrder)
-	case "EvolutionDirection":
-		res = GetNamedStructInstances(stage.EvolutionDirections, stage.EvolutionDirection_stagedOrder)
-	case "EvolutionDirectionShape":
-		res = GetNamedStructInstances(stage.EvolutionDirectionShapes, stage.EvolutionDirectionShape_stagedOrder)
-	case "Foo":
-		res = GetNamedStructInstances(stage.Foos, stage.Foo_stagedOrder)
-	case "GeoObject":
-		res = GetNamedStructInstances(stage.GeoObjects, stage.GeoObject_stagedOrder)
-	case "GeoObjectUse":
-		res = GetNamedStructInstances(stage.GeoObjectUses, stage.GeoObjectUse_stagedOrder)
-	case "Group":
-		res = GetNamedStructInstances(stage.Groups, stage.Group_stagedOrder)
-	case "GroupUse":
-		res = GetNamedStructInstances(stage.GroupUses, stage.GroupUse_stagedOrder)
-	case "Library":
-		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
-	case "MapObject":
-		res = GetNamedStructInstances(stage.MapObjects, stage.MapObject_stagedOrder)
-	case "MapObjectUse":
-		res = GetNamedStructInstances(stage.MapObjectUses, stage.MapObjectUse_stagedOrder)
-	case "Parameter":
-		res = GetNamedStructInstances(stage.Parameters, stage.Parameter_stagedOrder)
-	case "ParameterCategory":
-		res = GetNamedStructInstances(stage.ParameterCategorys, stage.ParameterCategory_stagedOrder)
-	case "ParameterCategoryUse":
-		res = GetNamedStructInstances(stage.ParameterCategoryUses, stage.ParameterCategoryUse_stagedOrder)
-	case "ParameterShape":
-		res = GetNamedStructInstances(stage.ParameterShapes, stage.ParameterShape_stagedOrder)
-	case "ParametersAggregate":
-		res = GetNamedStructInstances(stage.ParametersAggregates, stage.ParametersAggregate_stagedOrder)
-	case "ParametersAggregateShape":
-		res = GetNamedStructInstances(stage.ParametersAggregateShapes, stage.ParametersAggregateShape_stagedOrder)
-	case "Position":
-		res = GetNamedStructInstances(stage.Positions, stage.Position_stagedOrder)
-	case "Repository":
-		res = GetNamedStructInstances(stage.Repositorys, stage.Repository_stagedOrder)
-	case "Scenario":
-		res = GetNamedStructInstances(stage.Scenarios, stage.Scenario_stagedOrder)
-	case "User":
-		res = GetNamedStructInstances(stage.Users, stage.User_stagedOrder)
-	case "UserUse":
-		res = GetNamedStructInstances(stage.UserUses, stage.UserUse_stagedOrder)
-	case "Workspace":
-		res = GetNamedStructInstances(stage.Workspaces, stage.Workspace_stagedOrder)
-	}
 
 	return
 }

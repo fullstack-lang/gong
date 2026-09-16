@@ -61,7 +61,6 @@ const (
 
 	ModelGongNamedStructsUnmarshallers
 	ModelGongNamedStructsSliceInit
-	ModelGongNamedStructsInstancesNames
 
 	ModelGongNamedStructSortedOrderInstances
 
@@ -356,9 +355,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongNamedStructsSliceInit: `
 			{name: "{{Structname}}"},`,
-	ModelGongNamedStructsInstancesNames: `
-	case "{{Structname}}":
-		res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)`,
 
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
