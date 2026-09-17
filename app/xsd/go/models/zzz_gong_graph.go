@@ -4,371 +4,343 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *All:
-		ok = stage.IsStagedAll(target)
-
-	case *Annotation:
-		ok = stage.IsStagedAnnotation(target)
-
-	case *Attribute:
-		ok = stage.IsStagedAttribute(target)
-
-	case *AttributeGroup:
-		ok = stage.IsStagedAttributeGroup(target)
-
-	case *Choice:
-		ok = stage.IsStagedChoice(target)
-
-	case *ComplexContent:
-		ok = stage.IsStagedComplexContent(target)
-
-	case *ComplexType:
-		ok = stage.IsStagedComplexType(target)
-
-	case *Documentation:
-		ok = stage.IsStagedDocumentation(target)
-
-	case *Element:
-		ok = stage.IsStagedElement(target)
-
-	case *Enumeration:
-		ok = stage.IsStagedEnumeration(target)
-
-	case *Extension:
-		ok = stage.IsStagedExtension(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *Length:
-		ok = stage.IsStagedLength(target)
-
-	case *MaxInclusive:
-		ok = stage.IsStagedMaxInclusive(target)
-
-	case *MaxLength:
-		ok = stage.IsStagedMaxLength(target)
-
-	case *MinInclusive:
-		ok = stage.IsStagedMinInclusive(target)
-
-	case *MinLength:
-		ok = stage.IsStagedMinLength(target)
-
-	case *Pattern:
-		ok = stage.IsStagedPattern(target)
-
-	case *Restriction:
-		ok = stage.IsStagedRestriction(target)
-
-	case *Schema:
-		ok = stage.IsStagedSchema(target)
-
-	case *Sequence:
-		ok = stage.IsStagedSequence(target)
-
-	case *SimpleContent:
-		ok = stage.IsStagedSimpleContent(target)
-
-	case *SimpleType:
-		ok = stage.IsStagedSimpleType(target)
-
-	case *TotalDigit:
-		ok = stage.IsStagedTotalDigit(target)
-
-	case *Union:
-		ok = stage.IsStagedUnion(target)
-
-	case *WhiteSpace:
-		ok = stage.IsStagedWhiteSpace(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAll(all *All) (ok bool) {
+func (all *All) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Alls[all]
 
 	return
 }
 
-func (stage *Stage) IsStagedAnnotation(annotation *Annotation) (ok bool) {
+func (stage *Stage) IsStagedAll(all *All) (ok bool) {
+
+	return all.GongIsStaged(stage)
+}
+
+func (annotation *Annotation) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Annotations[annotation]
 
 	return
 }
 
-func (stage *Stage) IsStagedAttribute(attribute *Attribute) (ok bool) {
+func (stage *Stage) IsStagedAnnotation(annotation *Annotation) (ok bool) {
+
+	return annotation.GongIsStaged(stage)
+}
+
+func (attribute *Attribute) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Attributes[attribute]
 
 	return
 }
 
-func (stage *Stage) IsStagedAttributeGroup(attributegroup *AttributeGroup) (ok bool) {
+func (stage *Stage) IsStagedAttribute(attribute *Attribute) (ok bool) {
+
+	return attribute.GongIsStaged(stage)
+}
+
+func (attributegroup *AttributeGroup) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AttributeGroups[attributegroup]
 
 	return
 }
 
-func (stage *Stage) IsStagedChoice(choice *Choice) (ok bool) {
+func (stage *Stage) IsStagedAttributeGroup(attributegroup *AttributeGroup) (ok bool) {
+
+	return attributegroup.GongIsStaged(stage)
+}
+
+func (choice *Choice) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Choices[choice]
 
 	return
 }
 
-func (stage *Stage) IsStagedComplexContent(complexcontent *ComplexContent) (ok bool) {
+func (stage *Stage) IsStagedChoice(choice *Choice) (ok bool) {
+
+	return choice.GongIsStaged(stage)
+}
+
+func (complexcontent *ComplexContent) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ComplexContents[complexcontent]
 
 	return
 }
 
-func (stage *Stage) IsStagedComplexType(complextype *ComplexType) (ok bool) {
+func (stage *Stage) IsStagedComplexContent(complexcontent *ComplexContent) (ok bool) {
+
+	return complexcontent.GongIsStaged(stage)
+}
+
+func (complextype *ComplexType) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ComplexTypes[complextype]
 
 	return
 }
 
-func (stage *Stage) IsStagedDocumentation(documentation *Documentation) (ok bool) {
+func (stage *Stage) IsStagedComplexType(complextype *ComplexType) (ok bool) {
+
+	return complextype.GongIsStaged(stage)
+}
+
+func (documentation *Documentation) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Documentations[documentation]
 
 	return
 }
 
-func (stage *Stage) IsStagedElement(element *Element) (ok bool) {
+func (stage *Stage) IsStagedDocumentation(documentation *Documentation) (ok bool) {
+
+	return documentation.GongIsStaged(stage)
+}
+
+func (element *Element) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Elements[element]
 
 	return
 }
 
-func (stage *Stage) IsStagedEnumeration(enumeration *Enumeration) (ok bool) {
+func (stage *Stage) IsStagedElement(element *Element) (ok bool) {
+
+	return element.GongIsStaged(stage)
+}
+
+func (enumeration *Enumeration) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Enumerations[enumeration]
 
 	return
 }
 
-func (stage *Stage) IsStagedExtension(extension *Extension) (ok bool) {
+func (stage *Stage) IsStagedEnumeration(enumeration *Enumeration) (ok bool) {
+
+	return enumeration.GongIsStaged(stage)
+}
+
+func (extension *Extension) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Extensions[extension]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+func (stage *Stage) IsStagedExtension(extension *Extension) (ok bool) {
+
+	return extension.GongIsStaged(stage)
+}
+
+func (group *Group) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Groups[group]
 
 	return
 }
 
-func (stage *Stage) IsStagedLength(length *Length) (ok bool) {
+func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+
+	return group.GongIsStaged(stage)
+}
+
+func (length *Length) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Lengths[length]
 
 	return
 }
 
-func (stage *Stage) IsStagedMaxInclusive(maxinclusive *MaxInclusive) (ok bool) {
+func (stage *Stage) IsStagedLength(length *Length) (ok bool) {
+
+	return length.GongIsStaged(stage)
+}
+
+func (maxinclusive *MaxInclusive) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MaxInclusives[maxinclusive]
 
 	return
 }
 
-func (stage *Stage) IsStagedMaxLength(maxlength *MaxLength) (ok bool) {
+func (stage *Stage) IsStagedMaxInclusive(maxinclusive *MaxInclusive) (ok bool) {
+
+	return maxinclusive.GongIsStaged(stage)
+}
+
+func (maxlength *MaxLength) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MaxLengths[maxlength]
 
 	return
 }
 
-func (stage *Stage) IsStagedMinInclusive(mininclusive *MinInclusive) (ok bool) {
+func (stage *Stage) IsStagedMaxLength(maxlength *MaxLength) (ok bool) {
+
+	return maxlength.GongIsStaged(stage)
+}
+
+func (mininclusive *MinInclusive) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MinInclusives[mininclusive]
 
 	return
 }
 
-func (stage *Stage) IsStagedMinLength(minlength *MinLength) (ok bool) {
+func (stage *Stage) IsStagedMinInclusive(mininclusive *MinInclusive) (ok bool) {
+
+	return mininclusive.GongIsStaged(stage)
+}
+
+func (minlength *MinLength) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MinLengths[minlength]
 
 	return
 }
 
-func (stage *Stage) IsStagedPattern(pattern *Pattern) (ok bool) {
+func (stage *Stage) IsStagedMinLength(minlength *MinLength) (ok bool) {
+
+	return minlength.GongIsStaged(stage)
+}
+
+func (pattern *Pattern) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Patterns[pattern]
 
 	return
 }
 
-func (stage *Stage) IsStagedRestriction(restriction *Restriction) (ok bool) {
+func (stage *Stage) IsStagedPattern(pattern *Pattern) (ok bool) {
+
+	return pattern.GongIsStaged(stage)
+}
+
+func (restriction *Restriction) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Restrictions[restriction]
 
 	return
 }
 
-func (stage *Stage) IsStagedSchema(schema *Schema) (ok bool) {
+func (stage *Stage) IsStagedRestriction(restriction *Restriction) (ok bool) {
+
+	return restriction.GongIsStaged(stage)
+}
+
+func (schema *Schema) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Schemas[schema]
 
 	return
 }
 
-func (stage *Stage) IsStagedSequence(sequence *Sequence) (ok bool) {
+func (stage *Stage) IsStagedSchema(schema *Schema) (ok bool) {
+
+	return schema.GongIsStaged(stage)
+}
+
+func (sequence *Sequence) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Sequences[sequence]
 
 	return
 }
 
-func (stage *Stage) IsStagedSimpleContent(simplecontent *SimpleContent) (ok bool) {
+func (stage *Stage) IsStagedSequence(sequence *Sequence) (ok bool) {
+
+	return sequence.GongIsStaged(stage)
+}
+
+func (simplecontent *SimpleContent) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SimpleContents[simplecontent]
 
 	return
 }
 
-func (stage *Stage) IsStagedSimpleType(simpletype *SimpleType) (ok bool) {
+func (stage *Stage) IsStagedSimpleContent(simplecontent *SimpleContent) (ok bool) {
+
+	return simplecontent.GongIsStaged(stage)
+}
+
+func (simpletype *SimpleType) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SimpleTypes[simpletype]
 
 	return
 }
 
-func (stage *Stage) IsStagedTotalDigit(totaldigit *TotalDigit) (ok bool) {
+func (stage *Stage) IsStagedSimpleType(simpletype *SimpleType) (ok bool) {
+
+	return simpletype.GongIsStaged(stage)
+}
+
+func (totaldigit *TotalDigit) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TotalDigits[totaldigit]
 
 	return
 }
 
-func (stage *Stage) IsStagedUnion(union *Union) (ok bool) {
+func (stage *Stage) IsStagedTotalDigit(totaldigit *TotalDigit) (ok bool) {
+
+	return totaldigit.GongIsStaged(stage)
+}
+
+func (union *Union) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Unions[union]
 
 	return
 }
 
-func (stage *Stage) IsStagedWhiteSpace(whitespace *WhiteSpace) (ok bool) {
+func (stage *Stage) IsStagedUnion(union *Union) (ok bool) {
+
+	return union.GongIsStaged(stage)
+}
+
+func (whitespace *WhiteSpace) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.WhiteSpaces[whitespace]
 
 	return
 }
 
+func (stage *Stage) IsStagedWhiteSpace(whitespace *WhiteSpace) (ok bool) {
+
+	return whitespace.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *All:
-		stage.StageBranchAll(target)
-
-	case *Annotation:
-		stage.StageBranchAnnotation(target)
-
-	case *Attribute:
-		stage.StageBranchAttribute(target)
-
-	case *AttributeGroup:
-		stage.StageBranchAttributeGroup(target)
-
-	case *Choice:
-		stage.StageBranchChoice(target)
-
-	case *ComplexContent:
-		stage.StageBranchComplexContent(target)
-
-	case *ComplexType:
-		stage.StageBranchComplexType(target)
-
-	case *Documentation:
-		stage.StageBranchDocumentation(target)
-
-	case *Element:
-		stage.StageBranchElement(target)
-
-	case *Enumeration:
-		stage.StageBranchEnumeration(target)
-
-	case *Extension:
-		stage.StageBranchExtension(target)
-
-	case *Group:
-		stage.StageBranchGroup(target)
-
-	case *Length:
-		stage.StageBranchLength(target)
-
-	case *MaxInclusive:
-		stage.StageBranchMaxInclusive(target)
-
-	case *MaxLength:
-		stage.StageBranchMaxLength(target)
-
-	case *MinInclusive:
-		stage.StageBranchMinInclusive(target)
-
-	case *MinLength:
-		stage.StageBranchMinLength(target)
-
-	case *Pattern:
-		stage.StageBranchPattern(target)
-
-	case *Restriction:
-		stage.StageBranchRestriction(target)
-
-	case *Schema:
-		stage.StageBranchSchema(target)
-
-	case *Sequence:
-		stage.StageBranchSequence(target)
-
-	case *SimpleContent:
-		stage.StageBranchSimpleContent(target)
-
-	case *SimpleType:
-		stage.StageBranchSimpleType(target)
-
-	case *TotalDigit:
-		stage.StageBranchTotalDigit(target)
-
-	case *Union:
-		stage.StageBranchUnion(target)
-
-	case *WhiteSpace:
-		stage.StageBranchWhiteSpace(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (all *All) GongStageBranch(stage *Stage) {
+	stage.StageBranchAll(all)
+}
+
 func (stage *Stage) StageBranchAll(all *All) {
 
 	// check if instance is already staged
@@ -402,6 +374,10 @@ func (stage *Stage) StageBranchAll(all *All) {
 
 }
 
+func (annotation *Annotation) GongStageBranch(stage *Stage) {
+	stage.StageBranchAnnotation(annotation)
+}
+
 func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 
 	// check if instance is already staged
@@ -420,6 +396,10 @@ func (stage *Stage) StageBranchAnnotation(annotation *Annotation) {
 
 }
 
+func (attribute *Attribute) GongStageBranch(stage *Stage) {
+	stage.StageBranchAttribute(attribute)
+}
+
 func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 
 	// check if instance is already staged
@@ -436,6 +416,10 @@ func (stage *Stage) StageBranchAttribute(attribute *Attribute) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attributegroup *AttributeGroup) GongStageBranch(stage *Stage) {
+	stage.StageBranchAttributeGroup(attributegroup)
 }
 
 func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
@@ -460,6 +444,10 @@ func (stage *Stage) StageBranchAttributeGroup(attributegroup *AttributeGroup) {
 		stage.StageBranch(_attribute)
 	}
 
+}
+
+func (choice *Choice) GongStageBranch(stage *Stage) {
+	stage.StageBranchChoice(choice)
 }
 
 func (stage *Stage) StageBranchChoice(choice *Choice) {
@@ -495,6 +483,10 @@ func (stage *Stage) StageBranchChoice(choice *Choice) {
 
 }
 
+func (complexcontent *ComplexContent) GongStageBranch(stage *Stage) {
+	stage.StageBranchComplexContent(complexcontent)
+}
+
 func (stage *Stage) StageBranchComplexContent(complexcontent *ComplexContent) {
 
 	// check if instance is already staged
@@ -508,6 +500,10 @@ func (stage *Stage) StageBranchComplexContent(complexcontent *ComplexContent) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (complextype *ComplexType) GongStageBranch(stage *Stage) {
+	stage.StageBranchComplexType(complextype)
 }
 
 func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
@@ -561,6 +557,10 @@ func (stage *Stage) StageBranchComplexType(complextype *ComplexType) {
 
 }
 
+func (documentation *Documentation) GongStageBranch(stage *Stage) {
+	stage.StageBranchDocumentation(documentation)
+}
+
 func (stage *Stage) StageBranchDocumentation(documentation *Documentation) {
 
 	// check if instance is already staged
@@ -574,6 +574,10 @@ func (stage *Stage) StageBranchDocumentation(documentation *Documentation) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (element *Element) GongStageBranch(stage *Stage) {
+	stage.StageBranchElement(element)
 }
 
 func (stage *Stage) StageBranchElement(element *Element) {
@@ -603,6 +607,10 @@ func (stage *Stage) StageBranchElement(element *Element) {
 
 }
 
+func (enumeration *Enumeration) GongStageBranch(stage *Stage) {
+	stage.StageBranchEnumeration(enumeration)
+}
+
 func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 
 	// check if instance is already staged
@@ -619,6 +627,10 @@ func (stage *Stage) StageBranchEnumeration(enumeration *Enumeration) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (extension *Extension) GongStageBranch(stage *Stage) {
+	stage.StageBranchExtension(extension)
 }
 
 func (stage *Stage) StageBranchExtension(extension *Extension) {
@@ -657,6 +669,10 @@ func (stage *Stage) StageBranchExtension(extension *Extension) {
 
 }
 
+func (group *Group) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup(group)
+}
+
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
@@ -693,6 +709,10 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 }
 
+func (length *Length) GongStageBranch(stage *Stage) {
+	stage.StageBranchLength(length)
+}
+
 func (stage *Stage) StageBranchLength(length *Length) {
 
 	// check if instance is already staged
@@ -709,6 +729,10 @@ func (stage *Stage) StageBranchLength(length *Length) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (maxinclusive *MaxInclusive) GongStageBranch(stage *Stage) {
+	stage.StageBranchMaxInclusive(maxinclusive)
 }
 
 func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
@@ -729,6 +753,10 @@ func (stage *Stage) StageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 }
 
+func (maxlength *MaxLength) GongStageBranch(stage *Stage) {
+	stage.StageBranchMaxLength(maxlength)
+}
+
 func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 
 	// check if instance is already staged
@@ -745,6 +773,10 @@ func (stage *Stage) StageBranchMaxLength(maxlength *MaxLength) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mininclusive *MinInclusive) GongStageBranch(stage *Stage) {
+	stage.StageBranchMinInclusive(mininclusive)
 }
 
 func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
@@ -765,6 +797,10 @@ func (stage *Stage) StageBranchMinInclusive(mininclusive *MinInclusive) {
 
 }
 
+func (minlength *MinLength) GongStageBranch(stage *Stage) {
+	stage.StageBranchMinLength(minlength)
+}
+
 func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 
 	// check if instance is already staged
@@ -783,6 +819,10 @@ func (stage *Stage) StageBranchMinLength(minlength *MinLength) {
 
 }
 
+func (pattern *Pattern) GongStageBranch(stage *Stage) {
+	stage.StageBranchPattern(pattern)
+}
+
 func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 
 	// check if instance is already staged
@@ -799,6 +839,10 @@ func (stage *Stage) StageBranchPattern(pattern *Pattern) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (restriction *Restriction) GongStageBranch(stage *Stage) {
+	stage.StageBranchRestriction(restriction)
 }
 
 func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
@@ -846,6 +890,10 @@ func (stage *Stage) StageBranchRestriction(restriction *Restriction) {
 
 }
 
+func (schema *Schema) GongStageBranch(stage *Stage) {
+	stage.StageBranchSchema(schema)
+}
+
 func (stage *Stage) StageBranchSchema(schema *Schema) {
 
 	// check if instance is already staged
@@ -877,6 +925,10 @@ func (stage *Stage) StageBranchSchema(schema *Schema) {
 		stage.StageBranch(_group)
 	}
 
+}
+
+func (sequence *Sequence) GongStageBranch(stage *Stage) {
+	stage.StageBranchSequence(sequence)
 }
 
 func (stage *Stage) StageBranchSequence(sequence *Sequence) {
@@ -912,6 +964,10 @@ func (stage *Stage) StageBranchSequence(sequence *Sequence) {
 
 }
 
+func (simplecontent *SimpleContent) GongStageBranch(stage *Stage) {
+	stage.StageBranchSimpleContent(simplecontent)
+}
+
 func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	// check if instance is already staged
@@ -931,6 +987,10 @@ func (stage *Stage) StageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (simpletype *SimpleType) GongStageBranch(stage *Stage) {
+	stage.StageBranchSimpleType(simpletype)
 }
 
 func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
@@ -957,6 +1017,10 @@ func (stage *Stage) StageBranchSimpleType(simpletype *SimpleType) {
 
 }
 
+func (totaldigit *TotalDigit) GongStageBranch(stage *Stage) {
+	stage.StageBranchTotalDigit(totaldigit)
+}
+
 func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	// check if instance is already staged
@@ -975,6 +1039,10 @@ func (stage *Stage) StageBranchTotalDigit(totaldigit *TotalDigit) {
 
 }
 
+func (union *Union) GongStageBranch(stage *Stage) {
+	stage.StageBranchUnion(union)
+}
+
 func (stage *Stage) StageBranchUnion(union *Union) {
 
 	// check if instance is already staged
@@ -991,6 +1059,10 @@ func (stage *Stage) StageBranchUnion(union *Union) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (whitespace *WhiteSpace) GongStageBranch(stage *Stage) {
+	stage.StageBranchWhiteSpace(whitespace)
 }
 
 func (stage *Stage) StageBranchWhiteSpace(whitespace *WhiteSpace) {
@@ -1884,94 +1956,22 @@ func GongCopyBranchWhiteSpace(mapOrigCopy map[any]any, whitespaceFrom *WhiteSpac
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *All:
-		stage.UnstageBranchAll(target)
-
-	case *Annotation:
-		stage.UnstageBranchAnnotation(target)
-
-	case *Attribute:
-		stage.UnstageBranchAttribute(target)
-
-	case *AttributeGroup:
-		stage.UnstageBranchAttributeGroup(target)
-
-	case *Choice:
-		stage.UnstageBranchChoice(target)
-
-	case *ComplexContent:
-		stage.UnstageBranchComplexContent(target)
-
-	case *ComplexType:
-		stage.UnstageBranchComplexType(target)
-
-	case *Documentation:
-		stage.UnstageBranchDocumentation(target)
-
-	case *Element:
-		stage.UnstageBranchElement(target)
-
-	case *Enumeration:
-		stage.UnstageBranchEnumeration(target)
-
-	case *Extension:
-		stage.UnstageBranchExtension(target)
-
-	case *Group:
-		stage.UnstageBranchGroup(target)
-
-	case *Length:
-		stage.UnstageBranchLength(target)
-
-	case *MaxInclusive:
-		stage.UnstageBranchMaxInclusive(target)
-
-	case *MaxLength:
-		stage.UnstageBranchMaxLength(target)
-
-	case *MinInclusive:
-		stage.UnstageBranchMinInclusive(target)
-
-	case *MinLength:
-		stage.UnstageBranchMinLength(target)
-
-	case *Pattern:
-		stage.UnstageBranchPattern(target)
-
-	case *Restriction:
-		stage.UnstageBranchRestriction(target)
-
-	case *Schema:
-		stage.UnstageBranchSchema(target)
-
-	case *Sequence:
-		stage.UnstageBranchSequence(target)
-
-	case *SimpleContent:
-		stage.UnstageBranchSimpleContent(target)
-
-	case *SimpleType:
-		stage.UnstageBranchSimpleType(target)
-
-	case *TotalDigit:
-		stage.UnstageBranchTotalDigit(target)
-
-	case *Union:
-		stage.UnstageBranchUnion(target)
-
-	case *WhiteSpace:
-		stage.UnstageBranchWhiteSpace(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (all *All) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAll(all)
+}
+
 func (stage *Stage) UnstageBranchAll(all *All) {
 
 	// check if instance is already staged
@@ -2005,6 +2005,10 @@ func (stage *Stage) UnstageBranchAll(all *All) {
 
 }
 
+func (annotation *Annotation) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAnnotation(annotation)
+}
+
 func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 
 	// check if instance is already staged
@@ -2023,6 +2027,10 @@ func (stage *Stage) UnstageBranchAnnotation(annotation *Annotation) {
 
 }
 
+func (attribute *Attribute) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAttribute(attribute)
+}
+
 func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 
 	// check if instance is already staged
@@ -2039,6 +2047,10 @@ func (stage *Stage) UnstageBranchAttribute(attribute *Attribute) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attributegroup *AttributeGroup) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAttributeGroup(attributegroup)
 }
 
 func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) {
@@ -2063,6 +2075,10 @@ func (stage *Stage) UnstageBranchAttributeGroup(attributegroup *AttributeGroup) 
 		stage.UnstageBranch(_attribute)
 	}
 
+}
+
+func (choice *Choice) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchChoice(choice)
 }
 
 func (stage *Stage) UnstageBranchChoice(choice *Choice) {
@@ -2098,6 +2114,10 @@ func (stage *Stage) UnstageBranchChoice(choice *Choice) {
 
 }
 
+func (complexcontent *ComplexContent) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchComplexContent(complexcontent)
+}
+
 func (stage *Stage) UnstageBranchComplexContent(complexcontent *ComplexContent) {
 
 	// check if instance is already staged
@@ -2111,6 +2131,10 @@ func (stage *Stage) UnstageBranchComplexContent(complexcontent *ComplexContent) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (complextype *ComplexType) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchComplexType(complextype)
 }
 
 func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
@@ -2164,6 +2188,10 @@ func (stage *Stage) UnstageBranchComplexType(complextype *ComplexType) {
 
 }
 
+func (documentation *Documentation) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDocumentation(documentation)
+}
+
 func (stage *Stage) UnstageBranchDocumentation(documentation *Documentation) {
 
 	// check if instance is already staged
@@ -2177,6 +2205,10 @@ func (stage *Stage) UnstageBranchDocumentation(documentation *Documentation) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (element *Element) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchElement(element)
 }
 
 func (stage *Stage) UnstageBranchElement(element *Element) {
@@ -2206,6 +2238,10 @@ func (stage *Stage) UnstageBranchElement(element *Element) {
 
 }
 
+func (enumeration *Enumeration) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEnumeration(enumeration)
+}
+
 func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 
 	// check if instance is already staged
@@ -2222,6 +2258,10 @@ func (stage *Stage) UnstageBranchEnumeration(enumeration *Enumeration) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (extension *Extension) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchExtension(extension)
 }
 
 func (stage *Stage) UnstageBranchExtension(extension *Extension) {
@@ -2260,6 +2300,10 @@ func (stage *Stage) UnstageBranchExtension(extension *Extension) {
 
 }
 
+func (group *Group) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup(group)
+}
+
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
@@ -2296,6 +2340,10 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 }
 
+func (length *Length) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLength(length)
+}
+
 func (stage *Stage) UnstageBranchLength(length *Length) {
 
 	// check if instance is already staged
@@ -2312,6 +2360,10 @@ func (stage *Stage) UnstageBranchLength(length *Length) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (maxinclusive *MaxInclusive) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMaxInclusive(maxinclusive)
 }
 
 func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
@@ -2332,6 +2384,10 @@ func (stage *Stage) UnstageBranchMaxInclusive(maxinclusive *MaxInclusive) {
 
 }
 
+func (maxlength *MaxLength) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMaxLength(maxlength)
+}
+
 func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 
 	// check if instance is already staged
@@ -2348,6 +2404,10 @@ func (stage *Stage) UnstageBranchMaxLength(maxlength *MaxLength) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mininclusive *MinInclusive) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMinInclusive(mininclusive)
 }
 
 func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
@@ -2368,6 +2428,10 @@ func (stage *Stage) UnstageBranchMinInclusive(mininclusive *MinInclusive) {
 
 }
 
+func (minlength *MinLength) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMinLength(minlength)
+}
+
 func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 
 	// check if instance is already staged
@@ -2386,6 +2450,10 @@ func (stage *Stage) UnstageBranchMinLength(minlength *MinLength) {
 
 }
 
+func (pattern *Pattern) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPattern(pattern)
+}
+
 func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 
 	// check if instance is already staged
@@ -2402,6 +2470,10 @@ func (stage *Stage) UnstageBranchPattern(pattern *Pattern) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (restriction *Restriction) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRestriction(restriction)
 }
 
 func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
@@ -2449,6 +2521,10 @@ func (stage *Stage) UnstageBranchRestriction(restriction *Restriction) {
 
 }
 
+func (schema *Schema) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSchema(schema)
+}
+
 func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 
 	// check if instance is already staged
@@ -2480,6 +2556,10 @@ func (stage *Stage) UnstageBranchSchema(schema *Schema) {
 		stage.UnstageBranch(_group)
 	}
 
+}
+
+func (sequence *Sequence) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSequence(sequence)
 }
 
 func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
@@ -2515,6 +2595,10 @@ func (stage *Stage) UnstageBranchSequence(sequence *Sequence) {
 
 }
 
+func (simplecontent *SimpleContent) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSimpleContent(simplecontent)
+}
+
 func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	// check if instance is already staged
@@ -2534,6 +2618,10 @@ func (stage *Stage) UnstageBranchSimpleContent(simplecontent *SimpleContent) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (simpletype *SimpleType) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSimpleType(simpletype)
 }
 
 func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
@@ -2560,6 +2648,10 @@ func (stage *Stage) UnstageBranchSimpleType(simpletype *SimpleType) {
 
 }
 
+func (totaldigit *TotalDigit) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTotalDigit(totaldigit)
+}
+
 func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 
 	// check if instance is already staged
@@ -2578,6 +2670,10 @@ func (stage *Stage) UnstageBranchTotalDigit(totaldigit *TotalDigit) {
 
 }
 
+func (union *Union) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchUnion(union)
+}
+
 func (stage *Stage) UnstageBranchUnion(union *Union) {
 
 	// check if instance is already staged
@@ -2594,6 +2690,10 @@ func (stage *Stage) UnstageBranchUnion(union *Union) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (whitespace *WhiteSpace) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWhiteSpace(whitespace)
 }
 
 func (stage *Stage) UnstageBranchWhiteSpace(whitespace *WhiteSpace) {

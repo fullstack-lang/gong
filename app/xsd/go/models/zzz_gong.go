@@ -2097,64 +2097,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *All:
-		return stage.All_stagedOrder[instance]
-	case *Annotation:
-		return stage.Annotation_stagedOrder[instance]
-	case *Attribute:
-		return stage.Attribute_stagedOrder[instance]
-	case *AttributeGroup:
-		return stage.AttributeGroup_stagedOrder[instance]
-	case *Choice:
-		return stage.Choice_stagedOrder[instance]
-	case *ComplexContent:
-		return stage.ComplexContent_stagedOrder[instance]
-	case *ComplexType:
-		return stage.ComplexType_stagedOrder[instance]
-	case *Documentation:
-		return stage.Documentation_stagedOrder[instance]
-	case *Element:
-		return stage.Element_stagedOrder[instance]
-	case *Enumeration:
-		return stage.Enumeration_stagedOrder[instance]
-	case *Extension:
-		return stage.Extension_stagedOrder[instance]
-	case *Group:
-		return stage.Group_stagedOrder[instance]
-	case *Length:
-		return stage.Length_stagedOrder[instance]
-	case *MaxInclusive:
-		return stage.MaxInclusive_stagedOrder[instance]
-	case *MaxLength:
-		return stage.MaxLength_stagedOrder[instance]
-	case *MinInclusive:
-		return stage.MinInclusive_stagedOrder[instance]
-	case *MinLength:
-		return stage.MinLength_stagedOrder[instance]
-	case *Pattern:
-		return stage.Pattern_stagedOrder[instance]
-	case *Restriction:
-		return stage.Restriction_stagedOrder[instance]
-	case *Schema:
-		return stage.Schema_stagedOrder[instance]
-	case *Sequence:
-		return stage.Sequence_stagedOrder[instance]
-	case *SimpleContent:
-		return stage.SimpleContent_stagedOrder[instance]
-	case *SimpleType:
-		return stage.SimpleType_stagedOrder[instance]
-	case *TotalDigit:
-		return stage.TotalDigit_stagedOrder[instance]
-	case *Union:
-		return stage.Union_stagedOrder[instance]
-	case *WhiteSpace:
-		return stage.WhiteSpace_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -4726,6 +4673,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

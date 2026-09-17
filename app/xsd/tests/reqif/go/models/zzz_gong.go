@@ -5451,180 +5451,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *ALTERNATIVE_ID:
-		return stage.ALTERNATIVE_ID_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		return stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_DATE:
-		return stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		return stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		return stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_REAL:
-		return stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_STRING:
-		return stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder[instance]
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		return stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		return stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_DATE:
-		return stage.ATTRIBUTE_VALUE_DATE_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		return stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_INTEGER:
-		return stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_REAL:
-		return stage.ATTRIBUTE_VALUE_REAL_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_STRING:
-		return stage.ATTRIBUTE_VALUE_STRING_stagedOrder[instance]
-	case *ATTRIBUTE_VALUE_XHTML:
-		return stage.ATTRIBUTE_VALUE_XHTML_stagedOrder[instance]
-	case *A_ALTERNATIVE_ID:
-		return stage.A_ALTERNATIVE_ID_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		return stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		return stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_DATE:
-		return stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		return stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		return stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_REAL:
-		return stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_STRING:
-		return stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		return stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder[instance]
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		return stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder[instance]
-	case *A_CHILDREN:
-		return stage.A_CHILDREN_stagedOrder[instance]
-	case *A_CORE_CONTENT:
-		return stage.A_CORE_CONTENT_stagedOrder[instance]
-	case *A_DATATYPES:
-		return stage.A_DATATYPES_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		return stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		return stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		return stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		return stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		return stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		return stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder[instance]
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		return stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder[instance]
-	case *A_EDITABLE_ATTS:
-		return stage.A_EDITABLE_ATTS_stagedOrder[instance]
-	case *A_ENUM_VALUE_REF:
-		return stage.A_ENUM_VALUE_REF_stagedOrder[instance]
-	case *A_OBJECT:
-		return stage.A_OBJECT_stagedOrder[instance]
-	case *A_PROPERTIES:
-		return stage.A_PROPERTIES_stagedOrder[instance]
-	case *A_RELATION_GROUP_TYPE_REF:
-		return stage.A_RELATION_GROUP_TYPE_REF_stagedOrder[instance]
-	case *A_SOURCE_1:
-		return stage.A_SOURCE_1_stagedOrder[instance]
-	case *A_SOURCE_SPECIFICATION_1:
-		return stage.A_SOURCE_SPECIFICATION_1_stagedOrder[instance]
-	case *A_SPECIFICATIONS:
-		return stage.A_SPECIFICATIONS_stagedOrder[instance]
-	case *A_SPECIFICATION_TYPE_REF:
-		return stage.A_SPECIFICATION_TYPE_REF_stagedOrder[instance]
-	case *A_SPECIFIED_VALUES:
-		return stage.A_SPECIFIED_VALUES_stagedOrder[instance]
-	case *A_SPEC_ATTRIBUTES:
-		return stage.A_SPEC_ATTRIBUTES_stagedOrder[instance]
-	case *A_SPEC_OBJECTS:
-		return stage.A_SPEC_OBJECTS_stagedOrder[instance]
-	case *A_SPEC_OBJECT_TYPE_REF:
-		return stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder[instance]
-	case *A_SPEC_RELATIONS:
-		return stage.A_SPEC_RELATIONS_stagedOrder[instance]
-	case *A_SPEC_RELATION_GROUPS:
-		return stage.A_SPEC_RELATION_GROUPS_stagedOrder[instance]
-	case *A_SPEC_RELATION_REF:
-		return stage.A_SPEC_RELATION_REF_stagedOrder[instance]
-	case *A_SPEC_RELATION_TYPE_REF:
-		return stage.A_SPEC_RELATION_TYPE_REF_stagedOrder[instance]
-	case *A_SPEC_TYPES:
-		return stage.A_SPEC_TYPES_stagedOrder[instance]
-	case *A_THE_HEADER:
-		return stage.A_THE_HEADER_stagedOrder[instance]
-	case *A_TOOL_EXTENSIONS:
-		return stage.A_TOOL_EXTENSIONS_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		return stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_DATE:
-		return stage.DATATYPE_DEFINITION_DATE_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		return stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_INTEGER:
-		return stage.DATATYPE_DEFINITION_INTEGER_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_REAL:
-		return stage.DATATYPE_DEFINITION_REAL_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_STRING:
-		return stage.DATATYPE_DEFINITION_STRING_stagedOrder[instance]
-	case *DATATYPE_DEFINITION_XHTML:
-		return stage.DATATYPE_DEFINITION_XHTML_stagedOrder[instance]
-	case *EMBEDDED_VALUE:
-		return stage.EMBEDDED_VALUE_stagedOrder[instance]
-	case *ENUM_VALUE:
-		return stage.ENUM_VALUE_stagedOrder[instance]
-	case *RELATION_GROUP:
-		return stage.RELATION_GROUP_stagedOrder[instance]
-	case *RELATION_GROUP_TYPE:
-		return stage.RELATION_GROUP_TYPE_stagedOrder[instance]
-	case *REQ_IF:
-		return stage.REQ_IF_stagedOrder[instance]
-	case *REQ_IF_CONTENT:
-		return stage.REQ_IF_CONTENT_stagedOrder[instance]
-	case *REQ_IF_HEADER:
-		return stage.REQ_IF_HEADER_stagedOrder[instance]
-	case *REQ_IF_TOOL_EXTENSION:
-		return stage.REQ_IF_TOOL_EXTENSION_stagedOrder[instance]
-	case *SPECIFICATION:
-		return stage.SPECIFICATION_stagedOrder[instance]
-	case *SPECIFICATION_TYPE:
-		return stage.SPECIFICATION_TYPE_stagedOrder[instance]
-	case *SPEC_HIERARCHY:
-		return stage.SPEC_HIERARCHY_stagedOrder[instance]
-	case *SPEC_OBJECT:
-		return stage.SPEC_OBJECT_stagedOrder[instance]
-	case *SPEC_OBJECT_TYPE:
-		return stage.SPEC_OBJECT_TYPE_stagedOrder[instance]
-	case *SPEC_RELATION:
-		return stage.SPEC_RELATION_stagedOrder[instance]
-	case *SPEC_RELATION_TYPE:
-		return stage.SPEC_RELATION_TYPE_stagedOrder[instance]
-	case *XHTML_CONTENT:
-		return stage.XHTML_CONTENT_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -13590,6 +13421,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

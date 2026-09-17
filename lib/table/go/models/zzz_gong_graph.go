@@ -4,176 +4,163 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Button:
-		ok = stage.IsStagedButton(target)
-
-	case *Cell:
-		ok = stage.IsStagedCell(target)
-
-	case *CellBoolean:
-		ok = stage.IsStagedCellBoolean(target)
-
-	case *CellFloat64:
-		ok = stage.IsStagedCellFloat64(target)
-
-	case *CellIcon:
-		ok = stage.IsStagedCellIcon(target)
-
-	case *CellInt:
-		ok = stage.IsStagedCellInt(target)
-
-	case *CellString:
-		ok = stage.IsStagedCellString(target)
-
-	case *DisplayedColumn:
-		ok = stage.IsStagedDisplayedColumn(target)
-
-	case *Row:
-		ok = stage.IsStagedRow(target)
-
-	case *SVGIcon:
-		ok = stage.IsStagedSVGIcon(target)
-
-	case *Table:
-		ok = stage.IsStagedTable(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Buttons[button]
 
 	return
 }
 
-func (stage *Stage) IsStagedCell(cell *Cell) (ok bool) {
+func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+
+	return button.GongIsStaged(stage)
+}
+
+func (cell *Cell) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Cells[cell]
 
 	return
 }
 
-func (stage *Stage) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
+func (stage *Stage) IsStagedCell(cell *Cell) (ok bool) {
+
+	return cell.GongIsStaged(stage)
+}
+
+func (cellboolean *CellBoolean) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CellBooleans[cellboolean]
 
 	return
 }
 
-func (stage *Stage) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
+func (stage *Stage) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
+
+	return cellboolean.GongIsStaged(stage)
+}
+
+func (cellfloat64 *CellFloat64) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CellFloat64s[cellfloat64]
 
 	return
 }
 
-func (stage *Stage) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
+func (stage *Stage) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
+
+	return cellfloat64.GongIsStaged(stage)
+}
+
+func (cellicon *CellIcon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CellIcons[cellicon]
 
 	return
 }
 
-func (stage *Stage) IsStagedCellInt(cellint *CellInt) (ok bool) {
+func (stage *Stage) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
+
+	return cellicon.GongIsStaged(stage)
+}
+
+func (cellint *CellInt) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CellInts[cellint]
 
 	return
 }
 
-func (stage *Stage) IsStagedCellString(cellstring *CellString) (ok bool) {
+func (stage *Stage) IsStagedCellInt(cellint *CellInt) (ok bool) {
+
+	return cellint.GongIsStaged(stage)
+}
+
+func (cellstring *CellString) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CellStrings[cellstring]
 
 	return
 }
 
-func (stage *Stage) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
+func (stage *Stage) IsStagedCellString(cellstring *CellString) (ok bool) {
+
+	return cellstring.GongIsStaged(stage)
+}
+
+func (displayedcolumn *DisplayedColumn) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DisplayedColumns[displayedcolumn]
 
 	return
 }
 
-func (stage *Stage) IsStagedRow(row *Row) (ok bool) {
+func (stage *Stage) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
+
+	return displayedcolumn.GongIsStaged(stage)
+}
+
+func (row *Row) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Rows[row]
 
 	return
 }
 
-func (stage *Stage) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
+func (stage *Stage) IsStagedRow(row *Row) (ok bool) {
+
+	return row.GongIsStaged(stage)
+}
+
+func (svgicon *SVGIcon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SVGIcons[svgicon]
 
 	return
 }
 
-func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
+func (stage *Stage) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
+
+	return svgicon.GongIsStaged(stage)
+}
+
+func (table *Table) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tables[table]
 
 	return
 }
 
+func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
+
+	return table.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Button:
-		stage.StageBranchButton(target)
-
-	case *Cell:
-		stage.StageBranchCell(target)
-
-	case *CellBoolean:
-		stage.StageBranchCellBoolean(target)
-
-	case *CellFloat64:
-		stage.StageBranchCellFloat64(target)
-
-	case *CellIcon:
-		stage.StageBranchCellIcon(target)
-
-	case *CellInt:
-		stage.StageBranchCellInt(target)
-
-	case *CellString:
-		stage.StageBranchCellString(target)
-
-	case *DisplayedColumn:
-		stage.StageBranchDisplayedColumn(target)
-
-	case *Row:
-		stage.StageBranchRow(target)
-
-	case *SVGIcon:
-		stage.StageBranchSVGIcon(target)
-
-	case *Table:
-		stage.StageBranchTable(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (button *Button) GongStageBranch(stage *Stage) {
+	stage.StageBranchButton(button)
+}
+
 func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
@@ -190,6 +177,10 @@ func (stage *Stage) StageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cell *Cell) GongStageBranch(stage *Stage) {
+	stage.StageBranchCell(cell)
 }
 
 func (stage *Stage) StageBranchCell(cell *Cell) {
@@ -222,6 +213,10 @@ func (stage *Stage) StageBranchCell(cell *Cell) {
 
 }
 
+func (cellboolean *CellBoolean) GongStageBranch(stage *Stage) {
+	stage.StageBranchCellBoolean(cellboolean)
+}
+
 func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
@@ -235,6 +230,10 @@ func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cellfloat64 *CellFloat64) GongStageBranch(stage *Stage) {
+	stage.StageBranchCellFloat64(cellfloat64)
 }
 
 func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
@@ -252,6 +251,10 @@ func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 }
 
+func (cellicon *CellIcon) GongStageBranch(stage *Stage) {
+	stage.StageBranchCellIcon(cellicon)
+}
+
 func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
@@ -265,6 +268,10 @@ func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cellint *CellInt) GongStageBranch(stage *Stage) {
+	stage.StageBranchCellInt(cellint)
 }
 
 func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
@@ -282,6 +289,10 @@ func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
 
 }
 
+func (cellstring *CellString) GongStageBranch(stage *Stage) {
+	stage.StageBranchCellString(cellstring)
+}
+
 func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
@@ -297,6 +308,10 @@ func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 
 }
 
+func (displayedcolumn *DisplayedColumn) GongStageBranch(stage *Stage) {
+	stage.StageBranchDisplayedColumn(displayedcolumn)
+}
+
 func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
@@ -310,6 +325,10 @@ func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (row *Row) GongStageBranch(stage *Stage) {
+	stage.StageBranchRow(row)
 }
 
 func (stage *Stage) StageBranchRow(row *Row) {
@@ -330,6 +349,10 @@ func (stage *Stage) StageBranchRow(row *Row) {
 
 }
 
+func (svgicon *SVGIcon) GongStageBranch(stage *Stage) {
+	stage.StageBranchSVGIcon(svgicon)
+}
+
 func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
@@ -343,6 +366,10 @@ func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (table *Table) GongStageBranch(stage *Stage) {
+	stage.StageBranchTable(table)
 }
 
 func (stage *Stage) StageBranchTable(table *Table) {
@@ -681,49 +708,22 @@ func GongCopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Ta
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Button:
-		stage.UnstageBranchButton(target)
-
-	case *Cell:
-		stage.UnstageBranchCell(target)
-
-	case *CellBoolean:
-		stage.UnstageBranchCellBoolean(target)
-
-	case *CellFloat64:
-		stage.UnstageBranchCellFloat64(target)
-
-	case *CellIcon:
-		stage.UnstageBranchCellIcon(target)
-
-	case *CellInt:
-		stage.UnstageBranchCellInt(target)
-
-	case *CellString:
-		stage.UnstageBranchCellString(target)
-
-	case *DisplayedColumn:
-		stage.UnstageBranchDisplayedColumn(target)
-
-	case *Row:
-		stage.UnstageBranchRow(target)
-
-	case *SVGIcon:
-		stage.UnstageBranchSVGIcon(target)
-
-	case *Table:
-		stage.UnstageBranchTable(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (button *Button) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchButton(button)
+}
+
 func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
@@ -740,6 +740,10 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cell *Cell) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCell(cell)
 }
 
 func (stage *Stage) UnstageBranchCell(cell *Cell) {
@@ -772,6 +776,10 @@ func (stage *Stage) UnstageBranchCell(cell *Cell) {
 
 }
 
+func (cellboolean *CellBoolean) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCellBoolean(cellboolean)
+}
+
 func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
@@ -785,6 +793,10 @@ func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cellfloat64 *CellFloat64) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCellFloat64(cellfloat64)
 }
 
 func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
@@ -802,6 +814,10 @@ func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 }
 
+func (cellicon *CellIcon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCellIcon(cellicon)
+}
+
 func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
@@ -815,6 +831,10 @@ func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cellint *CellInt) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCellInt(cellint)
 }
 
 func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
@@ -832,6 +852,10 @@ func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
 
 }
 
+func (cellstring *CellString) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCellString(cellstring)
+}
+
 func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
@@ -847,6 +871,10 @@ func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 
 }
 
+func (displayedcolumn *DisplayedColumn) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDisplayedColumn(displayedcolumn)
+}
+
 func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
@@ -860,6 +888,10 @@ func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColum
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (row *Row) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRow(row)
 }
 
 func (stage *Stage) UnstageBranchRow(row *Row) {
@@ -880,6 +912,10 @@ func (stage *Stage) UnstageBranchRow(row *Row) {
 
 }
 
+func (svgicon *SVGIcon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSVGIcon(svgicon)
+}
+
 func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
@@ -893,6 +929,10 @@ func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (table *Table) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTable(table)
 }
 
 func (stage *Stage) UnstageBranchTable(table *Table) {

@@ -4,241 +4,223 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Body:
-		ok = stage.IsStagedBody(target)
-
-	case *Document:
-		ok = stage.IsStagedDocument(target)
-
-	case *Docx:
-		ok = stage.IsStagedDocx(target)
-
-	case *File:
-		ok = stage.IsStagedFile(target)
-
-	case *Node:
-		ok = stage.IsStagedNode(target)
-
-	case *Paragraph:
-		ok = stage.IsStagedParagraph(target)
-
-	case *ParagraphProperties:
-		ok = stage.IsStagedParagraphProperties(target)
-
-	case *ParagraphStyle:
-		ok = stage.IsStagedParagraphStyle(target)
-
-	case *Rune:
-		ok = stage.IsStagedRune(target)
-
-	case *RuneProperties:
-		ok = stage.IsStagedRuneProperties(target)
-
-	case *Table:
-		ok = stage.IsStagedTable(target)
-
-	case *TableColumn:
-		ok = stage.IsStagedTableColumn(target)
-
-	case *TableProperties:
-		ok = stage.IsStagedTableProperties(target)
-
-	case *TableRow:
-		ok = stage.IsStagedTableRow(target)
-
-	case *TableStyle:
-		ok = stage.IsStagedTableStyle(target)
-
-	case *Text:
-		ok = stage.IsStagedText(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedBody(body *Body) (ok bool) {
+func (body *Body) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bodys[body]
 
 	return
 }
 
-func (stage *Stage) IsStagedDocument(document *Document) (ok bool) {
+func (stage *Stage) IsStagedBody(body *Body) (ok bool) {
+
+	return body.GongIsStaged(stage)
+}
+
+func (document *Document) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Documents[document]
 
 	return
 }
 
-func (stage *Stage) IsStagedDocx(docx *Docx) (ok bool) {
+func (stage *Stage) IsStagedDocument(document *Document) (ok bool) {
+
+	return document.GongIsStaged(stage)
+}
+
+func (docx *Docx) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Docxs[docx]
 
 	return
 }
 
-func (stage *Stage) IsStagedFile(file *File) (ok bool) {
+func (stage *Stage) IsStagedDocx(docx *Docx) (ok bool) {
+
+	return docx.GongIsStaged(stage)
+}
+
+func (file *File) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Files[file]
 
 	return
 }
 
-func (stage *Stage) IsStagedNode(node *Node) (ok bool) {
+func (stage *Stage) IsStagedFile(file *File) (ok bool) {
+
+	return file.GongIsStaged(stage)
+}
+
+func (node *Node) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Nodes[node]
 
 	return
 }
 
-func (stage *Stage) IsStagedParagraph(paragraph *Paragraph) (ok bool) {
+func (stage *Stage) IsStagedNode(node *Node) (ok bool) {
+
+	return node.GongIsStaged(stage)
+}
+
+func (paragraph *Paragraph) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Paragraphs[paragraph]
 
 	return
 }
 
-func (stage *Stage) IsStagedParagraphProperties(paragraphproperties *ParagraphProperties) (ok bool) {
+func (stage *Stage) IsStagedParagraph(paragraph *Paragraph) (ok bool) {
+
+	return paragraph.GongIsStaged(stage)
+}
+
+func (paragraphproperties *ParagraphProperties) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParagraphPropertiess[paragraphproperties]
 
 	return
 }
 
-func (stage *Stage) IsStagedParagraphStyle(paragraphstyle *ParagraphStyle) (ok bool) {
+func (stage *Stage) IsStagedParagraphProperties(paragraphproperties *ParagraphProperties) (ok bool) {
+
+	return paragraphproperties.GongIsStaged(stage)
+}
+
+func (paragraphstyle *ParagraphStyle) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParagraphStyles[paragraphstyle]
 
 	return
 }
 
-func (stage *Stage) IsStagedRune(rune *Rune) (ok bool) {
+func (stage *Stage) IsStagedParagraphStyle(paragraphstyle *ParagraphStyle) (ok bool) {
+
+	return paragraphstyle.GongIsStaged(stage)
+}
+
+func (rune *Rune) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Runes[rune]
 
 	return
 }
 
-func (stage *Stage) IsStagedRuneProperties(runeproperties *RuneProperties) (ok bool) {
+func (stage *Stage) IsStagedRune(rune *Rune) (ok bool) {
+
+	return rune.GongIsStaged(stage)
+}
+
+func (runeproperties *RuneProperties) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RunePropertiess[runeproperties]
 
 	return
 }
 
-func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
+func (stage *Stage) IsStagedRuneProperties(runeproperties *RuneProperties) (ok bool) {
+
+	return runeproperties.GongIsStaged(stage)
+}
+
+func (table *Table) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tables[table]
 
 	return
 }
 
-func (stage *Stage) IsStagedTableColumn(tablecolumn *TableColumn) (ok bool) {
+func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
+
+	return table.GongIsStaged(stage)
+}
+
+func (tablecolumn *TableColumn) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TableColumns[tablecolumn]
 
 	return
 }
 
-func (stage *Stage) IsStagedTableProperties(tableproperties *TableProperties) (ok bool) {
+func (stage *Stage) IsStagedTableColumn(tablecolumn *TableColumn) (ok bool) {
+
+	return tablecolumn.GongIsStaged(stage)
+}
+
+func (tableproperties *TableProperties) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TablePropertiess[tableproperties]
 
 	return
 }
 
-func (stage *Stage) IsStagedTableRow(tablerow *TableRow) (ok bool) {
+func (stage *Stage) IsStagedTableProperties(tableproperties *TableProperties) (ok bool) {
+
+	return tableproperties.GongIsStaged(stage)
+}
+
+func (tablerow *TableRow) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TableRows[tablerow]
 
 	return
 }
 
-func (stage *Stage) IsStagedTableStyle(tablestyle *TableStyle) (ok bool) {
+func (stage *Stage) IsStagedTableRow(tablerow *TableRow) (ok bool) {
+
+	return tablerow.GongIsStaged(stage)
+}
+
+func (tablestyle *TableStyle) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TableStyles[tablestyle]
 
 	return
 }
 
-func (stage *Stage) IsStagedText(text *Text) (ok bool) {
+func (stage *Stage) IsStagedTableStyle(tablestyle *TableStyle) (ok bool) {
+
+	return tablestyle.GongIsStaged(stage)
+}
+
+func (text *Text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Texts[text]
 
 	return
 }
 
+func (stage *Stage) IsStagedText(text *Text) (ok bool) {
+
+	return text.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Body:
-		stage.StageBranchBody(target)
-
-	case *Document:
-		stage.StageBranchDocument(target)
-
-	case *Docx:
-		stage.StageBranchDocx(target)
-
-	case *File:
-		stage.StageBranchFile(target)
-
-	case *Node:
-		stage.StageBranchNode(target)
-
-	case *Paragraph:
-		stage.StageBranchParagraph(target)
-
-	case *ParagraphProperties:
-		stage.StageBranchParagraphProperties(target)
-
-	case *ParagraphStyle:
-		stage.StageBranchParagraphStyle(target)
-
-	case *Rune:
-		stage.StageBranchRune(target)
-
-	case *RuneProperties:
-		stage.StageBranchRuneProperties(target)
-
-	case *Table:
-		stage.StageBranchTable(target)
-
-	case *TableColumn:
-		stage.StageBranchTableColumn(target)
-
-	case *TableProperties:
-		stage.StageBranchTableProperties(target)
-
-	case *TableRow:
-		stage.StageBranchTableRow(target)
-
-	case *TableStyle:
-		stage.StageBranchTableStyle(target)
-
-	case *Text:
-		stage.StageBranchText(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (body *Body) GongStageBranch(stage *Stage) {
+	stage.StageBranchBody(body)
+}
+
 func (stage *Stage) StageBranchBody(body *Body) {
 
 	// check if instance is already staged
@@ -261,6 +243,10 @@ func (stage *Stage) StageBranchBody(body *Body) {
 		stage.StageBranch(_table)
 	}
 
+}
+
+func (document *Document) GongStageBranch(stage *Stage) {
+	stage.StageBranchDocument(document)
 }
 
 func (stage *Stage) StageBranchDocument(document *Document) {
@@ -287,6 +273,10 @@ func (stage *Stage) StageBranchDocument(document *Document) {
 
 }
 
+func (docx *Docx) GongStageBranch(stage *Stage) {
+	stage.StageBranchDocx(docx)
+}
+
 func (stage *Stage) StageBranchDocx(docx *Docx) {
 
 	// check if instance is already staged
@@ -308,6 +298,10 @@ func (stage *Stage) StageBranchDocx(docx *Docx) {
 
 }
 
+func (file *File) GongStageBranch(stage *Stage) {
+	stage.StageBranchFile(file)
+}
+
 func (stage *Stage) StageBranchFile(file *File) {
 
 	// check if instance is already staged
@@ -321,6 +315,10 @@ func (stage *Stage) StageBranchFile(file *File) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (node *Node) GongStageBranch(stage *Stage) {
+	stage.StageBranchNode(node)
 }
 
 func (stage *Stage) StageBranchNode(node *Node) {
@@ -339,6 +337,10 @@ func (stage *Stage) StageBranchNode(node *Node) {
 		stage.StageBranch(_node)
 	}
 
+}
+
+func (paragraph *Paragraph) GongStageBranch(stage *Stage) {
+	stage.StageBranchParagraph(paragraph)
 }
 
 func (stage *Stage) StageBranchParagraph(paragraph *Paragraph) {
@@ -377,6 +379,10 @@ func (stage *Stage) StageBranchParagraph(paragraph *Paragraph) {
 
 }
 
+func (paragraphproperties *ParagraphProperties) GongStageBranch(stage *Stage) {
+	stage.StageBranchParagraphProperties(paragraphproperties)
+}
+
 func (stage *Stage) StageBranchParagraphProperties(paragraphproperties *ParagraphProperties) {
 
 	// check if instance is already staged
@@ -398,6 +404,10 @@ func (stage *Stage) StageBranchParagraphProperties(paragraphproperties *Paragrap
 
 }
 
+func (paragraphstyle *ParagraphStyle) GongStageBranch(stage *Stage) {
+	stage.StageBranchParagraphStyle(paragraphstyle)
+}
+
 func (stage *Stage) StageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 
 	// check if instance is already staged
@@ -414,6 +424,10 @@ func (stage *Stage) StageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rune *Rune) GongStageBranch(stage *Stage) {
+	stage.StageBranchRune(rune)
 }
 
 func (stage *Stage) StageBranchRune(rune *Rune) {
@@ -443,6 +457,10 @@ func (stage *Stage) StageBranchRune(rune *Rune) {
 
 }
 
+func (runeproperties *RuneProperties) GongStageBranch(stage *Stage) {
+	stage.StageBranchRuneProperties(runeproperties)
+}
+
 func (stage *Stage) StageBranchRuneProperties(runeproperties *RuneProperties) {
 
 	// check if instance is already staged
@@ -459,6 +477,10 @@ func (stage *Stage) StageBranchRuneProperties(runeproperties *RuneProperties) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (table *Table) GongStageBranch(stage *Stage) {
+	stage.StageBranchTable(table)
 }
 
 func (stage *Stage) StageBranchTable(table *Table) {
@@ -485,6 +507,10 @@ func (stage *Stage) StageBranchTable(table *Table) {
 
 }
 
+func (tablecolumn *TableColumn) GongStageBranch(stage *Stage) {
+	stage.StageBranchTableColumn(tablecolumn)
+}
+
 func (stage *Stage) StageBranchTableColumn(tablecolumn *TableColumn) {
 
 	// check if instance is already staged
@@ -504,6 +530,10 @@ func (stage *Stage) StageBranchTableColumn(tablecolumn *TableColumn) {
 		stage.StageBranch(_paragraph)
 	}
 
+}
+
+func (tableproperties *TableProperties) GongStageBranch(stage *Stage) {
+	stage.StageBranchTableProperties(tableproperties)
 }
 
 func (stage *Stage) StageBranchTableProperties(tableproperties *TableProperties) {
@@ -527,6 +557,10 @@ func (stage *Stage) StageBranchTableProperties(tableproperties *TableProperties)
 
 }
 
+func (tablerow *TableRow) GongStageBranch(stage *Stage) {
+	stage.StageBranchTableRow(tablerow)
+}
+
 func (stage *Stage) StageBranchTableRow(tablerow *TableRow) {
 
 	// check if instance is already staged
@@ -548,6 +582,10 @@ func (stage *Stage) StageBranchTableRow(tablerow *TableRow) {
 
 }
 
+func (tablestyle *TableStyle) GongStageBranch(stage *Stage) {
+	stage.StageBranchTableStyle(tablestyle)
+}
+
 func (stage *Stage) StageBranchTableStyle(tablestyle *TableStyle) {
 
 	// check if instance is already staged
@@ -564,6 +602,10 @@ func (stage *Stage) StageBranchTableStyle(tablestyle *TableStyle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (text *Text) GongStageBranch(stage *Stage) {
+	stage.StageBranchText(text)
 }
 
 func (stage *Stage) StageBranchText(text *Text) {
@@ -1086,64 +1128,22 @@ func GongCopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Body:
-		stage.UnstageBranchBody(target)
-
-	case *Document:
-		stage.UnstageBranchDocument(target)
-
-	case *Docx:
-		stage.UnstageBranchDocx(target)
-
-	case *File:
-		stage.UnstageBranchFile(target)
-
-	case *Node:
-		stage.UnstageBranchNode(target)
-
-	case *Paragraph:
-		stage.UnstageBranchParagraph(target)
-
-	case *ParagraphProperties:
-		stage.UnstageBranchParagraphProperties(target)
-
-	case *ParagraphStyle:
-		stage.UnstageBranchParagraphStyle(target)
-
-	case *Rune:
-		stage.UnstageBranchRune(target)
-
-	case *RuneProperties:
-		stage.UnstageBranchRuneProperties(target)
-
-	case *Table:
-		stage.UnstageBranchTable(target)
-
-	case *TableColumn:
-		stage.UnstageBranchTableColumn(target)
-
-	case *TableProperties:
-		stage.UnstageBranchTableProperties(target)
-
-	case *TableRow:
-		stage.UnstageBranchTableRow(target)
-
-	case *TableStyle:
-		stage.UnstageBranchTableStyle(target)
-
-	case *Text:
-		stage.UnstageBranchText(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (body *Body) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBody(body)
+}
+
 func (stage *Stage) UnstageBranchBody(body *Body) {
 
 	// check if instance is already staged
@@ -1166,6 +1166,10 @@ func (stage *Stage) UnstageBranchBody(body *Body) {
 		stage.UnstageBranch(_table)
 	}
 
+}
+
+func (document *Document) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDocument(document)
 }
 
 func (stage *Stage) UnstageBranchDocument(document *Document) {
@@ -1192,6 +1196,10 @@ func (stage *Stage) UnstageBranchDocument(document *Document) {
 
 }
 
+func (docx *Docx) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDocx(docx)
+}
+
 func (stage *Stage) UnstageBranchDocx(docx *Docx) {
 
 	// check if instance is already staged
@@ -1213,6 +1221,10 @@ func (stage *Stage) UnstageBranchDocx(docx *Docx) {
 
 }
 
+func (file *File) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFile(file)
+}
+
 func (stage *Stage) UnstageBranchFile(file *File) {
 
 	// check if instance is already staged
@@ -1226,6 +1238,10 @@ func (stage *Stage) UnstageBranchFile(file *File) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (node *Node) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNode(node)
 }
 
 func (stage *Stage) UnstageBranchNode(node *Node) {
@@ -1244,6 +1260,10 @@ func (stage *Stage) UnstageBranchNode(node *Node) {
 		stage.UnstageBranch(_node)
 	}
 
+}
+
+func (paragraph *Paragraph) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParagraph(paragraph)
 }
 
 func (stage *Stage) UnstageBranchParagraph(paragraph *Paragraph) {
@@ -1282,6 +1302,10 @@ func (stage *Stage) UnstageBranchParagraph(paragraph *Paragraph) {
 
 }
 
+func (paragraphproperties *ParagraphProperties) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParagraphProperties(paragraphproperties)
+}
+
 func (stage *Stage) UnstageBranchParagraphProperties(paragraphproperties *ParagraphProperties) {
 
 	// check if instance is already staged
@@ -1303,6 +1327,10 @@ func (stage *Stage) UnstageBranchParagraphProperties(paragraphproperties *Paragr
 
 }
 
+func (paragraphstyle *ParagraphStyle) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParagraphStyle(paragraphstyle)
+}
+
 func (stage *Stage) UnstageBranchParagraphStyle(paragraphstyle *ParagraphStyle) {
 
 	// check if instance is already staged
@@ -1319,6 +1347,10 @@ func (stage *Stage) UnstageBranchParagraphStyle(paragraphstyle *ParagraphStyle) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rune *Rune) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRune(rune)
 }
 
 func (stage *Stage) UnstageBranchRune(rune *Rune) {
@@ -1348,6 +1380,10 @@ func (stage *Stage) UnstageBranchRune(rune *Rune) {
 
 }
 
+func (runeproperties *RuneProperties) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRuneProperties(runeproperties)
+}
+
 func (stage *Stage) UnstageBranchRuneProperties(runeproperties *RuneProperties) {
 
 	// check if instance is already staged
@@ -1364,6 +1400,10 @@ func (stage *Stage) UnstageBranchRuneProperties(runeproperties *RuneProperties) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (table *Table) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTable(table)
 }
 
 func (stage *Stage) UnstageBranchTable(table *Table) {
@@ -1390,6 +1430,10 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 
 }
 
+func (tablecolumn *TableColumn) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTableColumn(tablecolumn)
+}
+
 func (stage *Stage) UnstageBranchTableColumn(tablecolumn *TableColumn) {
 
 	// check if instance is already staged
@@ -1409,6 +1453,10 @@ func (stage *Stage) UnstageBranchTableColumn(tablecolumn *TableColumn) {
 		stage.UnstageBranch(_paragraph)
 	}
 
+}
+
+func (tableproperties *TableProperties) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTableProperties(tableproperties)
 }
 
 func (stage *Stage) UnstageBranchTableProperties(tableproperties *TableProperties) {
@@ -1432,6 +1480,10 @@ func (stage *Stage) UnstageBranchTableProperties(tableproperties *TablePropertie
 
 }
 
+func (tablerow *TableRow) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTableRow(tablerow)
+}
+
 func (stage *Stage) UnstageBranchTableRow(tablerow *TableRow) {
 
 	// check if instance is already staged
@@ -1453,6 +1505,10 @@ func (stage *Stage) UnstageBranchTableRow(tablerow *TableRow) {
 
 }
 
+func (tablestyle *TableStyle) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTableStyle(tablestyle)
+}
+
 func (stage *Stage) UnstageBranchTableStyle(tablestyle *TableStyle) {
 
 	// check if instance is already staged
@@ -1469,6 +1525,10 @@ func (stage *Stage) UnstageBranchTableStyle(tablestyle *TableStyle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (text *Text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchText(text)
 }
 
 func (stage *Stage) UnstageBranchText(text *Text) {

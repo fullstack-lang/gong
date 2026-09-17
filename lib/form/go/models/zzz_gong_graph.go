@@ -4,215 +4,199 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *CheckBox:
-		ok = stage.IsStagedCheckBox(target)
-
-	case *FormDiv:
-		ok = stage.IsStagedFormDiv(target)
-
-	case *FormEditAssocButton:
-		ok = stage.IsStagedFormEditAssocButton(target)
-
-	case *FormField:
-		ok = stage.IsStagedFormField(target)
-
-	case *FormFieldDate:
-		ok = stage.IsStagedFormFieldDate(target)
-
-	case *FormFieldDateTime:
-		ok = stage.IsStagedFormFieldDateTime(target)
-
-	case *FormFieldFloat64:
-		ok = stage.IsStagedFormFieldFloat64(target)
-
-	case *FormFieldInt:
-		ok = stage.IsStagedFormFieldInt(target)
-
-	case *FormFieldSelect:
-		ok = stage.IsStagedFormFieldSelect(target)
-
-	case *FormFieldString:
-		ok = stage.IsStagedFormFieldString(target)
-
-	case *FormFieldTime:
-		ok = stage.IsStagedFormFieldTime(target)
-
-	case *FormGroup:
-		ok = stage.IsStagedFormGroup(target)
-
-	case *FormSortAssocButton:
-		ok = stage.IsStagedFormSortAssocButton(target)
-
-	case *Option:
-		ok = stage.IsStagedOption(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
+func (checkbox *CheckBox) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CheckBoxs[checkbox]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormDiv(formdiv *FormDiv) (ok bool) {
+func (stage *Stage) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
+
+	return checkbox.GongIsStaged(stage)
+}
+
+func (formdiv *FormDiv) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormDivs[formdiv]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormEditAssocButton(formeditassocbutton *FormEditAssocButton) (ok bool) {
+func (stage *Stage) IsStagedFormDiv(formdiv *FormDiv) (ok bool) {
+
+	return formdiv.GongIsStaged(stage)
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormEditAssocButtons[formeditassocbutton]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormField(formfield *FormField) (ok bool) {
+func (stage *Stage) IsStagedFormEditAssocButton(formeditassocbutton *FormEditAssocButton) (ok bool) {
+
+	return formeditassocbutton.GongIsStaged(stage)
+}
+
+func (formfield *FormField) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFields[formfield]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldDate(formfielddate *FormFieldDate) (ok bool) {
+func (stage *Stage) IsStagedFormField(formfield *FormField) (ok bool) {
+
+	return formfield.GongIsStaged(stage)
+}
+
+func (formfielddate *FormFieldDate) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldDates[formfielddate]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldDateTime(formfielddatetime *FormFieldDateTime) (ok bool) {
+func (stage *Stage) IsStagedFormFieldDate(formfielddate *FormFieldDate) (ok bool) {
+
+	return formfielddate.GongIsStaged(stage)
+}
+
+func (formfielddatetime *FormFieldDateTime) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldDateTimes[formfielddatetime]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) (ok bool) {
+func (stage *Stage) IsStagedFormFieldDateTime(formfielddatetime *FormFieldDateTime) (ok bool) {
+
+	return formfielddatetime.GongIsStaged(stage)
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldFloat64s[formfieldfloat64]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldInt(formfieldint *FormFieldInt) (ok bool) {
+func (stage *Stage) IsStagedFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) (ok bool) {
+
+	return formfieldfloat64.GongIsStaged(stage)
+}
+
+func (formfieldint *FormFieldInt) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldInts[formfieldint]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldSelect(formfieldselect *FormFieldSelect) (ok bool) {
+func (stage *Stage) IsStagedFormFieldInt(formfieldint *FormFieldInt) (ok bool) {
+
+	return formfieldint.GongIsStaged(stage)
+}
+
+func (formfieldselect *FormFieldSelect) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldSelects[formfieldselect]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldString(formfieldstring *FormFieldString) (ok bool) {
+func (stage *Stage) IsStagedFormFieldSelect(formfieldselect *FormFieldSelect) (ok bool) {
+
+	return formfieldselect.GongIsStaged(stage)
+}
+
+func (formfieldstring *FormFieldString) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldStrings[formfieldstring]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormFieldTime(formfieldtime *FormFieldTime) (ok bool) {
+func (stage *Stage) IsStagedFormFieldString(formfieldstring *FormFieldString) (ok bool) {
+
+	return formfieldstring.GongIsStaged(stage)
+}
+
+func (formfieldtime *FormFieldTime) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormFieldTimes[formfieldtime]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormGroup(formgroup *FormGroup) (ok bool) {
+func (stage *Stage) IsStagedFormFieldTime(formfieldtime *FormFieldTime) (ok bool) {
+
+	return formfieldtime.GongIsStaged(stage)
+}
+
+func (formgroup *FormGroup) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormGroups[formgroup]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormSortAssocButton(formsortassocbutton *FormSortAssocButton) (ok bool) {
+func (stage *Stage) IsStagedFormGroup(formgroup *FormGroup) (ok bool) {
+
+	return formgroup.GongIsStaged(stage)
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FormSortAssocButtons[formsortassocbutton]
 
 	return
 }
 
-func (stage *Stage) IsStagedOption(option *Option) (ok bool) {
+func (stage *Stage) IsStagedFormSortAssocButton(formsortassocbutton *FormSortAssocButton) (ok bool) {
+
+	return formsortassocbutton.GongIsStaged(stage)
+}
+
+func (option *Option) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Options[option]
 
 	return
 }
 
+func (stage *Stage) IsStagedOption(option *Option) (ok bool) {
+
+	return option.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *CheckBox:
-		stage.StageBranchCheckBox(target)
-
-	case *FormDiv:
-		stage.StageBranchFormDiv(target)
-
-	case *FormEditAssocButton:
-		stage.StageBranchFormEditAssocButton(target)
-
-	case *FormField:
-		stage.StageBranchFormField(target)
-
-	case *FormFieldDate:
-		stage.StageBranchFormFieldDate(target)
-
-	case *FormFieldDateTime:
-		stage.StageBranchFormFieldDateTime(target)
-
-	case *FormFieldFloat64:
-		stage.StageBranchFormFieldFloat64(target)
-
-	case *FormFieldInt:
-		stage.StageBranchFormFieldInt(target)
-
-	case *FormFieldSelect:
-		stage.StageBranchFormFieldSelect(target)
-
-	case *FormFieldString:
-		stage.StageBranchFormFieldString(target)
-
-	case *FormFieldTime:
-		stage.StageBranchFormFieldTime(target)
-
-	case *FormGroup:
-		stage.StageBranchFormGroup(target)
-
-	case *FormSortAssocButton:
-		stage.StageBranchFormSortAssocButton(target)
-
-	case *Option:
-		stage.StageBranchOption(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (checkbox *CheckBox) GongStageBranch(stage *Stage) {
+	stage.StageBranchCheckBox(checkbox)
+}
+
 func (stage *Stage) StageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
@@ -226,6 +210,10 @@ func (stage *Stage) StageBranchCheckBox(checkbox *CheckBox) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formdiv *FormDiv) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormDiv(formdiv)
 }
 
 func (stage *Stage) StageBranchFormDiv(formdiv *FormDiv) {
@@ -255,6 +243,10 @@ func (stage *Stage) StageBranchFormDiv(formdiv *FormDiv) {
 
 }
 
+func (formeditassocbutton *FormEditAssocButton) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormEditAssocButton(formeditassocbutton)
+}
+
 func (stage *Stage) StageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
@@ -268,6 +260,10 @@ func (stage *Stage) StageBranchFormEditAssocButton(formeditassocbutton *FormEdit
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formfield *FormField) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormField(formfield)
 }
 
 func (stage *Stage) StageBranchFormField(formfield *FormField) {
@@ -306,6 +302,10 @@ func (stage *Stage) StageBranchFormField(formfield *FormField) {
 
 }
 
+func (formfielddate *FormFieldDate) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldDate(formfielddate)
+}
+
 func (stage *Stage) StageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
@@ -319,6 +319,10 @@ func (stage *Stage) StageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formfielddatetime *FormFieldDateTime) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldDateTime(formfielddatetime)
 }
 
 func (stage *Stage) StageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
@@ -336,6 +340,10 @@ func (stage *Stage) StageBranchFormFieldDateTime(formfielddatetime *FormFieldDat
 
 }
 
+func (formfieldfloat64 *FormFieldFloat64) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldFloat64(formfieldfloat64)
+}
+
 func (stage *Stage) StageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
@@ -351,6 +359,10 @@ func (stage *Stage) StageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat
 
 }
 
+func (formfieldint *FormFieldInt) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldInt(formfieldint)
+}
+
 func (stage *Stage) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
@@ -364,6 +376,10 @@ func (stage *Stage) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formfieldselect *FormFieldSelect) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldSelect(formfieldselect)
 }
 
 func (stage *Stage) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
@@ -387,6 +403,10 @@ func (stage *Stage) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect)
 
 }
 
+func (formfieldstring *FormFieldString) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldString(formfieldstring)
+}
+
 func (stage *Stage) StageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
@@ -402,6 +422,10 @@ func (stage *Stage) StageBranchFormFieldString(formfieldstring *FormFieldString)
 
 }
 
+func (formfieldtime *FormFieldTime) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormFieldTime(formfieldtime)
+}
+
 func (stage *Stage) StageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
@@ -415,6 +439,10 @@ func (stage *Stage) StageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formgroup *FormGroup) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormGroup(formgroup)
 }
 
 func (stage *Stage) StageBranchFormGroup(formgroup *FormGroup) {
@@ -435,6 +463,10 @@ func (stage *Stage) StageBranchFormGroup(formgroup *FormGroup) {
 
 }
 
+func (formsortassocbutton *FormSortAssocButton) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormSortAssocButton(formsortassocbutton)
+}
+
 func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
@@ -451,6 +483,10 @@ func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSort
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (option *Option) GongStageBranch(stage *Stage) {
+	stage.StageBranchOption(option)
 }
 
 func (stage *Stage) StageBranchOption(option *Option) {
@@ -858,58 +894,22 @@ func GongCopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *CheckBox:
-		stage.UnstageBranchCheckBox(target)
-
-	case *FormDiv:
-		stage.UnstageBranchFormDiv(target)
-
-	case *FormEditAssocButton:
-		stage.UnstageBranchFormEditAssocButton(target)
-
-	case *FormField:
-		stage.UnstageBranchFormField(target)
-
-	case *FormFieldDate:
-		stage.UnstageBranchFormFieldDate(target)
-
-	case *FormFieldDateTime:
-		stage.UnstageBranchFormFieldDateTime(target)
-
-	case *FormFieldFloat64:
-		stage.UnstageBranchFormFieldFloat64(target)
-
-	case *FormFieldInt:
-		stage.UnstageBranchFormFieldInt(target)
-
-	case *FormFieldSelect:
-		stage.UnstageBranchFormFieldSelect(target)
-
-	case *FormFieldString:
-		stage.UnstageBranchFormFieldString(target)
-
-	case *FormFieldTime:
-		stage.UnstageBranchFormFieldTime(target)
-
-	case *FormGroup:
-		stage.UnstageBranchFormGroup(target)
-
-	case *FormSortAssocButton:
-		stage.UnstageBranchFormSortAssocButton(target)
-
-	case *Option:
-		stage.UnstageBranchOption(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (checkbox *CheckBox) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCheckBox(checkbox)
+}
+
 func (stage *Stage) UnstageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
@@ -923,6 +923,10 @@ func (stage *Stage) UnstageBranchCheckBox(checkbox *CheckBox) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formdiv *FormDiv) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormDiv(formdiv)
 }
 
 func (stage *Stage) UnstageBranchFormDiv(formdiv *FormDiv) {
@@ -952,6 +956,10 @@ func (stage *Stage) UnstageBranchFormDiv(formdiv *FormDiv) {
 
 }
 
+func (formeditassocbutton *FormEditAssocButton) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormEditAssocButton(formeditassocbutton)
+}
+
 func (stage *Stage) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
@@ -965,6 +973,10 @@ func (stage *Stage) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEd
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formfield *FormField) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormField(formfield)
 }
 
 func (stage *Stage) UnstageBranchFormField(formfield *FormField) {
@@ -1003,6 +1015,10 @@ func (stage *Stage) UnstageBranchFormField(formfield *FormField) {
 
 }
 
+func (formfielddate *FormFieldDate) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldDate(formfielddate)
+}
+
 func (stage *Stage) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
@@ -1016,6 +1032,10 @@ func (stage *Stage) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formfielddatetime *FormFieldDateTime) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldDateTime(formfielddatetime)
 }
 
 func (stage *Stage) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
@@ -1033,6 +1053,10 @@ func (stage *Stage) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldD
 
 }
 
+func (formfieldfloat64 *FormFieldFloat64) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldFloat64(formfieldfloat64)
+}
+
 func (stage *Stage) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
@@ -1048,6 +1072,10 @@ func (stage *Stage) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFlo
 
 }
 
+func (formfieldint *FormFieldInt) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldInt(formfieldint)
+}
+
 func (stage *Stage) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
@@ -1061,6 +1089,10 @@ func (stage *Stage) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formfieldselect *FormFieldSelect) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldSelect(formfieldselect)
 }
 
 func (stage *Stage) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
@@ -1084,6 +1116,10 @@ func (stage *Stage) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelec
 
 }
 
+func (formfieldstring *FormFieldString) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldString(formfieldstring)
+}
+
 func (stage *Stage) UnstageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
@@ -1099,6 +1135,10 @@ func (stage *Stage) UnstageBranchFormFieldString(formfieldstring *FormFieldStrin
 
 }
 
+func (formfieldtime *FormFieldTime) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormFieldTime(formfieldtime)
+}
+
 func (stage *Stage) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
@@ -1112,6 +1152,10 @@ func (stage *Stage) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formgroup *FormGroup) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormGroup(formgroup)
 }
 
 func (stage *Stage) UnstageBranchFormGroup(formgroup *FormGroup) {
@@ -1132,6 +1176,10 @@ func (stage *Stage) UnstageBranchFormGroup(formgroup *FormGroup) {
 
 }
 
+func (formsortassocbutton *FormSortAssocButton) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormSortAssocButton(formsortassocbutton)
+}
+
 func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
@@ -1148,6 +1196,10 @@ func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (option *Option) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOption(option)
 }
 
 func (stage *Stage) UnstageBranchOption(option *Option) {

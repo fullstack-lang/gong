@@ -4,3036 +4,2803 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *A_directive:
-		ok = stage.IsStagedA_directive(target)
-
-	case *A_measure:
-		ok = stage.IsStagedA_measure(target)
-
-	case *A_measure_1:
-		ok = stage.IsStagedA_measure_1(target)
-
-	case *A_part:
-		ok = stage.IsStagedA_part(target)
-
-	case *A_part_1:
-		ok = stage.IsStagedA_part_1(target)
-
-	case *Accidental:
-		ok = stage.IsStagedAccidental(target)
-
-	case *Accidental_mark:
-		ok = stage.IsStagedAccidental_mark(target)
-
-	case *Accidental_text:
-		ok = stage.IsStagedAccidental_text(target)
-
-	case *Accord:
-		ok = stage.IsStagedAccord(target)
-
-	case *Accordion_registration:
-		ok = stage.IsStagedAccordion_registration(target)
-
-	case *Appearance:
-		ok = stage.IsStagedAppearance(target)
-
-	case *Arpeggiate:
-		ok = stage.IsStagedArpeggiate(target)
-
-	case *Arrow:
-		ok = stage.IsStagedArrow(target)
-
-	case *Articulations:
-		ok = stage.IsStagedArticulations(target)
-
-	case *Assess:
-		ok = stage.IsStagedAssess(target)
-
-	case *Attributes:
-		ok = stage.IsStagedAttributes(target)
-
-	case *Backup:
-		ok = stage.IsStagedBackup(target)
-
-	case *Bar_style_color:
-		ok = stage.IsStagedBar_style_color(target)
-
-	case *Barline:
-		ok = stage.IsStagedBarline(target)
-
-	case *Barre:
-		ok = stage.IsStagedBarre(target)
-
-	case *Bass:
-		ok = stage.IsStagedBass(target)
-
-	case *Bass_step:
-		ok = stage.IsStagedBass_step(target)
-
-	case *Beam:
-		ok = stage.IsStagedBeam(target)
-
-	case *Beat_repeat:
-		ok = stage.IsStagedBeat_repeat(target)
-
-	case *Beat_unit_tied:
-		ok = stage.IsStagedBeat_unit_tied(target)
-
-	case *Beater:
-		ok = stage.IsStagedBeater(target)
-
-	case *Bend:
-		ok = stage.IsStagedBend(target)
-
-	case *Bookmark:
-		ok = stage.IsStagedBookmark(target)
-
-	case *Bracket:
-		ok = stage.IsStagedBracket(target)
-
-	case *Breath_mark:
-		ok = stage.IsStagedBreath_mark(target)
-
-	case *Caesura:
-		ok = stage.IsStagedCaesura(target)
-
-	case *Cancel:
-		ok = stage.IsStagedCancel(target)
-
-	case *Clef:
-		ok = stage.IsStagedClef(target)
-
-	case *Coda:
-		ok = stage.IsStagedCoda(target)
-
-	case *Credit:
-		ok = stage.IsStagedCredit(target)
-
-	case *Dashes:
-		ok = stage.IsStagedDashes(target)
-
-	case *Defaults:
-		ok = stage.IsStagedDefaults(target)
-
-	case *Degree:
-		ok = stage.IsStagedDegree(target)
-
-	case *Degree_alter:
-		ok = stage.IsStagedDegree_alter(target)
-
-	case *Degree_type:
-		ok = stage.IsStagedDegree_type(target)
-
-	case *Degree_value:
-		ok = stage.IsStagedDegree_value(target)
-
-	case *Direction:
-		ok = stage.IsStagedDirection(target)
-
-	case *Direction_type:
-		ok = stage.IsStagedDirection_type(target)
-
-	case *Distance:
-		ok = stage.IsStagedDistance(target)
-
-	case *Double:
-		ok = stage.IsStagedDouble(target)
-
-	case *Dynamics:
-		ok = stage.IsStagedDynamics(target)
-
-	case *Effect:
-		ok = stage.IsStagedEffect(target)
-
-	case *Elision:
-		ok = stage.IsStagedElision(target)
-
-	case *Empty:
-		ok = stage.IsStagedEmpty(target)
-
-	case *Empty_font:
-		ok = stage.IsStagedEmpty_font(target)
-
-	case *Empty_line:
-		ok = stage.IsStagedEmpty_line(target)
-
-	case *Empty_placement:
-		ok = stage.IsStagedEmpty_placement(target)
-
-	case *Empty_placement_smufl:
-		ok = stage.IsStagedEmpty_placement_smufl(target)
-
-	case *Empty_print_object_style_align:
-		ok = stage.IsStagedEmpty_print_object_style_align(target)
-
-	case *Empty_print_style:
-		ok = stage.IsStagedEmpty_print_style(target)
-
-	case *Empty_print_style_align:
-		ok = stage.IsStagedEmpty_print_style_align(target)
-
-	case *Empty_print_style_align_id:
-		ok = stage.IsStagedEmpty_print_style_align_id(target)
-
-	case *Empty_trill_sound:
-		ok = stage.IsStagedEmpty_trill_sound(target)
-
-	case *Encoding:
-		ok = stage.IsStagedEncoding(target)
-
-	case *Ending:
-		ok = stage.IsStagedEnding(target)
-
-	case *Extend:
-		ok = stage.IsStagedExtend(target)
-
-	case *Feature:
-		ok = stage.IsStagedFeature(target)
-
-	case *Fermata:
-		ok = stage.IsStagedFermata(target)
-
-	case *Figure:
-		ok = stage.IsStagedFigure(target)
-
-	case *Figured_bass:
-		ok = stage.IsStagedFigured_bass(target)
-
-	case *Fingering:
-		ok = stage.IsStagedFingering(target)
-
-	case *First_fret:
-		ok = stage.IsStagedFirst_fret(target)
-
-	case *For_part:
-		ok = stage.IsStagedFor_part(target)
-
-	case *Formatted_symbol:
-		ok = stage.IsStagedFormatted_symbol(target)
-
-	case *Formatted_symbol_id:
-		ok = stage.IsStagedFormatted_symbol_id(target)
-
-	case *Formatted_text:
-		ok = stage.IsStagedFormatted_text(target)
-
-	case *Formatted_text_id:
-		ok = stage.IsStagedFormatted_text_id(target)
-
-	case *Forward:
-		ok = stage.IsStagedForward(target)
-
-	case *Frame:
-		ok = stage.IsStagedFrame(target)
-
-	case *Frame_note:
-		ok = stage.IsStagedFrame_note(target)
-
-	case *Fret:
-		ok = stage.IsStagedFret(target)
-
-	case *Glass:
-		ok = stage.IsStagedGlass(target)
-
-	case *Glissando:
-		ok = stage.IsStagedGlissando(target)
-
-	case *Glyph:
-		ok = stage.IsStagedGlyph(target)
-
-	case *Grace:
-		ok = stage.IsStagedGrace(target)
-
-	case *Group_barline:
-		ok = stage.IsStagedGroup_barline(target)
-
-	case *Group_name:
-		ok = stage.IsStagedGroup_name(target)
-
-	case *Group_symbol:
-		ok = stage.IsStagedGroup_symbol(target)
-
-	case *Grouping:
-		ok = stage.IsStagedGrouping(target)
-
-	case *Hammer_on_pull_off:
-		ok = stage.IsStagedHammer_on_pull_off(target)
-
-	case *Handbell:
-		ok = stage.IsStagedHandbell(target)
-
-	case *Harmon_closed:
-		ok = stage.IsStagedHarmon_closed(target)
-
-	case *Harmon_mute:
-		ok = stage.IsStagedHarmon_mute(target)
-
-	case *Harmonic:
-		ok = stage.IsStagedHarmonic(target)
-
-	case *Harmony:
-		ok = stage.IsStagedHarmony(target)
-
-	case *Harmony_alter:
-		ok = stage.IsStagedHarmony_alter(target)
-
-	case *Harp_pedals:
-		ok = stage.IsStagedHarp_pedals(target)
-
-	case *Heel_toe:
-		ok = stage.IsStagedHeel_toe(target)
-
-	case *Hole:
-		ok = stage.IsStagedHole(target)
-
-	case *Hole_closed:
-		ok = stage.IsStagedHole_closed(target)
-
-	case *Horizontal_turn:
-		ok = stage.IsStagedHorizontal_turn(target)
-
-	case *Identification:
-		ok = stage.IsStagedIdentification(target)
-
-	case *Image:
-		ok = stage.IsStagedImage(target)
-
-	case *Instrument:
-		ok = stage.IsStagedInstrument(target)
-
-	case *Instrument_change:
-		ok = stage.IsStagedInstrument_change(target)
-
-	case *Instrument_link:
-		ok = stage.IsStagedInstrument_link(target)
-
-	case *Interchangeable:
-		ok = stage.IsStagedInterchangeable(target)
-
-	case *Inversion:
-		ok = stage.IsStagedInversion(target)
-
-	case *Key:
-		ok = stage.IsStagedKey(target)
-
-	case *Key_accidental:
-		ok = stage.IsStagedKey_accidental(target)
-
-	case *Key_octave:
-		ok = stage.IsStagedKey_octave(target)
-
-	case *Kind:
-		ok = stage.IsStagedKind(target)
-
-	case *Level:
-		ok = stage.IsStagedLevel(target)
-
-	case *Line_detail:
-		ok = stage.IsStagedLine_detail(target)
-
-	case *Line_width:
-		ok = stage.IsStagedLine_width(target)
-
-	case *Link:
-		ok = stage.IsStagedLink(target)
-
-	case *Listen:
-		ok = stage.IsStagedListen(target)
-
-	case *Listening:
-		ok = stage.IsStagedListening(target)
-
-	case *Lyric:
-		ok = stage.IsStagedLyric(target)
-
-	case *Lyric_font:
-		ok = stage.IsStagedLyric_font(target)
-
-	case *Lyric_language:
-		ok = stage.IsStagedLyric_language(target)
-
-	case *Measure_layout:
-		ok = stage.IsStagedMeasure_layout(target)
-
-	case *Measure_numbering:
-		ok = stage.IsStagedMeasure_numbering(target)
-
-	case *Measure_repeat:
-		ok = stage.IsStagedMeasure_repeat(target)
-
-	case *Measure_style:
-		ok = stage.IsStagedMeasure_style(target)
-
-	case *Membrane:
-		ok = stage.IsStagedMembrane(target)
-
-	case *Metal:
-		ok = stage.IsStagedMetal(target)
-
-	case *Metronome:
-		ok = stage.IsStagedMetronome(target)
-
-	case *Metronome_beam:
-		ok = stage.IsStagedMetronome_beam(target)
-
-	case *Metronome_note:
-		ok = stage.IsStagedMetronome_note(target)
-
-	case *Metronome_tied:
-		ok = stage.IsStagedMetronome_tied(target)
-
-	case *Metronome_tuplet:
-		ok = stage.IsStagedMetronome_tuplet(target)
-
-	case *Midi_device:
-		ok = stage.IsStagedMidi_device(target)
-
-	case *Midi_instrument:
-		ok = stage.IsStagedMidi_instrument(target)
-
-	case *Miscellaneous:
-		ok = stage.IsStagedMiscellaneous(target)
-
-	case *Miscellaneous_field:
-		ok = stage.IsStagedMiscellaneous_field(target)
-
-	case *Mordent:
-		ok = stage.IsStagedMordent(target)
-
-	case *Multiple_rest:
-		ok = stage.IsStagedMultiple_rest(target)
-
-	case *Name_display:
-		ok = stage.IsStagedName_display(target)
-
-	case *Non_arpeggiate:
-		ok = stage.IsStagedNon_arpeggiate(target)
-
-	case *Notations:
-		ok = stage.IsStagedNotations(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *Note_size:
-		ok = stage.IsStagedNote_size(target)
-
-	case *Note_type:
-		ok = stage.IsStagedNote_type(target)
-
-	case *Notehead:
-		ok = stage.IsStagedNotehead(target)
-
-	case *Notehead_text:
-		ok = stage.IsStagedNotehead_text(target)
-
-	case *Numeral:
-		ok = stage.IsStagedNumeral(target)
-
-	case *Numeral_key:
-		ok = stage.IsStagedNumeral_key(target)
-
-	case *Numeral_root:
-		ok = stage.IsStagedNumeral_root(target)
-
-	case *Octave_shift:
-		ok = stage.IsStagedOctave_shift(target)
-
-	case *Offset:
-		ok = stage.IsStagedOffset(target)
-
-	case *Opus:
-		ok = stage.IsStagedOpus(target)
-
-	case *Ornaments:
-		ok = stage.IsStagedOrnaments(target)
-
-	case *Other_appearance:
-		ok = stage.IsStagedOther_appearance(target)
-
-	case *Other_direction:
-		ok = stage.IsStagedOther_direction(target)
-
-	case *Other_listening:
-		ok = stage.IsStagedOther_listening(target)
-
-	case *Other_notation:
-		ok = stage.IsStagedOther_notation(target)
-
-	case *Other_placement_text:
-		ok = stage.IsStagedOther_placement_text(target)
-
-	case *Other_play:
-		ok = stage.IsStagedOther_play(target)
-
-	case *Other_text:
-		ok = stage.IsStagedOther_text(target)
-
-	case *Page_layout:
-		ok = stage.IsStagedPage_layout(target)
-
-	case *Page_margins:
-		ok = stage.IsStagedPage_margins(target)
-
-	case *Part_clef:
-		ok = stage.IsStagedPart_clef(target)
-
-	case *Part_group:
-		ok = stage.IsStagedPart_group(target)
-
-	case *Part_link:
-		ok = stage.IsStagedPart_link(target)
-
-	case *Part_list:
-		ok = stage.IsStagedPart_list(target)
-
-	case *Part_name:
-		ok = stage.IsStagedPart_name(target)
-
-	case *Part_symbol:
-		ok = stage.IsStagedPart_symbol(target)
-
-	case *Part_transpose:
-		ok = stage.IsStagedPart_transpose(target)
-
-	case *Pedal:
-		ok = stage.IsStagedPedal(target)
-
-	case *Pedal_tuning:
-		ok = stage.IsStagedPedal_tuning(target)
-
-	case *Per_minute:
-		ok = stage.IsStagedPer_minute(target)
-
-	case *Percussion:
-		ok = stage.IsStagedPercussion(target)
-
-	case *Pitch:
-		ok = stage.IsStagedPitch(target)
-
-	case *Pitched:
-		ok = stage.IsStagedPitched(target)
-
-	case *Placement_text:
-		ok = stage.IsStagedPlacement_text(target)
-
-	case *Play:
-		ok = stage.IsStagedPlay(target)
-
-	case *Player:
-		ok = stage.IsStagedPlayer(target)
-
-	case *Principal_voice:
-		ok = stage.IsStagedPrincipal_voice(target)
-
-	case *Print:
-		ok = stage.IsStagedPrint(target)
-
-	case *Release:
-		ok = stage.IsStagedRelease(target)
-
-	case *Repeat:
-		ok = stage.IsStagedRepeat(target)
-
-	case *Rest:
-		ok = stage.IsStagedRest(target)
-
-	case *Root:
-		ok = stage.IsStagedRoot(target)
-
-	case *Root_step:
-		ok = stage.IsStagedRoot_step(target)
-
-	case *Scaling:
-		ok = stage.IsStagedScaling(target)
-
-	case *Scordatura:
-		ok = stage.IsStagedScordatura(target)
-
-	case *Score_instrument:
-		ok = stage.IsStagedScore_instrument(target)
-
-	case *Score_part:
-		ok = stage.IsStagedScore_part(target)
-
-	case *Score_partwise:
-		ok = stage.IsStagedScore_partwise(target)
-
-	case *Score_timewise:
-		ok = stage.IsStagedScore_timewise(target)
-
-	case *Segno:
-		ok = stage.IsStagedSegno(target)
-
-	case *Slash:
-		ok = stage.IsStagedSlash(target)
-
-	case *Slide:
-		ok = stage.IsStagedSlide(target)
-
-	case *Slur:
-		ok = stage.IsStagedSlur(target)
-
-	case *Sound:
-		ok = stage.IsStagedSound(target)
-
-	case *Staff_details:
-		ok = stage.IsStagedStaff_details(target)
-
-	case *Staff_divide:
-		ok = stage.IsStagedStaff_divide(target)
-
-	case *Staff_layout:
-		ok = stage.IsStagedStaff_layout(target)
-
-	case *Staff_size:
-		ok = stage.IsStagedStaff_size(target)
-
-	case *Staff_tuning:
-		ok = stage.IsStagedStaff_tuning(target)
-
-	case *Stem:
-		ok = stage.IsStagedStem(target)
-
-	case *Stick:
-		ok = stage.IsStagedStick(target)
-
-	case *String_mute:
-		ok = stage.IsStagedString_mute(target)
-
-	case *String_type:
-		ok = stage.IsStagedString_type(target)
-
-	case *Strong_accent:
-		ok = stage.IsStagedStrong_accent(target)
-
-	case *Style_text:
-		ok = stage.IsStagedStyle_text(target)
-
-	case *Supports:
-		ok = stage.IsStagedSupports(target)
-
-	case *Swing:
-		ok = stage.IsStagedSwing(target)
-
-	case *Sync:
-		ok = stage.IsStagedSync(target)
-
-	case *System_dividers:
-		ok = stage.IsStagedSystem_dividers(target)
-
-	case *System_layout:
-		ok = stage.IsStagedSystem_layout(target)
-
-	case *System_margins:
-		ok = stage.IsStagedSystem_margins(target)
-
-	case *Tap:
-		ok = stage.IsStagedTap(target)
-
-	case *Technical:
-		ok = stage.IsStagedTechnical(target)
-
-	case *Text_element_data:
-		ok = stage.IsStagedText_element_data(target)
-
-	case *Tie:
-		ok = stage.IsStagedTie(target)
-
-	case *Tied:
-		ok = stage.IsStagedTied(target)
-
-	case *Time:
-		ok = stage.IsStagedTime(target)
-
-	case *Time_modification:
-		ok = stage.IsStagedTime_modification(target)
-
-	case *Timpani:
-		ok = stage.IsStagedTimpani(target)
-
-	case *Transpose:
-		ok = stage.IsStagedTranspose(target)
-
-	case *Tremolo:
-		ok = stage.IsStagedTremolo(target)
-
-	case *Tuplet:
-		ok = stage.IsStagedTuplet(target)
-
-	case *Tuplet_dot:
-		ok = stage.IsStagedTuplet_dot(target)
-
-	case *Tuplet_number:
-		ok = stage.IsStagedTuplet_number(target)
-
-	case *Tuplet_portion:
-		ok = stage.IsStagedTuplet_portion(target)
-
-	case *Tuplet_type:
-		ok = stage.IsStagedTuplet_type(target)
-
-	case *Typed_text:
-		ok = stage.IsStagedTyped_text(target)
-
-	case *Unpitched:
-		ok = stage.IsStagedUnpitched(target)
-
-	case *Virtual_instrument:
-		ok = stage.IsStagedVirtual_instrument(target)
-
-	case *Wait:
-		ok = stage.IsStagedWait(target)
-
-	case *Wavy_line:
-		ok = stage.IsStagedWavy_line(target)
-
-	case *Wedge:
-		ok = stage.IsStagedWedge(target)
-
-	case *Wood:
-		ok = stage.IsStagedWood(target)
-
-	case *Work:
-		ok = stage.IsStagedWork(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedA_directive(a_directive *A_directive) (ok bool) {
+func (a_directive *A_directive) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_directives[a_directive]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_measure(a_measure *A_measure) (ok bool) {
+func (stage *Stage) IsStagedA_directive(a_directive *A_directive) (ok bool) {
+
+	return a_directive.GongIsStaged(stage)
+}
+
+func (a_measure *A_measure) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_measures[a_measure]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_measure_1(a_measure_1 *A_measure_1) (ok bool) {
+func (stage *Stage) IsStagedA_measure(a_measure *A_measure) (ok bool) {
+
+	return a_measure.GongIsStaged(stage)
+}
+
+func (a_measure_1 *A_measure_1) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_measure_1s[a_measure_1]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_part(a_part *A_part) (ok bool) {
+func (stage *Stage) IsStagedA_measure_1(a_measure_1 *A_measure_1) (ok bool) {
+
+	return a_measure_1.GongIsStaged(stage)
+}
+
+func (a_part *A_part) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_parts[a_part]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_part_1(a_part_1 *A_part_1) (ok bool) {
+func (stage *Stage) IsStagedA_part(a_part *A_part) (ok bool) {
+
+	return a_part.GongIsStaged(stage)
+}
+
+func (a_part_1 *A_part_1) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_part_1s[a_part_1]
 
 	return
 }
 
-func (stage *Stage) IsStagedAccidental(accidental *Accidental) (ok bool) {
+func (stage *Stage) IsStagedA_part_1(a_part_1 *A_part_1) (ok bool) {
+
+	return a_part_1.GongIsStaged(stage)
+}
+
+func (accidental *Accidental) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Accidentals[accidental]
 
 	return
 }
 
-func (stage *Stage) IsStagedAccidental_mark(accidental_mark *Accidental_mark) (ok bool) {
+func (stage *Stage) IsStagedAccidental(accidental *Accidental) (ok bool) {
+
+	return accidental.GongIsStaged(stage)
+}
+
+func (accidental_mark *Accidental_mark) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Accidental_marks[accidental_mark]
 
 	return
 }
 
-func (stage *Stage) IsStagedAccidental_text(accidental_text *Accidental_text) (ok bool) {
+func (stage *Stage) IsStagedAccidental_mark(accidental_mark *Accidental_mark) (ok bool) {
+
+	return accidental_mark.GongIsStaged(stage)
+}
+
+func (accidental_text *Accidental_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Accidental_texts[accidental_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedAccord(accord *Accord) (ok bool) {
+func (stage *Stage) IsStagedAccidental_text(accidental_text *Accidental_text) (ok bool) {
+
+	return accidental_text.GongIsStaged(stage)
+}
+
+func (accord *Accord) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Accords[accord]
 
 	return
 }
 
-func (stage *Stage) IsStagedAccordion_registration(accordion_registration *Accordion_registration) (ok bool) {
+func (stage *Stage) IsStagedAccord(accord *Accord) (ok bool) {
+
+	return accord.GongIsStaged(stage)
+}
+
+func (accordion_registration *Accordion_registration) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Accordion_registrations[accordion_registration]
 
 	return
 }
 
-func (stage *Stage) IsStagedAppearance(appearance *Appearance) (ok bool) {
+func (stage *Stage) IsStagedAccordion_registration(accordion_registration *Accordion_registration) (ok bool) {
+
+	return accordion_registration.GongIsStaged(stage)
+}
+
+func (appearance *Appearance) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Appearances[appearance]
 
 	return
 }
 
-func (stage *Stage) IsStagedArpeggiate(arpeggiate *Arpeggiate) (ok bool) {
+func (stage *Stage) IsStagedAppearance(appearance *Appearance) (ok bool) {
+
+	return appearance.GongIsStaged(stage)
+}
+
+func (arpeggiate *Arpeggiate) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Arpeggiates[arpeggiate]
 
 	return
 }
 
-func (stage *Stage) IsStagedArrow(arrow *Arrow) (ok bool) {
+func (stage *Stage) IsStagedArpeggiate(arpeggiate *Arpeggiate) (ok bool) {
+
+	return arpeggiate.GongIsStaged(stage)
+}
+
+func (arrow *Arrow) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Arrows[arrow]
 
 	return
 }
 
-func (stage *Stage) IsStagedArticulations(articulations *Articulations) (ok bool) {
+func (stage *Stage) IsStagedArrow(arrow *Arrow) (ok bool) {
+
+	return arrow.GongIsStaged(stage)
+}
+
+func (articulations *Articulations) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Articulationss[articulations]
 
 	return
 }
 
-func (stage *Stage) IsStagedAssess(assess *Assess) (ok bool) {
+func (stage *Stage) IsStagedArticulations(articulations *Articulations) (ok bool) {
+
+	return articulations.GongIsStaged(stage)
+}
+
+func (assess *Assess) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Assesss[assess]
 
 	return
 }
 
-func (stage *Stage) IsStagedAttributes(attributes *Attributes) (ok bool) {
+func (stage *Stage) IsStagedAssess(assess *Assess) (ok bool) {
+
+	return assess.GongIsStaged(stage)
+}
+
+func (attributes *Attributes) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Attributess[attributes]
 
 	return
 }
 
-func (stage *Stage) IsStagedBackup(backup *Backup) (ok bool) {
+func (stage *Stage) IsStagedAttributes(attributes *Attributes) (ok bool) {
+
+	return attributes.GongIsStaged(stage)
+}
+
+func (backup *Backup) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Backups[backup]
 
 	return
 }
 
-func (stage *Stage) IsStagedBar_style_color(bar_style_color *Bar_style_color) (ok bool) {
+func (stage *Stage) IsStagedBackup(backup *Backup) (ok bool) {
+
+	return backup.GongIsStaged(stage)
+}
+
+func (bar_style_color *Bar_style_color) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bar_style_colors[bar_style_color]
 
 	return
 }
 
-func (stage *Stage) IsStagedBarline(barline *Barline) (ok bool) {
+func (stage *Stage) IsStagedBar_style_color(bar_style_color *Bar_style_color) (ok bool) {
+
+	return bar_style_color.GongIsStaged(stage)
+}
+
+func (barline *Barline) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Barlines[barline]
 
 	return
 }
 
-func (stage *Stage) IsStagedBarre(barre *Barre) (ok bool) {
+func (stage *Stage) IsStagedBarline(barline *Barline) (ok bool) {
+
+	return barline.GongIsStaged(stage)
+}
+
+func (barre *Barre) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Barres[barre]
 
 	return
 }
 
-func (stage *Stage) IsStagedBass(bass *Bass) (ok bool) {
+func (stage *Stage) IsStagedBarre(barre *Barre) (ok bool) {
+
+	return barre.GongIsStaged(stage)
+}
+
+func (bass *Bass) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Basss[bass]
 
 	return
 }
 
-func (stage *Stage) IsStagedBass_step(bass_step *Bass_step) (ok bool) {
+func (stage *Stage) IsStagedBass(bass *Bass) (ok bool) {
+
+	return bass.GongIsStaged(stage)
+}
+
+func (bass_step *Bass_step) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bass_steps[bass_step]
 
 	return
 }
 
-func (stage *Stage) IsStagedBeam(beam *Beam) (ok bool) {
+func (stage *Stage) IsStagedBass_step(bass_step *Bass_step) (ok bool) {
+
+	return bass_step.GongIsStaged(stage)
+}
+
+func (beam *Beam) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Beams[beam]
 
 	return
 }
 
-func (stage *Stage) IsStagedBeat_repeat(beat_repeat *Beat_repeat) (ok bool) {
+func (stage *Stage) IsStagedBeam(beam *Beam) (ok bool) {
+
+	return beam.GongIsStaged(stage)
+}
+
+func (beat_repeat *Beat_repeat) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Beat_repeats[beat_repeat]
 
 	return
 }
 
-func (stage *Stage) IsStagedBeat_unit_tied(beat_unit_tied *Beat_unit_tied) (ok bool) {
+func (stage *Stage) IsStagedBeat_repeat(beat_repeat *Beat_repeat) (ok bool) {
+
+	return beat_repeat.GongIsStaged(stage)
+}
+
+func (beat_unit_tied *Beat_unit_tied) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Beat_unit_tieds[beat_unit_tied]
 
 	return
 }
 
-func (stage *Stage) IsStagedBeater(beater *Beater) (ok bool) {
+func (stage *Stage) IsStagedBeat_unit_tied(beat_unit_tied *Beat_unit_tied) (ok bool) {
+
+	return beat_unit_tied.GongIsStaged(stage)
+}
+
+func (beater *Beater) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Beaters[beater]
 
 	return
 }
 
-func (stage *Stage) IsStagedBend(bend *Bend) (ok bool) {
+func (stage *Stage) IsStagedBeater(beater *Beater) (ok bool) {
+
+	return beater.GongIsStaged(stage)
+}
+
+func (bend *Bend) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bends[bend]
 
 	return
 }
 
-func (stage *Stage) IsStagedBookmark(bookmark *Bookmark) (ok bool) {
+func (stage *Stage) IsStagedBend(bend *Bend) (ok bool) {
+
+	return bend.GongIsStaged(stage)
+}
+
+func (bookmark *Bookmark) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bookmarks[bookmark]
 
 	return
 }
 
-func (stage *Stage) IsStagedBracket(bracket *Bracket) (ok bool) {
+func (stage *Stage) IsStagedBookmark(bookmark *Bookmark) (ok bool) {
+
+	return bookmark.GongIsStaged(stage)
+}
+
+func (bracket *Bracket) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Brackets[bracket]
 
 	return
 }
 
-func (stage *Stage) IsStagedBreath_mark(breath_mark *Breath_mark) (ok bool) {
+func (stage *Stage) IsStagedBracket(bracket *Bracket) (ok bool) {
+
+	return bracket.GongIsStaged(stage)
+}
+
+func (breath_mark *Breath_mark) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Breath_marks[breath_mark]
 
 	return
 }
 
-func (stage *Stage) IsStagedCaesura(caesura *Caesura) (ok bool) {
+func (stage *Stage) IsStagedBreath_mark(breath_mark *Breath_mark) (ok bool) {
+
+	return breath_mark.GongIsStaged(stage)
+}
+
+func (caesura *Caesura) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Caesuras[caesura]
 
 	return
 }
 
-func (stage *Stage) IsStagedCancel(cancel *Cancel) (ok bool) {
+func (stage *Stage) IsStagedCaesura(caesura *Caesura) (ok bool) {
+
+	return caesura.GongIsStaged(stage)
+}
+
+func (cancel *Cancel) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Cancels[cancel]
 
 	return
 }
 
-func (stage *Stage) IsStagedClef(clef *Clef) (ok bool) {
+func (stage *Stage) IsStagedCancel(cancel *Cancel) (ok bool) {
+
+	return cancel.GongIsStaged(stage)
+}
+
+func (clef *Clef) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Clefs[clef]
 
 	return
 }
 
-func (stage *Stage) IsStagedCoda(coda *Coda) (ok bool) {
+func (stage *Stage) IsStagedClef(clef *Clef) (ok bool) {
+
+	return clef.GongIsStaged(stage)
+}
+
+func (coda *Coda) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Codas[coda]
 
 	return
 }
 
-func (stage *Stage) IsStagedCredit(credit *Credit) (ok bool) {
+func (stage *Stage) IsStagedCoda(coda *Coda) (ok bool) {
+
+	return coda.GongIsStaged(stage)
+}
+
+func (credit *Credit) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Credits[credit]
 
 	return
 }
 
-func (stage *Stage) IsStagedDashes(dashes *Dashes) (ok bool) {
+func (stage *Stage) IsStagedCredit(credit *Credit) (ok bool) {
+
+	return credit.GongIsStaged(stage)
+}
+
+func (dashes *Dashes) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Dashess[dashes]
 
 	return
 }
 
-func (stage *Stage) IsStagedDefaults(defaults *Defaults) (ok bool) {
+func (stage *Stage) IsStagedDashes(dashes *Dashes) (ok bool) {
+
+	return dashes.GongIsStaged(stage)
+}
+
+func (defaults *Defaults) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Defaultss[defaults]
 
 	return
 }
 
-func (stage *Stage) IsStagedDegree(degree *Degree) (ok bool) {
+func (stage *Stage) IsStagedDefaults(defaults *Defaults) (ok bool) {
+
+	return defaults.GongIsStaged(stage)
+}
+
+func (degree *Degree) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Degrees[degree]
 
 	return
 }
 
-func (stage *Stage) IsStagedDegree_alter(degree_alter *Degree_alter) (ok bool) {
+func (stage *Stage) IsStagedDegree(degree *Degree) (ok bool) {
+
+	return degree.GongIsStaged(stage)
+}
+
+func (degree_alter *Degree_alter) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Degree_alters[degree_alter]
 
 	return
 }
 
-func (stage *Stage) IsStagedDegree_type(degree_type *Degree_type) (ok bool) {
+func (stage *Stage) IsStagedDegree_alter(degree_alter *Degree_alter) (ok bool) {
+
+	return degree_alter.GongIsStaged(stage)
+}
+
+func (degree_type *Degree_type) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Degree_types[degree_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedDegree_value(degree_value *Degree_value) (ok bool) {
+func (stage *Stage) IsStagedDegree_type(degree_type *Degree_type) (ok bool) {
+
+	return degree_type.GongIsStaged(stage)
+}
+
+func (degree_value *Degree_value) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Degree_values[degree_value]
 
 	return
 }
 
-func (stage *Stage) IsStagedDirection(direction *Direction) (ok bool) {
+func (stage *Stage) IsStagedDegree_value(degree_value *Degree_value) (ok bool) {
+
+	return degree_value.GongIsStaged(stage)
+}
+
+func (direction *Direction) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Directions[direction]
 
 	return
 }
 
-func (stage *Stage) IsStagedDirection_type(direction_type *Direction_type) (ok bool) {
+func (stage *Stage) IsStagedDirection(direction *Direction) (ok bool) {
+
+	return direction.GongIsStaged(stage)
+}
+
+func (direction_type *Direction_type) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Direction_types[direction_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedDistance(distance *Distance) (ok bool) {
+func (stage *Stage) IsStagedDirection_type(direction_type *Direction_type) (ok bool) {
+
+	return direction_type.GongIsStaged(stage)
+}
+
+func (distance *Distance) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Distances[distance]
 
 	return
 }
 
-func (stage *Stage) IsStagedDouble(double *Double) (ok bool) {
+func (stage *Stage) IsStagedDistance(distance *Distance) (ok bool) {
+
+	return distance.GongIsStaged(stage)
+}
+
+func (double *Double) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Doubles[double]
 
 	return
 }
 
-func (stage *Stage) IsStagedDynamics(dynamics *Dynamics) (ok bool) {
+func (stage *Stage) IsStagedDouble(double *Double) (ok bool) {
+
+	return double.GongIsStaged(stage)
+}
+
+func (dynamics *Dynamics) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Dynamicss[dynamics]
 
 	return
 }
 
-func (stage *Stage) IsStagedEffect(effect *Effect) (ok bool) {
+func (stage *Stage) IsStagedDynamics(dynamics *Dynamics) (ok bool) {
+
+	return dynamics.GongIsStaged(stage)
+}
+
+func (effect *Effect) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Effects[effect]
 
 	return
 }
 
-func (stage *Stage) IsStagedElision(elision *Elision) (ok bool) {
+func (stage *Stage) IsStagedEffect(effect *Effect) (ok bool) {
+
+	return effect.GongIsStaged(stage)
+}
+
+func (elision *Elision) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Elisions[elision]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty(empty *Empty) (ok bool) {
+func (stage *Stage) IsStagedElision(elision *Elision) (ok bool) {
+
+	return elision.GongIsStaged(stage)
+}
+
+func (empty *Empty) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Emptys[empty]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_font(empty_font *Empty_font) (ok bool) {
+func (stage *Stage) IsStagedEmpty(empty *Empty) (ok bool) {
+
+	return empty.GongIsStaged(stage)
+}
+
+func (empty_font *Empty_font) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_fonts[empty_font]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_line(empty_line *Empty_line) (ok bool) {
+func (stage *Stage) IsStagedEmpty_font(empty_font *Empty_font) (ok bool) {
+
+	return empty_font.GongIsStaged(stage)
+}
+
+func (empty_line *Empty_line) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_lines[empty_line]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_placement(empty_placement *Empty_placement) (ok bool) {
+func (stage *Stage) IsStagedEmpty_line(empty_line *Empty_line) (ok bool) {
+
+	return empty_line.GongIsStaged(stage)
+}
+
+func (empty_placement *Empty_placement) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_placements[empty_placement]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_placement_smufl(empty_placement_smufl *Empty_placement_smufl) (ok bool) {
+func (stage *Stage) IsStagedEmpty_placement(empty_placement *Empty_placement) (ok bool) {
+
+	return empty_placement.GongIsStaged(stage)
+}
+
+func (empty_placement_smufl *Empty_placement_smufl) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_placement_smufls[empty_placement_smufl]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_print_object_style_align(empty_print_object_style_align *Empty_print_object_style_align) (ok bool) {
+func (stage *Stage) IsStagedEmpty_placement_smufl(empty_placement_smufl *Empty_placement_smufl) (ok bool) {
+
+	return empty_placement_smufl.GongIsStaged(stage)
+}
+
+func (empty_print_object_style_align *Empty_print_object_style_align) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_print_object_style_aligns[empty_print_object_style_align]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_print_style(empty_print_style *Empty_print_style) (ok bool) {
+func (stage *Stage) IsStagedEmpty_print_object_style_align(empty_print_object_style_align *Empty_print_object_style_align) (ok bool) {
+
+	return empty_print_object_style_align.GongIsStaged(stage)
+}
+
+func (empty_print_style *Empty_print_style) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_print_styles[empty_print_style]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_print_style_align(empty_print_style_align *Empty_print_style_align) (ok bool) {
+func (stage *Stage) IsStagedEmpty_print_style(empty_print_style *Empty_print_style) (ok bool) {
+
+	return empty_print_style.GongIsStaged(stage)
+}
+
+func (empty_print_style_align *Empty_print_style_align) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_print_style_aligns[empty_print_style_align]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_print_style_align_id(empty_print_style_align_id *Empty_print_style_align_id) (ok bool) {
+func (stage *Stage) IsStagedEmpty_print_style_align(empty_print_style_align *Empty_print_style_align) (ok bool) {
+
+	return empty_print_style_align.GongIsStaged(stage)
+}
+
+func (empty_print_style_align_id *Empty_print_style_align_id) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_print_style_align_ids[empty_print_style_align_id]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmpty_trill_sound(empty_trill_sound *Empty_trill_sound) (ok bool) {
+func (stage *Stage) IsStagedEmpty_print_style_align_id(empty_print_style_align_id *Empty_print_style_align_id) (ok bool) {
+
+	return empty_print_style_align_id.GongIsStaged(stage)
+}
+
+func (empty_trill_sound *Empty_trill_sound) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Empty_trill_sounds[empty_trill_sound]
 
 	return
 }
 
-func (stage *Stage) IsStagedEncoding(encoding *Encoding) (ok bool) {
+func (stage *Stage) IsStagedEmpty_trill_sound(empty_trill_sound *Empty_trill_sound) (ok bool) {
+
+	return empty_trill_sound.GongIsStaged(stage)
+}
+
+func (encoding *Encoding) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Encodings[encoding]
 
 	return
 }
 
-func (stage *Stage) IsStagedEnding(ending *Ending) (ok bool) {
+func (stage *Stage) IsStagedEncoding(encoding *Encoding) (ok bool) {
+
+	return encoding.GongIsStaged(stage)
+}
+
+func (ending *Ending) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Endings[ending]
 
 	return
 }
 
-func (stage *Stage) IsStagedExtend(extend *Extend) (ok bool) {
+func (stage *Stage) IsStagedEnding(ending *Ending) (ok bool) {
+
+	return ending.GongIsStaged(stage)
+}
+
+func (extend *Extend) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Extends[extend]
 
 	return
 }
 
-func (stage *Stage) IsStagedFeature(feature *Feature) (ok bool) {
+func (stage *Stage) IsStagedExtend(extend *Extend) (ok bool) {
+
+	return extend.GongIsStaged(stage)
+}
+
+func (feature *Feature) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Features[feature]
 
 	return
 }
 
-func (stage *Stage) IsStagedFermata(fermata *Fermata) (ok bool) {
+func (stage *Stage) IsStagedFeature(feature *Feature) (ok bool) {
+
+	return feature.GongIsStaged(stage)
+}
+
+func (fermata *Fermata) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Fermatas[fermata]
 
 	return
 }
 
-func (stage *Stage) IsStagedFigure(figure *Figure) (ok bool) {
+func (stage *Stage) IsStagedFermata(fermata *Fermata) (ok bool) {
+
+	return fermata.GongIsStaged(stage)
+}
+
+func (figure *Figure) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Figures[figure]
 
 	return
 }
 
-func (stage *Stage) IsStagedFigured_bass(figured_bass *Figured_bass) (ok bool) {
+func (stage *Stage) IsStagedFigure(figure *Figure) (ok bool) {
+
+	return figure.GongIsStaged(stage)
+}
+
+func (figured_bass *Figured_bass) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Figured_basss[figured_bass]
 
 	return
 }
 
-func (stage *Stage) IsStagedFingering(fingering *Fingering) (ok bool) {
+func (stage *Stage) IsStagedFigured_bass(figured_bass *Figured_bass) (ok bool) {
+
+	return figured_bass.GongIsStaged(stage)
+}
+
+func (fingering *Fingering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Fingerings[fingering]
 
 	return
 }
 
-func (stage *Stage) IsStagedFirst_fret(first_fret *First_fret) (ok bool) {
+func (stage *Stage) IsStagedFingering(fingering *Fingering) (ok bool) {
+
+	return fingering.GongIsStaged(stage)
+}
+
+func (first_fret *First_fret) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.First_frets[first_fret]
 
 	return
 }
 
-func (stage *Stage) IsStagedFor_part(for_part *For_part) (ok bool) {
+func (stage *Stage) IsStagedFirst_fret(first_fret *First_fret) (ok bool) {
+
+	return first_fret.GongIsStaged(stage)
+}
+
+func (for_part *For_part) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.For_parts[for_part]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormatted_symbol(formatted_symbol *Formatted_symbol) (ok bool) {
+func (stage *Stage) IsStagedFor_part(for_part *For_part) (ok bool) {
+
+	return for_part.GongIsStaged(stage)
+}
+
+func (formatted_symbol *Formatted_symbol) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Formatted_symbols[formatted_symbol]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormatted_symbol_id(formatted_symbol_id *Formatted_symbol_id) (ok bool) {
+func (stage *Stage) IsStagedFormatted_symbol(formatted_symbol *Formatted_symbol) (ok bool) {
+
+	return formatted_symbol.GongIsStaged(stage)
+}
+
+func (formatted_symbol_id *Formatted_symbol_id) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Formatted_symbol_ids[formatted_symbol_id]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormatted_text(formatted_text *Formatted_text) (ok bool) {
+func (stage *Stage) IsStagedFormatted_symbol_id(formatted_symbol_id *Formatted_symbol_id) (ok bool) {
+
+	return formatted_symbol_id.GongIsStaged(stage)
+}
+
+func (formatted_text *Formatted_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Formatted_texts[formatted_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedFormatted_text_id(formatted_text_id *Formatted_text_id) (ok bool) {
+func (stage *Stage) IsStagedFormatted_text(formatted_text *Formatted_text) (ok bool) {
+
+	return formatted_text.GongIsStaged(stage)
+}
+
+func (formatted_text_id *Formatted_text_id) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Formatted_text_ids[formatted_text_id]
 
 	return
 }
 
-func (stage *Stage) IsStagedForward(forward *Forward) (ok bool) {
+func (stage *Stage) IsStagedFormatted_text_id(formatted_text_id *Formatted_text_id) (ok bool) {
+
+	return formatted_text_id.GongIsStaged(stage)
+}
+
+func (forward *Forward) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Forwards[forward]
 
 	return
 }
 
-func (stage *Stage) IsStagedFrame(frame *Frame) (ok bool) {
+func (stage *Stage) IsStagedForward(forward *Forward) (ok bool) {
+
+	return forward.GongIsStaged(stage)
+}
+
+func (frame *Frame) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Frames[frame]
 
 	return
 }
 
-func (stage *Stage) IsStagedFrame_note(frame_note *Frame_note) (ok bool) {
+func (stage *Stage) IsStagedFrame(frame *Frame) (ok bool) {
+
+	return frame.GongIsStaged(stage)
+}
+
+func (frame_note *Frame_note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Frame_notes[frame_note]
 
 	return
 }
 
-func (stage *Stage) IsStagedFret(fret *Fret) (ok bool) {
+func (stage *Stage) IsStagedFrame_note(frame_note *Frame_note) (ok bool) {
+
+	return frame_note.GongIsStaged(stage)
+}
+
+func (fret *Fret) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Frets[fret]
 
 	return
 }
 
-func (stage *Stage) IsStagedGlass(glass *Glass) (ok bool) {
+func (stage *Stage) IsStagedFret(fret *Fret) (ok bool) {
+
+	return fret.GongIsStaged(stage)
+}
+
+func (glass *Glass) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Glasss[glass]
 
 	return
 }
 
-func (stage *Stage) IsStagedGlissando(glissando *Glissando) (ok bool) {
+func (stage *Stage) IsStagedGlass(glass *Glass) (ok bool) {
+
+	return glass.GongIsStaged(stage)
+}
+
+func (glissando *Glissando) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Glissandos[glissando]
 
 	return
 }
 
-func (stage *Stage) IsStagedGlyph(glyph *Glyph) (ok bool) {
+func (stage *Stage) IsStagedGlissando(glissando *Glissando) (ok bool) {
+
+	return glissando.GongIsStaged(stage)
+}
+
+func (glyph *Glyph) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Glyphs[glyph]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrace(grace *Grace) (ok bool) {
+func (stage *Stage) IsStagedGlyph(glyph *Glyph) (ok bool) {
+
+	return glyph.GongIsStaged(stage)
+}
+
+func (grace *Grace) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Graces[grace]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup_barline(group_barline *Group_barline) (ok bool) {
+func (stage *Stage) IsStagedGrace(grace *Grace) (ok bool) {
+
+	return grace.GongIsStaged(stage)
+}
+
+func (group_barline *Group_barline) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Group_barlines[group_barline]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup_name(group_name *Group_name) (ok bool) {
+func (stage *Stage) IsStagedGroup_barline(group_barline *Group_barline) (ok bool) {
+
+	return group_barline.GongIsStaged(stage)
+}
+
+func (group_name *Group_name) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Group_names[group_name]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup_symbol(group_symbol *Group_symbol) (ok bool) {
+func (stage *Stage) IsStagedGroup_name(group_name *Group_name) (ok bool) {
+
+	return group_name.GongIsStaged(stage)
+}
+
+func (group_symbol *Group_symbol) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Group_symbols[group_symbol]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrouping(grouping *Grouping) (ok bool) {
+func (stage *Stage) IsStagedGroup_symbol(group_symbol *Group_symbol) (ok bool) {
+
+	return group_symbol.GongIsStaged(stage)
+}
+
+func (grouping *Grouping) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Groupings[grouping]
 
 	return
 }
 
-func (stage *Stage) IsStagedHammer_on_pull_off(hammer_on_pull_off *Hammer_on_pull_off) (ok bool) {
+func (stage *Stage) IsStagedGrouping(grouping *Grouping) (ok bool) {
+
+	return grouping.GongIsStaged(stage)
+}
+
+func (hammer_on_pull_off *Hammer_on_pull_off) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Hammer_on_pull_offs[hammer_on_pull_off]
 
 	return
 }
 
-func (stage *Stage) IsStagedHandbell(handbell *Handbell) (ok bool) {
+func (stage *Stage) IsStagedHammer_on_pull_off(hammer_on_pull_off *Hammer_on_pull_off) (ok bool) {
+
+	return hammer_on_pull_off.GongIsStaged(stage)
+}
+
+func (handbell *Handbell) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Handbells[handbell]
 
 	return
 }
 
-func (stage *Stage) IsStagedHarmon_closed(harmon_closed *Harmon_closed) (ok bool) {
+func (stage *Stage) IsStagedHandbell(handbell *Handbell) (ok bool) {
+
+	return handbell.GongIsStaged(stage)
+}
+
+func (harmon_closed *Harmon_closed) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Harmon_closeds[harmon_closed]
 
 	return
 }
 
-func (stage *Stage) IsStagedHarmon_mute(harmon_mute *Harmon_mute) (ok bool) {
+func (stage *Stage) IsStagedHarmon_closed(harmon_closed *Harmon_closed) (ok bool) {
+
+	return harmon_closed.GongIsStaged(stage)
+}
+
+func (harmon_mute *Harmon_mute) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Harmon_mutes[harmon_mute]
 
 	return
 }
 
-func (stage *Stage) IsStagedHarmonic(harmonic *Harmonic) (ok bool) {
+func (stage *Stage) IsStagedHarmon_mute(harmon_mute *Harmon_mute) (ok bool) {
+
+	return harmon_mute.GongIsStaged(stage)
+}
+
+func (harmonic *Harmonic) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Harmonics[harmonic]
 
 	return
 }
 
-func (stage *Stage) IsStagedHarmony(harmony *Harmony) (ok bool) {
+func (stage *Stage) IsStagedHarmonic(harmonic *Harmonic) (ok bool) {
+
+	return harmonic.GongIsStaged(stage)
+}
+
+func (harmony *Harmony) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Harmonys[harmony]
 
 	return
 }
 
-func (stage *Stage) IsStagedHarmony_alter(harmony_alter *Harmony_alter) (ok bool) {
+func (stage *Stage) IsStagedHarmony(harmony *Harmony) (ok bool) {
+
+	return harmony.GongIsStaged(stage)
+}
+
+func (harmony_alter *Harmony_alter) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Harmony_alters[harmony_alter]
 
 	return
 }
 
-func (stage *Stage) IsStagedHarp_pedals(harp_pedals *Harp_pedals) (ok bool) {
+func (stage *Stage) IsStagedHarmony_alter(harmony_alter *Harmony_alter) (ok bool) {
+
+	return harmony_alter.GongIsStaged(stage)
+}
+
+func (harp_pedals *Harp_pedals) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Harp_pedalss[harp_pedals]
 
 	return
 }
 
-func (stage *Stage) IsStagedHeel_toe(heel_toe *Heel_toe) (ok bool) {
+func (stage *Stage) IsStagedHarp_pedals(harp_pedals *Harp_pedals) (ok bool) {
+
+	return harp_pedals.GongIsStaged(stage)
+}
+
+func (heel_toe *Heel_toe) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Heel_toes[heel_toe]
 
 	return
 }
 
-func (stage *Stage) IsStagedHole(hole *Hole) (ok bool) {
+func (stage *Stage) IsStagedHeel_toe(heel_toe *Heel_toe) (ok bool) {
+
+	return heel_toe.GongIsStaged(stage)
+}
+
+func (hole *Hole) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Holes[hole]
 
 	return
 }
 
-func (stage *Stage) IsStagedHole_closed(hole_closed *Hole_closed) (ok bool) {
+func (stage *Stage) IsStagedHole(hole *Hole) (ok bool) {
+
+	return hole.GongIsStaged(stage)
+}
+
+func (hole_closed *Hole_closed) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Hole_closeds[hole_closed]
 
 	return
 }
 
-func (stage *Stage) IsStagedHorizontal_turn(horizontal_turn *Horizontal_turn) (ok bool) {
+func (stage *Stage) IsStagedHole_closed(hole_closed *Hole_closed) (ok bool) {
+
+	return hole_closed.GongIsStaged(stage)
+}
+
+func (horizontal_turn *Horizontal_turn) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Horizontal_turns[horizontal_turn]
 
 	return
 }
 
-func (stage *Stage) IsStagedIdentification(identification *Identification) (ok bool) {
+func (stage *Stage) IsStagedHorizontal_turn(horizontal_turn *Horizontal_turn) (ok bool) {
+
+	return horizontal_turn.GongIsStaged(stage)
+}
+
+func (identification *Identification) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Identifications[identification]
 
 	return
 }
 
-func (stage *Stage) IsStagedImage(image *Image) (ok bool) {
+func (stage *Stage) IsStagedIdentification(identification *Identification) (ok bool) {
+
+	return identification.GongIsStaged(stage)
+}
+
+func (image *Image) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Images[image]
 
 	return
 }
 
-func (stage *Stage) IsStagedInstrument(instrument *Instrument) (ok bool) {
+func (stage *Stage) IsStagedImage(image *Image) (ok bool) {
+
+	return image.GongIsStaged(stage)
+}
+
+func (instrument *Instrument) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Instruments[instrument]
 
 	return
 }
 
-func (stage *Stage) IsStagedInstrument_change(instrument_change *Instrument_change) (ok bool) {
+func (stage *Stage) IsStagedInstrument(instrument *Instrument) (ok bool) {
+
+	return instrument.GongIsStaged(stage)
+}
+
+func (instrument_change *Instrument_change) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Instrument_changes[instrument_change]
 
 	return
 }
 
-func (stage *Stage) IsStagedInstrument_link(instrument_link *Instrument_link) (ok bool) {
+func (stage *Stage) IsStagedInstrument_change(instrument_change *Instrument_change) (ok bool) {
+
+	return instrument_change.GongIsStaged(stage)
+}
+
+func (instrument_link *Instrument_link) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Instrument_links[instrument_link]
 
 	return
 }
 
-func (stage *Stage) IsStagedInterchangeable(interchangeable *Interchangeable) (ok bool) {
+func (stage *Stage) IsStagedInstrument_link(instrument_link *Instrument_link) (ok bool) {
+
+	return instrument_link.GongIsStaged(stage)
+}
+
+func (interchangeable *Interchangeable) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Interchangeables[interchangeable]
 
 	return
 }
 
-func (stage *Stage) IsStagedInversion(inversion *Inversion) (ok bool) {
+func (stage *Stage) IsStagedInterchangeable(interchangeable *Interchangeable) (ok bool) {
+
+	return interchangeable.GongIsStaged(stage)
+}
+
+func (inversion *Inversion) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Inversions[inversion]
 
 	return
 }
 
-func (stage *Stage) IsStagedKey(key *Key) (ok bool) {
+func (stage *Stage) IsStagedInversion(inversion *Inversion) (ok bool) {
+
+	return inversion.GongIsStaged(stage)
+}
+
+func (key *Key) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Keys[key]
 
 	return
 }
 
-func (stage *Stage) IsStagedKey_accidental(key_accidental *Key_accidental) (ok bool) {
+func (stage *Stage) IsStagedKey(key *Key) (ok bool) {
+
+	return key.GongIsStaged(stage)
+}
+
+func (key_accidental *Key_accidental) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Key_accidentals[key_accidental]
 
 	return
 }
 
-func (stage *Stage) IsStagedKey_octave(key_octave *Key_octave) (ok bool) {
+func (stage *Stage) IsStagedKey_accidental(key_accidental *Key_accidental) (ok bool) {
+
+	return key_accidental.GongIsStaged(stage)
+}
+
+func (key_octave *Key_octave) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Key_octaves[key_octave]
 
 	return
 }
 
-func (stage *Stage) IsStagedKind(kind *Kind) (ok bool) {
+func (stage *Stage) IsStagedKey_octave(key_octave *Key_octave) (ok bool) {
+
+	return key_octave.GongIsStaged(stage)
+}
+
+func (kind *Kind) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Kinds[kind]
 
 	return
 }
 
-func (stage *Stage) IsStagedLevel(level *Level) (ok bool) {
+func (stage *Stage) IsStagedKind(kind *Kind) (ok bool) {
+
+	return kind.GongIsStaged(stage)
+}
+
+func (level *Level) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Levels[level]
 
 	return
 }
 
-func (stage *Stage) IsStagedLine_detail(line_detail *Line_detail) (ok bool) {
+func (stage *Stage) IsStagedLevel(level *Level) (ok bool) {
+
+	return level.GongIsStaged(stage)
+}
+
+func (line_detail *Line_detail) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Line_details[line_detail]
 
 	return
 }
 
-func (stage *Stage) IsStagedLine_width(line_width *Line_width) (ok bool) {
+func (stage *Stage) IsStagedLine_detail(line_detail *Line_detail) (ok bool) {
+
+	return line_detail.GongIsStaged(stage)
+}
+
+func (line_width *Line_width) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Line_widths[line_width]
 
 	return
 }
 
-func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
+func (stage *Stage) IsStagedLine_width(line_width *Line_width) (ok bool) {
+
+	return line_width.GongIsStaged(stage)
+}
+
+func (link *Link) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Links[link]
 
 	return
 }
 
-func (stage *Stage) IsStagedListen(listen *Listen) (ok bool) {
+func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
+
+	return link.GongIsStaged(stage)
+}
+
+func (listen *Listen) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Listens[listen]
 
 	return
 }
 
-func (stage *Stage) IsStagedListening(listening *Listening) (ok bool) {
+func (stage *Stage) IsStagedListen(listen *Listen) (ok bool) {
+
+	return listen.GongIsStaged(stage)
+}
+
+func (listening *Listening) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Listenings[listening]
 
 	return
 }
 
-func (stage *Stage) IsStagedLyric(lyric *Lyric) (ok bool) {
+func (stage *Stage) IsStagedListening(listening *Listening) (ok bool) {
+
+	return listening.GongIsStaged(stage)
+}
+
+func (lyric *Lyric) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Lyrics[lyric]
 
 	return
 }
 
-func (stage *Stage) IsStagedLyric_font(lyric_font *Lyric_font) (ok bool) {
+func (stage *Stage) IsStagedLyric(lyric *Lyric) (ok bool) {
+
+	return lyric.GongIsStaged(stage)
+}
+
+func (lyric_font *Lyric_font) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Lyric_fonts[lyric_font]
 
 	return
 }
 
-func (stage *Stage) IsStagedLyric_language(lyric_language *Lyric_language) (ok bool) {
+func (stage *Stage) IsStagedLyric_font(lyric_font *Lyric_font) (ok bool) {
+
+	return lyric_font.GongIsStaged(stage)
+}
+
+func (lyric_language *Lyric_language) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Lyric_languages[lyric_language]
 
 	return
 }
 
-func (stage *Stage) IsStagedMeasure_layout(measure_layout *Measure_layout) (ok bool) {
+func (stage *Stage) IsStagedLyric_language(lyric_language *Lyric_language) (ok bool) {
+
+	return lyric_language.GongIsStaged(stage)
+}
+
+func (measure_layout *Measure_layout) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Measure_layouts[measure_layout]
 
 	return
 }
 
-func (stage *Stage) IsStagedMeasure_numbering(measure_numbering *Measure_numbering) (ok bool) {
+func (stage *Stage) IsStagedMeasure_layout(measure_layout *Measure_layout) (ok bool) {
+
+	return measure_layout.GongIsStaged(stage)
+}
+
+func (measure_numbering *Measure_numbering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Measure_numberings[measure_numbering]
 
 	return
 }
 
-func (stage *Stage) IsStagedMeasure_repeat(measure_repeat *Measure_repeat) (ok bool) {
+func (stage *Stage) IsStagedMeasure_numbering(measure_numbering *Measure_numbering) (ok bool) {
+
+	return measure_numbering.GongIsStaged(stage)
+}
+
+func (measure_repeat *Measure_repeat) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Measure_repeats[measure_repeat]
 
 	return
 }
 
-func (stage *Stage) IsStagedMeasure_style(measure_style *Measure_style) (ok bool) {
+func (stage *Stage) IsStagedMeasure_repeat(measure_repeat *Measure_repeat) (ok bool) {
+
+	return measure_repeat.GongIsStaged(stage)
+}
+
+func (measure_style *Measure_style) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Measure_styles[measure_style]
 
 	return
 }
 
-func (stage *Stage) IsStagedMembrane(membrane *Membrane) (ok bool) {
+func (stage *Stage) IsStagedMeasure_style(measure_style *Measure_style) (ok bool) {
+
+	return measure_style.GongIsStaged(stage)
+}
+
+func (membrane *Membrane) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Membranes[membrane]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetal(metal *Metal) (ok bool) {
+func (stage *Stage) IsStagedMembrane(membrane *Membrane) (ok bool) {
+
+	return membrane.GongIsStaged(stage)
+}
+
+func (metal *Metal) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Metals[metal]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetronome(metronome *Metronome) (ok bool) {
+func (stage *Stage) IsStagedMetal(metal *Metal) (ok bool) {
+
+	return metal.GongIsStaged(stage)
+}
+
+func (metronome *Metronome) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Metronomes[metronome]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetronome_beam(metronome_beam *Metronome_beam) (ok bool) {
+func (stage *Stage) IsStagedMetronome(metronome *Metronome) (ok bool) {
+
+	return metronome.GongIsStaged(stage)
+}
+
+func (metronome_beam *Metronome_beam) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Metronome_beams[metronome_beam]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetronome_note(metronome_note *Metronome_note) (ok bool) {
+func (stage *Stage) IsStagedMetronome_beam(metronome_beam *Metronome_beam) (ok bool) {
+
+	return metronome_beam.GongIsStaged(stage)
+}
+
+func (metronome_note *Metronome_note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Metronome_notes[metronome_note]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetronome_tied(metronome_tied *Metronome_tied) (ok bool) {
+func (stage *Stage) IsStagedMetronome_note(metronome_note *Metronome_note) (ok bool) {
+
+	return metronome_note.GongIsStaged(stage)
+}
+
+func (metronome_tied *Metronome_tied) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Metronome_tieds[metronome_tied]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetronome_tuplet(metronome_tuplet *Metronome_tuplet) (ok bool) {
+func (stage *Stage) IsStagedMetronome_tied(metronome_tied *Metronome_tied) (ok bool) {
+
+	return metronome_tied.GongIsStaged(stage)
+}
+
+func (metronome_tuplet *Metronome_tuplet) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Metronome_tuplets[metronome_tuplet]
 
 	return
 }
 
-func (stage *Stage) IsStagedMidi_device(midi_device *Midi_device) (ok bool) {
+func (stage *Stage) IsStagedMetronome_tuplet(metronome_tuplet *Metronome_tuplet) (ok bool) {
+
+	return metronome_tuplet.GongIsStaged(stage)
+}
+
+func (midi_device *Midi_device) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Midi_devices[midi_device]
 
 	return
 }
 
-func (stage *Stage) IsStagedMidi_instrument(midi_instrument *Midi_instrument) (ok bool) {
+func (stage *Stage) IsStagedMidi_device(midi_device *Midi_device) (ok bool) {
+
+	return midi_device.GongIsStaged(stage)
+}
+
+func (midi_instrument *Midi_instrument) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Midi_instruments[midi_instrument]
 
 	return
 }
 
-func (stage *Stage) IsStagedMiscellaneous(miscellaneous *Miscellaneous) (ok bool) {
+func (stage *Stage) IsStagedMidi_instrument(midi_instrument *Midi_instrument) (ok bool) {
+
+	return midi_instrument.GongIsStaged(stage)
+}
+
+func (miscellaneous *Miscellaneous) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Miscellaneouss[miscellaneous]
 
 	return
 }
 
-func (stage *Stage) IsStagedMiscellaneous_field(miscellaneous_field *Miscellaneous_field) (ok bool) {
+func (stage *Stage) IsStagedMiscellaneous(miscellaneous *Miscellaneous) (ok bool) {
+
+	return miscellaneous.GongIsStaged(stage)
+}
+
+func (miscellaneous_field *Miscellaneous_field) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Miscellaneous_fields[miscellaneous_field]
 
 	return
 }
 
-func (stage *Stage) IsStagedMordent(mordent *Mordent) (ok bool) {
+func (stage *Stage) IsStagedMiscellaneous_field(miscellaneous_field *Miscellaneous_field) (ok bool) {
+
+	return miscellaneous_field.GongIsStaged(stage)
+}
+
+func (mordent *Mordent) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Mordents[mordent]
 
 	return
 }
 
-func (stage *Stage) IsStagedMultiple_rest(multiple_rest *Multiple_rest) (ok bool) {
+func (stage *Stage) IsStagedMordent(mordent *Mordent) (ok bool) {
+
+	return mordent.GongIsStaged(stage)
+}
+
+func (multiple_rest *Multiple_rest) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Multiple_rests[multiple_rest]
 
 	return
 }
 
-func (stage *Stage) IsStagedName_display(name_display *Name_display) (ok bool) {
+func (stage *Stage) IsStagedMultiple_rest(multiple_rest *Multiple_rest) (ok bool) {
+
+	return multiple_rest.GongIsStaged(stage)
+}
+
+func (name_display *Name_display) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Name_displays[name_display]
 
 	return
 }
 
-func (stage *Stage) IsStagedNon_arpeggiate(non_arpeggiate *Non_arpeggiate) (ok bool) {
+func (stage *Stage) IsStagedName_display(name_display *Name_display) (ok bool) {
+
+	return name_display.GongIsStaged(stage)
+}
+
+func (non_arpeggiate *Non_arpeggiate) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Non_arpeggiates[non_arpeggiate]
 
 	return
 }
 
-func (stage *Stage) IsStagedNotations(notations *Notations) (ok bool) {
+func (stage *Stage) IsStagedNon_arpeggiate(non_arpeggiate *Non_arpeggiate) (ok bool) {
+
+	return non_arpeggiate.GongIsStaged(stage)
+}
+
+func (notations *Notations) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notationss[notations]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+func (stage *Stage) IsStagedNotations(notations *Notations) (ok bool) {
+
+	return notations.GongIsStaged(stage)
+}
+
+func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notes[note]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote_size(note_size *Note_size) (ok bool) {
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	return note.GongIsStaged(stage)
+}
+
+func (note_size *Note_size) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Note_sizes[note_size]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote_type(note_type *Note_type) (ok bool) {
+func (stage *Stage) IsStagedNote_size(note_size *Note_size) (ok bool) {
+
+	return note_size.GongIsStaged(stage)
+}
+
+func (note_type *Note_type) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Note_types[note_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedNotehead(notehead *Notehead) (ok bool) {
+func (stage *Stage) IsStagedNote_type(note_type *Note_type) (ok bool) {
+
+	return note_type.GongIsStaged(stage)
+}
+
+func (notehead *Notehead) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Noteheads[notehead]
 
 	return
 }
 
-func (stage *Stage) IsStagedNotehead_text(notehead_text *Notehead_text) (ok bool) {
+func (stage *Stage) IsStagedNotehead(notehead *Notehead) (ok bool) {
+
+	return notehead.GongIsStaged(stage)
+}
+
+func (notehead_text *Notehead_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notehead_texts[notehead_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedNumeral(numeral *Numeral) (ok bool) {
+func (stage *Stage) IsStagedNotehead_text(notehead_text *Notehead_text) (ok bool) {
+
+	return notehead_text.GongIsStaged(stage)
+}
+
+func (numeral *Numeral) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Numerals[numeral]
 
 	return
 }
 
-func (stage *Stage) IsStagedNumeral_key(numeral_key *Numeral_key) (ok bool) {
+func (stage *Stage) IsStagedNumeral(numeral *Numeral) (ok bool) {
+
+	return numeral.GongIsStaged(stage)
+}
+
+func (numeral_key *Numeral_key) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Numeral_keys[numeral_key]
 
 	return
 }
 
-func (stage *Stage) IsStagedNumeral_root(numeral_root *Numeral_root) (ok bool) {
+func (stage *Stage) IsStagedNumeral_key(numeral_key *Numeral_key) (ok bool) {
+
+	return numeral_key.GongIsStaged(stage)
+}
+
+func (numeral_root *Numeral_root) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Numeral_roots[numeral_root]
 
 	return
 }
 
-func (stage *Stage) IsStagedOctave_shift(octave_shift *Octave_shift) (ok bool) {
+func (stage *Stage) IsStagedNumeral_root(numeral_root *Numeral_root) (ok bool) {
+
+	return numeral_root.GongIsStaged(stage)
+}
+
+func (octave_shift *Octave_shift) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Octave_shifts[octave_shift]
 
 	return
 }
 
-func (stage *Stage) IsStagedOffset(offset *Offset) (ok bool) {
+func (stage *Stage) IsStagedOctave_shift(octave_shift *Octave_shift) (ok bool) {
+
+	return octave_shift.GongIsStaged(stage)
+}
+
+func (offset *Offset) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Offsets[offset]
 
 	return
 }
 
-func (stage *Stage) IsStagedOpus(opus *Opus) (ok bool) {
+func (stage *Stage) IsStagedOffset(offset *Offset) (ok bool) {
+
+	return offset.GongIsStaged(stage)
+}
+
+func (opus *Opus) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Opuss[opus]
 
 	return
 }
 
-func (stage *Stage) IsStagedOrnaments(ornaments *Ornaments) (ok bool) {
+func (stage *Stage) IsStagedOpus(opus *Opus) (ok bool) {
+
+	return opus.GongIsStaged(stage)
+}
+
+func (ornaments *Ornaments) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Ornamentss[ornaments]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_appearance(other_appearance *Other_appearance) (ok bool) {
+func (stage *Stage) IsStagedOrnaments(ornaments *Ornaments) (ok bool) {
+
+	return ornaments.GongIsStaged(stage)
+}
+
+func (other_appearance *Other_appearance) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_appearances[other_appearance]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_direction(other_direction *Other_direction) (ok bool) {
+func (stage *Stage) IsStagedOther_appearance(other_appearance *Other_appearance) (ok bool) {
+
+	return other_appearance.GongIsStaged(stage)
+}
+
+func (other_direction *Other_direction) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_directions[other_direction]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_listening(other_listening *Other_listening) (ok bool) {
+func (stage *Stage) IsStagedOther_direction(other_direction *Other_direction) (ok bool) {
+
+	return other_direction.GongIsStaged(stage)
+}
+
+func (other_listening *Other_listening) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_listenings[other_listening]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_notation(other_notation *Other_notation) (ok bool) {
+func (stage *Stage) IsStagedOther_listening(other_listening *Other_listening) (ok bool) {
+
+	return other_listening.GongIsStaged(stage)
+}
+
+func (other_notation *Other_notation) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_notations[other_notation]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_placement_text(other_placement_text *Other_placement_text) (ok bool) {
+func (stage *Stage) IsStagedOther_notation(other_notation *Other_notation) (ok bool) {
+
+	return other_notation.GongIsStaged(stage)
+}
+
+func (other_placement_text *Other_placement_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_placement_texts[other_placement_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_play(other_play *Other_play) (ok bool) {
+func (stage *Stage) IsStagedOther_placement_text(other_placement_text *Other_placement_text) (ok bool) {
+
+	return other_placement_text.GongIsStaged(stage)
+}
+
+func (other_play *Other_play) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_plays[other_play]
 
 	return
 }
 
-func (stage *Stage) IsStagedOther_text(other_text *Other_text) (ok bool) {
+func (stage *Stage) IsStagedOther_play(other_play *Other_play) (ok bool) {
+
+	return other_play.GongIsStaged(stage)
+}
+
+func (other_text *Other_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Other_texts[other_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedPage_layout(page_layout *Page_layout) (ok bool) {
+func (stage *Stage) IsStagedOther_text(other_text *Other_text) (ok bool) {
+
+	return other_text.GongIsStaged(stage)
+}
+
+func (page_layout *Page_layout) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Page_layouts[page_layout]
 
 	return
 }
 
-func (stage *Stage) IsStagedPage_margins(page_margins *Page_margins) (ok bool) {
+func (stage *Stage) IsStagedPage_layout(page_layout *Page_layout) (ok bool) {
+
+	return page_layout.GongIsStaged(stage)
+}
+
+func (page_margins *Page_margins) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Page_marginss[page_margins]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_clef(part_clef *Part_clef) (ok bool) {
+func (stage *Stage) IsStagedPage_margins(page_margins *Page_margins) (ok bool) {
+
+	return page_margins.GongIsStaged(stage)
+}
+
+func (part_clef *Part_clef) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_clefs[part_clef]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_group(part_group *Part_group) (ok bool) {
+func (stage *Stage) IsStagedPart_clef(part_clef *Part_clef) (ok bool) {
+
+	return part_clef.GongIsStaged(stage)
+}
+
+func (part_group *Part_group) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_groups[part_group]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_link(part_link *Part_link) (ok bool) {
+func (stage *Stage) IsStagedPart_group(part_group *Part_group) (ok bool) {
+
+	return part_group.GongIsStaged(stage)
+}
+
+func (part_link *Part_link) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_links[part_link]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_list(part_list *Part_list) (ok bool) {
+func (stage *Stage) IsStagedPart_link(part_link *Part_link) (ok bool) {
+
+	return part_link.GongIsStaged(stage)
+}
+
+func (part_list *Part_list) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_lists[part_list]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_name(part_name *Part_name) (ok bool) {
+func (stage *Stage) IsStagedPart_list(part_list *Part_list) (ok bool) {
+
+	return part_list.GongIsStaged(stage)
+}
+
+func (part_name *Part_name) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_names[part_name]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_symbol(part_symbol *Part_symbol) (ok bool) {
+func (stage *Stage) IsStagedPart_name(part_name *Part_name) (ok bool) {
+
+	return part_name.GongIsStaged(stage)
+}
+
+func (part_symbol *Part_symbol) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_symbols[part_symbol]
 
 	return
 }
 
-func (stage *Stage) IsStagedPart_transpose(part_transpose *Part_transpose) (ok bool) {
+func (stage *Stage) IsStagedPart_symbol(part_symbol *Part_symbol) (ok bool) {
+
+	return part_symbol.GongIsStaged(stage)
+}
+
+func (part_transpose *Part_transpose) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Part_transposes[part_transpose]
 
 	return
 }
 
-func (stage *Stage) IsStagedPedal(pedal *Pedal) (ok bool) {
+func (stage *Stage) IsStagedPart_transpose(part_transpose *Part_transpose) (ok bool) {
+
+	return part_transpose.GongIsStaged(stage)
+}
+
+func (pedal *Pedal) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Pedals[pedal]
 
 	return
 }
 
-func (stage *Stage) IsStagedPedal_tuning(pedal_tuning *Pedal_tuning) (ok bool) {
+func (stage *Stage) IsStagedPedal(pedal *Pedal) (ok bool) {
+
+	return pedal.GongIsStaged(stage)
+}
+
+func (pedal_tuning *Pedal_tuning) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Pedal_tunings[pedal_tuning]
 
 	return
 }
 
-func (stage *Stage) IsStagedPer_minute(per_minute *Per_minute) (ok bool) {
+func (stage *Stage) IsStagedPedal_tuning(pedal_tuning *Pedal_tuning) (ok bool) {
+
+	return pedal_tuning.GongIsStaged(stage)
+}
+
+func (per_minute *Per_minute) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Per_minutes[per_minute]
 
 	return
 }
 
-func (stage *Stage) IsStagedPercussion(percussion *Percussion) (ok bool) {
+func (stage *Stage) IsStagedPer_minute(per_minute *Per_minute) (ok bool) {
+
+	return per_minute.GongIsStaged(stage)
+}
+
+func (percussion *Percussion) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Percussions[percussion]
 
 	return
 }
 
-func (stage *Stage) IsStagedPitch(pitch *Pitch) (ok bool) {
+func (stage *Stage) IsStagedPercussion(percussion *Percussion) (ok bool) {
+
+	return percussion.GongIsStaged(stage)
+}
+
+func (pitch *Pitch) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Pitchs[pitch]
 
 	return
 }
 
-func (stage *Stage) IsStagedPitched(pitched *Pitched) (ok bool) {
+func (stage *Stage) IsStagedPitch(pitch *Pitch) (ok bool) {
+
+	return pitch.GongIsStaged(stage)
+}
+
+func (pitched *Pitched) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Pitcheds[pitched]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlacement_text(placement_text *Placement_text) (ok bool) {
+func (stage *Stage) IsStagedPitched(pitched *Pitched) (ok bool) {
+
+	return pitched.GongIsStaged(stage)
+}
+
+func (placement_text *Placement_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Placement_texts[placement_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlay(play *Play) (ok bool) {
+func (stage *Stage) IsStagedPlacement_text(placement_text *Placement_text) (ok bool) {
+
+	return placement_text.GongIsStaged(stage)
+}
+
+func (play *Play) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Plays[play]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlayer(player *Player) (ok bool) {
+func (stage *Stage) IsStagedPlay(play *Play) (ok bool) {
+
+	return play.GongIsStaged(stage)
+}
+
+func (player *Player) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Players[player]
 
 	return
 }
 
-func (stage *Stage) IsStagedPrincipal_voice(principal_voice *Principal_voice) (ok bool) {
+func (stage *Stage) IsStagedPlayer(player *Player) (ok bool) {
+
+	return player.GongIsStaged(stage)
+}
+
+func (principal_voice *Principal_voice) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Principal_voices[principal_voice]
 
 	return
 }
 
-func (stage *Stage) IsStagedPrint(print *Print) (ok bool) {
+func (stage *Stage) IsStagedPrincipal_voice(principal_voice *Principal_voice) (ok bool) {
+
+	return principal_voice.GongIsStaged(stage)
+}
+
+func (print *Print) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Prints[print]
 
 	return
 }
 
-func (stage *Stage) IsStagedRelease(release *Release) (ok bool) {
+func (stage *Stage) IsStagedPrint(print *Print) (ok bool) {
+
+	return print.GongIsStaged(stage)
+}
+
+func (release *Release) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Releases[release]
 
 	return
 }
 
-func (stage *Stage) IsStagedRepeat(repeat *Repeat) (ok bool) {
+func (stage *Stage) IsStagedRelease(release *Release) (ok bool) {
+
+	return release.GongIsStaged(stage)
+}
+
+func (repeat *Repeat) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Repeats[repeat]
 
 	return
 }
 
-func (stage *Stage) IsStagedRest(rest *Rest) (ok bool) {
+func (stage *Stage) IsStagedRepeat(repeat *Repeat) (ok bool) {
+
+	return repeat.GongIsStaged(stage)
+}
+
+func (rest *Rest) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Rests[rest]
 
 	return
 }
 
-func (stage *Stage) IsStagedRoot(root *Root) (ok bool) {
+func (stage *Stage) IsStagedRest(rest *Rest) (ok bool) {
+
+	return rest.GongIsStaged(stage)
+}
+
+func (root *Root) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Roots[root]
 
 	return
 }
 
-func (stage *Stage) IsStagedRoot_step(root_step *Root_step) (ok bool) {
+func (stage *Stage) IsStagedRoot(root *Root) (ok bool) {
+
+	return root.GongIsStaged(stage)
+}
+
+func (root_step *Root_step) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Root_steps[root_step]
 
 	return
 }
 
-func (stage *Stage) IsStagedScaling(scaling *Scaling) (ok bool) {
+func (stage *Stage) IsStagedRoot_step(root_step *Root_step) (ok bool) {
+
+	return root_step.GongIsStaged(stage)
+}
+
+func (scaling *Scaling) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Scalings[scaling]
 
 	return
 }
 
-func (stage *Stage) IsStagedScordatura(scordatura *Scordatura) (ok bool) {
+func (stage *Stage) IsStagedScaling(scaling *Scaling) (ok bool) {
+
+	return scaling.GongIsStaged(stage)
+}
+
+func (scordatura *Scordatura) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Scordaturas[scordatura]
 
 	return
 }
 
-func (stage *Stage) IsStagedScore_instrument(score_instrument *Score_instrument) (ok bool) {
+func (stage *Stage) IsStagedScordatura(scordatura *Scordatura) (ok bool) {
+
+	return scordatura.GongIsStaged(stage)
+}
+
+func (score_instrument *Score_instrument) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Score_instruments[score_instrument]
 
 	return
 }
 
-func (stage *Stage) IsStagedScore_part(score_part *Score_part) (ok bool) {
+func (stage *Stage) IsStagedScore_instrument(score_instrument *Score_instrument) (ok bool) {
+
+	return score_instrument.GongIsStaged(stage)
+}
+
+func (score_part *Score_part) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Score_parts[score_part]
 
 	return
 }
 
-func (stage *Stage) IsStagedScore_partwise(score_partwise *Score_partwise) (ok bool) {
+func (stage *Stage) IsStagedScore_part(score_part *Score_part) (ok bool) {
+
+	return score_part.GongIsStaged(stage)
+}
+
+func (score_partwise *Score_partwise) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Score_partwises[score_partwise]
 
 	return
 }
 
-func (stage *Stage) IsStagedScore_timewise(score_timewise *Score_timewise) (ok bool) {
+func (stage *Stage) IsStagedScore_partwise(score_partwise *Score_partwise) (ok bool) {
+
+	return score_partwise.GongIsStaged(stage)
+}
+
+func (score_timewise *Score_timewise) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Score_timewises[score_timewise]
 
 	return
 }
 
-func (stage *Stage) IsStagedSegno(segno *Segno) (ok bool) {
+func (stage *Stage) IsStagedScore_timewise(score_timewise *Score_timewise) (ok bool) {
+
+	return score_timewise.GongIsStaged(stage)
+}
+
+func (segno *Segno) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Segnos[segno]
 
 	return
 }
 
-func (stage *Stage) IsStagedSlash(slash *Slash) (ok bool) {
+func (stage *Stage) IsStagedSegno(segno *Segno) (ok bool) {
+
+	return segno.GongIsStaged(stage)
+}
+
+func (slash *Slash) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Slashs[slash]
 
 	return
 }
 
-func (stage *Stage) IsStagedSlide(slide *Slide) (ok bool) {
+func (stage *Stage) IsStagedSlash(slash *Slash) (ok bool) {
+
+	return slash.GongIsStaged(stage)
+}
+
+func (slide *Slide) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Slides[slide]
 
 	return
 }
 
-func (stage *Stage) IsStagedSlur(slur *Slur) (ok bool) {
+func (stage *Stage) IsStagedSlide(slide *Slide) (ok bool) {
+
+	return slide.GongIsStaged(stage)
+}
+
+func (slur *Slur) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Slurs[slur]
 
 	return
 }
 
-func (stage *Stage) IsStagedSound(sound *Sound) (ok bool) {
+func (stage *Stage) IsStagedSlur(slur *Slur) (ok bool) {
+
+	return slur.GongIsStaged(stage)
+}
+
+func (sound *Sound) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Sounds[sound]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaff_details(staff_details *Staff_details) (ok bool) {
+func (stage *Stage) IsStagedSound(sound *Sound) (ok bool) {
+
+	return sound.GongIsStaged(stage)
+}
+
+func (staff_details *Staff_details) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Staff_detailss[staff_details]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaff_divide(staff_divide *Staff_divide) (ok bool) {
+func (stage *Stage) IsStagedStaff_details(staff_details *Staff_details) (ok bool) {
+
+	return staff_details.GongIsStaged(stage)
+}
+
+func (staff_divide *Staff_divide) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Staff_divides[staff_divide]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaff_layout(staff_layout *Staff_layout) (ok bool) {
+func (stage *Stage) IsStagedStaff_divide(staff_divide *Staff_divide) (ok bool) {
+
+	return staff_divide.GongIsStaged(stage)
+}
+
+func (staff_layout *Staff_layout) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Staff_layouts[staff_layout]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaff_size(staff_size *Staff_size) (ok bool) {
+func (stage *Stage) IsStagedStaff_layout(staff_layout *Staff_layout) (ok bool) {
+
+	return staff_layout.GongIsStaged(stage)
+}
+
+func (staff_size *Staff_size) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Staff_sizes[staff_size]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaff_tuning(staff_tuning *Staff_tuning) (ok bool) {
+func (stage *Stage) IsStagedStaff_size(staff_size *Staff_size) (ok bool) {
+
+	return staff_size.GongIsStaged(stage)
+}
+
+func (staff_tuning *Staff_tuning) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Staff_tunings[staff_tuning]
 
 	return
 }
 
-func (stage *Stage) IsStagedStem(stem *Stem) (ok bool) {
+func (stage *Stage) IsStagedStaff_tuning(staff_tuning *Staff_tuning) (ok bool) {
+
+	return staff_tuning.GongIsStaged(stage)
+}
+
+func (stem *Stem) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Stems[stem]
 
 	return
 }
 
-func (stage *Stage) IsStagedStick(stick *Stick) (ok bool) {
+func (stage *Stage) IsStagedStem(stem *Stem) (ok bool) {
+
+	return stem.GongIsStaged(stage)
+}
+
+func (stick *Stick) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Sticks[stick]
 
 	return
 }
 
-func (stage *Stage) IsStagedString_mute(string_mute *String_mute) (ok bool) {
+func (stage *Stage) IsStagedStick(stick *Stick) (ok bool) {
+
+	return stick.GongIsStaged(stage)
+}
+
+func (string_mute *String_mute) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.String_mutes[string_mute]
 
 	return
 }
 
-func (stage *Stage) IsStagedString_type(string_type *String_type) (ok bool) {
+func (stage *Stage) IsStagedString_mute(string_mute *String_mute) (ok bool) {
+
+	return string_mute.GongIsStaged(stage)
+}
+
+func (string_type *String_type) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.String_types[string_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedStrong_accent(strong_accent *Strong_accent) (ok bool) {
+func (stage *Stage) IsStagedString_type(string_type *String_type) (ok bool) {
+
+	return string_type.GongIsStaged(stage)
+}
+
+func (strong_accent *Strong_accent) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Strong_accents[strong_accent]
 
 	return
 }
 
-func (stage *Stage) IsStagedStyle_text(style_text *Style_text) (ok bool) {
+func (stage *Stage) IsStagedStrong_accent(strong_accent *Strong_accent) (ok bool) {
+
+	return strong_accent.GongIsStaged(stage)
+}
+
+func (style_text *Style_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Style_texts[style_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedSupports(supports *Supports) (ok bool) {
+func (stage *Stage) IsStagedStyle_text(style_text *Style_text) (ok bool) {
+
+	return style_text.GongIsStaged(stage)
+}
+
+func (supports *Supports) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Supportss[supports]
 
 	return
 }
 
-func (stage *Stage) IsStagedSwing(swing *Swing) (ok bool) {
+func (stage *Stage) IsStagedSupports(supports *Supports) (ok bool) {
+
+	return supports.GongIsStaged(stage)
+}
+
+func (swing *Swing) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Swings[swing]
 
 	return
 }
 
-func (stage *Stage) IsStagedSync(sync *Sync) (ok bool) {
+func (stage *Stage) IsStagedSwing(swing *Swing) (ok bool) {
+
+	return swing.GongIsStaged(stage)
+}
+
+func (sync *Sync) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Syncs[sync]
 
 	return
 }
 
-func (stage *Stage) IsStagedSystem_dividers(system_dividers *System_dividers) (ok bool) {
+func (stage *Stage) IsStagedSync(sync *Sync) (ok bool) {
+
+	return sync.GongIsStaged(stage)
+}
+
+func (system_dividers *System_dividers) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.System_dividerss[system_dividers]
 
 	return
 }
 
-func (stage *Stage) IsStagedSystem_layout(system_layout *System_layout) (ok bool) {
+func (stage *Stage) IsStagedSystem_dividers(system_dividers *System_dividers) (ok bool) {
+
+	return system_dividers.GongIsStaged(stage)
+}
+
+func (system_layout *System_layout) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.System_layouts[system_layout]
 
 	return
 }
 
-func (stage *Stage) IsStagedSystem_margins(system_margins *System_margins) (ok bool) {
+func (stage *Stage) IsStagedSystem_layout(system_layout *System_layout) (ok bool) {
+
+	return system_layout.GongIsStaged(stage)
+}
+
+func (system_margins *System_margins) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.System_marginss[system_margins]
 
 	return
 }
 
-func (stage *Stage) IsStagedTap(tap *Tap) (ok bool) {
+func (stage *Stage) IsStagedSystem_margins(system_margins *System_margins) (ok bool) {
+
+	return system_margins.GongIsStaged(stage)
+}
+
+func (tap *Tap) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Taps[tap]
 
 	return
 }
 
-func (stage *Stage) IsStagedTechnical(technical *Technical) (ok bool) {
+func (stage *Stage) IsStagedTap(tap *Tap) (ok bool) {
+
+	return tap.GongIsStaged(stage)
+}
+
+func (technical *Technical) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Technicals[technical]
 
 	return
 }
 
-func (stage *Stage) IsStagedText_element_data(text_element_data *Text_element_data) (ok bool) {
+func (stage *Stage) IsStagedTechnical(technical *Technical) (ok bool) {
+
+	return technical.GongIsStaged(stage)
+}
+
+func (text_element_data *Text_element_data) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Text_element_datas[text_element_data]
 
 	return
 }
 
-func (stage *Stage) IsStagedTie(tie *Tie) (ok bool) {
+func (stage *Stage) IsStagedText_element_data(text_element_data *Text_element_data) (ok bool) {
+
+	return text_element_data.GongIsStaged(stage)
+}
+
+func (tie *Tie) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Ties[tie]
 
 	return
 }
 
-func (stage *Stage) IsStagedTied(tied *Tied) (ok bool) {
+func (stage *Stage) IsStagedTie(tie *Tie) (ok bool) {
+
+	return tie.GongIsStaged(stage)
+}
+
+func (tied *Tied) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tieds[tied]
 
 	return
 }
 
-func (stage *Stage) IsStagedTime(time *Time) (ok bool) {
+func (stage *Stage) IsStagedTied(tied *Tied) (ok bool) {
+
+	return tied.GongIsStaged(stage)
+}
+
+func (time *Time) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Times[time]
 
 	return
 }
 
-func (stage *Stage) IsStagedTime_modification(time_modification *Time_modification) (ok bool) {
+func (stage *Stage) IsStagedTime(time *Time) (ok bool) {
+
+	return time.GongIsStaged(stage)
+}
+
+func (time_modification *Time_modification) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Time_modifications[time_modification]
 
 	return
 }
 
-func (stage *Stage) IsStagedTimpani(timpani *Timpani) (ok bool) {
+func (stage *Stage) IsStagedTime_modification(time_modification *Time_modification) (ok bool) {
+
+	return time_modification.GongIsStaged(stage)
+}
+
+func (timpani *Timpani) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Timpanis[timpani]
 
 	return
 }
 
-func (stage *Stage) IsStagedTranspose(transpose *Transpose) (ok bool) {
+func (stage *Stage) IsStagedTimpani(timpani *Timpani) (ok bool) {
+
+	return timpani.GongIsStaged(stage)
+}
+
+func (transpose *Transpose) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Transposes[transpose]
 
 	return
 }
 
-func (stage *Stage) IsStagedTremolo(tremolo *Tremolo) (ok bool) {
+func (stage *Stage) IsStagedTranspose(transpose *Transpose) (ok bool) {
+
+	return transpose.GongIsStaged(stage)
+}
+
+func (tremolo *Tremolo) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tremolos[tremolo]
 
 	return
 }
 
-func (stage *Stage) IsStagedTuplet(tuplet *Tuplet) (ok bool) {
+func (stage *Stage) IsStagedTremolo(tremolo *Tremolo) (ok bool) {
+
+	return tremolo.GongIsStaged(stage)
+}
+
+func (tuplet *Tuplet) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tuplets[tuplet]
 
 	return
 }
 
-func (stage *Stage) IsStagedTuplet_dot(tuplet_dot *Tuplet_dot) (ok bool) {
+func (stage *Stage) IsStagedTuplet(tuplet *Tuplet) (ok bool) {
+
+	return tuplet.GongIsStaged(stage)
+}
+
+func (tuplet_dot *Tuplet_dot) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tuplet_dots[tuplet_dot]
 
 	return
 }
 
-func (stage *Stage) IsStagedTuplet_number(tuplet_number *Tuplet_number) (ok bool) {
+func (stage *Stage) IsStagedTuplet_dot(tuplet_dot *Tuplet_dot) (ok bool) {
+
+	return tuplet_dot.GongIsStaged(stage)
+}
+
+func (tuplet_number *Tuplet_number) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tuplet_numbers[tuplet_number]
 
 	return
 }
 
-func (stage *Stage) IsStagedTuplet_portion(tuplet_portion *Tuplet_portion) (ok bool) {
+func (stage *Stage) IsStagedTuplet_number(tuplet_number *Tuplet_number) (ok bool) {
+
+	return tuplet_number.GongIsStaged(stage)
+}
+
+func (tuplet_portion *Tuplet_portion) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tuplet_portions[tuplet_portion]
 
 	return
 }
 
-func (stage *Stage) IsStagedTuplet_type(tuplet_type *Tuplet_type) (ok bool) {
+func (stage *Stage) IsStagedTuplet_portion(tuplet_portion *Tuplet_portion) (ok bool) {
+
+	return tuplet_portion.GongIsStaged(stage)
+}
+
+func (tuplet_type *Tuplet_type) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tuplet_types[tuplet_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedTyped_text(typed_text *Typed_text) (ok bool) {
+func (stage *Stage) IsStagedTuplet_type(tuplet_type *Tuplet_type) (ok bool) {
+
+	return tuplet_type.GongIsStaged(stage)
+}
+
+func (typed_text *Typed_text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Typed_texts[typed_text]
 
 	return
 }
 
-func (stage *Stage) IsStagedUnpitched(unpitched *Unpitched) (ok bool) {
+func (stage *Stage) IsStagedTyped_text(typed_text *Typed_text) (ok bool) {
+
+	return typed_text.GongIsStaged(stage)
+}
+
+func (unpitched *Unpitched) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Unpitcheds[unpitched]
 
 	return
 }
 
-func (stage *Stage) IsStagedVirtual_instrument(virtual_instrument *Virtual_instrument) (ok bool) {
+func (stage *Stage) IsStagedUnpitched(unpitched *Unpitched) (ok bool) {
+
+	return unpitched.GongIsStaged(stage)
+}
+
+func (virtual_instrument *Virtual_instrument) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Virtual_instruments[virtual_instrument]
 
 	return
 }
 
-func (stage *Stage) IsStagedWait(wait *Wait) (ok bool) {
+func (stage *Stage) IsStagedVirtual_instrument(virtual_instrument *Virtual_instrument) (ok bool) {
+
+	return virtual_instrument.GongIsStaged(stage)
+}
+
+func (wait *Wait) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Waits[wait]
 
 	return
 }
 
-func (stage *Stage) IsStagedWavy_line(wavy_line *Wavy_line) (ok bool) {
+func (stage *Stage) IsStagedWait(wait *Wait) (ok bool) {
+
+	return wait.GongIsStaged(stage)
+}
+
+func (wavy_line *Wavy_line) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Wavy_lines[wavy_line]
 
 	return
 }
 
-func (stage *Stage) IsStagedWedge(wedge *Wedge) (ok bool) {
+func (stage *Stage) IsStagedWavy_line(wavy_line *Wavy_line) (ok bool) {
+
+	return wavy_line.GongIsStaged(stage)
+}
+
+func (wedge *Wedge) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Wedges[wedge]
 
 	return
 }
 
-func (stage *Stage) IsStagedWood(wood *Wood) (ok bool) {
+func (stage *Stage) IsStagedWedge(wedge *Wedge) (ok bool) {
+
+	return wedge.GongIsStaged(stage)
+}
+
+func (wood *Wood) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Woods[wood]
 
 	return
 }
 
-func (stage *Stage) IsStagedWork(work *Work) (ok bool) {
+func (stage *Stage) IsStagedWood(wood *Wood) (ok bool) {
+
+	return wood.GongIsStaged(stage)
+}
+
+func (work *Work) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Works[work]
 
 	return
 }
 
+func (stage *Stage) IsStagedWork(work *Work) (ok bool) {
+
+	return work.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *A_directive:
-		stage.StageBranchA_directive(target)
-
-	case *A_measure:
-		stage.StageBranchA_measure(target)
-
-	case *A_measure_1:
-		stage.StageBranchA_measure_1(target)
-
-	case *A_part:
-		stage.StageBranchA_part(target)
-
-	case *A_part_1:
-		stage.StageBranchA_part_1(target)
-
-	case *Accidental:
-		stage.StageBranchAccidental(target)
-
-	case *Accidental_mark:
-		stage.StageBranchAccidental_mark(target)
-
-	case *Accidental_text:
-		stage.StageBranchAccidental_text(target)
-
-	case *Accord:
-		stage.StageBranchAccord(target)
-
-	case *Accordion_registration:
-		stage.StageBranchAccordion_registration(target)
-
-	case *Appearance:
-		stage.StageBranchAppearance(target)
-
-	case *Arpeggiate:
-		stage.StageBranchArpeggiate(target)
-
-	case *Arrow:
-		stage.StageBranchArrow(target)
-
-	case *Articulations:
-		stage.StageBranchArticulations(target)
-
-	case *Assess:
-		stage.StageBranchAssess(target)
-
-	case *Attributes:
-		stage.StageBranchAttributes(target)
-
-	case *Backup:
-		stage.StageBranchBackup(target)
-
-	case *Bar_style_color:
-		stage.StageBranchBar_style_color(target)
-
-	case *Barline:
-		stage.StageBranchBarline(target)
-
-	case *Barre:
-		stage.StageBranchBarre(target)
-
-	case *Bass:
-		stage.StageBranchBass(target)
-
-	case *Bass_step:
-		stage.StageBranchBass_step(target)
-
-	case *Beam:
-		stage.StageBranchBeam(target)
-
-	case *Beat_repeat:
-		stage.StageBranchBeat_repeat(target)
-
-	case *Beat_unit_tied:
-		stage.StageBranchBeat_unit_tied(target)
-
-	case *Beater:
-		stage.StageBranchBeater(target)
-
-	case *Bend:
-		stage.StageBranchBend(target)
-
-	case *Bookmark:
-		stage.StageBranchBookmark(target)
-
-	case *Bracket:
-		stage.StageBranchBracket(target)
-
-	case *Breath_mark:
-		stage.StageBranchBreath_mark(target)
-
-	case *Caesura:
-		stage.StageBranchCaesura(target)
-
-	case *Cancel:
-		stage.StageBranchCancel(target)
-
-	case *Clef:
-		stage.StageBranchClef(target)
-
-	case *Coda:
-		stage.StageBranchCoda(target)
-
-	case *Credit:
-		stage.StageBranchCredit(target)
-
-	case *Dashes:
-		stage.StageBranchDashes(target)
-
-	case *Defaults:
-		stage.StageBranchDefaults(target)
-
-	case *Degree:
-		stage.StageBranchDegree(target)
-
-	case *Degree_alter:
-		stage.StageBranchDegree_alter(target)
-
-	case *Degree_type:
-		stage.StageBranchDegree_type(target)
-
-	case *Degree_value:
-		stage.StageBranchDegree_value(target)
-
-	case *Direction:
-		stage.StageBranchDirection(target)
-
-	case *Direction_type:
-		stage.StageBranchDirection_type(target)
-
-	case *Distance:
-		stage.StageBranchDistance(target)
-
-	case *Double:
-		stage.StageBranchDouble(target)
-
-	case *Dynamics:
-		stage.StageBranchDynamics(target)
-
-	case *Effect:
-		stage.StageBranchEffect(target)
-
-	case *Elision:
-		stage.StageBranchElision(target)
-
-	case *Empty:
-		stage.StageBranchEmpty(target)
-
-	case *Empty_font:
-		stage.StageBranchEmpty_font(target)
-
-	case *Empty_line:
-		stage.StageBranchEmpty_line(target)
-
-	case *Empty_placement:
-		stage.StageBranchEmpty_placement(target)
-
-	case *Empty_placement_smufl:
-		stage.StageBranchEmpty_placement_smufl(target)
-
-	case *Empty_print_object_style_align:
-		stage.StageBranchEmpty_print_object_style_align(target)
-
-	case *Empty_print_style:
-		stage.StageBranchEmpty_print_style(target)
-
-	case *Empty_print_style_align:
-		stage.StageBranchEmpty_print_style_align(target)
-
-	case *Empty_print_style_align_id:
-		stage.StageBranchEmpty_print_style_align_id(target)
-
-	case *Empty_trill_sound:
-		stage.StageBranchEmpty_trill_sound(target)
-
-	case *Encoding:
-		stage.StageBranchEncoding(target)
-
-	case *Ending:
-		stage.StageBranchEnding(target)
-
-	case *Extend:
-		stage.StageBranchExtend(target)
-
-	case *Feature:
-		stage.StageBranchFeature(target)
-
-	case *Fermata:
-		stage.StageBranchFermata(target)
-
-	case *Figure:
-		stage.StageBranchFigure(target)
-
-	case *Figured_bass:
-		stage.StageBranchFigured_bass(target)
-
-	case *Fingering:
-		stage.StageBranchFingering(target)
-
-	case *First_fret:
-		stage.StageBranchFirst_fret(target)
-
-	case *For_part:
-		stage.StageBranchFor_part(target)
-
-	case *Formatted_symbol:
-		stage.StageBranchFormatted_symbol(target)
-
-	case *Formatted_symbol_id:
-		stage.StageBranchFormatted_symbol_id(target)
-
-	case *Formatted_text:
-		stage.StageBranchFormatted_text(target)
-
-	case *Formatted_text_id:
-		stage.StageBranchFormatted_text_id(target)
-
-	case *Forward:
-		stage.StageBranchForward(target)
-
-	case *Frame:
-		stage.StageBranchFrame(target)
-
-	case *Frame_note:
-		stage.StageBranchFrame_note(target)
-
-	case *Fret:
-		stage.StageBranchFret(target)
-
-	case *Glass:
-		stage.StageBranchGlass(target)
-
-	case *Glissando:
-		stage.StageBranchGlissando(target)
-
-	case *Glyph:
-		stage.StageBranchGlyph(target)
-
-	case *Grace:
-		stage.StageBranchGrace(target)
-
-	case *Group_barline:
-		stage.StageBranchGroup_barline(target)
-
-	case *Group_name:
-		stage.StageBranchGroup_name(target)
-
-	case *Group_symbol:
-		stage.StageBranchGroup_symbol(target)
-
-	case *Grouping:
-		stage.StageBranchGrouping(target)
-
-	case *Hammer_on_pull_off:
-		stage.StageBranchHammer_on_pull_off(target)
-
-	case *Handbell:
-		stage.StageBranchHandbell(target)
-
-	case *Harmon_closed:
-		stage.StageBranchHarmon_closed(target)
-
-	case *Harmon_mute:
-		stage.StageBranchHarmon_mute(target)
-
-	case *Harmonic:
-		stage.StageBranchHarmonic(target)
-
-	case *Harmony:
-		stage.StageBranchHarmony(target)
-
-	case *Harmony_alter:
-		stage.StageBranchHarmony_alter(target)
-
-	case *Harp_pedals:
-		stage.StageBranchHarp_pedals(target)
-
-	case *Heel_toe:
-		stage.StageBranchHeel_toe(target)
-
-	case *Hole:
-		stage.StageBranchHole(target)
-
-	case *Hole_closed:
-		stage.StageBranchHole_closed(target)
-
-	case *Horizontal_turn:
-		stage.StageBranchHorizontal_turn(target)
-
-	case *Identification:
-		stage.StageBranchIdentification(target)
-
-	case *Image:
-		stage.StageBranchImage(target)
-
-	case *Instrument:
-		stage.StageBranchInstrument(target)
-
-	case *Instrument_change:
-		stage.StageBranchInstrument_change(target)
-
-	case *Instrument_link:
-		stage.StageBranchInstrument_link(target)
-
-	case *Interchangeable:
-		stage.StageBranchInterchangeable(target)
-
-	case *Inversion:
-		stage.StageBranchInversion(target)
-
-	case *Key:
-		stage.StageBranchKey(target)
-
-	case *Key_accidental:
-		stage.StageBranchKey_accidental(target)
-
-	case *Key_octave:
-		stage.StageBranchKey_octave(target)
-
-	case *Kind:
-		stage.StageBranchKind(target)
-
-	case *Level:
-		stage.StageBranchLevel(target)
-
-	case *Line_detail:
-		stage.StageBranchLine_detail(target)
-
-	case *Line_width:
-		stage.StageBranchLine_width(target)
-
-	case *Link:
-		stage.StageBranchLink(target)
-
-	case *Listen:
-		stage.StageBranchListen(target)
-
-	case *Listening:
-		stage.StageBranchListening(target)
-
-	case *Lyric:
-		stage.StageBranchLyric(target)
-
-	case *Lyric_font:
-		stage.StageBranchLyric_font(target)
-
-	case *Lyric_language:
-		stage.StageBranchLyric_language(target)
-
-	case *Measure_layout:
-		stage.StageBranchMeasure_layout(target)
-
-	case *Measure_numbering:
-		stage.StageBranchMeasure_numbering(target)
-
-	case *Measure_repeat:
-		stage.StageBranchMeasure_repeat(target)
-
-	case *Measure_style:
-		stage.StageBranchMeasure_style(target)
-
-	case *Membrane:
-		stage.StageBranchMembrane(target)
-
-	case *Metal:
-		stage.StageBranchMetal(target)
-
-	case *Metronome:
-		stage.StageBranchMetronome(target)
-
-	case *Metronome_beam:
-		stage.StageBranchMetronome_beam(target)
-
-	case *Metronome_note:
-		stage.StageBranchMetronome_note(target)
-
-	case *Metronome_tied:
-		stage.StageBranchMetronome_tied(target)
-
-	case *Metronome_tuplet:
-		stage.StageBranchMetronome_tuplet(target)
-
-	case *Midi_device:
-		stage.StageBranchMidi_device(target)
-
-	case *Midi_instrument:
-		stage.StageBranchMidi_instrument(target)
-
-	case *Miscellaneous:
-		stage.StageBranchMiscellaneous(target)
-
-	case *Miscellaneous_field:
-		stage.StageBranchMiscellaneous_field(target)
-
-	case *Mordent:
-		stage.StageBranchMordent(target)
-
-	case *Multiple_rest:
-		stage.StageBranchMultiple_rest(target)
-
-	case *Name_display:
-		stage.StageBranchName_display(target)
-
-	case *Non_arpeggiate:
-		stage.StageBranchNon_arpeggiate(target)
-
-	case *Notations:
-		stage.StageBranchNotations(target)
-
-	case *Note:
-		stage.StageBranchNote(target)
-
-	case *Note_size:
-		stage.StageBranchNote_size(target)
-
-	case *Note_type:
-		stage.StageBranchNote_type(target)
-
-	case *Notehead:
-		stage.StageBranchNotehead(target)
-
-	case *Notehead_text:
-		stage.StageBranchNotehead_text(target)
-
-	case *Numeral:
-		stage.StageBranchNumeral(target)
-
-	case *Numeral_key:
-		stage.StageBranchNumeral_key(target)
-
-	case *Numeral_root:
-		stage.StageBranchNumeral_root(target)
-
-	case *Octave_shift:
-		stage.StageBranchOctave_shift(target)
-
-	case *Offset:
-		stage.StageBranchOffset(target)
-
-	case *Opus:
-		stage.StageBranchOpus(target)
-
-	case *Ornaments:
-		stage.StageBranchOrnaments(target)
-
-	case *Other_appearance:
-		stage.StageBranchOther_appearance(target)
-
-	case *Other_direction:
-		stage.StageBranchOther_direction(target)
-
-	case *Other_listening:
-		stage.StageBranchOther_listening(target)
-
-	case *Other_notation:
-		stage.StageBranchOther_notation(target)
-
-	case *Other_placement_text:
-		stage.StageBranchOther_placement_text(target)
-
-	case *Other_play:
-		stage.StageBranchOther_play(target)
-
-	case *Other_text:
-		stage.StageBranchOther_text(target)
-
-	case *Page_layout:
-		stage.StageBranchPage_layout(target)
-
-	case *Page_margins:
-		stage.StageBranchPage_margins(target)
-
-	case *Part_clef:
-		stage.StageBranchPart_clef(target)
-
-	case *Part_group:
-		stage.StageBranchPart_group(target)
-
-	case *Part_link:
-		stage.StageBranchPart_link(target)
-
-	case *Part_list:
-		stage.StageBranchPart_list(target)
-
-	case *Part_name:
-		stage.StageBranchPart_name(target)
-
-	case *Part_symbol:
-		stage.StageBranchPart_symbol(target)
-
-	case *Part_transpose:
-		stage.StageBranchPart_transpose(target)
-
-	case *Pedal:
-		stage.StageBranchPedal(target)
-
-	case *Pedal_tuning:
-		stage.StageBranchPedal_tuning(target)
-
-	case *Per_minute:
-		stage.StageBranchPer_minute(target)
-
-	case *Percussion:
-		stage.StageBranchPercussion(target)
-
-	case *Pitch:
-		stage.StageBranchPitch(target)
-
-	case *Pitched:
-		stage.StageBranchPitched(target)
-
-	case *Placement_text:
-		stage.StageBranchPlacement_text(target)
-
-	case *Play:
-		stage.StageBranchPlay(target)
-
-	case *Player:
-		stage.StageBranchPlayer(target)
-
-	case *Principal_voice:
-		stage.StageBranchPrincipal_voice(target)
-
-	case *Print:
-		stage.StageBranchPrint(target)
-
-	case *Release:
-		stage.StageBranchRelease(target)
-
-	case *Repeat:
-		stage.StageBranchRepeat(target)
-
-	case *Rest:
-		stage.StageBranchRest(target)
-
-	case *Root:
-		stage.StageBranchRoot(target)
-
-	case *Root_step:
-		stage.StageBranchRoot_step(target)
-
-	case *Scaling:
-		stage.StageBranchScaling(target)
-
-	case *Scordatura:
-		stage.StageBranchScordatura(target)
-
-	case *Score_instrument:
-		stage.StageBranchScore_instrument(target)
-
-	case *Score_part:
-		stage.StageBranchScore_part(target)
-
-	case *Score_partwise:
-		stage.StageBranchScore_partwise(target)
-
-	case *Score_timewise:
-		stage.StageBranchScore_timewise(target)
-
-	case *Segno:
-		stage.StageBranchSegno(target)
-
-	case *Slash:
-		stage.StageBranchSlash(target)
-
-	case *Slide:
-		stage.StageBranchSlide(target)
-
-	case *Slur:
-		stage.StageBranchSlur(target)
-
-	case *Sound:
-		stage.StageBranchSound(target)
-
-	case *Staff_details:
-		stage.StageBranchStaff_details(target)
-
-	case *Staff_divide:
-		stage.StageBranchStaff_divide(target)
-
-	case *Staff_layout:
-		stage.StageBranchStaff_layout(target)
-
-	case *Staff_size:
-		stage.StageBranchStaff_size(target)
-
-	case *Staff_tuning:
-		stage.StageBranchStaff_tuning(target)
-
-	case *Stem:
-		stage.StageBranchStem(target)
-
-	case *Stick:
-		stage.StageBranchStick(target)
-
-	case *String_mute:
-		stage.StageBranchString_mute(target)
-
-	case *String_type:
-		stage.StageBranchString_type(target)
-
-	case *Strong_accent:
-		stage.StageBranchStrong_accent(target)
-
-	case *Style_text:
-		stage.StageBranchStyle_text(target)
-
-	case *Supports:
-		stage.StageBranchSupports(target)
-
-	case *Swing:
-		stage.StageBranchSwing(target)
-
-	case *Sync:
-		stage.StageBranchSync(target)
-
-	case *System_dividers:
-		stage.StageBranchSystem_dividers(target)
-
-	case *System_layout:
-		stage.StageBranchSystem_layout(target)
-
-	case *System_margins:
-		stage.StageBranchSystem_margins(target)
-
-	case *Tap:
-		stage.StageBranchTap(target)
-
-	case *Technical:
-		stage.StageBranchTechnical(target)
-
-	case *Text_element_data:
-		stage.StageBranchText_element_data(target)
-
-	case *Tie:
-		stage.StageBranchTie(target)
-
-	case *Tied:
-		stage.StageBranchTied(target)
-
-	case *Time:
-		stage.StageBranchTime(target)
-
-	case *Time_modification:
-		stage.StageBranchTime_modification(target)
-
-	case *Timpani:
-		stage.StageBranchTimpani(target)
-
-	case *Transpose:
-		stage.StageBranchTranspose(target)
-
-	case *Tremolo:
-		stage.StageBranchTremolo(target)
-
-	case *Tuplet:
-		stage.StageBranchTuplet(target)
-
-	case *Tuplet_dot:
-		stage.StageBranchTuplet_dot(target)
-
-	case *Tuplet_number:
-		stage.StageBranchTuplet_number(target)
-
-	case *Tuplet_portion:
-		stage.StageBranchTuplet_portion(target)
-
-	case *Tuplet_type:
-		stage.StageBranchTuplet_type(target)
-
-	case *Typed_text:
-		stage.StageBranchTyped_text(target)
-
-	case *Unpitched:
-		stage.StageBranchUnpitched(target)
-
-	case *Virtual_instrument:
-		stage.StageBranchVirtual_instrument(target)
-
-	case *Wait:
-		stage.StageBranchWait(target)
-
-	case *Wavy_line:
-		stage.StageBranchWavy_line(target)
-
-	case *Wedge:
-		stage.StageBranchWedge(target)
-
-	case *Wood:
-		stage.StageBranchWood(target)
-
-	case *Work:
-		stage.StageBranchWork(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (a_directive *A_directive) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_directive(a_directive)
+}
+
 func (stage *Stage) StageBranchA_directive(a_directive *A_directive) {
 
 	// check if instance is already staged
@@ -3047,6 +2814,10 @@ func (stage *Stage) StageBranchA_directive(a_directive *A_directive) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_measure *A_measure) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_measure(a_measure)
 }
 
 func (stage *Stage) StageBranchA_measure(a_measure *A_measure) {
@@ -3106,6 +2877,10 @@ func (stage *Stage) StageBranchA_measure(a_measure *A_measure) {
 
 }
 
+func (a_measure_1 *A_measure_1) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_measure_1(a_measure_1)
+}
+
 func (stage *Stage) StageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 	// check if instance is already staged
@@ -3124,6 +2899,10 @@ func (stage *Stage) StageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 }
 
+func (a_part *A_part) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_part(a_part)
+}
+
 func (stage *Stage) StageBranchA_part(a_part *A_part) {
 
 	// check if instance is already staged
@@ -3140,6 +2919,10 @@ func (stage *Stage) StageBranchA_part(a_part *A_part) {
 		stage.StageBranch(_a_measure)
 	}
 
+}
+
+func (a_part_1 *A_part_1) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_part_1(a_part_1)
 }
 
 func (stage *Stage) StageBranchA_part_1(a_part_1 *A_part_1) {
@@ -3199,6 +2982,10 @@ func (stage *Stage) StageBranchA_part_1(a_part_1 *A_part_1) {
 
 }
 
+func (accidental *Accidental) GongStageBranch(stage *Stage) {
+	stage.StageBranchAccidental(accidental)
+}
+
 func (stage *Stage) StageBranchAccidental(accidental *Accidental) {
 
 	// check if instance is already staged
@@ -3212,6 +2999,10 @@ func (stage *Stage) StageBranchAccidental(accidental *Accidental) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (accidental_mark *Accidental_mark) GongStageBranch(stage *Stage) {
+	stage.StageBranchAccidental_mark(accidental_mark)
 }
 
 func (stage *Stage) StageBranchAccidental_mark(accidental_mark *Accidental_mark) {
@@ -3229,6 +3020,10 @@ func (stage *Stage) StageBranchAccidental_mark(accidental_mark *Accidental_mark)
 
 }
 
+func (accidental_text *Accidental_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchAccidental_text(accidental_text)
+}
+
 func (stage *Stage) StageBranchAccidental_text(accidental_text *Accidental_text) {
 
 	// check if instance is already staged
@@ -3242,6 +3037,10 @@ func (stage *Stage) StageBranchAccidental_text(accidental_text *Accidental_text)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (accord *Accord) GongStageBranch(stage *Stage) {
+	stage.StageBranchAccord(accord)
 }
 
 func (stage *Stage) StageBranchAccord(accord *Accord) {
@@ -3259,6 +3058,10 @@ func (stage *Stage) StageBranchAccord(accord *Accord) {
 
 }
 
+func (accordion_registration *Accordion_registration) GongStageBranch(stage *Stage) {
+	stage.StageBranchAccordion_registration(accordion_registration)
+}
+
 func (stage *Stage) StageBranchAccordion_registration(accordion_registration *Accordion_registration) {
 
 	// check if instance is already staged
@@ -3272,6 +3075,10 @@ func (stage *Stage) StageBranchAccordion_registration(accordion_registration *Ac
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (appearance *Appearance) GongStageBranch(stage *Stage) {
+	stage.StageBranchAppearance(appearance)
 }
 
 func (stage *Stage) StageBranchAppearance(appearance *Appearance) {
@@ -3304,6 +3111,10 @@ func (stage *Stage) StageBranchAppearance(appearance *Appearance) {
 
 }
 
+func (arpeggiate *Arpeggiate) GongStageBranch(stage *Stage) {
+	stage.StageBranchArpeggiate(arpeggiate)
+}
+
 func (stage *Stage) StageBranchArpeggiate(arpeggiate *Arpeggiate) {
 
 	// check if instance is already staged
@@ -3319,6 +3130,10 @@ func (stage *Stage) StageBranchArpeggiate(arpeggiate *Arpeggiate) {
 
 }
 
+func (arrow *Arrow) GongStageBranch(stage *Stage) {
+	stage.StageBranchArrow(arrow)
+}
+
 func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 
 	// check if instance is already staged
@@ -3332,6 +3147,10 @@ func (stage *Stage) StageBranchArrow(arrow *Arrow) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (articulations *Articulations) GongStageBranch(stage *Stage) {
+	stage.StageBranchArticulations(articulations)
 }
 
 func (stage *Stage) StageBranchArticulations(articulations *Articulations) {
@@ -3400,6 +3219,10 @@ func (stage *Stage) StageBranchArticulations(articulations *Articulations) {
 
 }
 
+func (assess *Assess) GongStageBranch(stage *Stage) {
+	stage.StageBranchAssess(assess)
+}
+
 func (stage *Stage) StageBranchAssess(assess *Assess) {
 
 	// check if instance is already staged
@@ -3413,6 +3236,10 @@ func (stage *Stage) StageBranchAssess(assess *Assess) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attributes *Attributes) GongStageBranch(stage *Stage) {
+	stage.StageBranchAttributes(attributes)
 }
 
 func (stage *Stage) StageBranchAttributes(attributes *Attributes) {
@@ -3463,6 +3290,10 @@ func (stage *Stage) StageBranchAttributes(attributes *Attributes) {
 
 }
 
+func (backup *Backup) GongStageBranch(stage *Stage) {
+	stage.StageBranchBackup(backup)
+}
+
 func (stage *Stage) StageBranchBackup(backup *Backup) {
 
 	// check if instance is already staged
@@ -3484,6 +3315,10 @@ func (stage *Stage) StageBranchBackup(backup *Backup) {
 
 }
 
+func (bar_style_color *Bar_style_color) GongStageBranch(stage *Stage) {
+	stage.StageBranchBar_style_color(bar_style_color)
+}
+
 func (stage *Stage) StageBranchBar_style_color(bar_style_color *Bar_style_color) {
 
 	// check if instance is already staged
@@ -3497,6 +3332,10 @@ func (stage *Stage) StageBranchBar_style_color(bar_style_color *Bar_style_color)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (barline *Barline) GongStageBranch(stage *Stage) {
+	stage.StageBranchBarline(barline)
 }
 
 func (stage *Stage) StageBranchBarline(barline *Barline) {
@@ -3541,6 +3380,10 @@ func (stage *Stage) StageBranchBarline(barline *Barline) {
 
 }
 
+func (barre *Barre) GongStageBranch(stage *Stage) {
+	stage.StageBranchBarre(barre)
+}
+
 func (stage *Stage) StageBranchBarre(barre *Barre) {
 
 	// check if instance is already staged
@@ -3554,6 +3397,10 @@ func (stage *Stage) StageBranchBarre(barre *Barre) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (bass *Bass) GongStageBranch(stage *Stage) {
+	stage.StageBranchBass(bass)
 }
 
 func (stage *Stage) StageBranchBass(bass *Bass) {
@@ -3580,6 +3427,10 @@ func (stage *Stage) StageBranchBass(bass *Bass) {
 
 }
 
+func (bass_step *Bass_step) GongStageBranch(stage *Stage) {
+	stage.StageBranchBass_step(bass_step)
+}
+
 func (stage *Stage) StageBranchBass_step(bass_step *Bass_step) {
 
 	// check if instance is already staged
@@ -3593,6 +3444,10 @@ func (stage *Stage) StageBranchBass_step(bass_step *Bass_step) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (beam *Beam) GongStageBranch(stage *Stage) {
+	stage.StageBranchBeam(beam)
 }
 
 func (stage *Stage) StageBranchBeam(beam *Beam) {
@@ -3610,6 +3465,10 @@ func (stage *Stage) StageBranchBeam(beam *Beam) {
 
 }
 
+func (beat_repeat *Beat_repeat) GongStageBranch(stage *Stage) {
+	stage.StageBranchBeat_repeat(beat_repeat)
+}
+
 func (stage *Stage) StageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 
 	// check if instance is already staged
@@ -3623,6 +3482,10 @@ func (stage *Stage) StageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (beat_unit_tied *Beat_unit_tied) GongStageBranch(stage *Stage) {
+	stage.StageBranchBeat_unit_tied(beat_unit_tied)
 }
 
 func (stage *Stage) StageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) {
@@ -3640,6 +3503,10 @@ func (stage *Stage) StageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) {
 
 }
 
+func (beater *Beater) GongStageBranch(stage *Stage) {
+	stage.StageBranchBeater(beater)
+}
+
 func (stage *Stage) StageBranchBeater(beater *Beater) {
 
 	// check if instance is already staged
@@ -3653,6 +3520,10 @@ func (stage *Stage) StageBranchBeater(beater *Beater) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (bend *Bend) GongStageBranch(stage *Stage) {
+	stage.StageBranchBend(bend)
 }
 
 func (stage *Stage) StageBranchBend(bend *Bend) {
@@ -3676,6 +3547,10 @@ func (stage *Stage) StageBranchBend(bend *Bend) {
 
 }
 
+func (bookmark *Bookmark) GongStageBranch(stage *Stage) {
+	stage.StageBranchBookmark(bookmark)
+}
+
 func (stage *Stage) StageBranchBookmark(bookmark *Bookmark) {
 
 	// check if instance is already staged
@@ -3689,6 +3564,10 @@ func (stage *Stage) StageBranchBookmark(bookmark *Bookmark) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (bracket *Bracket) GongStageBranch(stage *Stage) {
+	stage.StageBranchBracket(bracket)
 }
 
 func (stage *Stage) StageBranchBracket(bracket *Bracket) {
@@ -3706,6 +3585,10 @@ func (stage *Stage) StageBranchBracket(bracket *Bracket) {
 
 }
 
+func (breath_mark *Breath_mark) GongStageBranch(stage *Stage) {
+	stage.StageBranchBreath_mark(breath_mark)
+}
+
 func (stage *Stage) StageBranchBreath_mark(breath_mark *Breath_mark) {
 
 	// check if instance is already staged
@@ -3719,6 +3602,10 @@ func (stage *Stage) StageBranchBreath_mark(breath_mark *Breath_mark) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (caesura *Caesura) GongStageBranch(stage *Stage) {
+	stage.StageBranchCaesura(caesura)
 }
 
 func (stage *Stage) StageBranchCaesura(caesura *Caesura) {
@@ -3736,6 +3623,10 @@ func (stage *Stage) StageBranchCaesura(caesura *Caesura) {
 
 }
 
+func (cancel *Cancel) GongStageBranch(stage *Stage) {
+	stage.StageBranchCancel(cancel)
+}
+
 func (stage *Stage) StageBranchCancel(cancel *Cancel) {
 
 	// check if instance is already staged
@@ -3749,6 +3640,10 @@ func (stage *Stage) StageBranchCancel(cancel *Cancel) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (clef *Clef) GongStageBranch(stage *Stage) {
+	stage.StageBranchClef(clef)
 }
 
 func (stage *Stage) StageBranchClef(clef *Clef) {
@@ -3766,6 +3661,10 @@ func (stage *Stage) StageBranchClef(clef *Clef) {
 
 }
 
+func (coda *Coda) GongStageBranch(stage *Stage) {
+	stage.StageBranchCoda(coda)
+}
+
 func (stage *Stage) StageBranchCoda(coda *Coda) {
 
 	// check if instance is already staged
@@ -3779,6 +3678,10 @@ func (stage *Stage) StageBranchCoda(coda *Coda) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (credit *Credit) GongStageBranch(stage *Stage) {
+	stage.StageBranchCredit(credit)
 }
 
 func (stage *Stage) StageBranchCredit(credit *Credit) {
@@ -3811,6 +3714,10 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 }
 
+func (dashes *Dashes) GongStageBranch(stage *Stage) {
+	stage.StageBranchDashes(dashes)
+}
+
 func (stage *Stage) StageBranchDashes(dashes *Dashes) {
 
 	// check if instance is already staged
@@ -3824,6 +3731,10 @@ func (stage *Stage) StageBranchDashes(dashes *Dashes) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (defaults *Defaults) GongStageBranch(stage *Stage) {
+	stage.StageBranchDefaults(defaults)
 }
 
 func (stage *Stage) StageBranchDefaults(defaults *Defaults) {
@@ -3868,6 +3779,10 @@ func (stage *Stage) StageBranchDefaults(defaults *Defaults) {
 
 }
 
+func (degree *Degree) GongStageBranch(stage *Stage) {
+	stage.StageBranchDegree(degree)
+}
+
 func (stage *Stage) StageBranchDegree(degree *Degree) {
 
 	// check if instance is already staged
@@ -3892,6 +3807,10 @@ func (stage *Stage) StageBranchDegree(degree *Degree) {
 
 }
 
+func (degree_alter *Degree_alter) GongStageBranch(stage *Stage) {
+	stage.StageBranchDegree_alter(degree_alter)
+}
+
 func (stage *Stage) StageBranchDegree_alter(degree_alter *Degree_alter) {
 
 	// check if instance is already staged
@@ -3905,6 +3824,10 @@ func (stage *Stage) StageBranchDegree_alter(degree_alter *Degree_alter) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (degree_type *Degree_type) GongStageBranch(stage *Stage) {
+	stage.StageBranchDegree_type(degree_type)
 }
 
 func (stage *Stage) StageBranchDegree_type(degree_type *Degree_type) {
@@ -3922,6 +3845,10 @@ func (stage *Stage) StageBranchDegree_type(degree_type *Degree_type) {
 
 }
 
+func (degree_value *Degree_value) GongStageBranch(stage *Stage) {
+	stage.StageBranchDegree_value(degree_value)
+}
+
 func (stage *Stage) StageBranchDegree_value(degree_value *Degree_value) {
 
 	// check if instance is already staged
@@ -3935,6 +3862,10 @@ func (stage *Stage) StageBranchDegree_value(degree_value *Degree_value) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (direction *Direction) GongStageBranch(stage *Stage) {
+	stage.StageBranchDirection(direction)
 }
 
 func (stage *Stage) StageBranchDirection(direction *Direction) {
@@ -3968,6 +3899,10 @@ func (stage *Stage) StageBranchDirection(direction *Direction) {
 		stage.StageBranch(_direction_type)
 	}
 
+}
+
+func (direction_type *Direction_type) GongStageBranch(stage *Stage) {
+	stage.StageBranchDirection_type(direction_type)
 }
 
 func (stage *Stage) StageBranchDirection_type(direction_type *Direction_type) {
@@ -4057,6 +3992,10 @@ func (stage *Stage) StageBranchDirection_type(direction_type *Direction_type) {
 
 }
 
+func (distance *Distance) GongStageBranch(stage *Stage) {
+	stage.StageBranchDistance(distance)
+}
+
 func (stage *Stage) StageBranchDistance(distance *Distance) {
 
 	// check if instance is already staged
@@ -4072,6 +4011,10 @@ func (stage *Stage) StageBranchDistance(distance *Distance) {
 
 }
 
+func (double *Double) GongStageBranch(stage *Stage) {
+	stage.StageBranchDouble(double)
+}
+
 func (stage *Stage) StageBranchDouble(double *Double) {
 
 	// check if instance is already staged
@@ -4085,6 +4028,10 @@ func (stage *Stage) StageBranchDouble(double *Double) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (dynamics *Dynamics) GongStageBranch(stage *Stage) {
+	stage.StageBranchDynamics(dynamics)
 }
 
 func (stage *Stage) StageBranchDynamics(dynamics *Dynamics) {
@@ -4105,6 +4052,10 @@ func (stage *Stage) StageBranchDynamics(dynamics *Dynamics) {
 
 }
 
+func (effect *Effect) GongStageBranch(stage *Stage) {
+	stage.StageBranchEffect(effect)
+}
+
 func (stage *Stage) StageBranchEffect(effect *Effect) {
 
 	// check if instance is already staged
@@ -4118,6 +4069,10 @@ func (stage *Stage) StageBranchEffect(effect *Effect) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (elision *Elision) GongStageBranch(stage *Stage) {
+	stage.StageBranchElision(elision)
 }
 
 func (stage *Stage) StageBranchElision(elision *Elision) {
@@ -4135,6 +4090,10 @@ func (stage *Stage) StageBranchElision(elision *Elision) {
 
 }
 
+func (empty *Empty) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty(empty)
+}
+
 func (stage *Stage) StageBranchEmpty(empty *Empty) {
 
 	// check if instance is already staged
@@ -4148,6 +4107,10 @@ func (stage *Stage) StageBranchEmpty(empty *Empty) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_font *Empty_font) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_font(empty_font)
 }
 
 func (stage *Stage) StageBranchEmpty_font(empty_font *Empty_font) {
@@ -4165,6 +4128,10 @@ func (stage *Stage) StageBranchEmpty_font(empty_font *Empty_font) {
 
 }
 
+func (empty_line *Empty_line) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_line(empty_line)
+}
+
 func (stage *Stage) StageBranchEmpty_line(empty_line *Empty_line) {
 
 	// check if instance is already staged
@@ -4178,6 +4145,10 @@ func (stage *Stage) StageBranchEmpty_line(empty_line *Empty_line) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_placement *Empty_placement) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_placement(empty_placement)
 }
 
 func (stage *Stage) StageBranchEmpty_placement(empty_placement *Empty_placement) {
@@ -4195,6 +4166,10 @@ func (stage *Stage) StageBranchEmpty_placement(empty_placement *Empty_placement)
 
 }
 
+func (empty_placement_smufl *Empty_placement_smufl) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_placement_smufl(empty_placement_smufl)
+}
+
 func (stage *Stage) StageBranchEmpty_placement_smufl(empty_placement_smufl *Empty_placement_smufl) {
 
 	// check if instance is already staged
@@ -4208,6 +4183,10 @@ func (stage *Stage) StageBranchEmpty_placement_smufl(empty_placement_smufl *Empt
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_print_object_style_align *Empty_print_object_style_align) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_print_object_style_align(empty_print_object_style_align)
 }
 
 func (stage *Stage) StageBranchEmpty_print_object_style_align(empty_print_object_style_align *Empty_print_object_style_align) {
@@ -4225,6 +4204,10 @@ func (stage *Stage) StageBranchEmpty_print_object_style_align(empty_print_object
 
 }
 
+func (empty_print_style *Empty_print_style) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_print_style(empty_print_style)
+}
+
 func (stage *Stage) StageBranchEmpty_print_style(empty_print_style *Empty_print_style) {
 
 	// check if instance is already staged
@@ -4238,6 +4221,10 @@ func (stage *Stage) StageBranchEmpty_print_style(empty_print_style *Empty_print_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_print_style_align *Empty_print_style_align) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_print_style_align(empty_print_style_align)
 }
 
 func (stage *Stage) StageBranchEmpty_print_style_align(empty_print_style_align *Empty_print_style_align) {
@@ -4255,6 +4242,10 @@ func (stage *Stage) StageBranchEmpty_print_style_align(empty_print_style_align *
 
 }
 
+func (empty_print_style_align_id *Empty_print_style_align_id) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_print_style_align_id(empty_print_style_align_id)
+}
+
 func (stage *Stage) StageBranchEmpty_print_style_align_id(empty_print_style_align_id *Empty_print_style_align_id) {
 
 	// check if instance is already staged
@@ -4270,6 +4261,10 @@ func (stage *Stage) StageBranchEmpty_print_style_align_id(empty_print_style_alig
 
 }
 
+func (empty_trill_sound *Empty_trill_sound) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmpty_trill_sound(empty_trill_sound)
+}
+
 func (stage *Stage) StageBranchEmpty_trill_sound(empty_trill_sound *Empty_trill_sound) {
 
 	// check if instance is already staged
@@ -4283,6 +4278,10 @@ func (stage *Stage) StageBranchEmpty_trill_sound(empty_trill_sound *Empty_trill_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (encoding *Encoding) GongStageBranch(stage *Stage) {
+	stage.StageBranchEncoding(encoding)
 }
 
 func (stage *Stage) StageBranchEncoding(encoding *Encoding) {
@@ -4306,6 +4305,10 @@ func (stage *Stage) StageBranchEncoding(encoding *Encoding) {
 
 }
 
+func (ending *Ending) GongStageBranch(stage *Stage) {
+	stage.StageBranchEnding(ending)
+}
+
 func (stage *Stage) StageBranchEnding(ending *Ending) {
 
 	// check if instance is already staged
@@ -4319,6 +4322,10 @@ func (stage *Stage) StageBranchEnding(ending *Ending) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (extend *Extend) GongStageBranch(stage *Stage) {
+	stage.StageBranchExtend(extend)
 }
 
 func (stage *Stage) StageBranchExtend(extend *Extend) {
@@ -4336,6 +4343,10 @@ func (stage *Stage) StageBranchExtend(extend *Extend) {
 
 }
 
+func (feature *Feature) GongStageBranch(stage *Stage) {
+	stage.StageBranchFeature(feature)
+}
+
 func (stage *Stage) StageBranchFeature(feature *Feature) {
 
 	// check if instance is already staged
@@ -4351,6 +4362,10 @@ func (stage *Stage) StageBranchFeature(feature *Feature) {
 
 }
 
+func (fermata *Fermata) GongStageBranch(stage *Stage) {
+	stage.StageBranchFermata(fermata)
+}
+
 func (stage *Stage) StageBranchFermata(fermata *Fermata) {
 
 	// check if instance is already staged
@@ -4364,6 +4379,10 @@ func (stage *Stage) StageBranchFermata(fermata *Fermata) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (figure *Figure) GongStageBranch(stage *Stage) {
+	stage.StageBranchFigure(figure)
 }
 
 func (stage *Stage) StageBranchFigure(figure *Figure) {
@@ -4399,6 +4418,10 @@ func (stage *Stage) StageBranchFigure(figure *Figure) {
 
 }
 
+func (figured_bass *Figured_bass) GongStageBranch(stage *Stage) {
+	stage.StageBranchFigured_bass(figured_bass)
+}
+
 func (stage *Stage) StageBranchFigured_bass(figured_bass *Figured_bass) {
 
 	// check if instance is already staged
@@ -4423,6 +4446,10 @@ func (stage *Stage) StageBranchFigured_bass(figured_bass *Figured_bass) {
 
 }
 
+func (fingering *Fingering) GongStageBranch(stage *Stage) {
+	stage.StageBranchFingering(fingering)
+}
+
 func (stage *Stage) StageBranchFingering(fingering *Fingering) {
 
 	// check if instance is already staged
@@ -4438,6 +4465,10 @@ func (stage *Stage) StageBranchFingering(fingering *Fingering) {
 
 }
 
+func (first_fret *First_fret) GongStageBranch(stage *Stage) {
+	stage.StageBranchFirst_fret(first_fret)
+}
+
 func (stage *Stage) StageBranchFirst_fret(first_fret *First_fret) {
 
 	// check if instance is already staged
@@ -4451,6 +4482,10 @@ func (stage *Stage) StageBranchFirst_fret(first_fret *First_fret) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (for_part *For_part) GongStageBranch(stage *Stage) {
+	stage.StageBranchFor_part(for_part)
 }
 
 func (stage *Stage) StageBranchFor_part(for_part *For_part) {
@@ -4474,6 +4509,10 @@ func (stage *Stage) StageBranchFor_part(for_part *For_part) {
 
 }
 
+func (formatted_symbol *Formatted_symbol) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormatted_symbol(formatted_symbol)
+}
+
 func (stage *Stage) StageBranchFormatted_symbol(formatted_symbol *Formatted_symbol) {
 
 	// check if instance is already staged
@@ -4487,6 +4526,10 @@ func (stage *Stage) StageBranchFormatted_symbol(formatted_symbol *Formatted_symb
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formatted_symbol_id *Formatted_symbol_id) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormatted_symbol_id(formatted_symbol_id)
 }
 
 func (stage *Stage) StageBranchFormatted_symbol_id(formatted_symbol_id *Formatted_symbol_id) {
@@ -4504,6 +4547,10 @@ func (stage *Stage) StageBranchFormatted_symbol_id(formatted_symbol_id *Formatte
 
 }
 
+func (formatted_text *Formatted_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormatted_text(formatted_text)
+}
+
 func (stage *Stage) StageBranchFormatted_text(formatted_text *Formatted_text) {
 
 	// check if instance is already staged
@@ -4519,6 +4566,10 @@ func (stage *Stage) StageBranchFormatted_text(formatted_text *Formatted_text) {
 
 }
 
+func (formatted_text_id *Formatted_text_id) GongStageBranch(stage *Stage) {
+	stage.StageBranchFormatted_text_id(formatted_text_id)
+}
+
 func (stage *Stage) StageBranchFormatted_text_id(formatted_text_id *Formatted_text_id) {
 
 	// check if instance is already staged
@@ -4532,6 +4583,10 @@ func (stage *Stage) StageBranchFormatted_text_id(formatted_text_id *Formatted_te
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (forward *Forward) GongStageBranch(stage *Stage) {
+	stage.StageBranchForward(forward)
 }
 
 func (stage *Stage) StageBranchForward(forward *Forward) {
@@ -4555,6 +4610,10 @@ func (stage *Stage) StageBranchForward(forward *Forward) {
 
 }
 
+func (frame *Frame) GongStageBranch(stage *Stage) {
+	stage.StageBranchFrame(frame)
+}
+
 func (stage *Stage) StageBranchFrame(frame *Frame) {
 
 	// check if instance is already staged
@@ -4574,6 +4633,10 @@ func (stage *Stage) StageBranchFrame(frame *Frame) {
 		stage.StageBranch(_frame_note)
 	}
 
+}
+
+func (frame_note *Frame_note) GongStageBranch(stage *Stage) {
+	stage.StageBranchFrame_note(frame_note)
 }
 
 func (stage *Stage) StageBranchFrame_note(frame_note *Frame_note) {
@@ -4603,6 +4666,10 @@ func (stage *Stage) StageBranchFrame_note(frame_note *Frame_note) {
 
 }
 
+func (fret *Fret) GongStageBranch(stage *Stage) {
+	stage.StageBranchFret(fret)
+}
+
 func (stage *Stage) StageBranchFret(fret *Fret) {
 
 	// check if instance is already staged
@@ -4616,6 +4683,10 @@ func (stage *Stage) StageBranchFret(fret *Fret) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (glass *Glass) GongStageBranch(stage *Stage) {
+	stage.StageBranchGlass(glass)
 }
 
 func (stage *Stage) StageBranchGlass(glass *Glass) {
@@ -4633,6 +4704,10 @@ func (stage *Stage) StageBranchGlass(glass *Glass) {
 
 }
 
+func (glissando *Glissando) GongStageBranch(stage *Stage) {
+	stage.StageBranchGlissando(glissando)
+}
+
 func (stage *Stage) StageBranchGlissando(glissando *Glissando) {
 
 	// check if instance is already staged
@@ -4646,6 +4721,10 @@ func (stage *Stage) StageBranchGlissando(glissando *Glissando) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (glyph *Glyph) GongStageBranch(stage *Stage) {
+	stage.StageBranchGlyph(glyph)
 }
 
 func (stage *Stage) StageBranchGlyph(glyph *Glyph) {
@@ -4663,6 +4742,10 @@ func (stage *Stage) StageBranchGlyph(glyph *Glyph) {
 
 }
 
+func (grace *Grace) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrace(grace)
+}
+
 func (stage *Stage) StageBranchGrace(grace *Grace) {
 
 	// check if instance is already staged
@@ -4676,6 +4759,10 @@ func (stage *Stage) StageBranchGrace(grace *Grace) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (group_barline *Group_barline) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup_barline(group_barline)
 }
 
 func (stage *Stage) StageBranchGroup_barline(group_barline *Group_barline) {
@@ -4693,6 +4780,10 @@ func (stage *Stage) StageBranchGroup_barline(group_barline *Group_barline) {
 
 }
 
+func (group_name *Group_name) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup_name(group_name)
+}
+
 func (stage *Stage) StageBranchGroup_name(group_name *Group_name) {
 
 	// check if instance is already staged
@@ -4708,6 +4799,10 @@ func (stage *Stage) StageBranchGroup_name(group_name *Group_name) {
 
 }
 
+func (group_symbol *Group_symbol) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup_symbol(group_symbol)
+}
+
 func (stage *Stage) StageBranchGroup_symbol(group_symbol *Group_symbol) {
 
 	// check if instance is already staged
@@ -4721,6 +4816,10 @@ func (stage *Stage) StageBranchGroup_symbol(group_symbol *Group_symbol) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (grouping *Grouping) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrouping(grouping)
 }
 
 func (stage *Stage) StageBranchGrouping(grouping *Grouping) {
@@ -4741,6 +4840,10 @@ func (stage *Stage) StageBranchGrouping(grouping *Grouping) {
 
 }
 
+func (hammer_on_pull_off *Hammer_on_pull_off) GongStageBranch(stage *Stage) {
+	stage.StageBranchHammer_on_pull_off(hammer_on_pull_off)
+}
+
 func (stage *Stage) StageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_on_pull_off) {
 
 	// check if instance is already staged
@@ -4754,6 +4857,10 @@ func (stage *Stage) StageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_on_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (handbell *Handbell) GongStageBranch(stage *Stage) {
+	stage.StageBranchHandbell(handbell)
 }
 
 func (stage *Stage) StageBranchHandbell(handbell *Handbell) {
@@ -4771,6 +4878,10 @@ func (stage *Stage) StageBranchHandbell(handbell *Handbell) {
 
 }
 
+func (harmon_closed *Harmon_closed) GongStageBranch(stage *Stage) {
+	stage.StageBranchHarmon_closed(harmon_closed)
+}
+
 func (stage *Stage) StageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 
 	// check if instance is already staged
@@ -4784,6 +4895,10 @@ func (stage *Stage) StageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (harmon_mute *Harmon_mute) GongStageBranch(stage *Stage) {
+	stage.StageBranchHarmon_mute(harmon_mute)
 }
 
 func (stage *Stage) StageBranchHarmon_mute(harmon_mute *Harmon_mute) {
@@ -4804,6 +4919,10 @@ func (stage *Stage) StageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 
 }
 
+func (harmonic *Harmonic) GongStageBranch(stage *Stage) {
+	stage.StageBranchHarmonic(harmonic)
+}
+
 func (stage *Stage) StageBranchHarmonic(harmonic *Harmonic) {
 
 	// check if instance is already staged
@@ -4817,6 +4936,10 @@ func (stage *Stage) StageBranchHarmonic(harmonic *Harmonic) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (harmony *Harmony) GongStageBranch(stage *Stage) {
+	stage.StageBranchHarmony(harmony)
 }
 
 func (stage *Stage) StageBranchHarmony(harmony *Harmony) {
@@ -4867,6 +4990,10 @@ func (stage *Stage) StageBranchHarmony(harmony *Harmony) {
 
 }
 
+func (harmony_alter *Harmony_alter) GongStageBranch(stage *Stage) {
+	stage.StageBranchHarmony_alter(harmony_alter)
+}
+
 func (stage *Stage) StageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 
 	// check if instance is already staged
@@ -4880,6 +5007,10 @@ func (stage *Stage) StageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (harp_pedals *Harp_pedals) GongStageBranch(stage *Stage) {
+	stage.StageBranchHarp_pedals(harp_pedals)
 }
 
 func (stage *Stage) StageBranchHarp_pedals(harp_pedals *Harp_pedals) {
@@ -4900,6 +5031,10 @@ func (stage *Stage) StageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 
 }
 
+func (heel_toe *Heel_toe) GongStageBranch(stage *Stage) {
+	stage.StageBranchHeel_toe(heel_toe)
+}
+
 func (stage *Stage) StageBranchHeel_toe(heel_toe *Heel_toe) {
 
 	// check if instance is already staged
@@ -4913,6 +5048,10 @@ func (stage *Stage) StageBranchHeel_toe(heel_toe *Heel_toe) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (hole *Hole) GongStageBranch(stage *Stage) {
+	stage.StageBranchHole(hole)
 }
 
 func (stage *Stage) StageBranchHole(hole *Hole) {
@@ -4933,6 +5072,10 @@ func (stage *Stage) StageBranchHole(hole *Hole) {
 
 }
 
+func (hole_closed *Hole_closed) GongStageBranch(stage *Stage) {
+	stage.StageBranchHole_closed(hole_closed)
+}
+
 func (stage *Stage) StageBranchHole_closed(hole_closed *Hole_closed) {
 
 	// check if instance is already staged
@@ -4948,6 +5091,10 @@ func (stage *Stage) StageBranchHole_closed(hole_closed *Hole_closed) {
 
 }
 
+func (horizontal_turn *Horizontal_turn) GongStageBranch(stage *Stage) {
+	stage.StageBranchHorizontal_turn(horizontal_turn)
+}
+
 func (stage *Stage) StageBranchHorizontal_turn(horizontal_turn *Horizontal_turn) {
 
 	// check if instance is already staged
@@ -4961,6 +5108,10 @@ func (stage *Stage) StageBranchHorizontal_turn(horizontal_turn *Horizontal_turn)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (identification *Identification) GongStageBranch(stage *Stage) {
+	stage.StageBranchIdentification(identification)
 }
 
 func (stage *Stage) StageBranchIdentification(identification *Identification) {
@@ -4993,6 +5144,10 @@ func (stage *Stage) StageBranchIdentification(identification *Identification) {
 
 }
 
+func (image *Image) GongStageBranch(stage *Stage) {
+	stage.StageBranchImage(image)
+}
+
 func (stage *Stage) StageBranchImage(image *Image) {
 
 	// check if instance is already staged
@@ -5008,6 +5163,10 @@ func (stage *Stage) StageBranchImage(image *Image) {
 
 }
 
+func (instrument *Instrument) GongStageBranch(stage *Stage) {
+	stage.StageBranchInstrument(instrument)
+}
+
 func (stage *Stage) StageBranchInstrument(instrument *Instrument) {
 
 	// check if instance is already staged
@@ -5021,6 +5180,10 @@ func (stage *Stage) StageBranchInstrument(instrument *Instrument) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (instrument_change *Instrument_change) GongStageBranch(stage *Stage) {
+	stage.StageBranchInstrument_change(instrument_change)
 }
 
 func (stage *Stage) StageBranchInstrument_change(instrument_change *Instrument_change) {
@@ -5041,6 +5204,10 @@ func (stage *Stage) StageBranchInstrument_change(instrument_change *Instrument_c
 
 }
 
+func (instrument_link *Instrument_link) GongStageBranch(stage *Stage) {
+	stage.StageBranchInstrument_link(instrument_link)
+}
+
 func (stage *Stage) StageBranchInstrument_link(instrument_link *Instrument_link) {
 
 	// check if instance is already staged
@@ -5054,6 +5221,10 @@ func (stage *Stage) StageBranchInstrument_link(instrument_link *Instrument_link)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (interchangeable *Interchangeable) GongStageBranch(stage *Stage) {
+	stage.StageBranchInterchangeable(interchangeable)
 }
 
 func (stage *Stage) StageBranchInterchangeable(interchangeable *Interchangeable) {
@@ -5071,6 +5242,10 @@ func (stage *Stage) StageBranchInterchangeable(interchangeable *Interchangeable)
 
 }
 
+func (inversion *Inversion) GongStageBranch(stage *Stage) {
+	stage.StageBranchInversion(inversion)
+}
+
 func (stage *Stage) StageBranchInversion(inversion *Inversion) {
 
 	// check if instance is already staged
@@ -5084,6 +5259,10 @@ func (stage *Stage) StageBranchInversion(inversion *Inversion) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (key *Key) GongStageBranch(stage *Stage) {
+	stage.StageBranchKey(key)
 }
 
 func (stage *Stage) StageBranchKey(key *Key) {
@@ -5110,6 +5289,10 @@ func (stage *Stage) StageBranchKey(key *Key) {
 
 }
 
+func (key_accidental *Key_accidental) GongStageBranch(stage *Stage) {
+	stage.StageBranchKey_accidental(key_accidental)
+}
+
 func (stage *Stage) StageBranchKey_accidental(key_accidental *Key_accidental) {
 
 	// check if instance is already staged
@@ -5123,6 +5306,10 @@ func (stage *Stage) StageBranchKey_accidental(key_accidental *Key_accidental) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (key_octave *Key_octave) GongStageBranch(stage *Stage) {
+	stage.StageBranchKey_octave(key_octave)
 }
 
 func (stage *Stage) StageBranchKey_octave(key_octave *Key_octave) {
@@ -5140,6 +5327,10 @@ func (stage *Stage) StageBranchKey_octave(key_octave *Key_octave) {
 
 }
 
+func (kind *Kind) GongStageBranch(stage *Stage) {
+	stage.StageBranchKind(kind)
+}
+
 func (stage *Stage) StageBranchKind(kind *Kind) {
 
 	// check if instance is already staged
@@ -5153,6 +5344,10 @@ func (stage *Stage) StageBranchKind(kind *Kind) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (level *Level) GongStageBranch(stage *Stage) {
+	stage.StageBranchLevel(level)
 }
 
 func (stage *Stage) StageBranchLevel(level *Level) {
@@ -5170,6 +5365,10 @@ func (stage *Stage) StageBranchLevel(level *Level) {
 
 }
 
+func (line_detail *Line_detail) GongStageBranch(stage *Stage) {
+	stage.StageBranchLine_detail(line_detail)
+}
+
 func (stage *Stage) StageBranchLine_detail(line_detail *Line_detail) {
 
 	// check if instance is already staged
@@ -5183,6 +5382,10 @@ func (stage *Stage) StageBranchLine_detail(line_detail *Line_detail) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (line_width *Line_width) GongStageBranch(stage *Stage) {
+	stage.StageBranchLine_width(line_width)
 }
 
 func (stage *Stage) StageBranchLine_width(line_width *Line_width) {
@@ -5200,6 +5403,10 @@ func (stage *Stage) StageBranchLine_width(line_width *Line_width) {
 
 }
 
+func (link *Link) GongStageBranch(stage *Stage) {
+	stage.StageBranchLink(link)
+}
+
 func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
@@ -5213,6 +5420,10 @@ func (stage *Stage) StageBranchLink(link *Link) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (listen *Listen) GongStageBranch(stage *Stage) {
+	stage.StageBranchListen(listen)
 }
 
 func (stage *Stage) StageBranchListen(listen *Listen) {
@@ -5239,6 +5450,10 @@ func (stage *Stage) StageBranchListen(listen *Listen) {
 
 }
 
+func (listening *Listening) GongStageBranch(stage *Stage) {
+	stage.StageBranchListening(listening)
+}
+
 func (stage *Stage) StageBranchListening(listening *Listening) {
 
 	// check if instance is already staged
@@ -5261,6 +5476,10 @@ func (stage *Stage) StageBranchListening(listening *Listening) {
 		stage.StageBranch(_other_listening)
 	}
 
+}
+
+func (lyric *Lyric) GongStageBranch(stage *Stage) {
+	stage.StageBranchLyric(lyric)
 }
 
 func (stage *Stage) StageBranchLyric(lyric *Lyric) {
@@ -5293,6 +5512,10 @@ func (stage *Stage) StageBranchLyric(lyric *Lyric) {
 
 }
 
+func (lyric_font *Lyric_font) GongStageBranch(stage *Stage) {
+	stage.StageBranchLyric_font(lyric_font)
+}
+
 func (stage *Stage) StageBranchLyric_font(lyric_font *Lyric_font) {
 
 	// check if instance is already staged
@@ -5306,6 +5529,10 @@ func (stage *Stage) StageBranchLyric_font(lyric_font *Lyric_font) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (lyric_language *Lyric_language) GongStageBranch(stage *Stage) {
+	stage.StageBranchLyric_language(lyric_language)
 }
 
 func (stage *Stage) StageBranchLyric_language(lyric_language *Lyric_language) {
@@ -5323,6 +5550,10 @@ func (stage *Stage) StageBranchLyric_language(lyric_language *Lyric_language) {
 
 }
 
+func (measure_layout *Measure_layout) GongStageBranch(stage *Stage) {
+	stage.StageBranchMeasure_layout(measure_layout)
+}
+
 func (stage *Stage) StageBranchMeasure_layout(measure_layout *Measure_layout) {
 
 	// check if instance is already staged
@@ -5336,6 +5567,10 @@ func (stage *Stage) StageBranchMeasure_layout(measure_layout *Measure_layout) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (measure_numbering *Measure_numbering) GongStageBranch(stage *Stage) {
+	stage.StageBranchMeasure_numbering(measure_numbering)
 }
 
 func (stage *Stage) StageBranchMeasure_numbering(measure_numbering *Measure_numbering) {
@@ -5353,6 +5588,10 @@ func (stage *Stage) StageBranchMeasure_numbering(measure_numbering *Measure_numb
 
 }
 
+func (measure_repeat *Measure_repeat) GongStageBranch(stage *Stage) {
+	stage.StageBranchMeasure_repeat(measure_repeat)
+}
+
 func (stage *Stage) StageBranchMeasure_repeat(measure_repeat *Measure_repeat) {
 
 	// check if instance is already staged
@@ -5366,6 +5605,10 @@ func (stage *Stage) StageBranchMeasure_repeat(measure_repeat *Measure_repeat) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (measure_style *Measure_style) GongStageBranch(stage *Stage) {
+	stage.StageBranchMeasure_style(measure_style)
 }
 
 func (stage *Stage) StageBranchMeasure_style(measure_style *Measure_style) {
@@ -5395,6 +5638,10 @@ func (stage *Stage) StageBranchMeasure_style(measure_style *Measure_style) {
 
 }
 
+func (membrane *Membrane) GongStageBranch(stage *Stage) {
+	stage.StageBranchMembrane(membrane)
+}
+
 func (stage *Stage) StageBranchMembrane(membrane *Membrane) {
 
 	// check if instance is already staged
@@ -5410,6 +5657,10 @@ func (stage *Stage) StageBranchMembrane(membrane *Membrane) {
 
 }
 
+func (metal *Metal) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetal(metal)
+}
+
 func (stage *Stage) StageBranchMetal(metal *Metal) {
 
 	// check if instance is already staged
@@ -5423,6 +5674,10 @@ func (stage *Stage) StageBranchMetal(metal *Metal) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metronome *Metronome) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetronome(metronome)
 }
 
 func (stage *Stage) StageBranchMetronome(metronome *Metronome) {
@@ -5449,6 +5704,10 @@ func (stage *Stage) StageBranchMetronome(metronome *Metronome) {
 
 }
 
+func (metronome_beam *Metronome_beam) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetronome_beam(metronome_beam)
+}
+
 func (stage *Stage) StageBranchMetronome_beam(metronome_beam *Metronome_beam) {
 
 	// check if instance is already staged
@@ -5462,6 +5721,10 @@ func (stage *Stage) StageBranchMetronome_beam(metronome_beam *Metronome_beam) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metronome_note *Metronome_note) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetronome_note(metronome_note)
 }
 
 func (stage *Stage) StageBranchMetronome_note(metronome_note *Metronome_note) {
@@ -5488,6 +5751,10 @@ func (stage *Stage) StageBranchMetronome_note(metronome_note *Metronome_note) {
 
 }
 
+func (metronome_tied *Metronome_tied) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetronome_tied(metronome_tied)
+}
+
 func (stage *Stage) StageBranchMetronome_tied(metronome_tied *Metronome_tied) {
 
 	// check if instance is already staged
@@ -5501,6 +5768,10 @@ func (stage *Stage) StageBranchMetronome_tied(metronome_tied *Metronome_tied) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metronome_tuplet *Metronome_tuplet) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetronome_tuplet(metronome_tuplet)
 }
 
 func (stage *Stage) StageBranchMetronome_tuplet(metronome_tuplet *Metronome_tuplet) {
@@ -5518,6 +5789,10 @@ func (stage *Stage) StageBranchMetronome_tuplet(metronome_tuplet *Metronome_tupl
 
 }
 
+func (midi_device *Midi_device) GongStageBranch(stage *Stage) {
+	stage.StageBranchMidi_device(midi_device)
+}
+
 func (stage *Stage) StageBranchMidi_device(midi_device *Midi_device) {
 
 	// check if instance is already staged
@@ -5533,6 +5808,10 @@ func (stage *Stage) StageBranchMidi_device(midi_device *Midi_device) {
 
 }
 
+func (midi_instrument *Midi_instrument) GongStageBranch(stage *Stage) {
+	stage.StageBranchMidi_instrument(midi_instrument)
+}
+
 func (stage *Stage) StageBranchMidi_instrument(midi_instrument *Midi_instrument) {
 
 	// check if instance is already staged
@@ -5546,6 +5825,10 @@ func (stage *Stage) StageBranchMidi_instrument(midi_instrument *Midi_instrument)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (miscellaneous *Miscellaneous) GongStageBranch(stage *Stage) {
+	stage.StageBranchMiscellaneous(miscellaneous)
 }
 
 func (stage *Stage) StageBranchMiscellaneous(miscellaneous *Miscellaneous) {
@@ -5566,6 +5849,10 @@ func (stage *Stage) StageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 
 }
 
+func (miscellaneous_field *Miscellaneous_field) GongStageBranch(stage *Stage) {
+	stage.StageBranchMiscellaneous_field(miscellaneous_field)
+}
+
 func (stage *Stage) StageBranchMiscellaneous_field(miscellaneous_field *Miscellaneous_field) {
 
 	// check if instance is already staged
@@ -5579,6 +5866,10 @@ func (stage *Stage) StageBranchMiscellaneous_field(miscellaneous_field *Miscella
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mordent *Mordent) GongStageBranch(stage *Stage) {
+	stage.StageBranchMordent(mordent)
 }
 
 func (stage *Stage) StageBranchMordent(mordent *Mordent) {
@@ -5596,6 +5887,10 @@ func (stage *Stage) StageBranchMordent(mordent *Mordent) {
 
 }
 
+func (multiple_rest *Multiple_rest) GongStageBranch(stage *Stage) {
+	stage.StageBranchMultiple_rest(multiple_rest)
+}
+
 func (stage *Stage) StageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 
 	// check if instance is already staged
@@ -5609,6 +5904,10 @@ func (stage *Stage) StageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (name_display *Name_display) GongStageBranch(stage *Stage) {
+	stage.StageBranchName_display(name_display)
 }
 
 func (stage *Stage) StageBranchName_display(name_display *Name_display) {
@@ -5632,6 +5931,10 @@ func (stage *Stage) StageBranchName_display(name_display *Name_display) {
 
 }
 
+func (non_arpeggiate *Non_arpeggiate) GongStageBranch(stage *Stage) {
+	stage.StageBranchNon_arpeggiate(non_arpeggiate)
+}
+
 func (stage *Stage) StageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) {
 
 	// check if instance is already staged
@@ -5645,6 +5948,10 @@ func (stage *Stage) StageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notations *Notations) GongStageBranch(stage *Stage) {
+	stage.StageBranchNotations(notations)
 }
 
 func (stage *Stage) StageBranchNotations(notations *Notations) {
@@ -5708,6 +6015,10 @@ func (stage *Stage) StageBranchNotations(notations *Notations) {
 		stage.StageBranch(_other_notation)
 	}
 
+}
+
+func (note *Note) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote(note)
 }
 
 func (stage *Stage) StageBranchNote(note *Note) {
@@ -5785,6 +6096,10 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 }
 
+func (note_size *Note_size) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote_size(note_size)
+}
+
 func (stage *Stage) StageBranchNote_size(note_size *Note_size) {
 
 	// check if instance is already staged
@@ -5798,6 +6113,10 @@ func (stage *Stage) StageBranchNote_size(note_size *Note_size) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (note_type *Note_type) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote_type(note_type)
 }
 
 func (stage *Stage) StageBranchNote_type(note_type *Note_type) {
@@ -5815,6 +6134,10 @@ func (stage *Stage) StageBranchNote_type(note_type *Note_type) {
 
 }
 
+func (notehead *Notehead) GongStageBranch(stage *Stage) {
+	stage.StageBranchNotehead(notehead)
+}
+
 func (stage *Stage) StageBranchNotehead(notehead *Notehead) {
 
 	// check if instance is already staged
@@ -5828,6 +6151,10 @@ func (stage *Stage) StageBranchNotehead(notehead *Notehead) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notehead_text *Notehead_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchNotehead_text(notehead_text)
 }
 
 func (stage *Stage) StageBranchNotehead_text(notehead_text *Notehead_text) {
@@ -5849,6 +6176,10 @@ func (stage *Stage) StageBranchNotehead_text(notehead_text *Notehead_text) {
 		stage.StageBranch(_accidental_text)
 	}
 
+}
+
+func (numeral *Numeral) GongStageBranch(stage *Stage) {
+	stage.StageBranchNumeral(numeral)
 }
 
 func (stage *Stage) StageBranchNumeral(numeral *Numeral) {
@@ -5875,6 +6206,10 @@ func (stage *Stage) StageBranchNumeral(numeral *Numeral) {
 
 }
 
+func (numeral_key *Numeral_key) GongStageBranch(stage *Stage) {
+	stage.StageBranchNumeral_key(numeral_key)
+}
+
 func (stage *Stage) StageBranchNumeral_key(numeral_key *Numeral_key) {
 
 	// check if instance is already staged
@@ -5888,6 +6223,10 @@ func (stage *Stage) StageBranchNumeral_key(numeral_key *Numeral_key) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (numeral_root *Numeral_root) GongStageBranch(stage *Stage) {
+	stage.StageBranchNumeral_root(numeral_root)
 }
 
 func (stage *Stage) StageBranchNumeral_root(numeral_root *Numeral_root) {
@@ -5905,6 +6244,10 @@ func (stage *Stage) StageBranchNumeral_root(numeral_root *Numeral_root) {
 
 }
 
+func (octave_shift *Octave_shift) GongStageBranch(stage *Stage) {
+	stage.StageBranchOctave_shift(octave_shift)
+}
+
 func (stage *Stage) StageBranchOctave_shift(octave_shift *Octave_shift) {
 
 	// check if instance is already staged
@@ -5918,6 +6261,10 @@ func (stage *Stage) StageBranchOctave_shift(octave_shift *Octave_shift) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (offset *Offset) GongStageBranch(stage *Stage) {
+	stage.StageBranchOffset(offset)
 }
 
 func (stage *Stage) StageBranchOffset(offset *Offset) {
@@ -5935,6 +6282,10 @@ func (stage *Stage) StageBranchOffset(offset *Offset) {
 
 }
 
+func (opus *Opus) GongStageBranch(stage *Stage) {
+	stage.StageBranchOpus(opus)
+}
+
 func (stage *Stage) StageBranchOpus(opus *Opus) {
 
 	// check if instance is already staged
@@ -5948,6 +6299,10 @@ func (stage *Stage) StageBranchOpus(opus *Opus) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (ornaments *Ornaments) GongStageBranch(stage *Stage) {
+	stage.StageBranchOrnaments(ornaments)
 }
 
 func (stage *Stage) StageBranchOrnaments(ornaments *Ornaments) {
@@ -6013,6 +6368,10 @@ func (stage *Stage) StageBranchOrnaments(ornaments *Ornaments) {
 
 }
 
+func (other_appearance *Other_appearance) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_appearance(other_appearance)
+}
+
 func (stage *Stage) StageBranchOther_appearance(other_appearance *Other_appearance) {
 
 	// check if instance is already staged
@@ -6026,6 +6385,10 @@ func (stage *Stage) StageBranchOther_appearance(other_appearance *Other_appearan
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (other_direction *Other_direction) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_direction(other_direction)
 }
 
 func (stage *Stage) StageBranchOther_direction(other_direction *Other_direction) {
@@ -6043,6 +6406,10 @@ func (stage *Stage) StageBranchOther_direction(other_direction *Other_direction)
 
 }
 
+func (other_listening *Other_listening) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_listening(other_listening)
+}
+
 func (stage *Stage) StageBranchOther_listening(other_listening *Other_listening) {
 
 	// check if instance is already staged
@@ -6056,6 +6423,10 @@ func (stage *Stage) StageBranchOther_listening(other_listening *Other_listening)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (other_notation *Other_notation) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_notation(other_notation)
 }
 
 func (stage *Stage) StageBranchOther_notation(other_notation *Other_notation) {
@@ -6073,6 +6444,10 @@ func (stage *Stage) StageBranchOther_notation(other_notation *Other_notation) {
 
 }
 
+func (other_placement_text *Other_placement_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_placement_text(other_placement_text)
+}
+
 func (stage *Stage) StageBranchOther_placement_text(other_placement_text *Other_placement_text) {
 
 	// check if instance is already staged
@@ -6086,6 +6461,10 @@ func (stage *Stage) StageBranchOther_placement_text(other_placement_text *Other_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (other_play *Other_play) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_play(other_play)
 }
 
 func (stage *Stage) StageBranchOther_play(other_play *Other_play) {
@@ -6103,6 +6482,10 @@ func (stage *Stage) StageBranchOther_play(other_play *Other_play) {
 
 }
 
+func (other_text *Other_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchOther_text(other_text)
+}
+
 func (stage *Stage) StageBranchOther_text(other_text *Other_text) {
 
 	// check if instance is already staged
@@ -6116,6 +6499,10 @@ func (stage *Stage) StageBranchOther_text(other_text *Other_text) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (page_layout *Page_layout) GongStageBranch(stage *Stage) {
+	stage.StageBranchPage_layout(page_layout)
 }
 
 func (stage *Stage) StageBranchPage_layout(page_layout *Page_layout) {
@@ -6136,6 +6523,10 @@ func (stage *Stage) StageBranchPage_layout(page_layout *Page_layout) {
 
 }
 
+func (page_margins *Page_margins) GongStageBranch(stage *Stage) {
+	stage.StageBranchPage_margins(page_margins)
+}
+
 func (stage *Stage) StageBranchPage_margins(page_margins *Page_margins) {
 
 	// check if instance is already staged
@@ -6151,6 +6542,10 @@ func (stage *Stage) StageBranchPage_margins(page_margins *Page_margins) {
 
 }
 
+func (part_clef *Part_clef) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_clef(part_clef)
+}
+
 func (stage *Stage) StageBranchPart_clef(part_clef *Part_clef) {
 
 	// check if instance is already staged
@@ -6164,6 +6559,10 @@ func (stage *Stage) StageBranchPart_clef(part_clef *Part_clef) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (part_group *Part_group) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_group(part_group)
 }
 
 func (stage *Stage) StageBranchPart_group(part_group *Part_group) {
@@ -6205,6 +6604,10 @@ func (stage *Stage) StageBranchPart_group(part_group *Part_group) {
 
 }
 
+func (part_link *Part_link) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_link(part_link)
+}
+
 func (stage *Stage) StageBranchPart_link(part_link *Part_link) {
 
 	// check if instance is already staged
@@ -6221,6 +6624,10 @@ func (stage *Stage) StageBranchPart_link(part_link *Part_link) {
 		stage.StageBranch(_instrument_link)
 	}
 
+}
+
+func (part_list *Part_list) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_list(part_list)
 }
 
 func (stage *Stage) StageBranchPart_list(part_list *Part_list) {
@@ -6244,6 +6651,10 @@ func (stage *Stage) StageBranchPart_list(part_list *Part_list) {
 
 }
 
+func (part_name *Part_name) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_name(part_name)
+}
+
 func (stage *Stage) StageBranchPart_name(part_name *Part_name) {
 
 	// check if instance is already staged
@@ -6257,6 +6668,10 @@ func (stage *Stage) StageBranchPart_name(part_name *Part_name) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (part_symbol *Part_symbol) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_symbol(part_symbol)
 }
 
 func (stage *Stage) StageBranchPart_symbol(part_symbol *Part_symbol) {
@@ -6274,6 +6689,10 @@ func (stage *Stage) StageBranchPart_symbol(part_symbol *Part_symbol) {
 
 }
 
+func (part_transpose *Part_transpose) GongStageBranch(stage *Stage) {
+	stage.StageBranchPart_transpose(part_transpose)
+}
+
 func (stage *Stage) StageBranchPart_transpose(part_transpose *Part_transpose) {
 
 	// check if instance is already staged
@@ -6287,6 +6706,10 @@ func (stage *Stage) StageBranchPart_transpose(part_transpose *Part_transpose) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pedal *Pedal) GongStageBranch(stage *Stage) {
+	stage.StageBranchPedal(pedal)
 }
 
 func (stage *Stage) StageBranchPedal(pedal *Pedal) {
@@ -6304,6 +6727,10 @@ func (stage *Stage) StageBranchPedal(pedal *Pedal) {
 
 }
 
+func (pedal_tuning *Pedal_tuning) GongStageBranch(stage *Stage) {
+	stage.StageBranchPedal_tuning(pedal_tuning)
+}
+
 func (stage *Stage) StageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 
 	// check if instance is already staged
@@ -6319,6 +6746,10 @@ func (stage *Stage) StageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 
 }
 
+func (per_minute *Per_minute) GongStageBranch(stage *Stage) {
+	stage.StageBranchPer_minute(per_minute)
+}
+
 func (stage *Stage) StageBranchPer_minute(per_minute *Per_minute) {
 
 	// check if instance is already staged
@@ -6332,6 +6763,10 @@ func (stage *Stage) StageBranchPer_minute(per_minute *Per_minute) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (percussion *Percussion) GongStageBranch(stage *Stage) {
+	stage.StageBranchPercussion(percussion)
 }
 
 func (stage *Stage) StageBranchPercussion(percussion *Percussion) {
@@ -6379,6 +6814,10 @@ func (stage *Stage) StageBranchPercussion(percussion *Percussion) {
 
 }
 
+func (pitch *Pitch) GongStageBranch(stage *Stage) {
+	stage.StageBranchPitch(pitch)
+}
+
 func (stage *Stage) StageBranchPitch(pitch *Pitch) {
 
 	// check if instance is already staged
@@ -6392,6 +6831,10 @@ func (stage *Stage) StageBranchPitch(pitch *Pitch) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pitched *Pitched) GongStageBranch(stage *Stage) {
+	stage.StageBranchPitched(pitched)
 }
 
 func (stage *Stage) StageBranchPitched(pitched *Pitched) {
@@ -6409,6 +6852,10 @@ func (stage *Stage) StageBranchPitched(pitched *Pitched) {
 
 }
 
+func (placement_text *Placement_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlacement_text(placement_text)
+}
+
 func (stage *Stage) StageBranchPlacement_text(placement_text *Placement_text) {
 
 	// check if instance is already staged
@@ -6422,6 +6869,10 @@ func (stage *Stage) StageBranchPlacement_text(placement_text *Placement_text) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (play *Play) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlay(play)
 }
 
 func (stage *Stage) StageBranchPlay(play *Play) {
@@ -6442,6 +6893,10 @@ func (stage *Stage) StageBranchPlay(play *Play) {
 
 }
 
+func (player *Player) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlayer(player)
+}
+
 func (stage *Stage) StageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
@@ -6457,6 +6912,10 @@ func (stage *Stage) StageBranchPlayer(player *Player) {
 
 }
 
+func (principal_voice *Principal_voice) GongStageBranch(stage *Stage) {
+	stage.StageBranchPrincipal_voice(principal_voice)
+}
+
 func (stage *Stage) StageBranchPrincipal_voice(principal_voice *Principal_voice) {
 
 	// check if instance is already staged
@@ -6470,6 +6929,10 @@ func (stage *Stage) StageBranchPrincipal_voice(principal_voice *Principal_voice)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (print *Print) GongStageBranch(stage *Stage) {
+	stage.StageBranchPrint(print)
 }
 
 func (stage *Stage) StageBranchPrint(print *Print) {
@@ -6508,6 +6971,10 @@ func (stage *Stage) StageBranchPrint(print *Print) {
 
 }
 
+func (release *Release) GongStageBranch(stage *Stage) {
+	stage.StageBranchRelease(release)
+}
+
 func (stage *Stage) StageBranchRelease(release *Release) {
 
 	// check if instance is already staged
@@ -6521,6 +6988,10 @@ func (stage *Stage) StageBranchRelease(release *Release) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (repeat *Repeat) GongStageBranch(stage *Stage) {
+	stage.StageBranchRepeat(repeat)
 }
 
 func (stage *Stage) StageBranchRepeat(repeat *Repeat) {
@@ -6538,6 +7009,10 @@ func (stage *Stage) StageBranchRepeat(repeat *Repeat) {
 
 }
 
+func (rest *Rest) GongStageBranch(stage *Stage) {
+	stage.StageBranchRest(rest)
+}
+
 func (stage *Stage) StageBranchRest(rest *Rest) {
 
 	// check if instance is already staged
@@ -6551,6 +7026,10 @@ func (stage *Stage) StageBranchRest(rest *Rest) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (root *Root) GongStageBranch(stage *Stage) {
+	stage.StageBranchRoot(root)
 }
 
 func (stage *Stage) StageBranchRoot(root *Root) {
@@ -6574,6 +7053,10 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 
 }
 
+func (root_step *Root_step) GongStageBranch(stage *Stage) {
+	stage.StageBranchRoot_step(root_step)
+}
+
 func (stage *Stage) StageBranchRoot_step(root_step *Root_step) {
 
 	// check if instance is already staged
@@ -6589,6 +7072,10 @@ func (stage *Stage) StageBranchRoot_step(root_step *Root_step) {
 
 }
 
+func (scaling *Scaling) GongStageBranch(stage *Stage) {
+	stage.StageBranchScaling(scaling)
+}
+
 func (stage *Stage) StageBranchScaling(scaling *Scaling) {
 
 	// check if instance is already staged
@@ -6602,6 +7089,10 @@ func (stage *Stage) StageBranchScaling(scaling *Scaling) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (scordatura *Scordatura) GongStageBranch(stage *Stage) {
+	stage.StageBranchScordatura(scordatura)
 }
 
 func (stage *Stage) StageBranchScordatura(scordatura *Scordatura) {
@@ -6622,6 +7113,10 @@ func (stage *Stage) StageBranchScordatura(scordatura *Scordatura) {
 
 }
 
+func (score_instrument *Score_instrument) GongStageBranch(stage *Stage) {
+	stage.StageBranchScore_instrument(score_instrument)
+}
+
 func (stage *Stage) StageBranchScore_instrument(score_instrument *Score_instrument) {
 
 	// check if instance is already staged
@@ -6638,6 +7133,10 @@ func (stage *Stage) StageBranchScore_instrument(score_instrument *Score_instrume
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (score_part *Score_part) GongStageBranch(stage *Stage) {
+	stage.StageBranchScore_part(score_part)
 }
 
 func (stage *Stage) StageBranchScore_part(score_part *Score_part) {
@@ -6685,6 +7184,10 @@ func (stage *Stage) StageBranchScore_part(score_part *Score_part) {
 
 }
 
+func (score_partwise *Score_partwise) GongStageBranch(stage *Stage) {
+	stage.StageBranchScore_partwise(score_partwise)
+}
+
 func (stage *Stage) StageBranchScore_partwise(score_partwise *Score_partwise) {
 
 	// check if instance is already staged
@@ -6716,6 +7219,10 @@ func (stage *Stage) StageBranchScore_partwise(score_partwise *Score_partwise) {
 		stage.StageBranch(_a_part)
 	}
 
+}
+
+func (score_timewise *Score_timewise) GongStageBranch(stage *Stage) {
+	stage.StageBranchScore_timewise(score_timewise)
 }
 
 func (stage *Stage) StageBranchScore_timewise(score_timewise *Score_timewise) {
@@ -6751,6 +7258,10 @@ func (stage *Stage) StageBranchScore_timewise(score_timewise *Score_timewise) {
 
 }
 
+func (segno *Segno) GongStageBranch(stage *Stage) {
+	stage.StageBranchSegno(segno)
+}
+
 func (stage *Stage) StageBranchSegno(segno *Segno) {
 
 	// check if instance is already staged
@@ -6764,6 +7275,10 @@ func (stage *Stage) StageBranchSegno(segno *Segno) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (slash *Slash) GongStageBranch(stage *Stage) {
+	stage.StageBranchSlash(slash)
 }
 
 func (stage *Stage) StageBranchSlash(slash *Slash) {
@@ -6781,6 +7296,10 @@ func (stage *Stage) StageBranchSlash(slash *Slash) {
 
 }
 
+func (slide *Slide) GongStageBranch(stage *Stage) {
+	stage.StageBranchSlide(slide)
+}
+
 func (stage *Stage) StageBranchSlide(slide *Slide) {
 
 	// check if instance is already staged
@@ -6796,6 +7315,10 @@ func (stage *Stage) StageBranchSlide(slide *Slide) {
 
 }
 
+func (slur *Slur) GongStageBranch(stage *Stage) {
+	stage.StageBranchSlur(slur)
+}
+
 func (stage *Stage) StageBranchSlur(slur *Slur) {
 
 	// check if instance is already staged
@@ -6809,6 +7332,10 @@ func (stage *Stage) StageBranchSlur(slur *Slur) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (sound *Sound) GongStageBranch(stage *Stage) {
+	stage.StageBranchSound(sound)
 }
 
 func (stage *Stage) StageBranchSound(sound *Sound) {
@@ -6844,6 +7371,10 @@ func (stage *Stage) StageBranchSound(sound *Sound) {
 
 }
 
+func (staff_details *Staff_details) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaff_details(staff_details)
+}
+
 func (stage *Stage) StageBranchStaff_details(staff_details *Staff_details) {
 
 	// check if instance is already staged
@@ -6868,6 +7399,10 @@ func (stage *Stage) StageBranchStaff_details(staff_details *Staff_details) {
 
 }
 
+func (staff_divide *Staff_divide) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaff_divide(staff_divide)
+}
+
 func (stage *Stage) StageBranchStaff_divide(staff_divide *Staff_divide) {
 
 	// check if instance is already staged
@@ -6881,6 +7416,10 @@ func (stage *Stage) StageBranchStaff_divide(staff_divide *Staff_divide) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (staff_layout *Staff_layout) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaff_layout(staff_layout)
 }
 
 func (stage *Stage) StageBranchStaff_layout(staff_layout *Staff_layout) {
@@ -6898,6 +7437,10 @@ func (stage *Stage) StageBranchStaff_layout(staff_layout *Staff_layout) {
 
 }
 
+func (staff_size *Staff_size) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaff_size(staff_size)
+}
+
 func (stage *Stage) StageBranchStaff_size(staff_size *Staff_size) {
 
 	// check if instance is already staged
@@ -6911,6 +7454,10 @@ func (stage *Stage) StageBranchStaff_size(staff_size *Staff_size) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (staff_tuning *Staff_tuning) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaff_tuning(staff_tuning)
 }
 
 func (stage *Stage) StageBranchStaff_tuning(staff_tuning *Staff_tuning) {
@@ -6928,6 +7475,10 @@ func (stage *Stage) StageBranchStaff_tuning(staff_tuning *Staff_tuning) {
 
 }
 
+func (stem *Stem) GongStageBranch(stage *Stage) {
+	stage.StageBranchStem(stem)
+}
+
 func (stage *Stage) StageBranchStem(stem *Stem) {
 
 	// check if instance is already staged
@@ -6941,6 +7492,10 @@ func (stage *Stage) StageBranchStem(stem *Stem) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stick *Stick) GongStageBranch(stage *Stage) {
+	stage.StageBranchStick(stick)
 }
 
 func (stage *Stage) StageBranchStick(stick *Stick) {
@@ -6958,6 +7513,10 @@ func (stage *Stage) StageBranchStick(stick *Stick) {
 
 }
 
+func (string_mute *String_mute) GongStageBranch(stage *Stage) {
+	stage.StageBranchString_mute(string_mute)
+}
+
 func (stage *Stage) StageBranchString_mute(string_mute *String_mute) {
 
 	// check if instance is already staged
@@ -6971,6 +7530,10 @@ func (stage *Stage) StageBranchString_mute(string_mute *String_mute) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (string_type *String_type) GongStageBranch(stage *Stage) {
+	stage.StageBranchString_type(string_type)
 }
 
 func (stage *Stage) StageBranchString_type(string_type *String_type) {
@@ -6988,6 +7551,10 @@ func (stage *Stage) StageBranchString_type(string_type *String_type) {
 
 }
 
+func (strong_accent *Strong_accent) GongStageBranch(stage *Stage) {
+	stage.StageBranchStrong_accent(strong_accent)
+}
+
 func (stage *Stage) StageBranchStrong_accent(strong_accent *Strong_accent) {
 
 	// check if instance is already staged
@@ -7001,6 +7568,10 @@ func (stage *Stage) StageBranchStrong_accent(strong_accent *Strong_accent) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (style_text *Style_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchStyle_text(style_text)
 }
 
 func (stage *Stage) StageBranchStyle_text(style_text *Style_text) {
@@ -7018,6 +7589,10 @@ func (stage *Stage) StageBranchStyle_text(style_text *Style_text) {
 
 }
 
+func (supports *Supports) GongStageBranch(stage *Stage) {
+	stage.StageBranchSupports(supports)
+}
+
 func (stage *Stage) StageBranchSupports(supports *Supports) {
 
 	// check if instance is already staged
@@ -7031,6 +7606,10 @@ func (stage *Stage) StageBranchSupports(supports *Supports) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (swing *Swing) GongStageBranch(stage *Stage) {
+	stage.StageBranchSwing(swing)
 }
 
 func (stage *Stage) StageBranchSwing(swing *Swing) {
@@ -7048,6 +7627,10 @@ func (stage *Stage) StageBranchSwing(swing *Swing) {
 
 }
 
+func (sync *Sync) GongStageBranch(stage *Stage) {
+	stage.StageBranchSync(sync)
+}
+
 func (stage *Stage) StageBranchSync(sync *Sync) {
 
 	// check if instance is already staged
@@ -7061,6 +7644,10 @@ func (stage *Stage) StageBranchSync(sync *Sync) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (system_dividers *System_dividers) GongStageBranch(stage *Stage) {
+	stage.StageBranchSystem_dividers(system_dividers)
 }
 
 func (stage *Stage) StageBranchSystem_dividers(system_dividers *System_dividers) {
@@ -7084,6 +7671,10 @@ func (stage *Stage) StageBranchSystem_dividers(system_dividers *System_dividers)
 
 }
 
+func (system_layout *System_layout) GongStageBranch(stage *Stage) {
+	stage.StageBranchSystem_layout(system_layout)
+}
+
 func (stage *Stage) StageBranchSystem_layout(system_layout *System_layout) {
 
 	// check if instance is already staged
@@ -7105,6 +7696,10 @@ func (stage *Stage) StageBranchSystem_layout(system_layout *System_layout) {
 
 }
 
+func (system_margins *System_margins) GongStageBranch(stage *Stage) {
+	stage.StageBranchSystem_margins(system_margins)
+}
+
 func (stage *Stage) StageBranchSystem_margins(system_margins *System_margins) {
 
 	// check if instance is already staged
@@ -7120,6 +7715,10 @@ func (stage *Stage) StageBranchSystem_margins(system_margins *System_margins) {
 
 }
 
+func (tap *Tap) GongStageBranch(stage *Stage) {
+	stage.StageBranchTap(tap)
+}
+
 func (stage *Stage) StageBranchTap(tap *Tap) {
 
 	// check if instance is already staged
@@ -7133,6 +7732,10 @@ func (stage *Stage) StageBranchTap(tap *Tap) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (technical *Technical) GongStageBranch(stage *Stage) {
+	stage.StageBranchTechnical(technical)
 }
 
 func (stage *Stage) StageBranchTechnical(technical *Technical) {
@@ -7243,6 +7846,10 @@ func (stage *Stage) StageBranchTechnical(technical *Technical) {
 
 }
 
+func (text_element_data *Text_element_data) GongStageBranch(stage *Stage) {
+	stage.StageBranchText_element_data(text_element_data)
+}
+
 func (stage *Stage) StageBranchText_element_data(text_element_data *Text_element_data) {
 
 	// check if instance is already staged
@@ -7256,6 +7863,10 @@ func (stage *Stage) StageBranchText_element_data(text_element_data *Text_element
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tie *Tie) GongStageBranch(stage *Stage) {
+	stage.StageBranchTie(tie)
 }
 
 func (stage *Stage) StageBranchTie(tie *Tie) {
@@ -7273,6 +7884,10 @@ func (stage *Stage) StageBranchTie(tie *Tie) {
 
 }
 
+func (tied *Tied) GongStageBranch(stage *Stage) {
+	stage.StageBranchTied(tied)
+}
+
 func (stage *Stage) StageBranchTied(tied *Tied) {
 
 	// check if instance is already staged
@@ -7286,6 +7901,10 @@ func (stage *Stage) StageBranchTied(tied *Tied) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (time *Time) GongStageBranch(stage *Stage) {
+	stage.StageBranchTime(time)
 }
 
 func (stage *Stage) StageBranchTime(time *Time) {
@@ -7306,6 +7925,10 @@ func (stage *Stage) StageBranchTime(time *Time) {
 
 }
 
+func (time_modification *Time_modification) GongStageBranch(stage *Stage) {
+	stage.StageBranchTime_modification(time_modification)
+}
+
 func (stage *Stage) StageBranchTime_modification(time_modification *Time_modification) {
 
 	// check if instance is already staged
@@ -7319,6 +7942,10 @@ func (stage *Stage) StageBranchTime_modification(time_modification *Time_modific
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (timpani *Timpani) GongStageBranch(stage *Stage) {
+	stage.StageBranchTimpani(timpani)
 }
 
 func (stage *Stage) StageBranchTimpani(timpani *Timpani) {
@@ -7336,6 +7963,10 @@ func (stage *Stage) StageBranchTimpani(timpani *Timpani) {
 
 }
 
+func (transpose *Transpose) GongStageBranch(stage *Stage) {
+	stage.StageBranchTranspose(transpose)
+}
+
 func (stage *Stage) StageBranchTranspose(transpose *Transpose) {
 
 	// check if instance is already staged
@@ -7351,6 +7982,10 @@ func (stage *Stage) StageBranchTranspose(transpose *Transpose) {
 
 }
 
+func (tremolo *Tremolo) GongStageBranch(stage *Stage) {
+	stage.StageBranchTremolo(tremolo)
+}
+
 func (stage *Stage) StageBranchTremolo(tremolo *Tremolo) {
 
 	// check if instance is already staged
@@ -7364,6 +7999,10 @@ func (stage *Stage) StageBranchTremolo(tremolo *Tremolo) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tuplet *Tuplet) GongStageBranch(stage *Stage) {
+	stage.StageBranchTuplet(tuplet)
 }
 
 func (stage *Stage) StageBranchTuplet(tuplet *Tuplet) {
@@ -7387,6 +8026,10 @@ func (stage *Stage) StageBranchTuplet(tuplet *Tuplet) {
 
 }
 
+func (tuplet_dot *Tuplet_dot) GongStageBranch(stage *Stage) {
+	stage.StageBranchTuplet_dot(tuplet_dot)
+}
+
 func (stage *Stage) StageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 
 	// check if instance is already staged
@@ -7402,6 +8045,10 @@ func (stage *Stage) StageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 
 }
 
+func (tuplet_number *Tuplet_number) GongStageBranch(stage *Stage) {
+	stage.StageBranchTuplet_number(tuplet_number)
+}
+
 func (stage *Stage) StageBranchTuplet_number(tuplet_number *Tuplet_number) {
 
 	// check if instance is already staged
@@ -7415,6 +8062,10 @@ func (stage *Stage) StageBranchTuplet_number(tuplet_number *Tuplet_number) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tuplet_portion *Tuplet_portion) GongStageBranch(stage *Stage) {
+	stage.StageBranchTuplet_portion(tuplet_portion)
 }
 
 func (stage *Stage) StageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
@@ -7441,6 +8092,10 @@ func (stage *Stage) StageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
 
 }
 
+func (tuplet_type *Tuplet_type) GongStageBranch(stage *Stage) {
+	stage.StageBranchTuplet_type(tuplet_type)
+}
+
 func (stage *Stage) StageBranchTuplet_type(tuplet_type *Tuplet_type) {
 
 	// check if instance is already staged
@@ -7454,6 +8109,10 @@ func (stage *Stage) StageBranchTuplet_type(tuplet_type *Tuplet_type) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (typed_text *Typed_text) GongStageBranch(stage *Stage) {
+	stage.StageBranchTyped_text(typed_text)
 }
 
 func (stage *Stage) StageBranchTyped_text(typed_text *Typed_text) {
@@ -7471,6 +8130,10 @@ func (stage *Stage) StageBranchTyped_text(typed_text *Typed_text) {
 
 }
 
+func (unpitched *Unpitched) GongStageBranch(stage *Stage) {
+	stage.StageBranchUnpitched(unpitched)
+}
+
 func (stage *Stage) StageBranchUnpitched(unpitched *Unpitched) {
 
 	// check if instance is already staged
@@ -7484,6 +8147,10 @@ func (stage *Stage) StageBranchUnpitched(unpitched *Unpitched) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (virtual_instrument *Virtual_instrument) GongStageBranch(stage *Stage) {
+	stage.StageBranchVirtual_instrument(virtual_instrument)
 }
 
 func (stage *Stage) StageBranchVirtual_instrument(virtual_instrument *Virtual_instrument) {
@@ -7501,6 +8168,10 @@ func (stage *Stage) StageBranchVirtual_instrument(virtual_instrument *Virtual_in
 
 }
 
+func (wait *Wait) GongStageBranch(stage *Stage) {
+	stage.StageBranchWait(wait)
+}
+
 func (stage *Stage) StageBranchWait(wait *Wait) {
 
 	// check if instance is already staged
@@ -7514,6 +8185,10 @@ func (stage *Stage) StageBranchWait(wait *Wait) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (wavy_line *Wavy_line) GongStageBranch(stage *Stage) {
+	stage.StageBranchWavy_line(wavy_line)
 }
 
 func (stage *Stage) StageBranchWavy_line(wavy_line *Wavy_line) {
@@ -7531,6 +8206,10 @@ func (stage *Stage) StageBranchWavy_line(wavy_line *Wavy_line) {
 
 }
 
+func (wedge *Wedge) GongStageBranch(stage *Stage) {
+	stage.StageBranchWedge(wedge)
+}
+
 func (stage *Stage) StageBranchWedge(wedge *Wedge) {
 
 	// check if instance is already staged
@@ -7546,6 +8225,10 @@ func (stage *Stage) StageBranchWedge(wedge *Wedge) {
 
 }
 
+func (wood *Wood) GongStageBranch(stage *Stage) {
+	stage.StageBranchWood(wood)
+}
+
 func (stage *Stage) StageBranchWood(wood *Wood) {
 
 	// check if instance is already staged
@@ -7559,6 +8242,10 @@ func (stage *Stage) StageBranchWood(wood *Wood) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (work *Work) GongStageBranch(stage *Stage) {
+	stage.StageBranchWork(work)
 }
 
 func (stage *Stage) StageBranchWork(work *Work) {
@@ -13995,709 +14682,22 @@ func GongCopyBranchWork(mapOrigCopy map[any]any, workFrom *Work) (workTo *Work) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *A_directive:
-		stage.UnstageBranchA_directive(target)
-
-	case *A_measure:
-		stage.UnstageBranchA_measure(target)
-
-	case *A_measure_1:
-		stage.UnstageBranchA_measure_1(target)
-
-	case *A_part:
-		stage.UnstageBranchA_part(target)
-
-	case *A_part_1:
-		stage.UnstageBranchA_part_1(target)
-
-	case *Accidental:
-		stage.UnstageBranchAccidental(target)
-
-	case *Accidental_mark:
-		stage.UnstageBranchAccidental_mark(target)
-
-	case *Accidental_text:
-		stage.UnstageBranchAccidental_text(target)
-
-	case *Accord:
-		stage.UnstageBranchAccord(target)
-
-	case *Accordion_registration:
-		stage.UnstageBranchAccordion_registration(target)
-
-	case *Appearance:
-		stage.UnstageBranchAppearance(target)
-
-	case *Arpeggiate:
-		stage.UnstageBranchArpeggiate(target)
-
-	case *Arrow:
-		stage.UnstageBranchArrow(target)
-
-	case *Articulations:
-		stage.UnstageBranchArticulations(target)
-
-	case *Assess:
-		stage.UnstageBranchAssess(target)
-
-	case *Attributes:
-		stage.UnstageBranchAttributes(target)
-
-	case *Backup:
-		stage.UnstageBranchBackup(target)
-
-	case *Bar_style_color:
-		stage.UnstageBranchBar_style_color(target)
-
-	case *Barline:
-		stage.UnstageBranchBarline(target)
-
-	case *Barre:
-		stage.UnstageBranchBarre(target)
-
-	case *Bass:
-		stage.UnstageBranchBass(target)
-
-	case *Bass_step:
-		stage.UnstageBranchBass_step(target)
-
-	case *Beam:
-		stage.UnstageBranchBeam(target)
-
-	case *Beat_repeat:
-		stage.UnstageBranchBeat_repeat(target)
-
-	case *Beat_unit_tied:
-		stage.UnstageBranchBeat_unit_tied(target)
-
-	case *Beater:
-		stage.UnstageBranchBeater(target)
-
-	case *Bend:
-		stage.UnstageBranchBend(target)
-
-	case *Bookmark:
-		stage.UnstageBranchBookmark(target)
-
-	case *Bracket:
-		stage.UnstageBranchBracket(target)
-
-	case *Breath_mark:
-		stage.UnstageBranchBreath_mark(target)
-
-	case *Caesura:
-		stage.UnstageBranchCaesura(target)
-
-	case *Cancel:
-		stage.UnstageBranchCancel(target)
-
-	case *Clef:
-		stage.UnstageBranchClef(target)
-
-	case *Coda:
-		stage.UnstageBranchCoda(target)
-
-	case *Credit:
-		stage.UnstageBranchCredit(target)
-
-	case *Dashes:
-		stage.UnstageBranchDashes(target)
-
-	case *Defaults:
-		stage.UnstageBranchDefaults(target)
-
-	case *Degree:
-		stage.UnstageBranchDegree(target)
-
-	case *Degree_alter:
-		stage.UnstageBranchDegree_alter(target)
-
-	case *Degree_type:
-		stage.UnstageBranchDegree_type(target)
-
-	case *Degree_value:
-		stage.UnstageBranchDegree_value(target)
-
-	case *Direction:
-		stage.UnstageBranchDirection(target)
-
-	case *Direction_type:
-		stage.UnstageBranchDirection_type(target)
-
-	case *Distance:
-		stage.UnstageBranchDistance(target)
-
-	case *Double:
-		stage.UnstageBranchDouble(target)
-
-	case *Dynamics:
-		stage.UnstageBranchDynamics(target)
-
-	case *Effect:
-		stage.UnstageBranchEffect(target)
-
-	case *Elision:
-		stage.UnstageBranchElision(target)
-
-	case *Empty:
-		stage.UnstageBranchEmpty(target)
-
-	case *Empty_font:
-		stage.UnstageBranchEmpty_font(target)
-
-	case *Empty_line:
-		stage.UnstageBranchEmpty_line(target)
-
-	case *Empty_placement:
-		stage.UnstageBranchEmpty_placement(target)
-
-	case *Empty_placement_smufl:
-		stage.UnstageBranchEmpty_placement_smufl(target)
-
-	case *Empty_print_object_style_align:
-		stage.UnstageBranchEmpty_print_object_style_align(target)
-
-	case *Empty_print_style:
-		stage.UnstageBranchEmpty_print_style(target)
-
-	case *Empty_print_style_align:
-		stage.UnstageBranchEmpty_print_style_align(target)
-
-	case *Empty_print_style_align_id:
-		stage.UnstageBranchEmpty_print_style_align_id(target)
-
-	case *Empty_trill_sound:
-		stage.UnstageBranchEmpty_trill_sound(target)
-
-	case *Encoding:
-		stage.UnstageBranchEncoding(target)
-
-	case *Ending:
-		stage.UnstageBranchEnding(target)
-
-	case *Extend:
-		stage.UnstageBranchExtend(target)
-
-	case *Feature:
-		stage.UnstageBranchFeature(target)
-
-	case *Fermata:
-		stage.UnstageBranchFermata(target)
-
-	case *Figure:
-		stage.UnstageBranchFigure(target)
-
-	case *Figured_bass:
-		stage.UnstageBranchFigured_bass(target)
-
-	case *Fingering:
-		stage.UnstageBranchFingering(target)
-
-	case *First_fret:
-		stage.UnstageBranchFirst_fret(target)
-
-	case *For_part:
-		stage.UnstageBranchFor_part(target)
-
-	case *Formatted_symbol:
-		stage.UnstageBranchFormatted_symbol(target)
-
-	case *Formatted_symbol_id:
-		stage.UnstageBranchFormatted_symbol_id(target)
-
-	case *Formatted_text:
-		stage.UnstageBranchFormatted_text(target)
-
-	case *Formatted_text_id:
-		stage.UnstageBranchFormatted_text_id(target)
-
-	case *Forward:
-		stage.UnstageBranchForward(target)
-
-	case *Frame:
-		stage.UnstageBranchFrame(target)
-
-	case *Frame_note:
-		stage.UnstageBranchFrame_note(target)
-
-	case *Fret:
-		stage.UnstageBranchFret(target)
-
-	case *Glass:
-		stage.UnstageBranchGlass(target)
-
-	case *Glissando:
-		stage.UnstageBranchGlissando(target)
-
-	case *Glyph:
-		stage.UnstageBranchGlyph(target)
-
-	case *Grace:
-		stage.UnstageBranchGrace(target)
-
-	case *Group_barline:
-		stage.UnstageBranchGroup_barline(target)
-
-	case *Group_name:
-		stage.UnstageBranchGroup_name(target)
-
-	case *Group_symbol:
-		stage.UnstageBranchGroup_symbol(target)
-
-	case *Grouping:
-		stage.UnstageBranchGrouping(target)
-
-	case *Hammer_on_pull_off:
-		stage.UnstageBranchHammer_on_pull_off(target)
-
-	case *Handbell:
-		stage.UnstageBranchHandbell(target)
-
-	case *Harmon_closed:
-		stage.UnstageBranchHarmon_closed(target)
-
-	case *Harmon_mute:
-		stage.UnstageBranchHarmon_mute(target)
-
-	case *Harmonic:
-		stage.UnstageBranchHarmonic(target)
-
-	case *Harmony:
-		stage.UnstageBranchHarmony(target)
-
-	case *Harmony_alter:
-		stage.UnstageBranchHarmony_alter(target)
-
-	case *Harp_pedals:
-		stage.UnstageBranchHarp_pedals(target)
-
-	case *Heel_toe:
-		stage.UnstageBranchHeel_toe(target)
-
-	case *Hole:
-		stage.UnstageBranchHole(target)
-
-	case *Hole_closed:
-		stage.UnstageBranchHole_closed(target)
-
-	case *Horizontal_turn:
-		stage.UnstageBranchHorizontal_turn(target)
-
-	case *Identification:
-		stage.UnstageBranchIdentification(target)
-
-	case *Image:
-		stage.UnstageBranchImage(target)
-
-	case *Instrument:
-		stage.UnstageBranchInstrument(target)
-
-	case *Instrument_change:
-		stage.UnstageBranchInstrument_change(target)
-
-	case *Instrument_link:
-		stage.UnstageBranchInstrument_link(target)
-
-	case *Interchangeable:
-		stage.UnstageBranchInterchangeable(target)
-
-	case *Inversion:
-		stage.UnstageBranchInversion(target)
-
-	case *Key:
-		stage.UnstageBranchKey(target)
-
-	case *Key_accidental:
-		stage.UnstageBranchKey_accidental(target)
-
-	case *Key_octave:
-		stage.UnstageBranchKey_octave(target)
-
-	case *Kind:
-		stage.UnstageBranchKind(target)
-
-	case *Level:
-		stage.UnstageBranchLevel(target)
-
-	case *Line_detail:
-		stage.UnstageBranchLine_detail(target)
-
-	case *Line_width:
-		stage.UnstageBranchLine_width(target)
-
-	case *Link:
-		stage.UnstageBranchLink(target)
-
-	case *Listen:
-		stage.UnstageBranchListen(target)
-
-	case *Listening:
-		stage.UnstageBranchListening(target)
-
-	case *Lyric:
-		stage.UnstageBranchLyric(target)
-
-	case *Lyric_font:
-		stage.UnstageBranchLyric_font(target)
-
-	case *Lyric_language:
-		stage.UnstageBranchLyric_language(target)
-
-	case *Measure_layout:
-		stage.UnstageBranchMeasure_layout(target)
-
-	case *Measure_numbering:
-		stage.UnstageBranchMeasure_numbering(target)
-
-	case *Measure_repeat:
-		stage.UnstageBranchMeasure_repeat(target)
-
-	case *Measure_style:
-		stage.UnstageBranchMeasure_style(target)
-
-	case *Membrane:
-		stage.UnstageBranchMembrane(target)
-
-	case *Metal:
-		stage.UnstageBranchMetal(target)
-
-	case *Metronome:
-		stage.UnstageBranchMetronome(target)
-
-	case *Metronome_beam:
-		stage.UnstageBranchMetronome_beam(target)
-
-	case *Metronome_note:
-		stage.UnstageBranchMetronome_note(target)
-
-	case *Metronome_tied:
-		stage.UnstageBranchMetronome_tied(target)
-
-	case *Metronome_tuplet:
-		stage.UnstageBranchMetronome_tuplet(target)
-
-	case *Midi_device:
-		stage.UnstageBranchMidi_device(target)
-
-	case *Midi_instrument:
-		stage.UnstageBranchMidi_instrument(target)
-
-	case *Miscellaneous:
-		stage.UnstageBranchMiscellaneous(target)
-
-	case *Miscellaneous_field:
-		stage.UnstageBranchMiscellaneous_field(target)
-
-	case *Mordent:
-		stage.UnstageBranchMordent(target)
-
-	case *Multiple_rest:
-		stage.UnstageBranchMultiple_rest(target)
-
-	case *Name_display:
-		stage.UnstageBranchName_display(target)
-
-	case *Non_arpeggiate:
-		stage.UnstageBranchNon_arpeggiate(target)
-
-	case *Notations:
-		stage.UnstageBranchNotations(target)
-
-	case *Note:
-		stage.UnstageBranchNote(target)
-
-	case *Note_size:
-		stage.UnstageBranchNote_size(target)
-
-	case *Note_type:
-		stage.UnstageBranchNote_type(target)
-
-	case *Notehead:
-		stage.UnstageBranchNotehead(target)
-
-	case *Notehead_text:
-		stage.UnstageBranchNotehead_text(target)
-
-	case *Numeral:
-		stage.UnstageBranchNumeral(target)
-
-	case *Numeral_key:
-		stage.UnstageBranchNumeral_key(target)
-
-	case *Numeral_root:
-		stage.UnstageBranchNumeral_root(target)
-
-	case *Octave_shift:
-		stage.UnstageBranchOctave_shift(target)
-
-	case *Offset:
-		stage.UnstageBranchOffset(target)
-
-	case *Opus:
-		stage.UnstageBranchOpus(target)
-
-	case *Ornaments:
-		stage.UnstageBranchOrnaments(target)
-
-	case *Other_appearance:
-		stage.UnstageBranchOther_appearance(target)
-
-	case *Other_direction:
-		stage.UnstageBranchOther_direction(target)
-
-	case *Other_listening:
-		stage.UnstageBranchOther_listening(target)
-
-	case *Other_notation:
-		stage.UnstageBranchOther_notation(target)
-
-	case *Other_placement_text:
-		stage.UnstageBranchOther_placement_text(target)
-
-	case *Other_play:
-		stage.UnstageBranchOther_play(target)
-
-	case *Other_text:
-		stage.UnstageBranchOther_text(target)
-
-	case *Page_layout:
-		stage.UnstageBranchPage_layout(target)
-
-	case *Page_margins:
-		stage.UnstageBranchPage_margins(target)
-
-	case *Part_clef:
-		stage.UnstageBranchPart_clef(target)
-
-	case *Part_group:
-		stage.UnstageBranchPart_group(target)
-
-	case *Part_link:
-		stage.UnstageBranchPart_link(target)
-
-	case *Part_list:
-		stage.UnstageBranchPart_list(target)
-
-	case *Part_name:
-		stage.UnstageBranchPart_name(target)
-
-	case *Part_symbol:
-		stage.UnstageBranchPart_symbol(target)
-
-	case *Part_transpose:
-		stage.UnstageBranchPart_transpose(target)
-
-	case *Pedal:
-		stage.UnstageBranchPedal(target)
-
-	case *Pedal_tuning:
-		stage.UnstageBranchPedal_tuning(target)
-
-	case *Per_minute:
-		stage.UnstageBranchPer_minute(target)
-
-	case *Percussion:
-		stage.UnstageBranchPercussion(target)
-
-	case *Pitch:
-		stage.UnstageBranchPitch(target)
-
-	case *Pitched:
-		stage.UnstageBranchPitched(target)
-
-	case *Placement_text:
-		stage.UnstageBranchPlacement_text(target)
-
-	case *Play:
-		stage.UnstageBranchPlay(target)
-
-	case *Player:
-		stage.UnstageBranchPlayer(target)
-
-	case *Principal_voice:
-		stage.UnstageBranchPrincipal_voice(target)
-
-	case *Print:
-		stage.UnstageBranchPrint(target)
-
-	case *Release:
-		stage.UnstageBranchRelease(target)
-
-	case *Repeat:
-		stage.UnstageBranchRepeat(target)
-
-	case *Rest:
-		stage.UnstageBranchRest(target)
-
-	case *Root:
-		stage.UnstageBranchRoot(target)
-
-	case *Root_step:
-		stage.UnstageBranchRoot_step(target)
-
-	case *Scaling:
-		stage.UnstageBranchScaling(target)
-
-	case *Scordatura:
-		stage.UnstageBranchScordatura(target)
-
-	case *Score_instrument:
-		stage.UnstageBranchScore_instrument(target)
-
-	case *Score_part:
-		stage.UnstageBranchScore_part(target)
-
-	case *Score_partwise:
-		stage.UnstageBranchScore_partwise(target)
-
-	case *Score_timewise:
-		stage.UnstageBranchScore_timewise(target)
-
-	case *Segno:
-		stage.UnstageBranchSegno(target)
-
-	case *Slash:
-		stage.UnstageBranchSlash(target)
-
-	case *Slide:
-		stage.UnstageBranchSlide(target)
-
-	case *Slur:
-		stage.UnstageBranchSlur(target)
-
-	case *Sound:
-		stage.UnstageBranchSound(target)
-
-	case *Staff_details:
-		stage.UnstageBranchStaff_details(target)
-
-	case *Staff_divide:
-		stage.UnstageBranchStaff_divide(target)
-
-	case *Staff_layout:
-		stage.UnstageBranchStaff_layout(target)
-
-	case *Staff_size:
-		stage.UnstageBranchStaff_size(target)
-
-	case *Staff_tuning:
-		stage.UnstageBranchStaff_tuning(target)
-
-	case *Stem:
-		stage.UnstageBranchStem(target)
-
-	case *Stick:
-		stage.UnstageBranchStick(target)
-
-	case *String_mute:
-		stage.UnstageBranchString_mute(target)
-
-	case *String_type:
-		stage.UnstageBranchString_type(target)
-
-	case *Strong_accent:
-		stage.UnstageBranchStrong_accent(target)
-
-	case *Style_text:
-		stage.UnstageBranchStyle_text(target)
-
-	case *Supports:
-		stage.UnstageBranchSupports(target)
-
-	case *Swing:
-		stage.UnstageBranchSwing(target)
-
-	case *Sync:
-		stage.UnstageBranchSync(target)
-
-	case *System_dividers:
-		stage.UnstageBranchSystem_dividers(target)
-
-	case *System_layout:
-		stage.UnstageBranchSystem_layout(target)
-
-	case *System_margins:
-		stage.UnstageBranchSystem_margins(target)
-
-	case *Tap:
-		stage.UnstageBranchTap(target)
-
-	case *Technical:
-		stage.UnstageBranchTechnical(target)
-
-	case *Text_element_data:
-		stage.UnstageBranchText_element_data(target)
-
-	case *Tie:
-		stage.UnstageBranchTie(target)
-
-	case *Tied:
-		stage.UnstageBranchTied(target)
-
-	case *Time:
-		stage.UnstageBranchTime(target)
-
-	case *Time_modification:
-		stage.UnstageBranchTime_modification(target)
-
-	case *Timpani:
-		stage.UnstageBranchTimpani(target)
-
-	case *Transpose:
-		stage.UnstageBranchTranspose(target)
-
-	case *Tremolo:
-		stage.UnstageBranchTremolo(target)
-
-	case *Tuplet:
-		stage.UnstageBranchTuplet(target)
-
-	case *Tuplet_dot:
-		stage.UnstageBranchTuplet_dot(target)
-
-	case *Tuplet_number:
-		stage.UnstageBranchTuplet_number(target)
-
-	case *Tuplet_portion:
-		stage.UnstageBranchTuplet_portion(target)
-
-	case *Tuplet_type:
-		stage.UnstageBranchTuplet_type(target)
-
-	case *Typed_text:
-		stage.UnstageBranchTyped_text(target)
-
-	case *Unpitched:
-		stage.UnstageBranchUnpitched(target)
-
-	case *Virtual_instrument:
-		stage.UnstageBranchVirtual_instrument(target)
-
-	case *Wait:
-		stage.UnstageBranchWait(target)
-
-	case *Wavy_line:
-		stage.UnstageBranchWavy_line(target)
-
-	case *Wedge:
-		stage.UnstageBranchWedge(target)
-
-	case *Wood:
-		stage.UnstageBranchWood(target)
-
-	case *Work:
-		stage.UnstageBranchWork(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (a_directive *A_directive) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_directive(a_directive)
+}
+
 func (stage *Stage) UnstageBranchA_directive(a_directive *A_directive) {
 
 	// check if instance is already staged
@@ -14711,6 +14711,10 @@ func (stage *Stage) UnstageBranchA_directive(a_directive *A_directive) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_measure *A_measure) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_measure(a_measure)
 }
 
 func (stage *Stage) UnstageBranchA_measure(a_measure *A_measure) {
@@ -14770,6 +14774,10 @@ func (stage *Stage) UnstageBranchA_measure(a_measure *A_measure) {
 
 }
 
+func (a_measure_1 *A_measure_1) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_measure_1(a_measure_1)
+}
+
 func (stage *Stage) UnstageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 	// check if instance is already staged
@@ -14788,6 +14796,10 @@ func (stage *Stage) UnstageBranchA_measure_1(a_measure_1 *A_measure_1) {
 
 }
 
+func (a_part *A_part) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_part(a_part)
+}
+
 func (stage *Stage) UnstageBranchA_part(a_part *A_part) {
 
 	// check if instance is already staged
@@ -14804,6 +14816,10 @@ func (stage *Stage) UnstageBranchA_part(a_part *A_part) {
 		stage.UnstageBranch(_a_measure)
 	}
 
+}
+
+func (a_part_1 *A_part_1) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_part_1(a_part_1)
 }
 
 func (stage *Stage) UnstageBranchA_part_1(a_part_1 *A_part_1) {
@@ -14863,6 +14879,10 @@ func (stage *Stage) UnstageBranchA_part_1(a_part_1 *A_part_1) {
 
 }
 
+func (accidental *Accidental) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAccidental(accidental)
+}
+
 func (stage *Stage) UnstageBranchAccidental(accidental *Accidental) {
 
 	// check if instance is already staged
@@ -14876,6 +14896,10 @@ func (stage *Stage) UnstageBranchAccidental(accidental *Accidental) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (accidental_mark *Accidental_mark) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAccidental_mark(accidental_mark)
 }
 
 func (stage *Stage) UnstageBranchAccidental_mark(accidental_mark *Accidental_mark) {
@@ -14893,6 +14917,10 @@ func (stage *Stage) UnstageBranchAccidental_mark(accidental_mark *Accidental_mar
 
 }
 
+func (accidental_text *Accidental_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAccidental_text(accidental_text)
+}
+
 func (stage *Stage) UnstageBranchAccidental_text(accidental_text *Accidental_text) {
 
 	// check if instance is already staged
@@ -14906,6 +14934,10 @@ func (stage *Stage) UnstageBranchAccidental_text(accidental_text *Accidental_tex
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (accord *Accord) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAccord(accord)
 }
 
 func (stage *Stage) UnstageBranchAccord(accord *Accord) {
@@ -14923,6 +14955,10 @@ func (stage *Stage) UnstageBranchAccord(accord *Accord) {
 
 }
 
+func (accordion_registration *Accordion_registration) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAccordion_registration(accordion_registration)
+}
+
 func (stage *Stage) UnstageBranchAccordion_registration(accordion_registration *Accordion_registration) {
 
 	// check if instance is already staged
@@ -14936,6 +14972,10 @@ func (stage *Stage) UnstageBranchAccordion_registration(accordion_registration *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (appearance *Appearance) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAppearance(appearance)
 }
 
 func (stage *Stage) UnstageBranchAppearance(appearance *Appearance) {
@@ -14968,6 +15008,10 @@ func (stage *Stage) UnstageBranchAppearance(appearance *Appearance) {
 
 }
 
+func (arpeggiate *Arpeggiate) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArpeggiate(arpeggiate)
+}
+
 func (stage *Stage) UnstageBranchArpeggiate(arpeggiate *Arpeggiate) {
 
 	// check if instance is already staged
@@ -14983,6 +15027,10 @@ func (stage *Stage) UnstageBranchArpeggiate(arpeggiate *Arpeggiate) {
 
 }
 
+func (arrow *Arrow) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArrow(arrow)
+}
+
 func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 
 	// check if instance is already staged
@@ -14996,6 +15044,10 @@ func (stage *Stage) UnstageBranchArrow(arrow *Arrow) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (articulations *Articulations) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArticulations(articulations)
 }
 
 func (stage *Stage) UnstageBranchArticulations(articulations *Articulations) {
@@ -15064,6 +15116,10 @@ func (stage *Stage) UnstageBranchArticulations(articulations *Articulations) {
 
 }
 
+func (assess *Assess) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAssess(assess)
+}
+
 func (stage *Stage) UnstageBranchAssess(assess *Assess) {
 
 	// check if instance is already staged
@@ -15077,6 +15133,10 @@ func (stage *Stage) UnstageBranchAssess(assess *Assess) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attributes *Attributes) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAttributes(attributes)
 }
 
 func (stage *Stage) UnstageBranchAttributes(attributes *Attributes) {
@@ -15127,6 +15187,10 @@ func (stage *Stage) UnstageBranchAttributes(attributes *Attributes) {
 
 }
 
+func (backup *Backup) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBackup(backup)
+}
+
 func (stage *Stage) UnstageBranchBackup(backup *Backup) {
 
 	// check if instance is already staged
@@ -15148,6 +15212,10 @@ func (stage *Stage) UnstageBranchBackup(backup *Backup) {
 
 }
 
+func (bar_style_color *Bar_style_color) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBar_style_color(bar_style_color)
+}
+
 func (stage *Stage) UnstageBranchBar_style_color(bar_style_color *Bar_style_color) {
 
 	// check if instance is already staged
@@ -15161,6 +15229,10 @@ func (stage *Stage) UnstageBranchBar_style_color(bar_style_color *Bar_style_colo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (barline *Barline) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBarline(barline)
 }
 
 func (stage *Stage) UnstageBranchBarline(barline *Barline) {
@@ -15205,6 +15277,10 @@ func (stage *Stage) UnstageBranchBarline(barline *Barline) {
 
 }
 
+func (barre *Barre) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBarre(barre)
+}
+
 func (stage *Stage) UnstageBranchBarre(barre *Barre) {
 
 	// check if instance is already staged
@@ -15218,6 +15294,10 @@ func (stage *Stage) UnstageBranchBarre(barre *Barre) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (bass *Bass) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBass(bass)
 }
 
 func (stage *Stage) UnstageBranchBass(bass *Bass) {
@@ -15244,6 +15324,10 @@ func (stage *Stage) UnstageBranchBass(bass *Bass) {
 
 }
 
+func (bass_step *Bass_step) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBass_step(bass_step)
+}
+
 func (stage *Stage) UnstageBranchBass_step(bass_step *Bass_step) {
 
 	// check if instance is already staged
@@ -15257,6 +15341,10 @@ func (stage *Stage) UnstageBranchBass_step(bass_step *Bass_step) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (beam *Beam) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBeam(beam)
 }
 
 func (stage *Stage) UnstageBranchBeam(beam *Beam) {
@@ -15274,6 +15362,10 @@ func (stage *Stage) UnstageBranchBeam(beam *Beam) {
 
 }
 
+func (beat_repeat *Beat_repeat) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBeat_repeat(beat_repeat)
+}
+
 func (stage *Stage) UnstageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 
 	// check if instance is already staged
@@ -15287,6 +15379,10 @@ func (stage *Stage) UnstageBranchBeat_repeat(beat_repeat *Beat_repeat) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (beat_unit_tied *Beat_unit_tied) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBeat_unit_tied(beat_unit_tied)
 }
 
 func (stage *Stage) UnstageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) {
@@ -15304,6 +15400,10 @@ func (stage *Stage) UnstageBranchBeat_unit_tied(beat_unit_tied *Beat_unit_tied) 
 
 }
 
+func (beater *Beater) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBeater(beater)
+}
+
 func (stage *Stage) UnstageBranchBeater(beater *Beater) {
 
 	// check if instance is already staged
@@ -15317,6 +15417,10 @@ func (stage *Stage) UnstageBranchBeater(beater *Beater) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (bend *Bend) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBend(bend)
 }
 
 func (stage *Stage) UnstageBranchBend(bend *Bend) {
@@ -15340,6 +15444,10 @@ func (stage *Stage) UnstageBranchBend(bend *Bend) {
 
 }
 
+func (bookmark *Bookmark) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBookmark(bookmark)
+}
+
 func (stage *Stage) UnstageBranchBookmark(bookmark *Bookmark) {
 
 	// check if instance is already staged
@@ -15353,6 +15461,10 @@ func (stage *Stage) UnstageBranchBookmark(bookmark *Bookmark) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (bracket *Bracket) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBracket(bracket)
 }
 
 func (stage *Stage) UnstageBranchBracket(bracket *Bracket) {
@@ -15370,6 +15482,10 @@ func (stage *Stage) UnstageBranchBracket(bracket *Bracket) {
 
 }
 
+func (breath_mark *Breath_mark) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBreath_mark(breath_mark)
+}
+
 func (stage *Stage) UnstageBranchBreath_mark(breath_mark *Breath_mark) {
 
 	// check if instance is already staged
@@ -15383,6 +15499,10 @@ func (stage *Stage) UnstageBranchBreath_mark(breath_mark *Breath_mark) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (caesura *Caesura) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCaesura(caesura)
 }
 
 func (stage *Stage) UnstageBranchCaesura(caesura *Caesura) {
@@ -15400,6 +15520,10 @@ func (stage *Stage) UnstageBranchCaesura(caesura *Caesura) {
 
 }
 
+func (cancel *Cancel) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCancel(cancel)
+}
+
 func (stage *Stage) UnstageBranchCancel(cancel *Cancel) {
 
 	// check if instance is already staged
@@ -15413,6 +15537,10 @@ func (stage *Stage) UnstageBranchCancel(cancel *Cancel) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (clef *Clef) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchClef(clef)
 }
 
 func (stage *Stage) UnstageBranchClef(clef *Clef) {
@@ -15430,6 +15558,10 @@ func (stage *Stage) UnstageBranchClef(clef *Clef) {
 
 }
 
+func (coda *Coda) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCoda(coda)
+}
+
 func (stage *Stage) UnstageBranchCoda(coda *Coda) {
 
 	// check if instance is already staged
@@ -15443,6 +15575,10 @@ func (stage *Stage) UnstageBranchCoda(coda *Coda) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (credit *Credit) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCredit(credit)
 }
 
 func (stage *Stage) UnstageBranchCredit(credit *Credit) {
@@ -15475,6 +15611,10 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 }
 
+func (dashes *Dashes) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDashes(dashes)
+}
+
 func (stage *Stage) UnstageBranchDashes(dashes *Dashes) {
 
 	// check if instance is already staged
@@ -15488,6 +15628,10 @@ func (stage *Stage) UnstageBranchDashes(dashes *Dashes) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (defaults *Defaults) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDefaults(defaults)
 }
 
 func (stage *Stage) UnstageBranchDefaults(defaults *Defaults) {
@@ -15532,6 +15676,10 @@ func (stage *Stage) UnstageBranchDefaults(defaults *Defaults) {
 
 }
 
+func (degree *Degree) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDegree(degree)
+}
+
 func (stage *Stage) UnstageBranchDegree(degree *Degree) {
 
 	// check if instance is already staged
@@ -15556,6 +15704,10 @@ func (stage *Stage) UnstageBranchDegree(degree *Degree) {
 
 }
 
+func (degree_alter *Degree_alter) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDegree_alter(degree_alter)
+}
+
 func (stage *Stage) UnstageBranchDegree_alter(degree_alter *Degree_alter) {
 
 	// check if instance is already staged
@@ -15569,6 +15721,10 @@ func (stage *Stage) UnstageBranchDegree_alter(degree_alter *Degree_alter) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (degree_type *Degree_type) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDegree_type(degree_type)
 }
 
 func (stage *Stage) UnstageBranchDegree_type(degree_type *Degree_type) {
@@ -15586,6 +15742,10 @@ func (stage *Stage) UnstageBranchDegree_type(degree_type *Degree_type) {
 
 }
 
+func (degree_value *Degree_value) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDegree_value(degree_value)
+}
+
 func (stage *Stage) UnstageBranchDegree_value(degree_value *Degree_value) {
 
 	// check if instance is already staged
@@ -15599,6 +15759,10 @@ func (stage *Stage) UnstageBranchDegree_value(degree_value *Degree_value) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (direction *Direction) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDirection(direction)
 }
 
 func (stage *Stage) UnstageBranchDirection(direction *Direction) {
@@ -15632,6 +15796,10 @@ func (stage *Stage) UnstageBranchDirection(direction *Direction) {
 		stage.UnstageBranch(_direction_type)
 	}
 
+}
+
+func (direction_type *Direction_type) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDirection_type(direction_type)
 }
 
 func (stage *Stage) UnstageBranchDirection_type(direction_type *Direction_type) {
@@ -15721,6 +15889,10 @@ func (stage *Stage) UnstageBranchDirection_type(direction_type *Direction_type) 
 
 }
 
+func (distance *Distance) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDistance(distance)
+}
+
 func (stage *Stage) UnstageBranchDistance(distance *Distance) {
 
 	// check if instance is already staged
@@ -15736,6 +15908,10 @@ func (stage *Stage) UnstageBranchDistance(distance *Distance) {
 
 }
 
+func (double *Double) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDouble(double)
+}
+
 func (stage *Stage) UnstageBranchDouble(double *Double) {
 
 	// check if instance is already staged
@@ -15749,6 +15925,10 @@ func (stage *Stage) UnstageBranchDouble(double *Double) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (dynamics *Dynamics) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDynamics(dynamics)
 }
 
 func (stage *Stage) UnstageBranchDynamics(dynamics *Dynamics) {
@@ -15769,6 +15949,10 @@ func (stage *Stage) UnstageBranchDynamics(dynamics *Dynamics) {
 
 }
 
+func (effect *Effect) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEffect(effect)
+}
+
 func (stage *Stage) UnstageBranchEffect(effect *Effect) {
 
 	// check if instance is already staged
@@ -15782,6 +15966,10 @@ func (stage *Stage) UnstageBranchEffect(effect *Effect) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (elision *Elision) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchElision(elision)
 }
 
 func (stage *Stage) UnstageBranchElision(elision *Elision) {
@@ -15799,6 +15987,10 @@ func (stage *Stage) UnstageBranchElision(elision *Elision) {
 
 }
 
+func (empty *Empty) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty(empty)
+}
+
 func (stage *Stage) UnstageBranchEmpty(empty *Empty) {
 
 	// check if instance is already staged
@@ -15812,6 +16004,10 @@ func (stage *Stage) UnstageBranchEmpty(empty *Empty) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_font *Empty_font) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_font(empty_font)
 }
 
 func (stage *Stage) UnstageBranchEmpty_font(empty_font *Empty_font) {
@@ -15829,6 +16025,10 @@ func (stage *Stage) UnstageBranchEmpty_font(empty_font *Empty_font) {
 
 }
 
+func (empty_line *Empty_line) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_line(empty_line)
+}
+
 func (stage *Stage) UnstageBranchEmpty_line(empty_line *Empty_line) {
 
 	// check if instance is already staged
@@ -15842,6 +16042,10 @@ func (stage *Stage) UnstageBranchEmpty_line(empty_line *Empty_line) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_placement *Empty_placement) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_placement(empty_placement)
 }
 
 func (stage *Stage) UnstageBranchEmpty_placement(empty_placement *Empty_placement) {
@@ -15859,6 +16063,10 @@ func (stage *Stage) UnstageBranchEmpty_placement(empty_placement *Empty_placemen
 
 }
 
+func (empty_placement_smufl *Empty_placement_smufl) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_placement_smufl(empty_placement_smufl)
+}
+
 func (stage *Stage) UnstageBranchEmpty_placement_smufl(empty_placement_smufl *Empty_placement_smufl) {
 
 	// check if instance is already staged
@@ -15872,6 +16080,10 @@ func (stage *Stage) UnstageBranchEmpty_placement_smufl(empty_placement_smufl *Em
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_print_object_style_align *Empty_print_object_style_align) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_print_object_style_align(empty_print_object_style_align)
 }
 
 func (stage *Stage) UnstageBranchEmpty_print_object_style_align(empty_print_object_style_align *Empty_print_object_style_align) {
@@ -15889,6 +16101,10 @@ func (stage *Stage) UnstageBranchEmpty_print_object_style_align(empty_print_obje
 
 }
 
+func (empty_print_style *Empty_print_style) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_print_style(empty_print_style)
+}
+
 func (stage *Stage) UnstageBranchEmpty_print_style(empty_print_style *Empty_print_style) {
 
 	// check if instance is already staged
@@ -15902,6 +16118,10 @@ func (stage *Stage) UnstageBranchEmpty_print_style(empty_print_style *Empty_prin
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (empty_print_style_align *Empty_print_style_align) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_print_style_align(empty_print_style_align)
 }
 
 func (stage *Stage) UnstageBranchEmpty_print_style_align(empty_print_style_align *Empty_print_style_align) {
@@ -15919,6 +16139,10 @@ func (stage *Stage) UnstageBranchEmpty_print_style_align(empty_print_style_align
 
 }
 
+func (empty_print_style_align_id *Empty_print_style_align_id) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_print_style_align_id(empty_print_style_align_id)
+}
+
 func (stage *Stage) UnstageBranchEmpty_print_style_align_id(empty_print_style_align_id *Empty_print_style_align_id) {
 
 	// check if instance is already staged
@@ -15934,6 +16158,10 @@ func (stage *Stage) UnstageBranchEmpty_print_style_align_id(empty_print_style_al
 
 }
 
+func (empty_trill_sound *Empty_trill_sound) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmpty_trill_sound(empty_trill_sound)
+}
+
 func (stage *Stage) UnstageBranchEmpty_trill_sound(empty_trill_sound *Empty_trill_sound) {
 
 	// check if instance is already staged
@@ -15947,6 +16175,10 @@ func (stage *Stage) UnstageBranchEmpty_trill_sound(empty_trill_sound *Empty_tril
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (encoding *Encoding) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEncoding(encoding)
 }
 
 func (stage *Stage) UnstageBranchEncoding(encoding *Encoding) {
@@ -15970,6 +16202,10 @@ func (stage *Stage) UnstageBranchEncoding(encoding *Encoding) {
 
 }
 
+func (ending *Ending) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEnding(ending)
+}
+
 func (stage *Stage) UnstageBranchEnding(ending *Ending) {
 
 	// check if instance is already staged
@@ -15983,6 +16219,10 @@ func (stage *Stage) UnstageBranchEnding(ending *Ending) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (extend *Extend) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchExtend(extend)
 }
 
 func (stage *Stage) UnstageBranchExtend(extend *Extend) {
@@ -16000,6 +16240,10 @@ func (stage *Stage) UnstageBranchExtend(extend *Extend) {
 
 }
 
+func (feature *Feature) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFeature(feature)
+}
+
 func (stage *Stage) UnstageBranchFeature(feature *Feature) {
 
 	// check if instance is already staged
@@ -16015,6 +16259,10 @@ func (stage *Stage) UnstageBranchFeature(feature *Feature) {
 
 }
 
+func (fermata *Fermata) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFermata(fermata)
+}
+
 func (stage *Stage) UnstageBranchFermata(fermata *Fermata) {
 
 	// check if instance is already staged
@@ -16028,6 +16276,10 @@ func (stage *Stage) UnstageBranchFermata(fermata *Fermata) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (figure *Figure) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFigure(figure)
 }
 
 func (stage *Stage) UnstageBranchFigure(figure *Figure) {
@@ -16063,6 +16315,10 @@ func (stage *Stage) UnstageBranchFigure(figure *Figure) {
 
 }
 
+func (figured_bass *Figured_bass) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFigured_bass(figured_bass)
+}
+
 func (stage *Stage) UnstageBranchFigured_bass(figured_bass *Figured_bass) {
 
 	// check if instance is already staged
@@ -16087,6 +16343,10 @@ func (stage *Stage) UnstageBranchFigured_bass(figured_bass *Figured_bass) {
 
 }
 
+func (fingering *Fingering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFingering(fingering)
+}
+
 func (stage *Stage) UnstageBranchFingering(fingering *Fingering) {
 
 	// check if instance is already staged
@@ -16102,6 +16362,10 @@ func (stage *Stage) UnstageBranchFingering(fingering *Fingering) {
 
 }
 
+func (first_fret *First_fret) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFirst_fret(first_fret)
+}
+
 func (stage *Stage) UnstageBranchFirst_fret(first_fret *First_fret) {
 
 	// check if instance is already staged
@@ -16115,6 +16379,10 @@ func (stage *Stage) UnstageBranchFirst_fret(first_fret *First_fret) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (for_part *For_part) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFor_part(for_part)
 }
 
 func (stage *Stage) UnstageBranchFor_part(for_part *For_part) {
@@ -16138,6 +16406,10 @@ func (stage *Stage) UnstageBranchFor_part(for_part *For_part) {
 
 }
 
+func (formatted_symbol *Formatted_symbol) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormatted_symbol(formatted_symbol)
+}
+
 func (stage *Stage) UnstageBranchFormatted_symbol(formatted_symbol *Formatted_symbol) {
 
 	// check if instance is already staged
@@ -16151,6 +16423,10 @@ func (stage *Stage) UnstageBranchFormatted_symbol(formatted_symbol *Formatted_sy
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (formatted_symbol_id *Formatted_symbol_id) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormatted_symbol_id(formatted_symbol_id)
 }
 
 func (stage *Stage) UnstageBranchFormatted_symbol_id(formatted_symbol_id *Formatted_symbol_id) {
@@ -16168,6 +16444,10 @@ func (stage *Stage) UnstageBranchFormatted_symbol_id(formatted_symbol_id *Format
 
 }
 
+func (formatted_text *Formatted_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormatted_text(formatted_text)
+}
+
 func (stage *Stage) UnstageBranchFormatted_text(formatted_text *Formatted_text) {
 
 	// check if instance is already staged
@@ -16183,6 +16463,10 @@ func (stage *Stage) UnstageBranchFormatted_text(formatted_text *Formatted_text) 
 
 }
 
+func (formatted_text_id *Formatted_text_id) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFormatted_text_id(formatted_text_id)
+}
+
 func (stage *Stage) UnstageBranchFormatted_text_id(formatted_text_id *Formatted_text_id) {
 
 	// check if instance is already staged
@@ -16196,6 +16480,10 @@ func (stage *Stage) UnstageBranchFormatted_text_id(formatted_text_id *Formatted_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (forward *Forward) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchForward(forward)
 }
 
 func (stage *Stage) UnstageBranchForward(forward *Forward) {
@@ -16219,6 +16507,10 @@ func (stage *Stage) UnstageBranchForward(forward *Forward) {
 
 }
 
+func (frame *Frame) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFrame(frame)
+}
+
 func (stage *Stage) UnstageBranchFrame(frame *Frame) {
 
 	// check if instance is already staged
@@ -16238,6 +16530,10 @@ func (stage *Stage) UnstageBranchFrame(frame *Frame) {
 		stage.UnstageBranch(_frame_note)
 	}
 
+}
+
+func (frame_note *Frame_note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFrame_note(frame_note)
 }
 
 func (stage *Stage) UnstageBranchFrame_note(frame_note *Frame_note) {
@@ -16267,6 +16563,10 @@ func (stage *Stage) UnstageBranchFrame_note(frame_note *Frame_note) {
 
 }
 
+func (fret *Fret) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFret(fret)
+}
+
 func (stage *Stage) UnstageBranchFret(fret *Fret) {
 
 	// check if instance is already staged
@@ -16280,6 +16580,10 @@ func (stage *Stage) UnstageBranchFret(fret *Fret) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (glass *Glass) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGlass(glass)
 }
 
 func (stage *Stage) UnstageBranchGlass(glass *Glass) {
@@ -16297,6 +16601,10 @@ func (stage *Stage) UnstageBranchGlass(glass *Glass) {
 
 }
 
+func (glissando *Glissando) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGlissando(glissando)
+}
+
 func (stage *Stage) UnstageBranchGlissando(glissando *Glissando) {
 
 	// check if instance is already staged
@@ -16310,6 +16618,10 @@ func (stage *Stage) UnstageBranchGlissando(glissando *Glissando) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (glyph *Glyph) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGlyph(glyph)
 }
 
 func (stage *Stage) UnstageBranchGlyph(glyph *Glyph) {
@@ -16327,6 +16639,10 @@ func (stage *Stage) UnstageBranchGlyph(glyph *Glyph) {
 
 }
 
+func (grace *Grace) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrace(grace)
+}
+
 func (stage *Stage) UnstageBranchGrace(grace *Grace) {
 
 	// check if instance is already staged
@@ -16340,6 +16656,10 @@ func (stage *Stage) UnstageBranchGrace(grace *Grace) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (group_barline *Group_barline) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup_barline(group_barline)
 }
 
 func (stage *Stage) UnstageBranchGroup_barline(group_barline *Group_barline) {
@@ -16357,6 +16677,10 @@ func (stage *Stage) UnstageBranchGroup_barline(group_barline *Group_barline) {
 
 }
 
+func (group_name *Group_name) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup_name(group_name)
+}
+
 func (stage *Stage) UnstageBranchGroup_name(group_name *Group_name) {
 
 	// check if instance is already staged
@@ -16372,6 +16696,10 @@ func (stage *Stage) UnstageBranchGroup_name(group_name *Group_name) {
 
 }
 
+func (group_symbol *Group_symbol) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup_symbol(group_symbol)
+}
+
 func (stage *Stage) UnstageBranchGroup_symbol(group_symbol *Group_symbol) {
 
 	// check if instance is already staged
@@ -16385,6 +16713,10 @@ func (stage *Stage) UnstageBranchGroup_symbol(group_symbol *Group_symbol) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (grouping *Grouping) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrouping(grouping)
 }
 
 func (stage *Stage) UnstageBranchGrouping(grouping *Grouping) {
@@ -16405,6 +16737,10 @@ func (stage *Stage) UnstageBranchGrouping(grouping *Grouping) {
 
 }
 
+func (hammer_on_pull_off *Hammer_on_pull_off) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHammer_on_pull_off(hammer_on_pull_off)
+}
+
 func (stage *Stage) UnstageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_on_pull_off) {
 
 	// check if instance is already staged
@@ -16418,6 +16754,10 @@ func (stage *Stage) UnstageBranchHammer_on_pull_off(hammer_on_pull_off *Hammer_o
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (handbell *Handbell) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHandbell(handbell)
 }
 
 func (stage *Stage) UnstageBranchHandbell(handbell *Handbell) {
@@ -16435,6 +16775,10 @@ func (stage *Stage) UnstageBranchHandbell(handbell *Handbell) {
 
 }
 
+func (harmon_closed *Harmon_closed) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHarmon_closed(harmon_closed)
+}
+
 func (stage *Stage) UnstageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 
 	// check if instance is already staged
@@ -16448,6 +16792,10 @@ func (stage *Stage) UnstageBranchHarmon_closed(harmon_closed *Harmon_closed) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (harmon_mute *Harmon_mute) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHarmon_mute(harmon_mute)
 }
 
 func (stage *Stage) UnstageBranchHarmon_mute(harmon_mute *Harmon_mute) {
@@ -16468,6 +16816,10 @@ func (stage *Stage) UnstageBranchHarmon_mute(harmon_mute *Harmon_mute) {
 
 }
 
+func (harmonic *Harmonic) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHarmonic(harmonic)
+}
+
 func (stage *Stage) UnstageBranchHarmonic(harmonic *Harmonic) {
 
 	// check if instance is already staged
@@ -16481,6 +16833,10 @@ func (stage *Stage) UnstageBranchHarmonic(harmonic *Harmonic) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (harmony *Harmony) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHarmony(harmony)
 }
 
 func (stage *Stage) UnstageBranchHarmony(harmony *Harmony) {
@@ -16531,6 +16887,10 @@ func (stage *Stage) UnstageBranchHarmony(harmony *Harmony) {
 
 }
 
+func (harmony_alter *Harmony_alter) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHarmony_alter(harmony_alter)
+}
+
 func (stage *Stage) UnstageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 
 	// check if instance is already staged
@@ -16544,6 +16904,10 @@ func (stage *Stage) UnstageBranchHarmony_alter(harmony_alter *Harmony_alter) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (harp_pedals *Harp_pedals) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHarp_pedals(harp_pedals)
 }
 
 func (stage *Stage) UnstageBranchHarp_pedals(harp_pedals *Harp_pedals) {
@@ -16564,6 +16928,10 @@ func (stage *Stage) UnstageBranchHarp_pedals(harp_pedals *Harp_pedals) {
 
 }
 
+func (heel_toe *Heel_toe) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHeel_toe(heel_toe)
+}
+
 func (stage *Stage) UnstageBranchHeel_toe(heel_toe *Heel_toe) {
 
 	// check if instance is already staged
@@ -16577,6 +16945,10 @@ func (stage *Stage) UnstageBranchHeel_toe(heel_toe *Heel_toe) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (hole *Hole) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHole(hole)
 }
 
 func (stage *Stage) UnstageBranchHole(hole *Hole) {
@@ -16597,6 +16969,10 @@ func (stage *Stage) UnstageBranchHole(hole *Hole) {
 
 }
 
+func (hole_closed *Hole_closed) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHole_closed(hole_closed)
+}
+
 func (stage *Stage) UnstageBranchHole_closed(hole_closed *Hole_closed) {
 
 	// check if instance is already staged
@@ -16612,6 +16988,10 @@ func (stage *Stage) UnstageBranchHole_closed(hole_closed *Hole_closed) {
 
 }
 
+func (horizontal_turn *Horizontal_turn) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchHorizontal_turn(horizontal_turn)
+}
+
 func (stage *Stage) UnstageBranchHorizontal_turn(horizontal_turn *Horizontal_turn) {
 
 	// check if instance is already staged
@@ -16625,6 +17005,10 @@ func (stage *Stage) UnstageBranchHorizontal_turn(horizontal_turn *Horizontal_tur
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (identification *Identification) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchIdentification(identification)
 }
 
 func (stage *Stage) UnstageBranchIdentification(identification *Identification) {
@@ -16657,6 +17041,10 @@ func (stage *Stage) UnstageBranchIdentification(identification *Identification) 
 
 }
 
+func (image *Image) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchImage(image)
+}
+
 func (stage *Stage) UnstageBranchImage(image *Image) {
 
 	// check if instance is already staged
@@ -16672,6 +17060,10 @@ func (stage *Stage) UnstageBranchImage(image *Image) {
 
 }
 
+func (instrument *Instrument) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInstrument(instrument)
+}
+
 func (stage *Stage) UnstageBranchInstrument(instrument *Instrument) {
 
 	// check if instance is already staged
@@ -16685,6 +17077,10 @@ func (stage *Stage) UnstageBranchInstrument(instrument *Instrument) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (instrument_change *Instrument_change) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInstrument_change(instrument_change)
 }
 
 func (stage *Stage) UnstageBranchInstrument_change(instrument_change *Instrument_change) {
@@ -16705,6 +17101,10 @@ func (stage *Stage) UnstageBranchInstrument_change(instrument_change *Instrument
 
 }
 
+func (instrument_link *Instrument_link) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInstrument_link(instrument_link)
+}
+
 func (stage *Stage) UnstageBranchInstrument_link(instrument_link *Instrument_link) {
 
 	// check if instance is already staged
@@ -16718,6 +17118,10 @@ func (stage *Stage) UnstageBranchInstrument_link(instrument_link *Instrument_lin
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (interchangeable *Interchangeable) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInterchangeable(interchangeable)
 }
 
 func (stage *Stage) UnstageBranchInterchangeable(interchangeable *Interchangeable) {
@@ -16735,6 +17139,10 @@ func (stage *Stage) UnstageBranchInterchangeable(interchangeable *Interchangeabl
 
 }
 
+func (inversion *Inversion) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInversion(inversion)
+}
+
 func (stage *Stage) UnstageBranchInversion(inversion *Inversion) {
 
 	// check if instance is already staged
@@ -16748,6 +17156,10 @@ func (stage *Stage) UnstageBranchInversion(inversion *Inversion) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (key *Key) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKey(key)
 }
 
 func (stage *Stage) UnstageBranchKey(key *Key) {
@@ -16774,6 +17186,10 @@ func (stage *Stage) UnstageBranchKey(key *Key) {
 
 }
 
+func (key_accidental *Key_accidental) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKey_accidental(key_accidental)
+}
+
 func (stage *Stage) UnstageBranchKey_accidental(key_accidental *Key_accidental) {
 
 	// check if instance is already staged
@@ -16787,6 +17203,10 @@ func (stage *Stage) UnstageBranchKey_accidental(key_accidental *Key_accidental) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (key_octave *Key_octave) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKey_octave(key_octave)
 }
 
 func (stage *Stage) UnstageBranchKey_octave(key_octave *Key_octave) {
@@ -16804,6 +17224,10 @@ func (stage *Stage) UnstageBranchKey_octave(key_octave *Key_octave) {
 
 }
 
+func (kind *Kind) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKind(kind)
+}
+
 func (stage *Stage) UnstageBranchKind(kind *Kind) {
 
 	// check if instance is already staged
@@ -16817,6 +17241,10 @@ func (stage *Stage) UnstageBranchKind(kind *Kind) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (level *Level) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLevel(level)
 }
 
 func (stage *Stage) UnstageBranchLevel(level *Level) {
@@ -16834,6 +17262,10 @@ func (stage *Stage) UnstageBranchLevel(level *Level) {
 
 }
 
+func (line_detail *Line_detail) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLine_detail(line_detail)
+}
+
 func (stage *Stage) UnstageBranchLine_detail(line_detail *Line_detail) {
 
 	// check if instance is already staged
@@ -16847,6 +17279,10 @@ func (stage *Stage) UnstageBranchLine_detail(line_detail *Line_detail) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (line_width *Line_width) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLine_width(line_width)
 }
 
 func (stage *Stage) UnstageBranchLine_width(line_width *Line_width) {
@@ -16864,6 +17300,10 @@ func (stage *Stage) UnstageBranchLine_width(line_width *Line_width) {
 
 }
 
+func (link *Link) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLink(link)
+}
+
 func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
@@ -16877,6 +17317,10 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (listen *Listen) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchListen(listen)
 }
 
 func (stage *Stage) UnstageBranchListen(listen *Listen) {
@@ -16903,6 +17347,10 @@ func (stage *Stage) UnstageBranchListen(listen *Listen) {
 
 }
 
+func (listening *Listening) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchListening(listening)
+}
+
 func (stage *Stage) UnstageBranchListening(listening *Listening) {
 
 	// check if instance is already staged
@@ -16925,6 +17373,10 @@ func (stage *Stage) UnstageBranchListening(listening *Listening) {
 		stage.UnstageBranch(_other_listening)
 	}
 
+}
+
+func (lyric *Lyric) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLyric(lyric)
 }
 
 func (stage *Stage) UnstageBranchLyric(lyric *Lyric) {
@@ -16957,6 +17409,10 @@ func (stage *Stage) UnstageBranchLyric(lyric *Lyric) {
 
 }
 
+func (lyric_font *Lyric_font) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLyric_font(lyric_font)
+}
+
 func (stage *Stage) UnstageBranchLyric_font(lyric_font *Lyric_font) {
 
 	// check if instance is already staged
@@ -16970,6 +17426,10 @@ func (stage *Stage) UnstageBranchLyric_font(lyric_font *Lyric_font) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (lyric_language *Lyric_language) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLyric_language(lyric_language)
 }
 
 func (stage *Stage) UnstageBranchLyric_language(lyric_language *Lyric_language) {
@@ -16987,6 +17447,10 @@ func (stage *Stage) UnstageBranchLyric_language(lyric_language *Lyric_language) 
 
 }
 
+func (measure_layout *Measure_layout) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMeasure_layout(measure_layout)
+}
+
 func (stage *Stage) UnstageBranchMeasure_layout(measure_layout *Measure_layout) {
 
 	// check if instance is already staged
@@ -17000,6 +17464,10 @@ func (stage *Stage) UnstageBranchMeasure_layout(measure_layout *Measure_layout) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (measure_numbering *Measure_numbering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMeasure_numbering(measure_numbering)
 }
 
 func (stage *Stage) UnstageBranchMeasure_numbering(measure_numbering *Measure_numbering) {
@@ -17017,6 +17485,10 @@ func (stage *Stage) UnstageBranchMeasure_numbering(measure_numbering *Measure_nu
 
 }
 
+func (measure_repeat *Measure_repeat) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMeasure_repeat(measure_repeat)
+}
+
 func (stage *Stage) UnstageBranchMeasure_repeat(measure_repeat *Measure_repeat) {
 
 	// check if instance is already staged
@@ -17030,6 +17502,10 @@ func (stage *Stage) UnstageBranchMeasure_repeat(measure_repeat *Measure_repeat) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (measure_style *Measure_style) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMeasure_style(measure_style)
 }
 
 func (stage *Stage) UnstageBranchMeasure_style(measure_style *Measure_style) {
@@ -17059,6 +17535,10 @@ func (stage *Stage) UnstageBranchMeasure_style(measure_style *Measure_style) {
 
 }
 
+func (membrane *Membrane) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMembrane(membrane)
+}
+
 func (stage *Stage) UnstageBranchMembrane(membrane *Membrane) {
 
 	// check if instance is already staged
@@ -17074,6 +17554,10 @@ func (stage *Stage) UnstageBranchMembrane(membrane *Membrane) {
 
 }
 
+func (metal *Metal) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetal(metal)
+}
+
 func (stage *Stage) UnstageBranchMetal(metal *Metal) {
 
 	// check if instance is already staged
@@ -17087,6 +17571,10 @@ func (stage *Stage) UnstageBranchMetal(metal *Metal) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metronome *Metronome) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetronome(metronome)
 }
 
 func (stage *Stage) UnstageBranchMetronome(metronome *Metronome) {
@@ -17113,6 +17601,10 @@ func (stage *Stage) UnstageBranchMetronome(metronome *Metronome) {
 
 }
 
+func (metronome_beam *Metronome_beam) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetronome_beam(metronome_beam)
+}
+
 func (stage *Stage) UnstageBranchMetronome_beam(metronome_beam *Metronome_beam) {
 
 	// check if instance is already staged
@@ -17126,6 +17618,10 @@ func (stage *Stage) UnstageBranchMetronome_beam(metronome_beam *Metronome_beam) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metronome_note *Metronome_note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetronome_note(metronome_note)
 }
 
 func (stage *Stage) UnstageBranchMetronome_note(metronome_note *Metronome_note) {
@@ -17152,6 +17648,10 @@ func (stage *Stage) UnstageBranchMetronome_note(metronome_note *Metronome_note) 
 
 }
 
+func (metronome_tied *Metronome_tied) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetronome_tied(metronome_tied)
+}
+
 func (stage *Stage) UnstageBranchMetronome_tied(metronome_tied *Metronome_tied) {
 
 	// check if instance is already staged
@@ -17165,6 +17665,10 @@ func (stage *Stage) UnstageBranchMetronome_tied(metronome_tied *Metronome_tied) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metronome_tuplet *Metronome_tuplet) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetronome_tuplet(metronome_tuplet)
 }
 
 func (stage *Stage) UnstageBranchMetronome_tuplet(metronome_tuplet *Metronome_tuplet) {
@@ -17182,6 +17686,10 @@ func (stage *Stage) UnstageBranchMetronome_tuplet(metronome_tuplet *Metronome_tu
 
 }
 
+func (midi_device *Midi_device) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMidi_device(midi_device)
+}
+
 func (stage *Stage) UnstageBranchMidi_device(midi_device *Midi_device) {
 
 	// check if instance is already staged
@@ -17197,6 +17705,10 @@ func (stage *Stage) UnstageBranchMidi_device(midi_device *Midi_device) {
 
 }
 
+func (midi_instrument *Midi_instrument) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMidi_instrument(midi_instrument)
+}
+
 func (stage *Stage) UnstageBranchMidi_instrument(midi_instrument *Midi_instrument) {
 
 	// check if instance is already staged
@@ -17210,6 +17722,10 @@ func (stage *Stage) UnstageBranchMidi_instrument(midi_instrument *Midi_instrumen
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (miscellaneous *Miscellaneous) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMiscellaneous(miscellaneous)
 }
 
 func (stage *Stage) UnstageBranchMiscellaneous(miscellaneous *Miscellaneous) {
@@ -17230,6 +17746,10 @@ func (stage *Stage) UnstageBranchMiscellaneous(miscellaneous *Miscellaneous) {
 
 }
 
+func (miscellaneous_field *Miscellaneous_field) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMiscellaneous_field(miscellaneous_field)
+}
+
 func (stage *Stage) UnstageBranchMiscellaneous_field(miscellaneous_field *Miscellaneous_field) {
 
 	// check if instance is already staged
@@ -17243,6 +17763,10 @@ func (stage *Stage) UnstageBranchMiscellaneous_field(miscellaneous_field *Miscel
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mordent *Mordent) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMordent(mordent)
 }
 
 func (stage *Stage) UnstageBranchMordent(mordent *Mordent) {
@@ -17260,6 +17784,10 @@ func (stage *Stage) UnstageBranchMordent(mordent *Mordent) {
 
 }
 
+func (multiple_rest *Multiple_rest) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMultiple_rest(multiple_rest)
+}
+
 func (stage *Stage) UnstageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 
 	// check if instance is already staged
@@ -17273,6 +17801,10 @@ func (stage *Stage) UnstageBranchMultiple_rest(multiple_rest *Multiple_rest) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (name_display *Name_display) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchName_display(name_display)
 }
 
 func (stage *Stage) UnstageBranchName_display(name_display *Name_display) {
@@ -17296,6 +17828,10 @@ func (stage *Stage) UnstageBranchName_display(name_display *Name_display) {
 
 }
 
+func (non_arpeggiate *Non_arpeggiate) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNon_arpeggiate(non_arpeggiate)
+}
+
 func (stage *Stage) UnstageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) {
 
 	// check if instance is already staged
@@ -17309,6 +17845,10 @@ func (stage *Stage) UnstageBranchNon_arpeggiate(non_arpeggiate *Non_arpeggiate) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notations *Notations) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNotations(notations)
 }
 
 func (stage *Stage) UnstageBranchNotations(notations *Notations) {
@@ -17372,6 +17912,10 @@ func (stage *Stage) UnstageBranchNotations(notations *Notations) {
 		stage.UnstageBranch(_other_notation)
 	}
 
+}
+
+func (note *Note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote(note)
 }
 
 func (stage *Stage) UnstageBranchNote(note *Note) {
@@ -17449,6 +17993,10 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 }
 
+func (note_size *Note_size) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote_size(note_size)
+}
+
 func (stage *Stage) UnstageBranchNote_size(note_size *Note_size) {
 
 	// check if instance is already staged
@@ -17462,6 +18010,10 @@ func (stage *Stage) UnstageBranchNote_size(note_size *Note_size) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (note_type *Note_type) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote_type(note_type)
 }
 
 func (stage *Stage) UnstageBranchNote_type(note_type *Note_type) {
@@ -17479,6 +18031,10 @@ func (stage *Stage) UnstageBranchNote_type(note_type *Note_type) {
 
 }
 
+func (notehead *Notehead) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNotehead(notehead)
+}
+
 func (stage *Stage) UnstageBranchNotehead(notehead *Notehead) {
 
 	// check if instance is already staged
@@ -17492,6 +18048,10 @@ func (stage *Stage) UnstageBranchNotehead(notehead *Notehead) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notehead_text *Notehead_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNotehead_text(notehead_text)
 }
 
 func (stage *Stage) UnstageBranchNotehead_text(notehead_text *Notehead_text) {
@@ -17513,6 +18073,10 @@ func (stage *Stage) UnstageBranchNotehead_text(notehead_text *Notehead_text) {
 		stage.UnstageBranch(_accidental_text)
 	}
 
+}
+
+func (numeral *Numeral) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNumeral(numeral)
 }
 
 func (stage *Stage) UnstageBranchNumeral(numeral *Numeral) {
@@ -17539,6 +18103,10 @@ func (stage *Stage) UnstageBranchNumeral(numeral *Numeral) {
 
 }
 
+func (numeral_key *Numeral_key) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNumeral_key(numeral_key)
+}
+
 func (stage *Stage) UnstageBranchNumeral_key(numeral_key *Numeral_key) {
 
 	// check if instance is already staged
@@ -17552,6 +18120,10 @@ func (stage *Stage) UnstageBranchNumeral_key(numeral_key *Numeral_key) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (numeral_root *Numeral_root) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNumeral_root(numeral_root)
 }
 
 func (stage *Stage) UnstageBranchNumeral_root(numeral_root *Numeral_root) {
@@ -17569,6 +18141,10 @@ func (stage *Stage) UnstageBranchNumeral_root(numeral_root *Numeral_root) {
 
 }
 
+func (octave_shift *Octave_shift) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOctave_shift(octave_shift)
+}
+
 func (stage *Stage) UnstageBranchOctave_shift(octave_shift *Octave_shift) {
 
 	// check if instance is already staged
@@ -17582,6 +18158,10 @@ func (stage *Stage) UnstageBranchOctave_shift(octave_shift *Octave_shift) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (offset *Offset) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOffset(offset)
 }
 
 func (stage *Stage) UnstageBranchOffset(offset *Offset) {
@@ -17599,6 +18179,10 @@ func (stage *Stage) UnstageBranchOffset(offset *Offset) {
 
 }
 
+func (opus *Opus) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOpus(opus)
+}
+
 func (stage *Stage) UnstageBranchOpus(opus *Opus) {
 
 	// check if instance is already staged
@@ -17612,6 +18196,10 @@ func (stage *Stage) UnstageBranchOpus(opus *Opus) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (ornaments *Ornaments) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOrnaments(ornaments)
 }
 
 func (stage *Stage) UnstageBranchOrnaments(ornaments *Ornaments) {
@@ -17677,6 +18265,10 @@ func (stage *Stage) UnstageBranchOrnaments(ornaments *Ornaments) {
 
 }
 
+func (other_appearance *Other_appearance) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_appearance(other_appearance)
+}
+
 func (stage *Stage) UnstageBranchOther_appearance(other_appearance *Other_appearance) {
 
 	// check if instance is already staged
@@ -17690,6 +18282,10 @@ func (stage *Stage) UnstageBranchOther_appearance(other_appearance *Other_appear
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (other_direction *Other_direction) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_direction(other_direction)
 }
 
 func (stage *Stage) UnstageBranchOther_direction(other_direction *Other_direction) {
@@ -17707,6 +18303,10 @@ func (stage *Stage) UnstageBranchOther_direction(other_direction *Other_directio
 
 }
 
+func (other_listening *Other_listening) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_listening(other_listening)
+}
+
 func (stage *Stage) UnstageBranchOther_listening(other_listening *Other_listening) {
 
 	// check if instance is already staged
@@ -17720,6 +18320,10 @@ func (stage *Stage) UnstageBranchOther_listening(other_listening *Other_listenin
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (other_notation *Other_notation) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_notation(other_notation)
 }
 
 func (stage *Stage) UnstageBranchOther_notation(other_notation *Other_notation) {
@@ -17737,6 +18341,10 @@ func (stage *Stage) UnstageBranchOther_notation(other_notation *Other_notation) 
 
 }
 
+func (other_placement_text *Other_placement_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_placement_text(other_placement_text)
+}
+
 func (stage *Stage) UnstageBranchOther_placement_text(other_placement_text *Other_placement_text) {
 
 	// check if instance is already staged
@@ -17750,6 +18358,10 @@ func (stage *Stage) UnstageBranchOther_placement_text(other_placement_text *Othe
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (other_play *Other_play) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_play(other_play)
 }
 
 func (stage *Stage) UnstageBranchOther_play(other_play *Other_play) {
@@ -17767,6 +18379,10 @@ func (stage *Stage) UnstageBranchOther_play(other_play *Other_play) {
 
 }
 
+func (other_text *Other_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOther_text(other_text)
+}
+
 func (stage *Stage) UnstageBranchOther_text(other_text *Other_text) {
 
 	// check if instance is already staged
@@ -17780,6 +18396,10 @@ func (stage *Stage) UnstageBranchOther_text(other_text *Other_text) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (page_layout *Page_layout) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPage_layout(page_layout)
 }
 
 func (stage *Stage) UnstageBranchPage_layout(page_layout *Page_layout) {
@@ -17800,6 +18420,10 @@ func (stage *Stage) UnstageBranchPage_layout(page_layout *Page_layout) {
 
 }
 
+func (page_margins *Page_margins) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPage_margins(page_margins)
+}
+
 func (stage *Stage) UnstageBranchPage_margins(page_margins *Page_margins) {
 
 	// check if instance is already staged
@@ -17815,6 +18439,10 @@ func (stage *Stage) UnstageBranchPage_margins(page_margins *Page_margins) {
 
 }
 
+func (part_clef *Part_clef) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_clef(part_clef)
+}
+
 func (stage *Stage) UnstageBranchPart_clef(part_clef *Part_clef) {
 
 	// check if instance is already staged
@@ -17828,6 +18456,10 @@ func (stage *Stage) UnstageBranchPart_clef(part_clef *Part_clef) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (part_group *Part_group) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_group(part_group)
 }
 
 func (stage *Stage) UnstageBranchPart_group(part_group *Part_group) {
@@ -17869,6 +18501,10 @@ func (stage *Stage) UnstageBranchPart_group(part_group *Part_group) {
 
 }
 
+func (part_link *Part_link) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_link(part_link)
+}
+
 func (stage *Stage) UnstageBranchPart_link(part_link *Part_link) {
 
 	// check if instance is already staged
@@ -17885,6 +18521,10 @@ func (stage *Stage) UnstageBranchPart_link(part_link *Part_link) {
 		stage.UnstageBranch(_instrument_link)
 	}
 
+}
+
+func (part_list *Part_list) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_list(part_list)
 }
 
 func (stage *Stage) UnstageBranchPart_list(part_list *Part_list) {
@@ -17908,6 +18548,10 @@ func (stage *Stage) UnstageBranchPart_list(part_list *Part_list) {
 
 }
 
+func (part_name *Part_name) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_name(part_name)
+}
+
 func (stage *Stage) UnstageBranchPart_name(part_name *Part_name) {
 
 	// check if instance is already staged
@@ -17921,6 +18565,10 @@ func (stage *Stage) UnstageBranchPart_name(part_name *Part_name) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (part_symbol *Part_symbol) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_symbol(part_symbol)
 }
 
 func (stage *Stage) UnstageBranchPart_symbol(part_symbol *Part_symbol) {
@@ -17938,6 +18586,10 @@ func (stage *Stage) UnstageBranchPart_symbol(part_symbol *Part_symbol) {
 
 }
 
+func (part_transpose *Part_transpose) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPart_transpose(part_transpose)
+}
+
 func (stage *Stage) UnstageBranchPart_transpose(part_transpose *Part_transpose) {
 
 	// check if instance is already staged
@@ -17951,6 +18603,10 @@ func (stage *Stage) UnstageBranchPart_transpose(part_transpose *Part_transpose) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pedal *Pedal) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPedal(pedal)
 }
 
 func (stage *Stage) UnstageBranchPedal(pedal *Pedal) {
@@ -17968,6 +18624,10 @@ func (stage *Stage) UnstageBranchPedal(pedal *Pedal) {
 
 }
 
+func (pedal_tuning *Pedal_tuning) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPedal_tuning(pedal_tuning)
+}
+
 func (stage *Stage) UnstageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 
 	// check if instance is already staged
@@ -17983,6 +18643,10 @@ func (stage *Stage) UnstageBranchPedal_tuning(pedal_tuning *Pedal_tuning) {
 
 }
 
+func (per_minute *Per_minute) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPer_minute(per_minute)
+}
+
 func (stage *Stage) UnstageBranchPer_minute(per_minute *Per_minute) {
 
 	// check if instance is already staged
@@ -17996,6 +18660,10 @@ func (stage *Stage) UnstageBranchPer_minute(per_minute *Per_minute) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (percussion *Percussion) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPercussion(percussion)
 }
 
 func (stage *Stage) UnstageBranchPercussion(percussion *Percussion) {
@@ -18043,6 +18711,10 @@ func (stage *Stage) UnstageBranchPercussion(percussion *Percussion) {
 
 }
 
+func (pitch *Pitch) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPitch(pitch)
+}
+
 func (stage *Stage) UnstageBranchPitch(pitch *Pitch) {
 
 	// check if instance is already staged
@@ -18056,6 +18728,10 @@ func (stage *Stage) UnstageBranchPitch(pitch *Pitch) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pitched *Pitched) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPitched(pitched)
 }
 
 func (stage *Stage) UnstageBranchPitched(pitched *Pitched) {
@@ -18073,6 +18749,10 @@ func (stage *Stage) UnstageBranchPitched(pitched *Pitched) {
 
 }
 
+func (placement_text *Placement_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlacement_text(placement_text)
+}
+
 func (stage *Stage) UnstageBranchPlacement_text(placement_text *Placement_text) {
 
 	// check if instance is already staged
@@ -18086,6 +18766,10 @@ func (stage *Stage) UnstageBranchPlacement_text(placement_text *Placement_text) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (play *Play) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlay(play)
 }
 
 func (stage *Stage) UnstageBranchPlay(play *Play) {
@@ -18106,6 +18790,10 @@ func (stage *Stage) UnstageBranchPlay(play *Play) {
 
 }
 
+func (player *Player) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlayer(player)
+}
+
 func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
@@ -18121,6 +18809,10 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 }
 
+func (principal_voice *Principal_voice) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPrincipal_voice(principal_voice)
+}
+
 func (stage *Stage) UnstageBranchPrincipal_voice(principal_voice *Principal_voice) {
 
 	// check if instance is already staged
@@ -18134,6 +18826,10 @@ func (stage *Stage) UnstageBranchPrincipal_voice(principal_voice *Principal_voic
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (print *Print) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPrint(print)
 }
 
 func (stage *Stage) UnstageBranchPrint(print *Print) {
@@ -18172,6 +18868,10 @@ func (stage *Stage) UnstageBranchPrint(print *Print) {
 
 }
 
+func (release *Release) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRelease(release)
+}
+
 func (stage *Stage) UnstageBranchRelease(release *Release) {
 
 	// check if instance is already staged
@@ -18185,6 +18885,10 @@ func (stage *Stage) UnstageBranchRelease(release *Release) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (repeat *Repeat) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRepeat(repeat)
 }
 
 func (stage *Stage) UnstageBranchRepeat(repeat *Repeat) {
@@ -18202,6 +18906,10 @@ func (stage *Stage) UnstageBranchRepeat(repeat *Repeat) {
 
 }
 
+func (rest *Rest) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRest(rest)
+}
+
 func (stage *Stage) UnstageBranchRest(rest *Rest) {
 
 	// check if instance is already staged
@@ -18215,6 +18923,10 @@ func (stage *Stage) UnstageBranchRest(rest *Rest) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (root *Root) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRoot(root)
 }
 
 func (stage *Stage) UnstageBranchRoot(root *Root) {
@@ -18238,6 +18950,10 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 
 }
 
+func (root_step *Root_step) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRoot_step(root_step)
+}
+
 func (stage *Stage) UnstageBranchRoot_step(root_step *Root_step) {
 
 	// check if instance is already staged
@@ -18253,6 +18969,10 @@ func (stage *Stage) UnstageBranchRoot_step(root_step *Root_step) {
 
 }
 
+func (scaling *Scaling) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScaling(scaling)
+}
+
 func (stage *Stage) UnstageBranchScaling(scaling *Scaling) {
 
 	// check if instance is already staged
@@ -18266,6 +18986,10 @@ func (stage *Stage) UnstageBranchScaling(scaling *Scaling) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (scordatura *Scordatura) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScordatura(scordatura)
 }
 
 func (stage *Stage) UnstageBranchScordatura(scordatura *Scordatura) {
@@ -18286,6 +19010,10 @@ func (stage *Stage) UnstageBranchScordatura(scordatura *Scordatura) {
 
 }
 
+func (score_instrument *Score_instrument) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScore_instrument(score_instrument)
+}
+
 func (stage *Stage) UnstageBranchScore_instrument(score_instrument *Score_instrument) {
 
 	// check if instance is already staged
@@ -18302,6 +19030,10 @@ func (stage *Stage) UnstageBranchScore_instrument(score_instrument *Score_instru
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (score_part *Score_part) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScore_part(score_part)
 }
 
 func (stage *Stage) UnstageBranchScore_part(score_part *Score_part) {
@@ -18349,6 +19081,10 @@ func (stage *Stage) UnstageBranchScore_part(score_part *Score_part) {
 
 }
 
+func (score_partwise *Score_partwise) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScore_partwise(score_partwise)
+}
+
 func (stage *Stage) UnstageBranchScore_partwise(score_partwise *Score_partwise) {
 
 	// check if instance is already staged
@@ -18380,6 +19116,10 @@ func (stage *Stage) UnstageBranchScore_partwise(score_partwise *Score_partwise) 
 		stage.UnstageBranch(_a_part)
 	}
 
+}
+
+func (score_timewise *Score_timewise) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScore_timewise(score_timewise)
 }
 
 func (stage *Stage) UnstageBranchScore_timewise(score_timewise *Score_timewise) {
@@ -18415,6 +19155,10 @@ func (stage *Stage) UnstageBranchScore_timewise(score_timewise *Score_timewise) 
 
 }
 
+func (segno *Segno) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSegno(segno)
+}
+
 func (stage *Stage) UnstageBranchSegno(segno *Segno) {
 
 	// check if instance is already staged
@@ -18428,6 +19172,10 @@ func (stage *Stage) UnstageBranchSegno(segno *Segno) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (slash *Slash) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSlash(slash)
 }
 
 func (stage *Stage) UnstageBranchSlash(slash *Slash) {
@@ -18445,6 +19193,10 @@ func (stage *Stage) UnstageBranchSlash(slash *Slash) {
 
 }
 
+func (slide *Slide) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSlide(slide)
+}
+
 func (stage *Stage) UnstageBranchSlide(slide *Slide) {
 
 	// check if instance is already staged
@@ -18460,6 +19212,10 @@ func (stage *Stage) UnstageBranchSlide(slide *Slide) {
 
 }
 
+func (slur *Slur) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSlur(slur)
+}
+
 func (stage *Stage) UnstageBranchSlur(slur *Slur) {
 
 	// check if instance is already staged
@@ -18473,6 +19229,10 @@ func (stage *Stage) UnstageBranchSlur(slur *Slur) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (sound *Sound) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSound(sound)
 }
 
 func (stage *Stage) UnstageBranchSound(sound *Sound) {
@@ -18508,6 +19268,10 @@ func (stage *Stage) UnstageBranchSound(sound *Sound) {
 
 }
 
+func (staff_details *Staff_details) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaff_details(staff_details)
+}
+
 func (stage *Stage) UnstageBranchStaff_details(staff_details *Staff_details) {
 
 	// check if instance is already staged
@@ -18532,6 +19296,10 @@ func (stage *Stage) UnstageBranchStaff_details(staff_details *Staff_details) {
 
 }
 
+func (staff_divide *Staff_divide) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaff_divide(staff_divide)
+}
+
 func (stage *Stage) UnstageBranchStaff_divide(staff_divide *Staff_divide) {
 
 	// check if instance is already staged
@@ -18545,6 +19313,10 @@ func (stage *Stage) UnstageBranchStaff_divide(staff_divide *Staff_divide) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (staff_layout *Staff_layout) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaff_layout(staff_layout)
 }
 
 func (stage *Stage) UnstageBranchStaff_layout(staff_layout *Staff_layout) {
@@ -18562,6 +19334,10 @@ func (stage *Stage) UnstageBranchStaff_layout(staff_layout *Staff_layout) {
 
 }
 
+func (staff_size *Staff_size) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaff_size(staff_size)
+}
+
 func (stage *Stage) UnstageBranchStaff_size(staff_size *Staff_size) {
 
 	// check if instance is already staged
@@ -18575,6 +19351,10 @@ func (stage *Stage) UnstageBranchStaff_size(staff_size *Staff_size) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (staff_tuning *Staff_tuning) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaff_tuning(staff_tuning)
 }
 
 func (stage *Stage) UnstageBranchStaff_tuning(staff_tuning *Staff_tuning) {
@@ -18592,6 +19372,10 @@ func (stage *Stage) UnstageBranchStaff_tuning(staff_tuning *Staff_tuning) {
 
 }
 
+func (stem *Stem) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStem(stem)
+}
+
 func (stage *Stage) UnstageBranchStem(stem *Stem) {
 
 	// check if instance is already staged
@@ -18605,6 +19389,10 @@ func (stage *Stage) UnstageBranchStem(stem *Stem) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stick *Stick) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStick(stick)
 }
 
 func (stage *Stage) UnstageBranchStick(stick *Stick) {
@@ -18622,6 +19410,10 @@ func (stage *Stage) UnstageBranchStick(stick *Stick) {
 
 }
 
+func (string_mute *String_mute) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchString_mute(string_mute)
+}
+
 func (stage *Stage) UnstageBranchString_mute(string_mute *String_mute) {
 
 	// check if instance is already staged
@@ -18635,6 +19427,10 @@ func (stage *Stage) UnstageBranchString_mute(string_mute *String_mute) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (string_type *String_type) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchString_type(string_type)
 }
 
 func (stage *Stage) UnstageBranchString_type(string_type *String_type) {
@@ -18652,6 +19448,10 @@ func (stage *Stage) UnstageBranchString_type(string_type *String_type) {
 
 }
 
+func (strong_accent *Strong_accent) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStrong_accent(strong_accent)
+}
+
 func (stage *Stage) UnstageBranchStrong_accent(strong_accent *Strong_accent) {
 
 	// check if instance is already staged
@@ -18665,6 +19465,10 @@ func (stage *Stage) UnstageBranchStrong_accent(strong_accent *Strong_accent) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (style_text *Style_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStyle_text(style_text)
 }
 
 func (stage *Stage) UnstageBranchStyle_text(style_text *Style_text) {
@@ -18682,6 +19486,10 @@ func (stage *Stage) UnstageBranchStyle_text(style_text *Style_text) {
 
 }
 
+func (supports *Supports) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSupports(supports)
+}
+
 func (stage *Stage) UnstageBranchSupports(supports *Supports) {
 
 	// check if instance is already staged
@@ -18695,6 +19503,10 @@ func (stage *Stage) UnstageBranchSupports(supports *Supports) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (swing *Swing) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSwing(swing)
 }
 
 func (stage *Stage) UnstageBranchSwing(swing *Swing) {
@@ -18712,6 +19524,10 @@ func (stage *Stage) UnstageBranchSwing(swing *Swing) {
 
 }
 
+func (sync *Sync) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSync(sync)
+}
+
 func (stage *Stage) UnstageBranchSync(sync *Sync) {
 
 	// check if instance is already staged
@@ -18725,6 +19541,10 @@ func (stage *Stage) UnstageBranchSync(sync *Sync) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (system_dividers *System_dividers) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSystem_dividers(system_dividers)
 }
 
 func (stage *Stage) UnstageBranchSystem_dividers(system_dividers *System_dividers) {
@@ -18748,6 +19568,10 @@ func (stage *Stage) UnstageBranchSystem_dividers(system_dividers *System_divider
 
 }
 
+func (system_layout *System_layout) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSystem_layout(system_layout)
+}
+
 func (stage *Stage) UnstageBranchSystem_layout(system_layout *System_layout) {
 
 	// check if instance is already staged
@@ -18769,6 +19593,10 @@ func (stage *Stage) UnstageBranchSystem_layout(system_layout *System_layout) {
 
 }
 
+func (system_margins *System_margins) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSystem_margins(system_margins)
+}
+
 func (stage *Stage) UnstageBranchSystem_margins(system_margins *System_margins) {
 
 	// check if instance is already staged
@@ -18784,6 +19612,10 @@ func (stage *Stage) UnstageBranchSystem_margins(system_margins *System_margins) 
 
 }
 
+func (tap *Tap) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTap(tap)
+}
+
 func (stage *Stage) UnstageBranchTap(tap *Tap) {
 
 	// check if instance is already staged
@@ -18797,6 +19629,10 @@ func (stage *Stage) UnstageBranchTap(tap *Tap) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (technical *Technical) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTechnical(technical)
 }
 
 func (stage *Stage) UnstageBranchTechnical(technical *Technical) {
@@ -18907,6 +19743,10 @@ func (stage *Stage) UnstageBranchTechnical(technical *Technical) {
 
 }
 
+func (text_element_data *Text_element_data) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchText_element_data(text_element_data)
+}
+
 func (stage *Stage) UnstageBranchText_element_data(text_element_data *Text_element_data) {
 
 	// check if instance is already staged
@@ -18920,6 +19760,10 @@ func (stage *Stage) UnstageBranchText_element_data(text_element_data *Text_eleme
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tie *Tie) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTie(tie)
 }
 
 func (stage *Stage) UnstageBranchTie(tie *Tie) {
@@ -18937,6 +19781,10 @@ func (stage *Stage) UnstageBranchTie(tie *Tie) {
 
 }
 
+func (tied *Tied) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTied(tied)
+}
+
 func (stage *Stage) UnstageBranchTied(tied *Tied) {
 
 	// check if instance is already staged
@@ -18950,6 +19798,10 @@ func (stage *Stage) UnstageBranchTied(tied *Tied) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (time *Time) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTime(time)
 }
 
 func (stage *Stage) UnstageBranchTime(time *Time) {
@@ -18970,6 +19822,10 @@ func (stage *Stage) UnstageBranchTime(time *Time) {
 
 }
 
+func (time_modification *Time_modification) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTime_modification(time_modification)
+}
+
 func (stage *Stage) UnstageBranchTime_modification(time_modification *Time_modification) {
 
 	// check if instance is already staged
@@ -18983,6 +19839,10 @@ func (stage *Stage) UnstageBranchTime_modification(time_modification *Time_modif
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (timpani *Timpani) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTimpani(timpani)
 }
 
 func (stage *Stage) UnstageBranchTimpani(timpani *Timpani) {
@@ -19000,6 +19860,10 @@ func (stage *Stage) UnstageBranchTimpani(timpani *Timpani) {
 
 }
 
+func (transpose *Transpose) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTranspose(transpose)
+}
+
 func (stage *Stage) UnstageBranchTranspose(transpose *Transpose) {
 
 	// check if instance is already staged
@@ -19015,6 +19879,10 @@ func (stage *Stage) UnstageBranchTranspose(transpose *Transpose) {
 
 }
 
+func (tremolo *Tremolo) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTremolo(tremolo)
+}
+
 func (stage *Stage) UnstageBranchTremolo(tremolo *Tremolo) {
 
 	// check if instance is already staged
@@ -19028,6 +19896,10 @@ func (stage *Stage) UnstageBranchTremolo(tremolo *Tremolo) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tuplet *Tuplet) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTuplet(tuplet)
 }
 
 func (stage *Stage) UnstageBranchTuplet(tuplet *Tuplet) {
@@ -19051,6 +19923,10 @@ func (stage *Stage) UnstageBranchTuplet(tuplet *Tuplet) {
 
 }
 
+func (tuplet_dot *Tuplet_dot) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTuplet_dot(tuplet_dot)
+}
+
 func (stage *Stage) UnstageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 
 	// check if instance is already staged
@@ -19066,6 +19942,10 @@ func (stage *Stage) UnstageBranchTuplet_dot(tuplet_dot *Tuplet_dot) {
 
 }
 
+func (tuplet_number *Tuplet_number) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTuplet_number(tuplet_number)
+}
+
 func (stage *Stage) UnstageBranchTuplet_number(tuplet_number *Tuplet_number) {
 
 	// check if instance is already staged
@@ -19079,6 +19959,10 @@ func (stage *Stage) UnstageBranchTuplet_number(tuplet_number *Tuplet_number) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tuplet_portion *Tuplet_portion) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTuplet_portion(tuplet_portion)
 }
 
 func (stage *Stage) UnstageBranchTuplet_portion(tuplet_portion *Tuplet_portion) {
@@ -19105,6 +19989,10 @@ func (stage *Stage) UnstageBranchTuplet_portion(tuplet_portion *Tuplet_portion) 
 
 }
 
+func (tuplet_type *Tuplet_type) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTuplet_type(tuplet_type)
+}
+
 func (stage *Stage) UnstageBranchTuplet_type(tuplet_type *Tuplet_type) {
 
 	// check if instance is already staged
@@ -19118,6 +20006,10 @@ func (stage *Stage) UnstageBranchTuplet_type(tuplet_type *Tuplet_type) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (typed_text *Typed_text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTyped_text(typed_text)
 }
 
 func (stage *Stage) UnstageBranchTyped_text(typed_text *Typed_text) {
@@ -19135,6 +20027,10 @@ func (stage *Stage) UnstageBranchTyped_text(typed_text *Typed_text) {
 
 }
 
+func (unpitched *Unpitched) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchUnpitched(unpitched)
+}
+
 func (stage *Stage) UnstageBranchUnpitched(unpitched *Unpitched) {
 
 	// check if instance is already staged
@@ -19148,6 +20044,10 @@ func (stage *Stage) UnstageBranchUnpitched(unpitched *Unpitched) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (virtual_instrument *Virtual_instrument) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchVirtual_instrument(virtual_instrument)
 }
 
 func (stage *Stage) UnstageBranchVirtual_instrument(virtual_instrument *Virtual_instrument) {
@@ -19165,6 +20065,10 @@ func (stage *Stage) UnstageBranchVirtual_instrument(virtual_instrument *Virtual_
 
 }
 
+func (wait *Wait) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWait(wait)
+}
+
 func (stage *Stage) UnstageBranchWait(wait *Wait) {
 
 	// check if instance is already staged
@@ -19178,6 +20082,10 @@ func (stage *Stage) UnstageBranchWait(wait *Wait) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (wavy_line *Wavy_line) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWavy_line(wavy_line)
 }
 
 func (stage *Stage) UnstageBranchWavy_line(wavy_line *Wavy_line) {
@@ -19195,6 +20103,10 @@ func (stage *Stage) UnstageBranchWavy_line(wavy_line *Wavy_line) {
 
 }
 
+func (wedge *Wedge) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWedge(wedge)
+}
+
 func (stage *Stage) UnstageBranchWedge(wedge *Wedge) {
 
 	// check if instance is already staged
@@ -19210,6 +20122,10 @@ func (stage *Stage) UnstageBranchWedge(wedge *Wedge) {
 
 }
 
+func (wood *Wood) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWood(wood)
+}
+
 func (stage *Stage) UnstageBranchWood(wood *Wood) {
 
 	// check if instance is already staged
@@ -19223,6 +20139,10 @@ func (stage *Stage) UnstageBranchWood(wood *Wood) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (work *Work) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWork(work)
 }
 
 func (stage *Stage) UnstageBranchWork(work *Work) {

@@ -2,56 +2,9 @@
 package models
 
 // AfterCreateFromFront is the Stage method called after a create from front.
-func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *Button:
-		if stage.OnAfterButtonCreateCallback != nil {
-			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Cell:
-		if stage.OnAfterCellCreateCallback != nil {
-			stage.OnAfterCellCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *CellBoolean:
-		if stage.OnAfterCellBooleanCreateCallback != nil {
-			stage.OnAfterCellBooleanCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *CellFloat64:
-		if stage.OnAfterCellFloat64CreateCallback != nil {
-			stage.OnAfterCellFloat64CreateCallback.OnAfterCreate(stage, target)
-		}
-	case *CellIcon:
-		if stage.OnAfterCellIconCreateCallback != nil {
-			stage.OnAfterCellIconCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *CellInt:
-		if stage.OnAfterCellIntCreateCallback != nil {
-			stage.OnAfterCellIntCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *CellString:
-		if stage.OnAfterCellStringCreateCallback != nil {
-			stage.OnAfterCellStringCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *DisplayedColumn:
-		if stage.OnAfterDisplayedColumnCreateCallback != nil {
-			stage.OnAfterDisplayedColumnCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Row:
-		if stage.OnAfterRowCreateCallback != nil {
-			stage.OnAfterRowCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *SVGIcon:
-		if stage.OnAfterSVGIconCreateCallback != nil {
-			stage.OnAfterSVGIconCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Table:
-		if stage.OnAfterTableCreateCallback != nil {
-			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
-		}
-	default:
-		_ = target
+func (stage *Stage) AfterCreateFromFront(instance GongstructIF) {
+	if instance != nil {
+		instance.GongAfterCreateFromFront(stage)
 	}
 }
 
@@ -60,131 +13,303 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is the Stage method called after an update from front.
-func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
-
-	switch oldTarget := any(old).(type) {
-	// insertion point
-	case *Button:
-		newTarget := any(new).(*Button)
-		if stage.OnAfterButtonUpdateCallback != nil {
-			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Cell:
-		newTarget := any(new).(*Cell)
-		if stage.OnAfterCellUpdateCallback != nil {
-			stage.OnAfterCellUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *CellBoolean:
-		newTarget := any(new).(*CellBoolean)
-		if stage.OnAfterCellBooleanUpdateCallback != nil {
-			stage.OnAfterCellBooleanUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *CellFloat64:
-		newTarget := any(new).(*CellFloat64)
-		if stage.OnAfterCellFloat64UpdateCallback != nil {
-			stage.OnAfterCellFloat64UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *CellIcon:
-		newTarget := any(new).(*CellIcon)
-		if stage.OnAfterCellIconUpdateCallback != nil {
-			stage.OnAfterCellIconUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *CellInt:
-		newTarget := any(new).(*CellInt)
-		if stage.OnAfterCellIntUpdateCallback != nil {
-			stage.OnAfterCellIntUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *CellString:
-		newTarget := any(new).(*CellString)
-		if stage.OnAfterCellStringUpdateCallback != nil {
-			stage.OnAfterCellStringUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *DisplayedColumn:
-		newTarget := any(new).(*DisplayedColumn)
-		if stage.OnAfterDisplayedColumnUpdateCallback != nil {
-			stage.OnAfterDisplayedColumnUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Row:
-		newTarget := any(new).(*Row)
-		if stage.OnAfterRowUpdateCallback != nil {
-			stage.OnAfterRowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *SVGIcon:
-		newTarget := any(new).(*SVGIcon)
-		if stage.OnAfterSVGIconUpdateCallback != nil {
-			stage.OnAfterSVGIconUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Table:
-		newTarget := any(new).(*Table)
-		if stage.OnAfterTableUpdateCallback != nil {
-			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	default:
-		_ = oldTarget
+func (stage *Stage) OnAfterUpdateFromFront(old, new GongstructIF) {
+	if old != nil {
+		old.GongOnAfterUpdateFromFront(stage, new)
 	}
 }
 
 // AfterDeleteFromFront is the Stage method called after a delete from front.
-func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
-
-	switch front := any(front).(type) {
-	// insertion point
-	case *Button:
-		if stage.OnAfterButtonDeleteCallback != nil {
-			staged := any(staged).(*Button)
-			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Cell:
-		if stage.OnAfterCellDeleteCallback != nil {
-			staged := any(staged).(*Cell)
-			stage.OnAfterCellDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *CellBoolean:
-		if stage.OnAfterCellBooleanDeleteCallback != nil {
-			staged := any(staged).(*CellBoolean)
-			stage.OnAfterCellBooleanDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *CellFloat64:
-		if stage.OnAfterCellFloat64DeleteCallback != nil {
-			staged := any(staged).(*CellFloat64)
-			stage.OnAfterCellFloat64DeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *CellIcon:
-		if stage.OnAfterCellIconDeleteCallback != nil {
-			staged := any(staged).(*CellIcon)
-			stage.OnAfterCellIconDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *CellInt:
-		if stage.OnAfterCellIntDeleteCallback != nil {
-			staged := any(staged).(*CellInt)
-			stage.OnAfterCellIntDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *CellString:
-		if stage.OnAfterCellStringDeleteCallback != nil {
-			staged := any(staged).(*CellString)
-			stage.OnAfterCellStringDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *DisplayedColumn:
-		if stage.OnAfterDisplayedColumnDeleteCallback != nil {
-			staged := any(staged).(*DisplayedColumn)
-			stage.OnAfterDisplayedColumnDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Row:
-		if stage.OnAfterRowDeleteCallback != nil {
-			staged := any(staged).(*Row)
-			stage.OnAfterRowDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *SVGIcon:
-		if stage.OnAfterSVGIconDeleteCallback != nil {
-			staged := any(staged).(*SVGIcon)
-			stage.OnAfterSVGIconDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Table:
-		if stage.OnAfterTableDeleteCallback != nil {
-			staged := any(staged).(*Table)
-			stage.OnAfterTableDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	default:
-		_ = front
+func (stage *Stage) AfterDeleteFromFront(staged, front GongstructIF) {
+	if staged != nil {
+		staged.GongAfterDeleteFromFront(stage, front)
 	}
 }
+
+// insertion point
+func (button *Button) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterButtonCreateCallback != nil {
+		stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, button)
+	}
+}
+
+func (button *Button) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterButtonUpdateCallback != nil {
+		var frontButton *Button
+		if front != nil {
+			frontButton, _ = front.(*Button)
+		}
+		stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, button, frontButton)
+	}
+}
+
+func (button *Button) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterButtonDeleteCallback != nil {
+		var frontButton *Button
+		if front != nil {
+			frontButton, _ = front.(*Button)
+		}
+		stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, button, frontButton)
+	}
+}
+
+func (cell *Cell) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCellCreateCallback != nil {
+		stage.OnAfterCellCreateCallback.OnAfterCreate(stage, cell)
+	}
+}
+
+func (cell *Cell) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellUpdateCallback != nil {
+		var frontCell *Cell
+		if front != nil {
+			frontCell, _ = front.(*Cell)
+		}
+		stage.OnAfterCellUpdateCallback.OnAfterUpdate(stage, cell, frontCell)
+	}
+}
+
+func (cell *Cell) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellDeleteCallback != nil {
+		var frontCell *Cell
+		if front != nil {
+			frontCell, _ = front.(*Cell)
+		}
+		stage.OnAfterCellDeleteCallback.OnAfterDelete(stage, cell, frontCell)
+	}
+}
+
+func (cellboolean *CellBoolean) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCellBooleanCreateCallback != nil {
+		stage.OnAfterCellBooleanCreateCallback.OnAfterCreate(stage, cellboolean)
+	}
+}
+
+func (cellboolean *CellBoolean) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellBooleanUpdateCallback != nil {
+		var frontCellBoolean *CellBoolean
+		if front != nil {
+			frontCellBoolean, _ = front.(*CellBoolean)
+		}
+		stage.OnAfterCellBooleanUpdateCallback.OnAfterUpdate(stage, cellboolean, frontCellBoolean)
+	}
+}
+
+func (cellboolean *CellBoolean) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellBooleanDeleteCallback != nil {
+		var frontCellBoolean *CellBoolean
+		if front != nil {
+			frontCellBoolean, _ = front.(*CellBoolean)
+		}
+		stage.OnAfterCellBooleanDeleteCallback.OnAfterDelete(stage, cellboolean, frontCellBoolean)
+	}
+}
+
+func (cellfloat64 *CellFloat64) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCellFloat64CreateCallback != nil {
+		stage.OnAfterCellFloat64CreateCallback.OnAfterCreate(stage, cellfloat64)
+	}
+}
+
+func (cellfloat64 *CellFloat64) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellFloat64UpdateCallback != nil {
+		var frontCellFloat64 *CellFloat64
+		if front != nil {
+			frontCellFloat64, _ = front.(*CellFloat64)
+		}
+		stage.OnAfterCellFloat64UpdateCallback.OnAfterUpdate(stage, cellfloat64, frontCellFloat64)
+	}
+}
+
+func (cellfloat64 *CellFloat64) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellFloat64DeleteCallback != nil {
+		var frontCellFloat64 *CellFloat64
+		if front != nil {
+			frontCellFloat64, _ = front.(*CellFloat64)
+		}
+		stage.OnAfterCellFloat64DeleteCallback.OnAfterDelete(stage, cellfloat64, frontCellFloat64)
+	}
+}
+
+func (cellicon *CellIcon) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCellIconCreateCallback != nil {
+		stage.OnAfterCellIconCreateCallback.OnAfterCreate(stage, cellicon)
+	}
+}
+
+func (cellicon *CellIcon) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellIconUpdateCallback != nil {
+		var frontCellIcon *CellIcon
+		if front != nil {
+			frontCellIcon, _ = front.(*CellIcon)
+		}
+		stage.OnAfterCellIconUpdateCallback.OnAfterUpdate(stage, cellicon, frontCellIcon)
+	}
+}
+
+func (cellicon *CellIcon) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellIconDeleteCallback != nil {
+		var frontCellIcon *CellIcon
+		if front != nil {
+			frontCellIcon, _ = front.(*CellIcon)
+		}
+		stage.OnAfterCellIconDeleteCallback.OnAfterDelete(stage, cellicon, frontCellIcon)
+	}
+}
+
+func (cellint *CellInt) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCellIntCreateCallback != nil {
+		stage.OnAfterCellIntCreateCallback.OnAfterCreate(stage, cellint)
+	}
+}
+
+func (cellint *CellInt) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellIntUpdateCallback != nil {
+		var frontCellInt *CellInt
+		if front != nil {
+			frontCellInt, _ = front.(*CellInt)
+		}
+		stage.OnAfterCellIntUpdateCallback.OnAfterUpdate(stage, cellint, frontCellInt)
+	}
+}
+
+func (cellint *CellInt) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellIntDeleteCallback != nil {
+		var frontCellInt *CellInt
+		if front != nil {
+			frontCellInt, _ = front.(*CellInt)
+		}
+		stage.OnAfterCellIntDeleteCallback.OnAfterDelete(stage, cellint, frontCellInt)
+	}
+}
+
+func (cellstring *CellString) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCellStringCreateCallback != nil {
+		stage.OnAfterCellStringCreateCallback.OnAfterCreate(stage, cellstring)
+	}
+}
+
+func (cellstring *CellString) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellStringUpdateCallback != nil {
+		var frontCellString *CellString
+		if front != nil {
+			frontCellString, _ = front.(*CellString)
+		}
+		stage.OnAfterCellStringUpdateCallback.OnAfterUpdate(stage, cellstring, frontCellString)
+	}
+}
+
+func (cellstring *CellString) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCellStringDeleteCallback != nil {
+		var frontCellString *CellString
+		if front != nil {
+			frontCellString, _ = front.(*CellString)
+		}
+		stage.OnAfterCellStringDeleteCallback.OnAfterDelete(stage, cellstring, frontCellString)
+	}
+}
+
+func (displayedcolumn *DisplayedColumn) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDisplayedColumnCreateCallback != nil {
+		stage.OnAfterDisplayedColumnCreateCallback.OnAfterCreate(stage, displayedcolumn)
+	}
+}
+
+func (displayedcolumn *DisplayedColumn) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDisplayedColumnUpdateCallback != nil {
+		var frontDisplayedColumn *DisplayedColumn
+		if front != nil {
+			frontDisplayedColumn, _ = front.(*DisplayedColumn)
+		}
+		stage.OnAfterDisplayedColumnUpdateCallback.OnAfterUpdate(stage, displayedcolumn, frontDisplayedColumn)
+	}
+}
+
+func (displayedcolumn *DisplayedColumn) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDisplayedColumnDeleteCallback != nil {
+		var frontDisplayedColumn *DisplayedColumn
+		if front != nil {
+			frontDisplayedColumn, _ = front.(*DisplayedColumn)
+		}
+		stage.OnAfterDisplayedColumnDeleteCallback.OnAfterDelete(stage, displayedcolumn, frontDisplayedColumn)
+	}
+}
+
+func (row *Row) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRowCreateCallback != nil {
+		stage.OnAfterRowCreateCallback.OnAfterCreate(stage, row)
+	}
+}
+
+func (row *Row) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRowUpdateCallback != nil {
+		var frontRow *Row
+		if front != nil {
+			frontRow, _ = front.(*Row)
+		}
+		stage.OnAfterRowUpdateCallback.OnAfterUpdate(stage, row, frontRow)
+	}
+}
+
+func (row *Row) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRowDeleteCallback != nil {
+		var frontRow *Row
+		if front != nil {
+			frontRow, _ = front.(*Row)
+		}
+		stage.OnAfterRowDeleteCallback.OnAfterDelete(stage, row, frontRow)
+	}
+}
+
+func (svgicon *SVGIcon) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterSVGIconCreateCallback != nil {
+		stage.OnAfterSVGIconCreateCallback.OnAfterCreate(stage, svgicon)
+	}
+}
+
+func (svgicon *SVGIcon) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSVGIconUpdateCallback != nil {
+		var frontSVGIcon *SVGIcon
+		if front != nil {
+			frontSVGIcon, _ = front.(*SVGIcon)
+		}
+		stage.OnAfterSVGIconUpdateCallback.OnAfterUpdate(stage, svgicon, frontSVGIcon)
+	}
+}
+
+func (svgicon *SVGIcon) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSVGIconDeleteCallback != nil {
+		var frontSVGIcon *SVGIcon
+		if front != nil {
+			frontSVGIcon, _ = front.(*SVGIcon)
+		}
+		stage.OnAfterSVGIconDeleteCallback.OnAfterDelete(stage, svgicon, frontSVGIcon)
+	}
+}
+
+func (table *Table) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTableCreateCallback != nil {
+		stage.OnAfterTableCreateCallback.OnAfterCreate(stage, table)
+	}
+}
+
+func (table *Table) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTableUpdateCallback != nil {
+		var frontTable *Table
+		if front != nil {
+			frontTable, _ = front.(*Table)
+		}
+		stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, table, frontTable)
+	}
+}
+
+func (table *Table) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTableDeleteCallback != nil {
+		var frontTable *Table
+		if front != nil {
+			frontTable, _ = front.(*Table)
+		}
+		stage.OnAfterTableDeleteCallback.OnAfterDelete(stage, table, frontTable)
+	}
+}
+

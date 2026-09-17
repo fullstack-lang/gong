@@ -4,150 +4,139 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AttributeShape:
-		ok = stage.IsStagedAttributeShape(target)
-
-	case *Classdiagram:
-		ok = stage.IsStagedClassdiagram(target)
-
-	case *DiagramPackage:
-		ok = stage.IsStagedDiagramPackage(target)
-
-	case *GongEnumShape:
-		ok = stage.IsStagedGongEnumShape(target)
-
-	case *GongEnumValueShape:
-		ok = stage.IsStagedGongEnumValueShape(target)
-
-	case *GongNoteLinkShape:
-		ok = stage.IsStagedGongNoteLinkShape(target)
-
-	case *GongNoteShape:
-		ok = stage.IsStagedGongNoteShape(target)
-
-	case *GongStructShape:
-		ok = stage.IsStagedGongStructShape(target)
-
-	case *LinkShape:
-		ok = stage.IsStagedLinkShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAttributeShape(attributeshape *AttributeShape) (ok bool) {
+func (attributeshape *AttributeShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AttributeShapes[attributeshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
+func (stage *Stage) IsStagedAttributeShape(attributeshape *AttributeShape) (ok bool) {
+
+	return attributeshape.GongIsStaged(stage)
+}
+
+func (classdiagram *Classdiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Classdiagrams[classdiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
+func (stage *Stage) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
+
+	return classdiagram.GongIsStaged(stage)
+}
+
+func (diagrampackage *DiagramPackage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DiagramPackages[diagrampackage]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
+func (stage *Stage) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
+
+	return diagrampackage.GongIsStaged(stage)
+}
+
+func (gongenumshape *GongEnumShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongEnumShapes[gongenumshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) (ok bool) {
+func (stage *Stage) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
+
+	return gongenumshape.GongIsStaged(stage)
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongEnumValueShapes[gongenumvalueshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) (ok bool) {
+func (stage *Stage) IsStagedGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) (ok bool) {
+
+	return gongenumvalueshape.GongIsStaged(stage)
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongNoteLinkShapes[gongnotelinkshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongNoteShape(gongnoteshape *GongNoteShape) (ok bool) {
+func (stage *Stage) IsStagedGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) (ok bool) {
+
+	return gongnotelinkshape.GongIsStaged(stage)
+}
+
+func (gongnoteshape *GongNoteShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongNoteShapes[gongnoteshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
+func (stage *Stage) IsStagedGongNoteShape(gongnoteshape *GongNoteShape) (ok bool) {
+
+	return gongnoteshape.GongIsStaged(stage)
+}
+
+func (gongstructshape *GongStructShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongStructShapes[gongstructshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedLinkShape(linkshape *LinkShape) (ok bool) {
+func (stage *Stage) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
+
+	return gongstructshape.GongIsStaged(stage)
+}
+
+func (linkshape *LinkShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.LinkShapes[linkshape]
 
 	return
 }
 
+func (stage *Stage) IsStagedLinkShape(linkshape *LinkShape) (ok bool) {
+
+	return linkshape.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *AttributeShape:
-		stage.StageBranchAttributeShape(target)
-
-	case *Classdiagram:
-		stage.StageBranchClassdiagram(target)
-
-	case *DiagramPackage:
-		stage.StageBranchDiagramPackage(target)
-
-	case *GongEnumShape:
-		stage.StageBranchGongEnumShape(target)
-
-	case *GongEnumValueShape:
-		stage.StageBranchGongEnumValueShape(target)
-
-	case *GongNoteLinkShape:
-		stage.StageBranchGongNoteLinkShape(target)
-
-	case *GongNoteShape:
-		stage.StageBranchGongNoteShape(target)
-
-	case *GongStructShape:
-		stage.StageBranchGongStructShape(target)
-
-	case *LinkShape:
-		stage.StageBranchLinkShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (attributeshape *AttributeShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchAttributeShape(attributeshape)
+}
+
 func (stage *Stage) StageBranchAttributeShape(attributeshape *AttributeShape) {
 
 	// check if instance is already staged
@@ -161,6 +150,10 @@ func (stage *Stage) StageBranchAttributeShape(attributeshape *AttributeShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (classdiagram *Classdiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchClassdiagram(classdiagram)
 }
 
 func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
@@ -187,6 +180,10 @@ func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
 
 }
 
+func (diagrampackage *DiagramPackage) GongStageBranch(stage *Stage) {
+	stage.StageBranchDiagramPackage(diagrampackage)
+}
+
 func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
@@ -208,6 +205,10 @@ func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 }
 
+func (gongenumshape *GongEnumShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongEnumShape(gongenumshape)
+}
+
 func (stage *Stage) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
@@ -226,6 +227,10 @@ func (stage *Stage) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 }
 
+func (gongenumvalueshape *GongEnumValueShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongEnumValueShape(gongenumvalueshape)
+}
+
 func (stage *Stage) StageBranchGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) {
 
 	// check if instance is already staged
@@ -241,6 +246,10 @@ func (stage *Stage) StageBranchGongEnumValueShape(gongenumvalueshape *GongEnumVa
 
 }
 
+func (gongnotelinkshape *GongNoteLinkShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongNoteLinkShape(gongnotelinkshape)
+}
+
 func (stage *Stage) StageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) {
 
 	// check if instance is already staged
@@ -254,6 +263,10 @@ func (stage *Stage) StageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLink
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gongnoteshape *GongNoteShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongNoteShape(gongnoteshape)
 }
 
 func (stage *Stage) StageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
@@ -272,6 +285,10 @@ func (stage *Stage) StageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
 		stage.StageBranch(_gongnotelinkshape)
 	}
 
+}
+
+func (gongstructshape *GongStructShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongStructShape(gongstructshape)
 }
 
 func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape) {
@@ -293,6 +310,10 @@ func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape)
 		stage.StageBranch(_linkshape)
 	}
 
+}
+
+func (linkshape *LinkShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchLinkShape(linkshape)
 }
 
 func (stage *Stage) StageBranchLinkShape(linkshape *LinkShape) {
@@ -567,43 +588,22 @@ func GongCopyBranchLinkShape(mapOrigCopy map[any]any, linkshapeFrom *LinkShape) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *AttributeShape:
-		stage.UnstageBranchAttributeShape(target)
-
-	case *Classdiagram:
-		stage.UnstageBranchClassdiagram(target)
-
-	case *DiagramPackage:
-		stage.UnstageBranchDiagramPackage(target)
-
-	case *GongEnumShape:
-		stage.UnstageBranchGongEnumShape(target)
-
-	case *GongEnumValueShape:
-		stage.UnstageBranchGongEnumValueShape(target)
-
-	case *GongNoteLinkShape:
-		stage.UnstageBranchGongNoteLinkShape(target)
-
-	case *GongNoteShape:
-		stage.UnstageBranchGongNoteShape(target)
-
-	case *GongStructShape:
-		stage.UnstageBranchGongStructShape(target)
-
-	case *LinkShape:
-		stage.UnstageBranchLinkShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (attributeshape *AttributeShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAttributeShape(attributeshape)
+}
+
 func (stage *Stage) UnstageBranchAttributeShape(attributeshape *AttributeShape) {
 
 	// check if instance is already staged
@@ -617,6 +617,10 @@ func (stage *Stage) UnstageBranchAttributeShape(attributeshape *AttributeShape) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (classdiagram *Classdiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchClassdiagram(classdiagram)
 }
 
 func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
@@ -643,6 +647,10 @@ func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 
 }
 
+func (diagrampackage *DiagramPackage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDiagramPackage(diagrampackage)
+}
+
 func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
@@ -664,6 +672,10 @@ func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) 
 
 }
 
+func (gongenumshape *GongEnumShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongEnumShape(gongenumshape)
+}
+
 func (stage *Stage) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
@@ -682,6 +694,10 @@ func (stage *Stage) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 }
 
+func (gongenumvalueshape *GongEnumValueShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongEnumValueShape(gongenumvalueshape)
+}
+
 func (stage *Stage) UnstageBranchGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) {
 
 	// check if instance is already staged
@@ -697,6 +713,10 @@ func (stage *Stage) UnstageBranchGongEnumValueShape(gongenumvalueshape *GongEnum
 
 }
 
+func (gongnotelinkshape *GongNoteLinkShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongNoteLinkShape(gongnotelinkshape)
+}
+
 func (stage *Stage) UnstageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) {
 
 	// check if instance is already staged
@@ -710,6 +730,10 @@ func (stage *Stage) UnstageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gongnoteshape *GongNoteShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongNoteShape(gongnoteshape)
 }
 
 func (stage *Stage) UnstageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
@@ -728,6 +752,10 @@ func (stage *Stage) UnstageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
 		stage.UnstageBranch(_gongnotelinkshape)
 	}
 
+}
+
+func (gongstructshape *GongStructShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongStructShape(gongstructshape)
 }
 
 func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShape) {
@@ -749,6 +777,10 @@ func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShap
 		stage.UnstageBranch(_linkshape)
 	}
 
+}
+
+func (linkshape *LinkShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLinkShape(linkshape)
 }
 
 func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {

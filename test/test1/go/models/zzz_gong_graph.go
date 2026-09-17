@@ -4,124 +4,115 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Astruct:
-		ok = stage.IsStagedAstruct(target)
-
-	case *AstructBstruct2Use:
-		ok = stage.IsStagedAstructBstruct2Use(target)
-
-	case *AstructBstructUse:
-		ok = stage.IsStagedAstructBstructUse(target)
-
-	case *Bstruct:
-		ok = stage.IsStagedBstruct(target)
-
-	case *Dstruct:
-		ok = stage.IsStagedDstruct(target)
-
-	case *F0123456789012345678901234567890:
-		ok = stage.IsStagedF0123456789012345678901234567890(target)
-
-	case *Gstruct:
-		ok = stage.IsStagedGstruct(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAstruct(astruct *Astruct) (ok bool) {
+func (astruct *Astruct) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Astructs[astruct]
 
 	return
 }
 
-func (stage *Stage) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
+func (stage *Stage) IsStagedAstruct(astruct *Astruct) (ok bool) {
+
+	return astruct.GongIsStaged(stage)
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AstructBstruct2Uses[astructbstruct2use]
 
 	return
 }
 
-func (stage *Stage) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
+func (stage *Stage) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
+
+	return astructbstruct2use.GongIsStaged(stage)
+}
+
+func (astructbstructuse *AstructBstructUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AstructBstructUses[astructbstructuse]
 
 	return
 }
 
-func (stage *Stage) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
+func (stage *Stage) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
+
+	return astructbstructuse.GongIsStaged(stage)
+}
+
+func (bstruct *Bstruct) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bstructs[bstruct]
 
 	return
 }
 
-func (stage *Stage) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
+func (stage *Stage) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
+
+	return bstruct.GongIsStaged(stage)
+}
+
+func (dstruct *Dstruct) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Dstructs[dstruct]
 
 	return
 }
 
-func (stage *Stage) IsStagedF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) (ok bool) {
+func (stage *Stage) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
+
+	return dstruct.GongIsStaged(stage)
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]
 
 	return
 }
 
-func (stage *Stage) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
+func (stage *Stage) IsStagedF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) (ok bool) {
+
+	return f0123456789012345678901234567890.GongIsStaged(stage)
+}
+
+func (gstruct *Gstruct) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Gstructs[gstruct]
 
 	return
 }
 
+func (stage *Stage) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
+
+	return gstruct.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Astruct:
-		stage.StageBranchAstruct(target)
-
-	case *AstructBstruct2Use:
-		stage.StageBranchAstructBstruct2Use(target)
-
-	case *AstructBstructUse:
-		stage.StageBranchAstructBstructUse(target)
-
-	case *Bstruct:
-		stage.StageBranchBstruct(target)
-
-	case *Dstruct:
-		stage.StageBranchDstruct(target)
-
-	case *F0123456789012345678901234567890:
-		stage.StageBranchF0123456789012345678901234567890(target)
-
-	case *Gstruct:
-		stage.StageBranchGstruct(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (astruct *Astruct) GongStageBranch(stage *Stage) {
+	stage.StageBranchAstruct(astruct)
+}
+
 func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
@@ -182,6 +173,10 @@ func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 
 }
 
+func (astructbstruct2use *AstructBstruct2Use) GongStageBranch(stage *Stage) {
+	stage.StageBranchAstructBstruct2Use(astructbstruct2use)
+}
+
 func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
@@ -198,6 +193,10 @@ func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBst
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (astructbstructuse *AstructBstructUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchAstructBstructUse(astructbstructuse)
 }
 
 func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
@@ -218,6 +217,10 @@ func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstru
 
 }
 
+func (bstruct *Bstruct) GongStageBranch(stage *Stage) {
+	stage.StageBranchBstruct(bstruct)
+}
+
 func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
@@ -231,6 +234,10 @@ func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (dstruct *Dstruct) GongStageBranch(stage *Stage) {
+	stage.StageBranchDstruct(dstruct)
 }
 
 func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
@@ -257,6 +264,10 @@ func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 
 }
 
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongStageBranch(stage *Stage) {
+	stage.StageBranchF0123456789012345678901234567890(f0123456789012345678901234567890)
+}
+
 func (stage *Stage) StageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
@@ -270,6 +281,10 @@ func (stage *Stage) StageBranchF0123456789012345678901234567890(f012345678901234
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gstruct *Gstruct) GongStageBranch(stage *Stage) {
+	stage.StageBranchGstruct(gstruct)
 }
 
 func (stage *Stage) StageBranchGstruct(gstruct *Gstruct) {
@@ -531,37 +546,22 @@ func GongCopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstru
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Astruct:
-		stage.UnstageBranchAstruct(target)
-
-	case *AstructBstruct2Use:
-		stage.UnstageBranchAstructBstruct2Use(target)
-
-	case *AstructBstructUse:
-		stage.UnstageBranchAstructBstructUse(target)
-
-	case *Bstruct:
-		stage.UnstageBranchBstruct(target)
-
-	case *Dstruct:
-		stage.UnstageBranchDstruct(target)
-
-	case *F0123456789012345678901234567890:
-		stage.UnstageBranchF0123456789012345678901234567890(target)
-
-	case *Gstruct:
-		stage.UnstageBranchGstruct(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (astruct *Astruct) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAstruct(astruct)
+}
+
 func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
@@ -622,6 +622,10 @@ func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 
 }
 
+func (astructbstruct2use *AstructBstruct2Use) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAstructBstruct2Use(astructbstruct2use)
+}
+
 func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
@@ -638,6 +642,10 @@ func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructB
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (astructbstructuse *AstructBstructUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAstructBstructUse(astructbstructuse)
 }
 
 func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
@@ -658,6 +666,10 @@ func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBst
 
 }
 
+func (bstruct *Bstruct) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBstruct(bstruct)
+}
+
 func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
@@ -671,6 +683,10 @@ func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (dstruct *Dstruct) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDstruct(dstruct)
 }
 
 func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
@@ -697,6 +713,10 @@ func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 
 }
 
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchF0123456789012345678901234567890(f0123456789012345678901234567890)
+}
+
 func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
@@ -710,6 +730,10 @@ func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gstruct *Gstruct) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGstruct(gstruct)
 }
 
 func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {

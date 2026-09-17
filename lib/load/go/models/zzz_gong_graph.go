@@ -4,72 +4,67 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *FileToDownload:
-		ok = stage.IsStagedFileToDownload(target)
-
-	case *FileToUpload:
-		ok = stage.IsStagedFileToUpload(target)
-
-	case *Message:
-		ok = stage.IsStagedMessage(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
+func (filetodownload *FileToDownload) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FileToDownloads[filetodownload]
 
 	return
 }
 
-func (stage *Stage) IsStagedFileToUpload(filetoupload *FileToUpload) (ok bool) {
+func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
+
+	return filetodownload.GongIsStaged(stage)
+}
+
+func (filetoupload *FileToUpload) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FileToUploads[filetoupload]
 
 	return
 }
 
-func (stage *Stage) IsStagedMessage(message *Message) (ok bool) {
+func (stage *Stage) IsStagedFileToUpload(filetoupload *FileToUpload) (ok bool) {
+
+	return filetoupload.GongIsStaged(stage)
+}
+
+func (message *Message) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Messages[message]
 
 	return
 }
 
+func (stage *Stage) IsStagedMessage(message *Message) (ok bool) {
+
+	return message.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *FileToDownload:
-		stage.StageBranchFileToDownload(target)
-
-	case *FileToUpload:
-		stage.StageBranchFileToUpload(target)
-
-	case *Message:
-		stage.StageBranchMessage(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (filetodownload *FileToDownload) GongStageBranch(stage *Stage) {
+	stage.StageBranchFileToDownload(filetodownload)
+}
+
 func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
@@ -85,6 +80,10 @@ func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 }
 
+func (filetoupload *FileToUpload) GongStageBranch(stage *Stage) {
+	stage.StageBranchFileToUpload(filetoupload)
+}
+
 func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	// check if instance is already staged
@@ -98,6 +97,10 @@ func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (message *Message) GongStageBranch(stage *Stage) {
+	stage.StageBranchMessage(message)
 }
 
 func (stage *Stage) StageBranchMessage(message *Message) {
@@ -207,25 +210,22 @@ func GongCopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messa
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *FileToDownload:
-		stage.UnstageBranchFileToDownload(target)
-
-	case *FileToUpload:
-		stage.UnstageBranchFileToUpload(target)
-
-	case *Message:
-		stage.UnstageBranchMessage(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (filetodownload *FileToDownload) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFileToDownload(filetodownload)
+}
+
 func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
@@ -241,6 +241,10 @@ func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) 
 
 }
 
+func (filetoupload *FileToUpload) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFileToUpload(filetoupload)
+}
+
 func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	// check if instance is already staged
@@ -254,6 +258,10 @@ func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (message *Message) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMessage(message)
 }
 
 func (stage *Stage) UnstageBranchMessage(message *Message) {

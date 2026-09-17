@@ -2309,70 +2309,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *AnalysisNeed:
-		return stage.AnalysisNeed_stagedOrder[instance]
-	case *Concept:
-		return stage.Concept_stagedOrder[instance]
-	case *ConceptShape:
-		return stage.ConceptShape_stagedOrder[instance]
-	case *Concern:
-		return stage.Concern_stagedOrder[instance]
-	case *ConcernCompositionShape:
-		return stage.ConcernCompositionShape_stagedOrder[instance]
-	case *ConcernInputShape:
-		return stage.ConcernInputShape_stagedOrder[instance]
-	case *ConcernOutputShape:
-		return stage.ConcernOutputShape_stagedOrder[instance]
-	case *ConcernShape:
-		return stage.ConcernShape_stagedOrder[instance]
-	case *ControlPointShape:
-		return stage.ControlPointShape_stagedOrder[instance]
-	case *Deliverable:
-		return stage.Deliverable_stagedOrder[instance]
-	case *DeliverableCompositionShape:
-		return stage.DeliverableCompositionShape_stagedOrder[instance]
-	case *DeliverableConceptShape:
-		return stage.DeliverableConceptShape_stagedOrder[instance]
-	case *DeliverableShape:
-		return stage.DeliverableShape_stagedOrder[instance]
-	case *Diagram:
-		return stage.Diagram_stagedOrder[instance]
-	case *DiagramShape:
-		return stage.DiagramShape_stagedOrder[instance]
-	case *Library:
-		return stage.Library_stagedOrder[instance]
-	case *Note:
-		return stage.Note_stagedOrder[instance]
-	case *NoteDeliverableShape:
-		return stage.NoteDeliverableShape_stagedOrder[instance]
-	case *NoteShape:
-		return stage.NoteShape_stagedOrder[instance]
-	case *NoteStakeholderShape:
-		return stage.NoteStakeholderShape_stagedOrder[instance]
-	case *NoteTaskShape:
-		return stage.NoteTaskShape_stagedOrder[instance]
-	case *Requirement:
-		return stage.Requirement_stagedOrder[instance]
-	case *RequirementShape:
-		return stage.RequirementShape_stagedOrder[instance]
-	case *Stakeholder:
-		return stage.Stakeholder_stagedOrder[instance]
-	case *StakeholderCompositionShape:
-		return stage.StakeholderCompositionShape_stagedOrder[instance]
-	case *StakeholderConcernShape:
-		return stage.StakeholderConcernShape_stagedOrder[instance]
-	case *StakeholderShape:
-		return stage.StakeholderShape_stagedOrder[instance]
-	case *SupportLevel:
-		return stage.SupportLevel_stagedOrder[instance]
-	case *Tool:
-		return stage.Tool_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -5223,6 +5164,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

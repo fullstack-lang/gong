@@ -4,98 +4,91 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *DisplaySelection:
-		ok = stage.IsStagedDisplaySelection(target)
-
-	case *XLCell:
-		ok = stage.IsStagedXLCell(target)
-
-	case *XLFile:
-		ok = stage.IsStagedXLFile(target)
-
-	case *XLRow:
-		ok = stage.IsStagedXLRow(target)
-
-	case *XLSheet:
-		ok = stage.IsStagedXLSheet(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedDisplaySelection(displayselection *DisplaySelection) (ok bool) {
+func (displayselection *DisplaySelection) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DisplaySelections[displayselection]
 
 	return
 }
 
-func (stage *Stage) IsStagedXLCell(xlcell *XLCell) (ok bool) {
+func (stage *Stage) IsStagedDisplaySelection(displayselection *DisplaySelection) (ok bool) {
+
+	return displayselection.GongIsStaged(stage)
+}
+
+func (xlcell *XLCell) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.XLCells[xlcell]
 
 	return
 }
 
-func (stage *Stage) IsStagedXLFile(xlfile *XLFile) (ok bool) {
+func (stage *Stage) IsStagedXLCell(xlcell *XLCell) (ok bool) {
+
+	return xlcell.GongIsStaged(stage)
+}
+
+func (xlfile *XLFile) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.XLFiles[xlfile]
 
 	return
 }
 
-func (stage *Stage) IsStagedXLRow(xlrow *XLRow) (ok bool) {
+func (stage *Stage) IsStagedXLFile(xlfile *XLFile) (ok bool) {
+
+	return xlfile.GongIsStaged(stage)
+}
+
+func (xlrow *XLRow) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.XLRows[xlrow]
 
 	return
 }
 
-func (stage *Stage) IsStagedXLSheet(xlsheet *XLSheet) (ok bool) {
+func (stage *Stage) IsStagedXLRow(xlrow *XLRow) (ok bool) {
+
+	return xlrow.GongIsStaged(stage)
+}
+
+func (xlsheet *XLSheet) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.XLSheets[xlsheet]
 
 	return
 }
 
+func (stage *Stage) IsStagedXLSheet(xlsheet *XLSheet) (ok bool) {
+
+	return xlsheet.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *DisplaySelection:
-		stage.StageBranchDisplaySelection(target)
-
-	case *XLCell:
-		stage.StageBranchXLCell(target)
-
-	case *XLFile:
-		stage.StageBranchXLFile(target)
-
-	case *XLRow:
-		stage.StageBranchXLRow(target)
-
-	case *XLSheet:
-		stage.StageBranchXLSheet(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (displayselection *DisplaySelection) GongStageBranch(stage *Stage) {
+	stage.StageBranchDisplaySelection(displayselection)
+}
+
 func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
@@ -117,6 +110,10 @@ func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelecti
 
 }
 
+func (xlcell *XLCell) GongStageBranch(stage *Stage) {
+	stage.StageBranchXLCell(xlcell)
+}
+
 func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
@@ -130,6 +127,10 @@ func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (xlfile *XLFile) GongStageBranch(stage *Stage) {
+	stage.StageBranchXLFile(xlfile)
 }
 
 func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
@@ -150,6 +151,10 @@ func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 
 }
 
+func (xlrow *XLRow) GongStageBranch(stage *Stage) {
+	stage.StageBranchXLRow(xlrow)
+}
+
 func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
@@ -166,6 +171,10 @@ func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 		stage.StageBranch(_xlcell)
 	}
 
+}
+
+func (xlsheet *XLSheet) GongStageBranch(stage *Stage) {
+	stage.StageBranchXLSheet(xlsheet)
 }
 
 func (stage *Stage) StageBranchXLSheet(xlsheet *XLSheet) {
@@ -345,31 +354,22 @@ func GongCopyBranchXLSheet(mapOrigCopy map[any]any, xlsheetFrom *XLSheet) (xlshe
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *DisplaySelection:
-		stage.UnstageBranchDisplaySelection(target)
-
-	case *XLCell:
-		stage.UnstageBranchXLCell(target)
-
-	case *XLFile:
-		stage.UnstageBranchXLFile(target)
-
-	case *XLRow:
-		stage.UnstageBranchXLRow(target)
-
-	case *XLSheet:
-		stage.UnstageBranchXLSheet(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (displayselection *DisplaySelection) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDisplaySelection(displayselection)
+}
+
 func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
@@ -391,6 +391,10 @@ func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelec
 
 }
 
+func (xlcell *XLCell) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchXLCell(xlcell)
+}
+
 func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
@@ -404,6 +408,10 @@ func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (xlfile *XLFile) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchXLFile(xlfile)
 }
 
 func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
@@ -424,6 +432,10 @@ func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 
 }
 
+func (xlrow *XLRow) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchXLRow(xlrow)
+}
+
 func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
@@ -440,6 +452,10 @@ func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 		stage.UnstageBranch(_xlcell)
 	}
 
+}
+
+func (xlsheet *XLSheet) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchXLSheet(xlsheet)
 }
 
 func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {

@@ -4,345 +4,319 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Animate:
-		ok = stage.IsStagedAnimate(target)
-
-	case *Circle:
-		ok = stage.IsStagedCircle(target)
-
-	case *Condition:
-		ok = stage.IsStagedCondition(target)
-
-	case *ControlPoint:
-		ok = stage.IsStagedControlPoint(target)
-
-	case *Ellipse:
-		ok = stage.IsStagedEllipse(target)
-
-	case *FileToDownload:
-		ok = stage.IsStagedFileToDownload(target)
-
-	case *Layer:
-		ok = stage.IsStagedLayer(target)
-
-	case *Line:
-		ok = stage.IsStagedLine(target)
-
-	case *Link:
-		ok = stage.IsStagedLink(target)
-
-	case *LinkAnchoredPath:
-		ok = stage.IsStagedLinkAnchoredPath(target)
-
-	case *LinkAnchoredText:
-		ok = stage.IsStagedLinkAnchoredText(target)
-
-	case *Path:
-		ok = stage.IsStagedPath(target)
-
-	case *Point:
-		ok = stage.IsStagedPoint(target)
-
-	case *Polygone:
-		ok = stage.IsStagedPolygone(target)
-
-	case *Polyline:
-		ok = stage.IsStagedPolyline(target)
-
-	case *Rect:
-		ok = stage.IsStagedRect(target)
-
-	case *RectAnchoredPath:
-		ok = stage.IsStagedRectAnchoredPath(target)
-
-	case *RectAnchoredPngImage:
-		ok = stage.IsStagedRectAnchoredPngImage(target)
-
-	case *RectAnchoredRect:
-		ok = stage.IsStagedRectAnchoredRect(target)
-
-	case *RectAnchoredText:
-		ok = stage.IsStagedRectAnchoredText(target)
-
-	case *RectLinkLink:
-		ok = stage.IsStagedRectLinkLink(target)
-
-	case *SVG:
-		ok = stage.IsStagedSVG(target)
-
-	case *SvgText:
-		ok = stage.IsStagedSvgText(target)
-
-	case *Text:
-		ok = stage.IsStagedText(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAnimate(animate *Animate) (ok bool) {
+func (animate *Animate) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Animates[animate]
 
 	return
 }
 
-func (stage *Stage) IsStagedCircle(circle *Circle) (ok bool) {
+func (stage *Stage) IsStagedAnimate(animate *Animate) (ok bool) {
+
+	return animate.GongIsStaged(stage)
+}
+
+func (circle *Circle) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Circles[circle]
 
 	return
 }
 
-func (stage *Stage) IsStagedCondition(condition *Condition) (ok bool) {
+func (stage *Stage) IsStagedCircle(circle *Circle) (ok bool) {
+
+	return circle.GongIsStaged(stage)
+}
+
+func (condition *Condition) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Conditions[condition]
 
 	return
 }
 
-func (stage *Stage) IsStagedControlPoint(controlpoint *ControlPoint) (ok bool) {
+func (stage *Stage) IsStagedCondition(condition *Condition) (ok bool) {
+
+	return condition.GongIsStaged(stage)
+}
+
+func (controlpoint *ControlPoint) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ControlPoints[controlpoint]
 
 	return
 }
 
-func (stage *Stage) IsStagedEllipse(ellipse *Ellipse) (ok bool) {
+func (stage *Stage) IsStagedControlPoint(controlpoint *ControlPoint) (ok bool) {
+
+	return controlpoint.GongIsStaged(stage)
+}
+
+func (ellipse *Ellipse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Ellipses[ellipse]
 
 	return
 }
 
-func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
+func (stage *Stage) IsStagedEllipse(ellipse *Ellipse) (ok bool) {
+
+	return ellipse.GongIsStaged(stage)
+}
+
+func (filetodownload *FileToDownload) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FileToDownloads[filetodownload]
 
 	return
 }
 
-func (stage *Stage) IsStagedLayer(layer *Layer) (ok bool) {
+func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
+
+	return filetodownload.GongIsStaged(stage)
+}
+
+func (layer *Layer) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Layers[layer]
 
 	return
 }
 
-func (stage *Stage) IsStagedLine(line *Line) (ok bool) {
+func (stage *Stage) IsStagedLayer(layer *Layer) (ok bool) {
+
+	return layer.GongIsStaged(stage)
+}
+
+func (line *Line) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Lines[line]
 
 	return
 }
 
-func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
+func (stage *Stage) IsStagedLine(line *Line) (ok bool) {
+
+	return line.GongIsStaged(stage)
+}
+
+func (link *Link) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Links[link]
 
 	return
 }
 
-func (stage *Stage) IsStagedLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) (ok bool) {
+func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
+
+	return link.GongIsStaged(stage)
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.LinkAnchoredPaths[linkanchoredpath]
 
 	return
 }
 
-func (stage *Stage) IsStagedLinkAnchoredText(linkanchoredtext *LinkAnchoredText) (ok bool) {
+func (stage *Stage) IsStagedLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) (ok bool) {
+
+	return linkanchoredpath.GongIsStaged(stage)
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.LinkAnchoredTexts[linkanchoredtext]
 
 	return
 }
 
-func (stage *Stage) IsStagedPath(path *Path) (ok bool) {
+func (stage *Stage) IsStagedLinkAnchoredText(linkanchoredtext *LinkAnchoredText) (ok bool) {
+
+	return linkanchoredtext.GongIsStaged(stage)
+}
+
+func (path *Path) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Paths[path]
 
 	return
 }
 
-func (stage *Stage) IsStagedPoint(point *Point) (ok bool) {
+func (stage *Stage) IsStagedPath(path *Path) (ok bool) {
+
+	return path.GongIsStaged(stage)
+}
+
+func (point *Point) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Points[point]
 
 	return
 }
 
-func (stage *Stage) IsStagedPolygone(polygone *Polygone) (ok bool) {
+func (stage *Stage) IsStagedPoint(point *Point) (ok bool) {
+
+	return point.GongIsStaged(stage)
+}
+
+func (polygone *Polygone) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Polygones[polygone]
 
 	return
 }
 
-func (stage *Stage) IsStagedPolyline(polyline *Polyline) (ok bool) {
+func (stage *Stage) IsStagedPolygone(polygone *Polygone) (ok bool) {
+
+	return polygone.GongIsStaged(stage)
+}
+
+func (polyline *Polyline) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Polylines[polyline]
 
 	return
 }
 
-func (stage *Stage) IsStagedRect(rect *Rect) (ok bool) {
+func (stage *Stage) IsStagedPolyline(polyline *Polyline) (ok bool) {
+
+	return polyline.GongIsStaged(stage)
+}
+
+func (rect *Rect) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Rects[rect]
 
 	return
 }
 
-func (stage *Stage) IsStagedRectAnchoredPath(rectanchoredpath *RectAnchoredPath) (ok bool) {
+func (stage *Stage) IsStagedRect(rect *Rect) (ok bool) {
+
+	return rect.GongIsStaged(stage)
+}
+
+func (rectanchoredpath *RectAnchoredPath) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RectAnchoredPaths[rectanchoredpath]
 
 	return
 }
 
-func (stage *Stage) IsStagedRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredPath(rectanchoredpath *RectAnchoredPath) (ok bool) {
+
+	return rectanchoredpath.GongIsStaged(stage)
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RectAnchoredPngImages[rectanchoredpngimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedRectAnchoredRect(rectanchoredrect *RectAnchoredRect) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) (ok bool) {
+
+	return rectanchoredpngimage.GongIsStaged(stage)
+}
+
+func (rectanchoredrect *RectAnchoredRect) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RectAnchoredRects[rectanchoredrect]
 
 	return
 }
 
-func (stage *Stage) IsStagedRectAnchoredText(rectanchoredtext *RectAnchoredText) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredRect(rectanchoredrect *RectAnchoredRect) (ok bool) {
+
+	return rectanchoredrect.GongIsStaged(stage)
+}
+
+func (rectanchoredtext *RectAnchoredText) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RectAnchoredTexts[rectanchoredtext]
 
 	return
 }
 
-func (stage *Stage) IsStagedRectLinkLink(rectlinklink *RectLinkLink) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredText(rectanchoredtext *RectAnchoredText) (ok bool) {
+
+	return rectanchoredtext.GongIsStaged(stage)
+}
+
+func (rectlinklink *RectLinkLink) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RectLinkLinks[rectlinklink]
 
 	return
 }
 
-func (stage *Stage) IsStagedSVG(svg *SVG) (ok bool) {
+func (stage *Stage) IsStagedRectLinkLink(rectlinklink *RectLinkLink) (ok bool) {
+
+	return rectlinklink.GongIsStaged(stage)
+}
+
+func (svg *SVG) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SVGs[svg]
 
 	return
 }
 
-func (stage *Stage) IsStagedSvgText(svgtext *SvgText) (ok bool) {
+func (stage *Stage) IsStagedSVG(svg *SVG) (ok bool) {
+
+	return svg.GongIsStaged(stage)
+}
+
+func (svgtext *SvgText) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SvgTexts[svgtext]
 
 	return
 }
 
-func (stage *Stage) IsStagedText(text *Text) (ok bool) {
+func (stage *Stage) IsStagedSvgText(svgtext *SvgText) (ok bool) {
+
+	return svgtext.GongIsStaged(stage)
+}
+
+func (text *Text) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Texts[text]
 
 	return
 }
 
+func (stage *Stage) IsStagedText(text *Text) (ok bool) {
+
+	return text.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Animate:
-		stage.StageBranchAnimate(target)
-
-	case *Circle:
-		stage.StageBranchCircle(target)
-
-	case *Condition:
-		stage.StageBranchCondition(target)
-
-	case *ControlPoint:
-		stage.StageBranchControlPoint(target)
-
-	case *Ellipse:
-		stage.StageBranchEllipse(target)
-
-	case *FileToDownload:
-		stage.StageBranchFileToDownload(target)
-
-	case *Layer:
-		stage.StageBranchLayer(target)
-
-	case *Line:
-		stage.StageBranchLine(target)
-
-	case *Link:
-		stage.StageBranchLink(target)
-
-	case *LinkAnchoredPath:
-		stage.StageBranchLinkAnchoredPath(target)
-
-	case *LinkAnchoredText:
-		stage.StageBranchLinkAnchoredText(target)
-
-	case *Path:
-		stage.StageBranchPath(target)
-
-	case *Point:
-		stage.StageBranchPoint(target)
-
-	case *Polygone:
-		stage.StageBranchPolygone(target)
-
-	case *Polyline:
-		stage.StageBranchPolyline(target)
-
-	case *Rect:
-		stage.StageBranchRect(target)
-
-	case *RectAnchoredPath:
-		stage.StageBranchRectAnchoredPath(target)
-
-	case *RectAnchoredPngImage:
-		stage.StageBranchRectAnchoredPngImage(target)
-
-	case *RectAnchoredRect:
-		stage.StageBranchRectAnchoredRect(target)
-
-	case *RectAnchoredText:
-		stage.StageBranchRectAnchoredText(target)
-
-	case *RectLinkLink:
-		stage.StageBranchRectLinkLink(target)
-
-	case *SVG:
-		stage.StageBranchSVG(target)
-
-	case *SvgText:
-		stage.StageBranchSvgText(target)
-
-	case *Text:
-		stage.StageBranchText(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (animate *Animate) GongStageBranch(stage *Stage) {
+	stage.StageBranchAnimate(animate)
+}
+
 func (stage *Stage) StageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
@@ -356,6 +330,10 @@ func (stage *Stage) StageBranchAnimate(animate *Animate) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (circle *Circle) GongStageBranch(stage *Stage) {
+	stage.StageBranchCircle(circle)
 }
 
 func (stage *Stage) StageBranchCircle(circle *Circle) {
@@ -376,6 +354,10 @@ func (stage *Stage) StageBranchCircle(circle *Circle) {
 
 }
 
+func (condition *Condition) GongStageBranch(stage *Stage) {
+	stage.StageBranchCondition(condition)
+}
+
 func (stage *Stage) StageBranchCondition(condition *Condition) {
 
 	// check if instance is already staged
@@ -389,6 +371,10 @@ func (stage *Stage) StageBranchCondition(condition *Condition) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (controlpoint *ControlPoint) GongStageBranch(stage *Stage) {
+	stage.StageBranchControlPoint(controlpoint)
 }
 
 func (stage *Stage) StageBranchControlPoint(controlpoint *ControlPoint) {
@@ -409,6 +395,10 @@ func (stage *Stage) StageBranchControlPoint(controlpoint *ControlPoint) {
 
 }
 
+func (ellipse *Ellipse) GongStageBranch(stage *Stage) {
+	stage.StageBranchEllipse(ellipse)
+}
+
 func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
@@ -427,6 +417,10 @@ func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 
 }
 
+func (filetodownload *FileToDownload) GongStageBranch(stage *Stage) {
+	stage.StageBranchFileToDownload(filetodownload)
+}
+
 func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
@@ -440,6 +434,10 @@ func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (layer *Layer) GongStageBranch(stage *Stage) {
+	stage.StageBranchLayer(layer)
 }
 
 func (stage *Stage) StageBranchLayer(layer *Layer) {
@@ -487,6 +485,10 @@ func (stage *Stage) StageBranchLayer(layer *Layer) {
 
 }
 
+func (line *Line) GongStageBranch(stage *Stage) {
+	stage.StageBranchLine(line)
+}
+
 func (stage *Stage) StageBranchLine(line *Line) {
 
 	// check if instance is already staged
@@ -503,6 +505,10 @@ func (stage *Stage) StageBranchLine(line *Line) {
 		stage.StageBranch(_animate)
 	}
 
+}
+
+func (link *Link) GongStageBranch(stage *Stage) {
+	stage.StageBranchLink(link)
 }
 
 func (stage *Stage) StageBranchLink(link *Link) {
@@ -547,6 +553,10 @@ func (stage *Stage) StageBranchLink(link *Link) {
 
 }
 
+func (linkanchoredpath *LinkAnchoredPath) GongStageBranch(stage *Stage) {
+	stage.StageBranchLinkAnchoredPath(linkanchoredpath)
+}
+
 func (stage *Stage) StageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) {
 
 	// check if instance is already staged
@@ -560,6 +570,10 @@ func (stage *Stage) StageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPa
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongStageBranch(stage *Stage) {
+	stage.StageBranchLinkAnchoredText(linkanchoredtext)
 }
 
 func (stage *Stage) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
@@ -580,6 +594,10 @@ func (stage *Stage) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredTe
 
 }
 
+func (path *Path) GongStageBranch(stage *Stage) {
+	stage.StageBranchPath(path)
+}
+
 func (stage *Stage) StageBranchPath(path *Path) {
 
 	// check if instance is already staged
@@ -598,6 +616,10 @@ func (stage *Stage) StageBranchPath(path *Path) {
 
 }
 
+func (point *Point) GongStageBranch(stage *Stage) {
+	stage.StageBranchPoint(point)
+}
+
 func (stage *Stage) StageBranchPoint(point *Point) {
 
 	// check if instance is already staged
@@ -611,6 +633,10 @@ func (stage *Stage) StageBranchPoint(point *Point) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (polygone *Polygone) GongStageBranch(stage *Stage) {
+	stage.StageBranchPolygone(polygone)
 }
 
 func (stage *Stage) StageBranchPolygone(polygone *Polygone) {
@@ -631,6 +657,10 @@ func (stage *Stage) StageBranchPolygone(polygone *Polygone) {
 
 }
 
+func (polyline *Polyline) GongStageBranch(stage *Stage) {
+	stage.StageBranchPolyline(polyline)
+}
+
 func (stage *Stage) StageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
@@ -647,6 +677,10 @@ func (stage *Stage) StageBranchPolyline(polyline *Polyline) {
 		stage.StageBranch(_animate)
 	}
 
+}
+
+func (rect *Rect) GongStageBranch(stage *Stage) {
+	stage.StageBranchRect(rect)
 }
 
 func (stage *Stage) StageBranchRect(rect *Rect) {
@@ -697,6 +731,10 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 
 }
 
+func (rectanchoredpath *RectAnchoredPath) GongStageBranch(stage *Stage) {
+	stage.StageBranchRectAnchoredPath(rectanchoredpath)
+}
+
 func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
@@ -710,6 +748,10 @@ func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPa
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchRectAnchoredPngImage(rectanchoredpngimage)
 }
 
 func (stage *Stage) StageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) {
@@ -727,6 +769,10 @@ func (stage *Stage) StageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAn
 
 }
 
+func (rectanchoredrect *RectAnchoredRect) GongStageBranch(stage *Stage) {
+	stage.StageBranchRectAnchoredRect(rectanchoredrect)
+}
+
 func (stage *Stage) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
@@ -740,6 +786,10 @@ func (stage *Stage) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRe
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rectanchoredtext *RectAnchoredText) GongStageBranch(stage *Stage) {
+	stage.StageBranchRectAnchoredText(rectanchoredtext)
 }
 
 func (stage *Stage) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
@@ -758,6 +808,10 @@ func (stage *Stage) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredTe
 		stage.StageBranch(_animate)
 	}
 
+}
+
+func (rectlinklink *RectLinkLink) GongStageBranch(stage *Stage) {
+	stage.StageBranchRectLinkLink(rectlinklink)
 }
 
 func (stage *Stage) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
@@ -779,6 +833,10 @@ func (stage *Stage) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (svg *SVG) GongStageBranch(stage *Stage) {
+	stage.StageBranchSVG(svg)
 }
 
 func (stage *Stage) StageBranchSVG(svg *SVG) {
@@ -805,6 +863,10 @@ func (stage *Stage) StageBranchSVG(svg *SVG) {
 
 }
 
+func (svgtext *SvgText) GongStageBranch(stage *Stage) {
+	stage.StageBranchSvgText(svgtext)
+}
+
 func (stage *Stage) StageBranchSvgText(svgtext *SvgText) {
 
 	// check if instance is already staged
@@ -818,6 +880,10 @@ func (stage *Stage) StageBranchSvgText(svgtext *SvgText) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (text *Text) GongStageBranch(stage *Stage) {
+	stage.StageBranchText(text)
 }
 
 func (stage *Stage) StageBranchText(text *Text) {
@@ -1548,88 +1614,22 @@ func GongCopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Animate:
-		stage.UnstageBranchAnimate(target)
-
-	case *Circle:
-		stage.UnstageBranchCircle(target)
-
-	case *Condition:
-		stage.UnstageBranchCondition(target)
-
-	case *ControlPoint:
-		stage.UnstageBranchControlPoint(target)
-
-	case *Ellipse:
-		stage.UnstageBranchEllipse(target)
-
-	case *FileToDownload:
-		stage.UnstageBranchFileToDownload(target)
-
-	case *Layer:
-		stage.UnstageBranchLayer(target)
-
-	case *Line:
-		stage.UnstageBranchLine(target)
-
-	case *Link:
-		stage.UnstageBranchLink(target)
-
-	case *LinkAnchoredPath:
-		stage.UnstageBranchLinkAnchoredPath(target)
-
-	case *LinkAnchoredText:
-		stage.UnstageBranchLinkAnchoredText(target)
-
-	case *Path:
-		stage.UnstageBranchPath(target)
-
-	case *Point:
-		stage.UnstageBranchPoint(target)
-
-	case *Polygone:
-		stage.UnstageBranchPolygone(target)
-
-	case *Polyline:
-		stage.UnstageBranchPolyline(target)
-
-	case *Rect:
-		stage.UnstageBranchRect(target)
-
-	case *RectAnchoredPath:
-		stage.UnstageBranchRectAnchoredPath(target)
-
-	case *RectAnchoredPngImage:
-		stage.UnstageBranchRectAnchoredPngImage(target)
-
-	case *RectAnchoredRect:
-		stage.UnstageBranchRectAnchoredRect(target)
-
-	case *RectAnchoredText:
-		stage.UnstageBranchRectAnchoredText(target)
-
-	case *RectLinkLink:
-		stage.UnstageBranchRectLinkLink(target)
-
-	case *SVG:
-		stage.UnstageBranchSVG(target)
-
-	case *SvgText:
-		stage.UnstageBranchSvgText(target)
-
-	case *Text:
-		stage.UnstageBranchText(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (animate *Animate) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAnimate(animate)
+}
+
 func (stage *Stage) UnstageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
@@ -1643,6 +1643,10 @@ func (stage *Stage) UnstageBranchAnimate(animate *Animate) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (circle *Circle) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCircle(circle)
 }
 
 func (stage *Stage) UnstageBranchCircle(circle *Circle) {
@@ -1663,6 +1667,10 @@ func (stage *Stage) UnstageBranchCircle(circle *Circle) {
 
 }
 
+func (condition *Condition) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCondition(condition)
+}
+
 func (stage *Stage) UnstageBranchCondition(condition *Condition) {
 
 	// check if instance is already staged
@@ -1676,6 +1684,10 @@ func (stage *Stage) UnstageBranchCondition(condition *Condition) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (controlpoint *ControlPoint) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchControlPoint(controlpoint)
 }
 
 func (stage *Stage) UnstageBranchControlPoint(controlpoint *ControlPoint) {
@@ -1696,6 +1708,10 @@ func (stage *Stage) UnstageBranchControlPoint(controlpoint *ControlPoint) {
 
 }
 
+func (ellipse *Ellipse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEllipse(ellipse)
+}
+
 func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
@@ -1714,6 +1730,10 @@ func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 
 }
 
+func (filetodownload *FileToDownload) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFileToDownload(filetodownload)
+}
+
 func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) {
 
 	// check if instance is already staged
@@ -1727,6 +1747,10 @@ func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (layer *Layer) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLayer(layer)
 }
 
 func (stage *Stage) UnstageBranchLayer(layer *Layer) {
@@ -1774,6 +1798,10 @@ func (stage *Stage) UnstageBranchLayer(layer *Layer) {
 
 }
 
+func (line *Line) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLine(line)
+}
+
 func (stage *Stage) UnstageBranchLine(line *Line) {
 
 	// check if instance is already staged
@@ -1790,6 +1818,10 @@ func (stage *Stage) UnstageBranchLine(line *Line) {
 		stage.UnstageBranch(_animate)
 	}
 
+}
+
+func (link *Link) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLink(link)
 }
 
 func (stage *Stage) UnstageBranchLink(link *Link) {
@@ -1834,6 +1866,10 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 
 }
 
+func (linkanchoredpath *LinkAnchoredPath) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLinkAnchoredPath(linkanchoredpath)
+}
+
 func (stage *Stage) UnstageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) {
 
 	// check if instance is already staged
@@ -1847,6 +1883,10 @@ func (stage *Stage) UnstageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchored
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLinkAnchoredText(linkanchoredtext)
 }
 
 func (stage *Stage) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
@@ -1867,6 +1907,10 @@ func (stage *Stage) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchored
 
 }
 
+func (path *Path) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPath(path)
+}
+
 func (stage *Stage) UnstageBranchPath(path *Path) {
 
 	// check if instance is already staged
@@ -1885,6 +1929,10 @@ func (stage *Stage) UnstageBranchPath(path *Path) {
 
 }
 
+func (point *Point) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPoint(point)
+}
+
 func (stage *Stage) UnstageBranchPoint(point *Point) {
 
 	// check if instance is already staged
@@ -1898,6 +1946,10 @@ func (stage *Stage) UnstageBranchPoint(point *Point) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (polygone *Polygone) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPolygone(polygone)
 }
 
 func (stage *Stage) UnstageBranchPolygone(polygone *Polygone) {
@@ -1918,6 +1970,10 @@ func (stage *Stage) UnstageBranchPolygone(polygone *Polygone) {
 
 }
 
+func (polyline *Polyline) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPolyline(polyline)
+}
+
 func (stage *Stage) UnstageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
@@ -1934,6 +1990,10 @@ func (stage *Stage) UnstageBranchPolyline(polyline *Polyline) {
 		stage.UnstageBranch(_animate)
 	}
 
+}
+
+func (rect *Rect) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRect(rect)
 }
 
 func (stage *Stage) UnstageBranchRect(rect *Rect) {
@@ -1984,6 +2044,10 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 
 }
 
+func (rectanchoredpath *RectAnchoredPath) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRectAnchoredPath(rectanchoredpath)
+}
+
 func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
@@ -1997,6 +2061,10 @@ func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchored
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRectAnchoredPngImage(rectanchoredpngimage)
 }
 
 func (stage *Stage) UnstageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) {
@@ -2014,6 +2082,10 @@ func (stage *Stage) UnstageBranchRectAnchoredPngImage(rectanchoredpngimage *Rect
 
 }
 
+func (rectanchoredrect *RectAnchoredRect) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRectAnchoredRect(rectanchoredrect)
+}
+
 func (stage *Stage) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
@@ -2027,6 +2099,10 @@ func (stage *Stage) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchored
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rectanchoredtext *RectAnchoredText) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRectAnchoredText(rectanchoredtext)
 }
 
 func (stage *Stage) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
@@ -2045,6 +2121,10 @@ func (stage *Stage) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchored
 		stage.UnstageBranch(_animate)
 	}
 
+}
+
+func (rectlinklink *RectLinkLink) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRectLinkLink(rectlinklink)
 }
 
 func (stage *Stage) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
@@ -2066,6 +2146,10 @@ func (stage *Stage) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (svg *SVG) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSVG(svg)
 }
 
 func (stage *Stage) UnstageBranchSVG(svg *SVG) {
@@ -2092,6 +2176,10 @@ func (stage *Stage) UnstageBranchSVG(svg *SVG) {
 
 }
 
+func (svgtext *SvgText) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSvgText(svgtext)
+}
+
 func (stage *Stage) UnstageBranchSvgText(svgtext *SvgText) {
 
 	// check if instance is already staged
@@ -2105,6 +2193,10 @@ func (stage *Stage) UnstageBranchSvgText(svgtext *SvgText) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (text *Text) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchText(text)
 }
 
 func (stage *Stage) UnstageBranchText(text *Text) {

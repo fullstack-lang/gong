@@ -2,20 +2,9 @@
 package models
 
 // AfterCreateFromFront is the Stage method called after a create from front.
-func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *A:
-		if stage.OnAfterACreateCallback != nil {
-			stage.OnAfterACreateCallback.OnAfterCreate(stage, target)
-		}
-	case *B:
-		if stage.OnAfterBCreateCallback != nil {
-			stage.OnAfterBCreateCallback.OnAfterCreate(stage, target)
-		}
-	default:
-		_ = target
+func (stage *Stage) AfterCreateFromFront(instance GongstructIF) {
+	if instance != nil {
+		instance.GongAfterCreateFromFront(stage)
 	}
 }
 
@@ -24,41 +13,69 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is the Stage method called after an update from front.
-func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
-
-	switch oldTarget := any(old).(type) {
-	// insertion point
-	case *A:
-		newTarget := any(new).(*A)
-		if stage.OnAfterAUpdateCallback != nil {
-			stage.OnAfterAUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *B:
-		newTarget := any(new).(*B)
-		if stage.OnAfterBUpdateCallback != nil {
-			stage.OnAfterBUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	default:
-		_ = oldTarget
+func (stage *Stage) OnAfterUpdateFromFront(old, new GongstructIF) {
+	if old != nil {
+		old.GongOnAfterUpdateFromFront(stage, new)
 	}
 }
 
 // AfterDeleteFromFront is the Stage method called after a delete from front.
-func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
-
-	switch front := any(front).(type) {
-	// insertion point
-	case *A:
-		if stage.OnAfterADeleteCallback != nil {
-			staged := any(staged).(*A)
-			stage.OnAfterADeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *B:
-		if stage.OnAfterBDeleteCallback != nil {
-			staged := any(staged).(*B)
-			stage.OnAfterBDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	default:
-		_ = front
+func (stage *Stage) AfterDeleteFromFront(staged, front GongstructIF) {
+	if staged != nil {
+		staged.GongAfterDeleteFromFront(stage, front)
 	}
 }
+
+// insertion point
+func (a *A) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterACreateCallback != nil {
+		stage.OnAfterACreateCallback.OnAfterCreate(stage, a)
+	}
+}
+
+func (a *A) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterAUpdateCallback != nil {
+		var frontA *A
+		if front != nil {
+			frontA, _ = front.(*A)
+		}
+		stage.OnAfterAUpdateCallback.OnAfterUpdate(stage, a, frontA)
+	}
+}
+
+func (a *A) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterADeleteCallback != nil {
+		var frontA *A
+		if front != nil {
+			frontA, _ = front.(*A)
+		}
+		stage.OnAfterADeleteCallback.OnAfterDelete(stage, a, frontA)
+	}
+}
+
+func (b *B) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterBCreateCallback != nil {
+		stage.OnAfterBCreateCallback.OnAfterCreate(stage, b)
+	}
+}
+
+func (b *B) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBUpdateCallback != nil {
+		var frontB *B
+		if front != nil {
+			frontB, _ = front.(*B)
+		}
+		stage.OnAfterBUpdateCallback.OnAfterUpdate(stage, b, frontB)
+	}
+}
+
+func (b *B) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBDeleteCallback != nil {
+		var frontB *B
+		if front != nil {
+			frontB, _ = front.(*B)
+		}
+		stage.OnAfterBDeleteCallback.OnAfterDelete(stage, b, frontB)
+	}
+}
+

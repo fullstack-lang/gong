@@ -4,436 +4,403 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *ActorState:
-		ok = stage.IsStagedActorState(target)
-
-	case *ActorStateShape:
-		ok = stage.IsStagedActorStateShape(target)
-
-	case *ActorStateTransition:
-		ok = stage.IsStagedActorStateTransition(target)
-
-	case *ActorStateTransitionShape:
-		ok = stage.IsStagedActorStateTransitionShape(target)
-
-	case *Analysis:
-		ok = stage.IsStagedAnalysis(target)
-
-	case *ControlPointShape:
-		ok = stage.IsStagedControlPointShape(target)
-
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *Document:
-		ok = stage.IsStagedDocument(target)
-
-	case *DocumentUse:
-		ok = stage.IsStagedDocumentUse(target)
-
-	case *EvolutionDirection:
-		ok = stage.IsStagedEvolutionDirection(target)
-
-	case *EvolutionDirectionShape:
-		ok = stage.IsStagedEvolutionDirectionShape(target)
-
-	case *Foo:
-		ok = stage.IsStagedFoo(target)
-
-	case *GeoObject:
-		ok = stage.IsStagedGeoObject(target)
-
-	case *GeoObjectUse:
-		ok = stage.IsStagedGeoObjectUse(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *GroupUse:
-		ok = stage.IsStagedGroupUse(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *MapObject:
-		ok = stage.IsStagedMapObject(target)
-
-	case *MapObjectUse:
-		ok = stage.IsStagedMapObjectUse(target)
-
-	case *Parameter:
-		ok = stage.IsStagedParameter(target)
-
-	case *ParameterCategory:
-		ok = stage.IsStagedParameterCategory(target)
-
-	case *ParameterCategoryUse:
-		ok = stage.IsStagedParameterCategoryUse(target)
-
-	case *ParameterShape:
-		ok = stage.IsStagedParameterShape(target)
-
-	case *ParametersAggregate:
-		ok = stage.IsStagedParametersAggregate(target)
-
-	case *ParametersAggregateShape:
-		ok = stage.IsStagedParametersAggregateShape(target)
-
-	case *Position:
-		ok = stage.IsStagedPosition(target)
-
-	case *Repository:
-		ok = stage.IsStagedRepository(target)
-
-	case *Scenario:
-		ok = stage.IsStagedScenario(target)
-
-	case *User:
-		ok = stage.IsStagedUser(target)
-
-	case *UserUse:
-		ok = stage.IsStagedUserUse(target)
-
-	case *Workspace:
-		ok = stage.IsStagedWorkspace(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedActorState(actorstate *ActorState) (ok bool) {
+func (actorstate *ActorState) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ActorStates[actorstate]
 
 	return
 }
 
-func (stage *Stage) IsStagedActorStateShape(actorstateshape *ActorStateShape) (ok bool) {
+func (stage *Stage) IsStagedActorState(actorstate *ActorState) (ok bool) {
+
+	return actorstate.GongIsStaged(stage)
+}
+
+func (actorstateshape *ActorStateShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ActorStateShapes[actorstateshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedActorStateTransition(actorstatetransition *ActorStateTransition) (ok bool) {
+func (stage *Stage) IsStagedActorStateShape(actorstateshape *ActorStateShape) (ok bool) {
+
+	return actorstateshape.GongIsStaged(stage)
+}
+
+func (actorstatetransition *ActorStateTransition) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ActorStateTransitions[actorstatetransition]
 
 	return
 }
 
-func (stage *Stage) IsStagedActorStateTransitionShape(actorstatetransitionshape *ActorStateTransitionShape) (ok bool) {
+func (stage *Stage) IsStagedActorStateTransition(actorstatetransition *ActorStateTransition) (ok bool) {
+
+	return actorstatetransition.GongIsStaged(stage)
+}
+
+func (actorstatetransitionshape *ActorStateTransitionShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ActorStateTransitionShapes[actorstatetransitionshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedAnalysis(analysis *Analysis) (ok bool) {
+func (stage *Stage) IsStagedActorStateTransitionShape(actorstatetransitionshape *ActorStateTransitionShape) (ok bool) {
+
+	return actorstatetransitionshape.GongIsStaged(stage)
+}
+
+func (analysis *Analysis) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Analysiss[analysis]
 
 	return
 }
 
-func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
+func (stage *Stage) IsStagedAnalysis(analysis *Analysis) (ok bool) {
+
+	return analysis.GongIsStaged(stage)
+}
+
+func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ControlPointShapes[controlpointshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
+
+	return controlpointshape.GongIsStaged(stage)
+}
+
+func (diagram *Diagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedDocument(document *Document) (ok bool) {
+func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+
+	return diagram.GongIsStaged(stage)
+}
+
+func (document *Document) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Documents[document]
 
 	return
 }
 
-func (stage *Stage) IsStagedDocumentUse(documentuse *DocumentUse) (ok bool) {
+func (stage *Stage) IsStagedDocument(document *Document) (ok bool) {
+
+	return document.GongIsStaged(stage)
+}
+
+func (documentuse *DocumentUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DocumentUses[documentuse]
 
 	return
 }
 
-func (stage *Stage) IsStagedEvolutionDirection(evolutiondirection *EvolutionDirection) (ok bool) {
+func (stage *Stage) IsStagedDocumentUse(documentuse *DocumentUse) (ok bool) {
+
+	return documentuse.GongIsStaged(stage)
+}
+
+func (evolutiondirection *EvolutionDirection) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EvolutionDirections[evolutiondirection]
 
 	return
 }
 
-func (stage *Stage) IsStagedEvolutionDirectionShape(evolutiondirectionshape *EvolutionDirectionShape) (ok bool) {
+func (stage *Stage) IsStagedEvolutionDirection(evolutiondirection *EvolutionDirection) (ok bool) {
+
+	return evolutiondirection.GongIsStaged(stage)
+}
+
+func (evolutiondirectionshape *EvolutionDirectionShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EvolutionDirectionShapes[evolutiondirectionshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedFoo(foo *Foo) (ok bool) {
+func (stage *Stage) IsStagedEvolutionDirectionShape(evolutiondirectionshape *EvolutionDirectionShape) (ok bool) {
+
+	return evolutiondirectionshape.GongIsStaged(stage)
+}
+
+func (foo *Foo) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Foos[foo]
 
 	return
 }
 
-func (stage *Stage) IsStagedGeoObject(geoobject *GeoObject) (ok bool) {
+func (stage *Stage) IsStagedFoo(foo *Foo) (ok bool) {
+
+	return foo.GongIsStaged(stage)
+}
+
+func (geoobject *GeoObject) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GeoObjects[geoobject]
 
 	return
 }
 
-func (stage *Stage) IsStagedGeoObjectUse(geoobjectuse *GeoObjectUse) (ok bool) {
+func (stage *Stage) IsStagedGeoObject(geoobject *GeoObject) (ok bool) {
+
+	return geoobject.GongIsStaged(stage)
+}
+
+func (geoobjectuse *GeoObjectUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GeoObjectUses[geoobjectuse]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+func (stage *Stage) IsStagedGeoObjectUse(geoobjectuse *GeoObjectUse) (ok bool) {
+
+	return geoobjectuse.GongIsStaged(stage)
+}
+
+func (group *Group) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Groups[group]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroupUse(groupuse *GroupUse) (ok bool) {
+func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+
+	return group.GongIsStaged(stage)
+}
+
+func (groupuse *GroupUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GroupUses[groupuse]
 
 	return
 }
 
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+func (stage *Stage) IsStagedGroupUse(groupuse *GroupUse) (ok bool) {
+
+	return groupuse.GongIsStaged(stage)
+}
+
+func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Librarys[library]
 
 	return
 }
 
-func (stage *Stage) IsStagedMapObject(mapobject *MapObject) (ok bool) {
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	return library.GongIsStaged(stage)
+}
+
+func (mapobject *MapObject) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MapObjects[mapobject]
 
 	return
 }
 
-func (stage *Stage) IsStagedMapObjectUse(mapobjectuse *MapObjectUse) (ok bool) {
+func (stage *Stage) IsStagedMapObject(mapobject *MapObject) (ok bool) {
+
+	return mapobject.GongIsStaged(stage)
+}
+
+func (mapobjectuse *MapObjectUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MapObjectUses[mapobjectuse]
 
 	return
 }
 
-func (stage *Stage) IsStagedParameter(parameter *Parameter) (ok bool) {
+func (stage *Stage) IsStagedMapObjectUse(mapobjectuse *MapObjectUse) (ok bool) {
+
+	return mapobjectuse.GongIsStaged(stage)
+}
+
+func (parameter *Parameter) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Parameters[parameter]
 
 	return
 }
 
-func (stage *Stage) IsStagedParameterCategory(parametercategory *ParameterCategory) (ok bool) {
+func (stage *Stage) IsStagedParameter(parameter *Parameter) (ok bool) {
+
+	return parameter.GongIsStaged(stage)
+}
+
+func (parametercategory *ParameterCategory) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParameterCategorys[parametercategory]
 
 	return
 }
 
-func (stage *Stage) IsStagedParameterCategoryUse(parametercategoryuse *ParameterCategoryUse) (ok bool) {
+func (stage *Stage) IsStagedParameterCategory(parametercategory *ParameterCategory) (ok bool) {
+
+	return parametercategory.GongIsStaged(stage)
+}
+
+func (parametercategoryuse *ParameterCategoryUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParameterCategoryUses[parametercategoryuse]
 
 	return
 }
 
-func (stage *Stage) IsStagedParameterShape(parametershape *ParameterShape) (ok bool) {
+func (stage *Stage) IsStagedParameterCategoryUse(parametercategoryuse *ParameterCategoryUse) (ok bool) {
+
+	return parametercategoryuse.GongIsStaged(stage)
+}
+
+func (parametershape *ParameterShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParameterShapes[parametershape]
 
 	return
 }
 
-func (stage *Stage) IsStagedParametersAggregate(parametersaggregate *ParametersAggregate) (ok bool) {
+func (stage *Stage) IsStagedParameterShape(parametershape *ParameterShape) (ok bool) {
+
+	return parametershape.GongIsStaged(stage)
+}
+
+func (parametersaggregate *ParametersAggregate) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParametersAggregates[parametersaggregate]
 
 	return
 }
 
-func (stage *Stage) IsStagedParametersAggregateShape(parametersaggregateshape *ParametersAggregateShape) (ok bool) {
+func (stage *Stage) IsStagedParametersAggregate(parametersaggregate *ParametersAggregate) (ok bool) {
+
+	return parametersaggregate.GongIsStaged(stage)
+}
+
+func (parametersaggregateshape *ParametersAggregateShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParametersAggregateShapes[parametersaggregateshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPosition(position *Position) (ok bool) {
+func (stage *Stage) IsStagedParametersAggregateShape(parametersaggregateshape *ParametersAggregateShape) (ok bool) {
+
+	return parametersaggregateshape.GongIsStaged(stage)
+}
+
+func (position *Position) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Positions[position]
 
 	return
 }
 
-func (stage *Stage) IsStagedRepository(repository *Repository) (ok bool) {
+func (stage *Stage) IsStagedPosition(position *Position) (ok bool) {
+
+	return position.GongIsStaged(stage)
+}
+
+func (repository *Repository) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Repositorys[repository]
 
 	return
 }
 
-func (stage *Stage) IsStagedScenario(scenario *Scenario) (ok bool) {
+func (stage *Stage) IsStagedRepository(repository *Repository) (ok bool) {
+
+	return repository.GongIsStaged(stage)
+}
+
+func (scenario *Scenario) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Scenarios[scenario]
 
 	return
 }
 
-func (stage *Stage) IsStagedUser(user *User) (ok bool) {
+func (stage *Stage) IsStagedScenario(scenario *Scenario) (ok bool) {
+
+	return scenario.GongIsStaged(stage)
+}
+
+func (user *User) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Users[user]
 
 	return
 }
 
-func (stage *Stage) IsStagedUserUse(useruse *UserUse) (ok bool) {
+func (stage *Stage) IsStagedUser(user *User) (ok bool) {
+
+	return user.GongIsStaged(stage)
+}
+
+func (useruse *UserUse) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.UserUses[useruse]
 
 	return
 }
 
-func (stage *Stage) IsStagedWorkspace(workspace *Workspace) (ok bool) {
+func (stage *Stage) IsStagedUserUse(useruse *UserUse) (ok bool) {
+
+	return useruse.GongIsStaged(stage)
+}
+
+func (workspace *Workspace) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Workspaces[workspace]
 
 	return
 }
 
+func (stage *Stage) IsStagedWorkspace(workspace *Workspace) (ok bool) {
+
+	return workspace.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *ActorState:
-		stage.StageBranchActorState(target)
-
-	case *ActorStateShape:
-		stage.StageBranchActorStateShape(target)
-
-	case *ActorStateTransition:
-		stage.StageBranchActorStateTransition(target)
-
-	case *ActorStateTransitionShape:
-		stage.StageBranchActorStateTransitionShape(target)
-
-	case *Analysis:
-		stage.StageBranchAnalysis(target)
-
-	case *ControlPointShape:
-		stage.StageBranchControlPointShape(target)
-
-	case *Diagram:
-		stage.StageBranchDiagram(target)
-
-	case *Document:
-		stage.StageBranchDocument(target)
-
-	case *DocumentUse:
-		stage.StageBranchDocumentUse(target)
-
-	case *EvolutionDirection:
-		stage.StageBranchEvolutionDirection(target)
-
-	case *EvolutionDirectionShape:
-		stage.StageBranchEvolutionDirectionShape(target)
-
-	case *Foo:
-		stage.StageBranchFoo(target)
-
-	case *GeoObject:
-		stage.StageBranchGeoObject(target)
-
-	case *GeoObjectUse:
-		stage.StageBranchGeoObjectUse(target)
-
-	case *Group:
-		stage.StageBranchGroup(target)
-
-	case *GroupUse:
-		stage.StageBranchGroupUse(target)
-
-	case *Library:
-		stage.StageBranchLibrary(target)
-
-	case *MapObject:
-		stage.StageBranchMapObject(target)
-
-	case *MapObjectUse:
-		stage.StageBranchMapObjectUse(target)
-
-	case *Parameter:
-		stage.StageBranchParameter(target)
-
-	case *ParameterCategory:
-		stage.StageBranchParameterCategory(target)
-
-	case *ParameterCategoryUse:
-		stage.StageBranchParameterCategoryUse(target)
-
-	case *ParameterShape:
-		stage.StageBranchParameterShape(target)
-
-	case *ParametersAggregate:
-		stage.StageBranchParametersAggregate(target)
-
-	case *ParametersAggregateShape:
-		stage.StageBranchParametersAggregateShape(target)
-
-	case *Position:
-		stage.StageBranchPosition(target)
-
-	case *Repository:
-		stage.StageBranchRepository(target)
-
-	case *Scenario:
-		stage.StageBranchScenario(target)
-
-	case *User:
-		stage.StageBranchUser(target)
-
-	case *UserUse:
-		stage.StageBranchUserUse(target)
-
-	case *Workspace:
-		stage.StageBranchWorkspace(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (actorstate *ActorState) GongStageBranch(stage *Stage) {
+	stage.StageBranchActorState(actorstate)
+}
+
 func (stage *Stage) StageBranchActorState(actorstate *ActorState) {
 
 	// check if instance is already staged
@@ -447,6 +414,10 @@ func (stage *Stage) StageBranchActorState(actorstate *ActorState) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (actorstateshape *ActorStateShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchActorStateShape(actorstateshape)
 }
 
 func (stage *Stage) StageBranchActorStateShape(actorstateshape *ActorStateShape) {
@@ -465,6 +436,10 @@ func (stage *Stage) StageBranchActorStateShape(actorstateshape *ActorStateShape)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (actorstatetransition *ActorStateTransition) GongStageBranch(stage *Stage) {
+	stage.StageBranchActorStateTransition(actorstatetransition)
 }
 
 func (stage *Stage) StageBranchActorStateTransition(actorstatetransition *ActorStateTransition) {
@@ -489,6 +464,10 @@ func (stage *Stage) StageBranchActorStateTransition(actorstatetransition *ActorS
 		stage.StageBranch(_parameter)
 	}
 
+}
+
+func (actorstatetransitionshape *ActorStateTransitionShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchActorStateTransitionShape(actorstatetransitionshape)
 }
 
 func (stage *Stage) StageBranchActorStateTransitionShape(actorstatetransitionshape *ActorStateTransitionShape) {
@@ -518,6 +497,10 @@ func (stage *Stage) StageBranchActorStateTransitionShape(actorstatetransitionsha
 
 }
 
+func (analysis *Analysis) GongStageBranch(stage *Stage) {
+	stage.StageBranchAnalysis(analysis)
+}
+
 func (stage *Stage) StageBranchAnalysis(analysis *Analysis) {
 
 	// check if instance is already staged
@@ -545,6 +528,10 @@ func (stage *Stage) StageBranchAnalysis(analysis *Analysis) {
 
 }
 
+func (controlpointshape *ControlPointShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchControlPointShape(controlpointshape)
+}
+
 func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
@@ -558,6 +545,10 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagram *Diagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchDiagram(diagram)
 }
 
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
@@ -605,6 +596,10 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 }
 
+func (document *Document) GongStageBranch(stage *Stage) {
+	stage.StageBranchDocument(document)
+}
+
 func (stage *Stage) StageBranchDocument(document *Document) {
 
 	// check if instance is already staged
@@ -621,6 +616,10 @@ func (stage *Stage) StageBranchDocument(document *Document) {
 		stage.StageBranch(_geoobjectuse)
 	}
 
+}
+
+func (documentuse *DocumentUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchDocumentUse(documentuse)
 }
 
 func (stage *Stage) StageBranchDocumentUse(documentuse *DocumentUse) {
@@ -641,6 +640,10 @@ func (stage *Stage) StageBranchDocumentUse(documentuse *DocumentUse) {
 
 }
 
+func (evolutiondirection *EvolutionDirection) GongStageBranch(stage *Stage) {
+	stage.StageBranchEvolutionDirection(evolutiondirection)
+}
+
 func (stage *Stage) StageBranchEvolutionDirection(evolutiondirection *EvolutionDirection) {
 
 	// check if instance is already staged
@@ -654,6 +657,10 @@ func (stage *Stage) StageBranchEvolutionDirection(evolutiondirection *EvolutionD
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (evolutiondirectionshape *EvolutionDirectionShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEvolutionDirectionShape(evolutiondirectionshape)
 }
 
 func (stage *Stage) StageBranchEvolutionDirectionShape(evolutiondirectionshape *EvolutionDirectionShape) {
@@ -674,6 +681,10 @@ func (stage *Stage) StageBranchEvolutionDirectionShape(evolutiondirectionshape *
 
 }
 
+func (foo *Foo) GongStageBranch(stage *Stage) {
+	stage.StageBranchFoo(foo)
+}
+
 func (stage *Stage) StageBranchFoo(foo *Foo) {
 
 	// check if instance is already staged
@@ -689,6 +700,10 @@ func (stage *Stage) StageBranchFoo(foo *Foo) {
 
 }
 
+func (geoobject *GeoObject) GongStageBranch(stage *Stage) {
+	stage.StageBranchGeoObject(geoobject)
+}
+
 func (stage *Stage) StageBranchGeoObject(geoobject *GeoObject) {
 
 	// check if instance is already staged
@@ -702,6 +717,10 @@ func (stage *Stage) StageBranchGeoObject(geoobject *GeoObject) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (geoobjectuse *GeoObjectUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchGeoObjectUse(geoobjectuse)
 }
 
 func (stage *Stage) StageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
@@ -722,6 +741,10 @@ func (stage *Stage) StageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 
 }
 
+func (group *Group) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup(group)
+}
+
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
@@ -740,6 +763,10 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 }
 
+func (groupuse *GroupUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroupUse(groupuse)
+}
+
 func (stage *Stage) StageBranchGroupUse(groupuse *GroupUse) {
 
 	// check if instance is already staged
@@ -756,6 +783,10 @@ func (stage *Stage) StageBranchGroupUse(groupuse *GroupUse) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongStageBranch(stage *Stage) {
+	stage.StageBranchLibrary(library)
 }
 
 func (stage *Stage) StageBranchLibrary(library *Library) {
@@ -782,6 +813,10 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (mapobject *MapObject) GongStageBranch(stage *Stage) {
+	stage.StageBranchMapObject(mapobject)
+}
+
 func (stage *Stage) StageBranchMapObject(mapobject *MapObject) {
 
 	// check if instance is already staged
@@ -795,6 +830,10 @@ func (stage *Stage) StageBranchMapObject(mapobject *MapObject) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mapobjectuse *MapObjectUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchMapObjectUse(mapobjectuse)
 }
 
 func (stage *Stage) StageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
@@ -813,6 +852,10 @@ func (stage *Stage) StageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (parameter *Parameter) GongStageBranch(stage *Stage) {
+	stage.StageBranchParameter(parameter)
 }
 
 func (stage *Stage) StageBranchParameter(parameter *Parameter) {
@@ -839,6 +882,10 @@ func (stage *Stage) StageBranchParameter(parameter *Parameter) {
 
 }
 
+func (parametercategory *ParameterCategory) GongStageBranch(stage *Stage) {
+	stage.StageBranchParameterCategory(parametercategory)
+}
+
 func (stage *Stage) StageBranchParameterCategory(parametercategory *ParameterCategory) {
 
 	// check if instance is already staged
@@ -855,6 +902,10 @@ func (stage *Stage) StageBranchParameterCategory(parametercategory *ParameterCat
 		stage.StageBranch(_parametershape)
 	}
 
+}
+
+func (parametercategoryuse *ParameterCategoryUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchParameterCategoryUse(parametercategoryuse)
 }
 
 func (stage *Stage) StageBranchParameterCategoryUse(parametercategoryuse *ParameterCategoryUse) {
@@ -875,6 +926,10 @@ func (stage *Stage) StageBranchParameterCategoryUse(parametercategoryuse *Parame
 
 }
 
+func (parametershape *ParameterShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchParameterShape(parametershape)
+}
+
 func (stage *Stage) StageBranchParameterShape(parametershape *ParameterShape) {
 
 	// check if instance is already staged
@@ -891,6 +946,10 @@ func (stage *Stage) StageBranchParameterShape(parametershape *ParameterShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (parametersaggregate *ParametersAggregate) GongStageBranch(stage *Stage) {
+	stage.StageBranchParametersAggregate(parametersaggregate)
 }
 
 func (stage *Stage) StageBranchParametersAggregate(parametersaggregate *ParametersAggregate) {
@@ -911,6 +970,10 @@ func (stage *Stage) StageBranchParametersAggregate(parametersaggregate *Paramete
 
 }
 
+func (parametersaggregateshape *ParametersAggregateShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchParametersAggregateShape(parametersaggregateshape)
+}
+
 func (stage *Stage) StageBranchParametersAggregateShape(parametersaggregateshape *ParametersAggregateShape) {
 
 	// check if instance is already staged
@@ -929,6 +992,10 @@ func (stage *Stage) StageBranchParametersAggregateShape(parametersaggregateshape
 
 }
 
+func (position *Position) GongStageBranch(stage *Stage) {
+	stage.StageBranchPosition(position)
+}
+
 func (stage *Stage) StageBranchPosition(position *Position) {
 
 	// check if instance is already staged
@@ -942,6 +1009,10 @@ func (stage *Stage) StageBranchPosition(position *Position) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (repository *Repository) GongStageBranch(stage *Stage) {
+	stage.StageBranchRepository(repository)
 }
 
 func (stage *Stage) StageBranchRepository(repository *Repository) {
@@ -963,6 +1034,10 @@ func (stage *Stage) StageBranchRepository(repository *Repository) {
 		stage.StageBranch(_groupuse)
 	}
 
+}
+
+func (scenario *Scenario) GongStageBranch(stage *Stage) {
+	stage.StageBranchScenario(scenario)
 }
 
 func (stage *Stage) StageBranchScenario(scenario *Scenario) {
@@ -998,6 +1073,10 @@ func (stage *Stage) StageBranchScenario(scenario *Scenario) {
 
 }
 
+func (user *User) GongStageBranch(stage *Stage) {
+	stage.StageBranchUser(user)
+}
+
 func (stage *Stage) StageBranchUser(user *User) {
 
 	// check if instance is already staged
@@ -1011,6 +1090,10 @@ func (stage *Stage) StageBranchUser(user *User) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (useruse *UserUse) GongStageBranch(stage *Stage) {
+	stage.StageBranchUserUse(useruse)
 }
 
 func (stage *Stage) StageBranchUserUse(useruse *UserUse) {
@@ -1029,6 +1112,10 @@ func (stage *Stage) StageBranchUserUse(useruse *UserUse) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (workspace *Workspace) GongStageBranch(stage *Stage) {
+	stage.StageBranchWorkspace(workspace)
 }
 
 func (stage *Stage) StageBranchWorkspace(workspace *Workspace) {
@@ -1965,109 +2052,22 @@ func GongCopyBranchWorkspace(mapOrigCopy map[any]any, workspaceFrom *Workspace) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *ActorState:
-		stage.UnstageBranchActorState(target)
-
-	case *ActorStateShape:
-		stage.UnstageBranchActorStateShape(target)
-
-	case *ActorStateTransition:
-		stage.UnstageBranchActorStateTransition(target)
-
-	case *ActorStateTransitionShape:
-		stage.UnstageBranchActorStateTransitionShape(target)
-
-	case *Analysis:
-		stage.UnstageBranchAnalysis(target)
-
-	case *ControlPointShape:
-		stage.UnstageBranchControlPointShape(target)
-
-	case *Diagram:
-		stage.UnstageBranchDiagram(target)
-
-	case *Document:
-		stage.UnstageBranchDocument(target)
-
-	case *DocumentUse:
-		stage.UnstageBranchDocumentUse(target)
-
-	case *EvolutionDirection:
-		stage.UnstageBranchEvolutionDirection(target)
-
-	case *EvolutionDirectionShape:
-		stage.UnstageBranchEvolutionDirectionShape(target)
-
-	case *Foo:
-		stage.UnstageBranchFoo(target)
-
-	case *GeoObject:
-		stage.UnstageBranchGeoObject(target)
-
-	case *GeoObjectUse:
-		stage.UnstageBranchGeoObjectUse(target)
-
-	case *Group:
-		stage.UnstageBranchGroup(target)
-
-	case *GroupUse:
-		stage.UnstageBranchGroupUse(target)
-
-	case *Library:
-		stage.UnstageBranchLibrary(target)
-
-	case *MapObject:
-		stage.UnstageBranchMapObject(target)
-
-	case *MapObjectUse:
-		stage.UnstageBranchMapObjectUse(target)
-
-	case *Parameter:
-		stage.UnstageBranchParameter(target)
-
-	case *ParameterCategory:
-		stage.UnstageBranchParameterCategory(target)
-
-	case *ParameterCategoryUse:
-		stage.UnstageBranchParameterCategoryUse(target)
-
-	case *ParameterShape:
-		stage.UnstageBranchParameterShape(target)
-
-	case *ParametersAggregate:
-		stage.UnstageBranchParametersAggregate(target)
-
-	case *ParametersAggregateShape:
-		stage.UnstageBranchParametersAggregateShape(target)
-
-	case *Position:
-		stage.UnstageBranchPosition(target)
-
-	case *Repository:
-		stage.UnstageBranchRepository(target)
-
-	case *Scenario:
-		stage.UnstageBranchScenario(target)
-
-	case *User:
-		stage.UnstageBranchUser(target)
-
-	case *UserUse:
-		stage.UnstageBranchUserUse(target)
-
-	case *Workspace:
-		stage.UnstageBranchWorkspace(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (actorstate *ActorState) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchActorState(actorstate)
+}
+
 func (stage *Stage) UnstageBranchActorState(actorstate *ActorState) {
 
 	// check if instance is already staged
@@ -2081,6 +2081,10 @@ func (stage *Stage) UnstageBranchActorState(actorstate *ActorState) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (actorstateshape *ActorStateShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchActorStateShape(actorstateshape)
 }
 
 func (stage *Stage) UnstageBranchActorStateShape(actorstateshape *ActorStateShape) {
@@ -2099,6 +2103,10 @@ func (stage *Stage) UnstageBranchActorStateShape(actorstateshape *ActorStateShap
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (actorstatetransition *ActorStateTransition) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchActorStateTransition(actorstatetransition)
 }
 
 func (stage *Stage) UnstageBranchActorStateTransition(actorstatetransition *ActorStateTransition) {
@@ -2123,6 +2131,10 @@ func (stage *Stage) UnstageBranchActorStateTransition(actorstatetransition *Acto
 		stage.UnstageBranch(_parameter)
 	}
 
+}
+
+func (actorstatetransitionshape *ActorStateTransitionShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchActorStateTransitionShape(actorstatetransitionshape)
 }
 
 func (stage *Stage) UnstageBranchActorStateTransitionShape(actorstatetransitionshape *ActorStateTransitionShape) {
@@ -2152,6 +2164,10 @@ func (stage *Stage) UnstageBranchActorStateTransitionShape(actorstatetransitions
 
 }
 
+func (analysis *Analysis) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAnalysis(analysis)
+}
+
 func (stage *Stage) UnstageBranchAnalysis(analysis *Analysis) {
 
 	// check if instance is already staged
@@ -2179,6 +2195,10 @@ func (stage *Stage) UnstageBranchAnalysis(analysis *Analysis) {
 
 }
 
+func (controlpointshape *ControlPointShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchControlPointShape(controlpointshape)
+}
+
 func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
@@ -2192,6 +2212,10 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDiagram(diagram)
 }
 
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
@@ -2239,6 +2263,10 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 }
 
+func (document *Document) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDocument(document)
+}
+
 func (stage *Stage) UnstageBranchDocument(document *Document) {
 
 	// check if instance is already staged
@@ -2255,6 +2283,10 @@ func (stage *Stage) UnstageBranchDocument(document *Document) {
 		stage.UnstageBranch(_geoobjectuse)
 	}
 
+}
+
+func (documentuse *DocumentUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDocumentUse(documentuse)
 }
 
 func (stage *Stage) UnstageBranchDocumentUse(documentuse *DocumentUse) {
@@ -2275,6 +2307,10 @@ func (stage *Stage) UnstageBranchDocumentUse(documentuse *DocumentUse) {
 
 }
 
+func (evolutiondirection *EvolutionDirection) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEvolutionDirection(evolutiondirection)
+}
+
 func (stage *Stage) UnstageBranchEvolutionDirection(evolutiondirection *EvolutionDirection) {
 
 	// check if instance is already staged
@@ -2288,6 +2324,10 @@ func (stage *Stage) UnstageBranchEvolutionDirection(evolutiondirection *Evolutio
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (evolutiondirectionshape *EvolutionDirectionShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEvolutionDirectionShape(evolutiondirectionshape)
 }
 
 func (stage *Stage) UnstageBranchEvolutionDirectionShape(evolutiondirectionshape *EvolutionDirectionShape) {
@@ -2308,6 +2348,10 @@ func (stage *Stage) UnstageBranchEvolutionDirectionShape(evolutiondirectionshape
 
 }
 
+func (foo *Foo) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFoo(foo)
+}
+
 func (stage *Stage) UnstageBranchFoo(foo *Foo) {
 
 	// check if instance is already staged
@@ -2323,6 +2367,10 @@ func (stage *Stage) UnstageBranchFoo(foo *Foo) {
 
 }
 
+func (geoobject *GeoObject) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGeoObject(geoobject)
+}
+
 func (stage *Stage) UnstageBranchGeoObject(geoobject *GeoObject) {
 
 	// check if instance is already staged
@@ -2336,6 +2384,10 @@ func (stage *Stage) UnstageBranchGeoObject(geoobject *GeoObject) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (geoobjectuse *GeoObjectUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGeoObjectUse(geoobjectuse)
 }
 
 func (stage *Stage) UnstageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
@@ -2356,6 +2408,10 @@ func (stage *Stage) UnstageBranchGeoObjectUse(geoobjectuse *GeoObjectUse) {
 
 }
 
+func (group *Group) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup(group)
+}
+
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
@@ -2374,6 +2430,10 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 }
 
+func (groupuse *GroupUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroupUse(groupuse)
+}
+
 func (stage *Stage) UnstageBranchGroupUse(groupuse *GroupUse) {
 
 	// check if instance is already staged
@@ -2390,6 +2450,10 @@ func (stage *Stage) UnstageBranchGroupUse(groupuse *GroupUse) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLibrary(library)
 }
 
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
@@ -2416,6 +2480,10 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (mapobject *MapObject) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMapObject(mapobject)
+}
+
 func (stage *Stage) UnstageBranchMapObject(mapobject *MapObject) {
 
 	// check if instance is already staged
@@ -2429,6 +2497,10 @@ func (stage *Stage) UnstageBranchMapObject(mapobject *MapObject) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mapobjectuse *MapObjectUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMapObjectUse(mapobjectuse)
 }
 
 func (stage *Stage) UnstageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
@@ -2447,6 +2519,10 @@ func (stage *Stage) UnstageBranchMapObjectUse(mapobjectuse *MapObjectUse) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (parameter *Parameter) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParameter(parameter)
 }
 
 func (stage *Stage) UnstageBranchParameter(parameter *Parameter) {
@@ -2473,6 +2549,10 @@ func (stage *Stage) UnstageBranchParameter(parameter *Parameter) {
 
 }
 
+func (parametercategory *ParameterCategory) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParameterCategory(parametercategory)
+}
+
 func (stage *Stage) UnstageBranchParameterCategory(parametercategory *ParameterCategory) {
 
 	// check if instance is already staged
@@ -2489,6 +2569,10 @@ func (stage *Stage) UnstageBranchParameterCategory(parametercategory *ParameterC
 		stage.UnstageBranch(_parametershape)
 	}
 
+}
+
+func (parametercategoryuse *ParameterCategoryUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParameterCategoryUse(parametercategoryuse)
 }
 
 func (stage *Stage) UnstageBranchParameterCategoryUse(parametercategoryuse *ParameterCategoryUse) {
@@ -2509,6 +2593,10 @@ func (stage *Stage) UnstageBranchParameterCategoryUse(parametercategoryuse *Para
 
 }
 
+func (parametershape *ParameterShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParameterShape(parametershape)
+}
+
 func (stage *Stage) UnstageBranchParameterShape(parametershape *ParameterShape) {
 
 	// check if instance is already staged
@@ -2525,6 +2613,10 @@ func (stage *Stage) UnstageBranchParameterShape(parametershape *ParameterShape) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (parametersaggregate *ParametersAggregate) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParametersAggregate(parametersaggregate)
 }
 
 func (stage *Stage) UnstageBranchParametersAggregate(parametersaggregate *ParametersAggregate) {
@@ -2545,6 +2637,10 @@ func (stage *Stage) UnstageBranchParametersAggregate(parametersaggregate *Parame
 
 }
 
+func (parametersaggregateshape *ParametersAggregateShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParametersAggregateShape(parametersaggregateshape)
+}
+
 func (stage *Stage) UnstageBranchParametersAggregateShape(parametersaggregateshape *ParametersAggregateShape) {
 
 	// check if instance is already staged
@@ -2563,6 +2659,10 @@ func (stage *Stage) UnstageBranchParametersAggregateShape(parametersaggregatesha
 
 }
 
+func (position *Position) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPosition(position)
+}
+
 func (stage *Stage) UnstageBranchPosition(position *Position) {
 
 	// check if instance is already staged
@@ -2576,6 +2676,10 @@ func (stage *Stage) UnstageBranchPosition(position *Position) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (repository *Repository) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRepository(repository)
 }
 
 func (stage *Stage) UnstageBranchRepository(repository *Repository) {
@@ -2597,6 +2701,10 @@ func (stage *Stage) UnstageBranchRepository(repository *Repository) {
 		stage.UnstageBranch(_groupuse)
 	}
 
+}
+
+func (scenario *Scenario) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchScenario(scenario)
 }
 
 func (stage *Stage) UnstageBranchScenario(scenario *Scenario) {
@@ -2632,6 +2740,10 @@ func (stage *Stage) UnstageBranchScenario(scenario *Scenario) {
 
 }
 
+func (user *User) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchUser(user)
+}
+
 func (stage *Stage) UnstageBranchUser(user *User) {
 
 	// check if instance is already staged
@@ -2645,6 +2757,10 @@ func (stage *Stage) UnstageBranchUser(user *User) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (useruse *UserUse) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchUserUse(useruse)
 }
 
 func (stage *Stage) UnstageBranchUserUse(useruse *UserUse) {
@@ -2663,6 +2779,10 @@ func (stage *Stage) UnstageBranchUserUse(useruse *UserUse) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (workspace *Workspace) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchWorkspace(workspace)
 }
 
 func (stage *Stage) UnstageBranchWorkspace(workspace *Workspace) {

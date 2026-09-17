@@ -1445,44 +1445,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *Body:
-		return stage.Body_stagedOrder[instance]
-	case *Document:
-		return stage.Document_stagedOrder[instance]
-	case *Docx:
-		return stage.Docx_stagedOrder[instance]
-	case *File:
-		return stage.File_stagedOrder[instance]
-	case *Node:
-		return stage.Node_stagedOrder[instance]
-	case *Paragraph:
-		return stage.Paragraph_stagedOrder[instance]
-	case *ParagraphProperties:
-		return stage.ParagraphProperties_stagedOrder[instance]
-	case *ParagraphStyle:
-		return stage.ParagraphStyle_stagedOrder[instance]
-	case *Rune:
-		return stage.Rune_stagedOrder[instance]
-	case *RuneProperties:
-		return stage.RuneProperties_stagedOrder[instance]
-	case *Table:
-		return stage.Table_stagedOrder[instance]
-	case *TableColumn:
-		return stage.TableColumn_stagedOrder[instance]
-	case *TableProperties:
-		return stage.TableProperties_stagedOrder[instance]
-	case *TableRow:
-		return stage.TableRow_stagedOrder[instance]
-	case *TableStyle:
-		return stage.TableStyle_stagedOrder[instance]
-	case *Text:
-		return stage.Text_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -3124,6 +3091,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

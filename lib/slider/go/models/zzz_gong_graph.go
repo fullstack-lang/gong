@@ -4,85 +4,79 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Checkbox:
-		ok = stage.IsStagedCheckbox(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *Layout:
-		ok = stage.IsStagedLayout(target)
-
-	case *Slider:
-		ok = stage.IsStagedSlider(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedCheckbox(checkbox *Checkbox) (ok bool) {
+func (checkbox *Checkbox) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Checkboxs[checkbox]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+func (stage *Stage) IsStagedCheckbox(checkbox *Checkbox) (ok bool) {
+
+	return checkbox.GongIsStaged(stage)
+}
+
+func (group *Group) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Groups[group]
 
 	return
 }
 
-func (stage *Stage) IsStagedLayout(layout *Layout) (ok bool) {
+func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+
+	return group.GongIsStaged(stage)
+}
+
+func (layout *Layout) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Layouts[layout]
 
 	return
 }
 
-func (stage *Stage) IsStagedSlider(slider *Slider) (ok bool) {
+func (stage *Stage) IsStagedLayout(layout *Layout) (ok bool) {
+
+	return layout.GongIsStaged(stage)
+}
+
+func (slider *Slider) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Sliders[slider]
 
 	return
 }
 
+func (stage *Stage) IsStagedSlider(slider *Slider) (ok bool) {
+
+	return slider.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Checkbox:
-		stage.StageBranchCheckbox(target)
-
-	case *Group:
-		stage.StageBranchGroup(target)
-
-	case *Layout:
-		stage.StageBranchLayout(target)
-
-	case *Slider:
-		stage.StageBranchSlider(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (checkbox *Checkbox) GongStageBranch(stage *Stage) {
+	stage.StageBranchCheckbox(checkbox)
+}
+
 func (stage *Stage) StageBranchCheckbox(checkbox *Checkbox) {
 
 	// check if instance is already staged
@@ -96,6 +90,10 @@ func (stage *Stage) StageBranchCheckbox(checkbox *Checkbox) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (group *Group) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup(group)
 }
 
 func (stage *Stage) StageBranchGroup(group *Group) {
@@ -119,6 +117,10 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 }
 
+func (layout *Layout) GongStageBranch(stage *Stage) {
+	stage.StageBranchLayout(layout)
+}
+
 func (stage *Stage) StageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
@@ -135,6 +137,10 @@ func (stage *Stage) StageBranchLayout(layout *Layout) {
 		stage.StageBranch(_group)
 	}
 
+}
+
+func (slider *Slider) GongStageBranch(stage *Stage) {
+	stage.StageBranchSlider(slider)
 }
 
 func (stage *Stage) StageBranchSlider(slider *Slider) {
@@ -276,28 +282,22 @@ func GongCopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Checkbox:
-		stage.UnstageBranchCheckbox(target)
-
-	case *Group:
-		stage.UnstageBranchGroup(target)
-
-	case *Layout:
-		stage.UnstageBranchLayout(target)
-
-	case *Slider:
-		stage.UnstageBranchSlider(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (checkbox *Checkbox) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCheckbox(checkbox)
+}
+
 func (stage *Stage) UnstageBranchCheckbox(checkbox *Checkbox) {
 
 	// check if instance is already staged
@@ -311,6 +311,10 @@ func (stage *Stage) UnstageBranchCheckbox(checkbox *Checkbox) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (group *Group) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup(group)
 }
 
 func (stage *Stage) UnstageBranchGroup(group *Group) {
@@ -334,6 +338,10 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 }
 
+func (layout *Layout) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLayout(layout)
+}
+
 func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
@@ -350,6 +358,10 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 		stage.UnstageBranch(_group)
 	}
 
+}
+
+func (slider *Slider) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSlider(slider)
 }
 
 func (stage *Stage) UnstageBranchSlider(slider *Slider) {

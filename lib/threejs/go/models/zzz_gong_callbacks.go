@@ -2,92 +2,9 @@
 package models
 
 // AfterCreateFromFront is the Stage method called after a create from front.
-func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *AmbiantLight:
-		if stage.OnAfterAmbiantLightCreateCallback != nil {
-			stage.OnAfterAmbiantLightCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *BoxGeometry:
-		if stage.OnAfterBoxGeometryCreateCallback != nil {
-			stage.OnAfterBoxGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *BufferGeometry:
-		if stage.OnAfterBufferGeometryCreateCallback != nil {
-			stage.OnAfterBufferGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Camera:
-		if stage.OnAfterCameraCreateCallback != nil {
-			stage.OnAfterCameraCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Canvas:
-		if stage.OnAfterCanvasCreateCallback != nil {
-			stage.OnAfterCanvasCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Curve:
-		if stage.OnAfterCurveCreateCallback != nil {
-			stage.OnAfterCurveCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *CylinderGeometry:
-		if stage.OnAfterCylinderGeometryCreateCallback != nil {
-			stage.OnAfterCylinderGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *DirectionalLight:
-		if stage.OnAfterDirectionalLightCreateCallback != nil {
-			stage.OnAfterDirectionalLightCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ExtrudeGeometry:
-		if stage.OnAfterExtrudeGeometryCreateCallback != nil {
-			stage.OnAfterExtrudeGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Mesh:
-		if stage.OnAfterMeshCreateCallback != nil {
-			stage.OnAfterMeshCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *MeshMaterialBasic:
-		if stage.OnAfterMeshMaterialBasicCreateCallback != nil {
-			stage.OnAfterMeshMaterialBasicCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *MeshPhysicalMaterial:
-		if stage.OnAfterMeshPhysicalMaterialCreateCallback != nil {
-			stage.OnAfterMeshPhysicalMaterialCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *PlaneGeometry:
-		if stage.OnAfterPlaneGeometryCreateCallback != nil {
-			stage.OnAfterPlaneGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Shape:
-		if stage.OnAfterShapeCreateCallback != nil {
-			stage.OnAfterShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *SphereGeometry:
-		if stage.OnAfterSphereGeometryCreateCallback != nil {
-			stage.OnAfterSphereGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *TorusGeometry:
-		if stage.OnAfterTorusGeometryCreateCallback != nil {
-			stage.OnAfterTorusGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Triangle:
-		if stage.OnAfterTriangleCreateCallback != nil {
-			stage.OnAfterTriangleCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *TubeGeometry:
-		if stage.OnAfterTubeGeometryCreateCallback != nil {
-			stage.OnAfterTubeGeometryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Vector2:
-		if stage.OnAfterVector2CreateCallback != nil {
-			stage.OnAfterVector2CreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Vector3:
-		if stage.OnAfterVector3CreateCallback != nil {
-			stage.OnAfterVector3CreateCallback.OnAfterCreate(stage, target)
-		}
-	default:
-		_ = target
+func (stage *Stage) AfterCreateFromFront(instance GongstructIF) {
+	if instance != nil {
+		instance.GongAfterCreateFromFront(stage)
 	}
 }
 
@@ -96,221 +13,537 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is the Stage method called after an update from front.
-func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
-
-	switch oldTarget := any(old).(type) {
-	// insertion point
-	case *AmbiantLight:
-		newTarget := any(new).(*AmbiantLight)
-		if stage.OnAfterAmbiantLightUpdateCallback != nil {
-			stage.OnAfterAmbiantLightUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *BoxGeometry:
-		newTarget := any(new).(*BoxGeometry)
-		if stage.OnAfterBoxGeometryUpdateCallback != nil {
-			stage.OnAfterBoxGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *BufferGeometry:
-		newTarget := any(new).(*BufferGeometry)
-		if stage.OnAfterBufferGeometryUpdateCallback != nil {
-			stage.OnAfterBufferGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Camera:
-		newTarget := any(new).(*Camera)
-		if stage.OnAfterCameraUpdateCallback != nil {
-			stage.OnAfterCameraUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Canvas:
-		newTarget := any(new).(*Canvas)
-		if stage.OnAfterCanvasUpdateCallback != nil {
-			stage.OnAfterCanvasUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Curve:
-		newTarget := any(new).(*Curve)
-		if stage.OnAfterCurveUpdateCallback != nil {
-			stage.OnAfterCurveUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *CylinderGeometry:
-		newTarget := any(new).(*CylinderGeometry)
-		if stage.OnAfterCylinderGeometryUpdateCallback != nil {
-			stage.OnAfterCylinderGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *DirectionalLight:
-		newTarget := any(new).(*DirectionalLight)
-		if stage.OnAfterDirectionalLightUpdateCallback != nil {
-			stage.OnAfterDirectionalLightUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ExtrudeGeometry:
-		newTarget := any(new).(*ExtrudeGeometry)
-		if stage.OnAfterExtrudeGeometryUpdateCallback != nil {
-			stage.OnAfterExtrudeGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Mesh:
-		newTarget := any(new).(*Mesh)
-		if stage.OnAfterMeshUpdateCallback != nil {
-			stage.OnAfterMeshUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *MeshMaterialBasic:
-		newTarget := any(new).(*MeshMaterialBasic)
-		if stage.OnAfterMeshMaterialBasicUpdateCallback != nil {
-			stage.OnAfterMeshMaterialBasicUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *MeshPhysicalMaterial:
-		newTarget := any(new).(*MeshPhysicalMaterial)
-		if stage.OnAfterMeshPhysicalMaterialUpdateCallback != nil {
-			stage.OnAfterMeshPhysicalMaterialUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *PlaneGeometry:
-		newTarget := any(new).(*PlaneGeometry)
-		if stage.OnAfterPlaneGeometryUpdateCallback != nil {
-			stage.OnAfterPlaneGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Shape:
-		newTarget := any(new).(*Shape)
-		if stage.OnAfterShapeUpdateCallback != nil {
-			stage.OnAfterShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *SphereGeometry:
-		newTarget := any(new).(*SphereGeometry)
-		if stage.OnAfterSphereGeometryUpdateCallback != nil {
-			stage.OnAfterSphereGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *TorusGeometry:
-		newTarget := any(new).(*TorusGeometry)
-		if stage.OnAfterTorusGeometryUpdateCallback != nil {
-			stage.OnAfterTorusGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Triangle:
-		newTarget := any(new).(*Triangle)
-		if stage.OnAfterTriangleUpdateCallback != nil {
-			stage.OnAfterTriangleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *TubeGeometry:
-		newTarget := any(new).(*TubeGeometry)
-		if stage.OnAfterTubeGeometryUpdateCallback != nil {
-			stage.OnAfterTubeGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Vector2:
-		newTarget := any(new).(*Vector2)
-		if stage.OnAfterVector2UpdateCallback != nil {
-			stage.OnAfterVector2UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Vector3:
-		newTarget := any(new).(*Vector3)
-		if stage.OnAfterVector3UpdateCallback != nil {
-			stage.OnAfterVector3UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	default:
-		_ = oldTarget
+func (stage *Stage) OnAfterUpdateFromFront(old, new GongstructIF) {
+	if old != nil {
+		old.GongOnAfterUpdateFromFront(stage, new)
 	}
 }
 
 // AfterDeleteFromFront is the Stage method called after a delete from front.
-func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
-
-	switch front := any(front).(type) {
-	// insertion point
-	case *AmbiantLight:
-		if stage.OnAfterAmbiantLightDeleteCallback != nil {
-			staged := any(staged).(*AmbiantLight)
-			stage.OnAfterAmbiantLightDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *BoxGeometry:
-		if stage.OnAfterBoxGeometryDeleteCallback != nil {
-			staged := any(staged).(*BoxGeometry)
-			stage.OnAfterBoxGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *BufferGeometry:
-		if stage.OnAfterBufferGeometryDeleteCallback != nil {
-			staged := any(staged).(*BufferGeometry)
-			stage.OnAfterBufferGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Camera:
-		if stage.OnAfterCameraDeleteCallback != nil {
-			staged := any(staged).(*Camera)
-			stage.OnAfterCameraDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Canvas:
-		if stage.OnAfterCanvasDeleteCallback != nil {
-			staged := any(staged).(*Canvas)
-			stage.OnAfterCanvasDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Curve:
-		if stage.OnAfterCurveDeleteCallback != nil {
-			staged := any(staged).(*Curve)
-			stage.OnAfterCurveDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *CylinderGeometry:
-		if stage.OnAfterCylinderGeometryDeleteCallback != nil {
-			staged := any(staged).(*CylinderGeometry)
-			stage.OnAfterCylinderGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *DirectionalLight:
-		if stage.OnAfterDirectionalLightDeleteCallback != nil {
-			staged := any(staged).(*DirectionalLight)
-			stage.OnAfterDirectionalLightDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ExtrudeGeometry:
-		if stage.OnAfterExtrudeGeometryDeleteCallback != nil {
-			staged := any(staged).(*ExtrudeGeometry)
-			stage.OnAfterExtrudeGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Mesh:
-		if stage.OnAfterMeshDeleteCallback != nil {
-			staged := any(staged).(*Mesh)
-			stage.OnAfterMeshDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *MeshMaterialBasic:
-		if stage.OnAfterMeshMaterialBasicDeleteCallback != nil {
-			staged := any(staged).(*MeshMaterialBasic)
-			stage.OnAfterMeshMaterialBasicDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *MeshPhysicalMaterial:
-		if stage.OnAfterMeshPhysicalMaterialDeleteCallback != nil {
-			staged := any(staged).(*MeshPhysicalMaterial)
-			stage.OnAfterMeshPhysicalMaterialDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *PlaneGeometry:
-		if stage.OnAfterPlaneGeometryDeleteCallback != nil {
-			staged := any(staged).(*PlaneGeometry)
-			stage.OnAfterPlaneGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Shape:
-		if stage.OnAfterShapeDeleteCallback != nil {
-			staged := any(staged).(*Shape)
-			stage.OnAfterShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *SphereGeometry:
-		if stage.OnAfterSphereGeometryDeleteCallback != nil {
-			staged := any(staged).(*SphereGeometry)
-			stage.OnAfterSphereGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *TorusGeometry:
-		if stage.OnAfterTorusGeometryDeleteCallback != nil {
-			staged := any(staged).(*TorusGeometry)
-			stage.OnAfterTorusGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Triangle:
-		if stage.OnAfterTriangleDeleteCallback != nil {
-			staged := any(staged).(*Triangle)
-			stage.OnAfterTriangleDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *TubeGeometry:
-		if stage.OnAfterTubeGeometryDeleteCallback != nil {
-			staged := any(staged).(*TubeGeometry)
-			stage.OnAfterTubeGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Vector2:
-		if stage.OnAfterVector2DeleteCallback != nil {
-			staged := any(staged).(*Vector2)
-			stage.OnAfterVector2DeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Vector3:
-		if stage.OnAfterVector3DeleteCallback != nil {
-			staged := any(staged).(*Vector3)
-			stage.OnAfterVector3DeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	default:
-		_ = front
+func (stage *Stage) AfterDeleteFromFront(staged, front GongstructIF) {
+	if staged != nil {
+		staged.GongAfterDeleteFromFront(stage, front)
 	}
 }
+
+// insertion point
+func (ambiantlight *AmbiantLight) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterAmbiantLightCreateCallback != nil {
+		stage.OnAfterAmbiantLightCreateCallback.OnAfterCreate(stage, ambiantlight)
+	}
+}
+
+func (ambiantlight *AmbiantLight) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterAmbiantLightUpdateCallback != nil {
+		var frontAmbiantLight *AmbiantLight
+		if front != nil {
+			frontAmbiantLight, _ = front.(*AmbiantLight)
+		}
+		stage.OnAfterAmbiantLightUpdateCallback.OnAfterUpdate(stage, ambiantlight, frontAmbiantLight)
+	}
+}
+
+func (ambiantlight *AmbiantLight) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterAmbiantLightDeleteCallback != nil {
+		var frontAmbiantLight *AmbiantLight
+		if front != nil {
+			frontAmbiantLight, _ = front.(*AmbiantLight)
+		}
+		stage.OnAfterAmbiantLightDeleteCallback.OnAfterDelete(stage, ambiantlight, frontAmbiantLight)
+	}
+}
+
+func (boxgeometry *BoxGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterBoxGeometryCreateCallback != nil {
+		stage.OnAfterBoxGeometryCreateCallback.OnAfterCreate(stage, boxgeometry)
+	}
+}
+
+func (boxgeometry *BoxGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBoxGeometryUpdateCallback != nil {
+		var frontBoxGeometry *BoxGeometry
+		if front != nil {
+			frontBoxGeometry, _ = front.(*BoxGeometry)
+		}
+		stage.OnAfterBoxGeometryUpdateCallback.OnAfterUpdate(stage, boxgeometry, frontBoxGeometry)
+	}
+}
+
+func (boxgeometry *BoxGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBoxGeometryDeleteCallback != nil {
+		var frontBoxGeometry *BoxGeometry
+		if front != nil {
+			frontBoxGeometry, _ = front.(*BoxGeometry)
+		}
+		stage.OnAfterBoxGeometryDeleteCallback.OnAfterDelete(stage, boxgeometry, frontBoxGeometry)
+	}
+}
+
+func (buffergeometry *BufferGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterBufferGeometryCreateCallback != nil {
+		stage.OnAfterBufferGeometryCreateCallback.OnAfterCreate(stage, buffergeometry)
+	}
+}
+
+func (buffergeometry *BufferGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBufferGeometryUpdateCallback != nil {
+		var frontBufferGeometry *BufferGeometry
+		if front != nil {
+			frontBufferGeometry, _ = front.(*BufferGeometry)
+		}
+		stage.OnAfterBufferGeometryUpdateCallback.OnAfterUpdate(stage, buffergeometry, frontBufferGeometry)
+	}
+}
+
+func (buffergeometry *BufferGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterBufferGeometryDeleteCallback != nil {
+		var frontBufferGeometry *BufferGeometry
+		if front != nil {
+			frontBufferGeometry, _ = front.(*BufferGeometry)
+		}
+		stage.OnAfterBufferGeometryDeleteCallback.OnAfterDelete(stage, buffergeometry, frontBufferGeometry)
+	}
+}
+
+func (camera *Camera) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCameraCreateCallback != nil {
+		stage.OnAfterCameraCreateCallback.OnAfterCreate(stage, camera)
+	}
+}
+
+func (camera *Camera) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCameraUpdateCallback != nil {
+		var frontCamera *Camera
+		if front != nil {
+			frontCamera, _ = front.(*Camera)
+		}
+		stage.OnAfterCameraUpdateCallback.OnAfterUpdate(stage, camera, frontCamera)
+	}
+}
+
+func (camera *Camera) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCameraDeleteCallback != nil {
+		var frontCamera *Camera
+		if front != nil {
+			frontCamera, _ = front.(*Camera)
+		}
+		stage.OnAfterCameraDeleteCallback.OnAfterDelete(stage, camera, frontCamera)
+	}
+}
+
+func (canvas *Canvas) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCanvasCreateCallback != nil {
+		stage.OnAfterCanvasCreateCallback.OnAfterCreate(stage, canvas)
+	}
+}
+
+func (canvas *Canvas) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCanvasUpdateCallback != nil {
+		var frontCanvas *Canvas
+		if front != nil {
+			frontCanvas, _ = front.(*Canvas)
+		}
+		stage.OnAfterCanvasUpdateCallback.OnAfterUpdate(stage, canvas, frontCanvas)
+	}
+}
+
+func (canvas *Canvas) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCanvasDeleteCallback != nil {
+		var frontCanvas *Canvas
+		if front != nil {
+			frontCanvas, _ = front.(*Canvas)
+		}
+		stage.OnAfterCanvasDeleteCallback.OnAfterDelete(stage, canvas, frontCanvas)
+	}
+}
+
+func (curve *Curve) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCurveCreateCallback != nil {
+		stage.OnAfterCurveCreateCallback.OnAfterCreate(stage, curve)
+	}
+}
+
+func (curve *Curve) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCurveUpdateCallback != nil {
+		var frontCurve *Curve
+		if front != nil {
+			frontCurve, _ = front.(*Curve)
+		}
+		stage.OnAfterCurveUpdateCallback.OnAfterUpdate(stage, curve, frontCurve)
+	}
+}
+
+func (curve *Curve) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCurveDeleteCallback != nil {
+		var frontCurve *Curve
+		if front != nil {
+			frontCurve, _ = front.(*Curve)
+		}
+		stage.OnAfterCurveDeleteCallback.OnAfterDelete(stage, curve, frontCurve)
+	}
+}
+
+func (cylindergeometry *CylinderGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCylinderGeometryCreateCallback != nil {
+		stage.OnAfterCylinderGeometryCreateCallback.OnAfterCreate(stage, cylindergeometry)
+	}
+}
+
+func (cylindergeometry *CylinderGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCylinderGeometryUpdateCallback != nil {
+		var frontCylinderGeometry *CylinderGeometry
+		if front != nil {
+			frontCylinderGeometry, _ = front.(*CylinderGeometry)
+		}
+		stage.OnAfterCylinderGeometryUpdateCallback.OnAfterUpdate(stage, cylindergeometry, frontCylinderGeometry)
+	}
+}
+
+func (cylindergeometry *CylinderGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCylinderGeometryDeleteCallback != nil {
+		var frontCylinderGeometry *CylinderGeometry
+		if front != nil {
+			frontCylinderGeometry, _ = front.(*CylinderGeometry)
+		}
+		stage.OnAfterCylinderGeometryDeleteCallback.OnAfterDelete(stage, cylindergeometry, frontCylinderGeometry)
+	}
+}
+
+func (directionallight *DirectionalLight) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDirectionalLightCreateCallback != nil {
+		stage.OnAfterDirectionalLightCreateCallback.OnAfterCreate(stage, directionallight)
+	}
+}
+
+func (directionallight *DirectionalLight) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDirectionalLightUpdateCallback != nil {
+		var frontDirectionalLight *DirectionalLight
+		if front != nil {
+			frontDirectionalLight, _ = front.(*DirectionalLight)
+		}
+		stage.OnAfterDirectionalLightUpdateCallback.OnAfterUpdate(stage, directionallight, frontDirectionalLight)
+	}
+}
+
+func (directionallight *DirectionalLight) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDirectionalLightDeleteCallback != nil {
+		var frontDirectionalLight *DirectionalLight
+		if front != nil {
+			frontDirectionalLight, _ = front.(*DirectionalLight)
+		}
+		stage.OnAfterDirectionalLightDeleteCallback.OnAfterDelete(stage, directionallight, frontDirectionalLight)
+	}
+}
+
+func (extrudegeometry *ExtrudeGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterExtrudeGeometryCreateCallback != nil {
+		stage.OnAfterExtrudeGeometryCreateCallback.OnAfterCreate(stage, extrudegeometry)
+	}
+}
+
+func (extrudegeometry *ExtrudeGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterExtrudeGeometryUpdateCallback != nil {
+		var frontExtrudeGeometry *ExtrudeGeometry
+		if front != nil {
+			frontExtrudeGeometry, _ = front.(*ExtrudeGeometry)
+		}
+		stage.OnAfterExtrudeGeometryUpdateCallback.OnAfterUpdate(stage, extrudegeometry, frontExtrudeGeometry)
+	}
+}
+
+func (extrudegeometry *ExtrudeGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterExtrudeGeometryDeleteCallback != nil {
+		var frontExtrudeGeometry *ExtrudeGeometry
+		if front != nil {
+			frontExtrudeGeometry, _ = front.(*ExtrudeGeometry)
+		}
+		stage.OnAfterExtrudeGeometryDeleteCallback.OnAfterDelete(stage, extrudegeometry, frontExtrudeGeometry)
+	}
+}
+
+func (mesh *Mesh) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMeshCreateCallback != nil {
+		stage.OnAfterMeshCreateCallback.OnAfterCreate(stage, mesh)
+	}
+}
+
+func (mesh *Mesh) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMeshUpdateCallback != nil {
+		var frontMesh *Mesh
+		if front != nil {
+			frontMesh, _ = front.(*Mesh)
+		}
+		stage.OnAfterMeshUpdateCallback.OnAfterUpdate(stage, mesh, frontMesh)
+	}
+}
+
+func (mesh *Mesh) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMeshDeleteCallback != nil {
+		var frontMesh *Mesh
+		if front != nil {
+			frontMesh, _ = front.(*Mesh)
+		}
+		stage.OnAfterMeshDeleteCallback.OnAfterDelete(stage, mesh, frontMesh)
+	}
+}
+
+func (meshmaterialbasic *MeshMaterialBasic) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMeshMaterialBasicCreateCallback != nil {
+		stage.OnAfterMeshMaterialBasicCreateCallback.OnAfterCreate(stage, meshmaterialbasic)
+	}
+}
+
+func (meshmaterialbasic *MeshMaterialBasic) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMeshMaterialBasicUpdateCallback != nil {
+		var frontMeshMaterialBasic *MeshMaterialBasic
+		if front != nil {
+			frontMeshMaterialBasic, _ = front.(*MeshMaterialBasic)
+		}
+		stage.OnAfterMeshMaterialBasicUpdateCallback.OnAfterUpdate(stage, meshmaterialbasic, frontMeshMaterialBasic)
+	}
+}
+
+func (meshmaterialbasic *MeshMaterialBasic) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMeshMaterialBasicDeleteCallback != nil {
+		var frontMeshMaterialBasic *MeshMaterialBasic
+		if front != nil {
+			frontMeshMaterialBasic, _ = front.(*MeshMaterialBasic)
+		}
+		stage.OnAfterMeshMaterialBasicDeleteCallback.OnAfterDelete(stage, meshmaterialbasic, frontMeshMaterialBasic)
+	}
+}
+
+func (meshphysicalmaterial *MeshPhysicalMaterial) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMeshPhysicalMaterialCreateCallback != nil {
+		stage.OnAfterMeshPhysicalMaterialCreateCallback.OnAfterCreate(stage, meshphysicalmaterial)
+	}
+}
+
+func (meshphysicalmaterial *MeshPhysicalMaterial) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMeshPhysicalMaterialUpdateCallback != nil {
+		var frontMeshPhysicalMaterial *MeshPhysicalMaterial
+		if front != nil {
+			frontMeshPhysicalMaterial, _ = front.(*MeshPhysicalMaterial)
+		}
+		stage.OnAfterMeshPhysicalMaterialUpdateCallback.OnAfterUpdate(stage, meshphysicalmaterial, frontMeshPhysicalMaterial)
+	}
+}
+
+func (meshphysicalmaterial *MeshPhysicalMaterial) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMeshPhysicalMaterialDeleteCallback != nil {
+		var frontMeshPhysicalMaterial *MeshPhysicalMaterial
+		if front != nil {
+			frontMeshPhysicalMaterial, _ = front.(*MeshPhysicalMaterial)
+		}
+		stage.OnAfterMeshPhysicalMaterialDeleteCallback.OnAfterDelete(stage, meshphysicalmaterial, frontMeshPhysicalMaterial)
+	}
+}
+
+func (planegeometry *PlaneGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPlaneGeometryCreateCallback != nil {
+		stage.OnAfterPlaneGeometryCreateCallback.OnAfterCreate(stage, planegeometry)
+	}
+}
+
+func (planegeometry *PlaneGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPlaneGeometryUpdateCallback != nil {
+		var frontPlaneGeometry *PlaneGeometry
+		if front != nil {
+			frontPlaneGeometry, _ = front.(*PlaneGeometry)
+		}
+		stage.OnAfterPlaneGeometryUpdateCallback.OnAfterUpdate(stage, planegeometry, frontPlaneGeometry)
+	}
+}
+
+func (planegeometry *PlaneGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPlaneGeometryDeleteCallback != nil {
+		var frontPlaneGeometry *PlaneGeometry
+		if front != nil {
+			frontPlaneGeometry, _ = front.(*PlaneGeometry)
+		}
+		stage.OnAfterPlaneGeometryDeleteCallback.OnAfterDelete(stage, planegeometry, frontPlaneGeometry)
+	}
+}
+
+func (shape *Shape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterShapeCreateCallback != nil {
+		stage.OnAfterShapeCreateCallback.OnAfterCreate(stage, shape)
+	}
+}
+
+func (shape *Shape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterShapeUpdateCallback != nil {
+		var frontShape *Shape
+		if front != nil {
+			frontShape, _ = front.(*Shape)
+		}
+		stage.OnAfterShapeUpdateCallback.OnAfterUpdate(stage, shape, frontShape)
+	}
+}
+
+func (shape *Shape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterShapeDeleteCallback != nil {
+		var frontShape *Shape
+		if front != nil {
+			frontShape, _ = front.(*Shape)
+		}
+		stage.OnAfterShapeDeleteCallback.OnAfterDelete(stage, shape, frontShape)
+	}
+}
+
+func (spheregeometry *SphereGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterSphereGeometryCreateCallback != nil {
+		stage.OnAfterSphereGeometryCreateCallback.OnAfterCreate(stage, spheregeometry)
+	}
+}
+
+func (spheregeometry *SphereGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSphereGeometryUpdateCallback != nil {
+		var frontSphereGeometry *SphereGeometry
+		if front != nil {
+			frontSphereGeometry, _ = front.(*SphereGeometry)
+		}
+		stage.OnAfterSphereGeometryUpdateCallback.OnAfterUpdate(stage, spheregeometry, frontSphereGeometry)
+	}
+}
+
+func (spheregeometry *SphereGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSphereGeometryDeleteCallback != nil {
+		var frontSphereGeometry *SphereGeometry
+		if front != nil {
+			frontSphereGeometry, _ = front.(*SphereGeometry)
+		}
+		stage.OnAfterSphereGeometryDeleteCallback.OnAfterDelete(stage, spheregeometry, frontSphereGeometry)
+	}
+}
+
+func (torusgeometry *TorusGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTorusGeometryCreateCallback != nil {
+		stage.OnAfterTorusGeometryCreateCallback.OnAfterCreate(stage, torusgeometry)
+	}
+}
+
+func (torusgeometry *TorusGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTorusGeometryUpdateCallback != nil {
+		var frontTorusGeometry *TorusGeometry
+		if front != nil {
+			frontTorusGeometry, _ = front.(*TorusGeometry)
+		}
+		stage.OnAfterTorusGeometryUpdateCallback.OnAfterUpdate(stage, torusgeometry, frontTorusGeometry)
+	}
+}
+
+func (torusgeometry *TorusGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTorusGeometryDeleteCallback != nil {
+		var frontTorusGeometry *TorusGeometry
+		if front != nil {
+			frontTorusGeometry, _ = front.(*TorusGeometry)
+		}
+		stage.OnAfterTorusGeometryDeleteCallback.OnAfterDelete(stage, torusgeometry, frontTorusGeometry)
+	}
+}
+
+func (triangle *Triangle) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTriangleCreateCallback != nil {
+		stage.OnAfterTriangleCreateCallback.OnAfterCreate(stage, triangle)
+	}
+}
+
+func (triangle *Triangle) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTriangleUpdateCallback != nil {
+		var frontTriangle *Triangle
+		if front != nil {
+			frontTriangle, _ = front.(*Triangle)
+		}
+		stage.OnAfterTriangleUpdateCallback.OnAfterUpdate(stage, triangle, frontTriangle)
+	}
+}
+
+func (triangle *Triangle) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTriangleDeleteCallback != nil {
+		var frontTriangle *Triangle
+		if front != nil {
+			frontTriangle, _ = front.(*Triangle)
+		}
+		stage.OnAfterTriangleDeleteCallback.OnAfterDelete(stage, triangle, frontTriangle)
+	}
+}
+
+func (tubegeometry *TubeGeometry) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTubeGeometryCreateCallback != nil {
+		stage.OnAfterTubeGeometryCreateCallback.OnAfterCreate(stage, tubegeometry)
+	}
+}
+
+func (tubegeometry *TubeGeometry) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTubeGeometryUpdateCallback != nil {
+		var frontTubeGeometry *TubeGeometry
+		if front != nil {
+			frontTubeGeometry, _ = front.(*TubeGeometry)
+		}
+		stage.OnAfterTubeGeometryUpdateCallback.OnAfterUpdate(stage, tubegeometry, frontTubeGeometry)
+	}
+}
+
+func (tubegeometry *TubeGeometry) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTubeGeometryDeleteCallback != nil {
+		var frontTubeGeometry *TubeGeometry
+		if front != nil {
+			frontTubeGeometry, _ = front.(*TubeGeometry)
+		}
+		stage.OnAfterTubeGeometryDeleteCallback.OnAfterDelete(stage, tubegeometry, frontTubeGeometry)
+	}
+}
+
+func (vector2 *Vector2) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterVector2CreateCallback != nil {
+		stage.OnAfterVector2CreateCallback.OnAfterCreate(stage, vector2)
+	}
+}
+
+func (vector2 *Vector2) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVector2UpdateCallback != nil {
+		var frontVector2 *Vector2
+		if front != nil {
+			frontVector2, _ = front.(*Vector2)
+		}
+		stage.OnAfterVector2UpdateCallback.OnAfterUpdate(stage, vector2, frontVector2)
+	}
+}
+
+func (vector2 *Vector2) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVector2DeleteCallback != nil {
+		var frontVector2 *Vector2
+		if front != nil {
+			frontVector2, _ = front.(*Vector2)
+		}
+		stage.OnAfterVector2DeleteCallback.OnAfterDelete(stage, vector2, frontVector2)
+	}
+}
+
+func (vector3 *Vector3) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterVector3CreateCallback != nil {
+		stage.OnAfterVector3CreateCallback.OnAfterCreate(stage, vector3)
+	}
+}
+
+func (vector3 *Vector3) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVector3UpdateCallback != nil {
+		var frontVector3 *Vector3
+		if front != nil {
+			frontVector3, _ = front.(*Vector3)
+		}
+		stage.OnAfterVector3UpdateCallback.OnAfterUpdate(stage, vector3, frontVector3)
+	}
+}
+
+func (vector3 *Vector3) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterVector3DeleteCallback != nil {
+		var frontVector3 *Vector3
+		if front != nil {
+			frontVector3, _ = front.(*Vector3)
+		}
+		stage.OnAfterVector3DeleteCallback.OnAfterDelete(stage, vector3, frontVector3)
+	}
+}
+

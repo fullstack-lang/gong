@@ -4,137 +4,127 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Chapter:
-		ok = stage.IsStagedChapter(target)
-
-	case *Content:
-		ok = stage.IsStagedContent(target)
-
-	case *DownloadableFile:
-		ok = stage.IsStagedDownloadableFile(target)
-
-	case *JpgImage:
-		ok = stage.IsStagedJpgImage(target)
-
-	case *Page:
-		ok = stage.IsStagedPage(target)
-
-	case *PngImage:
-		ok = stage.IsStagedPngImage(target)
-
-	case *Section:
-		ok = stage.IsStagedSection(target)
-
-	case *SvgImage:
-		ok = stage.IsStagedSvgImage(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedChapter(chapter *Chapter) (ok bool) {
+func (chapter *Chapter) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Chapters[chapter]
 
 	return
 }
 
-func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
+func (stage *Stage) IsStagedChapter(chapter *Chapter) (ok bool) {
+
+	return chapter.GongIsStaged(stage)
+}
+
+func (content *Content) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Contents[content]
 
 	return
 }
 
-func (stage *Stage) IsStagedDownloadableFile(downloadablefile *DownloadableFile) (ok bool) {
+func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
+
+	return content.GongIsStaged(stage)
+}
+
+func (downloadablefile *DownloadableFile) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DownloadableFiles[downloadablefile]
 
 	return
 }
 
-func (stage *Stage) IsStagedJpgImage(jpgimage *JpgImage) (ok bool) {
+func (stage *Stage) IsStagedDownloadableFile(downloadablefile *DownloadableFile) (ok bool) {
+
+	return downloadablefile.GongIsStaged(stage)
+}
+
+func (jpgimage *JpgImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.JpgImages[jpgimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedPage(page *Page) (ok bool) {
+func (stage *Stage) IsStagedJpgImage(jpgimage *JpgImage) (ok bool) {
+
+	return jpgimage.GongIsStaged(stage)
+}
+
+func (page *Page) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Pages[page]
 
 	return
 }
 
-func (stage *Stage) IsStagedPngImage(pngimage *PngImage) (ok bool) {
+func (stage *Stage) IsStagedPage(page *Page) (ok bool) {
+
+	return page.GongIsStaged(stage)
+}
+
+func (pngimage *PngImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PngImages[pngimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedSection(section *Section) (ok bool) {
+func (stage *Stage) IsStagedPngImage(pngimage *PngImage) (ok bool) {
+
+	return pngimage.GongIsStaged(stage)
+}
+
+func (section *Section) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Sections[section]
 
 	return
 }
 
-func (stage *Stage) IsStagedSvgImage(svgimage *SvgImage) (ok bool) {
+func (stage *Stage) IsStagedSection(section *Section) (ok bool) {
+
+	return section.GongIsStaged(stage)
+}
+
+func (svgimage *SvgImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SvgImages[svgimage]
 
 	return
 }
 
+func (stage *Stage) IsStagedSvgImage(svgimage *SvgImage) (ok bool) {
+
+	return svgimage.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Chapter:
-		stage.StageBranchChapter(target)
-
-	case *Content:
-		stage.StageBranchContent(target)
-
-	case *DownloadableFile:
-		stage.StageBranchDownloadableFile(target)
-
-	case *JpgImage:
-		stage.StageBranchJpgImage(target)
-
-	case *Page:
-		stage.StageBranchPage(target)
-
-	case *PngImage:
-		stage.StageBranchPngImage(target)
-
-	case *Section:
-		stage.StageBranchSection(target)
-
-	case *SvgImage:
-		stage.StageBranchSvgImage(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (chapter *Chapter) GongStageBranch(stage *Stage) {
+	stage.StageBranchChapter(chapter)
+}
+
 func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 
 	// check if instance is already staged
@@ -159,6 +149,10 @@ func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 
 }
 
+func (content *Content) GongStageBranch(stage *Stage) {
+	stage.StageBranchContent(content)
+}
+
 func (stage *Stage) StageBranchContent(content *Content) {
 
 	// check if instance is already staged
@@ -177,6 +171,10 @@ func (stage *Stage) StageBranchContent(content *Content) {
 
 }
 
+func (downloadablefile *DownloadableFile) GongStageBranch(stage *Stage) {
+	stage.StageBranchDownloadableFile(downloadablefile)
+}
+
 func (stage *Stage) StageBranchDownloadableFile(downloadablefile *DownloadableFile) {
 
 	// check if instance is already staged
@@ -192,6 +190,10 @@ func (stage *Stage) StageBranchDownloadableFile(downloadablefile *DownloadableFi
 
 }
 
+func (jpgimage *JpgImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchJpgImage(jpgimage)
+}
+
 func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
@@ -205,6 +207,10 @@ func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (page *Page) GongStageBranch(stage *Stage) {
+	stage.StageBranchPage(page)
 }
 
 func (stage *Stage) StageBranchPage(page *Page) {
@@ -225,6 +231,10 @@ func (stage *Stage) StageBranchPage(page *Page) {
 
 }
 
+func (pngimage *PngImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchPngImage(pngimage)
+}
+
 func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
@@ -238,6 +248,10 @@ func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (section *Section) GongStageBranch(stage *Stage) {
+	stage.StageBranchSection(section)
 }
 
 func (stage *Stage) StageBranchSection(section *Section) {
@@ -265,6 +279,10 @@ func (stage *Stage) StageBranchSection(section *Section) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (svgimage *SvgImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchSvgImage(svgimage)
 }
 
 func (stage *Stage) StageBranchSvgImage(svgimage *SvgImage) {
@@ -516,40 +534,22 @@ func GongCopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (sv
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Chapter:
-		stage.UnstageBranchChapter(target)
-
-	case *Content:
-		stage.UnstageBranchContent(target)
-
-	case *DownloadableFile:
-		stage.UnstageBranchDownloadableFile(target)
-
-	case *JpgImage:
-		stage.UnstageBranchJpgImage(target)
-
-	case *Page:
-		stage.UnstageBranchPage(target)
-
-	case *PngImage:
-		stage.UnstageBranchPngImage(target)
-
-	case *Section:
-		stage.UnstageBranchSection(target)
-
-	case *SvgImage:
-		stage.UnstageBranchSvgImage(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (chapter *Chapter) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchChapter(chapter)
+}
+
 func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 
 	// check if instance is already staged
@@ -574,6 +574,10 @@ func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 
 }
 
+func (content *Content) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchContent(content)
+}
+
 func (stage *Stage) UnstageBranchContent(content *Content) {
 
 	// check if instance is already staged
@@ -592,6 +596,10 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 
 }
 
+func (downloadablefile *DownloadableFile) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDownloadableFile(downloadablefile)
+}
+
 func (stage *Stage) UnstageBranchDownloadableFile(downloadablefile *DownloadableFile) {
 
 	// check if instance is already staged
@@ -607,6 +615,10 @@ func (stage *Stage) UnstageBranchDownloadableFile(downloadablefile *Downloadable
 
 }
 
+func (jpgimage *JpgImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchJpgImage(jpgimage)
+}
+
 func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 
 	// check if instance is already staged
@@ -620,6 +632,10 @@ func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (page *Page) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPage(page)
 }
 
 func (stage *Stage) UnstageBranchPage(page *Page) {
@@ -640,6 +656,10 @@ func (stage *Stage) UnstageBranchPage(page *Page) {
 
 }
 
+func (pngimage *PngImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPngImage(pngimage)
+}
+
 func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 
 	// check if instance is already staged
@@ -653,6 +673,10 @@ func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (section *Section) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSection(section)
 }
 
 func (stage *Stage) UnstageBranchSection(section *Section) {
@@ -680,6 +704,10 @@ func (stage *Stage) UnstageBranchSection(section *Section) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (svgimage *SvgImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSvgImage(svgimage)
 }
 
 func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {

@@ -4,85 +4,79 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *BookType:
-		ok = stage.IsStagedBookType(target)
-
-	case *Books:
-		ok = stage.IsStagedBooks(target)
-
-	case *Credit:
-		ok = stage.IsStagedCredit(target)
-
-	case *Link:
-		ok = stage.IsStagedLink(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedBookType(booktype *BookType) (ok bool) {
+func (booktype *BookType) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.BookTypes[booktype]
 
 	return
 }
 
-func (stage *Stage) IsStagedBooks(books *Books) (ok bool) {
+func (stage *Stage) IsStagedBookType(booktype *BookType) (ok bool) {
+
+	return booktype.GongIsStaged(stage)
+}
+
+func (books *Books) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Bookss[books]
 
 	return
 }
 
-func (stage *Stage) IsStagedCredit(credit *Credit) (ok bool) {
+func (stage *Stage) IsStagedBooks(books *Books) (ok bool) {
+
+	return books.GongIsStaged(stage)
+}
+
+func (credit *Credit) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Credits[credit]
 
 	return
 }
 
-func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
+func (stage *Stage) IsStagedCredit(credit *Credit) (ok bool) {
+
+	return credit.GongIsStaged(stage)
+}
+
+func (link *Link) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Links[link]
 
 	return
 }
 
+func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
+
+	return link.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *BookType:
-		stage.StageBranchBookType(target)
-
-	case *Books:
-		stage.StageBranchBooks(target)
-
-	case *Credit:
-		stage.StageBranchCredit(target)
-
-	case *Link:
-		stage.StageBranchLink(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (booktype *BookType) GongStageBranch(stage *Stage) {
+	stage.StageBranchBookType(booktype)
+}
+
 func (stage *Stage) StageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
@@ -99,6 +93,10 @@ func (stage *Stage) StageBranchBookType(booktype *BookType) {
 		stage.StageBranch(_credit)
 	}
 
+}
+
+func (books *Books) GongStageBranch(stage *Stage) {
+	stage.StageBranchBooks(books)
 }
 
 func (stage *Stage) StageBranchBooks(books *Books) {
@@ -119,6 +117,10 @@ func (stage *Stage) StageBranchBooks(books *Books) {
 
 }
 
+func (credit *Credit) GongStageBranch(stage *Stage) {
+	stage.StageBranchCredit(credit)
+}
+
 func (stage *Stage) StageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
@@ -135,6 +137,10 @@ func (stage *Stage) StageBranchCredit(credit *Credit) {
 		stage.StageBranch(_link)
 	}
 
+}
+
+func (link *Link) GongStageBranch(stage *Stage) {
+	stage.StageBranchLink(link)
 }
 
 func (stage *Stage) StageBranchLink(link *Link) {
@@ -276,28 +282,22 @@ func GongCopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *BookType:
-		stage.UnstageBranchBookType(target)
-
-	case *Books:
-		stage.UnstageBranchBooks(target)
-
-	case *Credit:
-		stage.UnstageBranchCredit(target)
-
-	case *Link:
-		stage.UnstageBranchLink(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (booktype *BookType) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBookType(booktype)
+}
+
 func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
@@ -314,6 +314,10 @@ func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 		stage.UnstageBranch(_credit)
 	}
 
+}
+
+func (books *Books) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBooks(books)
 }
 
 func (stage *Stage) UnstageBranchBooks(books *Books) {
@@ -334,6 +338,10 @@ func (stage *Stage) UnstageBranchBooks(books *Books) {
 
 }
 
+func (credit *Credit) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCredit(credit)
+}
+
 func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 
 	// check if instance is already staged
@@ -350,6 +358,10 @@ func (stage *Stage) UnstageBranchCredit(credit *Credit) {
 		stage.UnstageBranch(_link)
 	}
 
+}
+
+func (link *Link) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLink(link)
 }
 
 func (stage *Stage) UnstageBranchLink(link *Link) {

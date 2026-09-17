@@ -4,98 +4,91 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Button:
-		ok = stage.IsStagedButton(target)
-
-	case *ButtonToggle:
-		ok = stage.IsStagedButtonToggle(target)
-
-	case *Group:
-		ok = stage.IsStagedGroup(target)
-
-	case *GroupToogle:
-		ok = stage.IsStagedGroupToogle(target)
-
-	case *Layout:
-		ok = stage.IsStagedLayout(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Buttons[button]
 
 	return
 }
 
-func (stage *Stage) IsStagedButtonToggle(buttontoggle *ButtonToggle) (ok bool) {
+func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+
+	return button.GongIsStaged(stage)
+}
+
+func (buttontoggle *ButtonToggle) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ButtonToggles[buttontoggle]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+func (stage *Stage) IsStagedButtonToggle(buttontoggle *ButtonToggle) (ok bool) {
+
+	return buttontoggle.GongIsStaged(stage)
+}
+
+func (group *Group) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Groups[group]
 
 	return
 }
 
-func (stage *Stage) IsStagedGroupToogle(grouptoogle *GroupToogle) (ok bool) {
+func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
+
+	return group.GongIsStaged(stage)
+}
+
+func (grouptoogle *GroupToogle) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GroupToogles[grouptoogle]
 
 	return
 }
 
-func (stage *Stage) IsStagedLayout(layout *Layout) (ok bool) {
+func (stage *Stage) IsStagedGroupToogle(grouptoogle *GroupToogle) (ok bool) {
+
+	return grouptoogle.GongIsStaged(stage)
+}
+
+func (layout *Layout) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Layouts[layout]
 
 	return
 }
 
+func (stage *Stage) IsStagedLayout(layout *Layout) (ok bool) {
+
+	return layout.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Button:
-		stage.StageBranchButton(target)
-
-	case *ButtonToggle:
-		stage.StageBranchButtonToggle(target)
-
-	case *Group:
-		stage.StageBranchGroup(target)
-
-	case *GroupToogle:
-		stage.StageBranchGroupToogle(target)
-
-	case *Layout:
-		stage.StageBranchLayout(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (button *Button) GongStageBranch(stage *Stage) {
+	stage.StageBranchButton(button)
+}
+
 func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
@@ -111,6 +104,10 @@ func (stage *Stage) StageBranchButton(button *Button) {
 
 }
 
+func (buttontoggle *ButtonToggle) GongStageBranch(stage *Stage) {
+	stage.StageBranchButtonToggle(buttontoggle)
+}
+
 func (stage *Stage) StageBranchButtonToggle(buttontoggle *ButtonToggle) {
 
 	// check if instance is already staged
@@ -124,6 +121,10 @@ func (stage *Stage) StageBranchButtonToggle(buttontoggle *ButtonToggle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (group *Group) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroup(group)
 }
 
 func (stage *Stage) StageBranchGroup(group *Group) {
@@ -144,6 +145,10 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 
 }
 
+func (grouptoogle *GroupToogle) GongStageBranch(stage *Stage) {
+	stage.StageBranchGroupToogle(grouptoogle)
+}
+
 func (stage *Stage) StageBranchGroupToogle(grouptoogle *GroupToogle) {
 
 	// check if instance is already staged
@@ -160,6 +165,10 @@ func (stage *Stage) StageBranchGroupToogle(grouptoogle *GroupToogle) {
 		stage.StageBranch(_buttontoggle)
 	}
 
+}
+
+func (layout *Layout) GongStageBranch(stage *Stage) {
+	stage.StageBranchLayout(layout)
 }
 
 func (stage *Stage) StageBranchLayout(layout *Layout) {
@@ -333,31 +342,22 @@ func GongCopyBranchLayout(mapOrigCopy map[any]any, layoutFrom *Layout) (layoutTo
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Button:
-		stage.UnstageBranchButton(target)
-
-	case *ButtonToggle:
-		stage.UnstageBranchButtonToggle(target)
-
-	case *Group:
-		stage.UnstageBranchGroup(target)
-
-	case *GroupToogle:
-		stage.UnstageBranchGroupToogle(target)
-
-	case *Layout:
-		stage.UnstageBranchLayout(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (button *Button) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchButton(button)
+}
+
 func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
@@ -373,6 +373,10 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 
 }
 
+func (buttontoggle *ButtonToggle) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchButtonToggle(buttontoggle)
+}
+
 func (stage *Stage) UnstageBranchButtonToggle(buttontoggle *ButtonToggle) {
 
 	// check if instance is already staged
@@ -386,6 +390,10 @@ func (stage *Stage) UnstageBranchButtonToggle(buttontoggle *ButtonToggle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (group *Group) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroup(group)
 }
 
 func (stage *Stage) UnstageBranchGroup(group *Group) {
@@ -406,6 +414,10 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 }
 
+func (grouptoogle *GroupToogle) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGroupToogle(grouptoogle)
+}
+
 func (stage *Stage) UnstageBranchGroupToogle(grouptoogle *GroupToogle) {
 
 	// check if instance is already staged
@@ -422,6 +434,10 @@ func (stage *Stage) UnstageBranchGroupToogle(grouptoogle *GroupToogle) {
 		stage.UnstageBranch(_buttontoggle)
 	}
 
+}
+
+func (layout *Layout) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLayout(layout)
 }
 
 func (stage *Stage) UnstageBranchLayout(layout *Layout) {

@@ -4,293 +4,271 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AsSplit:
-		ok = stage.IsStagedAsSplit(target)
-
-	case *AsSplitArea:
-		ok = stage.IsStagedAsSplitArea(target)
-
-	case *Button:
-		ok = stage.IsStagedButton(target)
-
-	case *Cursor:
-		ok = stage.IsStagedCursor(target)
-
-	case *FavIcon:
-		ok = stage.IsStagedFavIcon(target)
-
-	case *Form:
-		ok = stage.IsStagedForm(target)
-
-	case *Load:
-		ok = stage.IsStagedLoad(target)
-
-	case *LogoOnTheLeft:
-		ok = stage.IsStagedLogoOnTheLeft(target)
-
-	case *LogoOnTheRight:
-		ok = stage.IsStagedLogoOnTheRight(target)
-
-	case *Markdown:
-		ok = stage.IsStagedMarkdown(target)
-
-	case *Slider:
-		ok = stage.IsStagedSlider(target)
-
-	case *Split:
-		ok = stage.IsStagedSplit(target)
-
-	case *Svg:
-		ok = stage.IsStagedSvg(target)
-
-	case *Table:
-		ok = stage.IsStagedTable(target)
-
-	case *Threejs:
-		ok = stage.IsStagedThreejs(target)
-
-	case *Title:
-		ok = stage.IsStagedTitle(target)
-
-	case *Tone:
-		ok = stage.IsStagedTone(target)
-
-	case *Tree:
-		ok = stage.IsStagedTree(target)
-
-	case *View:
-		ok = stage.IsStagedView(target)
-
-	case *Xlsx:
-		ok = stage.IsStagedXlsx(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAsSplit(assplit *AsSplit) (ok bool) {
+func (assplit *AsSplit) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AsSplits[assplit]
 
 	return
 }
 
-func (stage *Stage) IsStagedAsSplitArea(assplitarea *AsSplitArea) (ok bool) {
+func (stage *Stage) IsStagedAsSplit(assplit *AsSplit) (ok bool) {
+
+	return assplit.GongIsStaged(stage)
+}
+
+func (assplitarea *AsSplitArea) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AsSplitAreas[assplitarea]
 
 	return
 }
 
-func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+func (stage *Stage) IsStagedAsSplitArea(assplitarea *AsSplitArea) (ok bool) {
+
+	return assplitarea.GongIsStaged(stage)
+}
+
+func (button *Button) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Buttons[button]
 
 	return
 }
 
-func (stage *Stage) IsStagedCursor(cursor *Cursor) (ok bool) {
+func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+
+	return button.GongIsStaged(stage)
+}
+
+func (cursor *Cursor) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Cursors[cursor]
 
 	return
 }
 
-func (stage *Stage) IsStagedFavIcon(favicon *FavIcon) (ok bool) {
+func (stage *Stage) IsStagedCursor(cursor *Cursor) (ok bool) {
+
+	return cursor.GongIsStaged(stage)
+}
+
+func (favicon *FavIcon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.FavIcons[favicon]
 
 	return
 }
 
-func (stage *Stage) IsStagedForm(form *Form) (ok bool) {
+func (stage *Stage) IsStagedFavIcon(favicon *FavIcon) (ok bool) {
+
+	return favicon.GongIsStaged(stage)
+}
+
+func (form *Form) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Forms[form]
 
 	return
 }
 
-func (stage *Stage) IsStagedLoad(load *Load) (ok bool) {
+func (stage *Stage) IsStagedForm(form *Form) (ok bool) {
+
+	return form.GongIsStaged(stage)
+}
+
+func (load *Load) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Loads[load]
 
 	return
 }
 
-func (stage *Stage) IsStagedLogoOnTheLeft(logoontheleft *LogoOnTheLeft) (ok bool) {
+func (stage *Stage) IsStagedLoad(load *Load) (ok bool) {
+
+	return load.GongIsStaged(stage)
+}
+
+func (logoontheleft *LogoOnTheLeft) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.LogoOnTheLefts[logoontheleft]
 
 	return
 }
 
-func (stage *Stage) IsStagedLogoOnTheRight(logoontheright *LogoOnTheRight) (ok bool) {
+func (stage *Stage) IsStagedLogoOnTheLeft(logoontheleft *LogoOnTheLeft) (ok bool) {
+
+	return logoontheleft.GongIsStaged(stage)
+}
+
+func (logoontheright *LogoOnTheRight) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.LogoOnTheRights[logoontheright]
 
 	return
 }
 
-func (stage *Stage) IsStagedMarkdown(markdown *Markdown) (ok bool) {
+func (stage *Stage) IsStagedLogoOnTheRight(logoontheright *LogoOnTheRight) (ok bool) {
+
+	return logoontheright.GongIsStaged(stage)
+}
+
+func (markdown *Markdown) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Markdowns[markdown]
 
 	return
 }
 
-func (stage *Stage) IsStagedSlider(slider *Slider) (ok bool) {
+func (stage *Stage) IsStagedMarkdown(markdown *Markdown) (ok bool) {
+
+	return markdown.GongIsStaged(stage)
+}
+
+func (slider *Slider) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Sliders[slider]
 
 	return
 }
 
-func (stage *Stage) IsStagedSplit(split *Split) (ok bool) {
+func (stage *Stage) IsStagedSlider(slider *Slider) (ok bool) {
+
+	return slider.GongIsStaged(stage)
+}
+
+func (split *Split) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Splits[split]
 
 	return
 }
 
-func (stage *Stage) IsStagedSvg(svg *Svg) (ok bool) {
+func (stage *Stage) IsStagedSplit(split *Split) (ok bool) {
+
+	return split.GongIsStaged(stage)
+}
+
+func (svg *Svg) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Svgs[svg]
 
 	return
 }
 
-func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
+func (stage *Stage) IsStagedSvg(svg *Svg) (ok bool) {
+
+	return svg.GongIsStaged(stage)
+}
+
+func (table *Table) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tables[table]
 
 	return
 }
 
-func (stage *Stage) IsStagedThreejs(threejs *Threejs) (ok bool) {
+func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
+
+	return table.GongIsStaged(stage)
+}
+
+func (threejs *Threejs) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Threejss[threejs]
 
 	return
 }
 
-func (stage *Stage) IsStagedTitle(title *Title) (ok bool) {
+func (stage *Stage) IsStagedThreejs(threejs *Threejs) (ok bool) {
+
+	return threejs.GongIsStaged(stage)
+}
+
+func (title *Title) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Titles[title]
 
 	return
 }
 
-func (stage *Stage) IsStagedTone(tone *Tone) (ok bool) {
+func (stage *Stage) IsStagedTitle(title *Title) (ok bool) {
+
+	return title.GongIsStaged(stage)
+}
+
+func (tone *Tone) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tones[tone]
 
 	return
 }
 
-func (stage *Stage) IsStagedTree(tree *Tree) (ok bool) {
+func (stage *Stage) IsStagedTone(tone *Tone) (ok bool) {
+
+	return tone.GongIsStaged(stage)
+}
+
+func (tree *Tree) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Trees[tree]
 
 	return
 }
 
-func (stage *Stage) IsStagedView(view *View) (ok bool) {
+func (stage *Stage) IsStagedTree(tree *Tree) (ok bool) {
+
+	return tree.GongIsStaged(stage)
+}
+
+func (view *View) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Views[view]
 
 	return
 }
 
-func (stage *Stage) IsStagedXlsx(xlsx *Xlsx) (ok bool) {
+func (stage *Stage) IsStagedView(view *View) (ok bool) {
+
+	return view.GongIsStaged(stage)
+}
+
+func (xlsx *Xlsx) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Xlsxs[xlsx]
 
 	return
 }
 
+func (stage *Stage) IsStagedXlsx(xlsx *Xlsx) (ok bool) {
+
+	return xlsx.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *AsSplit:
-		stage.StageBranchAsSplit(target)
-
-	case *AsSplitArea:
-		stage.StageBranchAsSplitArea(target)
-
-	case *Button:
-		stage.StageBranchButton(target)
-
-	case *Cursor:
-		stage.StageBranchCursor(target)
-
-	case *FavIcon:
-		stage.StageBranchFavIcon(target)
-
-	case *Form:
-		stage.StageBranchForm(target)
-
-	case *Load:
-		stage.StageBranchLoad(target)
-
-	case *LogoOnTheLeft:
-		stage.StageBranchLogoOnTheLeft(target)
-
-	case *LogoOnTheRight:
-		stage.StageBranchLogoOnTheRight(target)
-
-	case *Markdown:
-		stage.StageBranchMarkdown(target)
-
-	case *Slider:
-		stage.StageBranchSlider(target)
-
-	case *Split:
-		stage.StageBranchSplit(target)
-
-	case *Svg:
-		stage.StageBranchSvg(target)
-
-	case *Table:
-		stage.StageBranchTable(target)
-
-	case *Threejs:
-		stage.StageBranchThreejs(target)
-
-	case *Title:
-		stage.StageBranchTitle(target)
-
-	case *Tone:
-		stage.StageBranchTone(target)
-
-	case *Tree:
-		stage.StageBranchTree(target)
-
-	case *View:
-		stage.StageBranchView(target)
-
-	case *Xlsx:
-		stage.StageBranchXlsx(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (assplit *AsSplit) GongStageBranch(stage *Stage) {
+	stage.StageBranchAsSplit(assplit)
+}
+
 func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 
 	// check if instance is already staged
@@ -307,6 +285,10 @@ func (stage *Stage) StageBranchAsSplit(assplit *AsSplit) {
 		stage.StageBranch(_assplitarea)
 	}
 
+}
+
+func (assplitarea *AsSplitArea) GongStageBranch(stage *Stage) {
+	stage.StageBranchAsSplitArea(assplitarea)
 }
 
 func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
@@ -366,6 +348,10 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 }
 
+func (button *Button) GongStageBranch(stage *Stage) {
+	stage.StageBranchButton(button)
+}
+
 func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
@@ -379,6 +365,10 @@ func (stage *Stage) StageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cursor *Cursor) GongStageBranch(stage *Stage) {
+	stage.StageBranchCursor(cursor)
 }
 
 func (stage *Stage) StageBranchCursor(cursor *Cursor) {
@@ -396,6 +386,10 @@ func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 
 }
 
+func (favicon *FavIcon) GongStageBranch(stage *Stage) {
+	stage.StageBranchFavIcon(favicon)
+}
+
 func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
 
 	// check if instance is already staged
@@ -409,6 +403,10 @@ func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (form *Form) GongStageBranch(stage *Stage) {
+	stage.StageBranchForm(form)
 }
 
 func (stage *Stage) StageBranchForm(form *Form) {
@@ -426,6 +424,10 @@ func (stage *Stage) StageBranchForm(form *Form) {
 
 }
 
+func (load *Load) GongStageBranch(stage *Stage) {
+	stage.StageBranchLoad(load)
+}
+
 func (stage *Stage) StageBranchLoad(load *Load) {
 
 	// check if instance is already staged
@@ -439,6 +441,10 @@ func (stage *Stage) StageBranchLoad(load *Load) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (logoontheleft *LogoOnTheLeft) GongStageBranch(stage *Stage) {
+	stage.StageBranchLogoOnTheLeft(logoontheleft)
 }
 
 func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
@@ -456,6 +462,10 @@ func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 }
 
+func (logoontheright *LogoOnTheRight) GongStageBranch(stage *Stage) {
+	stage.StageBranchLogoOnTheRight(logoontheright)
+}
+
 func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	// check if instance is already staged
@@ -469,6 +479,10 @@ func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (markdown *Markdown) GongStageBranch(stage *Stage) {
+	stage.StageBranchMarkdown(markdown)
 }
 
 func (stage *Stage) StageBranchMarkdown(markdown *Markdown) {
@@ -486,6 +500,10 @@ func (stage *Stage) StageBranchMarkdown(markdown *Markdown) {
 
 }
 
+func (slider *Slider) GongStageBranch(stage *Stage) {
+	stage.StageBranchSlider(slider)
+}
+
 func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
@@ -499,6 +517,10 @@ func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (split *Split) GongStageBranch(stage *Stage) {
+	stage.StageBranchSplit(split)
 }
 
 func (stage *Stage) StageBranchSplit(split *Split) {
@@ -516,6 +538,10 @@ func (stage *Stage) StageBranchSplit(split *Split) {
 
 }
 
+func (svg *Svg) GongStageBranch(stage *Stage) {
+	stage.StageBranchSvg(svg)
+}
+
 func (stage *Stage) StageBranchSvg(svg *Svg) {
 
 	// check if instance is already staged
@@ -529,6 +555,10 @@ func (stage *Stage) StageBranchSvg(svg *Svg) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (table *Table) GongStageBranch(stage *Stage) {
+	stage.StageBranchTable(table)
 }
 
 func (stage *Stage) StageBranchTable(table *Table) {
@@ -546,6 +576,10 @@ func (stage *Stage) StageBranchTable(table *Table) {
 
 }
 
+func (threejs *Threejs) GongStageBranch(stage *Stage) {
+	stage.StageBranchThreejs(threejs)
+}
+
 func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
 
 	// check if instance is already staged
@@ -559,6 +593,10 @@ func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (title *Title) GongStageBranch(stage *Stage) {
+	stage.StageBranchTitle(title)
 }
 
 func (stage *Stage) StageBranchTitle(title *Title) {
@@ -576,6 +614,10 @@ func (stage *Stage) StageBranchTitle(title *Title) {
 
 }
 
+func (tone *Tone) GongStageBranch(stage *Stage) {
+	stage.StageBranchTone(tone)
+}
+
 func (stage *Stage) StageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
@@ -591,6 +633,10 @@ func (stage *Stage) StageBranchTone(tone *Tone) {
 
 }
 
+func (tree *Tree) GongStageBranch(stage *Stage) {
+	stage.StageBranchTree(tree)
+}
+
 func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
@@ -604,6 +650,10 @@ func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (view *View) GongStageBranch(stage *Stage) {
+	stage.StageBranchView(view)
 }
 
 func (stage *Stage) StageBranchView(view *View) {
@@ -622,6 +672,10 @@ func (stage *Stage) StageBranchView(view *View) {
 		stage.StageBranch(_assplitarea)
 	}
 
+}
+
+func (xlsx *Xlsx) GongStageBranch(stage *Stage) {
+	stage.StageBranchXlsx(xlsx)
 }
 
 func (stage *Stage) StageBranchXlsx(xlsx *Xlsx) {
@@ -1170,76 +1224,22 @@ func GongCopyBranchXlsx(mapOrigCopy map[any]any, xlsxFrom *Xlsx) (xlsxTo *Xlsx) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *AsSplit:
-		stage.UnstageBranchAsSplit(target)
-
-	case *AsSplitArea:
-		stage.UnstageBranchAsSplitArea(target)
-
-	case *Button:
-		stage.UnstageBranchButton(target)
-
-	case *Cursor:
-		stage.UnstageBranchCursor(target)
-
-	case *FavIcon:
-		stage.UnstageBranchFavIcon(target)
-
-	case *Form:
-		stage.UnstageBranchForm(target)
-
-	case *Load:
-		stage.UnstageBranchLoad(target)
-
-	case *LogoOnTheLeft:
-		stage.UnstageBranchLogoOnTheLeft(target)
-
-	case *LogoOnTheRight:
-		stage.UnstageBranchLogoOnTheRight(target)
-
-	case *Markdown:
-		stage.UnstageBranchMarkdown(target)
-
-	case *Slider:
-		stage.UnstageBranchSlider(target)
-
-	case *Split:
-		stage.UnstageBranchSplit(target)
-
-	case *Svg:
-		stage.UnstageBranchSvg(target)
-
-	case *Table:
-		stage.UnstageBranchTable(target)
-
-	case *Threejs:
-		stage.UnstageBranchThreejs(target)
-
-	case *Title:
-		stage.UnstageBranchTitle(target)
-
-	case *Tone:
-		stage.UnstageBranchTone(target)
-
-	case *Tree:
-		stage.UnstageBranchTree(target)
-
-	case *View:
-		stage.UnstageBranchView(target)
-
-	case *Xlsx:
-		stage.UnstageBranchXlsx(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (assplit *AsSplit) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAsSplit(assplit)
+}
+
 func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 
 	// check if instance is already staged
@@ -1256,6 +1256,10 @@ func (stage *Stage) UnstageBranchAsSplit(assplit *AsSplit) {
 		stage.UnstageBranch(_assplitarea)
 	}
 
+}
+
+func (assplitarea *AsSplitArea) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAsSplitArea(assplitarea)
 }
 
 func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
@@ -1315,6 +1319,10 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 
 }
 
+func (button *Button) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchButton(button)
+}
+
 func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
@@ -1328,6 +1336,10 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (cursor *Cursor) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCursor(cursor)
 }
 
 func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
@@ -1345,6 +1357,10 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 
 }
 
+func (favicon *FavIcon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFavIcon(favicon)
+}
+
 func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
 
 	// check if instance is already staged
@@ -1358,6 +1374,10 @@ func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (form *Form) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchForm(form)
 }
 
 func (stage *Stage) UnstageBranchForm(form *Form) {
@@ -1375,6 +1395,10 @@ func (stage *Stage) UnstageBranchForm(form *Form) {
 
 }
 
+func (load *Load) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLoad(load)
+}
+
 func (stage *Stage) UnstageBranchLoad(load *Load) {
 
 	// check if instance is already staged
@@ -1388,6 +1412,10 @@ func (stage *Stage) UnstageBranchLoad(load *Load) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (logoontheleft *LogoOnTheLeft) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLogoOnTheLeft(logoontheleft)
 }
 
 func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
@@ -1405,6 +1433,10 @@ func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 }
 
+func (logoontheright *LogoOnTheRight) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLogoOnTheRight(logoontheright)
+}
+
 func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
 
 	// check if instance is already staged
@@ -1418,6 +1450,10 @@ func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (markdown *Markdown) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMarkdown(markdown)
 }
 
 func (stage *Stage) UnstageBranchMarkdown(markdown *Markdown) {
@@ -1435,6 +1471,10 @@ func (stage *Stage) UnstageBranchMarkdown(markdown *Markdown) {
 
 }
 
+func (slider *Slider) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSlider(slider)
+}
+
 func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
@@ -1448,6 +1488,10 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (split *Split) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSplit(split)
 }
 
 func (stage *Stage) UnstageBranchSplit(split *Split) {
@@ -1465,6 +1509,10 @@ func (stage *Stage) UnstageBranchSplit(split *Split) {
 
 }
 
+func (svg *Svg) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSvg(svg)
+}
+
 func (stage *Stage) UnstageBranchSvg(svg *Svg) {
 
 	// check if instance is already staged
@@ -1478,6 +1526,10 @@ func (stage *Stage) UnstageBranchSvg(svg *Svg) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (table *Table) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTable(table)
 }
 
 func (stage *Stage) UnstageBranchTable(table *Table) {
@@ -1495,6 +1547,10 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 
 }
 
+func (threejs *Threejs) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchThreejs(threejs)
+}
+
 func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
 
 	// check if instance is already staged
@@ -1508,6 +1564,10 @@ func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (title *Title) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTitle(title)
 }
 
 func (stage *Stage) UnstageBranchTitle(title *Title) {
@@ -1525,6 +1585,10 @@ func (stage *Stage) UnstageBranchTitle(title *Title) {
 
 }
 
+func (tone *Tone) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTone(tone)
+}
+
 func (stage *Stage) UnstageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
@@ -1540,6 +1604,10 @@ func (stage *Stage) UnstageBranchTone(tone *Tone) {
 
 }
 
+func (tree *Tree) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTree(tree)
+}
+
 func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
@@ -1553,6 +1621,10 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (view *View) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchView(view)
 }
 
 func (stage *Stage) UnstageBranchView(view *View) {
@@ -1571,6 +1643,10 @@ func (stage *Stage) UnstageBranchView(view *View) {
 		stage.UnstageBranch(_assplitarea)
 	}
 
+}
+
+func (xlsx *Xlsx) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchXlsx(xlsx)
 }
 
 func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {

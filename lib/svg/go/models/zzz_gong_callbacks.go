@@ -2,108 +2,9 @@
 package models
 
 // AfterCreateFromFront is the Stage method called after a create from front.
-func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *Animate:
-		if stage.OnAfterAnimateCreateCallback != nil {
-			stage.OnAfterAnimateCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Circle:
-		if stage.OnAfterCircleCreateCallback != nil {
-			stage.OnAfterCircleCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Condition:
-		if stage.OnAfterConditionCreateCallback != nil {
-			stage.OnAfterConditionCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ControlPoint:
-		if stage.OnAfterControlPointCreateCallback != nil {
-			stage.OnAfterControlPointCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Ellipse:
-		if stage.OnAfterEllipseCreateCallback != nil {
-			stage.OnAfterEllipseCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FileToDownload:
-		if stage.OnAfterFileToDownloadCreateCallback != nil {
-			stage.OnAfterFileToDownloadCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Layer:
-		if stage.OnAfterLayerCreateCallback != nil {
-			stage.OnAfterLayerCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Line:
-		if stage.OnAfterLineCreateCallback != nil {
-			stage.OnAfterLineCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Link:
-		if stage.OnAfterLinkCreateCallback != nil {
-			stage.OnAfterLinkCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *LinkAnchoredPath:
-		if stage.OnAfterLinkAnchoredPathCreateCallback != nil {
-			stage.OnAfterLinkAnchoredPathCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *LinkAnchoredText:
-		if stage.OnAfterLinkAnchoredTextCreateCallback != nil {
-			stage.OnAfterLinkAnchoredTextCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Path:
-		if stage.OnAfterPathCreateCallback != nil {
-			stage.OnAfterPathCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Point:
-		if stage.OnAfterPointCreateCallback != nil {
-			stage.OnAfterPointCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Polygone:
-		if stage.OnAfterPolygoneCreateCallback != nil {
-			stage.OnAfterPolygoneCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Polyline:
-		if stage.OnAfterPolylineCreateCallback != nil {
-			stage.OnAfterPolylineCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Rect:
-		if stage.OnAfterRectCreateCallback != nil {
-			stage.OnAfterRectCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *RectAnchoredPath:
-		if stage.OnAfterRectAnchoredPathCreateCallback != nil {
-			stage.OnAfterRectAnchoredPathCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *RectAnchoredPngImage:
-		if stage.OnAfterRectAnchoredPngImageCreateCallback != nil {
-			stage.OnAfterRectAnchoredPngImageCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *RectAnchoredRect:
-		if stage.OnAfterRectAnchoredRectCreateCallback != nil {
-			stage.OnAfterRectAnchoredRectCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *RectAnchoredText:
-		if stage.OnAfterRectAnchoredTextCreateCallback != nil {
-			stage.OnAfterRectAnchoredTextCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *RectLinkLink:
-		if stage.OnAfterRectLinkLinkCreateCallback != nil {
-			stage.OnAfterRectLinkLinkCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *SVG:
-		if stage.OnAfterSVGCreateCallback != nil {
-			stage.OnAfterSVGCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *SvgText:
-		if stage.OnAfterSvgTextCreateCallback != nil {
-			stage.OnAfterSvgTextCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Text:
-		if stage.OnAfterTextCreateCallback != nil {
-			stage.OnAfterTextCreateCallback.OnAfterCreate(stage, target)
-		}
-	default:
-		_ = target
+func (stage *Stage) AfterCreateFromFront(instance GongstructIF) {
+	if instance != nil {
+		instance.GongAfterCreateFromFront(stage)
 	}
 }
 
@@ -112,261 +13,641 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is the Stage method called after an update from front.
-func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
-
-	switch oldTarget := any(old).(type) {
-	// insertion point
-	case *Animate:
-		newTarget := any(new).(*Animate)
-		if stage.OnAfterAnimateUpdateCallback != nil {
-			stage.OnAfterAnimateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Circle:
-		newTarget := any(new).(*Circle)
-		if stage.OnAfterCircleUpdateCallback != nil {
-			stage.OnAfterCircleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Condition:
-		newTarget := any(new).(*Condition)
-		if stage.OnAfterConditionUpdateCallback != nil {
-			stage.OnAfterConditionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ControlPoint:
-		newTarget := any(new).(*ControlPoint)
-		if stage.OnAfterControlPointUpdateCallback != nil {
-			stage.OnAfterControlPointUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Ellipse:
-		newTarget := any(new).(*Ellipse)
-		if stage.OnAfterEllipseUpdateCallback != nil {
-			stage.OnAfterEllipseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FileToDownload:
-		newTarget := any(new).(*FileToDownload)
-		if stage.OnAfterFileToDownloadUpdateCallback != nil {
-			stage.OnAfterFileToDownloadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Layer:
-		newTarget := any(new).(*Layer)
-		if stage.OnAfterLayerUpdateCallback != nil {
-			stage.OnAfterLayerUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Line:
-		newTarget := any(new).(*Line)
-		if stage.OnAfterLineUpdateCallback != nil {
-			stage.OnAfterLineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Link:
-		newTarget := any(new).(*Link)
-		if stage.OnAfterLinkUpdateCallback != nil {
-			stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *LinkAnchoredPath:
-		newTarget := any(new).(*LinkAnchoredPath)
-		if stage.OnAfterLinkAnchoredPathUpdateCallback != nil {
-			stage.OnAfterLinkAnchoredPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *LinkAnchoredText:
-		newTarget := any(new).(*LinkAnchoredText)
-		if stage.OnAfterLinkAnchoredTextUpdateCallback != nil {
-			stage.OnAfterLinkAnchoredTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Path:
-		newTarget := any(new).(*Path)
-		if stage.OnAfterPathUpdateCallback != nil {
-			stage.OnAfterPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Point:
-		newTarget := any(new).(*Point)
-		if stage.OnAfterPointUpdateCallback != nil {
-			stage.OnAfterPointUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Polygone:
-		newTarget := any(new).(*Polygone)
-		if stage.OnAfterPolygoneUpdateCallback != nil {
-			stage.OnAfterPolygoneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Polyline:
-		newTarget := any(new).(*Polyline)
-		if stage.OnAfterPolylineUpdateCallback != nil {
-			stage.OnAfterPolylineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Rect:
-		newTarget := any(new).(*Rect)
-		if stage.OnAfterRectUpdateCallback != nil {
-			stage.OnAfterRectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *RectAnchoredPath:
-		newTarget := any(new).(*RectAnchoredPath)
-		if stage.OnAfterRectAnchoredPathUpdateCallback != nil {
-			stage.OnAfterRectAnchoredPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *RectAnchoredPngImage:
-		newTarget := any(new).(*RectAnchoredPngImage)
-		if stage.OnAfterRectAnchoredPngImageUpdateCallback != nil {
-			stage.OnAfterRectAnchoredPngImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *RectAnchoredRect:
-		newTarget := any(new).(*RectAnchoredRect)
-		if stage.OnAfterRectAnchoredRectUpdateCallback != nil {
-			stage.OnAfterRectAnchoredRectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *RectAnchoredText:
-		newTarget := any(new).(*RectAnchoredText)
-		if stage.OnAfterRectAnchoredTextUpdateCallback != nil {
-			stage.OnAfterRectAnchoredTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *RectLinkLink:
-		newTarget := any(new).(*RectLinkLink)
-		if stage.OnAfterRectLinkLinkUpdateCallback != nil {
-			stage.OnAfterRectLinkLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *SVG:
-		newTarget := any(new).(*SVG)
-		if stage.OnAfterSVGUpdateCallback != nil {
-			stage.OnAfterSVGUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *SvgText:
-		newTarget := any(new).(*SvgText)
-		if stage.OnAfterSvgTextUpdateCallback != nil {
-			stage.OnAfterSvgTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Text:
-		newTarget := any(new).(*Text)
-		if stage.OnAfterTextUpdateCallback != nil {
-			stage.OnAfterTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	default:
-		_ = oldTarget
+func (stage *Stage) OnAfterUpdateFromFront(old, new GongstructIF) {
+	if old != nil {
+		old.GongOnAfterUpdateFromFront(stage, new)
 	}
 }
 
 // AfterDeleteFromFront is the Stage method called after a delete from front.
-func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
-
-	switch front := any(front).(type) {
-	// insertion point
-	case *Animate:
-		if stage.OnAfterAnimateDeleteCallback != nil {
-			staged := any(staged).(*Animate)
-			stage.OnAfterAnimateDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Circle:
-		if stage.OnAfterCircleDeleteCallback != nil {
-			staged := any(staged).(*Circle)
-			stage.OnAfterCircleDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Condition:
-		if stage.OnAfterConditionDeleteCallback != nil {
-			staged := any(staged).(*Condition)
-			stage.OnAfterConditionDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ControlPoint:
-		if stage.OnAfterControlPointDeleteCallback != nil {
-			staged := any(staged).(*ControlPoint)
-			stage.OnAfterControlPointDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Ellipse:
-		if stage.OnAfterEllipseDeleteCallback != nil {
-			staged := any(staged).(*Ellipse)
-			stage.OnAfterEllipseDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FileToDownload:
-		if stage.OnAfterFileToDownloadDeleteCallback != nil {
-			staged := any(staged).(*FileToDownload)
-			stage.OnAfterFileToDownloadDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Layer:
-		if stage.OnAfterLayerDeleteCallback != nil {
-			staged := any(staged).(*Layer)
-			stage.OnAfterLayerDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Line:
-		if stage.OnAfterLineDeleteCallback != nil {
-			staged := any(staged).(*Line)
-			stage.OnAfterLineDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Link:
-		if stage.OnAfterLinkDeleteCallback != nil {
-			staged := any(staged).(*Link)
-			stage.OnAfterLinkDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *LinkAnchoredPath:
-		if stage.OnAfterLinkAnchoredPathDeleteCallback != nil {
-			staged := any(staged).(*LinkAnchoredPath)
-			stage.OnAfterLinkAnchoredPathDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *LinkAnchoredText:
-		if stage.OnAfterLinkAnchoredTextDeleteCallback != nil {
-			staged := any(staged).(*LinkAnchoredText)
-			stage.OnAfterLinkAnchoredTextDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Path:
-		if stage.OnAfterPathDeleteCallback != nil {
-			staged := any(staged).(*Path)
-			stage.OnAfterPathDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Point:
-		if stage.OnAfterPointDeleteCallback != nil {
-			staged := any(staged).(*Point)
-			stage.OnAfterPointDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Polygone:
-		if stage.OnAfterPolygoneDeleteCallback != nil {
-			staged := any(staged).(*Polygone)
-			stage.OnAfterPolygoneDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Polyline:
-		if stage.OnAfterPolylineDeleteCallback != nil {
-			staged := any(staged).(*Polyline)
-			stage.OnAfterPolylineDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Rect:
-		if stage.OnAfterRectDeleteCallback != nil {
-			staged := any(staged).(*Rect)
-			stage.OnAfterRectDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *RectAnchoredPath:
-		if stage.OnAfterRectAnchoredPathDeleteCallback != nil {
-			staged := any(staged).(*RectAnchoredPath)
-			stage.OnAfterRectAnchoredPathDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *RectAnchoredPngImage:
-		if stage.OnAfterRectAnchoredPngImageDeleteCallback != nil {
-			staged := any(staged).(*RectAnchoredPngImage)
-			stage.OnAfterRectAnchoredPngImageDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *RectAnchoredRect:
-		if stage.OnAfterRectAnchoredRectDeleteCallback != nil {
-			staged := any(staged).(*RectAnchoredRect)
-			stage.OnAfterRectAnchoredRectDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *RectAnchoredText:
-		if stage.OnAfterRectAnchoredTextDeleteCallback != nil {
-			staged := any(staged).(*RectAnchoredText)
-			stage.OnAfterRectAnchoredTextDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *RectLinkLink:
-		if stage.OnAfterRectLinkLinkDeleteCallback != nil {
-			staged := any(staged).(*RectLinkLink)
-			stage.OnAfterRectLinkLinkDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *SVG:
-		if stage.OnAfterSVGDeleteCallback != nil {
-			staged := any(staged).(*SVG)
-			stage.OnAfterSVGDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *SvgText:
-		if stage.OnAfterSvgTextDeleteCallback != nil {
-			staged := any(staged).(*SvgText)
-			stage.OnAfterSvgTextDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Text:
-		if stage.OnAfterTextDeleteCallback != nil {
-			staged := any(staged).(*Text)
-			stage.OnAfterTextDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	default:
-		_ = front
+func (stage *Stage) AfterDeleteFromFront(staged, front GongstructIF) {
+	if staged != nil {
+		staged.GongAfterDeleteFromFront(stage, front)
 	}
 }
+
+// insertion point
+func (animate *Animate) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterAnimateCreateCallback != nil {
+		stage.OnAfterAnimateCreateCallback.OnAfterCreate(stage, animate)
+	}
+}
+
+func (animate *Animate) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterAnimateUpdateCallback != nil {
+		var frontAnimate *Animate
+		if front != nil {
+			frontAnimate, _ = front.(*Animate)
+		}
+		stage.OnAfterAnimateUpdateCallback.OnAfterUpdate(stage, animate, frontAnimate)
+	}
+}
+
+func (animate *Animate) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterAnimateDeleteCallback != nil {
+		var frontAnimate *Animate
+		if front != nil {
+			frontAnimate, _ = front.(*Animate)
+		}
+		stage.OnAfterAnimateDeleteCallback.OnAfterDelete(stage, animate, frontAnimate)
+	}
+}
+
+func (circle *Circle) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCircleCreateCallback != nil {
+		stage.OnAfterCircleCreateCallback.OnAfterCreate(stage, circle)
+	}
+}
+
+func (circle *Circle) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCircleUpdateCallback != nil {
+		var frontCircle *Circle
+		if front != nil {
+			frontCircle, _ = front.(*Circle)
+		}
+		stage.OnAfterCircleUpdateCallback.OnAfterUpdate(stage, circle, frontCircle)
+	}
+}
+
+func (circle *Circle) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCircleDeleteCallback != nil {
+		var frontCircle *Circle
+		if front != nil {
+			frontCircle, _ = front.(*Circle)
+		}
+		stage.OnAfterCircleDeleteCallback.OnAfterDelete(stage, circle, frontCircle)
+	}
+}
+
+func (condition *Condition) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterConditionCreateCallback != nil {
+		stage.OnAfterConditionCreateCallback.OnAfterCreate(stage, condition)
+	}
+}
+
+func (condition *Condition) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterConditionUpdateCallback != nil {
+		var frontCondition *Condition
+		if front != nil {
+			frontCondition, _ = front.(*Condition)
+		}
+		stage.OnAfterConditionUpdateCallback.OnAfterUpdate(stage, condition, frontCondition)
+	}
+}
+
+func (condition *Condition) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterConditionDeleteCallback != nil {
+		var frontCondition *Condition
+		if front != nil {
+			frontCondition, _ = front.(*Condition)
+		}
+		stage.OnAfterConditionDeleteCallback.OnAfterDelete(stage, condition, frontCondition)
+	}
+}
+
+func (controlpoint *ControlPoint) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterControlPointCreateCallback != nil {
+		stage.OnAfterControlPointCreateCallback.OnAfterCreate(stage, controlpoint)
+	}
+}
+
+func (controlpoint *ControlPoint) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterControlPointUpdateCallback != nil {
+		var frontControlPoint *ControlPoint
+		if front != nil {
+			frontControlPoint, _ = front.(*ControlPoint)
+		}
+		stage.OnAfterControlPointUpdateCallback.OnAfterUpdate(stage, controlpoint, frontControlPoint)
+	}
+}
+
+func (controlpoint *ControlPoint) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterControlPointDeleteCallback != nil {
+		var frontControlPoint *ControlPoint
+		if front != nil {
+			frontControlPoint, _ = front.(*ControlPoint)
+		}
+		stage.OnAfterControlPointDeleteCallback.OnAfterDelete(stage, controlpoint, frontControlPoint)
+	}
+}
+
+func (ellipse *Ellipse) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterEllipseCreateCallback != nil {
+		stage.OnAfterEllipseCreateCallback.OnAfterCreate(stage, ellipse)
+	}
+}
+
+func (ellipse *Ellipse) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterEllipseUpdateCallback != nil {
+		var frontEllipse *Ellipse
+		if front != nil {
+			frontEllipse, _ = front.(*Ellipse)
+		}
+		stage.OnAfterEllipseUpdateCallback.OnAfterUpdate(stage, ellipse, frontEllipse)
+	}
+}
+
+func (ellipse *Ellipse) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterEllipseDeleteCallback != nil {
+		var frontEllipse *Ellipse
+		if front != nil {
+			frontEllipse, _ = front.(*Ellipse)
+		}
+		stage.OnAfterEllipseDeleteCallback.OnAfterDelete(stage, ellipse, frontEllipse)
+	}
+}
+
+func (filetodownload *FileToDownload) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterFileToDownloadCreateCallback != nil {
+		stage.OnAfterFileToDownloadCreateCallback.OnAfterCreate(stage, filetodownload)
+	}
+}
+
+func (filetodownload *FileToDownload) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterFileToDownloadUpdateCallback != nil {
+		var frontFileToDownload *FileToDownload
+		if front != nil {
+			frontFileToDownload, _ = front.(*FileToDownload)
+		}
+		stage.OnAfterFileToDownloadUpdateCallback.OnAfterUpdate(stage, filetodownload, frontFileToDownload)
+	}
+}
+
+func (filetodownload *FileToDownload) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterFileToDownloadDeleteCallback != nil {
+		var frontFileToDownload *FileToDownload
+		if front != nil {
+			frontFileToDownload, _ = front.(*FileToDownload)
+		}
+		stage.OnAfterFileToDownloadDeleteCallback.OnAfterDelete(stage, filetodownload, frontFileToDownload)
+	}
+}
+
+func (layer *Layer) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLayerCreateCallback != nil {
+		stage.OnAfterLayerCreateCallback.OnAfterCreate(stage, layer)
+	}
+}
+
+func (layer *Layer) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLayerUpdateCallback != nil {
+		var frontLayer *Layer
+		if front != nil {
+			frontLayer, _ = front.(*Layer)
+		}
+		stage.OnAfterLayerUpdateCallback.OnAfterUpdate(stage, layer, frontLayer)
+	}
+}
+
+func (layer *Layer) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLayerDeleteCallback != nil {
+		var frontLayer *Layer
+		if front != nil {
+			frontLayer, _ = front.(*Layer)
+		}
+		stage.OnAfterLayerDeleteCallback.OnAfterDelete(stage, layer, frontLayer)
+	}
+}
+
+func (line *Line) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLineCreateCallback != nil {
+		stage.OnAfterLineCreateCallback.OnAfterCreate(stage, line)
+	}
+}
+
+func (line *Line) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLineUpdateCallback != nil {
+		var frontLine *Line
+		if front != nil {
+			frontLine, _ = front.(*Line)
+		}
+		stage.OnAfterLineUpdateCallback.OnAfterUpdate(stage, line, frontLine)
+	}
+}
+
+func (line *Line) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLineDeleteCallback != nil {
+		var frontLine *Line
+		if front != nil {
+			frontLine, _ = front.(*Line)
+		}
+		stage.OnAfterLineDeleteCallback.OnAfterDelete(stage, line, frontLine)
+	}
+}
+
+func (link *Link) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLinkCreateCallback != nil {
+		stage.OnAfterLinkCreateCallback.OnAfterCreate(stage, link)
+	}
+}
+
+func (link *Link) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinkUpdateCallback != nil {
+		var frontLink *Link
+		if front != nil {
+			frontLink, _ = front.(*Link)
+		}
+		stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, link, frontLink)
+	}
+}
+
+func (link *Link) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinkDeleteCallback != nil {
+		var frontLink *Link
+		if front != nil {
+			frontLink, _ = front.(*Link)
+		}
+		stage.OnAfterLinkDeleteCallback.OnAfterDelete(stage, link, frontLink)
+	}
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLinkAnchoredPathCreateCallback != nil {
+		stage.OnAfterLinkAnchoredPathCreateCallback.OnAfterCreate(stage, linkanchoredpath)
+	}
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinkAnchoredPathUpdateCallback != nil {
+		var frontLinkAnchoredPath *LinkAnchoredPath
+		if front != nil {
+			frontLinkAnchoredPath, _ = front.(*LinkAnchoredPath)
+		}
+		stage.OnAfterLinkAnchoredPathUpdateCallback.OnAfterUpdate(stage, linkanchoredpath, frontLinkAnchoredPath)
+	}
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinkAnchoredPathDeleteCallback != nil {
+		var frontLinkAnchoredPath *LinkAnchoredPath
+		if front != nil {
+			frontLinkAnchoredPath, _ = front.(*LinkAnchoredPath)
+		}
+		stage.OnAfterLinkAnchoredPathDeleteCallback.OnAfterDelete(stage, linkanchoredpath, frontLinkAnchoredPath)
+	}
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLinkAnchoredTextCreateCallback != nil {
+		stage.OnAfterLinkAnchoredTextCreateCallback.OnAfterCreate(stage, linkanchoredtext)
+	}
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinkAnchoredTextUpdateCallback != nil {
+		var frontLinkAnchoredText *LinkAnchoredText
+		if front != nil {
+			frontLinkAnchoredText, _ = front.(*LinkAnchoredText)
+		}
+		stage.OnAfterLinkAnchoredTextUpdateCallback.OnAfterUpdate(stage, linkanchoredtext, frontLinkAnchoredText)
+	}
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinkAnchoredTextDeleteCallback != nil {
+		var frontLinkAnchoredText *LinkAnchoredText
+		if front != nil {
+			frontLinkAnchoredText, _ = front.(*LinkAnchoredText)
+		}
+		stage.OnAfterLinkAnchoredTextDeleteCallback.OnAfterDelete(stage, linkanchoredtext, frontLinkAnchoredText)
+	}
+}
+
+func (path *Path) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPathCreateCallback != nil {
+		stage.OnAfterPathCreateCallback.OnAfterCreate(stage, path)
+	}
+}
+
+func (path *Path) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPathUpdateCallback != nil {
+		var frontPath *Path
+		if front != nil {
+			frontPath, _ = front.(*Path)
+		}
+		stage.OnAfterPathUpdateCallback.OnAfterUpdate(stage, path, frontPath)
+	}
+}
+
+func (path *Path) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPathDeleteCallback != nil {
+		var frontPath *Path
+		if front != nil {
+			frontPath, _ = front.(*Path)
+		}
+		stage.OnAfterPathDeleteCallback.OnAfterDelete(stage, path, frontPath)
+	}
+}
+
+func (point *Point) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPointCreateCallback != nil {
+		stage.OnAfterPointCreateCallback.OnAfterCreate(stage, point)
+	}
+}
+
+func (point *Point) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPointUpdateCallback != nil {
+		var frontPoint *Point
+		if front != nil {
+			frontPoint, _ = front.(*Point)
+		}
+		stage.OnAfterPointUpdateCallback.OnAfterUpdate(stage, point, frontPoint)
+	}
+}
+
+func (point *Point) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPointDeleteCallback != nil {
+		var frontPoint *Point
+		if front != nil {
+			frontPoint, _ = front.(*Point)
+		}
+		stage.OnAfterPointDeleteCallback.OnAfterDelete(stage, point, frontPoint)
+	}
+}
+
+func (polygone *Polygone) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPolygoneCreateCallback != nil {
+		stage.OnAfterPolygoneCreateCallback.OnAfterCreate(stage, polygone)
+	}
+}
+
+func (polygone *Polygone) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPolygoneUpdateCallback != nil {
+		var frontPolygone *Polygone
+		if front != nil {
+			frontPolygone, _ = front.(*Polygone)
+		}
+		stage.OnAfterPolygoneUpdateCallback.OnAfterUpdate(stage, polygone, frontPolygone)
+	}
+}
+
+func (polygone *Polygone) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPolygoneDeleteCallback != nil {
+		var frontPolygone *Polygone
+		if front != nil {
+			frontPolygone, _ = front.(*Polygone)
+		}
+		stage.OnAfterPolygoneDeleteCallback.OnAfterDelete(stage, polygone, frontPolygone)
+	}
+}
+
+func (polyline *Polyline) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPolylineCreateCallback != nil {
+		stage.OnAfterPolylineCreateCallback.OnAfterCreate(stage, polyline)
+	}
+}
+
+func (polyline *Polyline) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPolylineUpdateCallback != nil {
+		var frontPolyline *Polyline
+		if front != nil {
+			frontPolyline, _ = front.(*Polyline)
+		}
+		stage.OnAfterPolylineUpdateCallback.OnAfterUpdate(stage, polyline, frontPolyline)
+	}
+}
+
+func (polyline *Polyline) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPolylineDeleteCallback != nil {
+		var frontPolyline *Polyline
+		if front != nil {
+			frontPolyline, _ = front.(*Polyline)
+		}
+		stage.OnAfterPolylineDeleteCallback.OnAfterDelete(stage, polyline, frontPolyline)
+	}
+}
+
+func (rect *Rect) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRectCreateCallback != nil {
+		stage.OnAfterRectCreateCallback.OnAfterCreate(stage, rect)
+	}
+}
+
+func (rect *Rect) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectUpdateCallback != nil {
+		var frontRect *Rect
+		if front != nil {
+			frontRect, _ = front.(*Rect)
+		}
+		stage.OnAfterRectUpdateCallback.OnAfterUpdate(stage, rect, frontRect)
+	}
+}
+
+func (rect *Rect) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectDeleteCallback != nil {
+		var frontRect *Rect
+		if front != nil {
+			frontRect, _ = front.(*Rect)
+		}
+		stage.OnAfterRectDeleteCallback.OnAfterDelete(stage, rect, frontRect)
+	}
+}
+
+func (rectanchoredpath *RectAnchoredPath) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRectAnchoredPathCreateCallback != nil {
+		stage.OnAfterRectAnchoredPathCreateCallback.OnAfterCreate(stage, rectanchoredpath)
+	}
+}
+
+func (rectanchoredpath *RectAnchoredPath) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredPathUpdateCallback != nil {
+		var frontRectAnchoredPath *RectAnchoredPath
+		if front != nil {
+			frontRectAnchoredPath, _ = front.(*RectAnchoredPath)
+		}
+		stage.OnAfterRectAnchoredPathUpdateCallback.OnAfterUpdate(stage, rectanchoredpath, frontRectAnchoredPath)
+	}
+}
+
+func (rectanchoredpath *RectAnchoredPath) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredPathDeleteCallback != nil {
+		var frontRectAnchoredPath *RectAnchoredPath
+		if front != nil {
+			frontRectAnchoredPath, _ = front.(*RectAnchoredPath)
+		}
+		stage.OnAfterRectAnchoredPathDeleteCallback.OnAfterDelete(stage, rectanchoredpath, frontRectAnchoredPath)
+	}
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRectAnchoredPngImageCreateCallback != nil {
+		stage.OnAfterRectAnchoredPngImageCreateCallback.OnAfterCreate(stage, rectanchoredpngimage)
+	}
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredPngImageUpdateCallback != nil {
+		var frontRectAnchoredPngImage *RectAnchoredPngImage
+		if front != nil {
+			frontRectAnchoredPngImage, _ = front.(*RectAnchoredPngImage)
+		}
+		stage.OnAfterRectAnchoredPngImageUpdateCallback.OnAfterUpdate(stage, rectanchoredpngimage, frontRectAnchoredPngImage)
+	}
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredPngImageDeleteCallback != nil {
+		var frontRectAnchoredPngImage *RectAnchoredPngImage
+		if front != nil {
+			frontRectAnchoredPngImage, _ = front.(*RectAnchoredPngImage)
+		}
+		stage.OnAfterRectAnchoredPngImageDeleteCallback.OnAfterDelete(stage, rectanchoredpngimage, frontRectAnchoredPngImage)
+	}
+}
+
+func (rectanchoredrect *RectAnchoredRect) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRectAnchoredRectCreateCallback != nil {
+		stage.OnAfterRectAnchoredRectCreateCallback.OnAfterCreate(stage, rectanchoredrect)
+	}
+}
+
+func (rectanchoredrect *RectAnchoredRect) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredRectUpdateCallback != nil {
+		var frontRectAnchoredRect *RectAnchoredRect
+		if front != nil {
+			frontRectAnchoredRect, _ = front.(*RectAnchoredRect)
+		}
+		stage.OnAfterRectAnchoredRectUpdateCallback.OnAfterUpdate(stage, rectanchoredrect, frontRectAnchoredRect)
+	}
+}
+
+func (rectanchoredrect *RectAnchoredRect) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredRectDeleteCallback != nil {
+		var frontRectAnchoredRect *RectAnchoredRect
+		if front != nil {
+			frontRectAnchoredRect, _ = front.(*RectAnchoredRect)
+		}
+		stage.OnAfterRectAnchoredRectDeleteCallback.OnAfterDelete(stage, rectanchoredrect, frontRectAnchoredRect)
+	}
+}
+
+func (rectanchoredtext *RectAnchoredText) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRectAnchoredTextCreateCallback != nil {
+		stage.OnAfterRectAnchoredTextCreateCallback.OnAfterCreate(stage, rectanchoredtext)
+	}
+}
+
+func (rectanchoredtext *RectAnchoredText) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredTextUpdateCallback != nil {
+		var frontRectAnchoredText *RectAnchoredText
+		if front != nil {
+			frontRectAnchoredText, _ = front.(*RectAnchoredText)
+		}
+		stage.OnAfterRectAnchoredTextUpdateCallback.OnAfterUpdate(stage, rectanchoredtext, frontRectAnchoredText)
+	}
+}
+
+func (rectanchoredtext *RectAnchoredText) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectAnchoredTextDeleteCallback != nil {
+		var frontRectAnchoredText *RectAnchoredText
+		if front != nil {
+			frontRectAnchoredText, _ = front.(*RectAnchoredText)
+		}
+		stage.OnAfterRectAnchoredTextDeleteCallback.OnAfterDelete(stage, rectanchoredtext, frontRectAnchoredText)
+	}
+}
+
+func (rectlinklink *RectLinkLink) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterRectLinkLinkCreateCallback != nil {
+		stage.OnAfterRectLinkLinkCreateCallback.OnAfterCreate(stage, rectlinklink)
+	}
+}
+
+func (rectlinklink *RectLinkLink) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectLinkLinkUpdateCallback != nil {
+		var frontRectLinkLink *RectLinkLink
+		if front != nil {
+			frontRectLinkLink, _ = front.(*RectLinkLink)
+		}
+		stage.OnAfterRectLinkLinkUpdateCallback.OnAfterUpdate(stage, rectlinklink, frontRectLinkLink)
+	}
+}
+
+func (rectlinklink *RectLinkLink) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterRectLinkLinkDeleteCallback != nil {
+		var frontRectLinkLink *RectLinkLink
+		if front != nil {
+			frontRectLinkLink, _ = front.(*RectLinkLink)
+		}
+		stage.OnAfterRectLinkLinkDeleteCallback.OnAfterDelete(stage, rectlinklink, frontRectLinkLink)
+	}
+}
+
+func (svg *SVG) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterSVGCreateCallback != nil {
+		stage.OnAfterSVGCreateCallback.OnAfterCreate(stage, svg)
+	}
+}
+
+func (svg *SVG) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSVGUpdateCallback != nil {
+		var frontSVG *SVG
+		if front != nil {
+			frontSVG, _ = front.(*SVG)
+		}
+		stage.OnAfterSVGUpdateCallback.OnAfterUpdate(stage, svg, frontSVG)
+	}
+}
+
+func (svg *SVG) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSVGDeleteCallback != nil {
+		var frontSVG *SVG
+		if front != nil {
+			frontSVG, _ = front.(*SVG)
+		}
+		stage.OnAfterSVGDeleteCallback.OnAfterDelete(stage, svg, frontSVG)
+	}
+}
+
+func (svgtext *SvgText) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterSvgTextCreateCallback != nil {
+		stage.OnAfterSvgTextCreateCallback.OnAfterCreate(stage, svgtext)
+	}
+}
+
+func (svgtext *SvgText) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSvgTextUpdateCallback != nil {
+		var frontSvgText *SvgText
+		if front != nil {
+			frontSvgText, _ = front.(*SvgText)
+		}
+		stage.OnAfterSvgTextUpdateCallback.OnAfterUpdate(stage, svgtext, frontSvgText)
+	}
+}
+
+func (svgtext *SvgText) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSvgTextDeleteCallback != nil {
+		var frontSvgText *SvgText
+		if front != nil {
+			frontSvgText, _ = front.(*SvgText)
+		}
+		stage.OnAfterSvgTextDeleteCallback.OnAfterDelete(stage, svgtext, frontSvgText)
+	}
+}
+
+func (text *Text) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterTextCreateCallback != nil {
+		stage.OnAfterTextCreateCallback.OnAfterCreate(stage, text)
+	}
+}
+
+func (text *Text) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTextUpdateCallback != nil {
+		var frontText *Text
+		if front != nil {
+			frontText, _ = front.(*Text)
+		}
+		stage.OnAfterTextUpdateCallback.OnAfterUpdate(stage, text, frontText)
+	}
+}
+
+func (text *Text) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterTextDeleteCallback != nil {
+		var frontText *Text
+		if front != nil {
+			frontText, _ = front.(*Text)
+		}
+		stage.OnAfterTextDeleteCallback.OnAfterDelete(stage, text, frontText)
+	}
+}
+

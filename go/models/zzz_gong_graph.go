@@ -4,176 +4,163 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *GongBasicField:
-		ok = stage.IsStagedGongBasicField(target)
-
-	case *GongEnum:
-		ok = stage.IsStagedGongEnum(target)
-
-	case *GongEnumValue:
-		ok = stage.IsStagedGongEnumValue(target)
-
-	case *GongLink:
-		ok = stage.IsStagedGongLink(target)
-
-	case *GongNote:
-		ok = stage.IsStagedGongNote(target)
-
-	case *GongStruct:
-		ok = stage.IsStagedGongStruct(target)
-
-	case *GongTimeField:
-		ok = stage.IsStagedGongTimeField(target)
-
-	case *MetaReference:
-		ok = stage.IsStagedMetaReference(target)
-
-	case *ModelPkg:
-		ok = stage.IsStagedModelPkg(target)
-
-	case *PointerToGongStructField:
-		ok = stage.IsStagedPointerToGongStructField(target)
-
-	case *SliceOfPointerToGongStructField:
-		ok = stage.IsStagedSliceOfPointerToGongStructField(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedGongBasicField(gongbasicfield *GongBasicField) (ok bool) {
+func (gongbasicfield *GongBasicField) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongBasicFields[gongbasicfield]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongEnum(gongenum *GongEnum) (ok bool) {
+func (stage *Stage) IsStagedGongBasicField(gongbasicfield *GongBasicField) (ok bool) {
+
+	return gongbasicfield.GongIsStaged(stage)
+}
+
+func (gongenum *GongEnum) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongEnums[gongenum]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongEnumValue(gongenumvalue *GongEnumValue) (ok bool) {
+func (stage *Stage) IsStagedGongEnum(gongenum *GongEnum) (ok bool) {
+
+	return gongenum.GongIsStaged(stage)
+}
+
+func (gongenumvalue *GongEnumValue) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongEnumValues[gongenumvalue]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongLink(gonglink *GongLink) (ok bool) {
+func (stage *Stage) IsStagedGongEnumValue(gongenumvalue *GongEnumValue) (ok bool) {
+
+	return gongenumvalue.GongIsStaged(stage)
+}
+
+func (gonglink *GongLink) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongLinks[gonglink]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongNote(gongnote *GongNote) (ok bool) {
+func (stage *Stage) IsStagedGongLink(gonglink *GongLink) (ok bool) {
+
+	return gonglink.GongIsStaged(stage)
+}
+
+func (gongnote *GongNote) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongNotes[gongnote]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongStruct(gongstruct *GongStruct) (ok bool) {
+func (stage *Stage) IsStagedGongNote(gongnote *GongNote) (ok bool) {
+
+	return gongnote.GongIsStaged(stage)
+}
+
+func (gongstruct *GongStruct) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongStructs[gongstruct]
 
 	return
 }
 
-func (stage *Stage) IsStagedGongTimeField(gongtimefield *GongTimeField) (ok bool) {
+func (stage *Stage) IsStagedGongStruct(gongstruct *GongStruct) (ok bool) {
+
+	return gongstruct.GongIsStaged(stage)
+}
+
+func (gongtimefield *GongTimeField) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GongTimeFields[gongtimefield]
 
 	return
 }
 
-func (stage *Stage) IsStagedMetaReference(metareference *MetaReference) (ok bool) {
+func (stage *Stage) IsStagedGongTimeField(gongtimefield *GongTimeField) (ok bool) {
+
+	return gongtimefield.GongIsStaged(stage)
+}
+
+func (metareference *MetaReference) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MetaReferences[metareference]
 
 	return
 }
 
-func (stage *Stage) IsStagedModelPkg(modelpkg *ModelPkg) (ok bool) {
+func (stage *Stage) IsStagedMetaReference(metareference *MetaReference) (ok bool) {
+
+	return metareference.GongIsStaged(stage)
+}
+
+func (modelpkg *ModelPkg) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ModelPkgs[modelpkg]
 
 	return
 }
 
-func (stage *Stage) IsStagedPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) (ok bool) {
+func (stage *Stage) IsStagedModelPkg(modelpkg *ModelPkg) (ok bool) {
+
+	return modelpkg.GongIsStaged(stage)
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PointerToGongStructFields[pointertogongstructfield]
 
 	return
 }
 
-func (stage *Stage) IsStagedSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) (ok bool) {
+func (stage *Stage) IsStagedPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) (ok bool) {
+
+	return pointertogongstructfield.GongIsStaged(stage)
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]
 
 	return
 }
 
+func (stage *Stage) IsStagedSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) (ok bool) {
+
+	return sliceofpointertogongstructfield.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *GongBasicField:
-		stage.StageBranchGongBasicField(target)
-
-	case *GongEnum:
-		stage.StageBranchGongEnum(target)
-
-	case *GongEnumValue:
-		stage.StageBranchGongEnumValue(target)
-
-	case *GongLink:
-		stage.StageBranchGongLink(target)
-
-	case *GongNote:
-		stage.StageBranchGongNote(target)
-
-	case *GongStruct:
-		stage.StageBranchGongStruct(target)
-
-	case *GongTimeField:
-		stage.StageBranchGongTimeField(target)
-
-	case *MetaReference:
-		stage.StageBranchMetaReference(target)
-
-	case *ModelPkg:
-		stage.StageBranchModelPkg(target)
-
-	case *PointerToGongStructField:
-		stage.StageBranchPointerToGongStructField(target)
-
-	case *SliceOfPointerToGongStructField:
-		stage.StageBranchSliceOfPointerToGongStructField(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (gongbasicfield *GongBasicField) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongBasicField(gongbasicfield)
+}
+
 func (stage *Stage) StageBranchGongBasicField(gongbasicfield *GongBasicField) {
 
 	// check if instance is already staged
@@ -190,6 +177,10 @@ func (stage *Stage) StageBranchGongBasicField(gongbasicfield *GongBasicField) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gongenum *GongEnum) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongEnum(gongenum)
 }
 
 func (stage *Stage) StageBranchGongEnum(gongenum *GongEnum) {
@@ -210,6 +201,10 @@ func (stage *Stage) StageBranchGongEnum(gongenum *GongEnum) {
 
 }
 
+func (gongenumvalue *GongEnumValue) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongEnumValue(gongenumvalue)
+}
+
 func (stage *Stage) StageBranchGongEnumValue(gongenumvalue *GongEnumValue) {
 
 	// check if instance is already staged
@@ -225,6 +220,10 @@ func (stage *Stage) StageBranchGongEnumValue(gongenumvalue *GongEnumValue) {
 
 }
 
+func (gonglink *GongLink) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongLink(gonglink)
+}
+
 func (stage *Stage) StageBranchGongLink(gonglink *GongLink) {
 
 	// check if instance is already staged
@@ -238,6 +237,10 @@ func (stage *Stage) StageBranchGongLink(gonglink *GongLink) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gongnote *GongNote) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongNote(gongnote)
 }
 
 func (stage *Stage) StageBranchGongNote(gongnote *GongNote) {
@@ -256,6 +259,10 @@ func (stage *Stage) StageBranchGongNote(gongnote *GongNote) {
 		stage.StageBranch(_gonglink)
 	}
 
+}
+
+func (gongstruct *GongStruct) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongStruct(gongstruct)
 }
 
 func (stage *Stage) StageBranchGongStruct(gongstruct *GongStruct) {
@@ -285,6 +292,10 @@ func (stage *Stage) StageBranchGongStruct(gongstruct *GongStruct) {
 
 }
 
+func (gongtimefield *GongTimeField) GongStageBranch(stage *Stage) {
+	stage.StageBranchGongTimeField(gongtimefield)
+}
+
 func (stage *Stage) StageBranchGongTimeField(gongtimefield *GongTimeField) {
 
 	// check if instance is already staged
@@ -298,6 +309,10 @@ func (stage *Stage) StageBranchGongTimeField(gongtimefield *GongTimeField) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metareference *MetaReference) GongStageBranch(stage *Stage) {
+	stage.StageBranchMetaReference(metareference)
 }
 
 func (stage *Stage) StageBranchMetaReference(metareference *MetaReference) {
@@ -315,6 +330,10 @@ func (stage *Stage) StageBranchMetaReference(metareference *MetaReference) {
 
 }
 
+func (modelpkg *ModelPkg) GongStageBranch(stage *Stage) {
+	stage.StageBranchModelPkg(modelpkg)
+}
+
 func (stage *Stage) StageBranchModelPkg(modelpkg *ModelPkg) {
 
 	// check if instance is already staged
@@ -328,6 +347,10 @@ func (stage *Stage) StageBranchModelPkg(modelpkg *ModelPkg) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongStageBranch(stage *Stage) {
+	stage.StageBranchPointerToGongStructField(pointertogongstructfield)
 }
 
 func (stage *Stage) StageBranchPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) {
@@ -346,6 +369,10 @@ func (stage *Stage) StageBranchPointerToGongStructField(pointertogongstructfield
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongStageBranch(stage *Stage) {
+	stage.StageBranchSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 }
 
 func (stage *Stage) StageBranchSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) {
@@ -669,49 +696,22 @@ func GongCopyBranchSliceOfPointerToGongStructField(mapOrigCopy map[any]any, slic
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *GongBasicField:
-		stage.UnstageBranchGongBasicField(target)
-
-	case *GongEnum:
-		stage.UnstageBranchGongEnum(target)
-
-	case *GongEnumValue:
-		stage.UnstageBranchGongEnumValue(target)
-
-	case *GongLink:
-		stage.UnstageBranchGongLink(target)
-
-	case *GongNote:
-		stage.UnstageBranchGongNote(target)
-
-	case *GongStruct:
-		stage.UnstageBranchGongStruct(target)
-
-	case *GongTimeField:
-		stage.UnstageBranchGongTimeField(target)
-
-	case *MetaReference:
-		stage.UnstageBranchMetaReference(target)
-
-	case *ModelPkg:
-		stage.UnstageBranchModelPkg(target)
-
-	case *PointerToGongStructField:
-		stage.UnstageBranchPointerToGongStructField(target)
-
-	case *SliceOfPointerToGongStructField:
-		stage.UnstageBranchSliceOfPointerToGongStructField(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (gongbasicfield *GongBasicField) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongBasicField(gongbasicfield)
+}
+
 func (stage *Stage) UnstageBranchGongBasicField(gongbasicfield *GongBasicField) {
 
 	// check if instance is already staged
@@ -728,6 +728,10 @@ func (stage *Stage) UnstageBranchGongBasicField(gongbasicfield *GongBasicField) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gongenum *GongEnum) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongEnum(gongenum)
 }
 
 func (stage *Stage) UnstageBranchGongEnum(gongenum *GongEnum) {
@@ -748,6 +752,10 @@ func (stage *Stage) UnstageBranchGongEnum(gongenum *GongEnum) {
 
 }
 
+func (gongenumvalue *GongEnumValue) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongEnumValue(gongenumvalue)
+}
+
 func (stage *Stage) UnstageBranchGongEnumValue(gongenumvalue *GongEnumValue) {
 
 	// check if instance is already staged
@@ -763,6 +771,10 @@ func (stage *Stage) UnstageBranchGongEnumValue(gongenumvalue *GongEnumValue) {
 
 }
 
+func (gonglink *GongLink) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongLink(gonglink)
+}
+
 func (stage *Stage) UnstageBranchGongLink(gonglink *GongLink) {
 
 	// check if instance is already staged
@@ -776,6 +788,10 @@ func (stage *Stage) UnstageBranchGongLink(gonglink *GongLink) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (gongnote *GongNote) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongNote(gongnote)
 }
 
 func (stage *Stage) UnstageBranchGongNote(gongnote *GongNote) {
@@ -794,6 +810,10 @@ func (stage *Stage) UnstageBranchGongNote(gongnote *GongNote) {
 		stage.UnstageBranch(_gonglink)
 	}
 
+}
+
+func (gongstruct *GongStruct) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongStruct(gongstruct)
 }
 
 func (stage *Stage) UnstageBranchGongStruct(gongstruct *GongStruct) {
@@ -823,6 +843,10 @@ func (stage *Stage) UnstageBranchGongStruct(gongstruct *GongStruct) {
 
 }
 
+func (gongtimefield *GongTimeField) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGongTimeField(gongtimefield)
+}
+
 func (stage *Stage) UnstageBranchGongTimeField(gongtimefield *GongTimeField) {
 
 	// check if instance is already staged
@@ -836,6 +860,10 @@ func (stage *Stage) UnstageBranchGongTimeField(gongtimefield *GongTimeField) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (metareference *MetaReference) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMetaReference(metareference)
 }
 
 func (stage *Stage) UnstageBranchMetaReference(metareference *MetaReference) {
@@ -853,6 +881,10 @@ func (stage *Stage) UnstageBranchMetaReference(metareference *MetaReference) {
 
 }
 
+func (modelpkg *ModelPkg) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchModelPkg(modelpkg)
+}
+
 func (stage *Stage) UnstageBranchModelPkg(modelpkg *ModelPkg) {
 
 	// check if instance is already staged
@@ -866,6 +898,10 @@ func (stage *Stage) UnstageBranchModelPkg(modelpkg *ModelPkg) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPointerToGongStructField(pointertogongstructfield)
 }
 
 func (stage *Stage) UnstageBranchPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) {
@@ -884,6 +920,10 @@ func (stage *Stage) UnstageBranchPointerToGongStructField(pointertogongstructfie
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 }
 
 func (stage *Stage) UnstageBranchSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) {

@@ -4,306 +4,283 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AllocatedProcessShape:
-		ok = stage.IsStagedAllocatedProcessShape(target)
-
-	case *AllocatedResourceShape:
-		ok = stage.IsStagedAllocatedResourceShape(target)
-
-	case *ControlFlow:
-		ok = stage.IsStagedControlFlow(target)
-
-	case *ControlFlowShape:
-		ok = stage.IsStagedControlFlowShape(target)
-
-	case *Data:
-		ok = stage.IsStagedData(target)
-
-	case *DataFlow:
-		ok = stage.IsStagedDataFlow(target)
-
-	case *DataFlowShape:
-		ok = stage.IsStagedDataFlowShape(target)
-
-	case *DataShape:
-		ok = stage.IsStagedDataShape(target)
-
-	case *DiagramProcess:
-		ok = stage.IsStagedDiagramProcess(target)
-
-	case *ExternalParticipantShape:
-		ok = stage.IsStagedExternalParticipantShape(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteTaskShape:
-		ok = stage.IsStagedNoteTaskShape(target)
-
-	case *Participant:
-		ok = stage.IsStagedParticipant(target)
-
-	case *ParticipantShape:
-		ok = stage.IsStagedParticipantShape(target)
-
-	case *Process:
-		ok = stage.IsStagedProcess(target)
-
-	case *ProcessShape:
-		ok = stage.IsStagedProcessShape(target)
-
-	case *Resource:
-		ok = stage.IsStagedResource(target)
-
-	case *Task:
-		ok = stage.IsStagedTask(target)
-
-	case *TaskShape:
-		ok = stage.IsStagedTaskShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) (ok bool) {
+func (allocatedprocessshape *AllocatedProcessShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AllocatedProcessShapes[allocatedprocessshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) (ok bool) {
+func (stage *Stage) IsStagedAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) (ok bool) {
+
+	return allocatedprocessshape.GongIsStaged(stage)
+}
+
+func (allocatedresourceshape *AllocatedResourceShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AllocatedResourceShapes[allocatedresourceshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedControlFlow(controlflow *ControlFlow) (ok bool) {
+func (stage *Stage) IsStagedAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) (ok bool) {
+
+	return allocatedresourceshape.GongIsStaged(stage)
+}
+
+func (controlflow *ControlFlow) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ControlFlows[controlflow]
 
 	return
 }
 
-func (stage *Stage) IsStagedControlFlowShape(controlflowshape *ControlFlowShape) (ok bool) {
+func (stage *Stage) IsStagedControlFlow(controlflow *ControlFlow) (ok bool) {
+
+	return controlflow.GongIsStaged(stage)
+}
+
+func (controlflowshape *ControlFlowShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ControlFlowShapes[controlflowshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedData(data *Data) (ok bool) {
+func (stage *Stage) IsStagedControlFlowShape(controlflowshape *ControlFlowShape) (ok bool) {
+
+	return controlflowshape.GongIsStaged(stage)
+}
+
+func (data *Data) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Datas[data]
 
 	return
 }
 
-func (stage *Stage) IsStagedDataFlow(dataflow *DataFlow) (ok bool) {
+func (stage *Stage) IsStagedData(data *Data) (ok bool) {
+
+	return data.GongIsStaged(stage)
+}
+
+func (dataflow *DataFlow) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DataFlows[dataflow]
 
 	return
 }
 
-func (stage *Stage) IsStagedDataFlowShape(dataflowshape *DataFlowShape) (ok bool) {
+func (stage *Stage) IsStagedDataFlow(dataflow *DataFlow) (ok bool) {
+
+	return dataflow.GongIsStaged(stage)
+}
+
+func (dataflowshape *DataFlowShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DataFlowShapes[dataflowshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedDataShape(datashape *DataShape) (ok bool) {
+func (stage *Stage) IsStagedDataFlowShape(dataflowshape *DataFlowShape) (ok bool) {
+
+	return dataflowshape.GongIsStaged(stage)
+}
+
+func (datashape *DataShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DataShapes[datashape]
 
 	return
 }
 
-func (stage *Stage) IsStagedDiagramProcess(diagramprocess *DiagramProcess) (ok bool) {
+func (stage *Stage) IsStagedDataShape(datashape *DataShape) (ok bool) {
+
+	return datashape.GongIsStaged(stage)
+}
+
+func (diagramprocess *DiagramProcess) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DiagramProcesss[diagramprocess]
 
 	return
 }
 
-func (stage *Stage) IsStagedExternalParticipantShape(externalparticipantshape *ExternalParticipantShape) (ok bool) {
+func (stage *Stage) IsStagedDiagramProcess(diagramprocess *DiagramProcess) (ok bool) {
+
+	return diagramprocess.GongIsStaged(stage)
+}
+
+func (externalparticipantshape *ExternalParticipantShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ExternalParticipantShapes[externalparticipantshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+func (stage *Stage) IsStagedExternalParticipantShape(externalparticipantshape *ExternalParticipantShape) (ok bool) {
+
+	return externalparticipantshape.GongIsStaged(stage)
+}
+
+func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Librarys[library]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	return library.GongIsStaged(stage)
+}
+
+func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notes[note]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	return note.GongIsStaged(stage)
+}
+
+func (noteshape *NoteShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteShapes[noteshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteTaskShape(notetaskshape *NoteTaskShape) (ok bool) {
+func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+
+	return noteshape.GongIsStaged(stage)
+}
+
+func (notetaskshape *NoteTaskShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteTaskShapes[notetaskshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedParticipant(participant *Participant) (ok bool) {
+func (stage *Stage) IsStagedNoteTaskShape(notetaskshape *NoteTaskShape) (ok bool) {
+
+	return notetaskshape.GongIsStaged(stage)
+}
+
+func (participant *Participant) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Participants[participant]
 
 	return
 }
 
-func (stage *Stage) IsStagedParticipantShape(participantshape *ParticipantShape) (ok bool) {
+func (stage *Stage) IsStagedParticipant(participant *Participant) (ok bool) {
+
+	return participant.GongIsStaged(stage)
+}
+
+func (participantshape *ParticipantShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParticipantShapes[participantshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedProcess(process *Process) (ok bool) {
+func (stage *Stage) IsStagedParticipantShape(participantshape *ParticipantShape) (ok bool) {
+
+	return participantshape.GongIsStaged(stage)
+}
+
+func (process *Process) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Processs[process]
 
 	return
 }
 
-func (stage *Stage) IsStagedProcessShape(processshape *ProcessShape) (ok bool) {
+func (stage *Stage) IsStagedProcess(process *Process) (ok bool) {
+
+	return process.GongIsStaged(stage)
+}
+
+func (processshape *ProcessShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ProcessShapes[processshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
+func (stage *Stage) IsStagedProcessShape(processshape *ProcessShape) (ok bool) {
+
+	return processshape.GongIsStaged(stage)
+}
+
+func (resource *Resource) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Resources[resource]
 
 	return
 }
 
-func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
+func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
+
+	return resource.GongIsStaged(stage)
+}
+
+func (task *Task) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Tasks[task]
 
 	return
 }
 
-func (stage *Stage) IsStagedTaskShape(taskshape *TaskShape) (ok bool) {
+func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
+
+	return task.GongIsStaged(stage)
+}
+
+func (taskshape *TaskShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TaskShapes[taskshape]
 
 	return
 }
 
+func (stage *Stage) IsStagedTaskShape(taskshape *TaskShape) (ok bool) {
+
+	return taskshape.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *AllocatedProcessShape:
-		stage.StageBranchAllocatedProcessShape(target)
-
-	case *AllocatedResourceShape:
-		stage.StageBranchAllocatedResourceShape(target)
-
-	case *ControlFlow:
-		stage.StageBranchControlFlow(target)
-
-	case *ControlFlowShape:
-		stage.StageBranchControlFlowShape(target)
-
-	case *Data:
-		stage.StageBranchData(target)
-
-	case *DataFlow:
-		stage.StageBranchDataFlow(target)
-
-	case *DataFlowShape:
-		stage.StageBranchDataFlowShape(target)
-
-	case *DataShape:
-		stage.StageBranchDataShape(target)
-
-	case *DiagramProcess:
-		stage.StageBranchDiagramProcess(target)
-
-	case *ExternalParticipantShape:
-		stage.StageBranchExternalParticipantShape(target)
-
-	case *Library:
-		stage.StageBranchLibrary(target)
-
-	case *Note:
-		stage.StageBranchNote(target)
-
-	case *NoteShape:
-		stage.StageBranchNoteShape(target)
-
-	case *NoteTaskShape:
-		stage.StageBranchNoteTaskShape(target)
-
-	case *Participant:
-		stage.StageBranchParticipant(target)
-
-	case *ParticipantShape:
-		stage.StageBranchParticipantShape(target)
-
-	case *Process:
-		stage.StageBranchProcess(target)
-
-	case *ProcessShape:
-		stage.StageBranchProcessShape(target)
-
-	case *Resource:
-		stage.StageBranchResource(target)
-
-	case *Task:
-		stage.StageBranchTask(target)
-
-	case *TaskShape:
-		stage.StageBranchTaskShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (allocatedprocessshape *AllocatedProcessShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchAllocatedProcessShape(allocatedprocessshape)
+}
+
 func (stage *Stage) StageBranchAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) {
 
 	// check if instance is already staged
@@ -323,6 +300,10 @@ func (stage *Stage) StageBranchAllocatedProcessShape(allocatedprocessshape *Allo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (allocatedresourceshape *AllocatedResourceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchAllocatedResourceShape(allocatedresourceshape)
 }
 
 func (stage *Stage) StageBranchAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) {
@@ -346,6 +327,10 @@ func (stage *Stage) StageBranchAllocatedResourceShape(allocatedresourceshape *Al
 
 }
 
+func (controlflow *ControlFlow) GongStageBranch(stage *Stage) {
+	stage.StageBranchControlFlow(controlflow)
+}
+
 func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
 
 	// check if instance is already staged
@@ -367,6 +352,10 @@ func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
 
 }
 
+func (controlflowshape *ControlFlowShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchControlFlowShape(controlflowshape)
+}
+
 func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowShape) {
 
 	// check if instance is already staged
@@ -385,6 +374,10 @@ func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowSha
 
 }
 
+func (data *Data) GongStageBranch(stage *Stage) {
+	stage.StageBranchData(data)
+}
+
 func (stage *Stage) StageBranchData(data *Data) {
 
 	// check if instance is already staged
@@ -398,6 +391,10 @@ func (stage *Stage) StageBranchData(data *Data) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (dataflow *DataFlow) GongStageBranch(stage *Stage) {
+	stage.StageBranchDataFlow(dataflow)
 }
 
 func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
@@ -430,6 +427,10 @@ func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
 
 }
 
+func (dataflowshape *DataFlowShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchDataFlowShape(dataflowshape)
+}
+
 func (stage *Stage) StageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	// check if instance is already staged
@@ -446,6 +447,10 @@ func (stage *Stage) StageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datashape *DataShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchDataShape(datashape)
 }
 
 func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
@@ -467,6 +472,10 @@ func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagramprocess *DiagramProcess) GongStageBranch(stage *Stage) {
+	stage.StageBranchDiagramProcess(diagramprocess)
 }
 
 func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
@@ -556,6 +565,10 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 }
 
+func (externalparticipantshape *ExternalParticipantShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchExternalParticipantShape(externalparticipantshape)
+}
+
 func (stage *Stage) StageBranchExternalParticipantShape(externalparticipantshape *ExternalParticipantShape) {
 
 	// check if instance is already staged
@@ -572,6 +585,10 @@ func (stage *Stage) StageBranchExternalParticipantShape(externalparticipantshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongStageBranch(stage *Stage) {
+	stage.StageBranchLibrary(library)
 }
 
 func (stage *Stage) StageBranchLibrary(library *Library) {
@@ -628,6 +645,10 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (note *Note) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote(note)
+}
+
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
@@ -646,6 +667,10 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 }
 
+func (noteshape *NoteShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteShape(noteshape)
+}
+
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
@@ -662,6 +687,10 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notetaskshape *NoteTaskShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteTaskShape(notetaskshape)
 }
 
 func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
@@ -683,6 +712,10 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (participant *Participant) GongStageBranch(stage *Stage) {
+	stage.StageBranchParticipant(participant)
 }
 
 func (stage *Stage) StageBranchParticipant(participant *Participant) {
@@ -724,6 +757,10 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 
 }
 
+func (participantshape *ParticipantShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchParticipantShape(participantshape)
+}
+
 func (stage *Stage) StageBranchParticipantShape(participantshape *ParticipantShape) {
 
 	// check if instance is already staged
@@ -740,6 +777,10 @@ func (stage *Stage) StageBranchParticipantShape(participantshape *ParticipantSha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (process *Process) GongStageBranch(stage *Stage) {
+	stage.StageBranchProcess(process)
 }
 
 func (stage *Stage) StageBranchProcess(process *Process) {
@@ -781,6 +822,10 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 
 }
 
+func (processshape *ProcessShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchProcessShape(processshape)
+}
+
 func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 	// check if instance is already staged
@@ -799,6 +844,10 @@ func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 }
 
+func (resource *Resource) GongStageBranch(stage *Stage) {
+	stage.StageBranchResource(resource)
+}
+
 func (stage *Stage) StageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
@@ -812,6 +861,10 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (task *Task) GongStageBranch(stage *Stage) {
+	stage.StageBranchTask(task)
 }
 
 func (stage *Stage) StageBranchTask(task *Task) {
@@ -830,6 +883,10 @@ func (stage *Stage) StageBranchTask(task *Task) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskshape *TaskShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTaskShape(taskshape)
 }
 
 func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
@@ -1587,79 +1644,22 @@ func GongCopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) 
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *AllocatedProcessShape:
-		stage.UnstageBranchAllocatedProcessShape(target)
-
-	case *AllocatedResourceShape:
-		stage.UnstageBranchAllocatedResourceShape(target)
-
-	case *ControlFlow:
-		stage.UnstageBranchControlFlow(target)
-
-	case *ControlFlowShape:
-		stage.UnstageBranchControlFlowShape(target)
-
-	case *Data:
-		stage.UnstageBranchData(target)
-
-	case *DataFlow:
-		stage.UnstageBranchDataFlow(target)
-
-	case *DataFlowShape:
-		stage.UnstageBranchDataFlowShape(target)
-
-	case *DataShape:
-		stage.UnstageBranchDataShape(target)
-
-	case *DiagramProcess:
-		stage.UnstageBranchDiagramProcess(target)
-
-	case *ExternalParticipantShape:
-		stage.UnstageBranchExternalParticipantShape(target)
-
-	case *Library:
-		stage.UnstageBranchLibrary(target)
-
-	case *Note:
-		stage.UnstageBranchNote(target)
-
-	case *NoteShape:
-		stage.UnstageBranchNoteShape(target)
-
-	case *NoteTaskShape:
-		stage.UnstageBranchNoteTaskShape(target)
-
-	case *Participant:
-		stage.UnstageBranchParticipant(target)
-
-	case *ParticipantShape:
-		stage.UnstageBranchParticipantShape(target)
-
-	case *Process:
-		stage.UnstageBranchProcess(target)
-
-	case *ProcessShape:
-		stage.UnstageBranchProcessShape(target)
-
-	case *Resource:
-		stage.UnstageBranchResource(target)
-
-	case *Task:
-		stage.UnstageBranchTask(target)
-
-	case *TaskShape:
-		stage.UnstageBranchTaskShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (allocatedprocessshape *AllocatedProcessShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAllocatedProcessShape(allocatedprocessshape)
+}
+
 func (stage *Stage) UnstageBranchAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) {
 
 	// check if instance is already staged
@@ -1679,6 +1679,10 @@ func (stage *Stage) UnstageBranchAllocatedProcessShape(allocatedprocessshape *Al
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (allocatedresourceshape *AllocatedResourceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAllocatedResourceShape(allocatedresourceshape)
 }
 
 func (stage *Stage) UnstageBranchAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) {
@@ -1702,6 +1706,10 @@ func (stage *Stage) UnstageBranchAllocatedResourceShape(allocatedresourceshape *
 
 }
 
+func (controlflow *ControlFlow) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchControlFlow(controlflow)
+}
+
 func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
 
 	// check if instance is already staged
@@ -1723,6 +1731,10 @@ func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
 
 }
 
+func (controlflowshape *ControlFlowShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchControlFlowShape(controlflowshape)
+}
+
 func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowShape) {
 
 	// check if instance is already staged
@@ -1741,6 +1753,10 @@ func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowS
 
 }
 
+func (data *Data) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchData(data)
+}
+
 func (stage *Stage) UnstageBranchData(data *Data) {
 
 	// check if instance is already staged
@@ -1754,6 +1770,10 @@ func (stage *Stage) UnstageBranchData(data *Data) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (dataflow *DataFlow) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDataFlow(dataflow)
 }
 
 func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
@@ -1786,6 +1806,10 @@ func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
 
 }
 
+func (dataflowshape *DataFlowShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDataFlowShape(dataflowshape)
+}
+
 func (stage *Stage) UnstageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	// check if instance is already staged
@@ -1802,6 +1826,10 @@ func (stage *Stage) UnstageBranchDataFlowShape(dataflowshape *DataFlowShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datashape *DataShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDataShape(datashape)
 }
 
 func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
@@ -1823,6 +1851,10 @@ func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagramprocess *DiagramProcess) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDiagramProcess(diagramprocess)
 }
 
 func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) {
@@ -1912,6 +1944,10 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 
 }
 
+func (externalparticipantshape *ExternalParticipantShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchExternalParticipantShape(externalparticipantshape)
+}
+
 func (stage *Stage) UnstageBranchExternalParticipantShape(externalparticipantshape *ExternalParticipantShape) {
 
 	// check if instance is already staged
@@ -1928,6 +1964,10 @@ func (stage *Stage) UnstageBranchExternalParticipantShape(externalparticipantsha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLibrary(library)
 }
 
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
@@ -1984,6 +2024,10 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (note *Note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote(note)
+}
+
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
@@ -2002,6 +2046,10 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 }
 
+func (noteshape *NoteShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteShape(noteshape)
+}
+
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
@@ -2018,6 +2066,10 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (notetaskshape *NoteTaskShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteTaskShape(notetaskshape)
 }
 
 func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
@@ -2039,6 +2091,10 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (participant *Participant) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParticipant(participant)
 }
 
 func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
@@ -2080,6 +2136,10 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 
 }
 
+func (participantshape *ParticipantShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParticipantShape(participantshape)
+}
+
 func (stage *Stage) UnstageBranchParticipantShape(participantshape *ParticipantShape) {
 
 	// check if instance is already staged
@@ -2096,6 +2156,10 @@ func (stage *Stage) UnstageBranchParticipantShape(participantshape *ParticipantS
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (process *Process) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchProcess(process)
 }
 
 func (stage *Stage) UnstageBranchProcess(process *Process) {
@@ -2137,6 +2201,10 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 
 }
 
+func (processshape *ProcessShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchProcessShape(processshape)
+}
+
 func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 
 	// check if instance is already staged
@@ -2155,6 +2223,10 @@ func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 
 }
 
+func (resource *Resource) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchResource(resource)
+}
+
 func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
@@ -2168,6 +2240,10 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (task *Task) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTask(task)
 }
 
 func (stage *Stage) UnstageBranchTask(task *Task) {
@@ -2186,6 +2262,10 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (taskshape *TaskShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTaskShape(taskshape)
 }
 
 func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {

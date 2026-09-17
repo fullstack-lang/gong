@@ -4,1931 +4,1783 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Angle0Shape:
-		ok = stage.IsStagedAngle0Shape(target)
-
-	case *ArcNormalVectorShape:
-		ok = stage.IsStagedArcNormalVectorShape(target)
-
-	case *ArcNormalVectorShapeGrid:
-		ok = stage.IsStagedArcNormalVectorShapeGrid(target)
-
-	case *AxesShape:
-		ok = stage.IsStagedAxesShape(target)
-
-	case *BaseVectorShape:
-		ok = stage.IsStagedBaseVectorShape(target)
-
-	case *BaseVectorShapeGrid:
-		ok = stage.IsStagedBaseVectorShapeGrid(target)
-
-	case *ChosenP1P2PairShape:
-		ok = stage.IsStagedChosenP1P2PairShape(target)
-
-	case *CircleGridShape:
-		ok = stage.IsStagedCircleGridShape(target)
-
-	case *Circumference3DShape:
-		ok = stage.IsStagedCircumference3DShape(target)
-
-	case *Clock2DDiagram:
-		ok = stage.IsStagedClock2DDiagram(target)
-
-	case *Clock3DDiagram:
-		ok = stage.IsStagedClock3DDiagram(target)
-
-	case *ClockAbstract:
-		ok = stage.IsStagedClockAbstract(target)
-
-	case *ClockTopCurveShape:
-		ok = stage.IsStagedClockTopCurveShape(target)
-
-	case *CutLine3DShape:
-		ok = stage.IsStagedCutLine3DShape(target)
-
-	case *EndArcShape:
-		ok = stage.IsStagedEndArcShape(target)
-
-	case *EndArcShapeGrid:
-		ok = stage.IsStagedEndArcShapeGrid(target)
-
-	case *EndHalfwayArcShape:
-		ok = stage.IsStagedEndHalfwayArcShape(target)
-
-	case *EndHalfwayArcShapeGrid:
-		ok = stage.IsStagedEndHalfwayArcShapeGrid(target)
-
-	case *ExplanationTextShape:
-		ok = stage.IsStagedExplanationTextShape(target)
-
-	case *Eye3DShape:
-		ok = stage.IsStagedEye3DShape(target)
-
-	case *EyeCornersSampledPoints3DShape:
-		ok = stage.IsStagedEyeCornersSampledPoints3DShape(target)
-
-	case *EyeSampledPoints3DShape:
-		ok = stage.IsStagedEyeSampledPoints3DShape(target)
-
-	case *EyeSeatBottomCurveShape:
-		ok = stage.IsStagedEyeSeatBottomCurveShape(target)
-
-	case *EyeStoolBottomCurveShape:
-		ok = stage.IsStagedEyeStoolBottomCurveShape(target)
-
-	case *EyeVolume3DShape:
-		ok = stage.IsStagedEyeVolume3DShape(target)
-
-	case *GridPathShape:
-		ok = stage.IsStagedGridPathShape(target)
-
-	case *GrowthCurve2D:
-		ok = stage.IsStagedGrowthCurve2D(target)
-
-	case *GrowthCurve2DRibbon:
-		ok = stage.IsStagedGrowthCurve2DRibbon(target)
-
-	case *GrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedGrowthCurve2DRibbonEndShape(target)
-
-	case *GrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedGrowthCurve2DRibbonStartShape(target)
-
-	case *GrowthCurveRhombusGridShape:
-		ok = stage.IsStagedGrowthCurveRhombusGridShape(target)
-
-	case *GrowthCurveRhombusShape:
-		ok = stage.IsStagedGrowthCurveRhombusShape(target)
-
-	case *GrowthVectorShape:
-		ok = stage.IsStagedGrowthVectorShape(target)
-
-	case *InitialRhombusGridShape:
-		ok = stage.IsStagedInitialRhombusGridShape(target)
-
-	case *InitialRhombusShape:
-		ok = stage.IsStagedInitialRhombusShape(target)
-
-	case *Key3DShape:
-		ok = stage.IsStagedKey3DShape(target)
-
-	case *KeyHole3DShape:
-		ok = stage.IsStagedKeyHole3DShape(target)
-
-	case *KeyHoleShape:
-		ok = stage.IsStagedKeyHoleShape(target)
-
-	case *Leaves3DShape:
-		ok = stage.IsStagedLeaves3DShape(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *MidArcVectorShape:
-		ok = stage.IsStagedMidArcVectorShape(target)
-
-	case *MidArcVectorShapeGrid:
-		ok = stage.IsStagedMidArcVectorShapeGrid(target)
-
-	case *MusicAbstract:
-		ok = stage.IsStagedMusicAbstract(target)
-
-	case *OriginalPoints3DShape:
-		ok = stage.IsStagedOriginalPoints3DShape(target)
-
-	case *ParastichyMCurves3DShape:
-		ok = stage.IsStagedParastichyMCurves3DShape(target)
-
-	case *ParastichyNCurves3DShape:
-		ok = stage.IsStagedParastichyNCurves3DShape(target)
-
-	case *PartiallyGrowthCurve2DRibbon:
-		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
-
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonEndShape(target)
-
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonStartShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectory:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectory(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1P2(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryShape(target)
-
-	case *PartiallyRotatedSeatBottomCurveShape:
-		ok = stage.IsStagedPartiallyRotatedSeatBottomCurveShape(target)
-
-	case *PartiallyRotatedSeatTopCurveShape:
-		ok = stage.IsStagedPartiallyRotatedSeatTopCurveShape(target)
-
-	case *PartiallyRotatedTorusShape:
-		ok = stage.IsStagedPartiallyRotatedTorusShape(target)
-
-	case *PerpendicularVector:
-		ok = stage.IsStagedPerpendicularVector(target)
-
-	case *PerpendicularVectorGrid:
-		ok = stage.IsStagedPerpendicularVectorGrid(target)
-
-	case *PerpendicularVectorGridHalfway:
-		ok = stage.IsStagedPerpendicularVectorGridHalfway(target)
-
-	case *PerpendicularVectorHalfway:
-		ok = stage.IsStagedPerpendicularVectorHalfway(target)
-
-	case *Plant2DDiagram:
-		ok = stage.IsStagedPlant2DDiagram(target)
-
-	case *Plant3DDiagram:
-		ok = stage.IsStagedPlant3DDiagram(target)
-
-	case *PlantAbstract:
-		ok = stage.IsStagedPlantAbstract(target)
-
-	case *PlantCircumferenceShape:
-		ok = stage.IsStagedPlantCircumferenceShape(target)
-
-	case *PointsAndLines3DShape:
-		ok = stage.IsStagedPointsAndLines3DShape(target)
-
-	case *PxShape:
-		ok = stage.IsStagedPxShape(target)
-
-	case *Rendered3DShape:
-		ok = stage.IsStagedRendered3DShape(target)
-
-	case *RhombusShape:
-		ok = stage.IsStagedRhombusShape(target)
-
-	case *RhombusStuff:
-		ok = stage.IsStagedRhombusStuff(target)
-
-	case *RotatedRhombusGridShape:
-		ok = stage.IsStagedRotatedRhombusGridShape(target)
-
-	case *RotatedRhombusShape:
-		ok = stage.IsStagedRotatedRhombusShape(target)
-
-	case *RotatedSampledPoints3DShape:
-		ok = stage.IsStagedRotatedSampledPoints3DShape(target)
-
-	case *RotatedSeatAndLegs3DShape:
-		ok = stage.IsStagedRotatedSeatAndLegs3DShape(target)
-
-	case *SampledPoints3DShape:
-		ok = stage.IsStagedSampledPoints3DShape(target)
-
-	case *Seat3DShape:
-		ok = stage.IsStagedSeat3DShape(target)
-
-	case *SeatAndLegs3DShape:
-		ok = stage.IsStagedSeatAndLegs3DShape(target)
-
-	case *SeatBottomCurveShape:
-		ok = stage.IsStagedSeatBottomCurveShape(target)
-
-	case *SeatTopCurveShape:
-		ok = stage.IsStagedSeatTopCurveShape(target)
-
-	case *ShiftedBottomTopStartArcShape:
-		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
-
-	case *ShiftedBottomTopStartArcShapeGrid:
-		ok = stage.IsStagedShiftedBottomTopStartArcShapeGrid(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		ok = stage.IsStagedShiftedLeftGrowthCurve2DRibbon(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedShiftedLeftGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedShiftedLeftGrowthCurve2DRibbonStartShape(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		ok = stage.IsStagedShiftedLeftPartiallyGrowthCurve2DRibbon(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(target)
-
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		ok = stage.IsStagedShiftedLeftStackGrowthCurveEndArcShape(target)
-
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		ok = stage.IsStagedShiftedLeftStackGrowthCurveStartArcShape(target)
-
-	case *ShiftedLeftStackNormalVector:
-		ok = stage.IsStagedShiftedLeftStackNormalVector(target)
-
-	case *ShiftedLeftStackOfGrowthCurve:
-		ok = stage.IsStagedShiftedLeftStackOfGrowthCurve(target)
-
-	case *ShiftedLeftStackOfNormalVector:
-		ok = stage.IsStagedShiftedLeftStackOfNormalVector(target)
-
-	case *ShiftedRightGrowthCurve2DRibbon:
-		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbon(target)
-
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbonStartShape(target)
-
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		ok = stage.IsStagedStackGrowthCurve2DEndHalfwayArcShape(target)
-
-	case *StackGrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedStackGrowthCurve2DRibbonEndShape(target)
-
-	case *StackGrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedStackGrowthCurve2DRibbonStartShape(target)
-
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		ok = stage.IsStagedStackGrowthCurve2DStartHalfwayArcShape(target)
-
-	case *StackOfGrowthCurve2D:
-		ok = stage.IsStagedStackOfGrowthCurve2D(target)
-
-	case *StackOfGrowthCurve2DByGrowthVector:
-		ok = stage.IsStagedStackOfGrowthCurve2DByGrowthVector(target)
-
-	case *StackOfGrowthCurve2DRibbon:
-		ok = stage.IsStagedStackOfGrowthCurve2DRibbon(target)
-
-	case *StackOfPartiallyRotatedTorusShape:
-		ok = stage.IsStagedStackOfPartiallyRotatedTorusShape(target)
-
-	case *StackOfRotatedGrowthCurve2D:
-		ok = stage.IsStagedStackOfRotatedGrowthCurve2D(target)
-
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		ok = stage.IsStagedStackOfRotatedGrowthCurve2DRibbon(target)
-
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		ok = stage.IsStagedStackRotatedGrowthCurve2DEndArcShape(target)
-
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		ok = stage.IsStagedStackRotatedGrowthCurve2DRibbonEndShape(target)
-
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		ok = stage.IsStagedStackRotatedGrowthCurve2DRibbonStartShape(target)
-
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		ok = stage.IsStagedStackRotatedGrowthCurve2DStartArcShape(target)
-
-	case *StartArcShape:
-		ok = stage.IsStagedStartArcShape(target)
-
-	case *StartArcShapeGrid:
-		ok = stage.IsStagedStartArcShapeGrid(target)
-
-	case *StartHalfwayArcShape:
-		ok = stage.IsStagedStartHalfwayArcShape(target)
-
-	case *StartHalfwayArcShapeGrid:
-		ok = stage.IsStagedStartHalfwayArcShapeGrid(target)
-
-	case *StemCylinder3DShape:
-		ok = stage.IsStagedStemCylinder3DShape(target)
-
-	case *Stool2DDiagram:
-		ok = stage.IsStagedStool2DDiagram(target)
-
-	case *Stool3DDiagram:
-		ok = stage.IsStagedStool3DDiagram(target)
-
-	case *StoolAbstract:
-		ok = stage.IsStagedStoolAbstract(target)
-
-	case *TiledFloor3DShape:
-		ok = stage.IsStagedTiledFloor3DShape(target)
-
-	case *TopEndArcShape:
-		ok = stage.IsStagedTopEndArcShape(target)
-
-	case *TopEndArcShapeGrid:
-		ok = stage.IsStagedTopEndArcShapeGrid(target)
-
-	case *TopEndHalfwayArcShape:
-		ok = stage.IsStagedTopEndHalfwayArcShape(target)
-
-	case *TopEndHalfwayArcShapeGrid:
-		ok = stage.IsStagedTopEndHalfwayArcShapeGrid(target)
-
-	case *TopGrowthCurve2D:
-		ok = stage.IsStagedTopGrowthCurve2D(target)
-
-	case *TopMidArcVectorShape:
-		ok = stage.IsStagedTopMidArcVectorShape(target)
-
-	case *TopMidArcVectorShapeGrid:
-		ok = stage.IsStagedTopMidArcVectorShapeGrid(target)
-
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		ok = stage.IsStagedTopStackGrowthCurve2DEndHalfwayArcShape(target)
-
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		ok = stage.IsStagedTopStackGrowthCurve2DStartHalfwayArcShape(target)
-
-	case *TopStackOfGrowthCurve2D:
-		ok = stage.IsStagedTopStackOfGrowthCurve2D(target)
-
-	case *TopStackOfRotatedGrowthCurve2D:
-		ok = stage.IsStagedTopStackOfRotatedGrowthCurve2D(target)
-
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		ok = stage.IsStagedTopStackOfRotatedGrowthCurve2DEndArcShape(target)
-
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		ok = stage.IsStagedTopStackOfRotatedGrowthCurve2DStartArcShape(target)
-
-	case *TopStartArcShape:
-		ok = stage.IsStagedTopStartArcShape(target)
-
-	case *TopStartArcShapeGrid:
-		ok = stage.IsStagedTopStartArcShapeGrid(target)
-
-	case *TopStartHalfwayArcShape:
-		ok = stage.IsStagedTopStartHalfwayArcShape(target)
-
-	case *TopStartHalfwayArcShapeGrid:
-		ok = stage.IsStagedTopStartHalfwayArcShapeGrid(target)
-
-	case *Torus3DShape:
-		ok = stage.IsStagedTorus3DShape(target)
-
-	case *TorusEdge3DShape:
-		ok = stage.IsStagedTorusEdge3DShape(target)
-
-	case *TorusStackShape:
-		ok = stage.IsStagedTorusStackShape(target)
-
-	case *TubeVase3DDiagram:
-		ok = stage.IsStagedTubeVase3DDiagram(target)
-
-	case *TubeVaseAbstract:
-		ok = stage.IsStagedTubeVaseAbstract(target)
-
-	case *Vase2DDiagram:
-		ok = stage.IsStagedVase2DDiagram(target)
-
-	case *VerticalTorusStackShape:
-		ok = stage.IsStagedVerticalTorusStackShape(target)
-
-	case *VolumeKey3DShape:
-		ok = stage.IsStagedVolumeKey3DShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAngle0Shape(angle0shape *Angle0Shape) (ok bool) {
+func (angle0shape *Angle0Shape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Angle0Shapes[angle0shape]
 
 	return
 }
 
-func (stage *Stage) IsStagedArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) (ok bool) {
+func (stage *Stage) IsStagedAngle0Shape(angle0shape *Angle0Shape) (ok bool) {
+
+	return angle0shape.GongIsStaged(stage)
+}
+
+func (arcnormalvectorshape *ArcNormalVectorShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ArcNormalVectorShapes[arcnormalvectorshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) (ok bool) {
+
+	return arcnormalvectorshape.GongIsStaged(stage)
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedAxesShape(axesshape *AxesShape) (ok bool) {
+func (stage *Stage) IsStagedArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) (ok bool) {
+
+	return arcnormalvectorshapegrid.GongIsStaged(stage)
+}
+
+func (axesshape *AxesShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AxesShapes[axesshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedBaseVectorShape(basevectorshape *BaseVectorShape) (ok bool) {
+func (stage *Stage) IsStagedAxesShape(axesshape *AxesShape) (ok bool) {
+
+	return axesshape.GongIsStaged(stage)
+}
+
+func (basevectorshape *BaseVectorShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.BaseVectorShapes[basevectorshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedBaseVectorShape(basevectorshape *BaseVectorShape) (ok bool) {
+
+	return basevectorshape.GongIsStaged(stage)
+}
+
+func (basevectorshapegrid *BaseVectorShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.BaseVectorShapeGrids[basevectorshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) (ok bool) {
+func (stage *Stage) IsStagedBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid) (ok bool) {
+
+	return basevectorshapegrid.GongIsStaged(stage)
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ChosenP1P2PairShapes[chosenp1p2pairshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedCircleGridShape(circlegridshape *CircleGridShape) (ok bool) {
+func (stage *Stage) IsStagedChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) (ok bool) {
+
+	return chosenp1p2pairshape.GongIsStaged(stage)
+}
+
+func (circlegridshape *CircleGridShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CircleGridShapes[circlegridshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedCircumference3DShape(circumference3dshape *Circumference3DShape) (ok bool) {
+func (stage *Stage) IsStagedCircleGridShape(circlegridshape *CircleGridShape) (ok bool) {
+
+	return circlegridshape.GongIsStaged(stage)
+}
+
+func (circumference3dshape *Circumference3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Circumference3DShapes[circumference3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedClock2DDiagram(clock2ddiagram *Clock2DDiagram) (ok bool) {
+func (stage *Stage) IsStagedCircumference3DShape(circumference3dshape *Circumference3DShape) (ok bool) {
+
+	return circumference3dshape.GongIsStaged(stage)
+}
+
+func (clock2ddiagram *Clock2DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Clock2DDiagrams[clock2ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedClock3DDiagram(clock3ddiagram *Clock3DDiagram) (ok bool) {
+func (stage *Stage) IsStagedClock2DDiagram(clock2ddiagram *Clock2DDiagram) (ok bool) {
+
+	return clock2ddiagram.GongIsStaged(stage)
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Clock3DDiagrams[clock3ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedClockAbstract(clockabstract *ClockAbstract) (ok bool) {
+func (stage *Stage) IsStagedClock3DDiagram(clock3ddiagram *Clock3DDiagram) (ok bool) {
+
+	return clock3ddiagram.GongIsStaged(stage)
+}
+
+func (clockabstract *ClockAbstract) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ClockAbstracts[clockabstract]
 
 	return
 }
 
-func (stage *Stage) IsStagedClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) (ok bool) {
+func (stage *Stage) IsStagedClockAbstract(clockabstract *ClockAbstract) (ok bool) {
+
+	return clockabstract.GongIsStaged(stage)
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ClockTopCurveShapes[clocktopcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedCutLine3DShape(cutline3dshape *CutLine3DShape) (ok bool) {
+func (stage *Stage) IsStagedClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) (ok bool) {
+
+	return clocktopcurveshape.GongIsStaged(stage)
+}
+
+func (cutline3dshape *CutLine3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CutLine3DShapes[cutline3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEndArcShape(endarcshape *EndArcShape) (ok bool) {
+func (stage *Stage) IsStagedCutLine3DShape(cutline3dshape *CutLine3DShape) (ok bool) {
+
+	return cutline3dshape.GongIsStaged(stage)
+}
+
+func (endarcshape *EndArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EndArcShapes[endarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedEndArcShape(endarcshape *EndArcShape) (ok bool) {
+
+	return endarcshape.GongIsStaged(stage)
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EndArcShapeGrids[endarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedEndHalfwayArcShape(endhalfwayarcshape *EndHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid) (ok bool) {
+
+	return endarcshapegrid.GongIsStaged(stage)
+}
+
+func (endhalfwayarcshape *EndHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EndHalfwayArcShapes[endhalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedEndHalfwayArcShape(endhalfwayarcshape *EndHalfwayArcShape) (ok bool) {
+
+	return endhalfwayarcshape.GongIsStaged(stage)
+}
+
+func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EndHalfwayArcShapeGrids[endhalfwayarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedExplanationTextShape(explanationtextshape *ExplanationTextShape) (ok bool) {
+func (stage *Stage) IsStagedEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) (ok bool) {
+
+	return endhalfwayarcshapegrid.GongIsStaged(stage)
+}
+
+func (explanationtextshape *ExplanationTextShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ExplanationTextShapes[explanationtextshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEye3DShape(eye3dshape *Eye3DShape) (ok bool) {
+func (stage *Stage) IsStagedExplanationTextShape(explanationtextshape *ExplanationTextShape) (ok bool) {
+
+	return explanationtextshape.GongIsStaged(stage)
+}
+
+func (eye3dshape *Eye3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Eye3DShapes[eye3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) (ok bool) {
+func (stage *Stage) IsStagedEye3DShape(eye3dshape *Eye3DShape) (ok bool) {
+
+	return eye3dshape.GongIsStaged(stage)
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape) (ok bool) {
+func (stage *Stage) IsStagedEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) (ok bool) {
+
+	return eyecornerssampledpoints3dshape.GongIsStaged(stage)
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) (ok bool) {
+func (stage *Stage) IsStagedEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape) (ok bool) {
+
+	return eyesampledpoints3dshape.GongIsStaged(stage)
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) (ok bool) {
+func (stage *Stage) IsStagedEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) (ok bool) {
+
+	return eyeseatbottomcurveshape.GongIsStaged(stage)
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) (ok bool) {
+func (stage *Stage) IsStagedEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) (ok bool) {
+
+	return eyestoolbottomcurveshape.GongIsStaged(stage)
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EyeVolume3DShapes[eyevolume3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGridPathShape(gridpathshape *GridPathShape) (ok bool) {
+func (stage *Stage) IsStagedEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) (ok bool) {
+
+	return eyevolume3dshape.GongIsStaged(stage)
+}
+
+func (gridpathshape *GridPathShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GridPathShapes[gridpathshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthCurve2D(growthcurve2d *GrowthCurve2D) (ok bool) {
+func (stage *Stage) IsStagedGridPathShape(gridpathshape *GridPathShape) (ok bool) {
+
+	return gridpathshape.GongIsStaged(stage)
+}
+
+func (growthcurve2d *GrowthCurve2D) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthCurve2Ds[growthcurve2d]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthCurve2DRibbon(growthcurve2dribbon *GrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedGrowthCurve2D(growthcurve2d *GrowthCurve2D) (ok bool) {
+
+	return growthcurve2d.GongIsStaged(stage)
+}
+
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthCurve2DRibbons[growthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthCurve2DRibbonEndShape(growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedGrowthCurve2DRibbon(growthcurve2dribbon *GrowthCurve2DRibbon) (ok bool) {
+
+	return growthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthCurve2DRibbonEndShapes[growthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthCurve2DRibbonStartShape(growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedGrowthCurve2DRibbonEndShape(growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return growthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthCurve2DRibbonStartShapes[growthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthCurveRhombusGridShape(growthcurverhombusgridshape *GrowthCurveRhombusGridShape) (ok bool) {
+func (stage *Stage) IsStagedGrowthCurve2DRibbonStartShape(growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return growthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthCurveRhombusGridShapes[growthcurverhombusgridshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthCurveRhombusShape(growthcurverhombusshape *GrowthCurveRhombusShape) (ok bool) {
+func (stage *Stage) IsStagedGrowthCurveRhombusGridShape(growthcurverhombusgridshape *GrowthCurveRhombusGridShape) (ok bool) {
+
+	return growthcurverhombusgridshape.GongIsStaged(stage)
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthCurveRhombusShapes[growthcurverhombusshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedGrowthVectorShape(growthvectorshape *GrowthVectorShape) (ok bool) {
+func (stage *Stage) IsStagedGrowthCurveRhombusShape(growthcurverhombusshape *GrowthCurveRhombusShape) (ok bool) {
+
+	return growthcurverhombusshape.GongIsStaged(stage)
+}
+
+func (growthvectorshape *GrowthVectorShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.GrowthVectorShapes[growthvectorshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape) (ok bool) {
+func (stage *Stage) IsStagedGrowthVectorShape(growthvectorshape *GrowthVectorShape) (ok bool) {
+
+	return growthvectorshape.GongIsStaged(stage)
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.InitialRhombusGridShapes[initialrhombusgridshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedInitialRhombusShape(initialrhombusshape *InitialRhombusShape) (ok bool) {
+func (stage *Stage) IsStagedInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape) (ok bool) {
+
+	return initialrhombusgridshape.GongIsStaged(stage)
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.InitialRhombusShapes[initialrhombusshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedKey3DShape(key3dshape *Key3DShape) (ok bool) {
+func (stage *Stage) IsStagedInitialRhombusShape(initialrhombusshape *InitialRhombusShape) (ok bool) {
+
+	return initialrhombusshape.GongIsStaged(stage)
+}
+
+func (key3dshape *Key3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Key3DShapes[key3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedKeyHole3DShape(keyhole3dshape *KeyHole3DShape) (ok bool) {
+func (stage *Stage) IsStagedKey3DShape(key3dshape *Key3DShape) (ok bool) {
+
+	return key3dshape.GongIsStaged(stage)
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.KeyHole3DShapes[keyhole3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedKeyHoleShape(keyholeshape *KeyHoleShape) (ok bool) {
+func (stage *Stage) IsStagedKeyHole3DShape(keyhole3dshape *KeyHole3DShape) (ok bool) {
+
+	return keyhole3dshape.GongIsStaged(stage)
+}
+
+func (keyholeshape *KeyHoleShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.KeyHoleShapes[keyholeshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedLeaves3DShape(leaves3dshape *Leaves3DShape) (ok bool) {
+func (stage *Stage) IsStagedKeyHoleShape(keyholeshape *KeyHoleShape) (ok bool) {
+
+	return keyholeshape.GongIsStaged(stage)
+}
+
+func (leaves3dshape *Leaves3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Leaves3DShapes[leaves3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+func (stage *Stage) IsStagedLeaves3DShape(leaves3dshape *Leaves3DShape) (ok bool) {
+
+	return leaves3dshape.GongIsStaged(stage)
+}
+
+func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Librarys[library]
 
 	return
 }
 
-func (stage *Stage) IsStagedMidArcVectorShape(midarcvectorshape *MidArcVectorShape) (ok bool) {
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	return library.GongIsStaged(stage)
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MidArcVectorShapes[midarcvectorshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedMidArcVectorShape(midarcvectorshape *MidArcVectorShape) (ok bool) {
+
+	return midarcvectorshape.GongIsStaged(stage)
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MidArcVectorShapeGrids[midarcvectorshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedMusicAbstract(musicabstract *MusicAbstract) (ok bool) {
+func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
+
+	return midarcvectorshapegrid.GongIsStaged(stage)
+}
+
+func (musicabstract *MusicAbstract) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MusicAbstracts[musicabstract]
 
 	return
 }
 
-func (stage *Stage) IsStagedOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) (ok bool) {
+func (stage *Stage) IsStagedMusicAbstract(musicabstract *MusicAbstract) (ok bool) {
+
+	return musicabstract.GongIsStaged(stage)
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.OriginalPoints3DShapes[originalpoints3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) (ok bool) {
+func (stage *Stage) IsStagedOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) (ok bool) {
+
+	return originalpoints3dshape.GongIsStaged(stage)
+}
+
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParastichyMCurves3DShapes[parastichymcurves3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) (ok bool) {
+func (stage *Stage) IsStagedParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) (ok bool) {
+
+	return parastichymcurves3dshape.GongIsStaged(stage)
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ParastichyNCurves3DShapes[parastichyncurves3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) (ok bool) {
+
+	return parastichyncurves3dshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DRibbons[partiallygrowthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) (ok bool) {
+
+	return partiallygrowthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DRibbonEndShapes[partiallygrowthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return partiallygrowthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DRibbonStartShapes[partiallygrowthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return partiallygrowthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectorys[partiallygrowthcurve2dtrajectory]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectory.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryp1curveshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryp1p2.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryp1pointshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryp2curveshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryp2pointshape.GongIsStaged(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectoryShapes[partiallygrowthcurve2dtrajectoryshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) (ok bool) {
+
+	return partiallygrowthcurve2dtrajectoryshape.GongIsStaged(stage)
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) (ok bool) {
+
+	return partiallyrotatedseatbottomcurveshape.GongIsStaged(stage)
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) (ok bool) {
+func (stage *Stage) IsStagedPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) (ok bool) {
+
+	return partiallyrotatedseattopcurveshape.GongIsStaged(stage)
+}
+
+func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PartiallyRotatedTorusShapes[partiallyrotatedtorusshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPerpendicularVector(perpendicularvector *PerpendicularVector) (ok bool) {
+func (stage *Stage) IsStagedPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) (ok bool) {
+
+	return partiallyrotatedtorusshape.GongIsStaged(stage)
+}
+
+func (perpendicularvector *PerpendicularVector) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PerpendicularVectors[perpendicularvector]
 
 	return
 }
 
-func (stage *Stage) IsStagedPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) (ok bool) {
+func (stage *Stage) IsStagedPerpendicularVector(perpendicularvector *PerpendicularVector) (ok bool) {
+
+	return perpendicularvector.GongIsStaged(stage)
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PerpendicularVectorGrids[perpendicularvectorgrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) (ok bool) {
+func (stage *Stage) IsStagedPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) (ok bool) {
+
+	return perpendicularvectorgrid.GongIsStaged(stage)
+}
+
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway]
 
 	return
 }
 
-func (stage *Stage) IsStagedPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway) (ok bool) {
+func (stage *Stage) IsStagedPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) (ok bool) {
+
+	return perpendicularvectorgridhalfway.GongIsStaged(stage)
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PerpendicularVectorHalfways[perpendicularvectorhalfway]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlant2DDiagram(plant2ddiagram *Plant2DDiagram) (ok bool) {
+func (stage *Stage) IsStagedPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway) (ok bool) {
+
+	return perpendicularvectorhalfway.GongIsStaged(stage)
+}
+
+func (plant2ddiagram *Plant2DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Plant2DDiagrams[plant2ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlant3DDiagram(plant3ddiagram *Plant3DDiagram) (ok bool) {
+func (stage *Stage) IsStagedPlant2DDiagram(plant2ddiagram *Plant2DDiagram) (ok bool) {
+
+	return plant2ddiagram.GongIsStaged(stage)
+}
+
+func (plant3ddiagram *Plant3DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Plant3DDiagrams[plant3ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlantAbstract(plantabstract *PlantAbstract) (ok bool) {
+func (stage *Stage) IsStagedPlant3DDiagram(plant3ddiagram *Plant3DDiagram) (ok bool) {
+
+	return plant3ddiagram.GongIsStaged(stage)
+}
+
+func (plantabstract *PlantAbstract) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PlantAbstracts[plantabstract]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape) (ok bool) {
+func (stage *Stage) IsStagedPlantAbstract(plantabstract *PlantAbstract) (ok bool) {
+
+	return plantabstract.GongIsStaged(stage)
+}
+
+func (plantcircumferenceshape *PlantCircumferenceShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PlantCircumferenceShapes[plantcircumferenceshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) (ok bool) {
+func (stage *Stage) IsStagedPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape) (ok bool) {
+
+	return plantcircumferenceshape.GongIsStaged(stage)
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PointsAndLines3DShapes[pointsandlines3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPxShape(pxshape *PxShape) (ok bool) {
+func (stage *Stage) IsStagedPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) (ok bool) {
+
+	return pointsandlines3dshape.GongIsStaged(stage)
+}
+
+func (pxshape *PxShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PxShapes[pxshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedRendered3DShape(rendered3dshape *Rendered3DShape) (ok bool) {
+func (stage *Stage) IsStagedPxShape(pxshape *PxShape) (ok bool) {
+
+	return pxshape.GongIsStaged(stage)
+}
+
+func (rendered3dshape *Rendered3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Rendered3DShapes[rendered3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedRhombusShape(rhombusshape *RhombusShape) (ok bool) {
+func (stage *Stage) IsStagedRendered3DShape(rendered3dshape *Rendered3DShape) (ok bool) {
+
+	return rendered3dshape.GongIsStaged(stage)
+}
+
+func (rhombusshape *RhombusShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RhombusShapes[rhombusshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedRhombusStuff(rhombusstuff *RhombusStuff) (ok bool) {
+func (stage *Stage) IsStagedRhombusShape(rhombusshape *RhombusShape) (ok bool) {
+
+	return rhombusshape.GongIsStaged(stage)
+}
+
+func (rhombusstuff *RhombusStuff) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RhombusStuffs[rhombusstuff]
 
 	return
 }
 
-func (stage *Stage) IsStagedRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape) (ok bool) {
+func (stage *Stage) IsStagedRhombusStuff(rhombusstuff *RhombusStuff) (ok bool) {
+
+	return rhombusstuff.GongIsStaged(stage)
+}
+
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RotatedRhombusGridShapes[rotatedrhombusgridshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape) (ok bool) {
+func (stage *Stage) IsStagedRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape) (ok bool) {
+
+	return rotatedrhombusgridshape.GongIsStaged(stage)
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RotatedRhombusShapes[rotatedrhombusshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) (ok bool) {
+func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape) (ok bool) {
+
+	return rotatedrhombusshape.GongIsStaged(stage)
+}
+
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) (ok bool) {
+func (stage *Stage) IsStagedRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) (ok bool) {
+
+	return rotatedsampledpoints3dshape.GongIsStaged(stage)
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
+func (stage *Stage) IsStagedRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) (ok bool) {
+
+	return rotatedseatandlegs3dshape.GongIsStaged(stage)
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SampledPoints3DShapes[sampledpoints3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedSeat3DShape(seat3dshape *Seat3DShape) (ok bool) {
+func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
+
+	return sampledpoints3dshape.GongIsStaged(stage)
+}
+
+func (seat3dshape *Seat3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Seat3DShapes[seat3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) (ok bool) {
+func (stage *Stage) IsStagedSeat3DShape(seat3dshape *Seat3DShape) (ok bool) {
+
+	return seat3dshape.GongIsStaged(stage)
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SeatAndLegs3DShapes[seatandlegs3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) (ok bool) {
+func (stage *Stage) IsStagedSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) (ok bool) {
+
+	return seatandlegs3dshape.GongIsStaged(stage)
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SeatBottomCurveShapes[seatbottomcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) (ok bool) {
+func (stage *Stage) IsStagedSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) (ok bool) {
+
+	return seatbottomcurveshape.GongIsStaged(stage)
+}
+
+func (seattopcurveshape *SeatTopCurveShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SeatTopCurveShapes[seattopcurveshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) (ok bool) {
+func (stage *Stage) IsStagedSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) (ok bool) {
+
+	return seattopcurveshape.GongIsStaged(stage)
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) (ok bool) {
+
+	return shiftedbottomtopstartarcshape.GongIsStaged(stage)
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) (ok bool) {
+
+	return shiftedbottomtopstartarcshapegrid.GongIsStaged(stage)
+}
+
+func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftGrowthCurve2DRibbons[shiftedleftgrowthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftGrowthCurve2DRibbonEndShape(shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) (ok bool) {
+
+	return shiftedleftgrowthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftGrowthCurve2DRibbonEndShapes[shiftedleftgrowthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftGrowthCurve2DRibbonStartShape(shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftGrowthCurve2DRibbonEndShape(shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return shiftedleftgrowthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftGrowthCurve2DRibbonStartShapes[shiftedleftgrowthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftGrowthCurve2DRibbonStartShape(shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return shiftedleftgrowthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftPartiallyGrowthCurve2DRibbons[shiftedleftpartiallygrowthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) (ok bool) {
+
+	return shiftedleftpartiallygrowthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes[shiftedleftpartiallygrowthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return shiftedleftpartiallygrowthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes[shiftedleftpartiallygrowthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return shiftedleftpartiallygrowthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftStackGrowthCurveEndArcShapes[shiftedleftstackgrowthcurveendarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) (ok bool) {
+
+	return shiftedleftstackgrowthcurveendarcshape.GongIsStaged(stage)
+}
+
+func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftStackGrowthCurveStartArcShapes[shiftedleftstackgrowthcurvestartarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftStackNormalVector(shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) (ok bool) {
+
+	return shiftedleftstackgrowthcurvestartarcshape.GongIsStaged(stage)
+}
+
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftStackNormalVector(shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) (ok bool) {
+
+	return shiftedleftstacknormalvector.GongIsStaged(stage)
+}
+
+func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftStackOfGrowthCurves[shiftedleftstackofgrowthcurve]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) (ok bool) {
+
+	return shiftedleftstackofgrowthcurve.GongIsStaged(stage)
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) (ok bool) {
+
+	return shiftedleftstackofnormalvector.GongIsStaged(stage)
+}
+
+func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedRightGrowthCurve2DRibbons[shiftedrightgrowthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) (ok bool) {
+
+	return shiftedrightgrowthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedRightGrowthCurve2DRibbonEndShapes[shiftedrightgrowthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return shiftedrightgrowthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ShiftedRightGrowthCurve2DRibbonStartShapes[shiftedrightgrowthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return shiftedrightgrowthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackGrowthCurve2DEndHalfwayArcShapes[stackgrowthcurve2dendhalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) (ok bool) {
+
+	return stackgrowthcurve2dendhalfwayarcshape.GongIsStaged(stage)
+}
+
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return stackgrowthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return stackgrowthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackGrowthCurve2DStartHalfwayArcShapes[stackgrowthcurve2dstarthalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D) (ok bool) {
+func (stage *Stage) IsStagedStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) (ok bool) {
+
+	return stackgrowthcurve2dstarthalfwayarcshape.GongIsStaged(stage)
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackOfGrowthCurve2Ds[stackofgrowthcurve2d]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) (ok bool) {
+func (stage *Stage) IsStagedStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D) (ok bool) {
+
+	return stackofgrowthcurve2d.GongIsStaged(stage)
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) (ok bool) {
+
+	return stackofgrowthcurve2dbygrowthvector.GongIsStaged(stage)
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) (ok bool) {
+func (stage *Stage) IsStagedStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) (ok bool) {
+
+	return stackofgrowthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackOfPartiallyRotatedTorusShapes[stackofpartiallyrotatedtorusshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackOfRotatedGrowthCurve2D(stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) (ok bool) {
+func (stage *Stage) IsStagedStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) (ok bool) {
+
+	return stackofpartiallyrotatedtorusshape.GongIsStaged(stage)
+}
+
+func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackOfRotatedGrowthCurve2Ds[stackofrotatedgrowthcurve2d]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackOfRotatedGrowthCurve2DRibbon(stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) (ok bool) {
+func (stage *Stage) IsStagedStackOfRotatedGrowthCurve2D(stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) (ok bool) {
+
+	return stackofrotatedgrowthcurve2d.GongIsStaged(stage)
+}
+
+func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackOfRotatedGrowthCurve2DRibbons[stackofrotatedgrowthcurve2dribbon]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackRotatedGrowthCurve2DEndArcShape(stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) (ok bool) {
+func (stage *Stage) IsStagedStackOfRotatedGrowthCurve2DRibbon(stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) (ok bool) {
+
+	return stackofrotatedgrowthcurve2dribbon.GongIsStaged(stage)
+}
+
+func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackRotatedGrowthCurve2DEndArcShapes[stackrotatedgrowthcurve2dendarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackRotatedGrowthCurve2DRibbonEndShape(stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) (ok bool) {
+func (stage *Stage) IsStagedStackRotatedGrowthCurve2DEndArcShape(stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) (ok bool) {
+
+	return stackrotatedgrowthcurve2dendarcshape.GongIsStaged(stage)
+}
+
+func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackRotatedGrowthCurve2DRibbonEndShapes[stackrotatedgrowthcurve2dribbonendshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackRotatedGrowthCurve2DRibbonStartShape(stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) (ok bool) {
+func (stage *Stage) IsStagedStackRotatedGrowthCurve2DRibbonEndShape(stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	return stackrotatedgrowthcurve2dribbonendshape.GongIsStaged(stage)
+}
+
+func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackRotatedGrowthCurve2DRibbonStartShapes[stackrotatedgrowthcurve2dribbonstartshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStackRotatedGrowthCurve2DStartArcShape(stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) (ok bool) {
+func (stage *Stage) IsStagedStackRotatedGrowthCurve2DRibbonStartShape(stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	return stackrotatedgrowthcurve2dribbonstartshape.GongIsStaged(stage)
+}
+
+func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StackRotatedGrowthCurve2DStartArcShapes[stackrotatedgrowthcurve2dstartarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStartArcShape(startarcshape *StartArcShape) (ok bool) {
+func (stage *Stage) IsStagedStackRotatedGrowthCurve2DStartArcShape(stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) (ok bool) {
+
+	return stackrotatedgrowthcurve2dstartarcshape.GongIsStaged(stage)
+}
+
+func (startarcshape *StartArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StartArcShapes[startarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedStartArcShape(startarcshape *StartArcShape) (ok bool) {
+
+	return startarcshape.GongIsStaged(stage)
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StartArcShapeGrids[startarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedStartHalfwayArcShape(starthalfwayarcshape *StartHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) (ok bool) {
+
+	return startarcshapegrid.GongIsStaged(stage)
+}
+
+func (starthalfwayarcshape *StartHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StartHalfwayArcShapes[starthalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedStartHalfwayArcShape(starthalfwayarcshape *StartHalfwayArcShape) (ok bool) {
+
+	return starthalfwayarcshape.GongIsStaged(stage)
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StartHalfwayArcShapeGrids[starthalfwayarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) (ok bool) {
+func (stage *Stage) IsStagedStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) (ok bool) {
+
+	return starthalfwayarcshapegrid.GongIsStaged(stage)
+}
+
+func (stemcylinder3dshape *StemCylinder3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StemCylinder3DShapes[stemcylinder3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedStool2DDiagram(stool2ddiagram *Stool2DDiagram) (ok bool) {
+func (stage *Stage) IsStagedStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) (ok bool) {
+
+	return stemcylinder3dshape.GongIsStaged(stage)
+}
+
+func (stool2ddiagram *Stool2DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Stool2DDiagrams[stool2ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedStool3DDiagram(stool3ddiagram *Stool3DDiagram) (ok bool) {
+func (stage *Stage) IsStagedStool2DDiagram(stool2ddiagram *Stool2DDiagram) (ok bool) {
+
+	return stool2ddiagram.GongIsStaged(stage)
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Stool3DDiagrams[stool3ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedStoolAbstract(stoolabstract *StoolAbstract) (ok bool) {
+func (stage *Stage) IsStagedStool3DDiagram(stool3ddiagram *Stool3DDiagram) (ok bool) {
+
+	return stool3ddiagram.GongIsStaged(stage)
+}
+
+func (stoolabstract *StoolAbstract) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StoolAbstracts[stoolabstract]
 
 	return
 }
 
-func (stage *Stage) IsStagedTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) (ok bool) {
+func (stage *Stage) IsStagedStoolAbstract(stoolabstract *StoolAbstract) (ok bool) {
+
+	return stoolabstract.GongIsStaged(stage)
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TiledFloor3DShapes[tiledfloor3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopEndArcShape(topendarcshape *TopEndArcShape) (ok bool) {
+func (stage *Stage) IsStagedTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) (ok bool) {
+
+	return tiledfloor3dshape.GongIsStaged(stage)
+}
+
+func (topendarcshape *TopEndArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopEndArcShapes[topendarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedTopEndArcShape(topendarcshape *TopEndArcShape) (ok bool) {
+
+	return topendarcshape.GongIsStaged(stage)
+}
+
+func (topendarcshapegrid *TopEndArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopEndArcShapeGrids[topendarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopEndHalfwayArcShape(topendhalfwayarcshape *TopEndHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid) (ok bool) {
+
+	return topendarcshapegrid.GongIsStaged(stage)
+}
+
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopEndHalfwayArcShapes[topendhalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedTopEndHalfwayArcShape(topendhalfwayarcshape *TopEndHalfwayArcShape) (ok bool) {
+
+	return topendhalfwayarcshape.GongIsStaged(stage)
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D) (ok bool) {
+func (stage *Stage) IsStagedTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) (ok bool) {
+
+	return topendhalfwayarcshapegrid.GongIsStaged(stage)
+}
+
+func (topgrowthcurve2d *TopGrowthCurve2D) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopGrowthCurve2Ds[topgrowthcurve2d]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape) (ok bool) {
+func (stage *Stage) IsStagedTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D) (ok bool) {
+
+	return topgrowthcurve2d.GongIsStaged(stage)
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopMidArcVectorShapes[topmidarcvectorshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopMidArcVectorShapeGrid(topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape) (ok bool) {
+
+	return topmidarcvectorshape.GongIsStaged(stage)
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStackGrowthCurve2DEndHalfwayArcShape(topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopMidArcVectorShapeGrid(topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) (ok bool) {
+
+	return topmidarcvectorshapegrid.GongIsStaged(stage)
+}
+
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStackGrowthCurve2DEndHalfwayArcShapes[topstackgrowthcurve2dendhalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStackGrowthCurve2DStartHalfwayArcShape(topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopStackGrowthCurve2DEndHalfwayArcShape(topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) (ok bool) {
+
+	return topstackgrowthcurve2dendhalfwayarcshape.GongIsStaged(stage)
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStackGrowthCurve2DStartHalfwayArcShapes[topstackgrowthcurve2dstarthalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStackOfGrowthCurve2D(topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) (ok bool) {
+func (stage *Stage) IsStagedTopStackGrowthCurve2DStartHalfwayArcShape(topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) (ok bool) {
+
+	return topstackgrowthcurve2dstarthalfwayarcshape.GongIsStaged(stage)
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStackOfGrowthCurve2Ds[topstackofgrowthcurve2d]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStackOfRotatedGrowthCurve2D(topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) (ok bool) {
+func (stage *Stage) IsStagedTopStackOfGrowthCurve2D(topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) (ok bool) {
+
+	return topstackofgrowthcurve2d.GongIsStaged(stage)
+}
+
+func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStackOfRotatedGrowthCurve2Ds[topstackofrotatedgrowthcurve2d]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStackOfRotatedGrowthCurve2DEndArcShape(topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopStackOfRotatedGrowthCurve2D(topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) (ok bool) {
+
+	return topstackofrotatedgrowthcurve2d.GongIsStaged(stage)
+}
+
+func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStackOfRotatedGrowthCurve2DEndArcShapes[topstackofrotatedgrowthcurve2dendarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStackOfRotatedGrowthCurve2DStartArcShape(topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopStackOfRotatedGrowthCurve2DEndArcShape(topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) (ok bool) {
+
+	return topstackofrotatedgrowthcurve2dendarcshape.GongIsStaged(stage)
+}
+
+func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStackOfRotatedGrowthCurve2DStartArcShapes[topstackofrotatedgrowthcurve2dstartarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStartArcShape(topstartarcshape *TopStartArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopStackOfRotatedGrowthCurve2DStartArcShape(topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) (ok bool) {
+
+	return topstackofrotatedgrowthcurve2dstartarcshape.GongIsStaged(stage)
+}
+
+func (topstartarcshape *TopStartArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStartArcShapes[topstartarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStartArcShapeGrid(topstartarcshapegrid *TopStartArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedTopStartArcShape(topstartarcshape *TopStartArcShape) (ok bool) {
+
+	return topstartarcshape.GongIsStaged(stage)
+}
+
+func (topstartarcshapegrid *TopStartArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStartArcShapeGrids[topstartarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape) (ok bool) {
+func (stage *Stage) IsStagedTopStartArcShapeGrid(topstartarcshapegrid *TopStartArcShapeGrid) (ok bool) {
+
+	return topstartarcshapegrid.GongIsStaged(stage)
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) (ok bool) {
+func (stage *Stage) IsStagedTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape) (ok bool) {
+
+	return topstarthalfwayarcshape.GongIsStaged(stage)
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid]
 
 	return
 }
 
-func (stage *Stage) IsStagedTorus3DShape(torus3dshape *Torus3DShape) (ok bool) {
+func (stage *Stage) IsStagedTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) (ok bool) {
+
+	return topstarthalfwayarcshapegrid.GongIsStaged(stage)
+}
+
+func (torus3dshape *Torus3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Torus3DShapes[torus3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) (ok bool) {
+func (stage *Stage) IsStagedTorus3DShape(torus3dshape *Torus3DShape) (ok bool) {
+
+	return torus3dshape.GongIsStaged(stage)
+}
+
+func (torusedge3dshape *TorusEdge3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TorusEdge3DShapes[torusedge3dshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTorusStackShape(torusstackshape *TorusStackShape) (ok bool) {
+func (stage *Stage) IsStagedTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) (ok bool) {
+
+	return torusedge3dshape.GongIsStaged(stage)
+}
+
+func (torusstackshape *TorusStackShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TorusStackShapes[torusstackshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram) (ok bool) {
+func (stage *Stage) IsStagedTorusStackShape(torusstackshape *TorusStackShape) (ok bool) {
+
+	return torusstackshape.GongIsStaged(stage)
+}
+
+func (tubevase3ddiagram *TubeVase3DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TubeVase3DDiagrams[tubevase3ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract) (ok bool) {
+func (stage *Stage) IsStagedTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram) (ok bool) {
+
+	return tubevase3ddiagram.GongIsStaged(stage)
+}
+
+func (tubevaseabstract *TubeVaseAbstract) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TubeVaseAbstracts[tubevaseabstract]
 
 	return
 }
 
-func (stage *Stage) IsStagedVase2DDiagram(vase2ddiagram *Vase2DDiagram) (ok bool) {
+func (stage *Stage) IsStagedTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract) (ok bool) {
+
+	return tubevaseabstract.GongIsStaged(stage)
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Vase2DDiagrams[vase2ddiagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) (ok bool) {
+func (stage *Stage) IsStagedVase2DDiagram(vase2ddiagram *Vase2DDiagram) (ok bool) {
+
+	return vase2ddiagram.GongIsStaged(stage)
+}
+
+func (verticaltorusstackshape *VerticalTorusStackShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.VerticalTorusStackShapes[verticaltorusstackshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) (ok bool) {
+func (stage *Stage) IsStagedVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) (ok bool) {
+
+	return verticaltorusstackshape.GongIsStaged(stage)
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.VolumeKey3DShapes[volumekey3dshape]
 
 	return
 }
 
+func (stage *Stage) IsStagedVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) (ok bool) {
+
+	return volumekey3dshape.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Angle0Shape:
-		stage.StageBranchAngle0Shape(target)
-
-	case *ArcNormalVectorShape:
-		stage.StageBranchArcNormalVectorShape(target)
-
-	case *ArcNormalVectorShapeGrid:
-		stage.StageBranchArcNormalVectorShapeGrid(target)
-
-	case *AxesShape:
-		stage.StageBranchAxesShape(target)
-
-	case *BaseVectorShape:
-		stage.StageBranchBaseVectorShape(target)
-
-	case *BaseVectorShapeGrid:
-		stage.StageBranchBaseVectorShapeGrid(target)
-
-	case *ChosenP1P2PairShape:
-		stage.StageBranchChosenP1P2PairShape(target)
-
-	case *CircleGridShape:
-		stage.StageBranchCircleGridShape(target)
-
-	case *Circumference3DShape:
-		stage.StageBranchCircumference3DShape(target)
-
-	case *Clock2DDiagram:
-		stage.StageBranchClock2DDiagram(target)
-
-	case *Clock3DDiagram:
-		stage.StageBranchClock3DDiagram(target)
-
-	case *ClockAbstract:
-		stage.StageBranchClockAbstract(target)
-
-	case *ClockTopCurveShape:
-		stage.StageBranchClockTopCurveShape(target)
-
-	case *CutLine3DShape:
-		stage.StageBranchCutLine3DShape(target)
-
-	case *EndArcShape:
-		stage.StageBranchEndArcShape(target)
-
-	case *EndArcShapeGrid:
-		stage.StageBranchEndArcShapeGrid(target)
-
-	case *EndHalfwayArcShape:
-		stage.StageBranchEndHalfwayArcShape(target)
-
-	case *EndHalfwayArcShapeGrid:
-		stage.StageBranchEndHalfwayArcShapeGrid(target)
-
-	case *ExplanationTextShape:
-		stage.StageBranchExplanationTextShape(target)
-
-	case *Eye3DShape:
-		stage.StageBranchEye3DShape(target)
-
-	case *EyeCornersSampledPoints3DShape:
-		stage.StageBranchEyeCornersSampledPoints3DShape(target)
-
-	case *EyeSampledPoints3DShape:
-		stage.StageBranchEyeSampledPoints3DShape(target)
-
-	case *EyeSeatBottomCurveShape:
-		stage.StageBranchEyeSeatBottomCurveShape(target)
-
-	case *EyeStoolBottomCurveShape:
-		stage.StageBranchEyeStoolBottomCurveShape(target)
-
-	case *EyeVolume3DShape:
-		stage.StageBranchEyeVolume3DShape(target)
-
-	case *GridPathShape:
-		stage.StageBranchGridPathShape(target)
-
-	case *GrowthCurve2D:
-		stage.StageBranchGrowthCurve2D(target)
-
-	case *GrowthCurve2DRibbon:
-		stage.StageBranchGrowthCurve2DRibbon(target)
-
-	case *GrowthCurve2DRibbonEndShape:
-		stage.StageBranchGrowthCurve2DRibbonEndShape(target)
-
-	case *GrowthCurve2DRibbonStartShape:
-		stage.StageBranchGrowthCurve2DRibbonStartShape(target)
-
-	case *GrowthCurveRhombusGridShape:
-		stage.StageBranchGrowthCurveRhombusGridShape(target)
-
-	case *GrowthCurveRhombusShape:
-		stage.StageBranchGrowthCurveRhombusShape(target)
-
-	case *GrowthVectorShape:
-		stage.StageBranchGrowthVectorShape(target)
-
-	case *InitialRhombusGridShape:
-		stage.StageBranchInitialRhombusGridShape(target)
-
-	case *InitialRhombusShape:
-		stage.StageBranchInitialRhombusShape(target)
-
-	case *Key3DShape:
-		stage.StageBranchKey3DShape(target)
-
-	case *KeyHole3DShape:
-		stage.StageBranchKeyHole3DShape(target)
-
-	case *KeyHoleShape:
-		stage.StageBranchKeyHoleShape(target)
-
-	case *Leaves3DShape:
-		stage.StageBranchLeaves3DShape(target)
-
-	case *Library:
-		stage.StageBranchLibrary(target)
-
-	case *MidArcVectorShape:
-		stage.StageBranchMidArcVectorShape(target)
-
-	case *MidArcVectorShapeGrid:
-		stage.StageBranchMidArcVectorShapeGrid(target)
-
-	case *MusicAbstract:
-		stage.StageBranchMusicAbstract(target)
-
-	case *OriginalPoints3DShape:
-		stage.StageBranchOriginalPoints3DShape(target)
-
-	case *ParastichyMCurves3DShape:
-		stage.StageBranchParastichyMCurves3DShape(target)
-
-	case *ParastichyNCurves3DShape:
-		stage.StageBranchParastichyNCurves3DShape(target)
-
-	case *PartiallyGrowthCurve2DRibbon:
-		stage.StageBranchPartiallyGrowthCurve2DRibbon(target)
-
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		stage.StageBranchPartiallyGrowthCurve2DRibbonEndShape(target)
-
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		stage.StageBranchPartiallyGrowthCurve2DRibbonStartShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectory:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectory(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1P2(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		stage.StageBranchPartiallyGrowthCurve2DTrajectoryShape(target)
-
-	case *PartiallyRotatedSeatBottomCurveShape:
-		stage.StageBranchPartiallyRotatedSeatBottomCurveShape(target)
-
-	case *PartiallyRotatedSeatTopCurveShape:
-		stage.StageBranchPartiallyRotatedSeatTopCurveShape(target)
-
-	case *PartiallyRotatedTorusShape:
-		stage.StageBranchPartiallyRotatedTorusShape(target)
-
-	case *PerpendicularVector:
-		stage.StageBranchPerpendicularVector(target)
-
-	case *PerpendicularVectorGrid:
-		stage.StageBranchPerpendicularVectorGrid(target)
-
-	case *PerpendicularVectorGridHalfway:
-		stage.StageBranchPerpendicularVectorGridHalfway(target)
-
-	case *PerpendicularVectorHalfway:
-		stage.StageBranchPerpendicularVectorHalfway(target)
-
-	case *Plant2DDiagram:
-		stage.StageBranchPlant2DDiagram(target)
-
-	case *Plant3DDiagram:
-		stage.StageBranchPlant3DDiagram(target)
-
-	case *PlantAbstract:
-		stage.StageBranchPlantAbstract(target)
-
-	case *PlantCircumferenceShape:
-		stage.StageBranchPlantCircumferenceShape(target)
-
-	case *PointsAndLines3DShape:
-		stage.StageBranchPointsAndLines3DShape(target)
-
-	case *PxShape:
-		stage.StageBranchPxShape(target)
-
-	case *Rendered3DShape:
-		stage.StageBranchRendered3DShape(target)
-
-	case *RhombusShape:
-		stage.StageBranchRhombusShape(target)
-
-	case *RhombusStuff:
-		stage.StageBranchRhombusStuff(target)
-
-	case *RotatedRhombusGridShape:
-		stage.StageBranchRotatedRhombusGridShape(target)
-
-	case *RotatedRhombusShape:
-		stage.StageBranchRotatedRhombusShape(target)
-
-	case *RotatedSampledPoints3DShape:
-		stage.StageBranchRotatedSampledPoints3DShape(target)
-
-	case *RotatedSeatAndLegs3DShape:
-		stage.StageBranchRotatedSeatAndLegs3DShape(target)
-
-	case *SampledPoints3DShape:
-		stage.StageBranchSampledPoints3DShape(target)
-
-	case *Seat3DShape:
-		stage.StageBranchSeat3DShape(target)
-
-	case *SeatAndLegs3DShape:
-		stage.StageBranchSeatAndLegs3DShape(target)
-
-	case *SeatBottomCurveShape:
-		stage.StageBranchSeatBottomCurveShape(target)
-
-	case *SeatTopCurveShape:
-		stage.StageBranchSeatTopCurveShape(target)
-
-	case *ShiftedBottomTopStartArcShape:
-		stage.StageBranchShiftedBottomTopStartArcShape(target)
-
-	case *ShiftedBottomTopStartArcShapeGrid:
-		stage.StageBranchShiftedBottomTopStartArcShapeGrid(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		stage.StageBranchShiftedLeftGrowthCurve2DRibbon(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		stage.StageBranchShiftedLeftGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		stage.StageBranchShiftedLeftGrowthCurve2DRibbonStartShape(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		stage.StageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		stage.StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		stage.StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(target)
-
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		stage.StageBranchShiftedLeftStackGrowthCurveEndArcShape(target)
-
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		stage.StageBranchShiftedLeftStackGrowthCurveStartArcShape(target)
-
-	case *ShiftedLeftStackNormalVector:
-		stage.StageBranchShiftedLeftStackNormalVector(target)
-
-	case *ShiftedLeftStackOfGrowthCurve:
-		stage.StageBranchShiftedLeftStackOfGrowthCurve(target)
-
-	case *ShiftedLeftStackOfNormalVector:
-		stage.StageBranchShiftedLeftStackOfNormalVector(target)
-
-	case *ShiftedRightGrowthCurve2DRibbon:
-		stage.StageBranchShiftedRightGrowthCurve2DRibbon(target)
-
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		stage.StageBranchShiftedRightGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		stage.StageBranchShiftedRightGrowthCurve2DRibbonStartShape(target)
-
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		stage.StageBranchStackGrowthCurve2DEndHalfwayArcShape(target)
-
-	case *StackGrowthCurve2DRibbonEndShape:
-		stage.StageBranchStackGrowthCurve2DRibbonEndShape(target)
-
-	case *StackGrowthCurve2DRibbonStartShape:
-		stage.StageBranchStackGrowthCurve2DRibbonStartShape(target)
-
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		stage.StageBranchStackGrowthCurve2DStartHalfwayArcShape(target)
-
-	case *StackOfGrowthCurve2D:
-		stage.StageBranchStackOfGrowthCurve2D(target)
-
-	case *StackOfGrowthCurve2DByGrowthVector:
-		stage.StageBranchStackOfGrowthCurve2DByGrowthVector(target)
-
-	case *StackOfGrowthCurve2DRibbon:
-		stage.StageBranchStackOfGrowthCurve2DRibbon(target)
-
-	case *StackOfPartiallyRotatedTorusShape:
-		stage.StageBranchStackOfPartiallyRotatedTorusShape(target)
-
-	case *StackOfRotatedGrowthCurve2D:
-		stage.StageBranchStackOfRotatedGrowthCurve2D(target)
-
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		stage.StageBranchStackOfRotatedGrowthCurve2DRibbon(target)
-
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		stage.StageBranchStackRotatedGrowthCurve2DEndArcShape(target)
-
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		stage.StageBranchStackRotatedGrowthCurve2DRibbonEndShape(target)
-
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		stage.StageBranchStackRotatedGrowthCurve2DRibbonStartShape(target)
-
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		stage.StageBranchStackRotatedGrowthCurve2DStartArcShape(target)
-
-	case *StartArcShape:
-		stage.StageBranchStartArcShape(target)
-
-	case *StartArcShapeGrid:
-		stage.StageBranchStartArcShapeGrid(target)
-
-	case *StartHalfwayArcShape:
-		stage.StageBranchStartHalfwayArcShape(target)
-
-	case *StartHalfwayArcShapeGrid:
-		stage.StageBranchStartHalfwayArcShapeGrid(target)
-
-	case *StemCylinder3DShape:
-		stage.StageBranchStemCylinder3DShape(target)
-
-	case *Stool2DDiagram:
-		stage.StageBranchStool2DDiagram(target)
-
-	case *Stool3DDiagram:
-		stage.StageBranchStool3DDiagram(target)
-
-	case *StoolAbstract:
-		stage.StageBranchStoolAbstract(target)
-
-	case *TiledFloor3DShape:
-		stage.StageBranchTiledFloor3DShape(target)
-
-	case *TopEndArcShape:
-		stage.StageBranchTopEndArcShape(target)
-
-	case *TopEndArcShapeGrid:
-		stage.StageBranchTopEndArcShapeGrid(target)
-
-	case *TopEndHalfwayArcShape:
-		stage.StageBranchTopEndHalfwayArcShape(target)
-
-	case *TopEndHalfwayArcShapeGrid:
-		stage.StageBranchTopEndHalfwayArcShapeGrid(target)
-
-	case *TopGrowthCurve2D:
-		stage.StageBranchTopGrowthCurve2D(target)
-
-	case *TopMidArcVectorShape:
-		stage.StageBranchTopMidArcVectorShape(target)
-
-	case *TopMidArcVectorShapeGrid:
-		stage.StageBranchTopMidArcVectorShapeGrid(target)
-
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		stage.StageBranchTopStackGrowthCurve2DEndHalfwayArcShape(target)
-
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		stage.StageBranchTopStackGrowthCurve2DStartHalfwayArcShape(target)
-
-	case *TopStackOfGrowthCurve2D:
-		stage.StageBranchTopStackOfGrowthCurve2D(target)
-
-	case *TopStackOfRotatedGrowthCurve2D:
-		stage.StageBranchTopStackOfRotatedGrowthCurve2D(target)
-
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		stage.StageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(target)
-
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		stage.StageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(target)
-
-	case *TopStartArcShape:
-		stage.StageBranchTopStartArcShape(target)
-
-	case *TopStartArcShapeGrid:
-		stage.StageBranchTopStartArcShapeGrid(target)
-
-	case *TopStartHalfwayArcShape:
-		stage.StageBranchTopStartHalfwayArcShape(target)
-
-	case *TopStartHalfwayArcShapeGrid:
-		stage.StageBranchTopStartHalfwayArcShapeGrid(target)
-
-	case *Torus3DShape:
-		stage.StageBranchTorus3DShape(target)
-
-	case *TorusEdge3DShape:
-		stage.StageBranchTorusEdge3DShape(target)
-
-	case *TorusStackShape:
-		stage.StageBranchTorusStackShape(target)
-
-	case *TubeVase3DDiagram:
-		stage.StageBranchTubeVase3DDiagram(target)
-
-	case *TubeVaseAbstract:
-		stage.StageBranchTubeVaseAbstract(target)
-
-	case *Vase2DDiagram:
-		stage.StageBranchVase2DDiagram(target)
-
-	case *VerticalTorusStackShape:
-		stage.StageBranchVerticalTorusStackShape(target)
-
-	case *VolumeKey3DShape:
-		stage.StageBranchVolumeKey3DShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (angle0shape *Angle0Shape) GongStageBranch(stage *Stage) {
+	stage.StageBranchAngle0Shape(angle0shape)
+}
+
 func (stage *Stage) StageBranchAngle0Shape(angle0shape *Angle0Shape) {
 
 	// check if instance is already staged
@@ -1942,6 +1794,10 @@ func (stage *Stage) StageBranchAngle0Shape(angle0shape *Angle0Shape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (arcnormalvectorshape *ArcNormalVectorShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchArcNormalVectorShape(arcnormalvectorshape)
 }
 
 func (stage *Stage) StageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
@@ -1959,6 +1815,10 @@ func (stage *Stage) StageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNor
 
 }
 
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid)
+}
+
 func (stage *Stage) StageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) {
 
 	// check if instance is already staged
@@ -1972,6 +1832,10 @@ func (stage *Stage) StageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (axesshape *AxesShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchAxesShape(axesshape)
 }
 
 func (stage *Stage) StageBranchAxesShape(axesshape *AxesShape) {
@@ -1989,6 +1853,10 @@ func (stage *Stage) StageBranchAxesShape(axesshape *AxesShape) {
 
 }
 
+func (basevectorshape *BaseVectorShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchBaseVectorShape(basevectorshape)
+}
+
 func (stage *Stage) StageBranchBaseVectorShape(basevectorshape *BaseVectorShape) {
 
 	// check if instance is already staged
@@ -2002,6 +1870,10 @@ func (stage *Stage) StageBranchBaseVectorShape(basevectorshape *BaseVectorShape)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (basevectorshapegrid *BaseVectorShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchBaseVectorShapeGrid(basevectorshapegrid)
 }
 
 func (stage *Stage) StageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid) {
@@ -2019,6 +1891,10 @@ func (stage *Stage) StageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVect
 
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchChosenP1P2PairShape(chosenp1p2pairshape)
+}
+
 func (stage *Stage) StageBranchChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) {
 
 	// check if instance is already staged
@@ -2032,6 +1908,10 @@ func (stage *Stage) StageBranchChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (circlegridshape *CircleGridShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchCircleGridShape(circlegridshape)
 }
 
 func (stage *Stage) StageBranchCircleGridShape(circlegridshape *CircleGridShape) {
@@ -2049,6 +1929,10 @@ func (stage *Stage) StageBranchCircleGridShape(circlegridshape *CircleGridShape)
 
 }
 
+func (circumference3dshape *Circumference3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchCircumference3DShape(circumference3dshape)
+}
+
 func (stage *Stage) StageBranchCircumference3DShape(circumference3dshape *Circumference3DShape) {
 
 	// check if instance is already staged
@@ -2064,6 +1948,10 @@ func (stage *Stage) StageBranchCircumference3DShape(circumference3dshape *Circum
 
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchClock2DDiagram(clock2ddiagram)
+}
+
 func (stage *Stage) StageBranchClock2DDiagram(clock2ddiagram *Clock2DDiagram) {
 
 	// check if instance is already staged
@@ -2077,6 +1965,10 @@ func (stage *Stage) StageBranchClock2DDiagram(clock2ddiagram *Clock2DDiagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchClock3DDiagram(clock3ddiagram)
 }
 
 func (stage *Stage) StageBranchClock3DDiagram(clock3ddiagram *Clock3DDiagram) {
@@ -2100,6 +1992,10 @@ func (stage *Stage) StageBranchClock3DDiagram(clock3ddiagram *Clock3DDiagram) {
 
 }
 
+func (clockabstract *ClockAbstract) GongStageBranch(stage *Stage) {
+	stage.StageBranchClockAbstract(clockabstract)
+}
+
 func (stage *Stage) StageBranchClockAbstract(clockabstract *ClockAbstract) {
 
 	// check if instance is already staged
@@ -2113,6 +2009,10 @@ func (stage *Stage) StageBranchClockAbstract(clockabstract *ClockAbstract) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchClockTopCurveShape(clocktopcurveshape)
 }
 
 func (stage *Stage) StageBranchClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) {
@@ -2130,6 +2030,10 @@ func (stage *Stage) StageBranchClockTopCurveShape(clocktopcurveshape *ClockTopCu
 
 }
 
+func (cutline3dshape *CutLine3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchCutLine3DShape(cutline3dshape)
+}
+
 func (stage *Stage) StageBranchCutLine3DShape(cutline3dshape *CutLine3DShape) {
 
 	// check if instance is already staged
@@ -2143,6 +2047,10 @@ func (stage *Stage) StageBranchCutLine3DShape(cutline3dshape *CutLine3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (endarcshape *EndArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEndArcShape(endarcshape)
 }
 
 func (stage *Stage) StageBranchEndArcShape(endarcshape *EndArcShape) {
@@ -2160,6 +2068,10 @@ func (stage *Stage) StageBranchEndArcShape(endarcshape *EndArcShape) {
 
 }
 
+func (endarcshapegrid *EndArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchEndArcShapeGrid(endarcshapegrid)
+}
+
 func (stage *Stage) StageBranchEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid) {
 
 	// check if instance is already staged
@@ -2173,6 +2085,10 @@ func (stage *Stage) StageBranchEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (endhalfwayarcshape *EndHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEndHalfwayArcShape(endhalfwayarcshape)
 }
 
 func (stage *Stage) StageBranchEndHalfwayArcShape(endhalfwayarcshape *EndHalfwayArcShape) {
@@ -2190,6 +2106,10 @@ func (stage *Stage) StageBranchEndHalfwayArcShape(endhalfwayarcshape *EndHalfway
 
 }
 
+func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchEndHalfwayArcShapeGrid(endhalfwayarcshapegrid)
+}
+
 func (stage *Stage) StageBranchEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) {
 
 	// check if instance is already staged
@@ -2203,6 +2123,10 @@ func (stage *Stage) StageBranchEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *En
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (explanationtextshape *ExplanationTextShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchExplanationTextShape(explanationtextshape)
 }
 
 func (stage *Stage) StageBranchExplanationTextShape(explanationtextshape *ExplanationTextShape) {
@@ -2220,6 +2144,10 @@ func (stage *Stage) StageBranchExplanationTextShape(explanationtextshape *Explan
 
 }
 
+func (eye3dshape *Eye3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEye3DShape(eye3dshape)
+}
+
 func (stage *Stage) StageBranchEye3DShape(eye3dshape *Eye3DShape) {
 
 	// check if instance is already staged
@@ -2233,6 +2161,10 @@ func (stage *Stage) StageBranchEye3DShape(eye3dshape *Eye3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape)
 }
 
 func (stage *Stage) StageBranchEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) {
@@ -2250,6 +2182,10 @@ func (stage *Stage) StageBranchEyeCornersSampledPoints3DShape(eyecornerssampledp
 
 }
 
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape)
+}
+
 func (stage *Stage) StageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -2263,6 +2199,10 @@ func (stage *Stage) StageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape)
 }
 
 func (stage *Stage) StageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) {
@@ -2280,6 +2220,10 @@ func (stage *Stage) StageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape *
 
 }
 
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape)
+}
+
 func (stage *Stage) StageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) {
 
 	// check if instance is already staged
@@ -2293,6 +2237,10 @@ func (stage *Stage) StageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchEyeVolume3DShape(eyevolume3dshape)
 }
 
 func (stage *Stage) StageBranchEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) {
@@ -2310,6 +2258,10 @@ func (stage *Stage) StageBranchEyeVolume3DShape(eyevolume3dshape *EyeVolume3DSha
 
 }
 
+func (gridpathshape *GridPathShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGridPathShape(gridpathshape)
+}
+
 func (stage *Stage) StageBranchGridPathShape(gridpathshape *GridPathShape) {
 
 	// check if instance is already staged
@@ -2323,6 +2275,10 @@ func (stage *Stage) StageBranchGridPathShape(gridpathshape *GridPathShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthcurve2d *GrowthCurve2D) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthCurve2D(growthcurve2d)
 }
 
 func (stage *Stage) StageBranchGrowthCurve2D(growthcurve2d *GrowthCurve2D) {
@@ -2340,6 +2296,10 @@ func (stage *Stage) StageBranchGrowthCurve2D(growthcurve2d *GrowthCurve2D) {
 
 }
 
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthCurve2DRibbon(growthcurve2dribbon)
+}
+
 func (stage *Stage) StageBranchGrowthCurve2DRibbon(growthcurve2dribbon *GrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -2353,6 +2313,10 @@ func (stage *Stage) StageBranchGrowthCurve2DRibbon(growthcurve2dribbon *GrowthCu
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthCurve2DRibbonEndShape(growthcurve2dribbonendshape)
 }
 
 func (stage *Stage) StageBranchGrowthCurve2DRibbonEndShape(growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) {
@@ -2370,6 +2334,10 @@ func (stage *Stage) StageBranchGrowthCurve2DRibbonEndShape(growthcurve2dribbonen
 
 }
 
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthCurve2DRibbonStartShape(growthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) StageBranchGrowthCurve2DRibbonStartShape(growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -2383,6 +2351,10 @@ func (stage *Stage) StageBranchGrowthCurve2DRibbonStartShape(growthcurve2dribbon
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthCurveRhombusGridShape(growthcurverhombusgridshape)
 }
 
 func (stage *Stage) StageBranchGrowthCurveRhombusGridShape(growthcurverhombusgridshape *GrowthCurveRhombusGridShape) {
@@ -2400,6 +2372,10 @@ func (stage *Stage) StageBranchGrowthCurveRhombusGridShape(growthcurverhombusgri
 
 }
 
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthCurveRhombusShape(growthcurverhombusshape)
+}
+
 func (stage *Stage) StageBranchGrowthCurveRhombusShape(growthcurverhombusshape *GrowthCurveRhombusShape) {
 
 	// check if instance is already staged
@@ -2413,6 +2389,10 @@ func (stage *Stage) StageBranchGrowthCurveRhombusShape(growthcurverhombusshape *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthvectorshape *GrowthVectorShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchGrowthVectorShape(growthvectorshape)
 }
 
 func (stage *Stage) StageBranchGrowthVectorShape(growthvectorshape *GrowthVectorShape) {
@@ -2430,6 +2410,10 @@ func (stage *Stage) StageBranchGrowthVectorShape(growthvectorshape *GrowthVector
 
 }
 
+func (initialrhombusgridshape *InitialRhombusGridShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchInitialRhombusGridShape(initialrhombusgridshape)
+}
+
 func (stage *Stage) StageBranchInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape) {
 
 	// check if instance is already staged
@@ -2443,6 +2427,10 @@ func (stage *Stage) StageBranchInitialRhombusGridShape(initialrhombusgridshape *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchInitialRhombusShape(initialrhombusshape)
 }
 
 func (stage *Stage) StageBranchInitialRhombusShape(initialrhombusshape *InitialRhombusShape) {
@@ -2460,6 +2448,10 @@ func (stage *Stage) StageBranchInitialRhombusShape(initialrhombusshape *InitialR
 
 }
 
+func (key3dshape *Key3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchKey3DShape(key3dshape)
+}
+
 func (stage *Stage) StageBranchKey3DShape(key3dshape *Key3DShape) {
 
 	// check if instance is already staged
@@ -2473,6 +2465,10 @@ func (stage *Stage) StageBranchKey3DShape(key3dshape *Key3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchKeyHole3DShape(keyhole3dshape)
 }
 
 func (stage *Stage) StageBranchKeyHole3DShape(keyhole3dshape *KeyHole3DShape) {
@@ -2490,6 +2486,10 @@ func (stage *Stage) StageBranchKeyHole3DShape(keyhole3dshape *KeyHole3DShape) {
 
 }
 
+func (keyholeshape *KeyHoleShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchKeyHoleShape(keyholeshape)
+}
+
 func (stage *Stage) StageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
 
 	// check if instance is already staged
@@ -2505,6 +2505,10 @@ func (stage *Stage) StageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
 
 }
 
+func (leaves3dshape *Leaves3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchLeaves3DShape(leaves3dshape)
+}
+
 func (stage *Stage) StageBranchLeaves3DShape(leaves3dshape *Leaves3DShape) {
 
 	// check if instance is already staged
@@ -2518,6 +2522,10 @@ func (stage *Stage) StageBranchLeaves3DShape(leaves3dshape *Leaves3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongStageBranch(stage *Stage) {
+	stage.StageBranchLibrary(library)
 }
 
 func (stage *Stage) StageBranchLibrary(library *Library) {
@@ -2541,6 +2549,10 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (midarcvectorshape *MidArcVectorShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchMidArcVectorShape(midarcvectorshape)
+}
+
 func (stage *Stage) StageBranchMidArcVectorShape(midarcvectorshape *MidArcVectorShape) {
 
 	// check if instance is already staged
@@ -2554,6 +2566,10 @@ func (stage *Stage) StageBranchMidArcVectorShape(midarcvectorshape *MidArcVector
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid)
 }
 
 func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) {
@@ -2571,6 +2587,10 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 
 }
 
+func (musicabstract *MusicAbstract) GongStageBranch(stage *Stage) {
+	stage.StageBranchMusicAbstract(musicabstract)
+}
+
 func (stage *Stage) StageBranchMusicAbstract(musicabstract *MusicAbstract) {
 
 	// check if instance is already staged
@@ -2584,6 +2604,10 @@ func (stage *Stage) StageBranchMusicAbstract(musicabstract *MusicAbstract) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchOriginalPoints3DShape(originalpoints3dshape)
 }
 
 func (stage *Stage) StageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
@@ -2601,6 +2625,10 @@ func (stage *Stage) StageBranchOriginalPoints3DShape(originalpoints3dshape *Orig
 
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchParastichyMCurves3DShape(parastichymcurves3dshape)
+}
+
 func (stage *Stage) StageBranchParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) {
 
 	// check if instance is already staged
@@ -2614,6 +2642,10 @@ func (stage *Stage) StageBranchParastichyMCurves3DShape(parastichymcurves3dshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchParastichyNCurves3DShape(parastichyncurves3dshape)
 }
 
 func (stage *Stage) StageBranchParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) {
@@ -2631,6 +2663,10 @@ func (stage *Stage) StageBranchParastichyNCurves3DShape(parastichyncurves3dshape
 
 }
 
+func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon)
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -2644,6 +2680,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape)
 }
 
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) {
@@ -2661,6 +2701,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygro
 
 }
 
+func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -2674,6 +2718,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallyg
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory)
 }
 
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) {
@@ -2691,6 +2739,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowthc
 
 }
 
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape)
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
 
 	// check if instance is already staged
@@ -2704,6 +2756,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(part
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2)
 }
 
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) {
@@ -2721,6 +2777,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygro
 
 }
 
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
 
 	// check if instance is already staged
@@ -2734,6 +2794,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape)
 }
 
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
@@ -2751,6 +2815,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(part
 
 }
 
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape)
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
 
 	// check if instance is already staged
@@ -2764,6 +2832,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(part
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape)
 }
 
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
@@ -2781,6 +2853,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(part
 
 }
 
+func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape)
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) {
 
 	// check if instance is already staged
@@ -2794,6 +2870,10 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryShape(partiallygr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape)
 }
 
 func (stage *Stage) StageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) {
@@ -2811,6 +2891,10 @@ func (stage *Stage) StageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrot
 
 }
 
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape)
+}
+
 func (stage *Stage) StageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) {
 
 	// check if instance is already staged
@@ -2824,6 +2908,10 @@ func (stage *Stage) StageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotate
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPartiallyRotatedTorusShape(partiallyrotatedtorusshape)
 }
 
 func (stage *Stage) StageBranchPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) {
@@ -2841,6 +2929,10 @@ func (stage *Stage) StageBranchPartiallyRotatedTorusShape(partiallyrotatedtoruss
 
 }
 
+func (perpendicularvector *PerpendicularVector) GongStageBranch(stage *Stage) {
+	stage.StageBranchPerpendicularVector(perpendicularvector)
+}
+
 func (stage *Stage) StageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
 
 	// check if instance is already staged
@@ -2854,6 +2946,10 @@ func (stage *Stage) StageBranchPerpendicularVector(perpendicularvector *Perpendi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchPerpendicularVectorGrid(perpendicularvectorgrid)
 }
 
 func (stage *Stage) StageBranchPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) {
@@ -2871,6 +2967,10 @@ func (stage *Stage) StageBranchPerpendicularVectorGrid(perpendicularvectorgrid *
 
 }
 
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongStageBranch(stage *Stage) {
+	stage.StageBranchPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway)
+}
+
 func (stage *Stage) StageBranchPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) {
 
 	// check if instance is already staged
@@ -2884,6 +2984,10 @@ func (stage *Stage) StageBranchPerpendicularVectorGridHalfway(perpendicularvecto
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongStageBranch(stage *Stage) {
+	stage.StageBranchPerpendicularVectorHalfway(perpendicularvectorhalfway)
 }
 
 func (stage *Stage) StageBranchPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway) {
@@ -2901,6 +3005,10 @@ func (stage *Stage) StageBranchPerpendicularVectorHalfway(perpendicularvectorhal
 
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlant2DDiagram(plant2ddiagram)
+}
+
 func (stage *Stage) StageBranchPlant2DDiagram(plant2ddiagram *Plant2DDiagram) {
 
 	// check if instance is already staged
@@ -2914,6 +3022,10 @@ func (stage *Stage) StageBranchPlant2DDiagram(plant2ddiagram *Plant2DDiagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (plant3ddiagram *Plant3DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlant3DDiagram(plant3ddiagram)
 }
 
 func (stage *Stage) StageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) {
@@ -2950,6 +3062,10 @@ func (stage *Stage) StageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (plantabstract *PlantAbstract) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlantAbstract(plantabstract)
 }
 
 func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
@@ -3003,6 +3119,10 @@ func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 
 }
 
+func (plantcircumferenceshape *PlantCircumferenceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlantCircumferenceShape(plantcircumferenceshape)
+}
+
 func (stage *Stage) StageBranchPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape) {
 
 	// check if instance is already staged
@@ -3016,6 +3136,10 @@ func (stage *Stage) StageBranchPlantCircumferenceShape(plantcircumferenceshape *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPointsAndLines3DShape(pointsandlines3dshape)
 }
 
 func (stage *Stage) StageBranchPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) {
@@ -3033,6 +3157,10 @@ func (stage *Stage) StageBranchPointsAndLines3DShape(pointsandlines3dshape *Poin
 
 }
 
+func (pxshape *PxShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchPxShape(pxshape)
+}
+
 func (stage *Stage) StageBranchPxShape(pxshape *PxShape) {
 
 	// check if instance is already staged
@@ -3046,6 +3174,10 @@ func (stage *Stage) StageBranchPxShape(pxshape *PxShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rendered3dshape *Rendered3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchRendered3DShape(rendered3dshape)
 }
 
 func (stage *Stage) StageBranchRendered3DShape(rendered3dshape *Rendered3DShape) {
@@ -3063,6 +3195,10 @@ func (stage *Stage) StageBranchRendered3DShape(rendered3dshape *Rendered3DShape)
 
 }
 
+func (rhombusshape *RhombusShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchRhombusShape(rhombusshape)
+}
+
 func (stage *Stage) StageBranchRhombusShape(rhombusshape *RhombusShape) {
 
 	// check if instance is already staged
@@ -3076,6 +3212,10 @@ func (stage *Stage) StageBranchRhombusShape(rhombusshape *RhombusShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rhombusstuff *RhombusStuff) GongStageBranch(stage *Stage) {
+	stage.StageBranchRhombusStuff(rhombusstuff)
 }
 
 func (stage *Stage) StageBranchRhombusStuff(rhombusstuff *RhombusStuff) {
@@ -3093,6 +3233,10 @@ func (stage *Stage) StageBranchRhombusStuff(rhombusstuff *RhombusStuff) {
 
 }
 
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchRotatedRhombusGridShape(rotatedrhombusgridshape)
+}
+
 func (stage *Stage) StageBranchRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape) {
 
 	// check if instance is already staged
@@ -3106,6 +3250,10 @@ func (stage *Stage) StageBranchRotatedRhombusGridShape(rotatedrhombusgridshape *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchRotatedRhombusShape(rotatedrhombusshape)
 }
 
 func (stage *Stage) StageBranchRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape) {
@@ -3123,6 +3271,10 @@ func (stage *Stage) StageBranchRotatedRhombusShape(rotatedrhombusshape *RotatedR
 
 }
 
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchRotatedSampledPoints3DShape(rotatedsampledpoints3dshape)
+}
+
 func (stage *Stage) StageBranchRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -3136,6 +3288,10 @@ func (stage *Stage) StageBranchRotatedSampledPoints3DShape(rotatedsampledpoints3
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape)
 }
 
 func (stage *Stage) StageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) {
@@ -3153,6 +3309,10 @@ func (stage *Stage) StageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dsha
 
 }
 
+func (sampledpoints3dshape *SampledPoints3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchSampledPoints3DShape(sampledpoints3dshape)
+}
+
 func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -3166,6 +3326,10 @@ func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *Sample
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (seat3dshape *Seat3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchSeat3DShape(seat3dshape)
 }
 
 func (stage *Stage) StageBranchSeat3DShape(seat3dshape *Seat3DShape) {
@@ -3183,6 +3347,10 @@ func (stage *Stage) StageBranchSeat3DShape(seat3dshape *Seat3DShape) {
 
 }
 
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchSeatAndLegs3DShape(seatandlegs3dshape)
+}
+
 func (stage *Stage) StageBranchSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) {
 
 	// check if instance is already staged
@@ -3196,6 +3364,10 @@ func (stage *Stage) StageBranchSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLeg
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchSeatBottomCurveShape(seatbottomcurveshape)
 }
 
 func (stage *Stage) StageBranchSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) {
@@ -3213,6 +3385,10 @@ func (stage *Stage) StageBranchSeatBottomCurveShape(seatbottomcurveshape *SeatBo
 
 }
 
+func (seattopcurveshape *SeatTopCurveShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchSeatTopCurveShape(seattopcurveshape)
+}
+
 func (stage *Stage) StageBranchSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) {
 
 	// check if instance is already staged
@@ -3226,6 +3402,10 @@ func (stage *Stage) StageBranchSeatTopCurveShape(seattopcurveshape *SeatTopCurve
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape)
 }
 
 func (stage *Stage) StageBranchShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) {
@@ -3243,6 +3423,10 @@ func (stage *Stage) StageBranchShiftedBottomTopStartArcShape(shiftedbottomtopsta
 
 }
 
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid)
+}
+
 func (stage *Stage) StageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) {
 
 	// check if instance is already staged
@@ -3256,6 +3440,10 @@ func (stage *Stage) StageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomto
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthcurve2dribbon)
 }
 
 func (stage *Stage) StageBranchShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) {
@@ -3273,6 +3461,10 @@ func (stage *Stage) StageBranchShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthc
 
 }
 
+func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftGrowthCurve2DRibbonEndShape(shiftedleftgrowthcurve2dribbonendshape)
+}
+
 func (stage *Stage) StageBranchShiftedLeftGrowthCurve2DRibbonEndShape(shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) {
 
 	// check if instance is already staged
@@ -3286,6 +3478,10 @@ func (stage *Stage) StageBranchShiftedLeftGrowthCurve2DRibbonEndShape(shiftedlef
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftGrowthCurve2DRibbonStartShape(shiftedleftgrowthcurve2dribbonstartshape)
 }
 
 func (stage *Stage) StageBranchShiftedLeftGrowthCurve2DRibbonStartShape(shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) {
@@ -3303,6 +3499,10 @@ func (stage *Stage) StageBranchShiftedLeftGrowthCurve2DRibbonStartShape(shiftedl
 
 }
 
+func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedleftpartiallygrowthcurve2dribbon)
+}
+
 func (stage *Stage) StageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -3316,6 +3516,10 @@ func (stage *Stage) StageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedle
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(shiftedleftpartiallygrowthcurve2dribbonendshape)
 }
 
 func (stage *Stage) StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) {
@@ -3333,6 +3537,10 @@ func (stage *Stage) StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(s
 
 }
 
+func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(shiftedleftpartiallygrowthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -3346,6 +3554,10 @@ func (stage *Stage) StageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape)
 }
 
 func (stage *Stage) StageBranchShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) {
@@ -3363,6 +3575,10 @@ func (stage *Stage) StageBranchShiftedLeftStackGrowthCurveEndArcShape(shiftedlef
 
 }
 
+func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape)
+}
+
 func (stage *Stage) StageBranchShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) {
 
 	// check if instance is already staged
@@ -3376,6 +3592,10 @@ func (stage *Stage) StageBranchShiftedLeftStackGrowthCurveStartArcShape(shiftedl
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftStackNormalVector(shiftedleftstacknormalvector)
 }
 
 func (stage *Stage) StageBranchShiftedLeftStackNormalVector(shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) {
@@ -3393,6 +3613,10 @@ func (stage *Stage) StageBranchShiftedLeftStackNormalVector(shiftedleftstacknorm
 
 }
 
+func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve)
+}
+
 func (stage *Stage) StageBranchShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) {
 
 	// check if instance is already staged
@@ -3406,6 +3630,10 @@ func (stage *Stage) StageBranchShiftedLeftStackOfGrowthCurve(shiftedleftstackofg
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector)
 }
 
 func (stage *Stage) StageBranchShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) {
@@ -3423,6 +3651,10 @@ func (stage *Stage) StageBranchShiftedLeftStackOfNormalVector(shiftedleftstackof
 
 }
 
+func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon)
+}
+
 func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -3436,6 +3668,10 @@ func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowt
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape)
 }
 
 func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) {
@@ -3453,6 +3689,10 @@ func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedri
 
 }
 
+func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -3466,6 +3706,10 @@ func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbonStartShape(shifted
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape)
 }
 
 func (stage *Stage) StageBranchStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) {
@@ -3483,6 +3727,10 @@ func (stage *Stage) StageBranchStackGrowthCurve2DEndHalfwayArcShape(stackgrowthc
 
 }
 
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape)
+}
+
 func (stage *Stage) StageBranchStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) {
 
 	// check if instance is already staged
@@ -3496,6 +3744,10 @@ func (stage *Stage) StageBranchStackGrowthCurve2DRibbonEndShape(stackgrowthcurve
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape)
 }
 
 func (stage *Stage) StageBranchStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) {
@@ -3513,6 +3765,10 @@ func (stage *Stage) StageBranchStackGrowthCurve2DRibbonStartShape(stackgrowthcur
 
 }
 
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape)
+}
+
 func (stage *Stage) StageBranchStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) {
 
 	// check if instance is already staged
@@ -3526,6 +3782,10 @@ func (stage *Stage) StageBranchStackGrowthCurve2DStartHalfwayArcShape(stackgrowt
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d)
 }
 
 func (stage *Stage) StageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D) {
@@ -3543,6 +3803,10 @@ func (stage *Stage) StageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d *StackO
 
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector)
+}
+
 func (stage *Stage) StageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) {
 
 	// check if instance is already staged
@@ -3556,6 +3820,10 @@ func (stage *Stage) StageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthc
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon)
 }
 
 func (stage *Stage) StageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) {
@@ -3573,6 +3841,10 @@ func (stage *Stage) StageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dri
 
 }
 
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape)
+}
+
 func (stage *Stage) StageBranchStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) {
 
 	// check if instance is already staged
@@ -3586,6 +3858,10 @@ func (stage *Stage) StageBranchStackOfPartiallyRotatedTorusShape(stackofpartiall
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackOfRotatedGrowthCurve2D(stackofrotatedgrowthcurve2d)
 }
 
 func (stage *Stage) StageBranchStackOfRotatedGrowthCurve2D(stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) {
@@ -3603,6 +3879,10 @@ func (stage *Stage) StageBranchStackOfRotatedGrowthCurve2D(stackofrotatedgrowthc
 
 }
 
+func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackOfRotatedGrowthCurve2DRibbon(stackofrotatedgrowthcurve2dribbon)
+}
+
 func (stage *Stage) StageBranchStackOfRotatedGrowthCurve2DRibbon(stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -3616,6 +3896,10 @@ func (stage *Stage) StageBranchStackOfRotatedGrowthCurve2DRibbon(stackofrotatedg
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackRotatedGrowthCurve2DEndArcShape(stackrotatedgrowthcurve2dendarcshape)
 }
 
 func (stage *Stage) StageBranchStackRotatedGrowthCurve2DEndArcShape(stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) {
@@ -3633,6 +3917,10 @@ func (stage *Stage) StageBranchStackRotatedGrowthCurve2DEndArcShape(stackrotated
 
 }
 
+func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackRotatedGrowthCurve2DRibbonEndShape(stackrotatedgrowthcurve2dribbonendshape)
+}
+
 func (stage *Stage) StageBranchStackRotatedGrowthCurve2DRibbonEndShape(stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) {
 
 	// check if instance is already staged
@@ -3646,6 +3934,10 @@ func (stage *Stage) StageBranchStackRotatedGrowthCurve2DRibbonEndShape(stackrota
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackRotatedGrowthCurve2DRibbonStartShape(stackrotatedgrowthcurve2dribbonstartshape)
 }
 
 func (stage *Stage) StageBranchStackRotatedGrowthCurve2DRibbonStartShape(stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) {
@@ -3663,6 +3955,10 @@ func (stage *Stage) StageBranchStackRotatedGrowthCurve2DRibbonStartShape(stackro
 
 }
 
+func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStackRotatedGrowthCurve2DStartArcShape(stackrotatedgrowthcurve2dstartarcshape)
+}
+
 func (stage *Stage) StageBranchStackRotatedGrowthCurve2DStartArcShape(stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) {
 
 	// check if instance is already staged
@@ -3676,6 +3972,10 @@ func (stage *Stage) StageBranchStackRotatedGrowthCurve2DStartArcShape(stackrotat
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (startarcshape *StartArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStartArcShape(startarcshape)
 }
 
 func (stage *Stage) StageBranchStartArcShape(startarcshape *StartArcShape) {
@@ -3693,6 +3993,10 @@ func (stage *Stage) StageBranchStartArcShape(startarcshape *StartArcShape) {
 
 }
 
+func (startarcshapegrid *StartArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchStartArcShapeGrid(startarcshapegrid)
+}
+
 func (stage *Stage) StageBranchStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) {
 
 	// check if instance is already staged
@@ -3706,6 +4010,10 @@ func (stage *Stage) StageBranchStartArcShapeGrid(startarcshapegrid *StartArcShap
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (starthalfwayarcshape *StartHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStartHalfwayArcShape(starthalfwayarcshape)
 }
 
 func (stage *Stage) StageBranchStartHalfwayArcShape(starthalfwayarcshape *StartHalfwayArcShape) {
@@ -3723,6 +4031,10 @@ func (stage *Stage) StageBranchStartHalfwayArcShape(starthalfwayarcshape *StartH
 
 }
 
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid)
+}
+
 func (stage *Stage) StageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) {
 
 	// check if instance is already staged
@@ -3736,6 +4048,10 @@ func (stage *Stage) StageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stemcylinder3dshape *StemCylinder3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchStemCylinder3DShape(stemcylinder3dshape)
 }
 
 func (stage *Stage) StageBranchStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) {
@@ -3753,6 +4069,10 @@ func (stage *Stage) StageBranchStemCylinder3DShape(stemcylinder3dshape *StemCyli
 
 }
 
+func (stool2ddiagram *Stool2DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchStool2DDiagram(stool2ddiagram)
+}
+
 func (stage *Stage) StageBranchStool2DDiagram(stool2ddiagram *Stool2DDiagram) {
 
 	// check if instance is already staged
@@ -3766,6 +4086,10 @@ func (stage *Stage) StageBranchStool2DDiagram(stool2ddiagram *Stool2DDiagram) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchStool3DDiagram(stool3ddiagram)
 }
 
 func (stage *Stage) StageBranchStool3DDiagram(stool3ddiagram *Stool3DDiagram) {
@@ -3789,6 +4113,10 @@ func (stage *Stage) StageBranchStool3DDiagram(stool3ddiagram *Stool3DDiagram) {
 
 }
 
+func (stoolabstract *StoolAbstract) GongStageBranch(stage *Stage) {
+	stage.StageBranchStoolAbstract(stoolabstract)
+}
+
 func (stage *Stage) StageBranchStoolAbstract(stoolabstract *StoolAbstract) {
 
 	// check if instance is already staged
@@ -3802,6 +4130,10 @@ func (stage *Stage) StageBranchStoolAbstract(stoolabstract *StoolAbstract) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTiledFloor3DShape(tiledfloor3dshape)
 }
 
 func (stage *Stage) StageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) {
@@ -3819,6 +4151,10 @@ func (stage *Stage) StageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor3D
 
 }
 
+func (topendarcshape *TopEndArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopEndArcShape(topendarcshape)
+}
+
 func (stage *Stage) StageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	// check if instance is already staged
@@ -3832,6 +4168,10 @@ func (stage *Stage) StageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topendarcshapegrid *TopEndArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopEndArcShapeGrid(topendarcshapegrid)
 }
 
 func (stage *Stage) StageBranchTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid) {
@@ -3849,6 +4189,10 @@ func (stage *Stage) StageBranchTopEndArcShapeGrid(topendarcshapegrid *TopEndArcS
 
 }
 
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopEndHalfwayArcShape(topendhalfwayarcshape)
+}
+
 func (stage *Stage) StageBranchTopEndHalfwayArcShape(topendhalfwayarcshape *TopEndHalfwayArcShape) {
 
 	// check if instance is already staged
@@ -3862,6 +4206,10 @@ func (stage *Stage) StageBranchTopEndHalfwayArcShape(topendhalfwayarcshape *TopE
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid)
 }
 
 func (stage *Stage) StageBranchTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) {
@@ -3879,6 +4227,10 @@ func (stage *Stage) StageBranchTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegr
 
 }
 
+func (topgrowthcurve2d *TopGrowthCurve2D) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopGrowthCurve2D(topgrowthcurve2d)
+}
+
 func (stage *Stage) StageBranchTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D) {
 
 	// check if instance is already staged
@@ -3892,6 +4244,10 @@ func (stage *Stage) StageBranchTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopMidArcVectorShape(topmidarcvectorshape)
 }
 
 func (stage *Stage) StageBranchTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape) {
@@ -3909,6 +4265,10 @@ func (stage *Stage) StageBranchTopMidArcVectorShape(topmidarcvectorshape *TopMid
 
 }
 
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopMidArcVectorShapeGrid(topmidarcvectorshapegrid)
+}
+
 func (stage *Stage) StageBranchTopMidArcVectorShapeGrid(topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) {
 
 	// check if instance is already staged
@@ -3922,6 +4282,10 @@ func (stage *Stage) StageBranchTopMidArcVectorShapeGrid(topmidarcvectorshapegrid
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStackGrowthCurve2DEndHalfwayArcShape(topstackgrowthcurve2dendhalfwayarcshape)
 }
 
 func (stage *Stage) StageBranchTopStackGrowthCurve2DEndHalfwayArcShape(topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) {
@@ -3939,6 +4303,10 @@ func (stage *Stage) StageBranchTopStackGrowthCurve2DEndHalfwayArcShape(topstackg
 
 }
 
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStackGrowthCurve2DStartHalfwayArcShape(topstackgrowthcurve2dstarthalfwayarcshape)
+}
+
 func (stage *Stage) StageBranchTopStackGrowthCurve2DStartHalfwayArcShape(topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) {
 
 	// check if instance is already staged
@@ -3952,6 +4320,10 @@ func (stage *Stage) StageBranchTopStackGrowthCurve2DStartHalfwayArcShape(topstac
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStackOfGrowthCurve2D(topstackofgrowthcurve2d)
 }
 
 func (stage *Stage) StageBranchTopStackOfGrowthCurve2D(topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) {
@@ -3969,6 +4341,10 @@ func (stage *Stage) StageBranchTopStackOfGrowthCurve2D(topstackofgrowthcurve2d *
 
 }
 
+func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStackOfRotatedGrowthCurve2D(topstackofrotatedgrowthcurve2d)
+}
+
 func (stage *Stage) StageBranchTopStackOfRotatedGrowthCurve2D(topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) {
 
 	// check if instance is already staged
@@ -3982,6 +4358,10 @@ func (stage *Stage) StageBranchTopStackOfRotatedGrowthCurve2D(topstackofrotatedg
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(topstackofrotatedgrowthcurve2dendarcshape)
 }
 
 func (stage *Stage) StageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) {
@@ -3999,6 +4379,10 @@ func (stage *Stage) StageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(topstac
 
 }
 
+func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(topstackofrotatedgrowthcurve2dstartarcshape)
+}
+
 func (stage *Stage) StageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) {
 
 	// check if instance is already staged
@@ -4012,6 +4396,10 @@ func (stage *Stage) StageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(topst
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstartarcshape *TopStartArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStartArcShape(topstartarcshape)
 }
 
 func (stage *Stage) StageBranchTopStartArcShape(topstartarcshape *TopStartArcShape) {
@@ -4029,6 +4417,10 @@ func (stage *Stage) StageBranchTopStartArcShape(topstartarcshape *TopStartArcSha
 
 }
 
+func (topstartarcshapegrid *TopStartArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStartArcShapeGrid(topstartarcshapegrid)
+}
+
 func (stage *Stage) StageBranchTopStartArcShapeGrid(topstartarcshapegrid *TopStartArcShapeGrid) {
 
 	// check if instance is already staged
@@ -4042,6 +4434,10 @@ func (stage *Stage) StageBranchTopStartArcShapeGrid(topstartarcshapegrid *TopSta
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStartHalfwayArcShape(topstarthalfwayarcshape)
 }
 
 func (stage *Stage) StageBranchTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape) {
@@ -4059,6 +4455,10 @@ func (stage *Stage) StageBranchTopStartHalfwayArcShape(topstarthalfwayarcshape *
 
 }
 
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongStageBranch(stage *Stage) {
+	stage.StageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid)
+}
+
 func (stage *Stage) StageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) {
 
 	// check if instance is already staged
@@ -4072,6 +4472,10 @@ func (stage *Stage) StageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcsha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (torus3dshape *Torus3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTorus3DShape(torus3dshape)
 }
 
 func (stage *Stage) StageBranchTorus3DShape(torus3dshape *Torus3DShape) {
@@ -4089,6 +4493,10 @@ func (stage *Stage) StageBranchTorus3DShape(torus3dshape *Torus3DShape) {
 
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTorusEdge3DShape(torusedge3dshape)
+}
+
 func (stage *Stage) StageBranchTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) {
 
 	// check if instance is already staged
@@ -4104,6 +4512,10 @@ func (stage *Stage) StageBranchTorusEdge3DShape(torusedge3dshape *TorusEdge3DSha
 
 }
 
+func (torusstackshape *TorusStackShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchTorusStackShape(torusstackshape)
+}
+
 func (stage *Stage) StageBranchTorusStackShape(torusstackshape *TorusStackShape) {
 
 	// check if instance is already staged
@@ -4117,6 +4529,10 @@ func (stage *Stage) StageBranchTorusStackShape(torusstackshape *TorusStackShape)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tubevase3ddiagram *TubeVase3DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchTubeVase3DDiagram(tubevase3ddiagram)
 }
 
 func (stage *Stage) StageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram) {
@@ -4146,6 +4562,10 @@ func (stage *Stage) StageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDi
 
 }
 
+func (tubevaseabstract *TubeVaseAbstract) GongStageBranch(stage *Stage) {
+	stage.StageBranchTubeVaseAbstract(tubevaseabstract)
+}
+
 func (stage *Stage) StageBranchTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract) {
 
 	// check if instance is already staged
@@ -4159,6 +4579,10 @@ func (stage *Stage) StageBranchTubeVaseAbstract(tubevaseabstract *TubeVaseAbstra
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchVase2DDiagram(vase2ddiagram)
 }
 
 func (stage *Stage) StageBranchVase2DDiagram(vase2ddiagram *Vase2DDiagram) {
@@ -4176,6 +4600,10 @@ func (stage *Stage) StageBranchVase2DDiagram(vase2ddiagram *Vase2DDiagram) {
 
 }
 
+func (verticaltorusstackshape *VerticalTorusStackShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchVerticalTorusStackShape(verticaltorusstackshape)
+}
+
 func (stage *Stage) StageBranchVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) {
 
 	// check if instance is already staged
@@ -4189,6 +4617,10 @@ func (stage *Stage) StageBranchVerticalTorusStackShape(verticaltorusstackshape *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchVolumeKey3DShape(volumekey3dshape)
 }
 
 func (stage *Stage) StageBranchVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) {
@@ -7674,454 +8106,22 @@ func GongCopyBranchVolumeKey3DShape(mapOrigCopy map[any]any, volumekey3dshapeFro
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Angle0Shape:
-		stage.UnstageBranchAngle0Shape(target)
-
-	case *ArcNormalVectorShape:
-		stage.UnstageBranchArcNormalVectorShape(target)
-
-	case *ArcNormalVectorShapeGrid:
-		stage.UnstageBranchArcNormalVectorShapeGrid(target)
-
-	case *AxesShape:
-		stage.UnstageBranchAxesShape(target)
-
-	case *BaseVectorShape:
-		stage.UnstageBranchBaseVectorShape(target)
-
-	case *BaseVectorShapeGrid:
-		stage.UnstageBranchBaseVectorShapeGrid(target)
-
-	case *ChosenP1P2PairShape:
-		stage.UnstageBranchChosenP1P2PairShape(target)
-
-	case *CircleGridShape:
-		stage.UnstageBranchCircleGridShape(target)
-
-	case *Circumference3DShape:
-		stage.UnstageBranchCircumference3DShape(target)
-
-	case *Clock2DDiagram:
-		stage.UnstageBranchClock2DDiagram(target)
-
-	case *Clock3DDiagram:
-		stage.UnstageBranchClock3DDiagram(target)
-
-	case *ClockAbstract:
-		stage.UnstageBranchClockAbstract(target)
-
-	case *ClockTopCurveShape:
-		stage.UnstageBranchClockTopCurveShape(target)
-
-	case *CutLine3DShape:
-		stage.UnstageBranchCutLine3DShape(target)
-
-	case *EndArcShape:
-		stage.UnstageBranchEndArcShape(target)
-
-	case *EndArcShapeGrid:
-		stage.UnstageBranchEndArcShapeGrid(target)
-
-	case *EndHalfwayArcShape:
-		stage.UnstageBranchEndHalfwayArcShape(target)
-
-	case *EndHalfwayArcShapeGrid:
-		stage.UnstageBranchEndHalfwayArcShapeGrid(target)
-
-	case *ExplanationTextShape:
-		stage.UnstageBranchExplanationTextShape(target)
-
-	case *Eye3DShape:
-		stage.UnstageBranchEye3DShape(target)
-
-	case *EyeCornersSampledPoints3DShape:
-		stage.UnstageBranchEyeCornersSampledPoints3DShape(target)
-
-	case *EyeSampledPoints3DShape:
-		stage.UnstageBranchEyeSampledPoints3DShape(target)
-
-	case *EyeSeatBottomCurveShape:
-		stage.UnstageBranchEyeSeatBottomCurveShape(target)
-
-	case *EyeStoolBottomCurveShape:
-		stage.UnstageBranchEyeStoolBottomCurveShape(target)
-
-	case *EyeVolume3DShape:
-		stage.UnstageBranchEyeVolume3DShape(target)
-
-	case *GridPathShape:
-		stage.UnstageBranchGridPathShape(target)
-
-	case *GrowthCurve2D:
-		stage.UnstageBranchGrowthCurve2D(target)
-
-	case *GrowthCurve2DRibbon:
-		stage.UnstageBranchGrowthCurve2DRibbon(target)
-
-	case *GrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchGrowthCurve2DRibbonEndShape(target)
-
-	case *GrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchGrowthCurve2DRibbonStartShape(target)
-
-	case *GrowthCurveRhombusGridShape:
-		stage.UnstageBranchGrowthCurveRhombusGridShape(target)
-
-	case *GrowthCurveRhombusShape:
-		stage.UnstageBranchGrowthCurveRhombusShape(target)
-
-	case *GrowthVectorShape:
-		stage.UnstageBranchGrowthVectorShape(target)
-
-	case *InitialRhombusGridShape:
-		stage.UnstageBranchInitialRhombusGridShape(target)
-
-	case *InitialRhombusShape:
-		stage.UnstageBranchInitialRhombusShape(target)
-
-	case *Key3DShape:
-		stage.UnstageBranchKey3DShape(target)
-
-	case *KeyHole3DShape:
-		stage.UnstageBranchKeyHole3DShape(target)
-
-	case *KeyHoleShape:
-		stage.UnstageBranchKeyHoleShape(target)
-
-	case *Leaves3DShape:
-		stage.UnstageBranchLeaves3DShape(target)
-
-	case *Library:
-		stage.UnstageBranchLibrary(target)
-
-	case *MidArcVectorShape:
-		stage.UnstageBranchMidArcVectorShape(target)
-
-	case *MidArcVectorShapeGrid:
-		stage.UnstageBranchMidArcVectorShapeGrid(target)
-
-	case *MusicAbstract:
-		stage.UnstageBranchMusicAbstract(target)
-
-	case *OriginalPoints3DShape:
-		stage.UnstageBranchOriginalPoints3DShape(target)
-
-	case *ParastichyMCurves3DShape:
-		stage.UnstageBranchParastichyMCurves3DShape(target)
-
-	case *ParastichyNCurves3DShape:
-		stage.UnstageBranchParastichyNCurves3DShape(target)
-
-	case *PartiallyGrowthCurve2DRibbon:
-		stage.UnstageBranchPartiallyGrowthCurve2DRibbon(target)
-
-	case *PartiallyGrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DRibbonEndShape(target)
-
-	case *PartiallyGrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectory:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectory(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1P2:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
-
-	case *PartiallyGrowthCurve2DTrajectoryShape:
-		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(target)
-
-	case *PartiallyRotatedSeatBottomCurveShape:
-		stage.UnstageBranchPartiallyRotatedSeatBottomCurveShape(target)
-
-	case *PartiallyRotatedSeatTopCurveShape:
-		stage.UnstageBranchPartiallyRotatedSeatTopCurveShape(target)
-
-	case *PartiallyRotatedTorusShape:
-		stage.UnstageBranchPartiallyRotatedTorusShape(target)
-
-	case *PerpendicularVector:
-		stage.UnstageBranchPerpendicularVector(target)
-
-	case *PerpendicularVectorGrid:
-		stage.UnstageBranchPerpendicularVectorGrid(target)
-
-	case *PerpendicularVectorGridHalfway:
-		stage.UnstageBranchPerpendicularVectorGridHalfway(target)
-
-	case *PerpendicularVectorHalfway:
-		stage.UnstageBranchPerpendicularVectorHalfway(target)
-
-	case *Plant2DDiagram:
-		stage.UnstageBranchPlant2DDiagram(target)
-
-	case *Plant3DDiagram:
-		stage.UnstageBranchPlant3DDiagram(target)
-
-	case *PlantAbstract:
-		stage.UnstageBranchPlantAbstract(target)
-
-	case *PlantCircumferenceShape:
-		stage.UnstageBranchPlantCircumferenceShape(target)
-
-	case *PointsAndLines3DShape:
-		stage.UnstageBranchPointsAndLines3DShape(target)
-
-	case *PxShape:
-		stage.UnstageBranchPxShape(target)
-
-	case *Rendered3DShape:
-		stage.UnstageBranchRendered3DShape(target)
-
-	case *RhombusShape:
-		stage.UnstageBranchRhombusShape(target)
-
-	case *RhombusStuff:
-		stage.UnstageBranchRhombusStuff(target)
-
-	case *RotatedRhombusGridShape:
-		stage.UnstageBranchRotatedRhombusGridShape(target)
-
-	case *RotatedRhombusShape:
-		stage.UnstageBranchRotatedRhombusShape(target)
-
-	case *RotatedSampledPoints3DShape:
-		stage.UnstageBranchRotatedSampledPoints3DShape(target)
-
-	case *RotatedSeatAndLegs3DShape:
-		stage.UnstageBranchRotatedSeatAndLegs3DShape(target)
-
-	case *SampledPoints3DShape:
-		stage.UnstageBranchSampledPoints3DShape(target)
-
-	case *Seat3DShape:
-		stage.UnstageBranchSeat3DShape(target)
-
-	case *SeatAndLegs3DShape:
-		stage.UnstageBranchSeatAndLegs3DShape(target)
-
-	case *SeatBottomCurveShape:
-		stage.UnstageBranchSeatBottomCurveShape(target)
-
-	case *SeatTopCurveShape:
-		stage.UnstageBranchSeatTopCurveShape(target)
-
-	case *ShiftedBottomTopStartArcShape:
-		stage.UnstageBranchShiftedBottomTopStartArcShape(target)
-
-	case *ShiftedBottomTopStartArcShapeGrid:
-		stage.UnstageBranchShiftedBottomTopStartArcShapeGrid(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbon:
-		stage.UnstageBranchShiftedLeftGrowthCurve2DRibbon(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchShiftedLeftGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedLeftGrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchShiftedLeftGrowthCurve2DRibbonStartShape(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbon:
-		stage.UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(target)
-
-	case *ShiftedLeftStackGrowthCurveEndArcShape:
-		stage.UnstageBranchShiftedLeftStackGrowthCurveEndArcShape(target)
-
-	case *ShiftedLeftStackGrowthCurveStartArcShape:
-		stage.UnstageBranchShiftedLeftStackGrowthCurveStartArcShape(target)
-
-	case *ShiftedLeftStackNormalVector:
-		stage.UnstageBranchShiftedLeftStackNormalVector(target)
-
-	case *ShiftedLeftStackOfGrowthCurve:
-		stage.UnstageBranchShiftedLeftStackOfGrowthCurve(target)
-
-	case *ShiftedLeftStackOfNormalVector:
-		stage.UnstageBranchShiftedLeftStackOfNormalVector(target)
-
-	case *ShiftedRightGrowthCurve2DRibbon:
-		stage.UnstageBranchShiftedRightGrowthCurve2DRibbon(target)
-
-	case *ShiftedRightGrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchShiftedRightGrowthCurve2DRibbonEndShape(target)
-
-	case *ShiftedRightGrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchShiftedRightGrowthCurve2DRibbonStartShape(target)
-
-	case *StackGrowthCurve2DEndHalfwayArcShape:
-		stage.UnstageBranchStackGrowthCurve2DEndHalfwayArcShape(target)
-
-	case *StackGrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchStackGrowthCurve2DRibbonEndShape(target)
-
-	case *StackGrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchStackGrowthCurve2DRibbonStartShape(target)
-
-	case *StackGrowthCurve2DStartHalfwayArcShape:
-		stage.UnstageBranchStackGrowthCurve2DStartHalfwayArcShape(target)
-
-	case *StackOfGrowthCurve2D:
-		stage.UnstageBranchStackOfGrowthCurve2D(target)
-
-	case *StackOfGrowthCurve2DByGrowthVector:
-		stage.UnstageBranchStackOfGrowthCurve2DByGrowthVector(target)
-
-	case *StackOfGrowthCurve2DRibbon:
-		stage.UnstageBranchStackOfGrowthCurve2DRibbon(target)
-
-	case *StackOfPartiallyRotatedTorusShape:
-		stage.UnstageBranchStackOfPartiallyRotatedTorusShape(target)
-
-	case *StackOfRotatedGrowthCurve2D:
-		stage.UnstageBranchStackOfRotatedGrowthCurve2D(target)
-
-	case *StackOfRotatedGrowthCurve2DRibbon:
-		stage.UnstageBranchStackOfRotatedGrowthCurve2DRibbon(target)
-
-	case *StackRotatedGrowthCurve2DEndArcShape:
-		stage.UnstageBranchStackRotatedGrowthCurve2DEndArcShape(target)
-
-	case *StackRotatedGrowthCurve2DRibbonEndShape:
-		stage.UnstageBranchStackRotatedGrowthCurve2DRibbonEndShape(target)
-
-	case *StackRotatedGrowthCurve2DRibbonStartShape:
-		stage.UnstageBranchStackRotatedGrowthCurve2DRibbonStartShape(target)
-
-	case *StackRotatedGrowthCurve2DStartArcShape:
-		stage.UnstageBranchStackRotatedGrowthCurve2DStartArcShape(target)
-
-	case *StartArcShape:
-		stage.UnstageBranchStartArcShape(target)
-
-	case *StartArcShapeGrid:
-		stage.UnstageBranchStartArcShapeGrid(target)
-
-	case *StartHalfwayArcShape:
-		stage.UnstageBranchStartHalfwayArcShape(target)
-
-	case *StartHalfwayArcShapeGrid:
-		stage.UnstageBranchStartHalfwayArcShapeGrid(target)
-
-	case *StemCylinder3DShape:
-		stage.UnstageBranchStemCylinder3DShape(target)
-
-	case *Stool2DDiagram:
-		stage.UnstageBranchStool2DDiagram(target)
-
-	case *Stool3DDiagram:
-		stage.UnstageBranchStool3DDiagram(target)
-
-	case *StoolAbstract:
-		stage.UnstageBranchStoolAbstract(target)
-
-	case *TiledFloor3DShape:
-		stage.UnstageBranchTiledFloor3DShape(target)
-
-	case *TopEndArcShape:
-		stage.UnstageBranchTopEndArcShape(target)
-
-	case *TopEndArcShapeGrid:
-		stage.UnstageBranchTopEndArcShapeGrid(target)
-
-	case *TopEndHalfwayArcShape:
-		stage.UnstageBranchTopEndHalfwayArcShape(target)
-
-	case *TopEndHalfwayArcShapeGrid:
-		stage.UnstageBranchTopEndHalfwayArcShapeGrid(target)
-
-	case *TopGrowthCurve2D:
-		stage.UnstageBranchTopGrowthCurve2D(target)
-
-	case *TopMidArcVectorShape:
-		stage.UnstageBranchTopMidArcVectorShape(target)
-
-	case *TopMidArcVectorShapeGrid:
-		stage.UnstageBranchTopMidArcVectorShapeGrid(target)
-
-	case *TopStackGrowthCurve2DEndHalfwayArcShape:
-		stage.UnstageBranchTopStackGrowthCurve2DEndHalfwayArcShape(target)
-
-	case *TopStackGrowthCurve2DStartHalfwayArcShape:
-		stage.UnstageBranchTopStackGrowthCurve2DStartHalfwayArcShape(target)
-
-	case *TopStackOfGrowthCurve2D:
-		stage.UnstageBranchTopStackOfGrowthCurve2D(target)
-
-	case *TopStackOfRotatedGrowthCurve2D:
-		stage.UnstageBranchTopStackOfRotatedGrowthCurve2D(target)
-
-	case *TopStackOfRotatedGrowthCurve2DEndArcShape:
-		stage.UnstageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(target)
-
-	case *TopStackOfRotatedGrowthCurve2DStartArcShape:
-		stage.UnstageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(target)
-
-	case *TopStartArcShape:
-		stage.UnstageBranchTopStartArcShape(target)
-
-	case *TopStartArcShapeGrid:
-		stage.UnstageBranchTopStartArcShapeGrid(target)
-
-	case *TopStartHalfwayArcShape:
-		stage.UnstageBranchTopStartHalfwayArcShape(target)
-
-	case *TopStartHalfwayArcShapeGrid:
-		stage.UnstageBranchTopStartHalfwayArcShapeGrid(target)
-
-	case *Torus3DShape:
-		stage.UnstageBranchTorus3DShape(target)
-
-	case *TorusEdge3DShape:
-		stage.UnstageBranchTorusEdge3DShape(target)
-
-	case *TorusStackShape:
-		stage.UnstageBranchTorusStackShape(target)
-
-	case *TubeVase3DDiagram:
-		stage.UnstageBranchTubeVase3DDiagram(target)
-
-	case *TubeVaseAbstract:
-		stage.UnstageBranchTubeVaseAbstract(target)
-
-	case *Vase2DDiagram:
-		stage.UnstageBranchVase2DDiagram(target)
-
-	case *VerticalTorusStackShape:
-		stage.UnstageBranchVerticalTorusStackShape(target)
-
-	case *VolumeKey3DShape:
-		stage.UnstageBranchVolumeKey3DShape(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (angle0shape *Angle0Shape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAngle0Shape(angle0shape)
+}
+
 func (stage *Stage) UnstageBranchAngle0Shape(angle0shape *Angle0Shape) {
 
 	// check if instance is already staged
@@ -8135,6 +8135,10 @@ func (stage *Stage) UnstageBranchAngle0Shape(angle0shape *Angle0Shape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (arcnormalvectorshape *ArcNormalVectorShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArcNormalVectorShape(arcnormalvectorshape)
 }
 
 func (stage *Stage) UnstageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
@@ -8152,6 +8156,10 @@ func (stage *Stage) UnstageBranchArcNormalVectorShape(arcnormalvectorshape *ArcN
 
 }
 
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid)
+}
+
 func (stage *Stage) UnstageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) {
 
 	// check if instance is already staged
@@ -8165,6 +8173,10 @@ func (stage *Stage) UnstageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (axesshape *AxesShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAxesShape(axesshape)
 }
 
 func (stage *Stage) UnstageBranchAxesShape(axesshape *AxesShape) {
@@ -8182,6 +8194,10 @@ func (stage *Stage) UnstageBranchAxesShape(axesshape *AxesShape) {
 
 }
 
+func (basevectorshape *BaseVectorShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBaseVectorShape(basevectorshape)
+}
+
 func (stage *Stage) UnstageBranchBaseVectorShape(basevectorshape *BaseVectorShape) {
 
 	// check if instance is already staged
@@ -8195,6 +8211,10 @@ func (stage *Stage) UnstageBranchBaseVectorShape(basevectorshape *BaseVectorShap
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (basevectorshapegrid *BaseVectorShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBaseVectorShapeGrid(basevectorshapegrid)
 }
 
 func (stage *Stage) UnstageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid) {
@@ -8212,6 +8232,10 @@ func (stage *Stage) UnstageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVe
 
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchChosenP1P2PairShape(chosenp1p2pairshape)
+}
+
 func (stage *Stage) UnstageBranchChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) {
 
 	// check if instance is already staged
@@ -8225,6 +8249,10 @@ func (stage *Stage) UnstageBranchChosenP1P2PairShape(chosenp1p2pairshape *Chosen
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (circlegridshape *CircleGridShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCircleGridShape(circlegridshape)
 }
 
 func (stage *Stage) UnstageBranchCircleGridShape(circlegridshape *CircleGridShape) {
@@ -8242,6 +8270,10 @@ func (stage *Stage) UnstageBranchCircleGridShape(circlegridshape *CircleGridShap
 
 }
 
+func (circumference3dshape *Circumference3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCircumference3DShape(circumference3dshape)
+}
+
 func (stage *Stage) UnstageBranchCircumference3DShape(circumference3dshape *Circumference3DShape) {
 
 	// check if instance is already staged
@@ -8257,6 +8289,10 @@ func (stage *Stage) UnstageBranchCircumference3DShape(circumference3dshape *Circ
 
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchClock2DDiagram(clock2ddiagram)
+}
+
 func (stage *Stage) UnstageBranchClock2DDiagram(clock2ddiagram *Clock2DDiagram) {
 
 	// check if instance is already staged
@@ -8270,6 +8306,10 @@ func (stage *Stage) UnstageBranchClock2DDiagram(clock2ddiagram *Clock2DDiagram) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchClock3DDiagram(clock3ddiagram)
 }
 
 func (stage *Stage) UnstageBranchClock3DDiagram(clock3ddiagram *Clock3DDiagram) {
@@ -8293,6 +8333,10 @@ func (stage *Stage) UnstageBranchClock3DDiagram(clock3ddiagram *Clock3DDiagram) 
 
 }
 
+func (clockabstract *ClockAbstract) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchClockAbstract(clockabstract)
+}
+
 func (stage *Stage) UnstageBranchClockAbstract(clockabstract *ClockAbstract) {
 
 	// check if instance is already staged
@@ -8306,6 +8350,10 @@ func (stage *Stage) UnstageBranchClockAbstract(clockabstract *ClockAbstract) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchClockTopCurveShape(clocktopcurveshape)
 }
 
 func (stage *Stage) UnstageBranchClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) {
@@ -8323,6 +8371,10 @@ func (stage *Stage) UnstageBranchClockTopCurveShape(clocktopcurveshape *ClockTop
 
 }
 
+func (cutline3dshape *CutLine3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCutLine3DShape(cutline3dshape)
+}
+
 func (stage *Stage) UnstageBranchCutLine3DShape(cutline3dshape *CutLine3DShape) {
 
 	// check if instance is already staged
@@ -8336,6 +8388,10 @@ func (stage *Stage) UnstageBranchCutLine3DShape(cutline3dshape *CutLine3DShape) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (endarcshape *EndArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEndArcShape(endarcshape)
 }
 
 func (stage *Stage) UnstageBranchEndArcShape(endarcshape *EndArcShape) {
@@ -8353,6 +8409,10 @@ func (stage *Stage) UnstageBranchEndArcShape(endarcshape *EndArcShape) {
 
 }
 
+func (endarcshapegrid *EndArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEndArcShapeGrid(endarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid) {
 
 	// check if instance is already staged
@@ -8366,6 +8426,10 @@ func (stage *Stage) UnstageBranchEndArcShapeGrid(endarcshapegrid *EndArcShapeGri
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (endhalfwayarcshape *EndHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEndHalfwayArcShape(endhalfwayarcshape)
 }
 
 func (stage *Stage) UnstageBranchEndHalfwayArcShape(endhalfwayarcshape *EndHalfwayArcShape) {
@@ -8383,6 +8447,10 @@ func (stage *Stage) UnstageBranchEndHalfwayArcShape(endhalfwayarcshape *EndHalfw
 
 }
 
+func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEndHalfwayArcShapeGrid(endhalfwayarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) {
 
 	// check if instance is already staged
@@ -8396,6 +8464,10 @@ func (stage *Stage) UnstageBranchEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (explanationtextshape *ExplanationTextShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchExplanationTextShape(explanationtextshape)
 }
 
 func (stage *Stage) UnstageBranchExplanationTextShape(explanationtextshape *ExplanationTextShape) {
@@ -8413,6 +8485,10 @@ func (stage *Stage) UnstageBranchExplanationTextShape(explanationtextshape *Expl
 
 }
 
+func (eye3dshape *Eye3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEye3DShape(eye3dshape)
+}
+
 func (stage *Stage) UnstageBranchEye3DShape(eye3dshape *Eye3DShape) {
 
 	// check if instance is already staged
@@ -8426,6 +8502,10 @@ func (stage *Stage) UnstageBranchEye3DShape(eye3dshape *Eye3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape)
 }
 
 func (stage *Stage) UnstageBranchEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) {
@@ -8443,6 +8523,10 @@ func (stage *Stage) UnstageBranchEyeCornersSampledPoints3DShape(eyecornerssample
 
 }
 
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape)
+}
+
 func (stage *Stage) UnstageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -8456,6 +8540,10 @@ func (stage *Stage) UnstageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape)
 }
 
 func (stage *Stage) UnstageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) {
@@ -8473,6 +8561,10 @@ func (stage *Stage) UnstageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape
 
 }
 
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape)
+}
+
 func (stage *Stage) UnstageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) {
 
 	// check if instance is already staged
@@ -8486,6 +8578,10 @@ func (stage *Stage) UnstageBranchEyeStoolBottomCurveShape(eyestoolbottomcurvesha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEyeVolume3DShape(eyevolume3dshape)
 }
 
 func (stage *Stage) UnstageBranchEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) {
@@ -8503,6 +8599,10 @@ func (stage *Stage) UnstageBranchEyeVolume3DShape(eyevolume3dshape *EyeVolume3DS
 
 }
 
+func (gridpathshape *GridPathShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGridPathShape(gridpathshape)
+}
+
 func (stage *Stage) UnstageBranchGridPathShape(gridpathshape *GridPathShape) {
 
 	// check if instance is already staged
@@ -8516,6 +8616,10 @@ func (stage *Stage) UnstageBranchGridPathShape(gridpathshape *GridPathShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthcurve2d *GrowthCurve2D) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthCurve2D(growthcurve2d)
 }
 
 func (stage *Stage) UnstageBranchGrowthCurve2D(growthcurve2d *GrowthCurve2D) {
@@ -8533,6 +8637,10 @@ func (stage *Stage) UnstageBranchGrowthCurve2D(growthcurve2d *GrowthCurve2D) {
 
 }
 
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthCurve2DRibbon(growthcurve2dribbon)
+}
+
 func (stage *Stage) UnstageBranchGrowthCurve2DRibbon(growthcurve2dribbon *GrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -8546,6 +8654,10 @@ func (stage *Stage) UnstageBranchGrowthCurve2DRibbon(growthcurve2dribbon *Growth
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthCurve2DRibbonEndShape(growthcurve2dribbonendshape)
 }
 
 func (stage *Stage) UnstageBranchGrowthCurve2DRibbonEndShape(growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) {
@@ -8563,6 +8675,10 @@ func (stage *Stage) UnstageBranchGrowthCurve2DRibbonEndShape(growthcurve2dribbon
 
 }
 
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthCurve2DRibbonStartShape(growthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) UnstageBranchGrowthCurve2DRibbonStartShape(growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -8576,6 +8692,10 @@ func (stage *Stage) UnstageBranchGrowthCurve2DRibbonStartShape(growthcurve2dribb
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthCurveRhombusGridShape(growthcurverhombusgridshape)
 }
 
 func (stage *Stage) UnstageBranchGrowthCurveRhombusGridShape(growthcurverhombusgridshape *GrowthCurveRhombusGridShape) {
@@ -8593,6 +8713,10 @@ func (stage *Stage) UnstageBranchGrowthCurveRhombusGridShape(growthcurverhombusg
 
 }
 
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthCurveRhombusShape(growthcurverhombusshape)
+}
+
 func (stage *Stage) UnstageBranchGrowthCurveRhombusShape(growthcurverhombusshape *GrowthCurveRhombusShape) {
 
 	// check if instance is already staged
@@ -8606,6 +8730,10 @@ func (stage *Stage) UnstageBranchGrowthCurveRhombusShape(growthcurverhombusshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (growthvectorshape *GrowthVectorShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchGrowthVectorShape(growthvectorshape)
 }
 
 func (stage *Stage) UnstageBranchGrowthVectorShape(growthvectorshape *GrowthVectorShape) {
@@ -8623,6 +8751,10 @@ func (stage *Stage) UnstageBranchGrowthVectorShape(growthvectorshape *GrowthVect
 
 }
 
+func (initialrhombusgridshape *InitialRhombusGridShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInitialRhombusGridShape(initialrhombusgridshape)
+}
+
 func (stage *Stage) UnstageBranchInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape) {
 
 	// check if instance is already staged
@@ -8636,6 +8768,10 @@ func (stage *Stage) UnstageBranchInitialRhombusGridShape(initialrhombusgridshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInitialRhombusShape(initialrhombusshape)
 }
 
 func (stage *Stage) UnstageBranchInitialRhombusShape(initialrhombusshape *InitialRhombusShape) {
@@ -8653,6 +8789,10 @@ func (stage *Stage) UnstageBranchInitialRhombusShape(initialrhombusshape *Initia
 
 }
 
+func (key3dshape *Key3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKey3DShape(key3dshape)
+}
+
 func (stage *Stage) UnstageBranchKey3DShape(key3dshape *Key3DShape) {
 
 	// check if instance is already staged
@@ -8666,6 +8806,10 @@ func (stage *Stage) UnstageBranchKey3DShape(key3dshape *Key3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKeyHole3DShape(keyhole3dshape)
 }
 
 func (stage *Stage) UnstageBranchKeyHole3DShape(keyhole3dshape *KeyHole3DShape) {
@@ -8683,6 +8827,10 @@ func (stage *Stage) UnstageBranchKeyHole3DShape(keyhole3dshape *KeyHole3DShape) 
 
 }
 
+func (keyholeshape *KeyHoleShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKeyHoleShape(keyholeshape)
+}
+
 func (stage *Stage) UnstageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
 
 	// check if instance is already staged
@@ -8698,6 +8846,10 @@ func (stage *Stage) UnstageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
 
 }
 
+func (leaves3dshape *Leaves3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLeaves3DShape(leaves3dshape)
+}
+
 func (stage *Stage) UnstageBranchLeaves3DShape(leaves3dshape *Leaves3DShape) {
 
 	// check if instance is already staged
@@ -8711,6 +8863,10 @@ func (stage *Stage) UnstageBranchLeaves3DShape(leaves3dshape *Leaves3DShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLibrary(library)
 }
 
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
@@ -8734,6 +8890,10 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (midarcvectorshape *MidArcVectorShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMidArcVectorShape(midarcvectorshape)
+}
+
 func (stage *Stage) UnstageBranchMidArcVectorShape(midarcvectorshape *MidArcVectorShape) {
 
 	// check if instance is already staged
@@ -8747,6 +8907,10 @@ func (stage *Stage) UnstageBranchMidArcVectorShape(midarcvectorshape *MidArcVect
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid)
 }
 
 func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) {
@@ -8764,6 +8928,10 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 
 }
 
+func (musicabstract *MusicAbstract) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMusicAbstract(musicabstract)
+}
+
 func (stage *Stage) UnstageBranchMusicAbstract(musicabstract *MusicAbstract) {
 
 	// check if instance is already staged
@@ -8777,6 +8945,10 @@ func (stage *Stage) UnstageBranchMusicAbstract(musicabstract *MusicAbstract) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchOriginalPoints3DShape(originalpoints3dshape)
 }
 
 func (stage *Stage) UnstageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
@@ -8794,6 +8966,10 @@ func (stage *Stage) UnstageBranchOriginalPoints3DShape(originalpoints3dshape *Or
 
 }
 
+func (parastichymcurves3dshape *ParastichyMCurves3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParastichyMCurves3DShape(parastichymcurves3dshape)
+}
+
 func (stage *Stage) UnstageBranchParastichyMCurves3DShape(parastichymcurves3dshape *ParastichyMCurves3DShape) {
 
 	// check if instance is already staged
@@ -8807,6 +8983,10 @@ func (stage *Stage) UnstageBranchParastichyMCurves3DShape(parastichymcurves3dsha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (parastichyncurves3dshape *ParastichyNCurves3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchParastichyNCurves3DShape(parastichyncurves3dshape)
 }
 
 func (stage *Stage) UnstageBranchParastichyNCurves3DShape(parastichyncurves3dshape *ParastichyNCurves3DShape) {
@@ -8824,6 +9004,10 @@ func (stage *Stage) UnstageBranchParastichyNCurves3DShape(parastichyncurves3dsha
 
 }
 
+func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon)
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -8837,6 +9021,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcur
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape)
 }
 
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) {
@@ -8854,6 +9042,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallyg
 
 }
 
+func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -8867,6 +9059,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(partiall
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory)
 }
 
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) {
@@ -8884,6 +9080,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowt
 
 }
 
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape)
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
 
 	// check if instance is already staged
@@ -8897,6 +9097,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(pa
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2)
 }
 
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) {
@@ -8914,6 +9118,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallyg
 
 }
 
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
 
 	// check if instance is already staged
@@ -8927,6 +9135,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineSha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape)
 }
 
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
@@ -8944,6 +9156,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(pa
 
 }
 
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape)
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
 
 	// check if instance is already staged
@@ -8957,6 +9173,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(pa
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape)
 }
 
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
@@ -8974,6 +9194,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(pa
 
 }
 
+func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape)
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) {
 
 	// check if instance is already staged
@@ -8987,6 +9211,10 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(partially
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape)
 }
 
 func (stage *Stage) UnstageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) {
@@ -9004,6 +9232,10 @@ func (stage *Stage) UnstageBranchPartiallyRotatedSeatBottomCurveShape(partiallyr
 
 }
 
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape)
+}
+
 func (stage *Stage) UnstageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) {
 
 	// check if instance is already staged
@@ -9017,6 +9249,10 @@ func (stage *Stage) UnstageBranchPartiallyRotatedSeatTopCurveShape(partiallyrota
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPartiallyRotatedTorusShape(partiallyrotatedtorusshape)
 }
 
 func (stage *Stage) UnstageBranchPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) {
@@ -9034,6 +9270,10 @@ func (stage *Stage) UnstageBranchPartiallyRotatedTorusShape(partiallyrotatedtoru
 
 }
 
+func (perpendicularvector *PerpendicularVector) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPerpendicularVector(perpendicularvector)
+}
+
 func (stage *Stage) UnstageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
 
 	// check if instance is already staged
@@ -9047,6 +9287,10 @@ func (stage *Stage) UnstageBranchPerpendicularVector(perpendicularvector *Perpen
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPerpendicularVectorGrid(perpendicularvectorgrid)
 }
 
 func (stage *Stage) UnstageBranchPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) {
@@ -9064,6 +9308,10 @@ func (stage *Stage) UnstageBranchPerpendicularVectorGrid(perpendicularvectorgrid
 
 }
 
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway)
+}
+
 func (stage *Stage) UnstageBranchPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) {
 
 	// check if instance is already staged
@@ -9077,6 +9325,10 @@ func (stage *Stage) UnstageBranchPerpendicularVectorGridHalfway(perpendicularvec
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPerpendicularVectorHalfway(perpendicularvectorhalfway)
 }
 
 func (stage *Stage) UnstageBranchPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway) {
@@ -9094,6 +9346,10 @@ func (stage *Stage) UnstageBranchPerpendicularVectorHalfway(perpendicularvectorh
 
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlant2DDiagram(plant2ddiagram)
+}
+
 func (stage *Stage) UnstageBranchPlant2DDiagram(plant2ddiagram *Plant2DDiagram) {
 
 	// check if instance is already staged
@@ -9107,6 +9363,10 @@ func (stage *Stage) UnstageBranchPlant2DDiagram(plant2ddiagram *Plant2DDiagram) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (plant3ddiagram *Plant3DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlant3DDiagram(plant3ddiagram)
 }
 
 func (stage *Stage) UnstageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) {
@@ -9143,6 +9403,10 @@ func (stage *Stage) UnstageBranchPlant3DDiagram(plant3ddiagram *Plant3DDiagram) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (plantabstract *PlantAbstract) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlantAbstract(plantabstract)
 }
 
 func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
@@ -9196,6 +9460,10 @@ func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 
 }
 
+func (plantcircumferenceshape *PlantCircumferenceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlantCircumferenceShape(plantcircumferenceshape)
+}
+
 func (stage *Stage) UnstageBranchPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape) {
 
 	// check if instance is already staged
@@ -9209,6 +9477,10 @@ func (stage *Stage) UnstageBranchPlantCircumferenceShape(plantcircumferenceshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPointsAndLines3DShape(pointsandlines3dshape)
 }
 
 func (stage *Stage) UnstageBranchPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) {
@@ -9226,6 +9498,10 @@ func (stage *Stage) UnstageBranchPointsAndLines3DShape(pointsandlines3dshape *Po
 
 }
 
+func (pxshape *PxShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPxShape(pxshape)
+}
+
 func (stage *Stage) UnstageBranchPxShape(pxshape *PxShape) {
 
 	// check if instance is already staged
@@ -9239,6 +9515,10 @@ func (stage *Stage) UnstageBranchPxShape(pxshape *PxShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rendered3dshape *Rendered3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRendered3DShape(rendered3dshape)
 }
 
 func (stage *Stage) UnstageBranchRendered3DShape(rendered3dshape *Rendered3DShape) {
@@ -9256,6 +9536,10 @@ func (stage *Stage) UnstageBranchRendered3DShape(rendered3dshape *Rendered3DShap
 
 }
 
+func (rhombusshape *RhombusShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRhombusShape(rhombusshape)
+}
+
 func (stage *Stage) UnstageBranchRhombusShape(rhombusshape *RhombusShape) {
 
 	// check if instance is already staged
@@ -9269,6 +9553,10 @@ func (stage *Stage) UnstageBranchRhombusShape(rhombusshape *RhombusShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rhombusstuff *RhombusStuff) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRhombusStuff(rhombusstuff)
 }
 
 func (stage *Stage) UnstageBranchRhombusStuff(rhombusstuff *RhombusStuff) {
@@ -9286,6 +9574,10 @@ func (stage *Stage) UnstageBranchRhombusStuff(rhombusstuff *RhombusStuff) {
 
 }
 
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRotatedRhombusGridShape(rotatedrhombusgridshape)
+}
+
 func (stage *Stage) UnstageBranchRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape) {
 
 	// check if instance is already staged
@@ -9299,6 +9591,10 @@ func (stage *Stage) UnstageBranchRotatedRhombusGridShape(rotatedrhombusgridshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRotatedRhombusShape(rotatedrhombusshape)
 }
 
 func (stage *Stage) UnstageBranchRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape) {
@@ -9316,6 +9612,10 @@ func (stage *Stage) UnstageBranchRotatedRhombusShape(rotatedrhombusshape *Rotate
 
 }
 
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRotatedSampledPoints3DShape(rotatedsampledpoints3dshape)
+}
+
 func (stage *Stage) UnstageBranchRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -9329,6 +9629,10 @@ func (stage *Stage) UnstageBranchRotatedSampledPoints3DShape(rotatedsampledpoint
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape)
 }
 
 func (stage *Stage) UnstageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) {
@@ -9346,6 +9650,10 @@ func (stage *Stage) UnstageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3ds
 
 }
 
+func (sampledpoints3dshape *SampledPoints3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSampledPoints3DShape(sampledpoints3dshape)
+}
+
 func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -9359,6 +9667,10 @@ func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *Samp
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (seat3dshape *Seat3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSeat3DShape(seat3dshape)
 }
 
 func (stage *Stage) UnstageBranchSeat3DShape(seat3dshape *Seat3DShape) {
@@ -9376,6 +9688,10 @@ func (stage *Stage) UnstageBranchSeat3DShape(seat3dshape *Seat3DShape) {
 
 }
 
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSeatAndLegs3DShape(seatandlegs3dshape)
+}
+
 func (stage *Stage) UnstageBranchSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) {
 
 	// check if instance is already staged
@@ -9389,6 +9705,10 @@ func (stage *Stage) UnstageBranchSeatAndLegs3DShape(seatandlegs3dshape *SeatAndL
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSeatBottomCurveShape(seatbottomcurveshape)
 }
 
 func (stage *Stage) UnstageBranchSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) {
@@ -9406,6 +9726,10 @@ func (stage *Stage) UnstageBranchSeatBottomCurveShape(seatbottomcurveshape *Seat
 
 }
 
+func (seattopcurveshape *SeatTopCurveShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSeatTopCurveShape(seattopcurveshape)
+}
+
 func (stage *Stage) UnstageBranchSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) {
 
 	// check if instance is already staged
@@ -9419,6 +9743,10 @@ func (stage *Stage) UnstageBranchSeatTopCurveShape(seattopcurveshape *SeatTopCur
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape)
 }
 
 func (stage *Stage) UnstageBranchShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) {
@@ -9436,6 +9764,10 @@ func (stage *Stage) UnstageBranchShiftedBottomTopStartArcShape(shiftedbottomtops
 
 }
 
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) {
 
 	// check if instance is already staged
@@ -9449,6 +9781,10 @@ func (stage *Stage) UnstageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottom
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthcurve2dribbon)
 }
 
 func (stage *Stage) UnstageBranchShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) {
@@ -9466,6 +9802,10 @@ func (stage *Stage) UnstageBranchShiftedLeftGrowthCurve2DRibbon(shiftedleftgrowt
 
 }
 
+func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftGrowthCurve2DRibbonEndShape(shiftedleftgrowthcurve2dribbonendshape)
+}
+
 func (stage *Stage) UnstageBranchShiftedLeftGrowthCurve2DRibbonEndShape(shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) {
 
 	// check if instance is already staged
@@ -9479,6 +9819,10 @@ func (stage *Stage) UnstageBranchShiftedLeftGrowthCurve2DRibbonEndShape(shiftedl
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftGrowthCurve2DRibbonStartShape(shiftedleftgrowthcurve2dribbonstartshape)
 }
 
 func (stage *Stage) UnstageBranchShiftedLeftGrowthCurve2DRibbonStartShape(shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) {
@@ -9496,6 +9840,10 @@ func (stage *Stage) UnstageBranchShiftedLeftGrowthCurve2DRibbonStartShape(shifte
 
 }
 
+func (shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedleftpartiallygrowthcurve2dribbon)
+}
+
 func (stage *Stage) UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(shiftedleftpartiallygrowthcurve2dribbon *ShiftedLeftPartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -9509,6 +9857,10 @@ func (stage *Stage) UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbon(shifted
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(shiftedleftpartiallygrowthcurve2dribbonendshape)
 }
 
 func (stage *Stage) UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape(shiftedleftpartiallygrowthcurve2dribbonendshape *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) {
@@ -9526,6 +9878,10 @@ func (stage *Stage) UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonEndShape
 
 }
 
+func (shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(shiftedleftpartiallygrowthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartShape(shiftedleftpartiallygrowthcurve2dribbonstartshape *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -9539,6 +9895,10 @@ func (stage *Stage) UnstageBranchShiftedLeftPartiallyGrowthCurve2DRibbonStartSha
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape)
 }
 
 func (stage *Stage) UnstageBranchShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) {
@@ -9556,6 +9916,10 @@ func (stage *Stage) UnstageBranchShiftedLeftStackGrowthCurveEndArcShape(shiftedl
 
 }
 
+func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape)
+}
+
 func (stage *Stage) UnstageBranchShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape) {
 
 	// check if instance is already staged
@@ -9569,6 +9933,10 @@ func (stage *Stage) UnstageBranchShiftedLeftStackGrowthCurveStartArcShape(shifte
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftStackNormalVector(shiftedleftstacknormalvector)
 }
 
 func (stage *Stage) UnstageBranchShiftedLeftStackNormalVector(shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) {
@@ -9586,6 +9954,10 @@ func (stage *Stage) UnstageBranchShiftedLeftStackNormalVector(shiftedleftstackno
 
 }
 
+func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve)
+}
+
 func (stage *Stage) UnstageBranchShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) {
 
 	// check if instance is already staged
@@ -9599,6 +9971,10 @@ func (stage *Stage) UnstageBranchShiftedLeftStackOfGrowthCurve(shiftedleftstacko
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector)
 }
 
 func (stage *Stage) UnstageBranchShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) {
@@ -9616,6 +9992,10 @@ func (stage *Stage) UnstageBranchShiftedLeftStackOfNormalVector(shiftedleftstack
 
 }
 
+func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon)
+}
+
 func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -9629,6 +10009,10 @@ func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgro
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape)
 }
 
 func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) {
@@ -9646,6 +10030,10 @@ func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbonEndShape(shifted
 
 }
 
+func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape)
+}
+
 func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) {
 
 	// check if instance is already staged
@@ -9659,6 +10047,10 @@ func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbonStartShape(shift
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape)
 }
 
 func (stage *Stage) UnstageBranchStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) {
@@ -9676,6 +10068,10 @@ func (stage *Stage) UnstageBranchStackGrowthCurve2DEndHalfwayArcShape(stackgrowt
 
 }
 
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape)
+}
+
 func (stage *Stage) UnstageBranchStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) {
 
 	// check if instance is already staged
@@ -9689,6 +10085,10 @@ func (stage *Stage) UnstageBranchStackGrowthCurve2DRibbonEndShape(stackgrowthcur
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape)
 }
 
 func (stage *Stage) UnstageBranchStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) {
@@ -9706,6 +10106,10 @@ func (stage *Stage) UnstageBranchStackGrowthCurve2DRibbonStartShape(stackgrowthc
 
 }
 
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape)
+}
+
 func (stage *Stage) UnstageBranchStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) {
 
 	// check if instance is already staged
@@ -9719,6 +10123,10 @@ func (stage *Stage) UnstageBranchStackGrowthCurve2DStartHalfwayArcShape(stackgro
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d)
 }
 
 func (stage *Stage) UnstageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D) {
@@ -9736,6 +10144,10 @@ func (stage *Stage) UnstageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d *Stac
 
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector)
+}
+
 func (stage *Stage) UnstageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) {
 
 	// check if instance is already staged
@@ -9749,6 +10161,10 @@ func (stage *Stage) UnstageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowt
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon)
 }
 
 func (stage *Stage) UnstageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) {
@@ -9766,6 +10182,10 @@ func (stage *Stage) UnstageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2d
 
 }
 
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape)
+}
+
 func (stage *Stage) UnstageBranchStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) {
 
 	// check if instance is already staged
@@ -9779,6 +10199,10 @@ func (stage *Stage) UnstageBranchStackOfPartiallyRotatedTorusShape(stackofpartia
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackOfRotatedGrowthCurve2D(stackofrotatedgrowthcurve2d)
 }
 
 func (stage *Stage) UnstageBranchStackOfRotatedGrowthCurve2D(stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) {
@@ -9796,6 +10220,10 @@ func (stage *Stage) UnstageBranchStackOfRotatedGrowthCurve2D(stackofrotatedgrowt
 
 }
 
+func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackOfRotatedGrowthCurve2DRibbon(stackofrotatedgrowthcurve2dribbon)
+}
+
 func (stage *Stage) UnstageBranchStackOfRotatedGrowthCurve2DRibbon(stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -9809,6 +10237,10 @@ func (stage *Stage) UnstageBranchStackOfRotatedGrowthCurve2DRibbon(stackofrotate
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackRotatedGrowthCurve2DEndArcShape(stackrotatedgrowthcurve2dendarcshape)
 }
 
 func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DEndArcShape(stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) {
@@ -9826,6 +10258,10 @@ func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DEndArcShape(stackrotat
 
 }
 
+func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackRotatedGrowthCurve2DRibbonEndShape(stackrotatedgrowthcurve2dribbonendshape)
+}
+
 func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DRibbonEndShape(stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) {
 
 	// check if instance is already staged
@@ -9839,6 +10275,10 @@ func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DRibbonEndShape(stackro
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackRotatedGrowthCurve2DRibbonStartShape(stackrotatedgrowthcurve2dribbonstartshape)
 }
 
 func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DRibbonStartShape(stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) {
@@ -9856,6 +10296,10 @@ func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DRibbonStartShape(stack
 
 }
 
+func (stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStackRotatedGrowthCurve2DStartArcShape(stackrotatedgrowthcurve2dstartarcshape)
+}
+
 func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DStartArcShape(stackrotatedgrowthcurve2dstartarcshape *StackRotatedGrowthCurve2DStartArcShape) {
 
 	// check if instance is already staged
@@ -9869,6 +10313,10 @@ func (stage *Stage) UnstageBranchStackRotatedGrowthCurve2DStartArcShape(stackrot
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (startarcshape *StartArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStartArcShape(startarcshape)
 }
 
 func (stage *Stage) UnstageBranchStartArcShape(startarcshape *StartArcShape) {
@@ -9886,6 +10334,10 @@ func (stage *Stage) UnstageBranchStartArcShape(startarcshape *StartArcShape) {
 
 }
 
+func (startarcshapegrid *StartArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStartArcShapeGrid(startarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) {
 
 	// check if instance is already staged
@@ -9899,6 +10351,10 @@ func (stage *Stage) UnstageBranchStartArcShapeGrid(startarcshapegrid *StartArcSh
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (starthalfwayarcshape *StartHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStartHalfwayArcShape(starthalfwayarcshape)
 }
 
 func (stage *Stage) UnstageBranchStartHalfwayArcShape(starthalfwayarcshape *StartHalfwayArcShape) {
@@ -9916,6 +10372,10 @@ func (stage *Stage) UnstageBranchStartHalfwayArcShape(starthalfwayarcshape *Star
 
 }
 
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) {
 
 	// check if instance is already staged
@@ -9929,6 +10389,10 @@ func (stage *Stage) UnstageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stemcylinder3dshape *StemCylinder3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStemCylinder3DShape(stemcylinder3dshape)
 }
 
 func (stage *Stage) UnstageBranchStemCylinder3DShape(stemcylinder3dshape *StemCylinder3DShape) {
@@ -9946,6 +10410,10 @@ func (stage *Stage) UnstageBranchStemCylinder3DShape(stemcylinder3dshape *StemCy
 
 }
 
+func (stool2ddiagram *Stool2DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStool2DDiagram(stool2ddiagram)
+}
+
 func (stage *Stage) UnstageBranchStool2DDiagram(stool2ddiagram *Stool2DDiagram) {
 
 	// check if instance is already staged
@@ -9959,6 +10427,10 @@ func (stage *Stage) UnstageBranchStool2DDiagram(stool2ddiagram *Stool2DDiagram) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStool3DDiagram(stool3ddiagram)
 }
 
 func (stage *Stage) UnstageBranchStool3DDiagram(stool3ddiagram *Stool3DDiagram) {
@@ -9982,6 +10454,10 @@ func (stage *Stage) UnstageBranchStool3DDiagram(stool3ddiagram *Stool3DDiagram) 
 
 }
 
+func (stoolabstract *StoolAbstract) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStoolAbstract(stoolabstract)
+}
+
 func (stage *Stage) UnstageBranchStoolAbstract(stoolabstract *StoolAbstract) {
 
 	// check if instance is already staged
@@ -9995,6 +10471,10 @@ func (stage *Stage) UnstageBranchStoolAbstract(stoolabstract *StoolAbstract) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTiledFloor3DShape(tiledfloor3dshape)
 }
 
 func (stage *Stage) UnstageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) {
@@ -10012,6 +10492,10 @@ func (stage *Stage) UnstageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor
 
 }
 
+func (topendarcshape *TopEndArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopEndArcShape(topendarcshape)
+}
+
 func (stage *Stage) UnstageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	// check if instance is already staged
@@ -10025,6 +10509,10 @@ func (stage *Stage) UnstageBranchTopEndArcShape(topendarcshape *TopEndArcShape) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topendarcshapegrid *TopEndArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopEndArcShapeGrid(topendarcshapegrid)
 }
 
 func (stage *Stage) UnstageBranchTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid) {
@@ -10042,6 +10530,10 @@ func (stage *Stage) UnstageBranchTopEndArcShapeGrid(topendarcshapegrid *TopEndAr
 
 }
 
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopEndHalfwayArcShape(topendhalfwayarcshape)
+}
+
 func (stage *Stage) UnstageBranchTopEndHalfwayArcShape(topendhalfwayarcshape *TopEndHalfwayArcShape) {
 
 	// check if instance is already staged
@@ -10055,6 +10547,10 @@ func (stage *Stage) UnstageBranchTopEndHalfwayArcShape(topendhalfwayarcshape *To
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid)
 }
 
 func (stage *Stage) UnstageBranchTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) {
@@ -10072,6 +10568,10 @@ func (stage *Stage) UnstageBranchTopEndHalfwayArcShapeGrid(topendhalfwayarcshape
 
 }
 
+func (topgrowthcurve2d *TopGrowthCurve2D) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopGrowthCurve2D(topgrowthcurve2d)
+}
+
 func (stage *Stage) UnstageBranchTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D) {
 
 	// check if instance is already staged
@@ -10085,6 +10585,10 @@ func (stage *Stage) UnstageBranchTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCur
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopMidArcVectorShape(topmidarcvectorshape)
 }
 
 func (stage *Stage) UnstageBranchTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape) {
@@ -10102,6 +10606,10 @@ func (stage *Stage) UnstageBranchTopMidArcVectorShape(topmidarcvectorshape *TopM
 
 }
 
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopMidArcVectorShapeGrid(topmidarcvectorshapegrid)
+}
+
 func (stage *Stage) UnstageBranchTopMidArcVectorShapeGrid(topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) {
 
 	// check if instance is already staged
@@ -10115,6 +10623,10 @@ func (stage *Stage) UnstageBranchTopMidArcVectorShapeGrid(topmidarcvectorshapegr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStackGrowthCurve2DEndHalfwayArcShape(topstackgrowthcurve2dendhalfwayarcshape)
 }
 
 func (stage *Stage) UnstageBranchTopStackGrowthCurve2DEndHalfwayArcShape(topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) {
@@ -10132,6 +10644,10 @@ func (stage *Stage) UnstageBranchTopStackGrowthCurve2DEndHalfwayArcShape(topstac
 
 }
 
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStackGrowthCurve2DStartHalfwayArcShape(topstackgrowthcurve2dstarthalfwayarcshape)
+}
+
 func (stage *Stage) UnstageBranchTopStackGrowthCurve2DStartHalfwayArcShape(topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) {
 
 	// check if instance is already staged
@@ -10145,6 +10661,10 @@ func (stage *Stage) UnstageBranchTopStackGrowthCurve2DStartHalfwayArcShape(topst
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStackOfGrowthCurve2D(topstackofgrowthcurve2d)
 }
 
 func (stage *Stage) UnstageBranchTopStackOfGrowthCurve2D(topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) {
@@ -10162,6 +10682,10 @@ func (stage *Stage) UnstageBranchTopStackOfGrowthCurve2D(topstackofgrowthcurve2d
 
 }
 
+func (topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStackOfRotatedGrowthCurve2D(topstackofrotatedgrowthcurve2d)
+}
+
 func (stage *Stage) UnstageBranchTopStackOfRotatedGrowthCurve2D(topstackofrotatedgrowthcurve2d *TopStackOfRotatedGrowthCurve2D) {
 
 	// check if instance is already staged
@@ -10175,6 +10699,10 @@ func (stage *Stage) UnstageBranchTopStackOfRotatedGrowthCurve2D(topstackofrotate
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(topstackofrotatedgrowthcurve2dendarcshape)
 }
 
 func (stage *Stage) UnstageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(topstackofrotatedgrowthcurve2dendarcshape *TopStackOfRotatedGrowthCurve2DEndArcShape) {
@@ -10192,6 +10720,10 @@ func (stage *Stage) UnstageBranchTopStackOfRotatedGrowthCurve2DEndArcShape(topst
 
 }
 
+func (topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(topstackofrotatedgrowthcurve2dstartarcshape)
+}
+
 func (stage *Stage) UnstageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(topstackofrotatedgrowthcurve2dstartarcshape *TopStackOfRotatedGrowthCurve2DStartArcShape) {
 
 	// check if instance is already staged
@@ -10205,6 +10737,10 @@ func (stage *Stage) UnstageBranchTopStackOfRotatedGrowthCurve2DStartArcShape(top
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstartarcshape *TopStartArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStartArcShape(topstartarcshape)
 }
 
 func (stage *Stage) UnstageBranchTopStartArcShape(topstartarcshape *TopStartArcShape) {
@@ -10222,6 +10758,10 @@ func (stage *Stage) UnstageBranchTopStartArcShape(topstartarcshape *TopStartArcS
 
 }
 
+func (topstartarcshapegrid *TopStartArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStartArcShapeGrid(topstartarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchTopStartArcShapeGrid(topstartarcshapegrid *TopStartArcShapeGrid) {
 
 	// check if instance is already staged
@@ -10235,6 +10775,10 @@ func (stage *Stage) UnstageBranchTopStartArcShapeGrid(topstartarcshapegrid *TopS
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStartHalfwayArcShape(topstarthalfwayarcshape)
 }
 
 func (stage *Stage) UnstageBranchTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape) {
@@ -10252,6 +10796,10 @@ func (stage *Stage) UnstageBranchTopStartHalfwayArcShape(topstarthalfwayarcshape
 
 }
 
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid)
+}
+
 func (stage *Stage) UnstageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) {
 
 	// check if instance is already staged
@@ -10265,6 +10813,10 @@ func (stage *Stage) UnstageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcs
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (torus3dshape *Torus3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTorus3DShape(torus3dshape)
 }
 
 func (stage *Stage) UnstageBranchTorus3DShape(torus3dshape *Torus3DShape) {
@@ -10282,6 +10834,10 @@ func (stage *Stage) UnstageBranchTorus3DShape(torus3dshape *Torus3DShape) {
 
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTorusEdge3DShape(torusedge3dshape)
+}
+
 func (stage *Stage) UnstageBranchTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) {
 
 	// check if instance is already staged
@@ -10297,6 +10853,10 @@ func (stage *Stage) UnstageBranchTorusEdge3DShape(torusedge3dshape *TorusEdge3DS
 
 }
 
+func (torusstackshape *TorusStackShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTorusStackShape(torusstackshape)
+}
+
 func (stage *Stage) UnstageBranchTorusStackShape(torusstackshape *TorusStackShape) {
 
 	// check if instance is already staged
@@ -10310,6 +10870,10 @@ func (stage *Stage) UnstageBranchTorusStackShape(torusstackshape *TorusStackShap
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tubevase3ddiagram *TubeVase3DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTubeVase3DDiagram(tubevase3ddiagram)
 }
 
 func (stage *Stage) UnstageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3DDiagram) {
@@ -10339,6 +10903,10 @@ func (stage *Stage) UnstageBranchTubeVase3DDiagram(tubevase3ddiagram *TubeVase3D
 
 }
 
+func (tubevaseabstract *TubeVaseAbstract) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTubeVaseAbstract(tubevaseabstract)
+}
+
 func (stage *Stage) UnstageBranchTubeVaseAbstract(tubevaseabstract *TubeVaseAbstract) {
 
 	// check if instance is already staged
@@ -10352,6 +10920,10 @@ func (stage *Stage) UnstageBranchTubeVaseAbstract(tubevaseabstract *TubeVaseAbst
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchVase2DDiagram(vase2ddiagram)
 }
 
 func (stage *Stage) UnstageBranchVase2DDiagram(vase2ddiagram *Vase2DDiagram) {
@@ -10369,6 +10941,10 @@ func (stage *Stage) UnstageBranchVase2DDiagram(vase2ddiagram *Vase2DDiagram) {
 
 }
 
+func (verticaltorusstackshape *VerticalTorusStackShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchVerticalTorusStackShape(verticaltorusstackshape)
+}
+
 func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) {
 
 	// check if instance is already staged
@@ -10382,6 +10958,10 @@ func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchVolumeKey3DShape(volumekey3dshape)
 }
 
 func (stage *Stage) UnstageBranchVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) {

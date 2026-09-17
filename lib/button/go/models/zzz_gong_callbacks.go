@@ -2,32 +2,9 @@
 package models
 
 // AfterCreateFromFront is the Stage method called after a create from front.
-func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *Button:
-		if stage.OnAfterButtonCreateCallback != nil {
-			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ButtonToggle:
-		if stage.OnAfterButtonToggleCreateCallback != nil {
-			stage.OnAfterButtonToggleCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Group:
-		if stage.OnAfterGroupCreateCallback != nil {
-			stage.OnAfterGroupCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *GroupToogle:
-		if stage.OnAfterGroupToogleCreateCallback != nil {
-			stage.OnAfterGroupToogleCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Layout:
-		if stage.OnAfterLayoutCreateCallback != nil {
-			stage.OnAfterLayoutCreateCallback.OnAfterCreate(stage, target)
-		}
-	default:
-		_ = target
+func (stage *Stage) AfterCreateFromFront(instance GongstructIF) {
+	if instance != nil {
+		instance.GongAfterCreateFromFront(stage)
 	}
 }
 
@@ -36,71 +13,147 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is the Stage method called after an update from front.
-func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
-
-	switch oldTarget := any(old).(type) {
-	// insertion point
-	case *Button:
-		newTarget := any(new).(*Button)
-		if stage.OnAfterButtonUpdateCallback != nil {
-			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ButtonToggle:
-		newTarget := any(new).(*ButtonToggle)
-		if stage.OnAfterButtonToggleUpdateCallback != nil {
-			stage.OnAfterButtonToggleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Group:
-		newTarget := any(new).(*Group)
-		if stage.OnAfterGroupUpdateCallback != nil {
-			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *GroupToogle:
-		newTarget := any(new).(*GroupToogle)
-		if stage.OnAfterGroupToogleUpdateCallback != nil {
-			stage.OnAfterGroupToogleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Layout:
-		newTarget := any(new).(*Layout)
-		if stage.OnAfterLayoutUpdateCallback != nil {
-			stage.OnAfterLayoutUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	default:
-		_ = oldTarget
+func (stage *Stage) OnAfterUpdateFromFront(old, new GongstructIF) {
+	if old != nil {
+		old.GongOnAfterUpdateFromFront(stage, new)
 	}
 }
 
 // AfterDeleteFromFront is the Stage method called after a delete from front.
-func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
-
-	switch front := any(front).(type) {
-	// insertion point
-	case *Button:
-		if stage.OnAfterButtonDeleteCallback != nil {
-			staged := any(staged).(*Button)
-			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ButtonToggle:
-		if stage.OnAfterButtonToggleDeleteCallback != nil {
-			staged := any(staged).(*ButtonToggle)
-			stage.OnAfterButtonToggleDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Group:
-		if stage.OnAfterGroupDeleteCallback != nil {
-			staged := any(staged).(*Group)
-			stage.OnAfterGroupDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *GroupToogle:
-		if stage.OnAfterGroupToogleDeleteCallback != nil {
-			staged := any(staged).(*GroupToogle)
-			stage.OnAfterGroupToogleDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Layout:
-		if stage.OnAfterLayoutDeleteCallback != nil {
-			staged := any(staged).(*Layout)
-			stage.OnAfterLayoutDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	default:
-		_ = front
+func (stage *Stage) AfterDeleteFromFront(staged, front GongstructIF) {
+	if staged != nil {
+		staged.GongAfterDeleteFromFront(stage, front)
 	}
 }
+
+// insertion point
+func (button *Button) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterButtonCreateCallback != nil {
+		stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, button)
+	}
+}
+
+func (button *Button) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterButtonUpdateCallback != nil {
+		var frontButton *Button
+		if front != nil {
+			frontButton, _ = front.(*Button)
+		}
+		stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, button, frontButton)
+	}
+}
+
+func (button *Button) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterButtonDeleteCallback != nil {
+		var frontButton *Button
+		if front != nil {
+			frontButton, _ = front.(*Button)
+		}
+		stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, button, frontButton)
+	}
+}
+
+func (buttontoggle *ButtonToggle) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterButtonToggleCreateCallback != nil {
+		stage.OnAfterButtonToggleCreateCallback.OnAfterCreate(stage, buttontoggle)
+	}
+}
+
+func (buttontoggle *ButtonToggle) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterButtonToggleUpdateCallback != nil {
+		var frontButtonToggle *ButtonToggle
+		if front != nil {
+			frontButtonToggle, _ = front.(*ButtonToggle)
+		}
+		stage.OnAfterButtonToggleUpdateCallback.OnAfterUpdate(stage, buttontoggle, frontButtonToggle)
+	}
+}
+
+func (buttontoggle *ButtonToggle) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterButtonToggleDeleteCallback != nil {
+		var frontButtonToggle *ButtonToggle
+		if front != nil {
+			frontButtonToggle, _ = front.(*ButtonToggle)
+		}
+		stage.OnAfterButtonToggleDeleteCallback.OnAfterDelete(stage, buttontoggle, frontButtonToggle)
+	}
+}
+
+func (group *Group) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterGroupCreateCallback != nil {
+		stage.OnAfterGroupCreateCallback.OnAfterCreate(stage, group)
+	}
+}
+
+func (group *Group) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterGroupUpdateCallback != nil {
+		var frontGroup *Group
+		if front != nil {
+			frontGroup, _ = front.(*Group)
+		}
+		stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, group, frontGroup)
+	}
+}
+
+func (group *Group) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterGroupDeleteCallback != nil {
+		var frontGroup *Group
+		if front != nil {
+			frontGroup, _ = front.(*Group)
+		}
+		stage.OnAfterGroupDeleteCallback.OnAfterDelete(stage, group, frontGroup)
+	}
+}
+
+func (grouptoogle *GroupToogle) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterGroupToogleCreateCallback != nil {
+		stage.OnAfterGroupToogleCreateCallback.OnAfterCreate(stage, grouptoogle)
+	}
+}
+
+func (grouptoogle *GroupToogle) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterGroupToogleUpdateCallback != nil {
+		var frontGroupToogle *GroupToogle
+		if front != nil {
+			frontGroupToogle, _ = front.(*GroupToogle)
+		}
+		stage.OnAfterGroupToogleUpdateCallback.OnAfterUpdate(stage, grouptoogle, frontGroupToogle)
+	}
+}
+
+func (grouptoogle *GroupToogle) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterGroupToogleDeleteCallback != nil {
+		var frontGroupToogle *GroupToogle
+		if front != nil {
+			frontGroupToogle, _ = front.(*GroupToogle)
+		}
+		stage.OnAfterGroupToogleDeleteCallback.OnAfterDelete(stage, grouptoogle, frontGroupToogle)
+	}
+}
+
+func (layout *Layout) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLayoutCreateCallback != nil {
+		stage.OnAfterLayoutCreateCallback.OnAfterCreate(stage, layout)
+	}
+}
+
+func (layout *Layout) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLayoutUpdateCallback != nil {
+		var frontLayout *Layout
+		if front != nil {
+			frontLayout, _ = front.(*Layout)
+		}
+		stage.OnAfterLayoutUpdateCallback.OnAfterUpdate(stage, layout, frontLayout)
+	}
+}
+
+func (layout *Layout) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLayoutDeleteCallback != nil {
+		var frontLayout *Layout
+		if front != nil {
+			frontLayout, _ = front.(*Layout)
+		}
+		stage.OnAfterLayoutDeleteCallback.OnAfterDelete(stage, layout, frontLayout)
+	}
+}
+

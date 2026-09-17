@@ -1965,60 +1965,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *Animate:
-		return stage.Animate_stagedOrder[instance]
-	case *Circle:
-		return stage.Circle_stagedOrder[instance]
-	case *Condition:
-		return stage.Condition_stagedOrder[instance]
-	case *ControlPoint:
-		return stage.ControlPoint_stagedOrder[instance]
-	case *Ellipse:
-		return stage.Ellipse_stagedOrder[instance]
-	case *FileToDownload:
-		return stage.FileToDownload_stagedOrder[instance]
-	case *Layer:
-		return stage.Layer_stagedOrder[instance]
-	case *Line:
-		return stage.Line_stagedOrder[instance]
-	case *Link:
-		return stage.Link_stagedOrder[instance]
-	case *LinkAnchoredPath:
-		return stage.LinkAnchoredPath_stagedOrder[instance]
-	case *LinkAnchoredText:
-		return stage.LinkAnchoredText_stagedOrder[instance]
-	case *Path:
-		return stage.Path_stagedOrder[instance]
-	case *Point:
-		return stage.Point_stagedOrder[instance]
-	case *Polygone:
-		return stage.Polygone_stagedOrder[instance]
-	case *Polyline:
-		return stage.Polyline_stagedOrder[instance]
-	case *Rect:
-		return stage.Rect_stagedOrder[instance]
-	case *RectAnchoredPath:
-		return stage.RectAnchoredPath_stagedOrder[instance]
-	case *RectAnchoredPngImage:
-		return stage.RectAnchoredPngImage_stagedOrder[instance]
-	case *RectAnchoredRect:
-		return stage.RectAnchoredRect_stagedOrder[instance]
-	case *RectAnchoredText:
-		return stage.RectAnchoredText_stagedOrder[instance]
-	case *RectLinkLink:
-		return stage.RectLinkLink_stagedOrder[instance]
-	case *SVG:
-		return stage.SVG_stagedOrder[instance]
-	case *SvgText:
-		return stage.SvgText_stagedOrder[instance]
-	case *Text:
-		return stage.Text_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -4404,6 +4355,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

@@ -19,29 +19,23 @@ package {{PkgGoName}}
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage{{` + string(rune(ModelGongGraphStructInsertionIsStaged)) + `}}
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct{{` + string(rune(ModelGongGraphStructInsertionIsStagedPerStruct)) + `}}
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionStageBranch)) + `}}
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
@@ -69,13 +63,15 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch{{` + string(rune(ModelGongGraphStructInsertionUnstageBranch)) + `}}
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
+}
+
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
 }
 
 // insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
@@ -181,23 +177,26 @@ const (
 var ModelGongGraphStructSubTemplateCode map[ModelGongGraphStructInsertionId]string = // new line
 map[ModelGongGraphStructInsertionId]string{
 
-	ModelGongGraphStructInsertionIsStaged: `
-	case *{{Structname}}:
-		ok = stage.IsStaged{{Structname}}(target)
-`,
+	ModelGongGraphStructInsertionIsStaged: "",
 	ModelGongGraphStructInsertionIsStagedPerStruct: `
-func (stage *Stage) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
+func ({{structname}} *{{Structname}}) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.{{Structname}}s[{{structname}}]
 
 	return
 }
+
+func (stage *Stage) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
+
+	return {{structname}}.GongIsStaged(stage)
+}
 `,
-	ModelGongGraphStructInsertionStageBranch: `
-	case *{{Structname}}:
-		stage.StageBranch{{Structname}}(target)
-`,
+	ModelGongGraphStructInsertionStageBranch: "",
 	ModelGongGraphStructInsertionStageBranchPerStruct: `
+func ({{structname}} *{{Structname}}) GongStageBranch(stage *Stage) {
+	stage.StageBranch{{Structname}}({{structname}})
+}
+
 func (stage *Stage) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
@@ -238,11 +237,12 @@ func GongCopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{
 	return
 }
 `,
-	ModelGongGraphStructInsertionUnstageBranch: `
-	case *{{Structname}}:
-		stage.UnstageBranch{{Structname}}(target)
-`,
+	ModelGongGraphStructInsertionUnstageBranch: "",
 	ModelGongGraphStructInsertionUnstageBranchPerStruct: `
+func ({{structname}} *{{Structname}}) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranch{{Structname}}({{structname}})
+}
+
 func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged

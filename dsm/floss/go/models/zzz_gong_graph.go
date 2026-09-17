@@ -4,189 +4,175 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *CompareAnalysis:
-		ok = stage.IsStagedCompareAnalysis(target)
-
-	case *Complexity:
-		ok = stage.IsStagedComplexity(target)
-
-	case *DiagramFlossEquation:
-		ok = stage.IsStagedDiagramFlossEquation(target)
-
-	case *Effort:
-		ok = stage.IsStagedEffort(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *NoteComplexityShape:
-		ok = stage.IsStagedNoteComplexityShape(target)
-
-	case *NoteEffortShape:
-		ok = stage.IsStagedNoteEffortShape(target)
-
-	case *NotePerformanceShape:
-		ok = stage.IsStagedNotePerformanceShape(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *Performance:
-		ok = stage.IsStagedPerformance(target)
-
-	case *System:
-		ok = stage.IsStagedSystem(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedCompareAnalysis(compareanalysis *CompareAnalysis) (ok bool) {
+func (compareanalysis *CompareAnalysis) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CompareAnalysiss[compareanalysis]
 
 	return
 }
 
-func (stage *Stage) IsStagedComplexity(complexity *Complexity) (ok bool) {
+func (stage *Stage) IsStagedCompareAnalysis(compareanalysis *CompareAnalysis) (ok bool) {
+
+	return compareanalysis.GongIsStaged(stage)
+}
+
+func (complexity *Complexity) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Complexitys[complexity]
 
 	return
 }
 
-func (stage *Stage) IsStagedDiagramFlossEquation(diagramflossequation *DiagramFlossEquation) (ok bool) {
+func (stage *Stage) IsStagedComplexity(complexity *Complexity) (ok bool) {
+
+	return complexity.GongIsStaged(stage)
+}
+
+func (diagramflossequation *DiagramFlossEquation) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DiagramFlossEquations[diagramflossequation]
 
 	return
 }
 
-func (stage *Stage) IsStagedEffort(effort *Effort) (ok bool) {
+func (stage *Stage) IsStagedDiagramFlossEquation(diagramflossequation *DiagramFlossEquation) (ok bool) {
+
+	return diagramflossequation.GongIsStaged(stage)
+}
+
+func (effort *Effort) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Efforts[effort]
 
 	return
 }
 
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+func (stage *Stage) IsStagedEffort(effort *Effort) (ok bool) {
+
+	return effort.GongIsStaged(stage)
+}
+
+func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Librarys[library]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	return library.GongIsStaged(stage)
+}
+
+func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notes[note]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteComplexityShape(notecomplexityshape *NoteComplexityShape) (ok bool) {
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	return note.GongIsStaged(stage)
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteComplexityShapes[notecomplexityshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteEffortShape(noteeffortshape *NoteEffortShape) (ok bool) {
+func (stage *Stage) IsStagedNoteComplexityShape(notecomplexityshape *NoteComplexityShape) (ok bool) {
+
+	return notecomplexityshape.GongIsStaged(stage)
+}
+
+func (noteeffortshape *NoteEffortShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteEffortShapes[noteeffortshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNotePerformanceShape(noteperformanceshape *NotePerformanceShape) (ok bool) {
+func (stage *Stage) IsStagedNoteEffortShape(noteeffortshape *NoteEffortShape) (ok bool) {
+
+	return noteeffortshape.GongIsStaged(stage)
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NotePerformanceShapes[noteperformanceshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+func (stage *Stage) IsStagedNotePerformanceShape(noteperformanceshape *NotePerformanceShape) (ok bool) {
+
+	return noteperformanceshape.GongIsStaged(stage)
+}
+
+func (noteshape *NoteShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.NoteShapes[noteshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPerformance(performance *Performance) (ok bool) {
+func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+
+	return noteshape.GongIsStaged(stage)
+}
+
+func (performance *Performance) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Performances[performance]
 
 	return
 }
 
-func (stage *Stage) IsStagedSystem(system *System) (ok bool) {
+func (stage *Stage) IsStagedPerformance(performance *Performance) (ok bool) {
+
+	return performance.GongIsStaged(stage)
+}
+
+func (system *System) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Systems[system]
 
 	return
 }
 
+func (stage *Stage) IsStagedSystem(system *System) (ok bool) {
+
+	return system.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *CompareAnalysis:
-		stage.StageBranchCompareAnalysis(target)
-
-	case *Complexity:
-		stage.StageBranchComplexity(target)
-
-	case *DiagramFlossEquation:
-		stage.StageBranchDiagramFlossEquation(target)
-
-	case *Effort:
-		stage.StageBranchEffort(target)
-
-	case *Library:
-		stage.StageBranchLibrary(target)
-
-	case *Note:
-		stage.StageBranchNote(target)
-
-	case *NoteComplexityShape:
-		stage.StageBranchNoteComplexityShape(target)
-
-	case *NoteEffortShape:
-		stage.StageBranchNoteEffortShape(target)
-
-	case *NotePerformanceShape:
-		stage.StageBranchNotePerformanceShape(target)
-
-	case *NoteShape:
-		stage.StageBranchNoteShape(target)
-
-	case *Performance:
-		stage.StageBranchPerformance(target)
-
-	case *System:
-		stage.StageBranchSystem(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (compareanalysis *CompareAnalysis) GongStageBranch(stage *Stage) {
+	stage.StageBranchCompareAnalysis(compareanalysis)
+}
+
 func (stage *Stage) StageBranchCompareAnalysis(compareanalysis *CompareAnalysis) {
 
 	// check if instance is already staged
@@ -214,6 +200,10 @@ func (stage *Stage) StageBranchCompareAnalysis(compareanalysis *CompareAnalysis)
 
 }
 
+func (complexity *Complexity) GongStageBranch(stage *Stage) {
+	stage.StageBranchComplexity(complexity)
+}
+
 func (stage *Stage) StageBranchComplexity(complexity *Complexity) {
 
 	// check if instance is already staged
@@ -227,6 +217,10 @@ func (stage *Stage) StageBranchComplexity(complexity *Complexity) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagramflossequation *DiagramFlossEquation) GongStageBranch(stage *Stage) {
+	stage.StageBranchDiagramFlossEquation(diagramflossequation)
 }
 
 func (stage *Stage) StageBranchDiagramFlossEquation(diagramflossequation *DiagramFlossEquation) {
@@ -268,6 +262,10 @@ func (stage *Stage) StageBranchDiagramFlossEquation(diagramflossequation *Diagra
 
 }
 
+func (effort *Effort) GongStageBranch(stage *Stage) {
+	stage.StageBranchEffort(effort)
+}
+
 func (stage *Stage) StageBranchEffort(effort *Effort) {
 
 	// check if instance is already staged
@@ -281,6 +279,10 @@ func (stage *Stage) StageBranchEffort(effort *Effort) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongStageBranch(stage *Stage) {
+	stage.StageBranchLibrary(library)
 }
 
 func (stage *Stage) StageBranchLibrary(library *Library) {
@@ -340,6 +342,10 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (note *Note) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote(note)
+}
+
 func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
@@ -364,6 +370,10 @@ func (stage *Stage) StageBranchNote(note *Note) {
 
 }
 
+func (notecomplexityshape *NoteComplexityShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteComplexityShape(notecomplexityshape)
+}
+
 func (stage *Stage) StageBranchNoteComplexityShape(notecomplexityshape *NoteComplexityShape) {
 
 	// check if instance is already staged
@@ -383,6 +393,10 @@ func (stage *Stage) StageBranchNoteComplexityShape(notecomplexityshape *NoteComp
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (noteeffortshape *NoteEffortShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteEffortShape(noteeffortshape)
 }
 
 func (stage *Stage) StageBranchNoteEffortShape(noteeffortshape *NoteEffortShape) {
@@ -406,6 +420,10 @@ func (stage *Stage) StageBranchNoteEffortShape(noteeffortshape *NoteEffortShape)
 
 }
 
+func (noteperformanceshape *NotePerformanceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNotePerformanceShape(noteperformanceshape)
+}
+
 func (stage *Stage) StageBranchNotePerformanceShape(noteperformanceshape *NotePerformanceShape) {
 
 	// check if instance is already staged
@@ -427,6 +445,10 @@ func (stage *Stage) StageBranchNotePerformanceShape(noteperformanceshape *NotePe
 
 }
 
+func (noteshape *NoteShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchNoteShape(noteshape)
+}
+
 func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
@@ -445,6 +467,10 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 }
 
+func (performance *Performance) GongStageBranch(stage *Stage) {
+	stage.StageBranchPerformance(performance)
+}
+
 func (stage *Stage) StageBranchPerformance(performance *Performance) {
 
 	// check if instance is already staged
@@ -458,6 +484,10 @@ func (stage *Stage) StageBranchPerformance(performance *Performance) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (system *System) GongStageBranch(stage *Stage) {
+	stage.StageBranchSystem(system)
 }
 
 func (stage *Stage) StageBranchSystem(system *System) {
@@ -936,52 +966,22 @@ func GongCopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *CompareAnalysis:
-		stage.UnstageBranchCompareAnalysis(target)
-
-	case *Complexity:
-		stage.UnstageBranchComplexity(target)
-
-	case *DiagramFlossEquation:
-		stage.UnstageBranchDiagramFlossEquation(target)
-
-	case *Effort:
-		stage.UnstageBranchEffort(target)
-
-	case *Library:
-		stage.UnstageBranchLibrary(target)
-
-	case *Note:
-		stage.UnstageBranchNote(target)
-
-	case *NoteComplexityShape:
-		stage.UnstageBranchNoteComplexityShape(target)
-
-	case *NoteEffortShape:
-		stage.UnstageBranchNoteEffortShape(target)
-
-	case *NotePerformanceShape:
-		stage.UnstageBranchNotePerformanceShape(target)
-
-	case *NoteShape:
-		stage.UnstageBranchNoteShape(target)
-
-	case *Performance:
-		stage.UnstageBranchPerformance(target)
-
-	case *System:
-		stage.UnstageBranchSystem(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (compareanalysis *CompareAnalysis) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCompareAnalysis(compareanalysis)
+}
+
 func (stage *Stage) UnstageBranchCompareAnalysis(compareanalysis *CompareAnalysis) {
 
 	// check if instance is already staged
@@ -1009,6 +1009,10 @@ func (stage *Stage) UnstageBranchCompareAnalysis(compareanalysis *CompareAnalysi
 
 }
 
+func (complexity *Complexity) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchComplexity(complexity)
+}
+
 func (stage *Stage) UnstageBranchComplexity(complexity *Complexity) {
 
 	// check if instance is already staged
@@ -1022,6 +1026,10 @@ func (stage *Stage) UnstageBranchComplexity(complexity *Complexity) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagramflossequation *DiagramFlossEquation) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDiagramFlossEquation(diagramflossequation)
 }
 
 func (stage *Stage) UnstageBranchDiagramFlossEquation(diagramflossequation *DiagramFlossEquation) {
@@ -1063,6 +1071,10 @@ func (stage *Stage) UnstageBranchDiagramFlossEquation(diagramflossequation *Diag
 
 }
 
+func (effort *Effort) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEffort(effort)
+}
+
 func (stage *Stage) UnstageBranchEffort(effort *Effort) {
 
 	// check if instance is already staged
@@ -1076,6 +1088,10 @@ func (stage *Stage) UnstageBranchEffort(effort *Effort) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (library *Library) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLibrary(library)
 }
 
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
@@ -1135,6 +1151,10 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (note *Note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote(note)
+}
+
 func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
@@ -1159,6 +1179,10 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 
 }
 
+func (notecomplexityshape *NoteComplexityShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteComplexityShape(notecomplexityshape)
+}
+
 func (stage *Stage) UnstageBranchNoteComplexityShape(notecomplexityshape *NoteComplexityShape) {
 
 	// check if instance is already staged
@@ -1178,6 +1202,10 @@ func (stage *Stage) UnstageBranchNoteComplexityShape(notecomplexityshape *NoteCo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (noteeffortshape *NoteEffortShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteEffortShape(noteeffortshape)
 }
 
 func (stage *Stage) UnstageBranchNoteEffortShape(noteeffortshape *NoteEffortShape) {
@@ -1201,6 +1229,10 @@ func (stage *Stage) UnstageBranchNoteEffortShape(noteeffortshape *NoteEffortShap
 
 }
 
+func (noteperformanceshape *NotePerformanceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNotePerformanceShape(noteperformanceshape)
+}
+
 func (stage *Stage) UnstageBranchNotePerformanceShape(noteperformanceshape *NotePerformanceShape) {
 
 	// check if instance is already staged
@@ -1222,6 +1254,10 @@ func (stage *Stage) UnstageBranchNotePerformanceShape(noteperformanceshape *Note
 
 }
 
+func (noteshape *NoteShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNoteShape(noteshape)
+}
+
 func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
@@ -1240,6 +1276,10 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 }
 
+func (performance *Performance) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPerformance(performance)
+}
+
 func (stage *Stage) UnstageBranchPerformance(performance *Performance) {
 
 	// check if instance is already staged
@@ -1253,6 +1293,10 @@ func (stage *Stage) UnstageBranchPerformance(performance *Performance) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (system *System) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSystem(system)
 }
 
 func (stage *Stage) UnstageBranchSystem(system *System) {

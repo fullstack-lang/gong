@@ -1673,52 +1673,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *AmbiantLight:
-		return stage.AmbiantLight_stagedOrder[instance]
-	case *BoxGeometry:
-		return stage.BoxGeometry_stagedOrder[instance]
-	case *BufferGeometry:
-		return stage.BufferGeometry_stagedOrder[instance]
-	case *Camera:
-		return stage.Camera_stagedOrder[instance]
-	case *Canvas:
-		return stage.Canvas_stagedOrder[instance]
-	case *Curve:
-		return stage.Curve_stagedOrder[instance]
-	case *CylinderGeometry:
-		return stage.CylinderGeometry_stagedOrder[instance]
-	case *DirectionalLight:
-		return stage.DirectionalLight_stagedOrder[instance]
-	case *ExtrudeGeometry:
-		return stage.ExtrudeGeometry_stagedOrder[instance]
-	case *Mesh:
-		return stage.Mesh_stagedOrder[instance]
-	case *MeshMaterialBasic:
-		return stage.MeshMaterialBasic_stagedOrder[instance]
-	case *MeshPhysicalMaterial:
-		return stage.MeshPhysicalMaterial_stagedOrder[instance]
-	case *PlaneGeometry:
-		return stage.PlaneGeometry_stagedOrder[instance]
-	case *Shape:
-		return stage.Shape_stagedOrder[instance]
-	case *SphereGeometry:
-		return stage.SphereGeometry_stagedOrder[instance]
-	case *TorusGeometry:
-		return stage.TorusGeometry_stagedOrder[instance]
-	case *Triangle:
-		return stage.Triangle_stagedOrder[instance]
-	case *TubeGeometry:
-		return stage.TubeGeometry_stagedOrder[instance]
-	case *Vector2:
-		return stage.Vector2_stagedOrder[instance]
-	case *Vector3:
-		return stage.Vector3_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -3732,6 +3691,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

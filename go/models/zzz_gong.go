@@ -1151,34 +1151,11 @@ func NewStage(name string) (stage *Stage) {
 }
 
 // GetOrder is the Stage method returning the order of a gongstruct instance.
-func (stage *Stage) GetOrder[Type PointerToGongstruct](instance Type) uint {
-	switch instance := any(instance).(type) {
-	// insertion point for order map initialisations
-	case *GongBasicField:
-		return stage.GongBasicField_stagedOrder[instance]
-	case *GongEnum:
-		return stage.GongEnum_stagedOrder[instance]
-	case *GongEnumValue:
-		return stage.GongEnumValue_stagedOrder[instance]
-	case *GongLink:
-		return stage.GongLink_stagedOrder[instance]
-	case *GongNote:
-		return stage.GongNote_stagedOrder[instance]
-	case *GongStruct:
-		return stage.GongStruct_stagedOrder[instance]
-	case *GongTimeField:
-		return stage.GongTimeField_stagedOrder[instance]
-	case *MetaReference:
-		return stage.MetaReference_stagedOrder[instance]
-	case *ModelPkg:
-		return stage.ModelPkg_stagedOrder[instance]
-	case *PointerToGongStructField:
-		return stage.PointerToGongStructField_stagedOrder[instance]
-	case *SliceOfPointerToGongStructField:
-		return stage.SliceOfPointerToGongStructField_stagedOrder[instance]
-	default:
-		return 0 // should not happen
+func (stage *Stage) GetOrder(instance GongstructIF) uint {
+	if instance != nil {
+		return instance.GongGetOrder(stage)
 	}
+	return 0
 }
 
 // GetInstanceFromOrder is the Stage method returning a gongstruct instance from its order.
@@ -2355,6 +2332,12 @@ type GongstructIF interface {
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 	GongGetUUID(stage *Stage) string
+	GongAfterCreateFromFront(stage *Stage)
+	GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF)
+	GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
+	GongIsStaged(stage *Stage) bool
+	GongStageBranch(stage *Stage)
+	GongUnstageBranch(stage *Stage)
 }
 type PointerToGongstruct interface {
 	GongstructIF

@@ -4,1385 +4,1279 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *ALTERNATIVE_ID:
-		ok = stage.IsStagedALTERNATIVE_ID(target)
-
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_BOOLEAN(target)
-
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_BOOLEAN_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_DATE:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_DATE(target)
-
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_DATE_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_ENUMERATION(target)
-
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_ENUMERATION_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_INTEGER(target)
-
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_INTEGER_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_REAL:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_REAL(target)
-
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_REAL_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_STRING:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_STRING(target)
-
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_STRING_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_XHTML(target)
-
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		ok = stage.IsStagedATTRIBUTE_DEFINITION_XHTML_Rendering(target)
-
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		ok = stage.IsStagedATTRIBUTE_VALUE_BOOLEAN(target)
-
-	case *ATTRIBUTE_VALUE_DATE:
-		ok = stage.IsStagedATTRIBUTE_VALUE_DATE(target)
-
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		ok = stage.IsStagedATTRIBUTE_VALUE_ENUMERATION(target)
-
-	case *ATTRIBUTE_VALUE_INTEGER:
-		ok = stage.IsStagedATTRIBUTE_VALUE_INTEGER(target)
-
-	case *ATTRIBUTE_VALUE_REAL:
-		ok = stage.IsStagedATTRIBUTE_VALUE_REAL(target)
-
-	case *ATTRIBUTE_VALUE_STRING:
-		ok = stage.IsStagedATTRIBUTE_VALUE_STRING(target)
-
-	case *ATTRIBUTE_VALUE_XHTML:
-		ok = stage.IsStagedATTRIBUTE_VALUE_XHTML(target)
-
-	case *A_ALTERNATIVE_ID:
-		ok = stage.IsStagedA_ALTERNATIVE_ID(target)
-
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_DATE_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_INTEGER_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_REAL_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_STRING_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		ok = stage.IsStagedA_ATTRIBUTE_DEFINITION_XHTML_REF(target)
-
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_BOOLEAN(target)
-
-	case *A_ATTRIBUTE_VALUE_DATE:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_DATE(target)
-
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_ENUMERATION(target)
-
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_INTEGER(target)
-
-	case *A_ATTRIBUTE_VALUE_REAL:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_REAL(target)
-
-	case *A_ATTRIBUTE_VALUE_STRING:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_STRING(target)
-
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_XHTML(target)
-
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		ok = stage.IsStagedA_ATTRIBUTE_VALUE_XHTML_1(target)
-
-	case *A_CHILDREN:
-		ok = stage.IsStagedA_CHILDREN(target)
-
-	case *A_CORE_CONTENT:
-		ok = stage.IsStagedA_CORE_CONTENT(target)
-
-	case *A_DATATYPES:
-		ok = stage.IsStagedA_DATATYPES(target)
-
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_BOOLEAN_REF(target)
-
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_DATE_REF(target)
-
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_ENUMERATION_REF(target)
-
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_INTEGER_REF(target)
-
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_REAL_REF(target)
-
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_STRING_REF(target)
-
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		ok = stage.IsStagedA_DATATYPE_DEFINITION_XHTML_REF(target)
-
-	case *A_EDITABLE_ATTS:
-		ok = stage.IsStagedA_EDITABLE_ATTS(target)
-
-	case *A_ENUM_VALUE_REF:
-		ok = stage.IsStagedA_ENUM_VALUE_REF(target)
-
-	case *A_OBJECT:
-		ok = stage.IsStagedA_OBJECT(target)
-
-	case *A_PROPERTIES:
-		ok = stage.IsStagedA_PROPERTIES(target)
-
-	case *A_RELATION_GROUP_TYPE_REF:
-		ok = stage.IsStagedA_RELATION_GROUP_TYPE_REF(target)
-
-	case *A_SOURCE_1:
-		ok = stage.IsStagedA_SOURCE_1(target)
-
-	case *A_SOURCE_SPECIFICATION_1:
-		ok = stage.IsStagedA_SOURCE_SPECIFICATION_1(target)
-
-	case *A_SPECIFICATIONS:
-		ok = stage.IsStagedA_SPECIFICATIONS(target)
-
-	case *A_SPECIFICATION_TYPE_REF:
-		ok = stage.IsStagedA_SPECIFICATION_TYPE_REF(target)
-
-	case *A_SPECIFIED_VALUES:
-		ok = stage.IsStagedA_SPECIFIED_VALUES(target)
-
-	case *A_SPEC_ATTRIBUTES:
-		ok = stage.IsStagedA_SPEC_ATTRIBUTES(target)
-
-	case *A_SPEC_OBJECTS:
-		ok = stage.IsStagedA_SPEC_OBJECTS(target)
-
-	case *A_SPEC_OBJECT_TYPE_REF:
-		ok = stage.IsStagedA_SPEC_OBJECT_TYPE_REF(target)
-
-	case *A_SPEC_RELATIONS:
-		ok = stage.IsStagedA_SPEC_RELATIONS(target)
-
-	case *A_SPEC_RELATION_GROUPS:
-		ok = stage.IsStagedA_SPEC_RELATION_GROUPS(target)
-
-	case *A_SPEC_RELATION_REF:
-		ok = stage.IsStagedA_SPEC_RELATION_REF(target)
-
-	case *A_SPEC_RELATION_TYPE_REF:
-		ok = stage.IsStagedA_SPEC_RELATION_TYPE_REF(target)
-
-	case *A_SPEC_TYPES:
-		ok = stage.IsStagedA_SPEC_TYPES(target)
-
-	case *A_THE_HEADER:
-		ok = stage.IsStagedA_THE_HEADER(target)
-
-	case *A_TOOL_EXTENSIONS:
-		ok = stage.IsStagedA_TOOL_EXTENSIONS(target)
-
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		ok = stage.IsStagedDATATYPE_DEFINITION_BOOLEAN(target)
-
-	case *DATATYPE_DEFINITION_DATE:
-		ok = stage.IsStagedDATATYPE_DEFINITION_DATE(target)
-
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		ok = stage.IsStagedDATATYPE_DEFINITION_ENUMERATION(target)
-
-	case *DATATYPE_DEFINITION_INTEGER:
-		ok = stage.IsStagedDATATYPE_DEFINITION_INTEGER(target)
-
-	case *DATATYPE_DEFINITION_REAL:
-		ok = stage.IsStagedDATATYPE_DEFINITION_REAL(target)
-
-	case *DATATYPE_DEFINITION_STRING:
-		ok = stage.IsStagedDATATYPE_DEFINITION_STRING(target)
-
-	case *DATATYPE_DEFINITION_XHTML:
-		ok = stage.IsStagedDATATYPE_DEFINITION_XHTML(target)
-
-	case *EMBEDDED_VALUE:
-		ok = stage.IsStagedEMBEDDED_VALUE(target)
-
-	case *ENUM_VALUE:
-		ok = stage.IsStagedENUM_VALUE(target)
-
-	case *EmbeddedJpgImage:
-		ok = stage.IsStagedEmbeddedJpgImage(target)
-
-	case *EmbeddedPngImage:
-		ok = stage.IsStagedEmbeddedPngImage(target)
-
-	case *EmbeddedSvgImage:
-		ok = stage.IsStagedEmbeddedSvgImage(target)
-
-	case *Kill:
-		ok = stage.IsStagedKill(target)
-
-	case *Map_identifier_bool:
-		ok = stage.IsStagedMap_identifier_bool(target)
-
-	case *RELATION_GROUP:
-		ok = stage.IsStagedRELATION_GROUP(target)
-
-	case *RELATION_GROUP_TYPE:
-		ok = stage.IsStagedRELATION_GROUP_TYPE(target)
-
-	case *REQ_IF:
-		ok = stage.IsStagedREQ_IF(target)
-
-	case *REQ_IF_CONTENT:
-		ok = stage.IsStagedREQ_IF_CONTENT(target)
-
-	case *REQ_IF_HEADER:
-		ok = stage.IsStagedREQ_IF_HEADER(target)
-
-	case *REQ_IF_TOOL_EXTENSION:
-		ok = stage.IsStagedREQ_IF_TOOL_EXTENSION(target)
-
-	case *SPECIFICATION:
-		ok = stage.IsStagedSPECIFICATION(target)
-
-	case *SPECIFICATION_Rendering:
-		ok = stage.IsStagedSPECIFICATION_Rendering(target)
-
-	case *SPECIFICATION_TYPE:
-		ok = stage.IsStagedSPECIFICATION_TYPE(target)
-
-	case *SPEC_HIERARCHY:
-		ok = stage.IsStagedSPEC_HIERARCHY(target)
-
-	case *SPEC_OBJECT:
-		ok = stage.IsStagedSPEC_OBJECT(target)
-
-	case *SPEC_OBJECT_TYPE:
-		ok = stage.IsStagedSPEC_OBJECT_TYPE(target)
-
-	case *SPEC_OBJECT_TYPE_Rendering:
-		ok = stage.IsStagedSPEC_OBJECT_TYPE_Rendering(target)
-
-	case *SPEC_RELATION:
-		ok = stage.IsStagedSPEC_RELATION(target)
-
-	case *SPEC_RELATION_TYPE:
-		ok = stage.IsStagedSPEC_RELATION_TYPE(target)
-
-	case *StaticWebSite:
-		ok = stage.IsStagedStaticWebSite(target)
-
-	case *StaticWebSiteChapter:
-		ok = stage.IsStagedStaticWebSiteChapter(target)
-
-	case *StaticWebSiteGeneratedImage:
-		ok = stage.IsStagedStaticWebSiteGeneratedImage(target)
-
-	case *StaticWebSiteImage:
-		ok = stage.IsStagedStaticWebSiteImage(target)
-
-	case *StaticWebSiteParagraph:
-		ok = stage.IsStagedStaticWebSiteParagraph(target)
-
-	case *XHTML_CONTENT:
-		ok = stage.IsStagedXHTML_CONTENT(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) (ok bool) {
+func (alternative_id *ALTERNATIVE_ID) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ALTERNATIVE_IDs[alternative_id]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) (ok bool) {
+func (stage *Stage) IsStagedALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) (ok bool) {
+
+	return alternative_id.GongIsStaged(stage)
+}
+
+func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_BOOLEANs[attribute_definition_boolean]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) (ok bool) {
+
+	return attribute_definition_boolean.GongIsStaged(stage)
+}
+
+func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_BOOLEAN_Renderings[attribute_definition_boolean_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) (ok bool) {
+
+	return attribute_definition_boolean_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_DATEs[attribute_definition_date]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) (ok bool) {
+
+	return attribute_definition_date.GongIsStaged(stage)
+}
+
+func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_DATE_Renderings[attribute_definition_date_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) (ok bool) {
+
+	return attribute_definition_date_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_ENUMERATIONs[attribute_definition_enumeration]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) (ok bool) {
+
+	return attribute_definition_enumeration.GongIsStaged(stage)
+}
+
+func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_ENUMERATION_Renderings[attribute_definition_enumeration_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) (ok bool) {
+
+	return attribute_definition_enumeration_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_INTEGERs[attribute_definition_integer]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) (ok bool) {
+
+	return attribute_definition_integer.GongIsStaged(stage)
+}
+
+func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_INTEGER_Renderings[attribute_definition_integer_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) (ok bool) {
+
+	return attribute_definition_integer_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_REALs[attribute_definition_real]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) (ok bool) {
+
+	return attribute_definition_real.GongIsStaged(stage)
+}
+
+func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_REAL_Renderings[attribute_definition_real_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) (ok bool) {
+
+	return attribute_definition_real_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_Renderings[attribute_definition_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) (ok bool) {
+
+	return attribute_definition_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_STRINGs[attribute_definition_string]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) (ok bool) {
+
+	return attribute_definition_string.GongIsStaged(stage)
+}
+
+func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_STRING_Renderings[attribute_definition_string_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) (ok bool) {
+
+	return attribute_definition_string_rendering.GongIsStaged(stage)
+}
+
+func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_XHTMLs[attribute_definition_xhtml]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) (ok bool) {
+
+	return attribute_definition_xhtml.GongIsStaged(stage)
+}
+
+func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_DEFINITION_XHTML_Renderings[attribute_definition_xhtml_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) (ok bool) {
+
+	return attribute_definition_xhtml_rendering.GongIsStaged(stage)
+}
+
+func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_BOOLEANs[attribute_value_boolean]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) (ok bool) {
+
+	return attribute_value_boolean.GongIsStaged(stage)
+}
+
+func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_DATEs[attribute_value_date]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) (ok bool) {
+
+	return attribute_value_date.GongIsStaged(stage)
+}
+
+func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_ENUMERATIONs[attribute_value_enumeration]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) (ok bool) {
+
+	return attribute_value_enumeration.GongIsStaged(stage)
+}
+
+func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_INTEGERs[attribute_value_integer]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) (ok bool) {
+
+	return attribute_value_integer.GongIsStaged(stage)
+}
+
+func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_REALs[attribute_value_real]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) (ok bool) {
+
+	return attribute_value_real.GongIsStaged(stage)
+}
+
+func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_STRINGs[attribute_value_string]
 
 	return
 }
 
-func (stage *Stage) IsStagedATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) (ok bool) {
+
+	return attribute_value_string.GongIsStaged(stage)
+}
+
+func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ATTRIBUTE_VALUE_XHTMLs[attribute_value_xhtml]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) (ok bool) {
+func (stage *Stage) IsStagedATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) (ok bool) {
+
+	return attribute_value_xhtml.GongIsStaged(stage)
+}
+
+func (a_alternative_id *A_ALTERNATIVE_ID) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ALTERNATIVE_IDs[a_alternative_id]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) (ok bool) {
+
+	return a_alternative_id.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs[a_attribute_definition_boolean_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) (ok bool) {
+
+	return a_attribute_definition_boolean_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_DATE_REFs[a_attribute_definition_date_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) (ok bool) {
+
+	return a_attribute_definition_date_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs[a_attribute_definition_enumeration_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) (ok bool) {
+
+	return a_attribute_definition_enumeration_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs[a_attribute_definition_integer_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) (ok bool) {
+
+	return a_attribute_definition_integer_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_REAL_REFs[a_attribute_definition_real_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) (ok bool) {
+
+	return a_attribute_definition_real_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_STRING_REFs[a_attribute_definition_string_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) (ok bool) {
+
+	return a_attribute_definition_string_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs[a_attribute_definition_xhtml_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) (ok bool) {
+
+	return a_attribute_definition_xhtml_ref.GongIsStaged(stage)
+}
+
+func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_BOOLEANs[a_attribute_value_boolean]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) (ok bool) {
+
+	return a_attribute_value_boolean.GongIsStaged(stage)
+}
+
+func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_DATEs[a_attribute_value_date]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) (ok bool) {
+
+	return a_attribute_value_date.GongIsStaged(stage)
+}
+
+func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_ENUMERATIONs[a_attribute_value_enumeration]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) (ok bool) {
+
+	return a_attribute_value_enumeration.GongIsStaged(stage)
+}
+
+func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_INTEGERs[a_attribute_value_integer]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) (ok bool) {
+
+	return a_attribute_value_integer.GongIsStaged(stage)
+}
+
+func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_REALs[a_attribute_value_real]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) (ok bool) {
+
+	return a_attribute_value_real.GongIsStaged(stage)
+}
+
+func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_STRINGs[a_attribute_value_string]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) (ok bool) {
+
+	return a_attribute_value_string.GongIsStaged(stage)
+}
+
+func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_XHTMLs[a_attribute_value_xhtml]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) (ok bool) {
+
+	return a_attribute_value_xhtml.GongIsStaged(stage)
+}
+
+func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ATTRIBUTE_VALUE_XHTML_1s[a_attribute_value_xhtml_1]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_CHILDREN(a_children *A_CHILDREN) (ok bool) {
+func (stage *Stage) IsStagedA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) (ok bool) {
+
+	return a_attribute_value_xhtml_1.GongIsStaged(stage)
+}
+
+func (a_children *A_CHILDREN) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_CHILDRENs[a_children]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) (ok bool) {
+func (stage *Stage) IsStagedA_CHILDREN(a_children *A_CHILDREN) (ok bool) {
+
+	return a_children.GongIsStaged(stage)
+}
+
+func (a_core_content *A_CORE_CONTENT) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_CORE_CONTENTs[a_core_content]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPES(a_datatypes *A_DATATYPES) (ok bool) {
+func (stage *Stage) IsStagedA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) (ok bool) {
+
+	return a_core_content.GongIsStaged(stage)
+}
+
+func (a_datatypes *A_DATATYPES) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPESs[a_datatypes]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPES(a_datatypes *A_DATATYPES) (ok bool) {
+
+	return a_datatypes.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs[a_datatype_definition_boolean_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) (ok bool) {
+
+	return a_datatype_definition_boolean_ref.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_DATE_REFs[a_datatype_definition_date_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) (ok bool) {
+
+	return a_datatype_definition_date_ref.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs[a_datatype_definition_enumeration_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) (ok bool) {
+
+	return a_datatype_definition_enumeration_ref.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_INTEGER_REFs[a_datatype_definition_integer_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) (ok bool) {
+
+	return a_datatype_definition_integer_ref.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_REAL_REFs[a_datatype_definition_real_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) (ok bool) {
+
+	return a_datatype_definition_real_ref.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_STRING_REFs[a_datatype_definition_string_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) (ok bool) {
+
+	return a_datatype_definition_string_ref.GongIsStaged(stage)
+}
+
+func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_DATATYPE_DEFINITION_XHTML_REFs[a_datatype_definition_xhtml_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) (ok bool) {
+func (stage *Stage) IsStagedA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) (ok bool) {
+
+	return a_datatype_definition_xhtml_ref.GongIsStaged(stage)
+}
+
+func (a_editable_atts *A_EDITABLE_ATTS) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_EDITABLE_ATTSs[a_editable_atts]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) (ok bool) {
+
+	return a_editable_atts.GongIsStaged(stage)
+}
+
+func (a_enum_value_ref *A_ENUM_VALUE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_ENUM_VALUE_REFs[a_enum_value_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_OBJECT(a_object *A_OBJECT) (ok bool) {
+func (stage *Stage) IsStagedA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) (ok bool) {
+
+	return a_enum_value_ref.GongIsStaged(stage)
+}
+
+func (a_object *A_OBJECT) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_OBJECTs[a_object]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_PROPERTIES(a_properties *A_PROPERTIES) (ok bool) {
+func (stage *Stage) IsStagedA_OBJECT(a_object *A_OBJECT) (ok bool) {
+
+	return a_object.GongIsStaged(stage)
+}
+
+func (a_properties *A_PROPERTIES) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_PROPERTIESs[a_properties]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_PROPERTIES(a_properties *A_PROPERTIES) (ok bool) {
+
+	return a_properties.GongIsStaged(stage)
+}
+
+func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_RELATION_GROUP_TYPE_REFs[a_relation_group_type_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SOURCE_1(a_source_1 *A_SOURCE_1) (ok bool) {
+func (stage *Stage) IsStagedA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) (ok bool) {
+
+	return a_relation_group_type_ref.GongIsStaged(stage)
+}
+
+func (a_source_1 *A_SOURCE_1) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SOURCE_1s[a_source_1]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) (ok bool) {
+func (stage *Stage) IsStagedA_SOURCE_1(a_source_1 *A_SOURCE_1) (ok bool) {
+
+	return a_source_1.GongIsStaged(stage)
+}
+
+func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SOURCE_SPECIFICATION_1s[a_source_specification_1]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) (ok bool) {
+func (stage *Stage) IsStagedA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) (ok bool) {
+
+	return a_source_specification_1.GongIsStaged(stage)
+}
+
+func (a_specifications *A_SPECIFICATIONS) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPECIFICATIONSs[a_specifications]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) (ok bool) {
+
+	return a_specifications.GongIsStaged(stage)
+}
+
+func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPECIFICATION_TYPE_REFs[a_specification_type_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) (ok bool) {
+func (stage *Stage) IsStagedA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) (ok bool) {
+
+	return a_specification_type_ref.GongIsStaged(stage)
+}
+
+func (a_specified_values *A_SPECIFIED_VALUES) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPECIFIED_VALUESs[a_specified_values]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) (ok bool) {
+func (stage *Stage) IsStagedA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) (ok bool) {
+
+	return a_specified_values.GongIsStaged(stage)
+}
+
+func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_ATTRIBUTESs[a_spec_attributes]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) (ok bool) {
+
+	return a_spec_attributes.GongIsStaged(stage)
+}
+
+func (a_spec_objects *A_SPEC_OBJECTS) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_OBJECTSs[a_spec_objects]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) (ok bool) {
+
+	return a_spec_objects.GongIsStaged(stage)
+}
+
+func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_OBJECT_TYPE_REFs[a_spec_object_type_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) (ok bool) {
+
+	return a_spec_object_type_ref.GongIsStaged(stage)
+}
+
+func (a_spec_relations *A_SPEC_RELATIONS) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_RELATIONSs[a_spec_relations]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) (ok bool) {
+
+	return a_spec_relations.GongIsStaged(stage)
+}
+
+func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_RELATION_GROUPSs[a_spec_relation_groups]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) (ok bool) {
+
+	return a_spec_relation_groups.GongIsStaged(stage)
+}
+
+func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_RELATION_REFs[a_spec_relation_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) (ok bool) {
+
+	return a_spec_relation_ref.GongIsStaged(stage)
+}
+
+func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_RELATION_TYPE_REFs[a_spec_relation_type_ref]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) (ok bool) {
+
+	return a_spec_relation_type_ref.GongIsStaged(stage)
+}
+
+func (a_spec_types *A_SPEC_TYPES) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_SPEC_TYPESs[a_spec_types]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_THE_HEADER(a_the_header *A_THE_HEADER) (ok bool) {
+func (stage *Stage) IsStagedA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) (ok bool) {
+
+	return a_spec_types.GongIsStaged(stage)
+}
+
+func (a_the_header *A_THE_HEADER) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_THE_HEADERs[a_the_header]
 
 	return
 }
 
-func (stage *Stage) IsStagedA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) (ok bool) {
+func (stage *Stage) IsStagedA_THE_HEADER(a_the_header *A_THE_HEADER) (ok bool) {
+
+	return a_the_header.GongIsStaged(stage)
+}
+
+func (a_tool_extensions *A_TOOL_EXTENSIONS) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.A_TOOL_EXTENSIONSs[a_tool_extensions]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) (ok bool) {
+func (stage *Stage) IsStagedA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) (ok bool) {
+
+	return a_tool_extensions.GongIsStaged(stage)
+}
+
+func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_BOOLEANs[datatype_definition_boolean]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) (ok bool) {
+
+	return datatype_definition_boolean.GongIsStaged(stage)
+}
+
+func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_DATEs[datatype_definition_date]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) (ok bool) {
+
+	return datatype_definition_date.GongIsStaged(stage)
+}
+
+func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_ENUMERATIONs[datatype_definition_enumeration]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) (ok bool) {
+
+	return datatype_definition_enumeration.GongIsStaged(stage)
+}
+
+func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_INTEGERs[datatype_definition_integer]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) (ok bool) {
+
+	return datatype_definition_integer.GongIsStaged(stage)
+}
+
+func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_REALs[datatype_definition_real]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) (ok bool) {
+
+	return datatype_definition_real.GongIsStaged(stage)
+}
+
+func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_STRINGs[datatype_definition_string]
 
 	return
 }
 
-func (stage *Stage) IsStagedDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) (ok bool) {
+
+	return datatype_definition_string.GongIsStaged(stage)
+}
+
+func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DATATYPE_DEFINITION_XHTMLs[datatype_definition_xhtml]
 
 	return
 }
 
-func (stage *Stage) IsStagedEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) (ok bool) {
+func (stage *Stage) IsStagedDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) (ok bool) {
+
+	return datatype_definition_xhtml.GongIsStaged(stage)
+}
+
+func (embedded_value *EMBEDDED_VALUE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EMBEDDED_VALUEs[embedded_value]
 
 	return
 }
 
-func (stage *Stage) IsStagedENUM_VALUE(enum_value *ENUM_VALUE) (ok bool) {
+func (stage *Stage) IsStagedEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) (ok bool) {
+
+	return embedded_value.GongIsStaged(stage)
+}
+
+func (enum_value *ENUM_VALUE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ENUM_VALUEs[enum_value]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) (ok bool) {
+func (stage *Stage) IsStagedENUM_VALUE(enum_value *ENUM_VALUE) (ok bool) {
+
+	return enum_value.GongIsStaged(stage)
+}
+
+func (embeddedjpgimage *EmbeddedJpgImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EmbeddedJpgImages[embeddedjpgimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) (ok bool) {
+func (stage *Stage) IsStagedEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) (ok bool) {
+
+	return embeddedjpgimage.GongIsStaged(stage)
+}
+
+func (embeddedpngimage *EmbeddedPngImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EmbeddedPngImages[embeddedpngimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) (ok bool) {
+func (stage *Stage) IsStagedEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) (ok bool) {
+
+	return embeddedpngimage.GongIsStaged(stage)
+}
+
+func (embeddedsvgimage *EmbeddedSvgImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.EmbeddedSvgImages[embeddedsvgimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedKill(kill *Kill) (ok bool) {
+func (stage *Stage) IsStagedEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) (ok bool) {
+
+	return embeddedsvgimage.GongIsStaged(stage)
+}
+
+func (kill *Kill) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Kills[kill]
 
 	return
 }
 
-func (stage *Stage) IsStagedMap_identifier_bool(map_identifier_bool *Map_identifier_bool) (ok bool) {
+func (stage *Stage) IsStagedKill(kill *Kill) (ok bool) {
+
+	return kill.GongIsStaged(stage)
+}
+
+func (map_identifier_bool *Map_identifier_bool) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Map_identifier_bools[map_identifier_bool]
 
 	return
 }
 
-func (stage *Stage) IsStagedRELATION_GROUP(relation_group *RELATION_GROUP) (ok bool) {
+func (stage *Stage) IsStagedMap_identifier_bool(map_identifier_bool *Map_identifier_bool) (ok bool) {
+
+	return map_identifier_bool.GongIsStaged(stage)
+}
+
+func (relation_group *RELATION_GROUP) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RELATION_GROUPs[relation_group]
 
 	return
 }
 
-func (stage *Stage) IsStagedRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) (ok bool) {
+func (stage *Stage) IsStagedRELATION_GROUP(relation_group *RELATION_GROUP) (ok bool) {
+
+	return relation_group.GongIsStaged(stage)
+}
+
+func (relation_group_type *RELATION_GROUP_TYPE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.RELATION_GROUP_TYPEs[relation_group_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedREQ_IF(req_if *REQ_IF) (ok bool) {
+func (stage *Stage) IsStagedRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) (ok bool) {
+
+	return relation_group_type.GongIsStaged(stage)
+}
+
+func (req_if *REQ_IF) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.REQ_IFs[req_if]
 
 	return
 }
 
-func (stage *Stage) IsStagedREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) (ok bool) {
+func (stage *Stage) IsStagedREQ_IF(req_if *REQ_IF) (ok bool) {
+
+	return req_if.GongIsStaged(stage)
+}
+
+func (req_if_content *REQ_IF_CONTENT) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.REQ_IF_CONTENTs[req_if_content]
 
 	return
 }
 
-func (stage *Stage) IsStagedREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) (ok bool) {
+func (stage *Stage) IsStagedREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) (ok bool) {
+
+	return req_if_content.GongIsStaged(stage)
+}
+
+func (req_if_header *REQ_IF_HEADER) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.REQ_IF_HEADERs[req_if_header]
 
 	return
 }
 
-func (stage *Stage) IsStagedREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) (ok bool) {
+func (stage *Stage) IsStagedREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) (ok bool) {
+
+	return req_if_header.GongIsStaged(stage)
+}
+
+func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.REQ_IF_TOOL_EXTENSIONs[req_if_tool_extension]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPECIFICATION(specification *SPECIFICATION) (ok bool) {
+func (stage *Stage) IsStagedREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) (ok bool) {
+
+	return req_if_tool_extension.GongIsStaged(stage)
+}
+
+func (specification *SPECIFICATION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPECIFICATIONs[specification]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) (ok bool) {
+func (stage *Stage) IsStagedSPECIFICATION(specification *SPECIFICATION) (ok bool) {
+
+	return specification.GongIsStaged(stage)
+}
+
+func (specification_rendering *SPECIFICATION_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPECIFICATION_Renderings[specification_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) (ok bool) {
+func (stage *Stage) IsStagedSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) (ok bool) {
+
+	return specification_rendering.GongIsStaged(stage)
+}
+
+func (specification_type *SPECIFICATION_TYPE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPECIFICATION_TYPEs[specification_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) (ok bool) {
+func (stage *Stage) IsStagedSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) (ok bool) {
+
+	return specification_type.GongIsStaged(stage)
+}
+
+func (spec_hierarchy *SPEC_HIERARCHY) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPEC_HIERARCHYs[spec_hierarchy]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPEC_OBJECT(spec_object *SPEC_OBJECT) (ok bool) {
+func (stage *Stage) IsStagedSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) (ok bool) {
+
+	return spec_hierarchy.GongIsStaged(stage)
+}
+
+func (spec_object *SPEC_OBJECT) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPEC_OBJECTs[spec_object]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) (ok bool) {
+func (stage *Stage) IsStagedSPEC_OBJECT(spec_object *SPEC_OBJECT) (ok bool) {
+
+	return spec_object.GongIsStaged(stage)
+}
+
+func (spec_object_type *SPEC_OBJECT_TYPE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPEC_OBJECT_TYPEs[spec_object_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) (ok bool) {
+func (stage *Stage) IsStagedSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) (ok bool) {
+
+	return spec_object_type.GongIsStaged(stage)
+}
+
+func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPEC_OBJECT_TYPE_Renderings[spec_object_type_rendering]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPEC_RELATION(spec_relation *SPEC_RELATION) (ok bool) {
+func (stage *Stage) IsStagedSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) (ok bool) {
+
+	return spec_object_type_rendering.GongIsStaged(stage)
+}
+
+func (spec_relation *SPEC_RELATION) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPEC_RELATIONs[spec_relation]
 
 	return
 }
 
-func (stage *Stage) IsStagedSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) (ok bool) {
+func (stage *Stage) IsStagedSPEC_RELATION(spec_relation *SPEC_RELATION) (ok bool) {
+
+	return spec_relation.GongIsStaged(stage)
+}
+
+func (spec_relation_type *SPEC_RELATION_TYPE) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SPEC_RELATION_TYPEs[spec_relation_type]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaticWebSite(staticwebsite *StaticWebSite) (ok bool) {
+func (stage *Stage) IsStagedSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) (ok bool) {
+
+	return spec_relation_type.GongIsStaged(stage)
+}
+
+func (staticwebsite *StaticWebSite) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StaticWebSites[staticwebsite]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) (ok bool) {
+func (stage *Stage) IsStagedStaticWebSite(staticwebsite *StaticWebSite) (ok bool) {
+
+	return staticwebsite.GongIsStaged(stage)
+}
+
+func (staticwebsitechapter *StaticWebSiteChapter) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StaticWebSiteChapters[staticwebsitechapter]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) (ok bool) {
+func (stage *Stage) IsStagedStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) (ok bool) {
+
+	return staticwebsitechapter.GongIsStaged(stage)
+}
+
+func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StaticWebSiteGeneratedImages[staticwebsitegeneratedimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) (ok bool) {
+func (stage *Stage) IsStagedStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) (ok bool) {
+
+	return staticwebsitegeneratedimage.GongIsStaged(stage)
+}
+
+func (staticwebsiteimage *StaticWebSiteImage) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StaticWebSiteImages[staticwebsiteimage]
 
 	return
 }
 
-func (stage *Stage) IsStagedStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) (ok bool) {
+func (stage *Stage) IsStagedStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) (ok bool) {
+
+	return staticwebsiteimage.GongIsStaged(stage)
+}
+
+func (staticwebsiteparagraph *StaticWebSiteParagraph) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.StaticWebSiteParagraphs[staticwebsiteparagraph]
 
 	return
 }
 
-func (stage *Stage) IsStagedXHTML_CONTENT(xhtml_content *XHTML_CONTENT) (ok bool) {
+func (stage *Stage) IsStagedStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) (ok bool) {
+
+	return staticwebsiteparagraph.GongIsStaged(stage)
+}
+
+func (xhtml_content *XHTML_CONTENT) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.XHTML_CONTENTs[xhtml_content]
 
 	return
 }
 
+func (stage *Stage) IsStagedXHTML_CONTENT(xhtml_content *XHTML_CONTENT) (ok bool) {
+
+	return xhtml_content.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *ALTERNATIVE_ID:
-		stage.StageBranchALTERNATIVE_ID(target)
-
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		stage.StageBranchATTRIBUTE_DEFINITION_BOOLEAN(target)
-
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_DATE:
-		stage.StageBranchATTRIBUTE_DEFINITION_DATE(target)
-
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		stage.StageBranchATTRIBUTE_DEFINITION_ENUMERATION(target)
-
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		stage.StageBranchATTRIBUTE_DEFINITION_INTEGER(target)
-
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_REAL:
-		stage.StageBranchATTRIBUTE_DEFINITION_REAL(target)
-
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_STRING:
-		stage.StageBranchATTRIBUTE_DEFINITION_STRING(target)
-
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		stage.StageBranchATTRIBUTE_DEFINITION_XHTML(target)
-
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		stage.StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(target)
-
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		stage.StageBranchATTRIBUTE_VALUE_BOOLEAN(target)
-
-	case *ATTRIBUTE_VALUE_DATE:
-		stage.StageBranchATTRIBUTE_VALUE_DATE(target)
-
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		stage.StageBranchATTRIBUTE_VALUE_ENUMERATION(target)
-
-	case *ATTRIBUTE_VALUE_INTEGER:
-		stage.StageBranchATTRIBUTE_VALUE_INTEGER(target)
-
-	case *ATTRIBUTE_VALUE_REAL:
-		stage.StageBranchATTRIBUTE_VALUE_REAL(target)
-
-	case *ATTRIBUTE_VALUE_STRING:
-		stage.StageBranchATTRIBUTE_VALUE_STRING(target)
-
-	case *ATTRIBUTE_VALUE_XHTML:
-		stage.StageBranchATTRIBUTE_VALUE_XHTML(target)
-
-	case *A_ALTERNATIVE_ID:
-		stage.StageBranchA_ALTERNATIVE_ID(target)
-
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		stage.StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(target)
-
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		stage.StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(target)
-
-	case *A_ATTRIBUTE_VALUE_DATE:
-		stage.StageBranchA_ATTRIBUTE_VALUE_DATE(target)
-
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		stage.StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(target)
-
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		stage.StageBranchA_ATTRIBUTE_VALUE_INTEGER(target)
-
-	case *A_ATTRIBUTE_VALUE_REAL:
-		stage.StageBranchA_ATTRIBUTE_VALUE_REAL(target)
-
-	case *A_ATTRIBUTE_VALUE_STRING:
-		stage.StageBranchA_ATTRIBUTE_VALUE_STRING(target)
-
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		stage.StageBranchA_ATTRIBUTE_VALUE_XHTML(target)
-
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		stage.StageBranchA_ATTRIBUTE_VALUE_XHTML_1(target)
-
-	case *A_CHILDREN:
-		stage.StageBranchA_CHILDREN(target)
-
-	case *A_CORE_CONTENT:
-		stage.StageBranchA_CORE_CONTENT(target)
-
-	case *A_DATATYPES:
-		stage.StageBranchA_DATATYPES(target)
-
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(target)
-
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_DATE_REF(target)
-
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(target)
-
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(target)
-
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_REAL_REF(target)
-
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_STRING_REF(target)
-
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		stage.StageBranchA_DATATYPE_DEFINITION_XHTML_REF(target)
-
-	case *A_EDITABLE_ATTS:
-		stage.StageBranchA_EDITABLE_ATTS(target)
-
-	case *A_ENUM_VALUE_REF:
-		stage.StageBranchA_ENUM_VALUE_REF(target)
-
-	case *A_OBJECT:
-		stage.StageBranchA_OBJECT(target)
-
-	case *A_PROPERTIES:
-		stage.StageBranchA_PROPERTIES(target)
-
-	case *A_RELATION_GROUP_TYPE_REF:
-		stage.StageBranchA_RELATION_GROUP_TYPE_REF(target)
-
-	case *A_SOURCE_1:
-		stage.StageBranchA_SOURCE_1(target)
-
-	case *A_SOURCE_SPECIFICATION_1:
-		stage.StageBranchA_SOURCE_SPECIFICATION_1(target)
-
-	case *A_SPECIFICATIONS:
-		stage.StageBranchA_SPECIFICATIONS(target)
-
-	case *A_SPECIFICATION_TYPE_REF:
-		stage.StageBranchA_SPECIFICATION_TYPE_REF(target)
-
-	case *A_SPECIFIED_VALUES:
-		stage.StageBranchA_SPECIFIED_VALUES(target)
-
-	case *A_SPEC_ATTRIBUTES:
-		stage.StageBranchA_SPEC_ATTRIBUTES(target)
-
-	case *A_SPEC_OBJECTS:
-		stage.StageBranchA_SPEC_OBJECTS(target)
-
-	case *A_SPEC_OBJECT_TYPE_REF:
-		stage.StageBranchA_SPEC_OBJECT_TYPE_REF(target)
-
-	case *A_SPEC_RELATIONS:
-		stage.StageBranchA_SPEC_RELATIONS(target)
-
-	case *A_SPEC_RELATION_GROUPS:
-		stage.StageBranchA_SPEC_RELATION_GROUPS(target)
-
-	case *A_SPEC_RELATION_REF:
-		stage.StageBranchA_SPEC_RELATION_REF(target)
-
-	case *A_SPEC_RELATION_TYPE_REF:
-		stage.StageBranchA_SPEC_RELATION_TYPE_REF(target)
-
-	case *A_SPEC_TYPES:
-		stage.StageBranchA_SPEC_TYPES(target)
-
-	case *A_THE_HEADER:
-		stage.StageBranchA_THE_HEADER(target)
-
-	case *A_TOOL_EXTENSIONS:
-		stage.StageBranchA_TOOL_EXTENSIONS(target)
-
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		stage.StageBranchDATATYPE_DEFINITION_BOOLEAN(target)
-
-	case *DATATYPE_DEFINITION_DATE:
-		stage.StageBranchDATATYPE_DEFINITION_DATE(target)
-
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		stage.StageBranchDATATYPE_DEFINITION_ENUMERATION(target)
-
-	case *DATATYPE_DEFINITION_INTEGER:
-		stage.StageBranchDATATYPE_DEFINITION_INTEGER(target)
-
-	case *DATATYPE_DEFINITION_REAL:
-		stage.StageBranchDATATYPE_DEFINITION_REAL(target)
-
-	case *DATATYPE_DEFINITION_STRING:
-		stage.StageBranchDATATYPE_DEFINITION_STRING(target)
-
-	case *DATATYPE_DEFINITION_XHTML:
-		stage.StageBranchDATATYPE_DEFINITION_XHTML(target)
-
-	case *EMBEDDED_VALUE:
-		stage.StageBranchEMBEDDED_VALUE(target)
-
-	case *ENUM_VALUE:
-		stage.StageBranchENUM_VALUE(target)
-
-	case *EmbeddedJpgImage:
-		stage.StageBranchEmbeddedJpgImage(target)
-
-	case *EmbeddedPngImage:
-		stage.StageBranchEmbeddedPngImage(target)
-
-	case *EmbeddedSvgImage:
-		stage.StageBranchEmbeddedSvgImage(target)
-
-	case *Kill:
-		stage.StageBranchKill(target)
-
-	case *Map_identifier_bool:
-		stage.StageBranchMap_identifier_bool(target)
-
-	case *RELATION_GROUP:
-		stage.StageBranchRELATION_GROUP(target)
-
-	case *RELATION_GROUP_TYPE:
-		stage.StageBranchRELATION_GROUP_TYPE(target)
-
-	case *REQ_IF:
-		stage.StageBranchREQ_IF(target)
-
-	case *REQ_IF_CONTENT:
-		stage.StageBranchREQ_IF_CONTENT(target)
-
-	case *REQ_IF_HEADER:
-		stage.StageBranchREQ_IF_HEADER(target)
-
-	case *REQ_IF_TOOL_EXTENSION:
-		stage.StageBranchREQ_IF_TOOL_EXTENSION(target)
-
-	case *SPECIFICATION:
-		stage.StageBranchSPECIFICATION(target)
-
-	case *SPECIFICATION_Rendering:
-		stage.StageBranchSPECIFICATION_Rendering(target)
-
-	case *SPECIFICATION_TYPE:
-		stage.StageBranchSPECIFICATION_TYPE(target)
-
-	case *SPEC_HIERARCHY:
-		stage.StageBranchSPEC_HIERARCHY(target)
-
-	case *SPEC_OBJECT:
-		stage.StageBranchSPEC_OBJECT(target)
-
-	case *SPEC_OBJECT_TYPE:
-		stage.StageBranchSPEC_OBJECT_TYPE(target)
-
-	case *SPEC_OBJECT_TYPE_Rendering:
-		stage.StageBranchSPEC_OBJECT_TYPE_Rendering(target)
-
-	case *SPEC_RELATION:
-		stage.StageBranchSPEC_RELATION(target)
-
-	case *SPEC_RELATION_TYPE:
-		stage.StageBranchSPEC_RELATION_TYPE(target)
-
-	case *StaticWebSite:
-		stage.StageBranchStaticWebSite(target)
-
-	case *StaticWebSiteChapter:
-		stage.StageBranchStaticWebSiteChapter(target)
-
-	case *StaticWebSiteGeneratedImage:
-		stage.StageBranchStaticWebSiteGeneratedImage(target)
-
-	case *StaticWebSiteImage:
-		stage.StageBranchStaticWebSiteImage(target)
-
-	case *StaticWebSiteParagraph:
-		stage.StageBranchStaticWebSiteParagraph(target)
-
-	case *XHTML_CONTENT:
-		stage.StageBranchXHTML_CONTENT(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (alternative_id *ALTERNATIVE_ID) GongStageBranch(stage *Stage) {
+	stage.StageBranchALTERNATIVE_ID(alternative_id)
+}
+
 func (stage *Stage) StageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) {
 
 	// check if instance is already staged
@@ -1396,6 +1290,10 @@ func (stage *Stage) StageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) {
@@ -1422,6 +1320,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition
 
 }
 
+func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
 
 	// check if instance is already staged
@@ -1435,6 +1337,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) {
@@ -1461,6 +1367,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_da
 
 }
 
+func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) {
 
 	// check if instance is already staged
@@ -1474,6 +1384,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_def
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) {
@@ -1500,6 +1414,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_defini
 
 }
 
+func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
 
 	// check if instance is already staged
@@ -1513,6 +1431,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attrib
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) {
@@ -1539,6 +1461,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition
 
 }
 
+func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
 
 	// check if instance is already staged
@@ -1552,6 +1478,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) {
@@ -1578,6 +1508,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_re
 
 }
 
+func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) {
 
 	// check if instance is already staged
@@ -1593,6 +1527,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_def
 
 }
 
+func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) {
 
 	// check if instance is already staged
@@ -1606,6 +1544,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definiti
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) {
@@ -1632,6 +1574,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_
 
 }
 
+func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) {
 
 	// check if instance is already staged
@@ -1645,6 +1591,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_d
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) {
@@ -1671,6 +1621,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_x
 
 }
 
+func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
 
 	// check if instance is already staged
@@ -1684,6 +1638,10 @@ func (stage *Stage) StageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_de
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) {
@@ -1704,6 +1662,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *
 
 }
 
+func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_DATE(attribute_value_date)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
@@ -1720,6 +1682,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIB
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) {
@@ -1743,6 +1709,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enume
 
 }
 
+func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
@@ -1759,6 +1729,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_REAL(attribute_value_real)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) {
@@ -1779,6 +1753,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIB
 
 }
 
+func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_STRING(attribute_value_string)
+}
+
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
@@ -1795,6 +1773,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *AT
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongStageBranch(stage *Stage) {
+	stage.StageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml)
 }
 
 func (stage *Stage) StageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) {
@@ -1821,6 +1803,10 @@ func (stage *Stage) StageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTR
 
 }
 
+func (a_alternative_id *A_ALTERNATIVE_ID) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ALTERNATIVE_ID(a_alternative_id)
+}
+
 func (stage *Stage) StageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) {
 
 	// check if instance is already staged
@@ -1839,6 +1825,10 @@ func (stage *Stage) StageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_
 
 }
 
+func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
@@ -1852,6 +1842,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_de
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) {
@@ -1869,6 +1863,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_defin
 
 }
 
+func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
@@ -1882,6 +1880,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribut
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
@@ -1899,6 +1901,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_de
 
 }
 
+func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
@@ -1912,6 +1918,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_defin
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) {
@@ -1929,6 +1939,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_def
 
 }
 
+func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
@@ -1942,6 +1956,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_defi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) {
@@ -1962,6 +1980,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boole
 
 }
 
+func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
@@ -1978,6 +2000,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_
 		stage.StageBranch(_attribute_value_date)
 	}
 
+}
+
+func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) {
@@ -1998,6 +2024,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_e
 
 }
 
+func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
@@ -2014,6 +2044,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integ
 		stage.StageBranch(_attribute_value_integer)
 	}
 
+}
+
+func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) {
@@ -2034,6 +2068,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_
 
 }
 
+func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
@@ -2052,6 +2090,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string
 
 }
 
+func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml)
+}
+
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) {
 
 	// check if instance is already staged
@@ -2068,6 +2110,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *
 		stage.StageBranch(_attribute_value_xhtml)
 	}
 
+}
+
+func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1)
 }
 
 func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) {
@@ -2106,6 +2152,10 @@ func (stage *Stage) StageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml
 
 }
 
+func (a_children *A_CHILDREN) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_CHILDREN(a_children)
+}
+
 func (stage *Stage) StageBranchA_CHILDREN(a_children *A_CHILDREN) {
 
 	// check if instance is already staged
@@ -2124,6 +2174,10 @@ func (stage *Stage) StageBranchA_CHILDREN(a_children *A_CHILDREN) {
 
 }
 
+func (a_core_content *A_CORE_CONTENT) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_CORE_CONTENT(a_core_content)
+}
+
 func (stage *Stage) StageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) {
 
 	// check if instance is already staged
@@ -2140,6 +2194,10 @@ func (stage *Stage) StageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatypes *A_DATATYPES) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPES(a_datatypes)
 }
 
 func (stage *Stage) StageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
@@ -2178,6 +2236,10 @@ func (stage *Stage) StageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
 
 }
 
+func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref)
+}
+
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
@@ -2191,6 +2253,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_defi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref)
 }
 
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) {
@@ -2208,6 +2274,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definit
 
 }
 
+func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref)
+}
+
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
@@ -2221,6 +2291,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref)
 }
 
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) {
@@ -2238,6 +2312,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_defi
 
 }
 
+func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref)
+}
+
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
@@ -2251,6 +2329,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definit
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref)
 }
 
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) {
@@ -2268,6 +2350,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_defin
 
 }
 
+func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref)
+}
+
 func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
@@ -2281,6 +2367,10 @@ func (stage *Stage) StageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_defini
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_editable_atts *A_EDITABLE_ATTS) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_EDITABLE_ATTS(a_editable_atts)
 }
 
 func (stage *Stage) StageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) {
@@ -2298,6 +2388,10 @@ func (stage *Stage) StageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS)
 
 }
 
+func (a_enum_value_ref *A_ENUM_VALUE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_ENUM_VALUE_REF(a_enum_value_ref)
+}
+
 func (stage *Stage) StageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) {
 
 	// check if instance is already staged
@@ -2313,6 +2407,10 @@ func (stage *Stage) StageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_R
 
 }
 
+func (a_object *A_OBJECT) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_OBJECT(a_object)
+}
+
 func (stage *Stage) StageBranchA_OBJECT(a_object *A_OBJECT) {
 
 	// check if instance is already staged
@@ -2326,6 +2424,10 @@ func (stage *Stage) StageBranchA_OBJECT(a_object *A_OBJECT) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_properties *A_PROPERTIES) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_PROPERTIES(a_properties)
 }
 
 func (stage *Stage) StageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
@@ -2346,6 +2448,10 @@ func (stage *Stage) StageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
 
 }
 
+func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref)
+}
+
 func (stage *Stage) StageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) {
 
 	// check if instance is already staged
@@ -2359,6 +2465,10 @@ func (stage *Stage) StageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_r
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_source_1 *A_SOURCE_1) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SOURCE_1(a_source_1)
 }
 
 func (stage *Stage) StageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
@@ -2376,6 +2486,10 @@ func (stage *Stage) StageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
 
 }
 
+func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1)
+}
+
 func (stage *Stage) StageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) {
 
 	// check if instance is already staged
@@ -2389,6 +2503,10 @@ func (stage *Stage) StageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_specifications *A_SPECIFICATIONS) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPECIFICATIONS(a_specifications)
 }
 
 func (stage *Stage) StageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) {
@@ -2409,6 +2527,10 @@ func (stage *Stage) StageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICATIO
 
 }
 
+func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref)
+}
+
 func (stage *Stage) StageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) {
 
 	// check if instance is already staged
@@ -2422,6 +2544,10 @@ func (stage *Stage) StageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_specified_values *A_SPECIFIED_VALUES) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPECIFIED_VALUES(a_specified_values)
 }
 
 func (stage *Stage) StageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) {
@@ -2440,6 +2566,10 @@ func (stage *Stage) StageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIE
 		stage.StageBranch(_enum_value)
 	}
 
+}
+
+func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_ATTRIBUTES(a_spec_attributes)
 }
 
 func (stage *Stage) StageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) {
@@ -2478,6 +2608,10 @@ func (stage *Stage) StageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRI
 
 }
 
+func (a_spec_objects *A_SPEC_OBJECTS) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_OBJECTS(a_spec_objects)
+}
+
 func (stage *Stage) StageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) {
 
 	// check if instance is already staged
@@ -2496,6 +2630,10 @@ func (stage *Stage) StageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) {
 
 }
 
+func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref)
+}
+
 func (stage *Stage) StageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) {
 
 	// check if instance is already staged
@@ -2509,6 +2647,10 @@ func (stage *Stage) StageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_spec_relations *A_SPEC_RELATIONS) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_RELATIONS(a_spec_relations)
 }
 
 func (stage *Stage) StageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) {
@@ -2529,6 +2671,10 @@ func (stage *Stage) StageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIO
 
 }
 
+func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups)
+}
+
 func (stage *Stage) StageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) {
 
 	// check if instance is already staged
@@ -2547,6 +2693,10 @@ func (stage *Stage) StageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_
 
 }
 
+func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_RELATION_REF(a_spec_relation_ref)
+}
+
 func (stage *Stage) StageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) {
 
 	// check if instance is already staged
@@ -2562,6 +2712,10 @@ func (stage *Stage) StageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_R
 
 }
 
+func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref)
+}
+
 func (stage *Stage) StageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) {
 
 	// check if instance is already staged
@@ -2575,6 +2729,10 @@ func (stage *Stage) StageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_spec_types *A_SPEC_TYPES) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_SPEC_TYPES(a_spec_types)
 }
 
 func (stage *Stage) StageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
@@ -2604,6 +2762,10 @@ func (stage *Stage) StageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
 
 }
 
+func (a_the_header *A_THE_HEADER) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_THE_HEADER(a_the_header)
+}
+
 func (stage *Stage) StageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 
 	// check if instance is already staged
@@ -2620,6 +2782,10 @@ func (stage *Stage) StageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_tool_extensions *A_TOOL_EXTENSIONS) GongStageBranch(stage *Stage) {
+	stage.StageBranchA_TOOL_EXTENSIONS(a_tool_extensions)
 }
 
 func (stage *Stage) StageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) {
@@ -2640,6 +2806,10 @@ func (stage *Stage) StageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTEN
 
 }
 
+func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean)
+}
+
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) {
 
 	// check if instance is already staged
@@ -2658,6 +2828,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_b
 
 }
 
+func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date)
+}
+
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) {
 
 	// check if instance is already staged
@@ -2674,6 +2848,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration)
 }
 
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) {
@@ -2697,6 +2875,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definiti
 
 }
 
+func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer)
+}
+
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) {
 
 	// check if instance is already staged
@@ -2713,6 +2895,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_i
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real)
 }
 
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) {
@@ -2733,6 +2919,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real
 
 }
 
+func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string)
+}
+
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) {
 
 	// check if instance is already staged
@@ -2749,6 +2939,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_STRING(datatype_definition_st
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongStageBranch(stage *Stage) {
+	stage.StageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml)
 }
 
 func (stage *Stage) StageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) {
@@ -2769,6 +2963,10 @@ func (stage *Stage) StageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xht
 
 }
 
+func (embedded_value *EMBEDDED_VALUE) GongStageBranch(stage *Stage) {
+	stage.StageBranchEMBEDDED_VALUE(embedded_value)
+}
+
 func (stage *Stage) StageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) {
 
 	// check if instance is already staged
@@ -2782,6 +2980,10 @@ func (stage *Stage) StageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (enum_value *ENUM_VALUE) GongStageBranch(stage *Stage) {
+	stage.StageBranchENUM_VALUE(enum_value)
 }
 
 func (stage *Stage) StageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
@@ -2805,6 +3007,10 @@ func (stage *Stage) StageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
 
 }
 
+func (embeddedjpgimage *EmbeddedJpgImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmbeddedJpgImage(embeddedjpgimage)
+}
+
 func (stage *Stage) StageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) {
 
 	// check if instance is already staged
@@ -2818,6 +3024,10 @@ func (stage *Stage) StageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgIma
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (embeddedpngimage *EmbeddedPngImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmbeddedPngImage(embeddedpngimage)
 }
 
 func (stage *Stage) StageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) {
@@ -2835,6 +3045,10 @@ func (stage *Stage) StageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngIma
 
 }
 
+func (embeddedsvgimage *EmbeddedSvgImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchEmbeddedSvgImage(embeddedsvgimage)
+}
+
 func (stage *Stage) StageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) {
 
 	// check if instance is already staged
@@ -2848,6 +3062,10 @@ func (stage *Stage) StageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgIma
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (kill *Kill) GongStageBranch(stage *Stage) {
+	stage.StageBranchKill(kill)
 }
 
 func (stage *Stage) StageBranchKill(kill *Kill) {
@@ -2865,6 +3083,10 @@ func (stage *Stage) StageBranchKill(kill *Kill) {
 
 }
 
+func (map_identifier_bool *Map_identifier_bool) GongStageBranch(stage *Stage) {
+	stage.StageBranchMap_identifier_bool(map_identifier_bool)
+}
+
 func (stage *Stage) StageBranchMap_identifier_bool(map_identifier_bool *Map_identifier_bool) {
 
 	// check if instance is already staged
@@ -2878,6 +3100,10 @@ func (stage *Stage) StageBranchMap_identifier_bool(map_identifier_bool *Map_iden
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (relation_group *RELATION_GROUP) GongStageBranch(stage *Stage) {
+	stage.StageBranchRELATION_GROUP(relation_group)
 }
 
 func (stage *Stage) StageBranchRELATION_GROUP(relation_group *RELATION_GROUP) {
@@ -2910,6 +3136,10 @@ func (stage *Stage) StageBranchRELATION_GROUP(relation_group *RELATION_GROUP) {
 
 }
 
+func (relation_group_type *RELATION_GROUP_TYPE) GongStageBranch(stage *Stage) {
+	stage.StageBranchRELATION_GROUP_TYPE(relation_group_type)
+}
+
 func (stage *Stage) StageBranchRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) {
 
 	// check if instance is already staged
@@ -2929,6 +3159,10 @@ func (stage *Stage) StageBranchRELATION_GROUP_TYPE(relation_group_type *RELATION
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (req_if *REQ_IF) GongStageBranch(stage *Stage) {
+	stage.StageBranchREQ_IF(req_if)
 }
 
 func (stage *Stage) StageBranchREQ_IF(req_if *REQ_IF) {
@@ -2953,6 +3187,10 @@ func (stage *Stage) StageBranchREQ_IF(req_if *REQ_IF) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (req_if_content *REQ_IF_CONTENT) GongStageBranch(stage *Stage) {
+	stage.StageBranchREQ_IF_CONTENT(req_if_content)
 }
 
 func (stage *Stage) StageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) {
@@ -2988,6 +3226,10 @@ func (stage *Stage) StageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) {
 
 }
 
+func (req_if_header *REQ_IF_HEADER) GongStageBranch(stage *Stage) {
+	stage.StageBranchREQ_IF_HEADER(req_if_header)
+}
+
 func (stage *Stage) StageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 
 	// check if instance is already staged
@@ -3003,6 +3245,10 @@ func (stage *Stage) StageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 
 }
 
+func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongStageBranch(stage *Stage) {
+	stage.StageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension)
+}
+
 func (stage *Stage) StageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) {
 
 	// check if instance is already staged
@@ -3016,6 +3262,10 @@ func (stage *Stage) StageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (specification *SPECIFICATION) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPECIFICATION(specification)
 }
 
 func (stage *Stage) StageBranchSPECIFICATION(specification *SPECIFICATION) {
@@ -3045,6 +3295,10 @@ func (stage *Stage) StageBranchSPECIFICATION(specification *SPECIFICATION) {
 
 }
 
+func (specification_rendering *SPECIFICATION_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPECIFICATION_Rendering(specification_rendering)
+}
+
 func (stage *Stage) StageBranchSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) {
 
 	// check if instance is already staged
@@ -3058,6 +3312,10 @@ func (stage *Stage) StageBranchSPECIFICATION_Rendering(specification_rendering *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (specification_type *SPECIFICATION_TYPE) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPECIFICATION_TYPE(specification_type)
 }
 
 func (stage *Stage) StageBranchSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) {
@@ -3079,6 +3337,10 @@ func (stage *Stage) StageBranchSPECIFICATION_TYPE(specification_type *SPECIFICAT
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (spec_hierarchy *SPEC_HIERARCHY) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPEC_HIERARCHY(spec_hierarchy)
 }
 
 func (stage *Stage) StageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) {
@@ -3108,6 +3370,10 @@ func (stage *Stage) StageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) {
 
 }
 
+func (spec_object *SPEC_OBJECT) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPEC_OBJECT(spec_object)
+}
+
 func (stage *Stage) StageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 
 	// check if instance is already staged
@@ -3132,6 +3398,10 @@ func (stage *Stage) StageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 
 }
 
+func (spec_object_type *SPEC_OBJECT_TYPE) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPEC_OBJECT_TYPE(spec_object_type)
+}
+
 func (stage *Stage) StageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) {
 
 	// check if instance is already staged
@@ -3153,6 +3423,10 @@ func (stage *Stage) StageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TY
 
 }
 
+func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering)
+}
+
 func (stage *Stage) StageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) {
 
 	// check if instance is already staged
@@ -3166,6 +3440,10 @@ func (stage *Stage) StageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rende
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (spec_relation *SPEC_RELATION) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPEC_RELATION(spec_relation)
 }
 
 func (stage *Stage) StageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
@@ -3198,6 +3476,10 @@ func (stage *Stage) StageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
 
 }
 
+func (spec_relation_type *SPEC_RELATION_TYPE) GongStageBranch(stage *Stage) {
+	stage.StageBranchSPEC_RELATION_TYPE(spec_relation_type)
+}
+
 func (stage *Stage) StageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) {
 
 	// check if instance is already staged
@@ -3219,6 +3501,10 @@ func (stage *Stage) StageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELAT
 
 }
 
+func (staticwebsite *StaticWebSite) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaticWebSite(staticwebsite)
+}
+
 func (stage *Stage) StageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 
 	// check if instance is already staged
@@ -3235,6 +3521,10 @@ func (stage *Stage) StageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 		stage.StageBranch(_staticwebsitechapter)
 	}
 
+}
+
+func (staticwebsitechapter *StaticWebSiteChapter) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaticWebSiteChapter(staticwebsitechapter)
 }
 
 func (stage *Stage) StageBranchStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) {
@@ -3255,6 +3545,10 @@ func (stage *Stage) StageBranchStaticWebSiteChapter(staticwebsitechapter *Static
 
 }
 
+func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage)
+}
+
 func (stage *Stage) StageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) {
 
 	// check if instance is already staged
@@ -3270,6 +3564,10 @@ func (stage *Stage) StageBranchStaticWebSiteGeneratedImage(staticwebsitegenerate
 
 }
 
+func (staticwebsiteimage *StaticWebSiteImage) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaticWebSiteImage(staticwebsiteimage)
+}
+
 func (stage *Stage) StageBranchStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) {
 
 	// check if instance is already staged
@@ -3283,6 +3581,10 @@ func (stage *Stage) StageBranchStaticWebSiteImage(staticwebsiteimage *StaticWebS
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (staticwebsiteparagraph *StaticWebSiteParagraph) GongStageBranch(stage *Stage) {
+	stage.StageBranchStaticWebSiteParagraph(staticwebsiteparagraph)
 }
 
 func (stage *Stage) StageBranchStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) {
@@ -3301,6 +3603,10 @@ func (stage *Stage) StageBranchStaticWebSiteParagraph(staticwebsiteparagraph *St
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (xhtml_content *XHTML_CONTENT) GongStageBranch(stage *Stage) {
+	stage.StageBranchXHTML_CONTENT(xhtml_content)
 }
 
 func (stage *Stage) StageBranchXHTML_CONTENT(xhtml_content *XHTML_CONTENT) {
@@ -6108,328 +6414,22 @@ func GongCopyBranchXHTML_CONTENT(mapOrigCopy map[any]any, xhtml_contentFrom *XHT
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *ALTERNATIVE_ID:
-		stage.UnstageBranchALTERNATIVE_ID(target)
-
-	case *ATTRIBUTE_DEFINITION_BOOLEAN:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(target)
-
-	case *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_DATE:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_DATE(target)
-
-	case *ATTRIBUTE_DEFINITION_DATE_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_ENUMERATION:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(target)
-
-	case *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_INTEGER:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_INTEGER(target)
-
-	case *ATTRIBUTE_DEFINITION_INTEGER_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_REAL:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_REAL(target)
-
-	case *ATTRIBUTE_DEFINITION_REAL_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_STRING:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_STRING(target)
-
-	case *ATTRIBUTE_DEFINITION_STRING_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(target)
-
-	case *ATTRIBUTE_DEFINITION_XHTML:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_XHTML(target)
-
-	case *ATTRIBUTE_DEFINITION_XHTML_Rendering:
-		stage.UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(target)
-
-	case *ATTRIBUTE_VALUE_BOOLEAN:
-		stage.UnstageBranchATTRIBUTE_VALUE_BOOLEAN(target)
-
-	case *ATTRIBUTE_VALUE_DATE:
-		stage.UnstageBranchATTRIBUTE_VALUE_DATE(target)
-
-	case *ATTRIBUTE_VALUE_ENUMERATION:
-		stage.UnstageBranchATTRIBUTE_VALUE_ENUMERATION(target)
-
-	case *ATTRIBUTE_VALUE_INTEGER:
-		stage.UnstageBranchATTRIBUTE_VALUE_INTEGER(target)
-
-	case *ATTRIBUTE_VALUE_REAL:
-		stage.UnstageBranchATTRIBUTE_VALUE_REAL(target)
-
-	case *ATTRIBUTE_VALUE_STRING:
-		stage.UnstageBranchATTRIBUTE_VALUE_STRING(target)
-
-	case *ATTRIBUTE_VALUE_XHTML:
-		stage.UnstageBranchATTRIBUTE_VALUE_XHTML(target)
-
-	case *A_ALTERNATIVE_ID:
-		stage.UnstageBranchA_ALTERNATIVE_ID(target)
-
-	case *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_DATE_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_INTEGER_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_REAL_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_STRING_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(target)
-
-	case *A_ATTRIBUTE_DEFINITION_XHTML_REF:
-		stage.UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(target)
-
-	case *A_ATTRIBUTE_VALUE_BOOLEAN:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(target)
-
-	case *A_ATTRIBUTE_VALUE_DATE:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_DATE(target)
-
-	case *A_ATTRIBUTE_VALUE_ENUMERATION:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(target)
-
-	case *A_ATTRIBUTE_VALUE_INTEGER:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(target)
-
-	case *A_ATTRIBUTE_VALUE_REAL:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_REAL(target)
-
-	case *A_ATTRIBUTE_VALUE_STRING:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_STRING(target)
-
-	case *A_ATTRIBUTE_VALUE_XHTML:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_XHTML(target)
-
-	case *A_ATTRIBUTE_VALUE_XHTML_1:
-		stage.UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(target)
-
-	case *A_CHILDREN:
-		stage.UnstageBranchA_CHILDREN(target)
-
-	case *A_CORE_CONTENT:
-		stage.UnstageBranchA_CORE_CONTENT(target)
-
-	case *A_DATATYPES:
-		stage.UnstageBranchA_DATATYPES(target)
-
-	case *A_DATATYPE_DEFINITION_BOOLEAN_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(target)
-
-	case *A_DATATYPE_DEFINITION_DATE_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(target)
-
-	case *A_DATATYPE_DEFINITION_ENUMERATION_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(target)
-
-	case *A_DATATYPE_DEFINITION_INTEGER_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(target)
-
-	case *A_DATATYPE_DEFINITION_REAL_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(target)
-
-	case *A_DATATYPE_DEFINITION_STRING_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(target)
-
-	case *A_DATATYPE_DEFINITION_XHTML_REF:
-		stage.UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(target)
-
-	case *A_EDITABLE_ATTS:
-		stage.UnstageBranchA_EDITABLE_ATTS(target)
-
-	case *A_ENUM_VALUE_REF:
-		stage.UnstageBranchA_ENUM_VALUE_REF(target)
-
-	case *A_OBJECT:
-		stage.UnstageBranchA_OBJECT(target)
-
-	case *A_PROPERTIES:
-		stage.UnstageBranchA_PROPERTIES(target)
-
-	case *A_RELATION_GROUP_TYPE_REF:
-		stage.UnstageBranchA_RELATION_GROUP_TYPE_REF(target)
-
-	case *A_SOURCE_1:
-		stage.UnstageBranchA_SOURCE_1(target)
-
-	case *A_SOURCE_SPECIFICATION_1:
-		stage.UnstageBranchA_SOURCE_SPECIFICATION_1(target)
-
-	case *A_SPECIFICATIONS:
-		stage.UnstageBranchA_SPECIFICATIONS(target)
-
-	case *A_SPECIFICATION_TYPE_REF:
-		stage.UnstageBranchA_SPECIFICATION_TYPE_REF(target)
-
-	case *A_SPECIFIED_VALUES:
-		stage.UnstageBranchA_SPECIFIED_VALUES(target)
-
-	case *A_SPEC_ATTRIBUTES:
-		stage.UnstageBranchA_SPEC_ATTRIBUTES(target)
-
-	case *A_SPEC_OBJECTS:
-		stage.UnstageBranchA_SPEC_OBJECTS(target)
-
-	case *A_SPEC_OBJECT_TYPE_REF:
-		stage.UnstageBranchA_SPEC_OBJECT_TYPE_REF(target)
-
-	case *A_SPEC_RELATIONS:
-		stage.UnstageBranchA_SPEC_RELATIONS(target)
-
-	case *A_SPEC_RELATION_GROUPS:
-		stage.UnstageBranchA_SPEC_RELATION_GROUPS(target)
-
-	case *A_SPEC_RELATION_REF:
-		stage.UnstageBranchA_SPEC_RELATION_REF(target)
-
-	case *A_SPEC_RELATION_TYPE_REF:
-		stage.UnstageBranchA_SPEC_RELATION_TYPE_REF(target)
-
-	case *A_SPEC_TYPES:
-		stage.UnstageBranchA_SPEC_TYPES(target)
-
-	case *A_THE_HEADER:
-		stage.UnstageBranchA_THE_HEADER(target)
-
-	case *A_TOOL_EXTENSIONS:
-		stage.UnstageBranchA_TOOL_EXTENSIONS(target)
-
-	case *DATATYPE_DEFINITION_BOOLEAN:
-		stage.UnstageBranchDATATYPE_DEFINITION_BOOLEAN(target)
-
-	case *DATATYPE_DEFINITION_DATE:
-		stage.UnstageBranchDATATYPE_DEFINITION_DATE(target)
-
-	case *DATATYPE_DEFINITION_ENUMERATION:
-		stage.UnstageBranchDATATYPE_DEFINITION_ENUMERATION(target)
-
-	case *DATATYPE_DEFINITION_INTEGER:
-		stage.UnstageBranchDATATYPE_DEFINITION_INTEGER(target)
-
-	case *DATATYPE_DEFINITION_REAL:
-		stage.UnstageBranchDATATYPE_DEFINITION_REAL(target)
-
-	case *DATATYPE_DEFINITION_STRING:
-		stage.UnstageBranchDATATYPE_DEFINITION_STRING(target)
-
-	case *DATATYPE_DEFINITION_XHTML:
-		stage.UnstageBranchDATATYPE_DEFINITION_XHTML(target)
-
-	case *EMBEDDED_VALUE:
-		stage.UnstageBranchEMBEDDED_VALUE(target)
-
-	case *ENUM_VALUE:
-		stage.UnstageBranchENUM_VALUE(target)
-
-	case *EmbeddedJpgImage:
-		stage.UnstageBranchEmbeddedJpgImage(target)
-
-	case *EmbeddedPngImage:
-		stage.UnstageBranchEmbeddedPngImage(target)
-
-	case *EmbeddedSvgImage:
-		stage.UnstageBranchEmbeddedSvgImage(target)
-
-	case *Kill:
-		stage.UnstageBranchKill(target)
-
-	case *Map_identifier_bool:
-		stage.UnstageBranchMap_identifier_bool(target)
-
-	case *RELATION_GROUP:
-		stage.UnstageBranchRELATION_GROUP(target)
-
-	case *RELATION_GROUP_TYPE:
-		stage.UnstageBranchRELATION_GROUP_TYPE(target)
-
-	case *REQ_IF:
-		stage.UnstageBranchREQ_IF(target)
-
-	case *REQ_IF_CONTENT:
-		stage.UnstageBranchREQ_IF_CONTENT(target)
-
-	case *REQ_IF_HEADER:
-		stage.UnstageBranchREQ_IF_HEADER(target)
-
-	case *REQ_IF_TOOL_EXTENSION:
-		stage.UnstageBranchREQ_IF_TOOL_EXTENSION(target)
-
-	case *SPECIFICATION:
-		stage.UnstageBranchSPECIFICATION(target)
-
-	case *SPECIFICATION_Rendering:
-		stage.UnstageBranchSPECIFICATION_Rendering(target)
-
-	case *SPECIFICATION_TYPE:
-		stage.UnstageBranchSPECIFICATION_TYPE(target)
-
-	case *SPEC_HIERARCHY:
-		stage.UnstageBranchSPEC_HIERARCHY(target)
-
-	case *SPEC_OBJECT:
-		stage.UnstageBranchSPEC_OBJECT(target)
-
-	case *SPEC_OBJECT_TYPE:
-		stage.UnstageBranchSPEC_OBJECT_TYPE(target)
-
-	case *SPEC_OBJECT_TYPE_Rendering:
-		stage.UnstageBranchSPEC_OBJECT_TYPE_Rendering(target)
-
-	case *SPEC_RELATION:
-		stage.UnstageBranchSPEC_RELATION(target)
-
-	case *SPEC_RELATION_TYPE:
-		stage.UnstageBranchSPEC_RELATION_TYPE(target)
-
-	case *StaticWebSite:
-		stage.UnstageBranchStaticWebSite(target)
-
-	case *StaticWebSiteChapter:
-		stage.UnstageBranchStaticWebSiteChapter(target)
-
-	case *StaticWebSiteGeneratedImage:
-		stage.UnstageBranchStaticWebSiteGeneratedImage(target)
-
-	case *StaticWebSiteImage:
-		stage.UnstageBranchStaticWebSiteImage(target)
-
-	case *StaticWebSiteParagraph:
-		stage.UnstageBranchStaticWebSiteParagraph(target)
-
-	case *XHTML_CONTENT:
-		stage.UnstageBranchXHTML_CONTENT(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (alternative_id *ALTERNATIVE_ID) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchALTERNATIVE_ID(alternative_id)
+}
+
 func (stage *Stage) UnstageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) {
 
 	// check if instance is already staged
@@ -6443,6 +6443,10 @@ func (stage *Stage) UnstageBranchALTERNATIVE_ID(alternative_id *ALTERNATIVE_ID) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) {
@@ -6469,6 +6473,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN(attribute_definiti
 
 }
 
+func (attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribute_definition_boolean_rendering *ATTRIBUTE_DEFINITION_BOOLEAN_Rendering) {
 
 	// check if instance is already staged
@@ -6482,6 +6490,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_BOOLEAN_Rendering(attribut
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) {
@@ -6508,6 +6520,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE(attribute_definition_
 
 }
 
+func (attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_definition_date_rendering *ATTRIBUTE_DEFINITION_DATE_Rendering) {
 
 	// check if instance is already staged
@@ -6521,6 +6537,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_DATE_Rendering(attribute_d
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) {
@@ -6547,6 +6567,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION(attribute_defi
 
 }
 
+func (attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attribute_definition_enumeration_rendering *ATTRIBUTE_DEFINITION_ENUMERATION_Rendering) {
 
 	// check if instance is already staged
@@ -6560,6 +6584,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_ENUMERATION_Rendering(attr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) {
@@ -6586,6 +6614,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER(attribute_definiti
 
 }
 
+func (attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribute_definition_integer_rendering *ATTRIBUTE_DEFINITION_INTEGER_Rendering) {
 
 	// check if instance is already staged
@@ -6599,6 +6631,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_INTEGER_Rendering(attribut
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) {
@@ -6625,6 +6661,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL(attribute_definition_
 
 }
 
+func (attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_definition_real_rendering *ATTRIBUTE_DEFINITION_REAL_Rendering) {
 
 	// check if instance is already staged
@@ -6640,6 +6680,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_REAL_Rendering(attribute_d
 
 }
 
+func (attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_Rendering(attribute_definition_rendering *ATTRIBUTE_DEFINITION_Rendering) {
 
 	// check if instance is already staged
@@ -6653,6 +6697,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_Rendering(attribute_defini
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING(attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) {
@@ -6679,6 +6727,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING(attribute_definitio
 
 }
 
+func (attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute_definition_string_rendering *ATTRIBUTE_DEFINITION_STRING_Rendering) {
 
 	// check if instance is already staged
@@ -6692,6 +6744,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_STRING_Rendering(attribute
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) {
@@ -6718,6 +6774,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML(attribute_definition
 
 }
 
+func (attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_definition_xhtml_rendering *ATTRIBUTE_DEFINITION_XHTML_Rendering) {
 
 	// check if instance is already staged
@@ -6731,6 +6791,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_DEFINITION_XHTML_Rendering(attribute_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) {
@@ -6751,6 +6815,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_BOOLEAN(attribute_value_boolean
 
 }
 
+func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_DATE(attribute_value_date)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
@@ -6767,6 +6835,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_DATE(attribute_value_date *ATTR
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) {
@@ -6790,6 +6862,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_ENUMERATION(attribute_value_enu
 
 }
 
+func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
@@ -6806,6 +6882,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_INTEGER(attribute_value_integer
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_REAL(attribute_value_real)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTRIBUTE_VALUE_REAL) {
@@ -6826,6 +6906,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_REAL(attribute_value_real *ATTR
 
 }
 
+func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_STRING(attribute_value_string)
+}
+
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
@@ -6842,6 +6926,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_STRING(attribute_value_string *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml)
 }
 
 func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) {
@@ -6868,6 +6956,10 @@ func (stage *Stage) UnstageBranchATTRIBUTE_VALUE_XHTML(attribute_value_xhtml *AT
 
 }
 
+func (a_alternative_id *A_ALTERNATIVE_ID) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ALTERNATIVE_ID(a_alternative_id)
+}
+
 func (stage *Stage) UnstageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIVE_ID) {
 
 	// check if instance is already staged
@@ -6886,6 +6978,10 @@ func (stage *Stage) UnstageBranchA_ALTERNATIVE_ID(a_alternative_id *A_ALTERNATIV
 
 }
 
+func (a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_definition_boolean_ref *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
@@ -6899,6 +6995,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_BOOLEAN_REF(a_attribute_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_definition_date_ref *A_ATTRIBUTE_DEFINITION_DATE_REF) {
@@ -6916,6 +7016,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_DATE_REF(a_attribute_def
 
 }
 
+func (a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attribute_definition_enumeration_ref *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
@@ -6929,6 +7033,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_ENUMERATION_REF(a_attrib
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_definition_integer_ref *A_ATTRIBUTE_DEFINITION_INTEGER_REF) {
@@ -6946,6 +7054,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_INTEGER_REF(a_attribute_
 
 }
 
+func (a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_definition_real_ref *A_ATTRIBUTE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
@@ -6959,6 +7071,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_REAL_REF(a_attribute_def
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_definition_string_ref *A_ATTRIBUTE_DEFINITION_STRING_REF) {
@@ -6976,6 +7092,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_STRING_REF(a_attribute_d
 
 }
 
+func (a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_definition_xhtml_ref *A_ATTRIBUTE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
@@ -6989,6 +7109,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_DEFINITION_XHTML_REF(a_attribute_de
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) {
@@ -7009,6 +7133,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_BOOLEAN(a_attribute_value_boo
 
 }
 
+func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) {
 
 	// check if instance is already staged
@@ -7025,6 +7153,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_DATE(a_attribute_value_date *
 		stage.UnstageBranch(_attribute_value_date)
 	}
 
+}
+
+func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) {
@@ -7045,6 +7177,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_ENUMERATION(a_attribute_value
 
 }
 
+func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) {
 
 	// check if instance is already staged
@@ -7061,6 +7197,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_INTEGER(a_attribute_value_int
 		stage.UnstageBranch(_attribute_value_integer)
 	}
 
+}
+
+func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) {
@@ -7081,6 +7221,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_REAL(a_attribute_value_real *
 
 }
 
+func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) {
 
 	// check if instance is already staged
@@ -7099,6 +7243,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_STRING(a_attribute_value_stri
 
 }
 
+func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml)
+}
+
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) {
 
 	// check if instance is already staged
@@ -7115,6 +7263,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML(a_attribute_value_xhtml
 		stage.UnstageBranch(_attribute_value_xhtml)
 	}
 
+}
+
+func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1)
 }
 
 func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) {
@@ -7153,6 +7305,10 @@ func (stage *Stage) UnstageBranchA_ATTRIBUTE_VALUE_XHTML_1(a_attribute_value_xht
 
 }
 
+func (a_children *A_CHILDREN) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_CHILDREN(a_children)
+}
+
 func (stage *Stage) UnstageBranchA_CHILDREN(a_children *A_CHILDREN) {
 
 	// check if instance is already staged
@@ -7171,6 +7327,10 @@ func (stage *Stage) UnstageBranchA_CHILDREN(a_children *A_CHILDREN) {
 
 }
 
+func (a_core_content *A_CORE_CONTENT) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_CORE_CONTENT(a_core_content)
+}
+
 func (stage *Stage) UnstageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) {
 
 	// check if instance is already staged
@@ -7187,6 +7347,10 @@ func (stage *Stage) UnstageBranchA_CORE_CONTENT(a_core_content *A_CORE_CONTENT) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatypes *A_DATATYPES) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPES(a_datatypes)
 }
 
 func (stage *Stage) UnstageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
@@ -7225,6 +7389,10 @@ func (stage *Stage) UnstageBranchA_DATATYPES(a_datatypes *A_DATATYPES) {
 
 }
 
+func (a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref)
+}
+
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_definition_boolean_ref *A_DATATYPE_DEFINITION_BOOLEAN_REF) {
 
 	// check if instance is already staged
@@ -7238,6 +7406,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(a_datatype_de
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref)
 }
 
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_definition_date_ref *A_DATATYPE_DEFINITION_DATE_REF) {
@@ -7255,6 +7427,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_DATE_REF(a_datatype_defin
 
 }
 
+func (a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref)
+}
+
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatype_definition_enumeration_ref *A_DATATYPE_DEFINITION_ENUMERATION_REF) {
 
 	// check if instance is already staged
@@ -7268,6 +7444,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(a_datatyp
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref)
 }
 
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_definition_integer_ref *A_DATATYPE_DEFINITION_INTEGER_REF) {
@@ -7285,6 +7465,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_INTEGER_REF(a_datatype_de
 
 }
 
+func (a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref)
+}
+
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_definition_real_ref *A_DATATYPE_DEFINITION_REAL_REF) {
 
 	// check if instance is already staged
@@ -7298,6 +7482,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_REAL_REF(a_datatype_defin
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref)
 }
 
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_definition_string_ref *A_DATATYPE_DEFINITION_STRING_REF) {
@@ -7315,6 +7503,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_STRING_REF(a_datatype_def
 
 }
 
+func (a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref)
+}
+
 func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_definition_xhtml_ref *A_DATATYPE_DEFINITION_XHTML_REF) {
 
 	// check if instance is already staged
@@ -7328,6 +7520,10 @@ func (stage *Stage) UnstageBranchA_DATATYPE_DEFINITION_XHTML_REF(a_datatype_defi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_editable_atts *A_EDITABLE_ATTS) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_EDITABLE_ATTS(a_editable_atts)
 }
 
 func (stage *Stage) UnstageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATTS) {
@@ -7345,6 +7541,10 @@ func (stage *Stage) UnstageBranchA_EDITABLE_ATTS(a_editable_atts *A_EDITABLE_ATT
 
 }
 
+func (a_enum_value_ref *A_ENUM_VALUE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_ENUM_VALUE_REF(a_enum_value_ref)
+}
+
 func (stage *Stage) UnstageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE_REF) {
 
 	// check if instance is already staged
@@ -7360,6 +7560,10 @@ func (stage *Stage) UnstageBranchA_ENUM_VALUE_REF(a_enum_value_ref *A_ENUM_VALUE
 
 }
 
+func (a_object *A_OBJECT) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_OBJECT(a_object)
+}
+
 func (stage *Stage) UnstageBranchA_OBJECT(a_object *A_OBJECT) {
 
 	// check if instance is already staged
@@ -7373,6 +7577,10 @@ func (stage *Stage) UnstageBranchA_OBJECT(a_object *A_OBJECT) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_properties *A_PROPERTIES) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_PROPERTIES(a_properties)
 }
 
 func (stage *Stage) UnstageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
@@ -7393,6 +7601,10 @@ func (stage *Stage) UnstageBranchA_PROPERTIES(a_properties *A_PROPERTIES) {
 
 }
 
+func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref)
+}
+
 func (stage *Stage) UnstageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) {
 
 	// check if instance is already staged
@@ -7406,6 +7618,10 @@ func (stage *Stage) UnstageBranchA_RELATION_GROUP_TYPE_REF(a_relation_group_type
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_source_1 *A_SOURCE_1) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SOURCE_1(a_source_1)
 }
 
 func (stage *Stage) UnstageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
@@ -7423,6 +7639,10 @@ func (stage *Stage) UnstageBranchA_SOURCE_1(a_source_1 *A_SOURCE_1) {
 
 }
 
+func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1)
+}
+
 func (stage *Stage) UnstageBranchA_SOURCE_SPECIFICATION_1(a_source_specification_1 *A_SOURCE_SPECIFICATION_1) {
 
 	// check if instance is already staged
@@ -7436,6 +7656,10 @@ func (stage *Stage) UnstageBranchA_SOURCE_SPECIFICATION_1(a_source_specification
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_specifications *A_SPECIFICATIONS) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPECIFICATIONS(a_specifications)
 }
 
 func (stage *Stage) UnstageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICATIONS) {
@@ -7456,6 +7680,10 @@ func (stage *Stage) UnstageBranchA_SPECIFICATIONS(a_specifications *A_SPECIFICAT
 
 }
 
+func (a_specification_type_ref *A_SPECIFICATION_TYPE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref)
+}
+
 func (stage *Stage) UnstageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_ref *A_SPECIFICATION_TYPE_REF) {
 
 	// check if instance is already staged
@@ -7469,6 +7697,10 @@ func (stage *Stage) UnstageBranchA_SPECIFICATION_TYPE_REF(a_specification_type_r
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_specified_values *A_SPECIFIED_VALUES) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPECIFIED_VALUES(a_specified_values)
 }
 
 func (stage *Stage) UnstageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIFIED_VALUES) {
@@ -7487,6 +7719,10 @@ func (stage *Stage) UnstageBranchA_SPECIFIED_VALUES(a_specified_values *A_SPECIF
 		stage.UnstageBranch(_enum_value)
 	}
 
+}
+
+func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_ATTRIBUTES(a_spec_attributes)
 }
 
 func (stage *Stage) UnstageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATTRIBUTES) {
@@ -7525,6 +7761,10 @@ func (stage *Stage) UnstageBranchA_SPEC_ATTRIBUTES(a_spec_attributes *A_SPEC_ATT
 
 }
 
+func (a_spec_objects *A_SPEC_OBJECTS) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_OBJECTS(a_spec_objects)
+}
+
 func (stage *Stage) UnstageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) {
 
 	// check if instance is already staged
@@ -7543,6 +7783,10 @@ func (stage *Stage) UnstageBranchA_SPEC_OBJECTS(a_spec_objects *A_SPEC_OBJECTS) 
 
 }
 
+func (a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref)
+}
+
 func (stage *Stage) UnstageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *A_SPEC_OBJECT_TYPE_REF) {
 
 	// check if instance is already staged
@@ -7556,6 +7800,10 @@ func (stage *Stage) UnstageBranchA_SPEC_OBJECT_TYPE_REF(a_spec_object_type_ref *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_spec_relations *A_SPEC_RELATIONS) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_RELATIONS(a_spec_relations)
 }
 
 func (stage *Stage) UnstageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELATIONS) {
@@ -7576,6 +7824,10 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATIONS(a_spec_relations *A_SPEC_RELAT
 
 }
 
+func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups)
+}
+
 func (stage *Stage) UnstageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *A_SPEC_RELATION_GROUPS) {
 
 	// check if instance is already staged
@@ -7594,6 +7846,10 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATION_GROUPS(a_spec_relation_groups *
 
 }
 
+func (a_spec_relation_ref *A_SPEC_RELATION_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_RELATION_REF(a_spec_relation_ref)
+}
+
 func (stage *Stage) UnstageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC_RELATION_REF) {
 
 	// check if instance is already staged
@@ -7609,6 +7865,10 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATION_REF(a_spec_relation_ref *A_SPEC
 
 }
 
+func (a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref)
+}
+
 func (stage *Stage) UnstageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_ref *A_SPEC_RELATION_TYPE_REF) {
 
 	// check if instance is already staged
@@ -7622,6 +7882,10 @@ func (stage *Stage) UnstageBranchA_SPEC_RELATION_TYPE_REF(a_spec_relation_type_r
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_spec_types *A_SPEC_TYPES) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_SPEC_TYPES(a_spec_types)
 }
 
 func (stage *Stage) UnstageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
@@ -7651,6 +7915,10 @@ func (stage *Stage) UnstageBranchA_SPEC_TYPES(a_spec_types *A_SPEC_TYPES) {
 
 }
 
+func (a_the_header *A_THE_HEADER) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_THE_HEADER(a_the_header)
+}
+
 func (stage *Stage) UnstageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 
 	// check if instance is already staged
@@ -7667,6 +7935,10 @@ func (stage *Stage) UnstageBranchA_THE_HEADER(a_the_header *A_THE_HEADER) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (a_tool_extensions *A_TOOL_EXTENSIONS) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchA_TOOL_EXTENSIONS(a_tool_extensions)
 }
 
 func (stage *Stage) UnstageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXTENSIONS) {
@@ -7687,6 +7959,10 @@ func (stage *Stage) UnstageBranchA_TOOL_EXTENSIONS(a_tool_extensions *A_TOOL_EXT
 
 }
 
+func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean)
+}
+
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) {
 
 	// check if instance is already staged
@@ -7705,6 +7981,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_BOOLEAN(datatype_definition
 
 }
 
+func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date)
+}
+
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_DATE(datatype_definition_date *DATATYPE_DEFINITION_DATE) {
 
 	// check if instance is already staged
@@ -7721,6 +8001,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_DATE(datatype_definition_da
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration)
 }
 
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) {
@@ -7744,6 +8028,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_ENUMERATION(datatype_defini
 
 }
 
+func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer)
+}
+
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) {
 
 	// check if instance is already staged
@@ -7760,6 +8048,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_INTEGER(datatype_definition
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real)
 }
 
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_REAL(datatype_definition_real *DATATYPE_DEFINITION_REAL) {
@@ -7780,6 +8072,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_REAL(datatype_definition_re
 
 }
 
+func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string)
+}
+
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_STRING(datatype_definition_string *DATATYPE_DEFINITION_STRING) {
 
 	// check if instance is already staged
@@ -7796,6 +8092,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_STRING(datatype_definition_
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml)
 }
 
 func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) {
@@ -7816,6 +8116,10 @@ func (stage *Stage) UnstageBranchDATATYPE_DEFINITION_XHTML(datatype_definition_x
 
 }
 
+func (embedded_value *EMBEDDED_VALUE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEMBEDDED_VALUE(embedded_value)
+}
+
 func (stage *Stage) UnstageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) {
 
 	// check if instance is already staged
@@ -7829,6 +8133,10 @@ func (stage *Stage) UnstageBranchEMBEDDED_VALUE(embedded_value *EMBEDDED_VALUE) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (enum_value *ENUM_VALUE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchENUM_VALUE(enum_value)
 }
 
 func (stage *Stage) UnstageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
@@ -7852,6 +8160,10 @@ func (stage *Stage) UnstageBranchENUM_VALUE(enum_value *ENUM_VALUE) {
 
 }
 
+func (embeddedjpgimage *EmbeddedJpgImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmbeddedJpgImage(embeddedjpgimage)
+}
+
 func (stage *Stage) UnstageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgImage) {
 
 	// check if instance is already staged
@@ -7865,6 +8177,10 @@ func (stage *Stage) UnstageBranchEmbeddedJpgImage(embeddedjpgimage *EmbeddedJpgI
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (embeddedpngimage *EmbeddedPngImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmbeddedPngImage(embeddedpngimage)
 }
 
 func (stage *Stage) UnstageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngImage) {
@@ -7882,6 +8198,10 @@ func (stage *Stage) UnstageBranchEmbeddedPngImage(embeddedpngimage *EmbeddedPngI
 
 }
 
+func (embeddedsvgimage *EmbeddedSvgImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchEmbeddedSvgImage(embeddedsvgimage)
+}
+
 func (stage *Stage) UnstageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgImage) {
 
 	// check if instance is already staged
@@ -7895,6 +8215,10 @@ func (stage *Stage) UnstageBranchEmbeddedSvgImage(embeddedsvgimage *EmbeddedSvgI
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (kill *Kill) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchKill(kill)
 }
 
 func (stage *Stage) UnstageBranchKill(kill *Kill) {
@@ -7912,6 +8236,10 @@ func (stage *Stage) UnstageBranchKill(kill *Kill) {
 
 }
 
+func (map_identifier_bool *Map_identifier_bool) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMap_identifier_bool(map_identifier_bool)
+}
+
 func (stage *Stage) UnstageBranchMap_identifier_bool(map_identifier_bool *Map_identifier_bool) {
 
 	// check if instance is already staged
@@ -7925,6 +8253,10 @@ func (stage *Stage) UnstageBranchMap_identifier_bool(map_identifier_bool *Map_id
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (relation_group *RELATION_GROUP) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRELATION_GROUP(relation_group)
 }
 
 func (stage *Stage) UnstageBranchRELATION_GROUP(relation_group *RELATION_GROUP) {
@@ -7957,6 +8289,10 @@ func (stage *Stage) UnstageBranchRELATION_GROUP(relation_group *RELATION_GROUP) 
 
 }
 
+func (relation_group_type *RELATION_GROUP_TYPE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchRELATION_GROUP_TYPE(relation_group_type)
+}
+
 func (stage *Stage) UnstageBranchRELATION_GROUP_TYPE(relation_group_type *RELATION_GROUP_TYPE) {
 
 	// check if instance is already staged
@@ -7976,6 +8312,10 @@ func (stage *Stage) UnstageBranchRELATION_GROUP_TYPE(relation_group_type *RELATI
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (req_if *REQ_IF) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchREQ_IF(req_if)
 }
 
 func (stage *Stage) UnstageBranchREQ_IF(req_if *REQ_IF) {
@@ -8000,6 +8340,10 @@ func (stage *Stage) UnstageBranchREQ_IF(req_if *REQ_IF) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (req_if_content *REQ_IF_CONTENT) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchREQ_IF_CONTENT(req_if_content)
 }
 
 func (stage *Stage) UnstageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) {
@@ -8035,6 +8379,10 @@ func (stage *Stage) UnstageBranchREQ_IF_CONTENT(req_if_content *REQ_IF_CONTENT) 
 
 }
 
+func (req_if_header *REQ_IF_HEADER) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchREQ_IF_HEADER(req_if_header)
+}
+
 func (stage *Stage) UnstageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 
 	// check if instance is already staged
@@ -8050,6 +8398,10 @@ func (stage *Stage) UnstageBranchREQ_IF_HEADER(req_if_header *REQ_IF_HEADER) {
 
 }
 
+func (req_if_tool_extension *REQ_IF_TOOL_EXTENSION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension)
+}
+
 func (stage *Stage) UnstageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *REQ_IF_TOOL_EXTENSION) {
 
 	// check if instance is already staged
@@ -8063,6 +8415,10 @@ func (stage *Stage) UnstageBranchREQ_IF_TOOL_EXTENSION(req_if_tool_extension *RE
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (specification *SPECIFICATION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPECIFICATION(specification)
 }
 
 func (stage *Stage) UnstageBranchSPECIFICATION(specification *SPECIFICATION) {
@@ -8092,6 +8448,10 @@ func (stage *Stage) UnstageBranchSPECIFICATION(specification *SPECIFICATION) {
 
 }
 
+func (specification_rendering *SPECIFICATION_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPECIFICATION_Rendering(specification_rendering)
+}
+
 func (stage *Stage) UnstageBranchSPECIFICATION_Rendering(specification_rendering *SPECIFICATION_Rendering) {
 
 	// check if instance is already staged
@@ -8105,6 +8465,10 @@ func (stage *Stage) UnstageBranchSPECIFICATION_Rendering(specification_rendering
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (specification_type *SPECIFICATION_TYPE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPECIFICATION_TYPE(specification_type)
 }
 
 func (stage *Stage) UnstageBranchSPECIFICATION_TYPE(specification_type *SPECIFICATION_TYPE) {
@@ -8126,6 +8490,10 @@ func (stage *Stage) UnstageBranchSPECIFICATION_TYPE(specification_type *SPECIFIC
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (spec_hierarchy *SPEC_HIERARCHY) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPEC_HIERARCHY(spec_hierarchy)
 }
 
 func (stage *Stage) UnstageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) {
@@ -8155,6 +8523,10 @@ func (stage *Stage) UnstageBranchSPEC_HIERARCHY(spec_hierarchy *SPEC_HIERARCHY) 
 
 }
 
+func (spec_object *SPEC_OBJECT) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPEC_OBJECT(spec_object)
+}
+
 func (stage *Stage) UnstageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 
 	// check if instance is already staged
@@ -8179,6 +8551,10 @@ func (stage *Stage) UnstageBranchSPEC_OBJECT(spec_object *SPEC_OBJECT) {
 
 }
 
+func (spec_object_type *SPEC_OBJECT_TYPE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPEC_OBJECT_TYPE(spec_object_type)
+}
+
 func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_TYPE) {
 
 	// check if instance is already staged
@@ -8200,6 +8576,10 @@ func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE(spec_object_type *SPEC_OBJECT_
 
 }
 
+func (spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering)
+}
+
 func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_rendering *SPEC_OBJECT_TYPE_Rendering) {
 
 	// check if instance is already staged
@@ -8213,6 +8593,10 @@ func (stage *Stage) UnstageBranchSPEC_OBJECT_TYPE_Rendering(spec_object_type_ren
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (spec_relation *SPEC_RELATION) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPEC_RELATION(spec_relation)
 }
 
 func (stage *Stage) UnstageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
@@ -8245,6 +8629,10 @@ func (stage *Stage) UnstageBranchSPEC_RELATION(spec_relation *SPEC_RELATION) {
 
 }
 
+func (spec_relation_type *SPEC_RELATION_TYPE) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSPEC_RELATION_TYPE(spec_relation_type)
+}
+
 func (stage *Stage) UnstageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_RELATION_TYPE) {
 
 	// check if instance is already staged
@@ -8266,6 +8654,10 @@ func (stage *Stage) UnstageBranchSPEC_RELATION_TYPE(spec_relation_type *SPEC_REL
 
 }
 
+func (staticwebsite *StaticWebSite) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaticWebSite(staticwebsite)
+}
+
 func (stage *Stage) UnstageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 
 	// check if instance is already staged
@@ -8282,6 +8674,10 @@ func (stage *Stage) UnstageBranchStaticWebSite(staticwebsite *StaticWebSite) {
 		stage.UnstageBranch(_staticwebsitechapter)
 	}
 
+}
+
+func (staticwebsitechapter *StaticWebSiteChapter) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaticWebSiteChapter(staticwebsitechapter)
 }
 
 func (stage *Stage) UnstageBranchStaticWebSiteChapter(staticwebsitechapter *StaticWebSiteChapter) {
@@ -8302,6 +8698,10 @@ func (stage *Stage) UnstageBranchStaticWebSiteChapter(staticwebsitechapter *Stat
 
 }
 
+func (staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage)
+}
+
 func (stage *Stage) UnstageBranchStaticWebSiteGeneratedImage(staticwebsitegeneratedimage *StaticWebSiteGeneratedImage) {
 
 	// check if instance is already staged
@@ -8317,6 +8717,10 @@ func (stage *Stage) UnstageBranchStaticWebSiteGeneratedImage(staticwebsitegenera
 
 }
 
+func (staticwebsiteimage *StaticWebSiteImage) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaticWebSiteImage(staticwebsiteimage)
+}
+
 func (stage *Stage) UnstageBranchStaticWebSiteImage(staticwebsiteimage *StaticWebSiteImage) {
 
 	// check if instance is already staged
@@ -8330,6 +8734,10 @@ func (stage *Stage) UnstageBranchStaticWebSiteImage(staticwebsiteimage *StaticWe
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (staticwebsiteparagraph *StaticWebSiteParagraph) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchStaticWebSiteParagraph(staticwebsiteparagraph)
 }
 
 func (stage *Stage) UnstageBranchStaticWebSiteParagraph(staticwebsiteparagraph *StaticWebSiteParagraph) {
@@ -8348,6 +8756,10 @@ func (stage *Stage) UnstageBranchStaticWebSiteParagraph(staticwebsiteparagraph *
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (xhtml_content *XHTML_CONTENT) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchXHTML_CONTENT(xhtml_content)
 }
 
 func (stage *Stage) UnstageBranchXHTML_CONTENT(xhtml_content *XHTML_CONTENT) {

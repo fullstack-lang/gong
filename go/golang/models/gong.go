@@ -309,9 +309,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		{{Structname}}_orderStaged: make(map[uint]*{{Structname}}),
 		{{Structname}}s_reference:  make(map[*{{Structname}}]*{{Structname}}),
 `,
-	ModelGongOrderSwitchGet: `
-	case *{{Structname}}:
-		return stage.{{Structname}}_stagedOrder[instance]`,
+	ModelGongOrderSwitchGet: "",
 
 	ModelGongGetInstanceFromOrder: `
 	case *{{Structname}}:

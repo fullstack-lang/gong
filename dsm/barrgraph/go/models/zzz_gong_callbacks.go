@@ -2,64 +2,9 @@
 package models
 
 // AfterCreateFromFront is the Stage method called after a create from front.
-func (stage *Stage) AfterCreateFromFront[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point
-	case *ArtefactType:
-		if stage.OnAfterArtefactTypeCreateCallback != nil {
-			stage.OnAfterArtefactTypeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ArtefactTypeShape:
-		if stage.OnAfterArtefactTypeShapeCreateCallback != nil {
-			stage.OnAfterArtefactTypeShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Artist:
-		if stage.OnAfterArtistCreateCallback != nil {
-			stage.OnAfterArtistCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ArtistShape:
-		if stage.OnAfterArtistShapeCreateCallback != nil {
-			stage.OnAfterArtistShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ControlPointShape:
-		if stage.OnAfterControlPointShapeCreateCallback != nil {
-			stage.OnAfterControlPointShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Desk:
-		if stage.OnAfterDeskCreateCallback != nil {
-			stage.OnAfterDeskCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Diagram:
-		if stage.OnAfterDiagramCreateCallback != nil {
-			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Influence:
-		if stage.OnAfterInfluenceCreateCallback != nil {
-			stage.OnAfterInfluenceCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *InfluenceShape:
-		if stage.OnAfterInfluenceShapeCreateCallback != nil {
-			stage.OnAfterInfluenceShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Library:
-		if stage.OnAfterLibraryCreateCallback != nil {
-			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Movement:
-		if stage.OnAfterMovementCreateCallback != nil {
-			stage.OnAfterMovementCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *MovementShape:
-		if stage.OnAfterMovementShapeCreateCallback != nil {
-			stage.OnAfterMovementShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Place:
-		if stage.OnAfterPlaceCreateCallback != nil {
-			stage.OnAfterPlaceCreateCallback.OnAfterCreate(stage, target)
-		}
-	default:
-		_ = target
+func (stage *Stage) AfterCreateFromFront(instance GongstructIF) {
+	if instance != nil {
+		instance.GongAfterCreateFromFront(stage)
 	}
 }
 
@@ -68,151 +13,355 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is the Stage method called after an update from front.
-func (stage *Stage) OnAfterUpdateFromFront[Type Gongstruct](old, new *Type) {
-
-	switch oldTarget := any(old).(type) {
-	// insertion point
-	case *ArtefactType:
-		newTarget := any(new).(*ArtefactType)
-		if stage.OnAfterArtefactTypeUpdateCallback != nil {
-			stage.OnAfterArtefactTypeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ArtefactTypeShape:
-		newTarget := any(new).(*ArtefactTypeShape)
-		if stage.OnAfterArtefactTypeShapeUpdateCallback != nil {
-			stage.OnAfterArtefactTypeShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Artist:
-		newTarget := any(new).(*Artist)
-		if stage.OnAfterArtistUpdateCallback != nil {
-			stage.OnAfterArtistUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ArtistShape:
-		newTarget := any(new).(*ArtistShape)
-		if stage.OnAfterArtistShapeUpdateCallback != nil {
-			stage.OnAfterArtistShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ControlPointShape:
-		newTarget := any(new).(*ControlPointShape)
-		if stage.OnAfterControlPointShapeUpdateCallback != nil {
-			stage.OnAfterControlPointShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Desk:
-		newTarget := any(new).(*Desk)
-		if stage.OnAfterDeskUpdateCallback != nil {
-			stage.OnAfterDeskUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Diagram:
-		newTarget := any(new).(*Diagram)
-		if stage.OnAfterDiagramUpdateCallback != nil {
-			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Influence:
-		newTarget := any(new).(*Influence)
-		if stage.OnAfterInfluenceUpdateCallback != nil {
-			stage.OnAfterInfluenceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *InfluenceShape:
-		newTarget := any(new).(*InfluenceShape)
-		if stage.OnAfterInfluenceShapeUpdateCallback != nil {
-			stage.OnAfterInfluenceShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Library:
-		newTarget := any(new).(*Library)
-		if stage.OnAfterLibraryUpdateCallback != nil {
-			stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Movement:
-		newTarget := any(new).(*Movement)
-		if stage.OnAfterMovementUpdateCallback != nil {
-			stage.OnAfterMovementUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *MovementShape:
-		newTarget := any(new).(*MovementShape)
-		if stage.OnAfterMovementShapeUpdateCallback != nil {
-			stage.OnAfterMovementShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Place:
-		newTarget := any(new).(*Place)
-		if stage.OnAfterPlaceUpdateCallback != nil {
-			stage.OnAfterPlaceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	default:
-		_ = oldTarget
+func (stage *Stage) OnAfterUpdateFromFront(old, new GongstructIF) {
+	if old != nil {
+		old.GongOnAfterUpdateFromFront(stage, new)
 	}
 }
 
 // AfterDeleteFromFront is the Stage method called after a delete from front.
-func (stage *Stage) AfterDeleteFromFront[Type Gongstruct](staged, front *Type) {
-
-	switch front := any(front).(type) {
-	// insertion point
-	case *ArtefactType:
-		if stage.OnAfterArtefactTypeDeleteCallback != nil {
-			staged := any(staged).(*ArtefactType)
-			stage.OnAfterArtefactTypeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ArtefactTypeShape:
-		if stage.OnAfterArtefactTypeShapeDeleteCallback != nil {
-			staged := any(staged).(*ArtefactTypeShape)
-			stage.OnAfterArtefactTypeShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Artist:
-		if stage.OnAfterArtistDeleteCallback != nil {
-			staged := any(staged).(*Artist)
-			stage.OnAfterArtistDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ArtistShape:
-		if stage.OnAfterArtistShapeDeleteCallback != nil {
-			staged := any(staged).(*ArtistShape)
-			stage.OnAfterArtistShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ControlPointShape:
-		if stage.OnAfterControlPointShapeDeleteCallback != nil {
-			staged := any(staged).(*ControlPointShape)
-			stage.OnAfterControlPointShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Desk:
-		if stage.OnAfterDeskDeleteCallback != nil {
-			staged := any(staged).(*Desk)
-			stage.OnAfterDeskDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Diagram:
-		if stage.OnAfterDiagramDeleteCallback != nil {
-			staged := any(staged).(*Diagram)
-			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Influence:
-		if stage.OnAfterInfluenceDeleteCallback != nil {
-			staged := any(staged).(*Influence)
-			stage.OnAfterInfluenceDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *InfluenceShape:
-		if stage.OnAfterInfluenceShapeDeleteCallback != nil {
-			staged := any(staged).(*InfluenceShape)
-			stage.OnAfterInfluenceShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Library:
-		if stage.OnAfterLibraryDeleteCallback != nil {
-			staged := any(staged).(*Library)
-			stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Movement:
-		if stage.OnAfterMovementDeleteCallback != nil {
-			staged := any(staged).(*Movement)
-			stage.OnAfterMovementDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *MovementShape:
-		if stage.OnAfterMovementShapeDeleteCallback != nil {
-			staged := any(staged).(*MovementShape)
-			stage.OnAfterMovementShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Place:
-		if stage.OnAfterPlaceDeleteCallback != nil {
-			staged := any(staged).(*Place)
-			stage.OnAfterPlaceDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	default:
-		_ = front
+func (stage *Stage) AfterDeleteFromFront(staged, front GongstructIF) {
+	if staged != nil {
+		staged.GongAfterDeleteFromFront(stage, front)
 	}
 }
+
+// insertion point
+func (artefacttype *ArtefactType) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterArtefactTypeCreateCallback != nil {
+		stage.OnAfterArtefactTypeCreateCallback.OnAfterCreate(stage, artefacttype)
+	}
+}
+
+func (artefacttype *ArtefactType) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtefactTypeUpdateCallback != nil {
+		var frontArtefactType *ArtefactType
+		if front != nil {
+			frontArtefactType, _ = front.(*ArtefactType)
+		}
+		stage.OnAfterArtefactTypeUpdateCallback.OnAfterUpdate(stage, artefacttype, frontArtefactType)
+	}
+}
+
+func (artefacttype *ArtefactType) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtefactTypeDeleteCallback != nil {
+		var frontArtefactType *ArtefactType
+		if front != nil {
+			frontArtefactType, _ = front.(*ArtefactType)
+		}
+		stage.OnAfterArtefactTypeDeleteCallback.OnAfterDelete(stage, artefacttype, frontArtefactType)
+	}
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterArtefactTypeShapeCreateCallback != nil {
+		stage.OnAfterArtefactTypeShapeCreateCallback.OnAfterCreate(stage, artefacttypeshape)
+	}
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtefactTypeShapeUpdateCallback != nil {
+		var frontArtefactTypeShape *ArtefactTypeShape
+		if front != nil {
+			frontArtefactTypeShape, _ = front.(*ArtefactTypeShape)
+		}
+		stage.OnAfterArtefactTypeShapeUpdateCallback.OnAfterUpdate(stage, artefacttypeshape, frontArtefactTypeShape)
+	}
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtefactTypeShapeDeleteCallback != nil {
+		var frontArtefactTypeShape *ArtefactTypeShape
+		if front != nil {
+			frontArtefactTypeShape, _ = front.(*ArtefactTypeShape)
+		}
+		stage.OnAfterArtefactTypeShapeDeleteCallback.OnAfterDelete(stage, artefacttypeshape, frontArtefactTypeShape)
+	}
+}
+
+func (artist *Artist) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterArtistCreateCallback != nil {
+		stage.OnAfterArtistCreateCallback.OnAfterCreate(stage, artist)
+	}
+}
+
+func (artist *Artist) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtistUpdateCallback != nil {
+		var frontArtist *Artist
+		if front != nil {
+			frontArtist, _ = front.(*Artist)
+		}
+		stage.OnAfterArtistUpdateCallback.OnAfterUpdate(stage, artist, frontArtist)
+	}
+}
+
+func (artist *Artist) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtistDeleteCallback != nil {
+		var frontArtist *Artist
+		if front != nil {
+			frontArtist, _ = front.(*Artist)
+		}
+		stage.OnAfterArtistDeleteCallback.OnAfterDelete(stage, artist, frontArtist)
+	}
+}
+
+func (artistshape *ArtistShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterArtistShapeCreateCallback != nil {
+		stage.OnAfterArtistShapeCreateCallback.OnAfterCreate(stage, artistshape)
+	}
+}
+
+func (artistshape *ArtistShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtistShapeUpdateCallback != nil {
+		var frontArtistShape *ArtistShape
+		if front != nil {
+			frontArtistShape, _ = front.(*ArtistShape)
+		}
+		stage.OnAfterArtistShapeUpdateCallback.OnAfterUpdate(stage, artistshape, frontArtistShape)
+	}
+}
+
+func (artistshape *ArtistShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterArtistShapeDeleteCallback != nil {
+		var frontArtistShape *ArtistShape
+		if front != nil {
+			frontArtistShape, _ = front.(*ArtistShape)
+		}
+		stage.OnAfterArtistShapeDeleteCallback.OnAfterDelete(stage, artistshape, frontArtistShape)
+	}
+}
+
+func (controlpointshape *ControlPointShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterControlPointShapeCreateCallback != nil {
+		stage.OnAfterControlPointShapeCreateCallback.OnAfterCreate(stage, controlpointshape)
+	}
+}
+
+func (controlpointshape *ControlPointShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterControlPointShapeUpdateCallback != nil {
+		var frontControlPointShape *ControlPointShape
+		if front != nil {
+			frontControlPointShape, _ = front.(*ControlPointShape)
+		}
+		stage.OnAfterControlPointShapeUpdateCallback.OnAfterUpdate(stage, controlpointshape, frontControlPointShape)
+	}
+}
+
+func (controlpointshape *ControlPointShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterControlPointShapeDeleteCallback != nil {
+		var frontControlPointShape *ControlPointShape
+		if front != nil {
+			frontControlPointShape, _ = front.(*ControlPointShape)
+		}
+		stage.OnAfterControlPointShapeDeleteCallback.OnAfterDelete(stage, controlpointshape, frontControlPointShape)
+	}
+}
+
+func (desk *Desk) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDeskCreateCallback != nil {
+		stage.OnAfterDeskCreateCallback.OnAfterCreate(stage, desk)
+	}
+}
+
+func (desk *Desk) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDeskUpdateCallback != nil {
+		var frontDesk *Desk
+		if front != nil {
+			frontDesk, _ = front.(*Desk)
+		}
+		stage.OnAfterDeskUpdateCallback.OnAfterUpdate(stage, desk, frontDesk)
+	}
+}
+
+func (desk *Desk) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDeskDeleteCallback != nil {
+		var frontDesk *Desk
+		if front != nil {
+			frontDesk, _ = front.(*Desk)
+		}
+		stage.OnAfterDeskDeleteCallback.OnAfterDelete(stage, desk, frontDesk)
+	}
+}
+
+func (diagram *Diagram) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDiagramCreateCallback != nil {
+		stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, diagram)
+	}
+}
+
+func (diagram *Diagram) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDiagramUpdateCallback != nil {
+		var frontDiagram *Diagram
+		if front != nil {
+			frontDiagram, _ = front.(*Diagram)
+		}
+		stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, diagram, frontDiagram)
+	}
+}
+
+func (diagram *Diagram) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDiagramDeleteCallback != nil {
+		var frontDiagram *Diagram
+		if front != nil {
+			frontDiagram, _ = front.(*Diagram)
+		}
+		stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, diagram, frontDiagram)
+	}
+}
+
+func (influence *Influence) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterInfluenceCreateCallback != nil {
+		stage.OnAfterInfluenceCreateCallback.OnAfterCreate(stage, influence)
+	}
+}
+
+func (influence *Influence) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterInfluenceUpdateCallback != nil {
+		var frontInfluence *Influence
+		if front != nil {
+			frontInfluence, _ = front.(*Influence)
+		}
+		stage.OnAfterInfluenceUpdateCallback.OnAfterUpdate(stage, influence, frontInfluence)
+	}
+}
+
+func (influence *Influence) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterInfluenceDeleteCallback != nil {
+		var frontInfluence *Influence
+		if front != nil {
+			frontInfluence, _ = front.(*Influence)
+		}
+		stage.OnAfterInfluenceDeleteCallback.OnAfterDelete(stage, influence, frontInfluence)
+	}
+}
+
+func (influenceshape *InfluenceShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterInfluenceShapeCreateCallback != nil {
+		stage.OnAfterInfluenceShapeCreateCallback.OnAfterCreate(stage, influenceshape)
+	}
+}
+
+func (influenceshape *InfluenceShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterInfluenceShapeUpdateCallback != nil {
+		var frontInfluenceShape *InfluenceShape
+		if front != nil {
+			frontInfluenceShape, _ = front.(*InfluenceShape)
+		}
+		stage.OnAfterInfluenceShapeUpdateCallback.OnAfterUpdate(stage, influenceshape, frontInfluenceShape)
+	}
+}
+
+func (influenceshape *InfluenceShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterInfluenceShapeDeleteCallback != nil {
+		var frontInfluenceShape *InfluenceShape
+		if front != nil {
+			frontInfluenceShape, _ = front.(*InfluenceShape)
+		}
+		stage.OnAfterInfluenceShapeDeleteCallback.OnAfterDelete(stage, influenceshape, frontInfluenceShape)
+	}
+}
+
+func (library *Library) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLibraryCreateCallback != nil {
+		stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, library)
+	}
+}
+
+func (library *Library) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLibraryUpdateCallback != nil {
+		var frontLibrary *Library
+		if front != nil {
+			frontLibrary, _ = front.(*Library)
+		}
+		stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, library, frontLibrary)
+	}
+}
+
+func (library *Library) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLibraryDeleteCallback != nil {
+		var frontLibrary *Library
+		if front != nil {
+			frontLibrary, _ = front.(*Library)
+		}
+		stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, library, frontLibrary)
+	}
+}
+
+func (movement *Movement) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMovementCreateCallback != nil {
+		stage.OnAfterMovementCreateCallback.OnAfterCreate(stage, movement)
+	}
+}
+
+func (movement *Movement) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMovementUpdateCallback != nil {
+		var frontMovement *Movement
+		if front != nil {
+			frontMovement, _ = front.(*Movement)
+		}
+		stage.OnAfterMovementUpdateCallback.OnAfterUpdate(stage, movement, frontMovement)
+	}
+}
+
+func (movement *Movement) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMovementDeleteCallback != nil {
+		var frontMovement *Movement
+		if front != nil {
+			frontMovement, _ = front.(*Movement)
+		}
+		stage.OnAfterMovementDeleteCallback.OnAfterDelete(stage, movement, frontMovement)
+	}
+}
+
+func (movementshape *MovementShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMovementShapeCreateCallback != nil {
+		stage.OnAfterMovementShapeCreateCallback.OnAfterCreate(stage, movementshape)
+	}
+}
+
+func (movementshape *MovementShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMovementShapeUpdateCallback != nil {
+		var frontMovementShape *MovementShape
+		if front != nil {
+			frontMovementShape, _ = front.(*MovementShape)
+		}
+		stage.OnAfterMovementShapeUpdateCallback.OnAfterUpdate(stage, movementshape, frontMovementShape)
+	}
+}
+
+func (movementshape *MovementShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMovementShapeDeleteCallback != nil {
+		var frontMovementShape *MovementShape
+		if front != nil {
+			frontMovementShape, _ = front.(*MovementShape)
+		}
+		stage.OnAfterMovementShapeDeleteCallback.OnAfterDelete(stage, movementshape, frontMovementShape)
+	}
+}
+
+func (place *Place) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPlaceCreateCallback != nil {
+		stage.OnAfterPlaceCreateCallback.OnAfterCreate(stage, place)
+	}
+}
+
+func (place *Place) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPlaceUpdateCallback != nil {
+		var frontPlace *Place
+		if front != nil {
+			frontPlace, _ = front.(*Place)
+		}
+		stage.OnAfterPlaceUpdateCallback.OnAfterUpdate(stage, place, frontPlace)
+	}
+}
+
+func (place *Place) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPlaceDeleteCallback != nil {
+		var frontPlace *Place
+		if front != nil {
+			frontPlace, _ = front.(*Place)
+		}
+		stage.OnAfterPlaceDeleteCallback.OnAfterDelete(stage, place, frontPlace)
+	}
+}
+

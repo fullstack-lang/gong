@@ -4,46 +4,43 @@ package y
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Y:
-		ok = stage.IsStagedY(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedY(y *Y) (ok bool) {
+func (y *Y) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Ys[y]
 
 	return
 }
 
+func (stage *Stage) IsStagedY(y *Y) (ok bool) {
+
+	return y.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Y:
-		stage.StageBranchY(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (y *Y) GongStageBranch(stage *Stage) {
+	stage.StageBranchY(y)
+}
+
 func (stage *Stage) StageBranchY(y *Y) {
 
 	// check if instance is already staged
@@ -105,19 +102,22 @@ func GongCopyBranchY(mapOrigCopy map[any]any, yFrom *Y) (yTo *Y) {
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Y:
-		stage.UnstageBranchY(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (y *Y) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchY(y)
+}
+
 func (stage *Stage) UnstageBranchY(y *Y) {
 
 	// check if instance is already staged

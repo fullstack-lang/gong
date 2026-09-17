@@ -4,202 +4,187 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *ArtefactType:
-		ok = stage.IsStagedArtefactType(target)
-
-	case *ArtefactTypeShape:
-		ok = stage.IsStagedArtefactTypeShape(target)
-
-	case *Artist:
-		ok = stage.IsStagedArtist(target)
-
-	case *ArtistShape:
-		ok = stage.IsStagedArtistShape(target)
-
-	case *ControlPointShape:
-		ok = stage.IsStagedControlPointShape(target)
-
-	case *Desk:
-		ok = stage.IsStagedDesk(target)
-
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
-
-	case *Influence:
-		ok = stage.IsStagedInfluence(target)
-
-	case *InfluenceShape:
-		ok = stage.IsStagedInfluenceShape(target)
-
-	case *Library:
-		ok = stage.IsStagedLibrary(target)
-
-	case *Movement:
-		ok = stage.IsStagedMovement(target)
-
-	case *MovementShape:
-		ok = stage.IsStagedMovementShape(target)
-
-	case *Place:
-		ok = stage.IsStagedPlace(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedArtefactType(artefacttype *ArtefactType) (ok bool) {
+func (artefacttype *ArtefactType) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ArtefactTypes[artefacttype]
 
 	return
 }
 
-func (stage *Stage) IsStagedArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) (ok bool) {
+func (stage *Stage) IsStagedArtefactType(artefacttype *ArtefactType) (ok bool) {
+
+	return artefacttype.GongIsStaged(stage)
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ArtefactTypeShapes[artefacttypeshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedArtist(artist *Artist) (ok bool) {
+func (stage *Stage) IsStagedArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) (ok bool) {
+
+	return artefacttypeshape.GongIsStaged(stage)
+}
+
+func (artist *Artist) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Artists[artist]
 
 	return
 }
 
-func (stage *Stage) IsStagedArtistShape(artistshape *ArtistShape) (ok bool) {
+func (stage *Stage) IsStagedArtist(artist *Artist) (ok bool) {
+
+	return artist.GongIsStaged(stage)
+}
+
+func (artistshape *ArtistShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ArtistShapes[artistshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
+func (stage *Stage) IsStagedArtistShape(artistshape *ArtistShape) (ok bool) {
+
+	return artistshape.GongIsStaged(stage)
+}
+
+func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ControlPointShapes[controlpointshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedDesk(desk *Desk) (ok bool) {
+func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
+
+	return controlpointshape.GongIsStaged(stage)
+}
+
+func (desk *Desk) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Desks[desk]
 
 	return
 }
 
-func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+func (stage *Stage) IsStagedDesk(desk *Desk) (ok bool) {
+
+	return desk.GongIsStaged(stage)
+}
+
+func (diagram *Diagram) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
 
 	return
 }
 
-func (stage *Stage) IsStagedInfluence(influence *Influence) (ok bool) {
+func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+
+	return diagram.GongIsStaged(stage)
+}
+
+func (influence *Influence) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Influences[influence]
 
 	return
 }
 
-func (stage *Stage) IsStagedInfluenceShape(influenceshape *InfluenceShape) (ok bool) {
+func (stage *Stage) IsStagedInfluence(influence *Influence) (ok bool) {
+
+	return influence.GongIsStaged(stage)
+}
+
+func (influenceshape *InfluenceShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.InfluenceShapes[influenceshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+func (stage *Stage) IsStagedInfluenceShape(influenceshape *InfluenceShape) (ok bool) {
+
+	return influenceshape.GongIsStaged(stage)
+}
+
+func (library *Library) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Librarys[library]
 
 	return
 }
 
-func (stage *Stage) IsStagedMovement(movement *Movement) (ok bool) {
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	return library.GongIsStaged(stage)
+}
+
+func (movement *Movement) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Movements[movement]
 
 	return
 }
 
-func (stage *Stage) IsStagedMovementShape(movementshape *MovementShape) (ok bool) {
+func (stage *Stage) IsStagedMovement(movement *Movement) (ok bool) {
+
+	return movement.GongIsStaged(stage)
+}
+
+func (movementshape *MovementShape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MovementShapes[movementshape]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlace(place *Place) (ok bool) {
+func (stage *Stage) IsStagedMovementShape(movementshape *MovementShape) (ok bool) {
+
+	return movementshape.GongIsStaged(stage)
+}
+
+func (place *Place) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Places[place]
 
 	return
 }
 
+func (stage *Stage) IsStagedPlace(place *Place) (ok bool) {
+
+	return place.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *ArtefactType:
-		stage.StageBranchArtefactType(target)
-
-	case *ArtefactTypeShape:
-		stage.StageBranchArtefactTypeShape(target)
-
-	case *Artist:
-		stage.StageBranchArtist(target)
-
-	case *ArtistShape:
-		stage.StageBranchArtistShape(target)
-
-	case *ControlPointShape:
-		stage.StageBranchControlPointShape(target)
-
-	case *Desk:
-		stage.StageBranchDesk(target)
-
-	case *Diagram:
-		stage.StageBranchDiagram(target)
-
-	case *Influence:
-		stage.StageBranchInfluence(target)
-
-	case *InfluenceShape:
-		stage.StageBranchInfluenceShape(target)
-
-	case *Library:
-		stage.StageBranchLibrary(target)
-
-	case *Movement:
-		stage.StageBranchMovement(target)
-
-	case *MovementShape:
-		stage.StageBranchMovementShape(target)
-
-	case *Place:
-		stage.StageBranchPlace(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (artefacttype *ArtefactType) GongStageBranch(stage *Stage) {
+	stage.StageBranchArtefactType(artefacttype)
+}
+
 func (stage *Stage) StageBranchArtefactType(artefacttype *ArtefactType) {
 
 	// check if instance is already staged
@@ -213,6 +198,10 @@ func (stage *Stage) StageBranchArtefactType(artefacttype *ArtefactType) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchArtefactTypeShape(artefacttypeshape)
 }
 
 func (stage *Stage) StageBranchArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) {
@@ -233,6 +222,10 @@ func (stage *Stage) StageBranchArtefactTypeShape(artefacttypeshape *ArtefactType
 
 }
 
+func (artist *Artist) GongStageBranch(stage *Stage) {
+	stage.StageBranchArtist(artist)
+}
+
 func (stage *Stage) StageBranchArtist(artist *Artist) {
 
 	// check if instance is already staged
@@ -249,6 +242,10 @@ func (stage *Stage) StageBranchArtist(artist *Artist) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (artistshape *ArtistShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchArtistShape(artistshape)
 }
 
 func (stage *Stage) StageBranchArtistShape(artistshape *ArtistShape) {
@@ -269,6 +266,10 @@ func (stage *Stage) StageBranchArtistShape(artistshape *ArtistShape) {
 
 }
 
+func (controlpointshape *ControlPointShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchControlPointShape(controlpointshape)
+}
+
 func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
@@ -282,6 +283,10 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (desk *Desk) GongStageBranch(stage *Stage) {
+	stage.StageBranchDesk(desk)
 }
 
 func (stage *Stage) StageBranchDesk(desk *Desk) {
@@ -300,6 +305,10 @@ func (stage *Stage) StageBranchDesk(desk *Desk) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagram *Diagram) GongStageBranch(stage *Stage) {
+	stage.StageBranchDiagram(diagram)
 }
 
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
@@ -327,6 +336,10 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 		stage.StageBranch(_influenceshape)
 	}
 
+}
+
+func (influence *Influence) GongStageBranch(stage *Stage) {
+	stage.StageBranchInfluence(influence)
 }
 
 func (stage *Stage) StageBranchInfluence(influence *Influence) {
@@ -362,6 +375,10 @@ func (stage *Stage) StageBranchInfluence(influence *Influence) {
 
 }
 
+func (influenceshape *InfluenceShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchInfluenceShape(influenceshape)
+}
+
 func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
 
 	// check if instance is already staged
@@ -381,6 +398,10 @@ func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
 		stage.StageBranch(_controlpointshape)
 	}
 
+}
+
+func (library *Library) GongStageBranch(stage *Stage) {
+	stage.StageBranchLibrary(library)
 }
 
 func (stage *Stage) StageBranchLibrary(library *Library) {
@@ -404,6 +425,10 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (movement *Movement) GongStageBranch(stage *Stage) {
+	stage.StageBranchMovement(movement)
+}
+
 func (stage *Stage) StageBranchMovement(movement *Movement) {
 
 	// check if instance is already staged
@@ -422,6 +447,10 @@ func (stage *Stage) StageBranchMovement(movement *Movement) {
 
 }
 
+func (movementshape *MovementShape) GongStageBranch(stage *Stage) {
+	stage.StageBranchMovementShape(movementshape)
+}
+
 func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
 
 	// check if instance is already staged
@@ -438,6 +467,10 @@ func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (place *Place) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlace(place)
 }
 
 func (stage *Stage) StageBranchPlace(place *Place) {
@@ -837,55 +870,22 @@ func GongCopyBranchPlace(mapOrigCopy map[any]any, placeFrom *Place) (placeTo *Pl
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *ArtefactType:
-		stage.UnstageBranchArtefactType(target)
-
-	case *ArtefactTypeShape:
-		stage.UnstageBranchArtefactTypeShape(target)
-
-	case *Artist:
-		stage.UnstageBranchArtist(target)
-
-	case *ArtistShape:
-		stage.UnstageBranchArtistShape(target)
-
-	case *ControlPointShape:
-		stage.UnstageBranchControlPointShape(target)
-
-	case *Desk:
-		stage.UnstageBranchDesk(target)
-
-	case *Diagram:
-		stage.UnstageBranchDiagram(target)
-
-	case *Influence:
-		stage.UnstageBranchInfluence(target)
-
-	case *InfluenceShape:
-		stage.UnstageBranchInfluenceShape(target)
-
-	case *Library:
-		stage.UnstageBranchLibrary(target)
-
-	case *Movement:
-		stage.UnstageBranchMovement(target)
-
-	case *MovementShape:
-		stage.UnstageBranchMovementShape(target)
-
-	case *Place:
-		stage.UnstageBranchPlace(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (artefacttype *ArtefactType) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArtefactType(artefacttype)
+}
+
 func (stage *Stage) UnstageBranchArtefactType(artefacttype *ArtefactType) {
 
 	// check if instance is already staged
@@ -899,6 +899,10 @@ func (stage *Stage) UnstageBranchArtefactType(artefacttype *ArtefactType) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArtefactTypeShape(artefacttypeshape)
 }
 
 func (stage *Stage) UnstageBranchArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) {
@@ -919,6 +923,10 @@ func (stage *Stage) UnstageBranchArtefactTypeShape(artefacttypeshape *ArtefactTy
 
 }
 
+func (artist *Artist) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArtist(artist)
+}
+
 func (stage *Stage) UnstageBranchArtist(artist *Artist) {
 
 	// check if instance is already staged
@@ -935,6 +943,10 @@ func (stage *Stage) UnstageBranchArtist(artist *Artist) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (artistshape *ArtistShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchArtistShape(artistshape)
 }
 
 func (stage *Stage) UnstageBranchArtistShape(artistshape *ArtistShape) {
@@ -955,6 +967,10 @@ func (stage *Stage) UnstageBranchArtistShape(artistshape *ArtistShape) {
 
 }
 
+func (controlpointshape *ControlPointShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchControlPointShape(controlpointshape)
+}
+
 func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
 
 	// check if instance is already staged
@@ -968,6 +984,10 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (desk *Desk) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDesk(desk)
 }
 
 func (stage *Stage) UnstageBranchDesk(desk *Desk) {
@@ -986,6 +1006,10 @@ func (stage *Stage) UnstageBranchDesk(desk *Desk) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDiagram(diagram)
 }
 
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
@@ -1013,6 +1037,10 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 		stage.UnstageBranch(_influenceshape)
 	}
 
+}
+
+func (influence *Influence) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInfluence(influence)
 }
 
 func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
@@ -1048,6 +1076,10 @@ func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
 
 }
 
+func (influenceshape *InfluenceShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchInfluenceShape(influenceshape)
+}
+
 func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) {
 
 	// check if instance is already staged
@@ -1067,6 +1099,10 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 		stage.UnstageBranch(_controlpointshape)
 	}
 
+}
+
+func (library *Library) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchLibrary(library)
 }
 
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
@@ -1090,6 +1126,10 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (movement *Movement) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMovement(movement)
+}
+
 func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 
 	// check if instance is already staged
@@ -1108,6 +1148,10 @@ func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 
 }
 
+func (movementshape *MovementShape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMovementShape(movementshape)
+}
+
 func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
 
 	// check if instance is already staged
@@ -1124,6 +1168,10 @@ func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (place *Place) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlace(place)
 }
 
 func (stage *Stage) UnstageBranchPlace(place *Place) {

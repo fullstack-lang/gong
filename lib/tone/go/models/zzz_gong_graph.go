@@ -4,72 +4,67 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *Freqency:
-		ok = stage.IsStagedFreqency(target)
-
-	case *Note:
-		ok = stage.IsStagedNote(target)
-
-	case *Player:
-		ok = stage.IsStagedPlayer(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedFreqency(freqency *Freqency) (ok bool) {
+func (freqency *Freqency) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Freqencys[freqency]
 
 	return
 }
 
-func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+func (stage *Stage) IsStagedFreqency(freqency *Freqency) (ok bool) {
+
+	return freqency.GongIsStaged(stage)
+}
+
+func (note *Note) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Notes[note]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlayer(player *Player) (ok bool) {
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	return note.GongIsStaged(stage)
+}
+
+func (player *Player) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Players[player]
 
 	return
 }
 
+func (stage *Stage) IsStagedPlayer(player *Player) (ok bool) {
+
+	return player.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *Freqency:
-		stage.StageBranchFreqency(target)
-
-	case *Note:
-		stage.StageBranchNote(target)
-
-	case *Player:
-		stage.StageBranchPlayer(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (freqency *Freqency) GongStageBranch(stage *Stage) {
+	stage.StageBranchFreqency(freqency)
+}
+
 func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
@@ -83,6 +78,10 @@ func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (note *Note) GongStageBranch(stage *Stage) {
+	stage.StageBranchNote(note)
 }
 
 func (stage *Stage) StageBranchNote(note *Note) {
@@ -101,6 +100,10 @@ func (stage *Stage) StageBranchNote(note *Note) {
 		stage.StageBranch(_freqency)
 	}
 
+}
+
+func (player *Player) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlayer(player)
 }
 
 func (stage *Stage) StageBranchPlayer(player *Player) {
@@ -213,25 +216,22 @@ func GongCopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *Freqency:
-		stage.UnstageBranchFreqency(target)
-
-	case *Note:
-		stage.UnstageBranchNote(target)
-
-	case *Player:
-		stage.UnstageBranchPlayer(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (freqency *Freqency) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchFreqency(freqency)
+}
+
 func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
@@ -245,6 +245,10 @@ func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (note *Note) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchNote(note)
 }
 
 func (stage *Stage) UnstageBranchNote(note *Note) {
@@ -263,6 +267,10 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 		stage.UnstageBranch(_freqency)
 	}
 
+}
+
+func (player *Player) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlayer(player)
 }
 
 func (stage *Stage) UnstageBranchPlayer(player *Player) {

@@ -4,293 +4,271 @@ package models
 import "fmt"
 
 // IsStaged is the Stage method checking if a gongstruct instance is staged.
-func (stage *Stage) IsStaged[Type PointerToGongstruct](instance Type) (ok bool) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage
-	case *AmbiantLight:
-		ok = stage.IsStagedAmbiantLight(target)
-
-	case *BoxGeometry:
-		ok = stage.IsStagedBoxGeometry(target)
-
-	case *BufferGeometry:
-		ok = stage.IsStagedBufferGeometry(target)
-
-	case *Camera:
-		ok = stage.IsStagedCamera(target)
-
-	case *Canvas:
-		ok = stage.IsStagedCanvas(target)
-
-	case *Curve:
-		ok = stage.IsStagedCurve(target)
-
-	case *CylinderGeometry:
-		ok = stage.IsStagedCylinderGeometry(target)
-
-	case *DirectionalLight:
-		ok = stage.IsStagedDirectionalLight(target)
-
-	case *ExtrudeGeometry:
-		ok = stage.IsStagedExtrudeGeometry(target)
-
-	case *Mesh:
-		ok = stage.IsStagedMesh(target)
-
-	case *MeshMaterialBasic:
-		ok = stage.IsStagedMeshMaterialBasic(target)
-
-	case *MeshPhysicalMaterial:
-		ok = stage.IsStagedMeshPhysicalMaterial(target)
-
-	case *PlaneGeometry:
-		ok = stage.IsStagedPlaneGeometry(target)
-
-	case *Shape:
-		ok = stage.IsStagedShape(target)
-
-	case *SphereGeometry:
-		ok = stage.IsStagedSphereGeometry(target)
-
-	case *TorusGeometry:
-		ok = stage.IsStagedTorusGeometry(target)
-
-	case *Triangle:
-		ok = stage.IsStagedTriangle(target)
-
-	case *TubeGeometry:
-		ok = stage.IsStagedTubeGeometry(target)
-
-	case *Vector2:
-		ok = stage.IsStagedVector2(target)
-
-	case *Vector3:
-		ok = stage.IsStagedVector3(target)
-
-	default:
-		_ = target
+func (stage *Stage) IsStaged(instance GongstructIF) (ok bool) {
+	if instance != nil {
+		return instance.GongIsStaged(stage)
 	}
-	return
+	return false
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedAmbiantLight(ambiantlight *AmbiantLight) (ok bool) {
+func (ambiantlight *AmbiantLight) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.AmbiantLights[ambiantlight]
 
 	return
 }
 
-func (stage *Stage) IsStagedBoxGeometry(boxgeometry *BoxGeometry) (ok bool) {
+func (stage *Stage) IsStagedAmbiantLight(ambiantlight *AmbiantLight) (ok bool) {
+
+	return ambiantlight.GongIsStaged(stage)
+}
+
+func (boxgeometry *BoxGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.BoxGeometrys[boxgeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedBufferGeometry(buffergeometry *BufferGeometry) (ok bool) {
+func (stage *Stage) IsStagedBoxGeometry(boxgeometry *BoxGeometry) (ok bool) {
+
+	return boxgeometry.GongIsStaged(stage)
+}
+
+func (buffergeometry *BufferGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.BufferGeometrys[buffergeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedCamera(camera *Camera) (ok bool) {
+func (stage *Stage) IsStagedBufferGeometry(buffergeometry *BufferGeometry) (ok bool) {
+
+	return buffergeometry.GongIsStaged(stage)
+}
+
+func (camera *Camera) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Cameras[camera]
 
 	return
 }
 
-func (stage *Stage) IsStagedCanvas(canvas *Canvas) (ok bool) {
+func (stage *Stage) IsStagedCamera(camera *Camera) (ok bool) {
+
+	return camera.GongIsStaged(stage)
+}
+
+func (canvas *Canvas) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Canvass[canvas]
 
 	return
 }
 
-func (stage *Stage) IsStagedCurve(curve *Curve) (ok bool) {
+func (stage *Stage) IsStagedCanvas(canvas *Canvas) (ok bool) {
+
+	return canvas.GongIsStaged(stage)
+}
+
+func (curve *Curve) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Curves[curve]
 
 	return
 }
 
-func (stage *Stage) IsStagedCylinderGeometry(cylindergeometry *CylinderGeometry) (ok bool) {
+func (stage *Stage) IsStagedCurve(curve *Curve) (ok bool) {
+
+	return curve.GongIsStaged(stage)
+}
+
+func (cylindergeometry *CylinderGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.CylinderGeometrys[cylindergeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedDirectionalLight(directionallight *DirectionalLight) (ok bool) {
+func (stage *Stage) IsStagedCylinderGeometry(cylindergeometry *CylinderGeometry) (ok bool) {
+
+	return cylindergeometry.GongIsStaged(stage)
+}
+
+func (directionallight *DirectionalLight) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.DirectionalLights[directionallight]
 
 	return
 }
 
-func (stage *Stage) IsStagedExtrudeGeometry(extrudegeometry *ExtrudeGeometry) (ok bool) {
+func (stage *Stage) IsStagedDirectionalLight(directionallight *DirectionalLight) (ok bool) {
+
+	return directionallight.GongIsStaged(stage)
+}
+
+func (extrudegeometry *ExtrudeGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.ExtrudeGeometrys[extrudegeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedMesh(mesh *Mesh) (ok bool) {
+func (stage *Stage) IsStagedExtrudeGeometry(extrudegeometry *ExtrudeGeometry) (ok bool) {
+
+	return extrudegeometry.GongIsStaged(stage)
+}
+
+func (mesh *Mesh) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Meshs[mesh]
 
 	return
 }
 
-func (stage *Stage) IsStagedMeshMaterialBasic(meshmaterialbasic *MeshMaterialBasic) (ok bool) {
+func (stage *Stage) IsStagedMesh(mesh *Mesh) (ok bool) {
+
+	return mesh.GongIsStaged(stage)
+}
+
+func (meshmaterialbasic *MeshMaterialBasic) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MeshMaterialBasics[meshmaterialbasic]
 
 	return
 }
 
-func (stage *Stage) IsStagedMeshPhysicalMaterial(meshphysicalmaterial *MeshPhysicalMaterial) (ok bool) {
+func (stage *Stage) IsStagedMeshMaterialBasic(meshmaterialbasic *MeshMaterialBasic) (ok bool) {
+
+	return meshmaterialbasic.GongIsStaged(stage)
+}
+
+func (meshphysicalmaterial *MeshPhysicalMaterial) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.MeshPhysicalMaterials[meshphysicalmaterial]
 
 	return
 }
 
-func (stage *Stage) IsStagedPlaneGeometry(planegeometry *PlaneGeometry) (ok bool) {
+func (stage *Stage) IsStagedMeshPhysicalMaterial(meshphysicalmaterial *MeshPhysicalMaterial) (ok bool) {
+
+	return meshphysicalmaterial.GongIsStaged(stage)
+}
+
+func (planegeometry *PlaneGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.PlaneGeometrys[planegeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedShape(shape *Shape) (ok bool) {
+func (stage *Stage) IsStagedPlaneGeometry(planegeometry *PlaneGeometry) (ok bool) {
+
+	return planegeometry.GongIsStaged(stage)
+}
+
+func (shape *Shape) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Shapes[shape]
 
 	return
 }
 
-func (stage *Stage) IsStagedSphereGeometry(spheregeometry *SphereGeometry) (ok bool) {
+func (stage *Stage) IsStagedShape(shape *Shape) (ok bool) {
+
+	return shape.GongIsStaged(stage)
+}
+
+func (spheregeometry *SphereGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.SphereGeometrys[spheregeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedTorusGeometry(torusgeometry *TorusGeometry) (ok bool) {
+func (stage *Stage) IsStagedSphereGeometry(spheregeometry *SphereGeometry) (ok bool) {
+
+	return spheregeometry.GongIsStaged(stage)
+}
+
+func (torusgeometry *TorusGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TorusGeometrys[torusgeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedTriangle(triangle *Triangle) (ok bool) {
+func (stage *Stage) IsStagedTorusGeometry(torusgeometry *TorusGeometry) (ok bool) {
+
+	return torusgeometry.GongIsStaged(stage)
+}
+
+func (triangle *Triangle) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Triangles[triangle]
 
 	return
 }
 
-func (stage *Stage) IsStagedTubeGeometry(tubegeometry *TubeGeometry) (ok bool) {
+func (stage *Stage) IsStagedTriangle(triangle *Triangle) (ok bool) {
+
+	return triangle.GongIsStaged(stage)
+}
+
+func (tubegeometry *TubeGeometry) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.TubeGeometrys[tubegeometry]
 
 	return
 }
 
-func (stage *Stage) IsStagedVector2(vector2 *Vector2) (ok bool) {
+func (stage *Stage) IsStagedTubeGeometry(tubegeometry *TubeGeometry) (ok bool) {
+
+	return tubegeometry.GongIsStaged(stage)
+}
+
+func (vector2 *Vector2) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Vector2s[vector2]
 
 	return
 }
 
-func (stage *Stage) IsStagedVector3(vector3 *Vector3) (ok bool) {
+func (stage *Stage) IsStagedVector2(vector2 *Vector2) (ok bool) {
+
+	return vector2.GongIsStaged(stage)
+}
+
+func (vector3 *Vector3) GongIsStaged(stage *Stage) (ok bool) {
 
 	_, ok = stage.Vector3s[vector3]
 
 	return
 }
 
+func (stage *Stage) IsStagedVector3(vector3 *Vector3) (ok bool) {
+
+	return vector3.GongIsStaged(stage)
+}
+
 // StageBranch is the Stage method that stages instance and applies StageBranch recursively.
-func (stage *Stage) StageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for stage branch
-	case *AmbiantLight:
-		stage.StageBranchAmbiantLight(target)
-
-	case *BoxGeometry:
-		stage.StageBranchBoxGeometry(target)
-
-	case *BufferGeometry:
-		stage.StageBranchBufferGeometry(target)
-
-	case *Camera:
-		stage.StageBranchCamera(target)
-
-	case *Canvas:
-		stage.StageBranchCanvas(target)
-
-	case *Curve:
-		stage.StageBranchCurve(target)
-
-	case *CylinderGeometry:
-		stage.StageBranchCylinderGeometry(target)
-
-	case *DirectionalLight:
-		stage.StageBranchDirectionalLight(target)
-
-	case *ExtrudeGeometry:
-		stage.StageBranchExtrudeGeometry(target)
-
-	case *Mesh:
-		stage.StageBranchMesh(target)
-
-	case *MeshMaterialBasic:
-		stage.StageBranchMeshMaterialBasic(target)
-
-	case *MeshPhysicalMaterial:
-		stage.StageBranchMeshPhysicalMaterial(target)
-
-	case *PlaneGeometry:
-		stage.StageBranchPlaneGeometry(target)
-
-	case *Shape:
-		stage.StageBranchShape(target)
-
-	case *SphereGeometry:
-		stage.StageBranchSphereGeometry(target)
-
-	case *TorusGeometry:
-		stage.StageBranchTorusGeometry(target)
-
-	case *Triangle:
-		stage.StageBranchTriangle(target)
-
-	case *TubeGeometry:
-		stage.StageBranchTubeGeometry(target)
-
-	case *Vector2:
-		stage.StageBranchVector2(target)
-
-	case *Vector3:
-		stage.StageBranchVector3(target)
-
-	default:
-		_ = target
+func (stage *Stage) StageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongStageBranch(stage)
 	}
 }
 
 // StageBranch is a backward-compatible package-level forwarder.
-func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+func StageBranch(stage *Stage, instance GongstructIF) {
 	stage.StageBranch(instance)
 }
 
 // insertion point for stage branch per struct
+func (ambiantlight *AmbiantLight) GongStageBranch(stage *Stage) {
+	stage.StageBranchAmbiantLight(ambiantlight)
+}
+
 func (stage *Stage) StageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 
 	// check if instance is already staged
@@ -306,6 +284,10 @@ func (stage *Stage) StageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 
 }
 
+func (boxgeometry *BoxGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchBoxGeometry(boxgeometry)
+}
+
 func (stage *Stage) StageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 	// check if instance is already staged
@@ -319,6 +301,10 @@ func (stage *Stage) StageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (buffergeometry *BufferGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchBufferGeometry(buffergeometry)
 }
 
 func (stage *Stage) StageBranchBufferGeometry(buffergeometry *BufferGeometry) {
@@ -342,6 +328,10 @@ func (stage *Stage) StageBranchBufferGeometry(buffergeometry *BufferGeometry) {
 
 }
 
+func (camera *Camera) GongStageBranch(stage *Stage) {
+	stage.StageBranchCamera(camera)
+}
+
 func (stage *Stage) StageBranchCamera(camera *Camera) {
 
 	// check if instance is already staged
@@ -355,6 +345,10 @@ func (stage *Stage) StageBranchCamera(camera *Camera) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (canvas *Canvas) GongStageBranch(stage *Stage) {
+	stage.StageBranchCanvas(canvas)
 }
 
 func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
@@ -384,6 +378,10 @@ func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
 
 }
 
+func (curve *Curve) GongStageBranch(stage *Stage) {
+	stage.StageBranchCurve(curve)
+}
+
 func (stage *Stage) StageBranchCurve(curve *Curve) {
 
 	// check if instance is already staged
@@ -402,6 +400,10 @@ func (stage *Stage) StageBranchCurve(curve *Curve) {
 
 }
 
+func (cylindergeometry *CylinderGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchCylinderGeometry(cylindergeometry)
+}
+
 func (stage *Stage) StageBranchCylinderGeometry(cylindergeometry *CylinderGeometry) {
 
 	// check if instance is already staged
@@ -417,6 +419,10 @@ func (stage *Stage) StageBranchCylinderGeometry(cylindergeometry *CylinderGeomet
 
 }
 
+func (directionallight *DirectionalLight) GongStageBranch(stage *Stage) {
+	stage.StageBranchDirectionalLight(directionallight)
+}
+
 func (stage *Stage) StageBranchDirectionalLight(directionallight *DirectionalLight) {
 
 	// check if instance is already staged
@@ -430,6 +436,10 @@ func (stage *Stage) StageBranchDirectionalLight(directionallight *DirectionalLig
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (extrudegeometry *ExtrudeGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchExtrudeGeometry(extrudegeometry)
 }
 
 func (stage *Stage) StageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry) {
@@ -451,6 +461,10 @@ func (stage *Stage) StageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry)
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mesh *Mesh) GongStageBranch(stage *Stage) {
+	stage.StageBranchMesh(mesh)
 }
 
 func (stage *Stage) StageBranchMesh(mesh *Mesh) {
@@ -498,6 +512,10 @@ func (stage *Stage) StageBranchMesh(mesh *Mesh) {
 
 }
 
+func (meshmaterialbasic *MeshMaterialBasic) GongStageBranch(stage *Stage) {
+	stage.StageBranchMeshMaterialBasic(meshmaterialbasic)
+}
+
 func (stage *Stage) StageBranchMeshMaterialBasic(meshmaterialbasic *MeshMaterialBasic) {
 
 	// check if instance is already staged
@@ -511,6 +529,10 @@ func (stage *Stage) StageBranchMeshMaterialBasic(meshmaterialbasic *MeshMaterial
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (meshphysicalmaterial *MeshPhysicalMaterial) GongStageBranch(stage *Stage) {
+	stage.StageBranchMeshPhysicalMaterial(meshphysicalmaterial)
 }
 
 func (stage *Stage) StageBranchMeshPhysicalMaterial(meshphysicalmaterial *MeshPhysicalMaterial) {
@@ -528,6 +550,10 @@ func (stage *Stage) StageBranchMeshPhysicalMaterial(meshphysicalmaterial *MeshPh
 
 }
 
+func (planegeometry *PlaneGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchPlaneGeometry(planegeometry)
+}
+
 func (stage *Stage) StageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 
 	// check if instance is already staged
@@ -541,6 +567,10 @@ func (stage *Stage) StageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shape *Shape) GongStageBranch(stage *Stage) {
+	stage.StageBranchShape(shape)
 }
 
 func (stage *Stage) StageBranchShape(shape *Shape) {
@@ -561,6 +591,10 @@ func (stage *Stage) StageBranchShape(shape *Shape) {
 
 }
 
+func (spheregeometry *SphereGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchSphereGeometry(spheregeometry)
+}
+
 func (stage *Stage) StageBranchSphereGeometry(spheregeometry *SphereGeometry) {
 
 	// check if instance is already staged
@@ -574,6 +608,10 @@ func (stage *Stage) StageBranchSphereGeometry(spheregeometry *SphereGeometry) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (torusgeometry *TorusGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchTorusGeometry(torusgeometry)
 }
 
 func (stage *Stage) StageBranchTorusGeometry(torusgeometry *TorusGeometry) {
@@ -591,6 +629,10 @@ func (stage *Stage) StageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 
 }
 
+func (triangle *Triangle) GongStageBranch(stage *Stage) {
+	stage.StageBranchTriangle(triangle)
+}
+
 func (stage *Stage) StageBranchTriangle(triangle *Triangle) {
 
 	// check if instance is already staged
@@ -604,6 +646,10 @@ func (stage *Stage) StageBranchTriangle(triangle *Triangle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tubegeometry *TubeGeometry) GongStageBranch(stage *Stage) {
+	stage.StageBranchTubeGeometry(tubegeometry)
 }
 
 func (stage *Stage) StageBranchTubeGeometry(tubegeometry *TubeGeometry) {
@@ -624,6 +670,10 @@ func (stage *Stage) StageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 }
 
+func (vector2 *Vector2) GongStageBranch(stage *Stage) {
+	stage.StageBranchVector2(vector2)
+}
+
 func (stage *Stage) StageBranchVector2(vector2 *Vector2) {
 
 	// check if instance is already staged
@@ -637,6 +687,10 @@ func (stage *Stage) StageBranchVector2(vector2 *Vector2) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (vector3 *Vector3) GongStageBranch(stage *Stage) {
+	stage.StageBranchVector3(vector3)
 }
 
 func (stage *Stage) StageBranchVector3(vector3 *Vector3) {
@@ -1200,76 +1254,22 @@ func GongCopyBranchVector3(mapOrigCopy map[any]any, vector3From *Vector3) (vecto
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 // UnstageBranch is the Stage method that unstages instance and applies UnstageBranch recursively.
-func (stage *Stage) UnstageBranch[Type Gongstruct](instance *Type) {
-
-	switch target := any(instance).(type) {
-	// insertion point for unstage branch
-	case *AmbiantLight:
-		stage.UnstageBranchAmbiantLight(target)
-
-	case *BoxGeometry:
-		stage.UnstageBranchBoxGeometry(target)
-
-	case *BufferGeometry:
-		stage.UnstageBranchBufferGeometry(target)
-
-	case *Camera:
-		stage.UnstageBranchCamera(target)
-
-	case *Canvas:
-		stage.UnstageBranchCanvas(target)
-
-	case *Curve:
-		stage.UnstageBranchCurve(target)
-
-	case *CylinderGeometry:
-		stage.UnstageBranchCylinderGeometry(target)
-
-	case *DirectionalLight:
-		stage.UnstageBranchDirectionalLight(target)
-
-	case *ExtrudeGeometry:
-		stage.UnstageBranchExtrudeGeometry(target)
-
-	case *Mesh:
-		stage.UnstageBranchMesh(target)
-
-	case *MeshMaterialBasic:
-		stage.UnstageBranchMeshMaterialBasic(target)
-
-	case *MeshPhysicalMaterial:
-		stage.UnstageBranchMeshPhysicalMaterial(target)
-
-	case *PlaneGeometry:
-		stage.UnstageBranchPlaneGeometry(target)
-
-	case *Shape:
-		stage.UnstageBranchShape(target)
-
-	case *SphereGeometry:
-		stage.UnstageBranchSphereGeometry(target)
-
-	case *TorusGeometry:
-		stage.UnstageBranchTorusGeometry(target)
-
-	case *Triangle:
-		stage.UnstageBranchTriangle(target)
-
-	case *TubeGeometry:
-		stage.UnstageBranchTubeGeometry(target)
-
-	case *Vector2:
-		stage.UnstageBranchVector2(target)
-
-	case *Vector3:
-		stage.UnstageBranchVector3(target)
-
-	default:
-		_ = target
+func (stage *Stage) UnstageBranch(instance GongstructIF) {
+	if instance != nil {
+		instance.GongUnstageBranch(stage)
 	}
 }
 
+// UnstageBranch is a backward-compatible package-level forwarder.
+func UnstageBranch(stage *Stage, instance GongstructIF) {
+	stage.UnstageBranch(instance)
+}
+
 // insertion point for unstage branch per struct
+func (ambiantlight *AmbiantLight) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchAmbiantLight(ambiantlight)
+}
+
 func (stage *Stage) UnstageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 
 	// check if instance is already staged
@@ -1285,6 +1285,10 @@ func (stage *Stage) UnstageBranchAmbiantLight(ambiantlight *AmbiantLight) {
 
 }
 
+func (boxgeometry *BoxGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBoxGeometry(boxgeometry)
+}
+
 func (stage *Stage) UnstageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 	// check if instance is already staged
@@ -1298,6 +1302,10 @@ func (stage *Stage) UnstageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (buffergeometry *BufferGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchBufferGeometry(buffergeometry)
 }
 
 func (stage *Stage) UnstageBranchBufferGeometry(buffergeometry *BufferGeometry) {
@@ -1321,6 +1329,10 @@ func (stage *Stage) UnstageBranchBufferGeometry(buffergeometry *BufferGeometry) 
 
 }
 
+func (camera *Camera) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCamera(camera)
+}
+
 func (stage *Stage) UnstageBranchCamera(camera *Camera) {
 
 	// check if instance is already staged
@@ -1334,6 +1346,10 @@ func (stage *Stage) UnstageBranchCamera(camera *Camera) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (canvas *Canvas) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCanvas(canvas)
 }
 
 func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
@@ -1363,6 +1379,10 @@ func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
 
 }
 
+func (curve *Curve) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCurve(curve)
+}
+
 func (stage *Stage) UnstageBranchCurve(curve *Curve) {
 
 	// check if instance is already staged
@@ -1381,6 +1401,10 @@ func (stage *Stage) UnstageBranchCurve(curve *Curve) {
 
 }
 
+func (cylindergeometry *CylinderGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchCylinderGeometry(cylindergeometry)
+}
+
 func (stage *Stage) UnstageBranchCylinderGeometry(cylindergeometry *CylinderGeometry) {
 
 	// check if instance is already staged
@@ -1396,6 +1420,10 @@ func (stage *Stage) UnstageBranchCylinderGeometry(cylindergeometry *CylinderGeom
 
 }
 
+func (directionallight *DirectionalLight) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchDirectionalLight(directionallight)
+}
+
 func (stage *Stage) UnstageBranchDirectionalLight(directionallight *DirectionalLight) {
 
 	// check if instance is already staged
@@ -1409,6 +1437,10 @@ func (stage *Stage) UnstageBranchDirectionalLight(directionallight *DirectionalL
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (extrudegeometry *ExtrudeGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchExtrudeGeometry(extrudegeometry)
 }
 
 func (stage *Stage) UnstageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometry) {
@@ -1430,6 +1462,10 @@ func (stage *Stage) UnstageBranchExtrudeGeometry(extrudegeometry *ExtrudeGeometr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (mesh *Mesh) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMesh(mesh)
 }
 
 func (stage *Stage) UnstageBranchMesh(mesh *Mesh) {
@@ -1477,6 +1513,10 @@ func (stage *Stage) UnstageBranchMesh(mesh *Mesh) {
 
 }
 
+func (meshmaterialbasic *MeshMaterialBasic) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMeshMaterialBasic(meshmaterialbasic)
+}
+
 func (stage *Stage) UnstageBranchMeshMaterialBasic(meshmaterialbasic *MeshMaterialBasic) {
 
 	// check if instance is already staged
@@ -1490,6 +1530,10 @@ func (stage *Stage) UnstageBranchMeshMaterialBasic(meshmaterialbasic *MeshMateri
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (meshphysicalmaterial *MeshPhysicalMaterial) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchMeshPhysicalMaterial(meshphysicalmaterial)
 }
 
 func (stage *Stage) UnstageBranchMeshPhysicalMaterial(meshphysicalmaterial *MeshPhysicalMaterial) {
@@ -1507,6 +1551,10 @@ func (stage *Stage) UnstageBranchMeshPhysicalMaterial(meshphysicalmaterial *Mesh
 
 }
 
+func (planegeometry *PlaneGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchPlaneGeometry(planegeometry)
+}
+
 func (stage *Stage) UnstageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 
 	// check if instance is already staged
@@ -1520,6 +1568,10 @@ func (stage *Stage) UnstageBranchPlaneGeometry(planegeometry *PlaneGeometry) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (shape *Shape) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchShape(shape)
 }
 
 func (stage *Stage) UnstageBranchShape(shape *Shape) {
@@ -1540,6 +1592,10 @@ func (stage *Stage) UnstageBranchShape(shape *Shape) {
 
 }
 
+func (spheregeometry *SphereGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchSphereGeometry(spheregeometry)
+}
+
 func (stage *Stage) UnstageBranchSphereGeometry(spheregeometry *SphereGeometry) {
 
 	// check if instance is already staged
@@ -1553,6 +1609,10 @@ func (stage *Stage) UnstageBranchSphereGeometry(spheregeometry *SphereGeometry) 
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (torusgeometry *TorusGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTorusGeometry(torusgeometry)
 }
 
 func (stage *Stage) UnstageBranchTorusGeometry(torusgeometry *TorusGeometry) {
@@ -1570,6 +1630,10 @@ func (stage *Stage) UnstageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 
 }
 
+func (triangle *Triangle) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTriangle(triangle)
+}
+
 func (stage *Stage) UnstageBranchTriangle(triangle *Triangle) {
 
 	// check if instance is already staged
@@ -1583,6 +1647,10 @@ func (stage *Stage) UnstageBranchTriangle(triangle *Triangle) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (tubegeometry *TubeGeometry) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchTubeGeometry(tubegeometry)
 }
 
 func (stage *Stage) UnstageBranchTubeGeometry(tubegeometry *TubeGeometry) {
@@ -1603,6 +1671,10 @@ func (stage *Stage) UnstageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 }
 
+func (vector2 *Vector2) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchVector2(vector2)
+}
+
 func (stage *Stage) UnstageBranchVector2(vector2 *Vector2) {
 
 	// check if instance is already staged
@@ -1616,6 +1688,10 @@ func (stage *Stage) UnstageBranchVector2(vector2 *Vector2) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+func (vector3 *Vector3) GongUnstageBranch(stage *Stage) {
+	stage.UnstageBranchVector3(vector3)
 }
 
 func (stage *Stage) UnstageBranchVector3(vector3 *Vector3) {
