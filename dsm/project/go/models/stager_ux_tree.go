@@ -69,7 +69,6 @@ func (stager *Stager) ux_tree() {
 								stager.stage.ComputeInstancesNb()
 								stager.stage.ComputeReferenceAndOrders()
 								stager.stage.Commit()
-								stager.probeForm.Refresh()
 							}
 						}
 					},

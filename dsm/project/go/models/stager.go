@@ -87,6 +87,9 @@ func NewStager(
 		stager.svg()
 		stager.button()
 		stager.load()
+		if stager.probeForm != nil {
+			stager.probeForm.Refresh()
+		}
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
