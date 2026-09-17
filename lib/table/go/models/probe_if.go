@@ -9,7 +9,7 @@ import (
 
 // for the split package, we define a ProbeIF interface
 // otherwise, the split package cannot refer to the main gong package
-type ProbeIF interface {
+type GongProbeIF interface {
 	Refresh()
 	GetFormStage() *form.Stage
 	FillUpFormFromGongstruct(instance any, formName string)
@@ -19,8 +19,6 @@ type ProbeIF interface {
 	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
 	RefreshNavigationTree()
 }
-
-type GongProbeIF = ProbeIF
 
 type GongNodeIF interface {
 }

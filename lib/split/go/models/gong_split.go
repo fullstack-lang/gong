@@ -7,7 +7,7 @@ import (
 
 // for the split package, we define a ProbeIF interface (that is never implemented by the split package)
 // otherwise, the split package cannot refer to the main gong package
-type ProbeIF interface {
+type GongProbeIF interface {
 	Refresh()
 	GetDataEditor() *AsSplit
 	GetDiagramEditor() *AsSplitArea
@@ -18,8 +18,6 @@ type ProbeIF interface {
 	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
 	RefreshNavigationTree()
 }
-
-type GongProbeIF = ProbeIF
 
 type GongNodeIF interface {
 }
